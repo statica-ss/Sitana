@@ -1,4 +1,8 @@
-﻿using System;
+﻿// SITANA - Copyright (C) The Sitana Team.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE.txt', which is part of this source code package.
+
+using System;
 using System.Collections.Generic;
 using Sitana.Framework.Cs;
 using System.IO;

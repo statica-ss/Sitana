@@ -15,26 +15,6 @@ namespace Sitana.Framework
     public static class GraphicsHelper
     {
         /// <summary>
-        /// Creates Point object from Vector2.
-        /// </summary>
-        /// <param name="vector">Input vector.</param>
-        /// <returns>Point with coordinates from vector.</returns>
-        public static Point PointFromVector2(Vector2 vector)
-        {
-            return new Point((Int32)vector.X, (Int32)vector.Y);
-        }
-
-        /// <summary>
-        /// Creates Vector2 object from Point.
-        /// </summary>
-        /// <param name="point">Input point.</param>
-        /// <returns>Vector2 with coordinates from point.</returns>
-        public static Vector2 Vector2FromPoint(Point point)
-        {
-            return new Vector2((Single)point.X, (Single)point.Y);
-        }
-
-        /// <summary>
         /// Returns size of a texture.
         /// </summary>
         /// <param name="texture">Texture to get the size of.</param>

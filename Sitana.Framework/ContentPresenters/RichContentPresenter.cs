@@ -41,7 +41,7 @@ namespace Sitana.Framework.Content
             {
                 get
                 {
-                    return GraphicsHelper.PointFromVector2(_textPresenter.Size);
+                    return _textPresenter.Size.ToPoint();
                 }
             }
 
@@ -61,7 +61,7 @@ namespace Sitana.Framework.Content
 
             public override void Draw(SpriteBatch spriteBatch, Vector2 offset, Single opacity, Single scale)
             {
-                offset += (GraphicsHelper.Vector2FromPoint(Position) * scale).TrimToIntValues();
+                offset += (Position.ToVector2() * scale).TrimToIntValues();
                 _textPresenter.DrawText(spriteBatch, offset, Color.White * opacity, scale, Align.Left);
             }
         }
@@ -98,7 +98,7 @@ namespace Sitana.Framework.Content
 
             public override void Draw(SpriteBatch spriteBatch, Vector2 offset, Single opacity, Single scale)
             {
-                offset += (GraphicsHelper.Vector2FromPoint(Position) * scale).TrimToIntValues();
+                offset += (Position.ToVector2() * scale).TrimToIntValues();
                 spriteBatch.Draw(_texture, offset, _source, Color.White * opacity, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
             }
         }

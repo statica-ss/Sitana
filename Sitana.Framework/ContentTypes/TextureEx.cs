@@ -77,7 +77,7 @@ namespace Sitana.Framework.Content
 
                 if (sourceRectangle.HasValue)
                 {
-                    Point topLeft = GraphicsHelper.PointFromVector2(GraphicsHelper.Vector2FromPoint(sourceRectangle.Value.Location) * _scale);
+                    Point topLeft = (sourceRectangle.Value.Location.ToVector2() * _scale).ToPoint();
                     Int32 width = (Int32)(sourceRectangle.Value.Width * _scale);
                     Int32 height = (Int32)(sourceRectangle.Value.Height * _scale);
                     
