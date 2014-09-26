@@ -16,6 +16,6 @@
 #begin Fonts/TestFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=Compressed
 /build:Fonts/TestFont.spritefont
 
