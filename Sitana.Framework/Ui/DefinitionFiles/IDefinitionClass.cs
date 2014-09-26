@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// SITANA - Copyright (C) The Sitana Team.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE.txt', which is part of this source code package.
+
+using Sitana.Framework.Ui.Controllers;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
 {
     public interface IDefinitionClass
     {
-        void Init(object context, DefinitionFile file);
+        void Init(UiController controller, object binding, DefinitionFile file);
     }
 }

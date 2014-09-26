@@ -63,11 +63,8 @@ namespace Sitana.Framework.Content
 
                 Texture2D texture = ContentLoader.Current.Load<Texture2D>(textureName);
 
-                String[] srcRect = node.Attribute("Source").Replace(" ", "").Split(',');
-                String[] scalableRect = node.Attribute("Scalable").Replace(" ", "").Split(',');
-
-                Rectangle source = new Rectangle(int.Parse(srcRect[0]), int.Parse(srcRect[1]), int.Parse(srcRect[2]), int.Parse(srcRect[3]));
-                Rectangle scale = new Rectangle(int.Parse(scalableRect[0]), int.Parse(scalableRect[1]), int.Parse(scalableRect[2]), int.Parse(scalableRect[3]));
+                Rectangle source = StringParser.ParseRectangle(node.Attribute("Source"));
+                Rectangle scale = StringParser.ParseRectangle(node.Attribute("Scalable"));
 
                 Rectangle[] rects = new Rectangle[9];
 

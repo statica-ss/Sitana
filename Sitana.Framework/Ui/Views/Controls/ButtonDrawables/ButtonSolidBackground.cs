@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Sitana.Framework.Graphics;
+﻿// SITANA - Copyright (C) The Sitana Team.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE.txt', which is part of this source code package.
+
 using Microsoft.Xna.Framework;
+using Sitana.Framework.Essentials.Ui.DefinitionFiles;
+using Sitana.Framework.Graphics;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.DefinitionFiles;
-using Sitana.Framework.Essentials.Ui.DefinitionFiles;
-using System.Xml;
 
 namespace Sitana.Framework.Ui.Views.ButtonDrawables
 {
@@ -26,16 +25,16 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         protected ColorWrapper _colorReleased;
         protected ColorWrapper _colorDisabled;
 
-        void IDefinitionClass.Init(object context, DefinitionFile file)
+        void IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
         {
-            Init(context, file);
+            Init(controller, binding, file);
         }
 
-        protected virtual void Init(object context, DefinitionFile file)
+        protected virtual void Init(UiController controller, object binding, DefinitionFile file)
         {
-            _colorDisabled = DefinitionResolver.GetColorWrapper(context, file["ColorDisabled"]);
-            _colorReleased = DefinitionResolver.GetColorWrapper(context, file["ColorReleased"]);
-            _colorPushed = DefinitionResolver.GetColorWrapper(context, file["ColorPushed"]);
+            _colorDisabled = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorDisabled"]);
+            _colorReleased = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorReleased"]);
+            _colorPushed = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorPushed"]);
         }
 
         public override void Draw(AdvancedDrawBatch drawBatch, ref Rectangle target, UiButton.State state)

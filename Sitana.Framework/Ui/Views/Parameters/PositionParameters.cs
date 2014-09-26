@@ -1,10 +1,11 @@
-﻿using Sitana.Framework.Essentials.Ui.DefinitionFiles;
-using Sitana.Framework.Ui.DefinitionFiles;
+﻿// SITANA - Copyright (C) The Sitana Team.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE.txt', which is part of this source code package.
+
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Sitana.Framework.Essentials.Ui.DefinitionFiles;
+using Sitana.Framework.Ui.Controllers;
+using Sitana.Framework.Ui.DefinitionFiles;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -25,16 +26,16 @@ namespace Sitana.Framework.Ui.Views
             file["Margin"] = parser.ParseMargin("Margin");
         }
 
-        void IDefinitionClass.Init(object context, DefinitionFile file)
+        void IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
         {
-            Init(context, file);
+            Init(controller, binding, file);
         }
 
-        protected virtual void Init(object context, DefinitionFile file)
+        protected virtual void Init(UiController controller, object binding, DefinitionFile file)
         {
-            Width = DefinitionResolver.Get<Length>(context, file["Width"]);
-            Height = DefinitionResolver.Get<Length>(context, file["Height"]);
-            Margin = DefinitionResolver.Get<Margin>(context, file["Margin"]);
+            Width = DefinitionResolver.Get<Length>(controller, binding, file["Width"]);
+            Height = DefinitionResolver.Get<Length>(controller, binding, file["Height"]);
+            Margin = DefinitionResolver.Get<Margin>(controller, binding, file["Margin"]);
         }
 
         public Rectangle ComputePosition(Rectangle target)

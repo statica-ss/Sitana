@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Sitana.Framework.Graphics;
+﻿// SITANA - Copyright (C) The Sitana Team.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE.txt', which is part of this source code package.
+
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework.Content;
-using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Essentials.Ui.DefinitionFiles;
+using Sitana.Framework.Graphics;
+using Sitana.Framework.Ui.Controllers;
+using Sitana.Framework.Ui.DefinitionFiles;
 
 namespace Sitana.Framework.Ui.Views.ButtonDrawables
 {
@@ -38,13 +38,13 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         protected NinePatchImage _imageReleased = null;
         protected NinePatchImage _imageDisabled = null;
 
-        protected override void Init(object context, DefinitionFile file)
+        protected override void Init(UiController controller, object binding, DefinitionFile file)
         {
-            base.Init(context, file);
+            base.Init(controller, binding, file);
 
-            _imageDisabled = DefinitionResolver.Get<NinePatchImage>(context, file["ImageDisabled"]);
-            _imageReleased = DefinitionResolver.Get< NinePatchImage>(context, file["ImageReleased"]);
-            _imagePushed = DefinitionResolver.Get<NinePatchImage>(context, file["ImagePushed"]);
+            _imageDisabled = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImageDisabled"]);
+            _imageReleased = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImageReleased"]);
+            _imagePushed = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImagePushed"]);
         }
 
         public override void Draw(AdvancedDrawBatch drawBatch, ref Rectangle target, UiButton.State state)

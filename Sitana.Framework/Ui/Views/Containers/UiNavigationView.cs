@@ -1,8 +1,11 @@
-﻿using Sitana.Framework.Graphics;
-using Sitana.Framework.Ui.DefinitionFiles;
-using Sitana.Framework.Ui.Views.Parameters;
+﻿// SITANA - Copyright (C) The Sitana Team.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE.txt', which is part of this source code package.
+
 using System;
 using System.Collections.Generic;
+using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Ui.Views.Parameters;
 
 namespace Sitana.Framework.Ui.Views
 {
