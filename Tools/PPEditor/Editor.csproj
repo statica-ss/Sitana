@@ -35,8 +35,9 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FarseerPhysics XNA">
-      <HintPath>..\..\ThirdParty\Dependences\Farseer\FarseerPhysics XNA.dll</HintPath>
+    <Reference Include="FarseerPhysics.XNA, Version=3.5.0.40502, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ThirdParty\Dependences\Farseer\FarseerPhysics.XNA.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
