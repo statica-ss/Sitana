@@ -67,3 +67,4 @@ MetroDemo/publish/*
 *.winmd
 _Bin
 *.userprefs
+ThirdParty/*
