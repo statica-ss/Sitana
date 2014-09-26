@@ -34,10 +34,10 @@
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
     <Reference Include="Lidgren.Network">
-      <HintPath>_MonoGame\iOs\Lidgren.Network.dll</HintPath>
+      <HintPath>..\ThirdParty\Dependences\MonoGame\iOs\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
-      <HintPath>_MonoGame\iOs\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\ThirdParty\Dependences\MonoGame\iOs\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
