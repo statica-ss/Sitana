@@ -23,6 +23,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework.Content;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Essentials.Ui.DefinitionFiles;
+using System;
 
 namespace Sitana.Framework.Ui.Views
 {

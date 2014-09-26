@@ -1,28 +1,14 @@
-﻿/// This file is a part of the EBATIANOS.ESSENTIALS class library.
-/// (c)2013-2014 EBATIANO'S a.k.a. Sebastian Sejud. All rights reserved.
-///
-/// THIS SOURCE FILE IS THE PROPERTY OF EBATIANO'S A.K.A. SEBASTIAN SEJUD 
-/// AND IS NOT TO BE RE-DISTRIBUTED BY ANY MEANS WHATSOEVER WITHOUT 
-/// THE EXPRESSED WRITTEN CONSENT OF EBATIANO'S A.K.A. SEBASTIAN SEJUD.
-///
-/// THIS SOURCE CODE CAN ONLY BE USED UNDER THE TERMS AND CONDITIONS OUTLINED
-/// IN THE EBATIANOS.ESSENTIALS LICENSE AGREEMENT. 
-/// EBATIANO'S A.K.A. SEBASTIAN SEJUD GRANTS TO YOU (ONE SOFTWARE DEVELOPER) 
-/// THE LIMITED RIGHT TO USE THIS SOFTWARE ON A SINGLE COMPUTER.
-///
-/// CONTACT INFORMATION:
-/// contact@ebatianos.com
-/// www.ebatianos.com/essentials-library
-/// 
-///---------------------------------------------------------------------------
+﻿// SITANA - Copyright (C) The Sitana Team
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE.txt', which is part of this source code package.
 
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using Sitana.Framework.Input;
+using System;
 
 namespace Sitana.Framework.Gui
 {
@@ -73,27 +59,6 @@ namespace Sitana.Framework.Gui
 
         public void Update(Single time)
         {
-            // Get input.
-            InputHandler input = InputHandler.Current;
-
-            // Iterate through pointer states.
-            for (Int32 index = 0; index < input.PointersState.Count; ++index)
-            {
-                var state = input.PointersState[index];
-
-                if (state.State != Input.PointerInfo.PressState.Invalid)
-                {
-                    Point pt = GraphicsHelper.PointFromVector2(state.Position);
-
-                    if (_currentArea.Contains(pt))
-                    {
-                        input.PointersState.RemoveAt(index);
-                        _showTime = _settings.ShowTime;
-                        break;
-                    }
-                }
-            }
-
             if (_infoList.Count == 0)
             {
                 return;

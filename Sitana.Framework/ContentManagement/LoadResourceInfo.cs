@@ -11,7 +11,7 @@ namespace Sitana.Framework.Content
     {
         public MethodInfo Load;
         public String Path;
-        public ContentGenerator Generator;
+        //public ContentGenerator Generator;
         public Type ContentType;
     }
 }

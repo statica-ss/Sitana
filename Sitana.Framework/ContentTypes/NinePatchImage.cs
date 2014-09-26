@@ -1,8 +1,7 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Sitana.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
-using Microsoft.Xna.Framework;
 
 namespace Sitana.Framework.Content
 {
@@ -42,13 +41,11 @@ namespace Sitana.Framework.Content
         public static Object Load(String name)
         {
             String directory = Path.GetDirectoryName(name);
-
-            ParametersCollection parameters = null;
-            XmlFileNode node = null;
+            XNode node = null;
 
             try
             {
-                node = ContentLoader.Current.Load<XmlFile>(name);
+                node = ContentLoader.Current.Load<XFile>(name);
             }
             catch
             {
@@ -62,15 +59,15 @@ namespace Sitana.Framework.Content
                     throw new InvalidDataException("Invalid node name for Nine Patch Image.");
                 }
 
-                parameters = node.Attributes;
-
-                String textureName = parameters.AsString("Texture");
+                String textureName = node.Attribute("Texture");
 
                 Texture2D texture = ContentLoader.Current.Load<Texture2D>(textureName);
 
-                Rectangle source = parameters.ParseRectangle("Source");
-                Rectangle scale = parameters.ParseRectangle("Scalable");
+                String[] srcRect = node.Attribute("Source").Replace(" ", "").Split(',');
+                String[] scalableRect = node.Attribute("Scalable").Replace(" ", "").Split(',');
 
+                Rectangle source = new Rectangle(int.Parse(srcRect[0]), int.Parse(srcRect[1]), int.Parse(srcRect[2]), int.Parse(srcRect[3]));
+                Rectangle scale = new Rectangle(int.Parse(scalableRect[0]), int.Parse(scalableRect[1]), int.Parse(scalableRect[2]), int.Parse(scalableRect[3]));
 
                 Rectangle[] rects = new Rectangle[9];
 
