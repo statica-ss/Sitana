@@ -1,0 +1,2 @@
+Download third party libraries from:
+http://ebatianos.com/sitana/ThirdParty.zip
