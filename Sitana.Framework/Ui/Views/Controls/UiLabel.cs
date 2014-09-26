@@ -99,7 +99,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void Init(ref object context, DefinitionFile file)
         {
-            base.Init(ref context, file);
+            base.Init(ref context, file); 
 
             FontName = file["Font"] as string;
             FontSize = DefinitionResolver.Get<int>(context, file["FontSize"]);

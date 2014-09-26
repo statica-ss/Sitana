@@ -14,7 +14,7 @@ using MonoTouch.AudioToolbox;
 using MonoTouch.AVFoundation;
 using MonoTouch.Foundation;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public class MusicControlerIos : MusicControler
     {

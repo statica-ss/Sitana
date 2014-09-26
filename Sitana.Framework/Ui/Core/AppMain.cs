@@ -40,6 +40,8 @@ namespace Sitana.Framework.Ui.Core
         public event LoadDelegate OnLoadContent;
         public event LoadDelegate OnLoadedView;
 
+        private Point _lastSize = Point.Zero;
+
         public GraphicsDeviceManager Graphics
         {
             get
@@ -79,7 +81,9 @@ namespace Sitana.Framework.Ui.Core
 
         protected override void Draw(GameTime gameTime)
         {
+            Viewport viewport = GraphicsDevice.Viewport;
             Draw();
+            GraphicsDevice.Viewport = viewport;
         }
 
         public bool Draw()
@@ -103,6 +107,18 @@ namespace Sitana.Framework.Ui.Core
 
         protected override void Update(GameTime gameTime)
         {
+            var newSize = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+
+            if (_lastSize != newSize)
+            {
+                if (MainView != null)
+                {
+                    MainView.Bounds = new Rectangle(0, 0, newSize.X, newSize.Y);
+                }
+
+                _lastSize = newSize;
+            }
+
             TouchPad.Instance.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             MainView.ViewUpdate((float)gameTime.ElapsedGameTime.TotalSeconds);
         }

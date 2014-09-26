@@ -32,7 +32,7 @@ namespace Sitana.Framework.CrashReporter
 #elif IOS
         public void StartSession(String url, String appGuid)
         {
-            InitSession(url, appGuid, "iOS");
+            InitSession(url, appGuid, "iOS", "", "");
         }
 #elif WINDOWS_PHONE
         public void StartSession(String url, String appGuid)
