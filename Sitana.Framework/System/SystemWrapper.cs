@@ -11,11 +11,6 @@ namespace Sitana.Framework
 {
     public static class SystemWrapper
     {
-        public static event EventHandler<OrientationChangedEventArgs> OrientationChanged;
-    
-        private static Action _onKeyboardClose;
-        private static KeyboardHandler _keyboardHook;
-
         public static IsolatedStorageFile GetUserStoreForApplication()
         {
             return IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly | IsolatedStorageScope.Domain, typeof(System.Security.Policy.Url), typeof(System.Security.Policy.Url));
@@ -49,11 +44,6 @@ namespace Sitana.Framework
             }
         }
 
-        public static void OpenRatingPage()
-        {
-            OpenWebsite("http://ebatianos.com");
-        }
-
         public static String CurrentVersion
         {
             get
@@ -63,39 +53,8 @@ namespace Sitana.Framework
             }
         }
 
-        public static Single ShowKeyboard()
-        {
-            return 0;
-        }
-
-        public static Single ShowKeyboard(Rectangle rect, KeyboardContext context, Action<Char> onCharacterInput, Action onKeyboardClose, Action<Single> onSizeChanged)
-        {
-            HideKeyboard();
-
-            _onKeyboardClose = onKeyboardClose;
-            _keyboardHook.OnCharacter = onCharacterInput;
-            return 0;
-        }
-
-        public static void HideKeyboard()
-        {
-            _keyboardHook.OnCharacter = null;
-
-            if (_onKeyboardClose != null)
-            {
-                _onKeyboardClose.Invoke();
-                _onKeyboardClose = null;
-            }
-        }
-
-        public static void InitKeyboard(IntPtr windowId)
-        {
-            _keyboardHook = new KeyboardHandler(windowId);
-        }
-
         public static void DisableLock(Boolean disable)
         {
-
         }
     }
 }

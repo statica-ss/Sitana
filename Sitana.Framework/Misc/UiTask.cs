@@ -9,11 +9,9 @@ namespace Sitana.Framework
 {
     public static class UiTask
     {
-        internal static ScreenManager _screenManager;
-
         public static void BeginInvoke( EmptyArgsVoidDelegate lambda )
         {
-            _screenManager.UiAction(lambda);
+            
         }
     }
 }
