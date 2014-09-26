@@ -1,12 +1,15 @@
-﻿using System;
+﻿// SITANA - Copyright (C) The Sitana Team.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE.txt', which is part of this source code package.
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Sitana.Framework.Ui.Views.Parameters;
-using Sitana.Framework.Ui.DefinitionFiles;
-using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Diagnostics;
+using Sitana.Framework.Essentials.Ui.DefinitionFiles;
+using Sitana.Framework.Ui.Controllers;
+using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Ui.Views.Parameters;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -198,13 +201,13 @@ namespace Sitana.Framework.Ui.Views
             _minSizeFromChildren = new Point(minSizeX, minSizeY);
         }
 
-        protected override void Init(ref object context, DefinitionFile file)
+        protected override void Init(UiController controller, object binding, DefinitionFile file)
         {
-            base.Init(ref context, file);
+            base.Init(ref controller, binding, file);
 
-            SplitMode = DefinitionResolver.Get<Mode>(context, file["Mode"]);
-            _splitterPosition = (float)DefinitionResolver.Get<Length>(context, file["Position"]).Compute(100) / 100.0f;
-            _splitterSize = DefinitionResolver.Get<Length>(context, file["SplitterSize"]).Compute(100);
+            SplitMode = DefinitionResolver.Get<Mode>(controller, binding, file["Mode"]);
+            _splitterPosition = (float)DefinitionResolver.Get<Length>(controller, binding, file["Position"]).Compute(100) / 100.0f;
+            _splitterSize = DefinitionResolver.Get<Length>(controller, binding, file["SplitterSize"]).Compute(100);
 
             List<DefinitionFile> children = file["Children"] as List<DefinitionFile>;
 
@@ -213,8 +216,8 @@ namespace Sitana.Framework.Ui.Views
                 for (int idx = 0; idx < children.Count; ++idx)
                 {
                     var childFile = children[idx];
-                    var child = childFile.CreateInstance(context) as UiView;
-                    child.CreatePositionParameters(context, childFile, typeof(PositionParameters));
+                    var child = childFile.CreateInstance(controller, binding) as UiView;
+                    child.CreatePositionParameters(controller, binding, childFile, typeof(PositionParameters));
 
                     if (child != null)
                     {

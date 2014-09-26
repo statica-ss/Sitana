@@ -1,7 +1,12 @@
-﻿using Sitana.Framework.Input.TouchPad;
-using Microsoft.Xna.Framework;
+﻿// SITANA - Copyright (C) The Sitana Team.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE.txt', which is part of this source code package.
+
 using System.Collections.Generic;
-using System;
+using Microsoft.Xna.Framework;
+using Sitana.Framework.Input.TouchPad;
+using Sitana.Framework.Ui.Controllers;
+using Sitana.Framework.Ui.DefinitionFiles;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -189,6 +194,11 @@ namespace Sitana.Framework.Ui.Views
                 IsPushed = pushed;
                 OnPushedChanged();
             }
+        }
+
+        protected override void Init(UiController controller, object binding, DefinitionFile file)
+        {
+            base.Init(ref controller, binding, file);
         }
 
         void DoAction()

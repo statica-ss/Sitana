@@ -9,12 +9,14 @@ namespace Sitana.Framework.Ui.DefinitionFiles
     {
         public string Name;
         public object[] Parameters;
+        public bool Binding;
     }
 
     public class FieldName
     {
         public string Name;
         public object[] Parameters;
+        public bool Binding;
     }
 
     struct ReflectionParameter

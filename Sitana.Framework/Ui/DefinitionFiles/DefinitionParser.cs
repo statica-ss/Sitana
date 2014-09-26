@@ -1,9 +1,13 @@
-﻿using Sitana.Framework.Content;
-using Sitana.Framework.Diagnostics;
-using Sitana.Framework.Ui.DefinitionFiles;
-using Microsoft.Xna.Framework;
+﻿// SITANA - Copyright (C) The Sitana Team.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE.txt', which is part of this source code package.
+
 using System;
 using System.Globalization;
+using Microsoft.Xna.Framework;
+using Sitana.Framework.Content;
+using Sitana.Framework.Diagnostics;
+using Sitana.Framework.Ui.DefinitionFiles;
 
 namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 {
@@ -44,6 +48,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
         {
             if (name.StartsWith("{"))
             {
+                bool binding = name.StartsWith("{{");
                 name = name.Trim('{', '}');
 
                 int index = name.IndexOf('(');
@@ -69,7 +74,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
                     name = name.Substring(0, index);
 
-                    return new MethodName() { Name = name, Parameters = parameters };
+                    return new MethodName() { Name = name, Parameters = parameters, Binding = binding };
                 }
 
 
@@ -96,7 +101,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
                         name = name.Substring(0, index);
                     }
 
-                    return new FieldName() { Name = name, Parameters = parameters };
+                    return new FieldName() { Name = name, Parameters = parameters, Binding = binding };
                 }
 
 

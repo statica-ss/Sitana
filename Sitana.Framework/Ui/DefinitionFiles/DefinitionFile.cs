@@ -1,10 +1,9 @@
-﻿using Sitana.Framework.Diagnostics;
-using Sitana.Framework.Essentials.Ui.DefinitionFiles;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
+using Sitana.Framework.Diagnostics;
+using Sitana.Framework.Essentials.Ui.DefinitionFiles;
+using Sitana.Framework.Ui.Controllers;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
 {
@@ -142,10 +141,10 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             }
         }
 
-        public IDefinitionClass CreateInstance(object context)
+        public IDefinitionClass CreateInstance(UiController controller, object context)
         {
             IDefinitionClass obj = (IDefinitionClass)Activator.CreateInstance(Class);
-            obj.Init(context, this);
+            obj.Init(controller, context, this);
 
             return obj;
         }

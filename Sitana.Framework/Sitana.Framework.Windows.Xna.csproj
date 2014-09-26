@@ -61,6 +61,7 @@
     <Compile Include="Definitions\Margin.cs" />
     <Compile Include="Definitions\TextAlign.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.cs" />
+    <Compile Include="Helpers\StringParser.cs" />
     <Compile Include="Input\TouchPad\IGestureListener.cs" />
     <Compile Include="Input\TouchPad\TouchElement.cs" />
     <Compile Include="Input\TouchPad\TouchPad.cs" />

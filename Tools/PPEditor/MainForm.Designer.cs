@@ -88,7 +88,7 @@
             this.toolStripSeparator3,
             this._snapToGrid});
             this._toolbar.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this._toolbar.Location = new System.Drawing.Point(3, 0);
+            this._toolbar.Location = new System.Drawing.Point(3, 23);
             this._toolbar.Name = "_toolbar";
             this._toolbar.Size = new System.Drawing.Size(434, 23);
             this._toolbar.TabIndex = 0;
@@ -229,7 +229,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -305,7 +305,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this._placeholder);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(957, 595);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(957, 572);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
@@ -325,7 +325,7 @@
             this._placeholder.Dock = System.Windows.Forms.DockStyle.Fill;
             this._placeholder.Location = new System.Drawing.Point(0, 0);
             this._placeholder.Name = "_placeholder";
-            this._placeholder.Size = new System.Drawing.Size(957, 595);
+            this._placeholder.Size = new System.Drawing.Size(957, 572);
             this._placeholder.TabIndex = 0;
             // 
             // _propertiesToolbar
@@ -339,9 +339,9 @@
             this._propertyDensity,
             this._propertyType});
             this._propertiesToolbar.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this._propertiesToolbar.Location = new System.Drawing.Point(446, 0);
+            this._propertiesToolbar.Location = new System.Drawing.Point(3, 0);
             this._propertiesToolbar.Name = "_propertiesToolbar";
-            this._propertiesToolbar.Size = new System.Drawing.Size(250, 23);
+            this._propertiesToolbar.Size = new System.Drawing.Size(219, 23);
             this._propertiesToolbar.TabIndex = 1;
             // 
             // _propertyColor
@@ -425,6 +425,7 @@
             this.ClientSize = new System.Drawing.Size(957, 618);
             this.Controls.Add(this.toolStripContainer1);
             this.ForeColor = System.Drawing.Color.Black;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "Ebatianos Platform Editor";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);

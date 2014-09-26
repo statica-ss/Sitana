@@ -1,20 +1,7 @@
-﻿/// This file is a part of the EBATIANOS.ESSENTIALS class library.
-/// (C)2013-2014 Sebastian Sejud. All rights reserved.
-///
-/// THIS SOURCE FILE IS THE PROPERTY OF SEBASTIAN SEJUD AND IS NOT TO BE 
-/// RE-DISTRIBUTED BY ANY MEANS WHATSOEVER WITHOUT THE EXPRESSED WRITTEN 
-/// CONSENT OF SEBASTIAN SEJUD.
-/// 
-/// THIS SOURCE CODE CAN ONLY BE USED UNDER THE TERMS AND CONDITIONS OUTLINED
-/// IN THE EBATIANOS.ESSENTIALS LICENSE AGREEMENT. SEBASTIAN SEJUD GRANTS
-/// TO YOU (ONE SOFTWARE DEVELOPER) THE LIMITED RIGHT TO USE THIS SOFTWARE 
-/// ON A SINGLE COMPUTER.
-///
-/// CONTACT INFORMATION:
-/// essentials@sejud.com
-/// sejud.com/essentials-library
-/// 
-///---------------------------------------------------------------------------
+﻿// SITANA - Copyright (C) The Sitana Team.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE.txt', which is part of this source code package.
+
 using System;
 using Sitana.Framework.Input;
 using Sitana.Framework.Ui.Views.Parameters;
@@ -36,7 +23,7 @@ namespace Sitana.Framework.Ui.Views
     /// MinSize
     /// Opacity
     /// </summary>
-    public class UiView: IDefinitionClass
+    public abstract class UiView: IDefinitionClass
     {
         public static void Parse(XNode node, DefinitionFile file)
         {
@@ -238,49 +225,51 @@ namespace Sitana.Framework.Ui.Views
             return (DELEGATE)(object)_delegates.FindMethod(id, Controller);
         }
 
-        protected virtual void Init(ref object context, DefinitionFile file)
+        protected void Init(ref UiController controller, object binding, DefinitionFile file)
         {
             Type controllerType = file["Controller"] as Type;
 
-            if ( controllerType != null )
+            if (controllerType != null)
             {
-                var controller = Activator.CreateInstance(controllerType) as UiController;
+                var newController = Activator.CreateInstance(controllerType) as UiController;
 
-                if (controller != null)
+                if (newController != null)
                 {
-                    controller.AttachView(this);
-                    Controller = controller;
-                    context = controller;
+                    newController.AttachView(this);
+                    Controller = newController;
+                    controller = newController;
                 }
             }
 
             Id = (string)file["Id"];
-            Visible = DefinitionResolver.GetBoolean(context, file["Visible"]);
+            Visible = DefinitionResolver.GetBoolean(controller, binding, file["Visible"]);
 
-            int opacity = DefinitionResolver.Get<int>(context, file["Opacity"]);
+            int opacity = DefinitionResolver.Get<int>(controller, binding, file["Opacity"]);
             Opacity = (float)opacity / 100.0f;
 
-            if ( Visible )
+            if (Visible)
             {
                 DisplayOpacity = Opacity;
             }
 
-            BackgroundColor = DefinitionResolver.GetColor(context, file["BackgroundColor"]) ?? Color.Transparent;
+            BackgroundColor = DefinitionResolver.GetColor(controller, binding, file["BackgroundColor"]) ?? Color.Transparent;
         }
 
-        public void CreatePositionParameters(object context, DefinitionFile file, Type type)
+        protected abstract void Init(UiController controller, object binding, DefinitionFile file);
+
+        public void CreatePositionParameters(UiController controller, object binding, DefinitionFile file, Type type)
         {
             PositionParameters = (PositionParameters)Activator.CreateInstance(type);
 
             if ( file.AdditionalParameters.TryGetValue(type, out file))
             {
-                (PositionParameters as IDefinitionClass).Init(context, file);
+                (PositionParameters as IDefinitionClass).Init(controller, binding, file);
             }
         }
 
-        void IDefinitionClass.Init(object context, DefinitionFile file)
+        void IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
         {
-            Init(ref context, file);
+            Init(controller, binding, file);
         }
     }
 }

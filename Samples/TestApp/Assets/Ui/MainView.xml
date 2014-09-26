@@ -2,10 +2,16 @@
 <UiSplitterView Controller="TestApp.TestController,TestApp"
     xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
     xmlns:border="type:Sitana.Framework.Ui.Views.UiBorder.PositionParameters,Sitana.Framework"
+    xmlns:list="type:Sitana.Framework.Ui.Views.UiListBox.PositionParameters,Sitana.Framework"
     xmlns:window="type:Sitana.Framework.Ui.Views.PositionParameters,Sitana.Framework"
     window:Width="640" window:Height="480" SplitterSize="4" Position="45" Mode="Vertical">
   <UiSplitterView.Children>
     <UiLabel BackgroundColor="#ff0000" Text="{Test('This is some text defined in xml file.')}" TextColor="{TextColor}" Font="TestFont" FontSize="21"/>
     <UiLabel BackgroundColor="#ddff00" Text="{Test2()}" TextColor="#0000ff" Font="TestFont" FontSize="21"/>
+<!--    <UiListBox Binding="{List}">
+        <UiListBox.ItemTemplate>
+            <UiLabel Text="{{Text}}" list:Width="100%" list:Height="Auto" Font="TestFont" FontSize="21" TextColor="0,0,0" TextAlign="Center"/>
+        </UiListBox.ItemTemplate>
+    </UiListBox>-->
   </UiSplitterView.Children>
 </UiSplitterView>

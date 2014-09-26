@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.importBtn = new System.Windows.Forms.Button();
             this.exportBtn = new System.Windows.Forms.Button();
             this.sizeLabel = new System.Windows.Forms.Label();
@@ -392,6 +393,7 @@
             this.Controls.Add(this.sizeLabel);
             this.Controls.Add(this.exportBtn);
             this.Controls.Add(this.importBtn);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Model Converter";

@@ -7,6 +7,7 @@ using System.Globalization;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Content;
 using System.Reflection;
+using Sitana.Framework.Ui.Controllers;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
 {
@@ -31,9 +32,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             _parameters.Add(id, value);
         }
 
-        public static object GetFieldValue(object context, object definition)
+        public static object GetFieldValue(UiController controller, object binding, object definition)
         {
             FieldName field = (FieldName)definition;
+
+            object context = field.Binding ? binding : controller;
 
             PropertyInfo info = context.GetType().GetProperty(field.Name);
 
@@ -71,9 +74,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             throw new Exception(String.Format("Cannot find field: {0}{1}", field.Name, indices != null ? '['+indices.ToString()+']' : ""));
         }
 
-        public static object InvokeMethod(object context, object definition)
+        public static object InvokeMethod(UiController controller, object binding, object definition)
         {
             MethodName method = (MethodName)definition;
+
+            object context = method.Binding ? binding : controller;
 
             Type[] types = method.Parameters.Length > 0 ? new Type[method.Parameters.Length] : null;
             object[] parameters = method.Parameters.Length > 0 ? new object[method.Parameters.Length] : null;
@@ -106,25 +111,25 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             throw new Exception(String.Format("Cannot find method: {0}({1})", method.Name, parameters.ToString()));
         }
 
-        public static T InvokeMethod<T>(object context, object definition)
+        public static T InvokeMethod<T>(UiController controller, object binding, object definition)
         {
-            object result = InvokeMethod(context, definition);
+            object result = InvokeMethod(controller, binding, definition);
             return (T)Convert.ChangeType(result, typeof(T));
         }
 
-        public static object GetValueFromMethodOrField(object context, object definition)
+        public static object GetValueFromMethodOrField(UiController controller, object binding, object definition)
         {
             if ( definition is FieldName )
             {
-                return GetFieldValue(context, definition);
+                return GetFieldValue(controller, binding, definition);
             }
 
-            return InvokeMethod(context, definition);
+            return InvokeMethod(controller, binding, definition);
         }
 
-        public static T GetValueFromMethodOrField<T>(object context, object definition)
+        public static T GetValueFromMethodOrField<T>(UiController controller, object binding, object definition)
         {
-            object result = GetValueFromMethodOrField(context, definition);
+            object result = GetValueFromMethodOrField(controller, binding, definition);
             return (T)Convert.ChangeType(result, typeof(T));
         }
 
@@ -138,14 +143,14 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return parameter;
         }
 
-        public static string GetString(object context, object definition)
+        public static string GetString(UiController controller, object binding, object definition)
         {
             if (definition is string)
             {
                 return definition as string;
             }
 
-            object result = GetValueFromMethodOrField(context, definition);
+            object result = GetValueFromMethodOrField(controller, binding, definition);
 
             if (result is StringBuilder)
             {
@@ -160,14 +165,14 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return null;
         }
 
-        public static StringBuilder GetStringBuilder(object context, object definition)
+        public static StringBuilder GetStringBuilder(UiController controller, object binding, object definition)
         {
             if ( definition is string )
             {
                 return new StringBuilder((string)definition);
             }
 
-            object result = GetValueFromMethodOrField(context, definition);
+            object result = GetValueFromMethodOrField(controller, binding, definition);
 
             if (result is StringBuilder)
             {
@@ -182,7 +187,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return null;
         }
 
-        public static bool GetBoolean(object context, object definition)
+        public static bool GetBoolean(UiController controller, object binding, object definition)
         {
             if (definition == null)
             {
@@ -194,10 +199,10 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return (bool)definition;
             }
 
-            return GetValueFromMethodOrField<bool>(context, definition);
+            return GetValueFromMethodOrField<bool>(controller, binding, definition);
         }
 
-        public static Color? GetColor(object context, object definition)
+        public static Color? GetColor(UiController controller, object binding, object definition)
         {
             if (definition == null)
             {
@@ -209,10 +214,10 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return (Color)definition;
             }
 
-            return GetValueFromMethodOrField<Color>(context, definition);
+            return GetValueFromMethodOrField<Color>(controller, binding, definition);
         }
 
-        public static ColorWrapper GetColorWrapper(object context, object definition)
+        public static ColorWrapper GetColorWrapper(UiController controller, object binding, object definition)
         {
             if ( definition == null )
             {
@@ -224,10 +229,10 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return new ColorWrapper((Color)definition);
             }
 
-            return GetValueFromMethodOrField<ColorWrapper>(context, definition);
+            return GetValueFromMethodOrField<ColorWrapper>(controller, binding, definition);
         }
 
-        public static T Get<T>(object context, object definition)
+        public static T Get<T>(UiController controller, object binding, object definition)
         {
             if (definition == null)
             {
@@ -239,7 +244,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return (T)definition;
             }
 
-            return GetValueFromMethodOrField<T>(context, definition);
+            return GetValueFromMethodOrField<T>(controller, binding, definition);
         }
     }
 }
