@@ -147,7 +147,6 @@
     <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="Helpers\SpriteOptimizer.cs" />
     <Compile Include="Media\MusicControler.cs" />
-    <Compile Include="Media\SongPlaylist.cs" />
     <Compile Include="Media\SoundControler.cs" />
     <Compile Include="Media\SoundEffectContainer.cs" />
     <Compile Include="Misc\AppRater.cs" />
