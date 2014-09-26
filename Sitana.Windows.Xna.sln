@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Framework.Windows.Xn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "Samples\TestApp\TestApp.csproj", "{68BEF9F7-437E-43A3-BC04-F31215113923}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assets.Windows.Xna", "Samples\TestApp\Assets\Assets.Windows.Xna.contentproj", "{E40D2C4B-A75A-4EE9-A558-71F346036DC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp.Assets.Windows.Xna", "Samples\TestApp\Assets\TestApp.Assets.Windows.Xna.contentproj", "{E40D2C4B-A75A-4EE9-A558-71F346036DC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

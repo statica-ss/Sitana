@@ -72,7 +72,7 @@ namespace TestApp
 
             using (var main = new AppMain())
             {
-                ContentLoader.Init(main.Content, "Assets");
+                ContentLoader.Init(main.Content, "TestApp");
 
                 main.LoadView("Ui/MainView");
 
