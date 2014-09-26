@@ -8,14 +8,14 @@
     <ProjectGuid>{68D03401-FD88-48C5-9821-0C3A07F89C34}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ebatianos.Essentials</RootNamespace>
-    <AssemblyName>Ebatianos.Essentials</AssemblyName>
+    <RootNamespace>Sitana.Framework</RootNamespace>
+    <AssemblyName>Sitana.Framework</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
+    <OutputPath>bin\Windows.Xna\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;WINDOWS;ELOGGING</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -24,7 +24,7 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
+    <OutputPath>bin\Windows.Xna\x86\Release\</OutputPath>
     <DefineConstants>TRACE;WINDOWS;ELOGGING</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -32,8 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FarseerPhysics XNA">
-      <HintPath>_Libs\windows\FarseerPhysics XNA.dll</HintPath>
+    <Reference Include="FarseerPhysics.Windows.XNA, Version=3.5.0.20151, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdParty\Dependences\farseer\FarseerPhysics.Windows.XNA.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
@@ -44,8 +45,6 @@
     <Reference Include="Microsoft.Xna.Framework.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -124,20 +123,6 @@
     <Compile Include="Games\APIs\AchievementsManager.cs" />
     <Compile Include="Games\APIs\AchievementInfoEventArgs.cs" />
     <Compile Include="Games\APIs\Gamer.cs" />
-    <Compile Include="Games\Platform\Physics\CollisionObject.cs" />
-    <Compile Include="Games\Platform\Physics\CollisionsDictionary.cs" />
-    <Compile Include="Games\Platform\Physics\CollisionSites.cs" />
-    <Compile Include="Games\Platform\Physics\IMapCollisionFeeder.cs" />
-    <Compile Include="Games\Platform\Map\IMapFactory.cs" />
-    <Compile Include="Games\Platform\Physics\IMass.cs" />
-    <Compile Include="Games\Platform\Map\LayerPainter.cs" />
-    <Compile Include="Games\Platform\Map\Map.cs" />
-    <Compile Include="Games\Platform\Physics\IObjFinder.cs" />
-    <Compile Include="Games\Platform\Physics\MoveableObject.cs" />
-    <Compile Include="Games\Platform\Physics\QuadTree.cs" />
-    <Compile Include="Games\Platform\Physics\Sensor.cs" />
-    <Compile Include="Games\Platform\Map\TilesetMask.cs" />
-    <Compile Include="Games\Platform\Physics\World.cs" />
     <Compile Include="ContentTypes\NinePatchImage.cs" />
     <Compile Include="Games\PP\Elements\PpCircle.cs" />
     <Compile Include="Games\PP\Elements\PpPolygon.cs" />
@@ -246,9 +231,6 @@
     <Compile Include="ScreenManagement\ScreenPreloader.cs" />
     <Compile Include="Settings\Serializator.cs" />
     <Compile Include="Settings\SingletonSettings.cs" />
-    <Compile Include="_WinForms\GraphicsDeviceControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="System\Keyboard\KeyboardHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -276,8 +258,6 @@
     <Compile Include="Ui\Views\Parameters\UiViewDrawParameters.cs" />
     <Compile Include="Ui\Views\Controls\UiLabel.cs" />
     <Compile Include="Ui\Views\UiView.cs" />
-    <Compile Include="_WinForms\GraphicsDeviceService.cs" />
-    <Compile Include="_WinForms\ServiceContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graphics\AdvancedDrawBatch.DrawMethods.cs" />

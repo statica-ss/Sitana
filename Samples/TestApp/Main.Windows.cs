@@ -74,28 +74,7 @@ namespace TestApp
             {
                 ContentLoader.Init(main.Content, "Assets");
 
-                ContentLoader.Current.AddSpecialFolder("Common", "Common");
-                ContentLoader.Current.AddSpecialFolder("Platform", "Platform");
-
-                if (args.Length > 1 && args[1] == "--test")
-                {
-                    ConsoleEx.WriteLine("Parsing definition files...");
-                    DefinitionParser.EnableCheckMode = true;
-
-                    try
-                    {
-                        XNode node = ContentLoader.Current.Load<XFile>("[Common]/Ui/MainView");
-                        DefinitionFile file = DefinitionFile.LoadFile(node);
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        Environment.ExitCode = -1;
-                    }
-                    return;
-                }
-
-                main.LoadView("[Common]/Ui/MainView");
+                main.LoadView("Ui/MainView");
 
                 main.Window.AllowUserResizing = true;
 
@@ -114,7 +93,7 @@ namespace TestApp
 
         static void OnLoadContent(AppMain main)
         {
-            FontManager.Instance.AddFont("TestFont", "[Platform]/Fonts/TestFont", 22);
+            FontManager.Instance.AddFont("TestFont", "Fonts/TestFont", 22);
         }
     }
 }
