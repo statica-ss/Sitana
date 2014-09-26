@@ -21,9 +21,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Ebatianos.Cs;
+using Sitana.Framework.Cs;
 
-namespace Ebatianos.Platform
+namespace Sitana.Framework.Platform
 {
     public struct Aabb
     {

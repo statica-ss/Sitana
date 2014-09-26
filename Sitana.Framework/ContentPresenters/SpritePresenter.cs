@@ -20,7 +20,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public class SpritePresenter : ICustomDraw
     {

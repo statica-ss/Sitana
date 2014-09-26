@@ -1,7 +1,7 @@
 using System;
-using Ebatianos.DataTransfer;
+using Sitana.Framework.DataTransfer;
 
-namespace Ebatianos.CrashReporter.Data
+namespace Sitana.Framework.CrashReporter.Data
 {
 	public class Device: IEcsStructure
 	{

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ebatianos.Cs;
+using Sitana.Framework.Cs;
 using System.Net.Sockets;
 
-namespace Ebatianos.Diagnostics
+namespace Sitana.Framework.Diagnostics
 {
     class RemoteConsoleClient: Singleton<RemoteConsoleClient>
     {

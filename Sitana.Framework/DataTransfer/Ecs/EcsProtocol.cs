@@ -22,7 +22,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace Ebatianos.DataTransfer
+namespace Sitana.Framework.DataTransfer
 {
     public static class EcsProtocol
     {

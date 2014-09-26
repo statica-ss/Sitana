@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading;
 
-namespace Ebatianos.DataTransfer
+namespace Sitana.Framework.DataTransfer
 {
     public class ReadContentHelper
     {

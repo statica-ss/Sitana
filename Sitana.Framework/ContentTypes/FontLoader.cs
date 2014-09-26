@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public static class FontLoader
     {

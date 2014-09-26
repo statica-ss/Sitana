@@ -19,7 +19,7 @@
 using System;
 using Microsoft.Xna.Framework.Audio;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     /// <summary>
     /// 

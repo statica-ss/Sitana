@@ -2,7 +2,7 @@
 using System.IO;
 using Microsoft.Xna.Framework;
 
-namespace Ebatianos.Graphics.Model
+namespace Sitana.Framework.Graphics.Model
 {
     public class Material
     {

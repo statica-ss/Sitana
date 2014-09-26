@@ -7,7 +7,7 @@ using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Common;
 
-namespace Ebatianos.PP.Elements
+namespace Sitana.Framework.PP.Elements
 {
     public class PpRectangle: PpElement
     {

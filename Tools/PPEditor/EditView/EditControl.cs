@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Ebatianos.Graphics;
-using Ebatianos.Content;
+using Sitana.Framework.Graphics;
+using Sitana.Framework.Content;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos;
+using Sitana.Framework;
 using System.Globalization;
 
 namespace Editor

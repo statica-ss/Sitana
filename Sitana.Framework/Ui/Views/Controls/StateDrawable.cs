@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ebatianos.Ui.Views.Parameters;
+using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework;
-using Ebatianos.Graphics;
+using Sitana.Framework.Graphics;
 
-namespace Ebatianos.Ui.Views
+namespace Sitana.Framework.Ui.Views
 {
     public abstract class StateDrawable<T>
     {

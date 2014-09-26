@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using Ebatianos.Graphics;
+using Sitana.Framework.Graphics;
 
-namespace Ebatianos.Graphics.Model.Importers
+namespace Sitana.Framework.Graphics.Model.Importers
 {
     public class EmxImporter : IImporter
     {

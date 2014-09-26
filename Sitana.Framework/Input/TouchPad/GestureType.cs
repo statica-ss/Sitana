@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ebatianos.Input.TouchPad
+namespace Sitana.Framework.Input.TouchPad
 {
     [Flags]
     public enum GestureType

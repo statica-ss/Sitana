@@ -16,12 +16,12 @@
 /// 
 ///---------------------------------------------------------------------------
 
-using Ebatianos;
+using Sitana.Framework;
 using System;
 using System.IO;
 using System.Xml;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public class XmlFile : ContentLoader.AdditionalType
     {

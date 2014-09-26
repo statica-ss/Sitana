@@ -1,10 +1,10 @@
-﻿using Ebatianos.Graphics;
-using Ebatianos.Ui.DefinitionFiles;
-using Ebatianos.Ui.Views.Parameters;
+﻿using Sitana.Framework.Graphics;
+using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Ui.Views.Parameters;
 using System;
 using System.Collections.Generic;
 
-namespace Ebatianos.Ui.Views
+namespace Sitana.Framework.Ui.Views
 {
     public class UiNavigationView: UiContainer
     {

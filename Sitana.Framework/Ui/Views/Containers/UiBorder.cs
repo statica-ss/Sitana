@@ -15,15 +15,15 @@
 /// sejud.com/essentials-library
 /// 
 ///---------------------------------------------------------------------------
-using Ebatianos.Ui.Views.Parameters;
+using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework;
-using Ebatianos.Graphics;
-using Ebatianos.Ui.Core;
+using Sitana.Framework.Graphics;
+using Sitana.Framework.Ui.Core;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos.Ui.DefinitionFiles;
+using Sitana.Framework.Ui.DefinitionFiles;
 using System;
 
-namespace Ebatianos.Ui.Views
+namespace Sitana.Framework.Ui.Views
 {
     public class UiBorder : UiContainer
     {

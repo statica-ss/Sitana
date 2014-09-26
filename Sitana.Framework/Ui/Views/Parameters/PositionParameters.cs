@@ -1,12 +1,12 @@
-﻿using Ebatianos.Essentials.Ui.DefinitionFiles;
-using Ebatianos.Ui.DefinitionFiles;
+﻿using Sitana.Framework.Essentials.Ui.DefinitionFiles;
+using Sitana.Framework.Ui.DefinitionFiles;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ebatianos.Ui.Views
+namespace Sitana.Framework.Ui.Views
 {
     public class PositionParameters: IDefinitionClass
     {
@@ -44,37 +44,37 @@ namespace Ebatianos.Ui.Views
             int width = Width.Compute(target.Width);
             int height = Height.Compute(target.Height);
 
-            switch(Align & Ebatianos.Align.Horz)
+            switch(Align & Sitana.Framework.Align.Horz)
             {
-                case Ebatianos.Align.Left:
+                case Sitana.Framework.Align.Left:
                     bounds.X = target.Left;
                     bounds.Width = width;
                     break;
 
-                case Ebatianos.Align.Right:
+                case Sitana.Framework.Align.Right:
                     bounds.X = target.Right - width;
                     bounds.Width = width;
                     break;
 
-                case Ebatianos.Align.Center:
+                case Sitana.Framework.Align.Center:
                     bounds.X = target.Center.X - width / 2;
                     bounds.Width = width;
                     break;
             }
 
-            switch (Align & Ebatianos.Align.Vert)
+            switch (Align & Sitana.Framework.Align.Vert)
             {
-                case Ebatianos.Align.Top:
+                case Sitana.Framework.Align.Top:
                     bounds.Y = target.Top;
                     bounds.Height = height;
                     break;
 
-                case Ebatianos.Align.Bottom:
+                case Sitana.Framework.Align.Bottom:
                     bounds.Y = target.Bottom - height;
                     bounds.Height = height;
                     break;
 
-                case Ebatianos.Align.Middle:
+                case Sitana.Framework.Align.Middle:
                     bounds.Y = target.Center.Y - height / 2;
                     bounds.Height = height;
                     break;

@@ -22,7 +22,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace Ebatianos
+namespace Sitana.Framework
 {
     public class StringsManager
     {

@@ -18,7 +18,7 @@
 
 using System;
 
-namespace Ebatianos.Cs
+namespace Sitana.Framework.Cs
 {
 	public delegate void EmptyArgsVoidDelegate();
 }

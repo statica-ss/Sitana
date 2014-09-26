@@ -16,17 +16,17 @@
 /// 
 ///---------------------------------------------------------------------------
 
-using Ebatianos.Content;
-using Ebatianos;
-using Ebatianos.Cs;
-using Ebatianos.Input;
+using Sitana.Framework.Content;
+using Sitana.Framework;
+using Sitana.Framework.Cs;
+using Sitana.Framework.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 using System;
 using System.Collections.Generic;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class Accordion : GuiElement
     {

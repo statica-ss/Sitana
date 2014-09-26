@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ebatianos.Games.Apis
+namespace Sitana.Framework.Games.Apis
 {
     public class AchievementInfoEventArgs : EventArgs
     {

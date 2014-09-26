@@ -18,11 +18,11 @@
 
 using System;
 using Microsoft.Xna.Framework;
-using Ebatianos.Content;
-using Ebatianos;
+using Sitana.Framework.Content;
+using Sitana.Framework;
 using System.Collections.Generic;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class PreloadResource : GuiElement
     {

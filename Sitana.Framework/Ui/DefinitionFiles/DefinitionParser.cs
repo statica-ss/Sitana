@@ -1,11 +1,11 @@
-﻿using Ebatianos.Content;
-using Ebatianos.Diagnostics;
-using Ebatianos.Ui.DefinitionFiles;
+﻿using Sitana.Framework.Content;
+using Sitana.Framework.Diagnostics;
+using Sitana.Framework.Ui.DefinitionFiles;
 using Microsoft.Xna.Framework;
 using System;
 using System.Globalization;
 
-namespace Ebatianos.Essentials.Ui.DefinitionFiles
+namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 {
     public class DefinitionParser
     {

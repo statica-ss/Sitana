@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ebatianos.Content;
+using Sitana.Framework.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Reflection;
 
-namespace Ebatianos.Gui.List
+namespace Sitana.Framework.Gui.List
 {
     public class ListItem_TextButton : ListItem_ButtonBase
     {

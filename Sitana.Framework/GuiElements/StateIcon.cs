@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Ebatianos.Content;
+using Sitana.Framework.Content;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class StateIcon: GuiElement
     {

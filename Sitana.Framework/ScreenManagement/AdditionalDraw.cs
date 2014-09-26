@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Ebatianos.Cs;
+using Sitana.Framework.Cs;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public struct AdditionalDraw
     {

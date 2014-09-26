@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ebatianos.Content;
+using Sitana.Framework.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos.Input;
+using Sitana.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class ScrollingSelector: GuiElement
     {

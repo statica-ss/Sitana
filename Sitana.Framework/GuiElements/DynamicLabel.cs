@@ -19,14 +19,14 @@
 using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Ebatianos.Gui.List;
+using Sitana.Framework.Gui.List;
 using System.Collections.Generic;
-using Ebatianos.Content;
+using Sitana.Framework.Content;
 using System.Text;
 using System.Reflection;
 
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class DynamicLabel: Label
     {

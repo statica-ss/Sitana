@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ebatianos.Cs;
+using Sitana.Framework.Cs;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public sealed class FontManager: Singleton<FontManager>
     {

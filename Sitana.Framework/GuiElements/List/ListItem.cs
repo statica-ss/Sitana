@@ -18,13 +18,13 @@
 
 using System;
 using System.Collections.Generic;
-using Ebatianos;
-using Ebatianos.Gui;
+using Sitana.Framework;
+using Sitana.Framework.Gui;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 
-namespace Ebatianos.Gui.List
+namespace Sitana.Framework.Gui.List
 {
     internal class ListItem
     {

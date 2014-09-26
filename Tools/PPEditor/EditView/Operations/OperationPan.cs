@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Xna.Framework;
-using Ebatianos;
-using Ebatianos.Graphics;
+using Sitana.Framework;
+using Sitana.Framework.Graphics;
 
 namespace Editor
 {

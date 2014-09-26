@@ -20,7 +20,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
-namespace Ebatianos
+namespace Sitana.Framework
 {
     public static class PathHelper
     {

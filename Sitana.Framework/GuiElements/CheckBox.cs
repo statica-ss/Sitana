@@ -20,12 +20,12 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Ebatianos;
-using Ebatianos.Content;
-using Ebatianos.Input;
+using Sitana.Framework;
+using Sitana.Framework.Content;
+using Sitana.Framework.Input;
 using System.Collections.Generic;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class CheckBox : GuiElement
     {

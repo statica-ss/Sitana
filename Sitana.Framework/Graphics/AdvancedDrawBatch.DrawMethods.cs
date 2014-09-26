@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ebatianos.Content;
+using Sitana.Framework.Content;
 
-namespace Ebatianos.Graphics
+namespace Sitana.Framework.Graphics
 {
     public partial class AdvancedDrawBatch
     {

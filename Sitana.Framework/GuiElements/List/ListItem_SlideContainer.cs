@@ -22,15 +22,15 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Ebatianos;
+using Sitana.Framework;
 using System.Xml;
-using Ebatianos.Content;
+using Sitana.Framework.Content;
 using System.IO;
 using Microsoft.Xna.Framework.Input.Touch;
-using Ebatianos.Input;
+using Sitana.Framework.Input;
 using System.Reflection;
 
-namespace Ebatianos.Gui.List
+namespace Sitana.Framework.Gui.List
 {
     public class ListItem_SlideContainer: ListItemElement
     {

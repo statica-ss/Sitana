@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Ebatianos.Content;
-using Ebatianos.Input;
+using Sitana.Framework.Content;
+using Sitana.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class Toolbar: GuiElement
     {

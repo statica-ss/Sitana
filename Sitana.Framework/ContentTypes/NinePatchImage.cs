@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using Ebatianos.Content;
+using Sitana.Framework.Content;
 using System;
 using System.IO;
 using Microsoft.Xna.Framework;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public class NinePatchImage : ContentLoader.AdditionalType
     {

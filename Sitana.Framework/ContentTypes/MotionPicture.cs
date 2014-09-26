@@ -19,12 +19,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Ebatianos.Content.MotionPictureCore;
+using Sitana.Framework.Content.MotionPictureCore;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Globalization;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public class MotionPicture : ContentLoader.AdditionalType
     {

@@ -12,10 +12,10 @@ using Microsoft.Xna.Framework;
 using System.Globalization;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos.Graphics.Model.Exporters;
-using Ebatianos.Graphics.Model.Importers;
-using Ebatianos.Graphics.Model;
-using Ebatianos.Content;
+using Sitana.Framework.Graphics.Model.Exporters;
+using Sitana.Framework.Graphics.Model.Importers;
+using Sitana.Framework.Graphics.Model;
+using Sitana.Framework.Content;
 
 namespace ModelConverter
 {

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Ebatianos.PP.Elements;
-using Ebatianos.Graphics;
+using Sitana.Framework.PP.Elements;
+using Sitana.Framework.Graphics;
 using System.Windows.Forms;
 
 namespace Editor

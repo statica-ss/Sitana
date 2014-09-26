@@ -19,9 +19,9 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input.Touch;
-using Ebatianos.Input;
+using Sitana.Framework.Input;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class ScreenPopup : Screen
     {

@@ -17,12 +17,12 @@
 ///---------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using Ebatianos.Ui.Views.Parameters;
+using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework;
-using Ebatianos.Graphics;
-using Ebatianos.Ui.DefinitionFiles;
+using Sitana.Framework.Graphics;
+using Sitana.Framework.Ui.DefinitionFiles;
 
-namespace Ebatianos.Ui.Views
+namespace Sitana.Framework.Ui.Views
 {
     public abstract class UiContainer: UiView
     {

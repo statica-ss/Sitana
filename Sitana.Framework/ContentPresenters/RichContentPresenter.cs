@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Globalization;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public class RichContentPresenter
     {

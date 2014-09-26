@@ -19,9 +19,9 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos.Content;
+using Sitana.Framework.Content;
 
-namespace Ebatianos
+namespace Sitana.Framework
 {
     /// <summary>
     /// Helper class for Graphics User Interface.

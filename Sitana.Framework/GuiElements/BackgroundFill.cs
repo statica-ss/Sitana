@@ -1,10 +1,10 @@
 ﻿using System;
-using Ebatianos.Content;
-using Ebatianos.Graphics;
+using Sitana.Framework.Content;
+using Sitana.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class BackgroundFill: GuiElement
     {

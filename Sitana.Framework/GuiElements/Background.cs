@@ -22,10 +22,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Ebatianos;
-using Ebatianos.Content;
+using Sitana.Framework;
+using Sitana.Framework.Content;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class Background : GuiElement
     {

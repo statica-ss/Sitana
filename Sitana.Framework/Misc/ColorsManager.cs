@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using System.IO;
 
-namespace Ebatianos
+namespace Sitana.Framework
 {
     public class ColorsManager
     {

@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ebatianos.Cs
+namespace Sitana.Framework.Cs
 {
     public class Singleton<T>
     {

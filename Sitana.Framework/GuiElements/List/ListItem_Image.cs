@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Ebatianos.Content;
+using Sitana.Framework.Content;
 using System.Reflection;
 
-namespace Ebatianos.Gui.List
+namespace Sitana.Framework.Gui.List
 {
     public class ListItem_Image : ListItemElement
     {

@@ -22,9 +22,9 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Globalization;
-using Ebatianos.Cs;
+using Sitana.Framework.Cs;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     /// <summary>
     /// Font information container.

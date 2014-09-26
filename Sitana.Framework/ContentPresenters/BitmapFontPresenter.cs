@@ -22,12 +22,12 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos;
-using Ebatianos.Cs;
+using Sitana.Framework;
+using Sitana.Framework.Cs;
 using System.Globalization;
 using System.Threading;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     /// <summary>
     /// Helper class displaying text using given font.

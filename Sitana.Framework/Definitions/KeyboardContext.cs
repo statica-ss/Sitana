@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Ebatianos
+namespace Sitana.Framework
 {
     public enum KeyboardContext
     {

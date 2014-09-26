@@ -22,7 +22,7 @@ using System.IO.IsolatedStorage;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Ebatianos.Settings
+namespace Sitana.Framework.Settings
 {
     /// <summary>
     /// Serializes any kind of objects with XmlSerializer to isolated storage file.

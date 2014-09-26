@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Threading;
-using Ebatianos.Cs;
+using Sitana.Framework.Cs;
 
-namespace Ebatianos
+namespace Sitana.Framework
 {
     public class ColorWrapper: SharedValue<Color>
     {

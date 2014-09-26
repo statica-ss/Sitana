@@ -6,9 +6,9 @@ using System.IO;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Globalization;
-using Ebatianos.Cs;
+using Sitana.Framework.Cs;
 
-namespace Ebatianos.Graphics.Model.Importers
+namespace Sitana.Framework.Graphics.Model.Importers
 {
     public class ObjImporter: IImporter
     {

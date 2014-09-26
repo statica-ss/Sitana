@@ -21,7 +21,7 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     /// <summary>
     /// Loader for texture from png file instead of xnb.

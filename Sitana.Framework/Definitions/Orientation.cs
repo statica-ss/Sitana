@@ -18,7 +18,7 @@
 //
 using System;
 
-namespace Ebatianos
+namespace Sitana.Framework
 {
     public enum Orientation
     {

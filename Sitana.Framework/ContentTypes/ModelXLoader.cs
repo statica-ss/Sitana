@@ -17,14 +17,14 @@
 // ///---------------------------------------------------------------------------
 //
 using System;
-using Ebatianos.Graphics.Model;
-using Ebatianos.Content;
+using Sitana.Framework.Graphics.Model;
+using Sitana.Framework.Content;
 using System.IO;
-using Ebatianos.Graphics.Model.Importers;
+using Sitana.Framework.Graphics.Model.Importers;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public class ModelXLoader: ContentLoader.AdditionalType
     {

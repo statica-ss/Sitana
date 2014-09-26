@@ -21,12 +21,12 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.IO;
-using Ebatianos.Input;
-using Ebatianos.Content;
-using Ebatianos;
+using Sitana.Framework.Input;
+using Sitana.Framework.Content;
+using Sitana.Framework;
 
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class GameBase : Game
     {

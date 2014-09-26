@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Ebatianos
+namespace Sitana.Framework
 {
     [Flags]
     public enum TextAlign : int

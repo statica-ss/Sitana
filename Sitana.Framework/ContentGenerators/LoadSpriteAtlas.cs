@@ -18,13 +18,13 @@
 
 using System;
 using System.Collections.Generic;
-using Ebatianos;
+using Sitana.Framework;
 using Microsoft.Xna.Framework;
-using Ebatianos.Gui;
+using Sitana.Framework.Gui;
 using System.IO;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Ebatianos.Content.Generators
+namespace Sitana.Framework.Content.Generators
 {
     public class LoadSpriteAtlas : ContentGenerator
     {

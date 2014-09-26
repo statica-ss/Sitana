@@ -20,10 +20,10 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using Ebatianos.Content;
-using Ebatianos;
+using Sitana.Framework.Content;
+using Sitana.Framework;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public static class SpriteOptimizer
     {

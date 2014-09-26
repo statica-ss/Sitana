@@ -16,18 +16,18 @@
 /// 
 ///---------------------------------------------------------------------------
 using System;
-using Ebatianos.Input;
-using Ebatianos.Ui.Views.Parameters;
+using Sitana.Framework.Input;
+using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework;
-using Ebatianos.Graphics;
-using Ebatianos.Ui.Controllers;
+using Sitana.Framework.Graphics;
+using Sitana.Framework.Ui.Controllers;
 using System.Collections.Generic;
-using Ebatianos.Cs;
-using Ebatianos.Ui.DefinitionFiles;
-using Ebatianos.Essentials.Ui.DefinitionFiles;
-using Ebatianos.Diagnostics;
+using Sitana.Framework.Cs;
+using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Essentials.Ui.DefinitionFiles;
+using Sitana.Framework.Diagnostics;
 
-namespace Ebatianos.Ui.Views
+namespace Sitana.Framework.Ui.Views
 {
     /// <summary>
     /// Parameters:

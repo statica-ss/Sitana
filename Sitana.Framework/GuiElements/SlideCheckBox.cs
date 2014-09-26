@@ -1,6 +1,6 @@
-﻿using Ebatianos.Content;
-using Ebatianos;
-using Ebatianos.Cs;
+﻿using Sitana.Framework.Content;
+using Sitana.Framework;
+using Sitana.Framework.Cs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class SlideCheckBox: CheckBox
     {

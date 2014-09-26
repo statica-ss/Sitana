@@ -19,12 +19,12 @@
 using System;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework;
-using Ebatianos.Content;
-using Ebatianos;
-using Ebatianos.Gui;
+using Sitana.Framework.Content;
+using Sitana.Framework;
+using Sitana.Framework.Gui;
 using System.Collections.Generic;
 
-namespace Ebatianos.Content.Generators
+namespace Sitana.Framework.Content.Generators
 {
     public class SongPlaylistGenerator : ContentGenerator
     {

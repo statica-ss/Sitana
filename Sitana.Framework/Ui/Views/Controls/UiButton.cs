@@ -1,9 +1,9 @@
-﻿using Ebatianos.Input.TouchPad;
+﻿using Sitana.Framework.Input.TouchPad;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System;
 
-namespace Ebatianos.Ui.Views
+namespace Sitana.Framework.Ui.Views
 {
     public class UiButton: UiView, IGestureListener
     {

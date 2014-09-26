@@ -19,7 +19,7 @@
 using System;
 using System.Reflection;
 
-namespace Ebatianos.Settings
+namespace Sitana.Framework.Settings
 {
     /// <summary>
     /// Serialization automated singleton base, which serializes all fields of derrived type to isolated storage. 

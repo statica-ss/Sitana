@@ -19,10 +19,10 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Ebatianos.Input;
+using Sitana.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class HorizontalPageTurnover: GuiElement
     {

@@ -22,11 +22,11 @@ using System.Reflection;
 using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Ebatianos.Content;
-using Ebatianos.Content.Generators;
+using Sitana.Framework.Content;
+using Sitana.Framework.Content.Generators;
 
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class ScreenPreloader : Screen
     {

@@ -16,7 +16,7 @@
 /// 
 ///---------------------------------------------------------------------------
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public enum TransitionType : int
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Ebatianos.Graphics;
+using Sitana.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace Editor

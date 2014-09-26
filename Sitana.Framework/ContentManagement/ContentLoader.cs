@@ -24,12 +24,12 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
-using Ebatianos;
+using Sitana.Framework;
 using System.Diagnostics;
-using Ebatianos.Cs;
+using Sitana.Framework.Cs;
 using System.Text;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     /// <summary>
     /// Loads content for app

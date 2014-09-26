@@ -1,12 +1,12 @@
-﻿using Ebatianos.Diagnostics;
-using Ebatianos.Essentials.Ui.DefinitionFiles;
+﻿using Sitana.Framework.Diagnostics;
+using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Ebatianos.Ui.DefinitionFiles
+namespace Sitana.Framework.Ui.DefinitionFiles
 {
     public class DefinitionFile
     {

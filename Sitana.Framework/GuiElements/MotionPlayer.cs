@@ -20,12 +20,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ebatianos;
-using Ebatianos.Content;
+using Sitana.Framework;
+using Sitana.Framework.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class MotionPlayer : GuiElement
     {

@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public class TextureEx : ContentLoader.AdditionalType
     {

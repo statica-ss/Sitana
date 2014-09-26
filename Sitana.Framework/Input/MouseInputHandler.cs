@@ -22,7 +22,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 
-namespace Ebatianos.Input
+namespace Sitana.Framework.Input
 {
     public class MouseInputHandler : InputHandler
     {

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Ebatianos.Graphics;
+using Sitana.Framework.Graphics;
 using FarseerPhysics.Common;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Common.Decomposition;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos.PP.Elements;
+using Sitana.Framework.PP.Elements;
 
 namespace Editor
 {

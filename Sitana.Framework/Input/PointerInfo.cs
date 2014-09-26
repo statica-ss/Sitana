@@ -19,7 +19,7 @@
 using System;
 using Microsoft.Xna.Framework;
 
-namespace Ebatianos.Input
+namespace Sitana.Framework.Input
 {
     /// <summary>
     /// Struct holding information about pointer.

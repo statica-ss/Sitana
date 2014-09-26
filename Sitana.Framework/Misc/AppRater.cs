@@ -18,10 +18,10 @@
 
 using System.Reflection;
 using System;
-using Ebatianos.Cs;
-using Ebatianos.Settings;
+using Sitana.Framework.Cs;
+using Sitana.Framework.Settings;
 
-namespace Ebatianos
+namespace Sitana.Framework
 {
     /// <summary>
     /// Manages time, when user rating request should be popuped.

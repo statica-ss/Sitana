@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Ebatianos.Ui.Views.Parameters;
-using Ebatianos.Ui.DefinitionFiles;
-using Ebatianos.Essentials.Ui.DefinitionFiles;
-using Ebatianos.Diagnostics;
+using Sitana.Framework.Ui.Views.Parameters;
+using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Essentials.Ui.DefinitionFiles;
+using Sitana.Framework.Diagnostics;
 
-namespace Ebatianos.Ui.Views
+namespace Sitana.Framework.Ui.Views
 {
     /// <summary>
     /// Parameters:

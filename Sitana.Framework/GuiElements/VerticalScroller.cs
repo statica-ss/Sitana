@@ -19,10 +19,10 @@
 using System;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework;
-using Ebatianos;
-using Ebatianos.Input;
+using Sitana.Framework;
+using Sitana.Framework.Input;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class VerticalScroller
     {

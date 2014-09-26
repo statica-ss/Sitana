@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ebatianos.Graphics;
+using Sitana.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos.Content;
-using Ebatianos.Ui.DefinitionFiles;
-using Ebatianos.Essentials.Ui.DefinitionFiles;
+using Sitana.Framework.Content;
+using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 
-namespace Ebatianos.Ui.Views.ButtonDrawables
+namespace Sitana.Framework.Ui.Views.ButtonDrawables
 {
     public class ButtonNinePatchBackground : ButtonSolidBackground
     {

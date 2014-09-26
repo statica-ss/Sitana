@@ -16,14 +16,14 @@
 /// 
 ///---------------------------------------------------------------------------
 
-using Ebatianos.Content;
-using Ebatianos.Input;
+using Sitana.Framework.Content;
+using Sitana.Framework.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 using System;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class 
         Button : GuiElement

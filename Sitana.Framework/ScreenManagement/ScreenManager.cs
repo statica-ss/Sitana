@@ -20,15 +20,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Ebatianos.Content;
-using Ebatianos.Cs;
-using Ebatianos.Graphics;
-using Ebatianos.Input;
+using Sitana.Framework.Content;
+using Sitana.Framework.Cs;
+using Sitana.Framework.Graphics;
+using Sitana.Framework.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public abstract class ScreenManager : ToolkitClass
     {

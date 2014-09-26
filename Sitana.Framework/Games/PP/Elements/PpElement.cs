@@ -5,10 +5,10 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Common;
-using Ebatianos.DataTransfer;
+using Sitana.Framework.DataTransfer;
 using FarseerPhysics.Common.Decomposition;
 
-namespace Ebatianos.PP.Elements
+namespace Sitana.Framework.PP.Elements
 {
     public abstract class PpElement: Triangulatable, IEcsStructure
     {

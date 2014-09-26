@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Ebatianos.DataTransfer
+namespace Sitana.Framework.DataTransfer
 {
     public class EcsHttpClient
     {

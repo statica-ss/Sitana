@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Windows.Forms;
-using Ebatianos.Graphics;
+using Sitana.Framework.Graphics;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos.PP.Elements;
+using Sitana.Framework.PP.Elements;
 
 namespace Editor
 {

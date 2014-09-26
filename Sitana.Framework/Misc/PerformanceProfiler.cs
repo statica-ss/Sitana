@@ -1,10 +1,10 @@
 ﻿using System;
-using Ebatianos.Cs;
+using Sitana.Framework.Cs;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos.Content;
+using Sitana.Framework.Content;
 using System.Text;
-using Ebatianos.Graphics;
+using Sitana.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 #if MACOSX
@@ -15,7 +15,7 @@ using MonoTouch.Foundation;
 using System.Diagnostics;
 #endif
 
-namespace Ebatianos.Diagnostics
+namespace Sitana.Framework.Diagnostics
 {
     public class PerformanceProfiler: Singleton<PerformanceProfiler>
     {

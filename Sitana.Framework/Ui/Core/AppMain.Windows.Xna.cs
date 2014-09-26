@@ -16,12 +16,12 @@
 /// 
 ///---------------------------------------------------------------------------
 using System;
-using Ebatianos.Graphics;
-using Ebatianos.Ui.Views;
-using Ebatianos.Ui.Views.Parameters;
+using Sitana.Framework.Graphics;
+using Sitana.Framework.Ui.Views;
+using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework;
 
-namespace Ebatianos.Ui.Core
+namespace Sitana.Framework.Ui.Core
 {
     public partial class AppMain
     {

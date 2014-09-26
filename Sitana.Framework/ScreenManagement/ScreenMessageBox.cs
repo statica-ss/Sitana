@@ -19,9 +19,9 @@
 
 
 using System;
-using Ebatianos.Gui;
+using Sitana.Framework.Gui;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
 	public class ScreenMessageBox : ScreenPopup
 	{

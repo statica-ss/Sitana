@@ -19,12 +19,12 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos.Content;
-using Ebatianos;
+using Sitana.Framework.Content;
+using Sitana.Framework;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class Label : GuiElement
     {

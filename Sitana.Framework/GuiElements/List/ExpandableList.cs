@@ -18,17 +18,17 @@
 
 using System;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos.Content;
-using Ebatianos;
+using Sitana.Framework.Content;
+using Sitana.Framework;
 using Microsoft.Xna.Framework;
 using System.IO;
 using System.Xml;
 using System.Collections.Generic;
-using Ebatianos.Gui.List;
+using Sitana.Framework.Gui.List;
 using Microsoft.Xna.Framework.Input.Touch;
-using Ebatianos.Input;
+using Sitana.Framework.Input;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public partial class ExpandableList : GuiElement
     {

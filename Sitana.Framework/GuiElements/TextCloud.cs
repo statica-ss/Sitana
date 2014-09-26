@@ -21,12 +21,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos.Content;
-using Ebatianos;
+using Sitana.Framework.Content;
+using Sitana.Framework;
 using Microsoft.Xna.Framework.Input.Touch;
-using Ebatianos.Input;
+using Sitana.Framework.Input;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class TextCloud : GuiElement
     {

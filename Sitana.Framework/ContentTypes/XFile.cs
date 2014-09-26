@@ -1,5 +1,5 @@
-﻿using Ebatianos.Content;
-using Ebatianos.Diagnostics;
+﻿using Sitana.Framework.Content;
+using Sitana.Framework.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public class XFile : ContentLoader.AdditionalType
     {

@@ -16,7 +16,7 @@
 /// 
 ///---------------------------------------------------------------------------
 
-namespace Ebatianos.DataTransfer
+namespace Sitana.Framework.DataTransfer
 {
     public interface IEcsStructure
     {

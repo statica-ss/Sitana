@@ -16,13 +16,13 @@
 /// 
 ///---------------------------------------------------------------------------
 
-using Ebatianos.Content;
+using Sitana.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
-namespace Ebatianos
+namespace Sitana.Framework
 {
     public class XNode
     {

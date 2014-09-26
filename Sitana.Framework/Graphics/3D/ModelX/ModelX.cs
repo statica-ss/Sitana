@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace Ebatianos.Graphics.Model
+namespace Sitana.Framework.Graphics.Model
 {
     public class ModelX
     {

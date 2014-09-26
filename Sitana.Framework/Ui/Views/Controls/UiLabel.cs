@@ -15,16 +15,16 @@
 /// sejud.com/essentials-library
 /// 
 ///---------------------------------------------------------------------------
-using Ebatianos.Graphics;
+using Sitana.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Text;
-using Ebatianos.Ui.Views.Parameters;
+using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos.Content;
-using Ebatianos.Ui.DefinitionFiles;
-using Ebatianos.Essentials.Ui.DefinitionFiles;
+using Sitana.Framework.Content;
+using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 
-namespace Ebatianos.Ui.Views
+namespace Sitana.Framework.Ui.Views
 {
     public class UiLabel: UiView
     {

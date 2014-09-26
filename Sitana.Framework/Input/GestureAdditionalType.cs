@@ -16,7 +16,7 @@
 /// 
 ///---------------------------------------------------------------------------
 
-namespace Ebatianos.Input
+namespace Sitana.Framework.Input
 {
     public enum GestureAdditionalType
     {

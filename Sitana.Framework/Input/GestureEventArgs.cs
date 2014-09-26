@@ -19,7 +19,7 @@
 using Microsoft.Xna.Framework.Input.Touch;
 using System;
 
-namespace Ebatianos.Input
+namespace Sitana.Framework.Input
 {
     public class GestureEventArgs : EventArgs
     {

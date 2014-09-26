@@ -7,8 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using System.Windows.Forms;
-using Ebatianos.Graphics.Model;
-using Ebatianos.Graphics;
+using Sitana.Framework.Graphics.Model;
+using Sitana.Framework.Graphics;
 
 namespace ModelConverter
 {

@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class ControlsContainer: GuiElement
     {

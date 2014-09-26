@@ -23,7 +23,7 @@ using System.Reflection;
 using System.Xml;
 using System.Globalization;
 
-namespace Ebatianos
+namespace Sitana.Framework
 {
     /// <summary>
     /// Reprezents collection of parameters indexed by string.

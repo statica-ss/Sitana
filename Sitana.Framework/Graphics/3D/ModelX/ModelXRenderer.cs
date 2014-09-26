@@ -18,10 +18,10 @@
 //
 using System;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos.Graphics.Model;
+using Sitana.Framework.Graphics.Model;
 using Microsoft.Xna.Framework;
 
-namespace Ebatianos.Graphics
+namespace Sitana.Framework.Graphics
 {
     static class ModelXRenderer
     {

@@ -19,14 +19,14 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos;
-using Ebatianos.Content;
-using Ebatianos.Cs;
-using Ebatianos.Input;
+using Sitana.Framework;
+using Sitana.Framework.Content;
+using Sitana.Framework.Cs;
+using Sitana.Framework.Input;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input.Touch;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class GuiElement
     {

@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 
-namespace Ebatianos
+namespace Sitana.Framework
 {
     public class XmlFileNode
     {

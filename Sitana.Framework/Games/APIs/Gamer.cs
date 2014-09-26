@@ -1,6 +1,6 @@
-﻿using Ebatianos.Cs;
+﻿using Sitana.Framework.Cs;
 
-namespace Ebatianos.Games.Apis
+namespace Sitana.Framework.Games.Apis
 {
     public class Gamer: Singleton<Gamer>
     {

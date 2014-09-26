@@ -15,15 +15,15 @@
 /// www.ebatianos.com/essentials-library
 /// 
 ///---------------------------------------------------------------------------
-
+///
 using System;
 using Microsoft.Xna.Framework;
-using Ebatianos;
-using Ebatianos.Content;
-using Ebatianos.Gui;
+using Sitana.Framework;
+using Sitana.Framework.Content;
+using Sitana.Framework.Gui;
 using System.Collections.Generic;
 
-namespace Ebatianos.Content.Generators
+namespace Sitana.Framework.Content.Generators
 {
     public abstract class ContentGenerator : GuiElement
     {

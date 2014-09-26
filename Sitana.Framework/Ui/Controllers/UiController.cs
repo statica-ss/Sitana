@@ -1,12 +1,12 @@
-﻿using Ebatianos.Cs;
-using Ebatianos.Ui.Views;
+﻿using Sitana.Framework.Cs;
+using Sitana.Framework.Ui.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Ebatianos.Ui.Controllers
+namespace Sitana.Framework.Ui.Controllers
 {
     public abstract class UiController
     {

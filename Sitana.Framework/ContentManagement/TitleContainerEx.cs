@@ -15,7 +15,7 @@ using MonoMac.Foundation;
 using Sce.PlayStation.Core;
 #endif
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public static class TitleContainerEx
     {

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Globalization;
-using Ebatianos.Ui.DefinitionFiles;
-using Ebatianos.Content;
+using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Content;
 using System.Reflection;
 
-namespace Ebatianos.Ui.DefinitionFiles
+namespace Sitana.Framework.Ui.DefinitionFiles
 {
     public static class DefinitionResolver
     {

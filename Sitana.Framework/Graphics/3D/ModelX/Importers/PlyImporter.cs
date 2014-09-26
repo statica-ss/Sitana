@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using Ebatianos.Graphics;
+using Sitana.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Ebatianos.Graphics.Model.Importers
+namespace Sitana.Framework.Graphics.Model.Importers
 {
     public class PlyImporter : IImporter
     {

@@ -21,7 +21,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 
-namespace Ebatianos.Cs
+namespace Sitana.Framework.Cs
 {
     public abstract class ToolkitClass{}
 

@@ -18,11 +18,11 @@
 
 using System;
 using Microsoft.Xna.Framework;
-using Ebatianos;
-using Ebatianos.Content;
+using Sitana.Framework;
+using Sitana.Framework.Content;
 using System.Collections.Generic;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class Parameters : GuiElement
     {

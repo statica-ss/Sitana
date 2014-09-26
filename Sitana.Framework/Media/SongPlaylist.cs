@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Media;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public class SongPlaylist
     {

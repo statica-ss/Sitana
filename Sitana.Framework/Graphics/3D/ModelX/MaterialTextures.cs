@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Ebatianos.Graphics.Model
+namespace Sitana.Framework.Graphics.Model
 {
     public class MaterialTextures
     {

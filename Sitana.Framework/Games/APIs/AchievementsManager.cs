@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ebatianos.Cs;
+using Sitana.Framework.Cs;
 using System.IO;
-using Ebatianos.Settings;
+using Sitana.Framework.Settings;
 
-namespace Ebatianos.Games.Apis
+namespace Sitana.Framework.Games.Apis
 {
     public class AchievementsManager: Singleton<AchievementsManager>
     {

@@ -17,7 +17,7 @@
 ///---------------------------------------------------------------------------
 
 using System;
-namespace Ebatianos
+namespace Sitana.Framework
 {
     [Flags]
     public enum Align : int

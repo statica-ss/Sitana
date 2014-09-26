@@ -1,6 +1,6 @@
 using System;
 
-namespace Ebatianos.DataTransfer
+namespace Sitana.Framework.DataTransfer
 {
 	public class EcsResponse: IEcsStructure
 	{

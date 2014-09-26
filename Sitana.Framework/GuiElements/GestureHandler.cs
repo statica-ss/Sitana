@@ -17,10 +17,10 @@
 ///---------------------------------------------------------------------------
 
 using System;
-using Ebatianos.Input;
+using Sitana.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class GestureHandler: GuiElement
     {

@@ -1,18 +1,18 @@
 ﻿using System;
-using Ebatianos.Content;
-using Ebatianos.Ui.Core;
+using Sitana.Framework.Content;
+using Sitana.Framework.Ui.Core;
 using Microsoft.Xna.Framework;
-using Ebatianos.Ui.Views;
-using Ebatianos;
-using Ebatianos.Input.TouchPad;
-using Ebatianos.Ui.Controllers;
+using Sitana.Framework.Ui.Views;
+using Sitana.Framework;
+using Sitana.Framework.Input.TouchPad;
+using Sitana.Framework.Ui.Controllers;
 using Microsoft.Xna.Framework.Graphics;
 using System.Text;
-using Ebatianos.Ui.DefinitionFiles;
-using Ebatianos.Ui.Views.ButtonDrawables;
+using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Ui.Views.ButtonDrawables;
 using System.Threading;
-using Ebatianos.Essentials.Ui.DefinitionFiles;
-using Ebatianos.Diagnostics;
+using Sitana.Framework.Essentials.Ui.DefinitionFiles;
+using Sitana.Framework.Diagnostics;
 
 namespace TestApp
 {
@@ -83,9 +83,6 @@ namespace TestApp
                 main.IsMouseVisible = true;
                 main.OnLoadContent += OnLoadContent;
                 main.OnLoadedView += (a) => a.ResizeToView();
-
-                main.Graphics.PreferredBackBufferWidth = 1280;
-                main.Graphics.PreferredBackBufferHeight = 720;
 
                 main.Run();
             }

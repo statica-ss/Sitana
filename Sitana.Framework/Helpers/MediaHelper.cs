@@ -18,7 +18,7 @@
 
 using System;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public static class MediaHelper
     {

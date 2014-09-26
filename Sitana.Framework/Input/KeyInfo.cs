@@ -18,7 +18,7 @@
 
 using Microsoft.Xna.Framework.Input;
 
-namespace Ebatianos.Input
+namespace Sitana.Framework.Input
 {
     /// <summary>
     /// Struct holding key information.

@@ -19,11 +19,11 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Media;
-using Ebatianos;
-using Ebatianos.Content;
+using Sitana.Framework;
+using Sitana.Framework.Content;
 using System.Collections.Generic;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class MusicPlayer : GuiElement
     {

@@ -20,12 +20,12 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Reflection;
-using Ebatianos.Content;
+using Sitana.Framework.Content;
 using Microsoft.Xna.Framework.Input.Touch;
-using Ebatianos.Input;
+using Sitana.Framework.Input;
 using System.Collections.Generic;
 
-namespace Ebatianos.Gui.List
+namespace Sitana.Framework.Gui.List
 {
     public class ListItem_Toolbar : ListItemElement
     {

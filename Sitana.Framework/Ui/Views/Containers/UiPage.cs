@@ -1,10 +1,10 @@
-﻿using Ebatianos.Ui.DefinitionFiles;
+﻿using Sitana.Framework.Ui.DefinitionFiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ebatianos.Ui.Views
+namespace Sitana.Framework.Ui.Views
 {
     public class UiPage: UiContainer
     {

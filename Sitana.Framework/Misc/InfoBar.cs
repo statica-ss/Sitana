@@ -19,12 +19,12 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos;
+using Sitana.Framework;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
-using Ebatianos.Input;
+using Sitana.Framework.Input;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public interface IInfoBarDraw
     {

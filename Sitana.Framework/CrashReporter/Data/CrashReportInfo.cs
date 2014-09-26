@@ -1,8 +1,8 @@
 using System;
-using Ebatianos.DataTransfer;
+using Sitana.Framework.DataTransfer;
 using System.Collections.Generic;
 
-namespace Ebatianos.CrashReporter.Data
+namespace Sitana.Framework.CrashReporter.Data
 {
 	public class CrashReportInfo: IEcsStructure
 	{

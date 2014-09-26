@@ -18,11 +18,11 @@
 
 using System;
 using Microsoft.Xna.Framework.Graphics;
-using Ebatianos;
+using Sitana.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input.Touch;
 
-namespace Ebatianos.Gui.List
+namespace Sitana.Framework.Gui.List
 {
     public abstract class ListItemElement
     {

@@ -15,10 +15,10 @@
 /// sejud.com/essentials-library
 /// 
 ///---------------------------------------------------------------------------
-using Ebatianos.Graphics;
+using Sitana.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace Ebatianos.Ui.Views.Parameters
+namespace Sitana.Framework.Ui.Views.Parameters
 {
     public struct UiViewDrawParameters
     {

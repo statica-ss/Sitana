@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Ebatianos.Cs;
+using Sitana.Framework.Cs;
 
-namespace Ebatianos.DataTransfer
+namespace Sitana.Framework.DataTransfer
 {
     /// <summary>
     /// Ebatiano's Compact & Safe Protocol Reader

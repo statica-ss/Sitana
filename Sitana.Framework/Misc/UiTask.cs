@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ebatianos.Gui;
-using Ebatianos.Cs;
+using Sitana.Framework.Gui;
+using Sitana.Framework.Cs;
 
-namespace Ebatianos
+namespace Sitana.Framework
 {
     public static class UiTask
     {

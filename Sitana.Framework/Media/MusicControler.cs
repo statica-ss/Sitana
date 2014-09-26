@@ -20,7 +20,7 @@ using System;
 using Microsoft.Xna.Framework.Media;
 using System.Threading;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public class MusicControler
     {

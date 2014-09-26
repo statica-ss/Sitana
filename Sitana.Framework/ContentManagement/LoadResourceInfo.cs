@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ebatianos.Content.Generators;
+using Sitana.Framework.Content.Generators;
 using System.Reflection;
 
-namespace Ebatianos.Content
+namespace Sitana.Framework.Content
 {
     public class LoadResourceInfo
     {

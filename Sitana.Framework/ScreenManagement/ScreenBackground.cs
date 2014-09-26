@@ -19,7 +19,7 @@
 using System;
 using System.IO;
 
-namespace Ebatianos.Gui
+namespace Sitana.Framework.Gui
 {
     public class ScreenBackground : Screen
     {

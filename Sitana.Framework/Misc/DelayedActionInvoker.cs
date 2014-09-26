@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ebatianos.Cs;
-namespace Ebatianos
+using Sitana.Framework.Cs;
+namespace Sitana.Framework
 {
     public class DelayedActionInvoker : Singleton<DelayedActionInvoker>
     {

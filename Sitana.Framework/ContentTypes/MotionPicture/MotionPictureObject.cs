@@ -22,7 +22,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Globalization;
 
-namespace Ebatianos.Content.MotionPictureCore
+namespace Sitana.Framework.Content.MotionPictureCore
 {
     public abstract class MotionPictureObject
     {

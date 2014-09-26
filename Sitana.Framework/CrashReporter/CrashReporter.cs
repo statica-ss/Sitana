@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using Ebatianos.CrashReporter.Data;
-using Ebatianos.Cs;
-using Ebatianos.DataTransfer;
-using Ebatianos.Diagnostics;
-using Ebatianos.Settings;
+using Sitana.Framework.CrashReporter.Data;
+using Sitana.Framework.Cs;
+using Sitana.Framework.DataTransfer;
+using Sitana.Framework.Diagnostics;
+using Sitana.Framework.Settings;
 
-namespace Ebatianos.CrashReporter
+namespace Sitana.Framework.CrashReporter
 {
     public class CrashReporter: Singleton<CrashReporter>
     {

@@ -1,4 +1,4 @@
-﻿using Ebatianos.Cs;
+﻿using Sitana.Framework.Cs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ebatianos.Input.TouchPad
+namespace Sitana.Framework.Input.TouchPad
 {
     public partial class TouchPad: Singleton<TouchPad>
     {

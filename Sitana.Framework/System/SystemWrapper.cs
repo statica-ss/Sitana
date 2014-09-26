@@ -7,7 +7,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Ebatianos
+namespace Sitana.Framework
 {
     public static class SystemWrapper
     {
