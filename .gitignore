@@ -64,3 +64,4 @@ MetroDemo/publish/*
 /_MonoGame/MacOsX/*.config
 /_MonoGame/wp8/arm/*.winmd
 /_MonoGame/wp8/x86/*.winmd
+*.winmd
