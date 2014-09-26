@@ -65,3 +65,4 @@ MetroDemo/publish/*
 /_MonoGame/wp8/arm/*.winmd
 /_MonoGame/wp8/x86/*.winmd
 *.winmd
+_Bin

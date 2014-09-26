@@ -50,7 +50,7 @@ namespace TestApp
 
         public StringBuilder Test2()
         {
-            _text.Append("tteteywteyuwq euyqwt ");
+            _text.Append("Another text got from controller.");
             return _text;
         }
 
@@ -90,7 +90,7 @@ namespace TestApp
 
         static void OnLoadContent(AppMain main)
         {
-            FontManager.Instance.AddFont("TestFont", "Fonts/TestFont", 22);
+            FontManager.Instance.AddFont("TestFont", "Fonts/TestFont", 16);
         }
     }
 }
