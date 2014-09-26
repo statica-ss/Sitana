@@ -40,8 +40,8 @@
       <HintPath>..\ThirdParty\Dependences\MonoGame\iOs\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Services" />
-    <Reference Include="Farseer.iOs">
-      <HintPath>..\ThirdParty\Dependences\Farseer\Farseer.iOs.dll</HintPath>
+    <Reference Include="FarseerPhysics.iOS">
+      <HintPath>..\ThirdParty\Dependences\Farseer\FarseerPhysics.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
