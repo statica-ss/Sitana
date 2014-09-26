@@ -4,6 +4,9 @@ using System.Linq;
 
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using Sitana.Framework.Ui.Core;
+using Sitana.Framework.Content;
+using Microsoft.Xna.Framework;
 
 namespace TestApp
 {
@@ -19,6 +22,7 @@ namespace TestApp
 			main.LoadView("Ui/MainView");
 
 			main.Graphics.IsFullScreen = true;
+			main.Graphics.SupportedOrientations = DisplayOrientation.Portrait | DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight | DisplayOrientation.PortraitDown;
 
 			main.OnLoadContent += TestController.OnLoadContent;
 

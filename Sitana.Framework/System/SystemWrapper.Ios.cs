@@ -11,8 +11,9 @@ using MonoTouch.MessageUI;
 using MonoTouch.Foundation;
 using Microsoft.Xna.Framework;
 using System.Reflection;
+using System;
 
-namespace Ebatianos
+namespace Sitana.Framework
 {
     public static class SystemWrapper
     {

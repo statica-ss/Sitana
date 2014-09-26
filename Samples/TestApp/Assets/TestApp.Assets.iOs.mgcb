@@ -1,9 +1,9 @@
 
 #----------------------------- Global Properties ----------------------------#
 
-/outputDir:Built/Windows
+/outputDir:Built/iOs
 /intermediateDir:obj
-/platform:Windows
+/platform:iOS
 /config:
 /profile:Reach
 /compress:False
@@ -16,6 +16,6 @@
 #begin Fonts/TestFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
-/processorParam:TextureFormat=DxtCompressed
+/processorParam:TextureFormat=Color
 /build:Fonts/TestFont.spritefont
 
