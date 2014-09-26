@@ -1,0 +1,48 @@
+DateAndTime
+0   Year    Int32
+1   Month   Int32
+2   Day     Int32
+3   Hour    Int32
+4   Minute  Int32
+5   Second  Int32
+
+Application
+0   Id      Int32   Optional
+1   Guid    String
+2   Name    String
+
+Session
+0   Id              Int32   Optional
+1   ApplicationGuid String
+2   DeviceGuid      String
+3   Time            DateAndTime
+
+Device
+0   Id              Int32   Optional
+1   Guid            String
+2   Name            String
+3   Platform        String
+4   OsVersion       String
+
+Crash
+0   Id              Int32   Optional
+1   ApplicationGuid String
+2   Exception       String
+
+CrashInstance
+0   Id              Int32   Optional
+1   CrashId         Int32
+3   Time            DateAndTime
+
+CrashReport
+0   Crash           String
+1   Time            DateAndTime
+
+Response
+0   RequestId       Int32
+1   Status          Int32
+
+Request
+0   RequestId       Int32
+1   Action          String
+2   Data            EcsStructure

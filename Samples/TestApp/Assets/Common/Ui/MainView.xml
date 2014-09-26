@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UiSplitterView Controller="TestApp.TestController,TestApp"
+    xmlns="namespace:Ebatianos.Ui.Views,Ebatianos.Essentials"
+    xmlns:border="type:Ebatianos.Ui.Views.UiBorder.PositionParameters,Ebatianos.Essentials"
+    xmlns:window="type:Ebatianos.Ui.Views.PositionParameters,Ebatianos.Essentials"
+    window:Width="480" window:Height="800" SplitterSize="4" Position="45" Mode="Vertical">
+  <UiSplitterView.Children>
+    <UiLabel BackgroundColor="#ff0000" Text="{Test('Jakiś tekst')}" TextColor="{TextColor}" Font="TestFont" FontSize="21"/>
+    <UiLabel BackgroundColor="#ddff00" Text="{Test2()}" TextColor="#0000ff" Font="TestFont" FontSize="21"/>
+  </UiSplitterView.Children>
+</UiSplitterView>

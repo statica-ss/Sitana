@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{86B814AE-3058-4BDD-BFCB-65EDCA0D5D19}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Ebatianos.Essentials</RootNamespace>
+    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+    <AndroidResgenClass>Resource</AndroidResgenClass>
+    <AssemblyName>Ebatianos.Essentials</AssemblyName>
+    <TargetFrameworkVersion>v2.3</TargetFrameworkVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;__MOBILE__;ANDROID;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>__MOBILE__;ANDROID;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Android" />
+    <Reference Include="Lidgren.Network">
+      <HintPath>_MonoGame\android\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>_MonoGame\android\MonoGame.Framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="ContentGenerators\ContentGenerator.cs" />
+    <Compile Include="ContentGenerators\LoadSpriteAtlas.cs" />
+    <Compile Include="ContentGenerators\SongPlaylistGenerator.cs" />
+    <Compile Include="ContentManagement\ContentLoader.cs" />
+    <Compile Include="ContentPresenters\BitmapFontPresenter.cs" />
+    <Compile Include="ContentPresenters\ICustomDraw.cs" />
+    <Compile Include="ContentPresenters\SpritePresenter.cs" />
+    <Compile Include="ContentTypes\BitmapFont.cs" />
+    <Compile Include="ContentTypes\MotionPicture.cs" />
+    <Compile Include="ContentTypes\Sprite.cs" />
+    <Compile Include="ContentTypes\XmlFile.cs" />
+    <Compile Include="ContentTypes\MotionPicture\MotionPictureObject.cs" />
+    <Compile Include="Cs\Containers.cs" />
+    <Compile Include="Cs\CsToolkit.cs" />
+    <Compile Include="Cs\Singleton.cs" />
+    <Compile Include="Definitions\Align.cs" />
+    <Compile Include="Definitions\TransitionType.cs" />
+    <Compile Include="Games\Aabb.cs" />
+    <Compile Include="Games\Platform\Map\IMapFactory.cs" />
+    <Compile Include="Games\Platform\Map\LayerPainter.cs" />
+    <Compile Include="Games\Platform\Map\Map.cs" />
+    <Compile Include="Games\Platform\Map\TilesetMask.cs" />
+    <Compile Include="Games\Platform\Physics\CollisionObject.cs" />
+    <Compile Include="Games\Platform\Physics\CollisionsDictionary.cs" />
+    <Compile Include="Games\Platform\Physics\CollisionSites.cs" />
+    <Compile Include="Games\Platform\Physics\IMapCollisionFeeder.cs" />
+    <Compile Include="Games\Platform\Physics\IMass.cs" />
+    <Compile Include="Games\Platform\Physics\MoveableObject.cs" />
+    <Compile Include="Games\Platform\Physics\QuadTree.cs" />
+    <Compile Include="Games\Platform\Physics\Sensor.cs" />
+    <Compile Include="Games\Platform\Physics\World.cs" />
+    <Compile Include="GuiElements\Accordion.cs" />
+    <Compile Include="GuiElements\AccordionGroup.cs" />
+    <Compile Include="GuiElements\Background.cs" />
+    <Compile Include="GuiElements\Button.cs" />
+    <Compile Include="GuiElements\CheckBox.cs" />
+    <Compile Include="GuiElements\GestureHandler.cs" />
+    <Compile Include="GuiElements\GuiElement.cs" />
+    <Compile Include="GuiElements\Image.cs" />
+    <Compile Include="GuiElements\Label.cs" />
+    <Compile Include="GuiElements\MotionPlayer.cs" />
+    <Compile Include="GuiElements\MusicPlayer.cs" />
+    <Compile Include="GuiElements\Parameters.cs" />
+    <Compile Include="GuiElements\PreloadResource.cs" />
+    <Compile Include="GuiElements\Slider.cs" />
+    <Compile Include="GuiElements\TextCloud.cs" />
+    <Compile Include="GuiElements\WaitBar.cs" />
+    <Compile Include="GuiElements\List\ExpandableList.cs" />
+    <Compile Include="GuiElements\List\ListItem.cs" />
+    <Compile Include="GuiElements\List\ListItemData.cs" />
+    <Compile Include="GuiElements\List\LIstItemElement.cs" />
+    <Compile Include="GuiElements\List\ListItemsContainer.cs" />
+    <Compile Include="GuiElements\List\ListItem_Label.cs" />
+    <Compile Include="GuiElements\List\ListItem_SelectionRect.cs" />
+    <Compile Include="GuiElements\List\ListItem_Separator.cs" />
+    <Compile Include="GuiElements\List\ListItem_SlideContainer.cs" />
+    <Compile Include="Helpers\GraphicsHelper.cs" />
+    <Compile Include="Helpers\MediaHelper.cs" />
+    <Compile Include="Helpers\PathHelper.cs" />
+    <Compile Include="Helpers\SpriteOptimizer.cs" />
+    <Compile Include="Input\InputHandler.cs" />
+    <Compile Include="Input\KeyInfo.cs" />
+    <Compile Include="Input\PointerInfo.cs" />
+    <Compile Include="Input\RegisteredGesture.cs" />
+    <Compile Include="Input\TouchInputHandler.cs" />
+    <Compile Include="Media\MusicControler.cs" />
+    <Compile Include="Media\SongPlaylist.cs" />
+    <Compile Include="Media\SoundControler.cs" />
+    <Compile Include="Media\SoundEffectContainer.cs" />
+    <Compile Include="Misc\AppRater.cs" />
+    <Compile Include="Misc\GameBase.cs" />
+    <Compile Include="Misc\InfoBar.cs" />
+    <Compile Include="Misc\StringsManager.cs" />
+    <Compile Include="Misc\XmlFileNode.cs" />
+    <Compile Include="ScreenManagement\Screen.cs" />
+    <Compile Include="ScreenManagement\ScreenBackground.cs" />
+    <Compile Include="ScreenManagement\ScreenManager.cs" />
+    <Compile Include="ScreenManagement\ScreenPopup.cs" />
+    <Compile Include="ScreenManagement\ScreenPreloader.cs" />
+    <Compile Include="Settings\Serializator.cs" />
+    <Compile Include="Settings\SingletonSettings.cs" />
+    <Compile Include="System\SystemWrapper.Android.cs" />
+    <Compile Include="GuiElements\EditBox.cs" />
+    <Compile Include="System\ActivityBase.cs" />
+    <Compile Include="Helpers\ParametersColletion.cs" />
+    <Compile Include="Input\GestureAdditionalType.cs" />
+    <Compile Include="Input\GestureEventArgs.cs" />
+    <Compile Include="Input\MouseInputHandler.cs" />
+    <Compile Include="GuiElements\SlideCheckBox.cs" />
+    <Compile Include="ScreenManagement\ScreenMessageBox.cs" />
+    <Compile Include="Cs\Deletages.cs" />
+    <Compile Include="Misc\UiTask.cs" />
+    <Compile Include="GuiElements\VerticalScroller.cs" />
+    <Compile Include="GuiElements\StateIcon.cs" />
+    <Compile Include="ScreenManagement\CancelScreenAddException.cs" />
+    <Compile Include="GuiElements\List\ListItem_Image.cs" />
+    <Compile Include="Misc\ColorWrapper.cs" />
+    <Compile Include="ScreenManagement\AdditionalDraw.cs" />
+    <Compile Include="Misc\UuidGenerator.cs" />
+    <Compile Include="GuiElements\List\ListItem_Toolbar.cs" />
+    <Compile Include="Misc\DelayedActionInvoker.cs" />
+    <Compile Include="Graphics\PrimitiveBatch.cs" />
+    <Compile Include="GuiElements\DynamicLabel.cs" />
+    <Compile Include="GuiElements\HorizontalPageTurnover.cs" />
+    <Compile Include="Definitions\KeyboardContext.cs" />
+    <Compile Include="GuiElements\ProgressBar.cs" />
+    <Compile Include="GuiElements\Toolbar.cs" />
+    <Compile Include="Definitions\Orientation.cs" />
+    <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
+    <Compile Include="System\AndroidOrientationEventListener.cs" />
+    <Compile Include="Misc\ColorsManager.cs" />
+    <Compile Include="Graphics\RenderTargetEx.cs" />
+    <Compile Include="GuiElements\List\ListItem_ButtonBase.cs" />
+    <Compile Include="GuiElements\ControlsContainer.cs" />
+    <Compile Include="GuiElements\PositionControls.cs" />
+    <Compile Include="ContentTypes\NinePatchImage.cs" />
+    <Compile Include="Misc\PerformanceProfiler.cs" />
+    <Compile Include="GuiElements\ScrollingSelector\DateTimeContext.cs" />
+    <Compile Include="GuiElements\ScrollingSelector\ISelectorContext.cs" />
+    <Compile Include="GuiElements\ScrollingSelector\ScrollingSelector.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="GuiElements\RichContentElement.cs" />
+    <Compile Include="ContentPresenters\RichContentPresenter.cs" />
+    <Compile Include="GuiElements\List\ListItem_TextButton.cs" />
+    <Compile Include="ContentManagement\LoadResourceInfo.cs" />
+    <Compile Include="GuiElements\List\ListItem_MultilineLabel.cs" />
+    <Compile Include="CrashReporter\UnhandledExceptionHandler.cs" />
+    <Compile Include="ContentTypes\FontLoader.cs" />
+    <Compile Include="ContentPresenters\IFontPresenter.cs" />
+    <Compile Include="ContentPresenters\SpriteFontPresenter.cs" />
+    <Compile Include="ContentTypes\TextureEx.cs" />
+    <Compile Include="Games\Platform\Physics\IObjFinder.cs" />
+    <Compile Include="Graphics\3D\ModelX\Material.cs" />
+    <Compile Include="Graphics\3D\ModelX\MaterialTextures.cs" />
+    <Compile Include="Graphics\3D\ModelX\ModelSubset.cs" />
+    <Compile Include="Graphics\3D\ModelX\ModelX.cs" />
+    <Compile Include="Graphics\3D\ModelX\Exporters\EmxExporter.cs" />
+    <Compile Include="Graphics\3D\ModelX\Exporters\IExporter.cs" />
+    <Compile Include="Graphics\3D\ModelX\Importers\EmxImporter.cs" />
+    <Compile Include="Graphics\3D\ModelX\Importers\IImporter.cs" />
+    <Compile Include="Graphics\3D\ModelX\Importers\ObjImporter.cs" />
+    <Compile Include="Graphics\3D\ModelX\Importers\PlyImporter.cs" />
+    <Compile Include="ContentTypes\ModelXLoader.cs" />
+    <Compile Include="Graphics\3D\ModelX\ModelXRenderer.cs" />
+    <Compile Include="Graphics\3D\BasicShaderEffect.cs" />
+    <Compile Include="Graphics\3D\IShaderEffect.cs" />
+    <Compile Include="Misc\ConsoleEx.cs" />
+    <Compile Include="Misc\RemoteConsoleClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AboutResources.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\Strings.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="ContentGenerators\" />
+    <Folder Include="ContentManagement\" />
+    <Folder Include="ContentPresenters\" />
+    <Folder Include="ContentTypes\" />
+    <Folder Include="Cs\" />
+    <Folder Include="Definitions\" />
+    <Folder Include="Gamer\" />
+    <Folder Include="Games\" />
+    <Folder Include="GuiElements\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Input\" />
+    <Folder Include="Media\" />
+    <Folder Include="Misc\" />
+    <Folder Include="ScreenManagement\" />
+    <Folder Include="Settings\" />
+    <Folder Include="System\" />
+    <Folder Include="Graphics\" />
+    <Folder Include="GuiElements\ScrollingSelector\" />
+    <Folder Include="CrashReporter\" />
+    <Folder Include="Graphics\3D\" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <StandardHeader Text="/// This file is a part of the EBATIANOS.ESSENTIALS class library.&#xA;/// (c)2013-2014 EBATIANO'S a.k.a. Sebastian Sejud. All rights reserved.&#xA;///&#xA;/// THIS SOURCE FILE IS THE PROPERTY OF EBATIANO'S A.K.A. SEBASTIAN SEJUD &#xA;/// AND IS NOT TO BE RE-DISTRIBUTED BY ANY MEANS WHATSOEVER WITHOUT &#xA;/// THE EXPRESSED WRITTEN CONSENT OF EBATIANO'S A.K.A. SEBASTIAN SEJUD.&#xA;///&#xA;/// THIS SOURCE CODE CAN ONLY BE USED UNDER THE TERMS AND CONDITIONS OUTLINED&#xA;/// IN THE EBATIANOS.ESSENTIALS LICENSE AGREEMENT. &#xA;/// EBATIANO'S A.K.A. SEBASTIAN SEJUD GRANTS TO YOU (ONE SOFTWARE DEVELOPER) &#xA;/// THE LIMITED RIGHT TO USE THIS SOFTWARE ON A SINGLE COMPUTER.&#xA;///&#xA;/// CONTACT INFORMATION:&#xA;/// contact@ebatianos.com&#xA;/// www.ebatianos.com/essentials-library&#xA;/// &#xA;///---------------------------------------------------------------------------&#xA;" IncludeInNewFiles="True" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+</Project>
