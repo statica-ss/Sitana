@@ -1,2 +1,1 @@
-Download third party libraries from:
-http://ebatianos.com/sitana/ThirdParty.zip
+Run Download.exe to download all necessary files.
