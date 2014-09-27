@@ -6,4 +6,4 @@ Sitana Framework is multiple platform Games (and Apps) framework based on MonoGa
 
 Instalation
 -----------
-After clone download [ThirdParty.zip](http://ebatianos.com/sitana/ThirdParty.zip) and unpack it to main folder.
+Run Download.exe to download all necessary packages.

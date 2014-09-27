@@ -211,5 +211,6 @@
     <Compile Include="Ui\Views\Enums\UiButtonMode.cs" />
     <Compile Include="Ui\Views\Parameters\PositionParameters.cs" />
     <Compile Include="Ui\Views\Parameters\UiViewDrawParameters.cs" />
+    <Compile Include="Helpers\StringParser.cs" />
   </ItemGroup>
 </Project>
