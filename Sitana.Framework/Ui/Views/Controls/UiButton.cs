@@ -26,14 +26,6 @@ namespace Sitana.Framework.Ui.Views
             Pushed
         }
 
-        public string OnClickMethodName
-        {
-            set
-            {
-                RegisterDelegate(Delegates.OnClick, typeof(OnClickDelegate), value);
-            }
-        }
-
         protected UiButtonMode ButtonMode
         {
             set
@@ -203,8 +195,7 @@ namespace Sitana.Framework.Ui.Views
 
         void DoAction()
         {
-            var del = GetDelegate<OnClickDelegate>(Delegates.OnClick);
-            if (del != null) del(this);
+            CallDelegate("Click");
         }
     }
 }

@@ -25,6 +25,7 @@ using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using System;
 using Sitana.Framework.Ui.Controllers;
+using Sitana.Framework.Cs;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -43,7 +44,7 @@ namespace Sitana.Framework.Ui.Views
             file["TextColor"] = parser.ParseColor("TextColor");
         }
 
-        public StringBuilder Text { get; private set; }
+        public SharedString Text { get; private set; }
         public ColorWrapper TextColor { get; private set; }
 
         public string FontName
@@ -105,9 +106,8 @@ namespace Sitana.Framework.Ui.Views
             FontName = file["Font"] as string;
             FontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"]);
 
-            Text = DefinitionResolver.GetStringBuilder(controller, binding, file["Text"]);
+            Text = DefinitionResolver.GetSharedString(controller, binding, file["Text"]);
             TextColor = DefinitionResolver.GetColorWrapper(controller, binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
-
         }
     }
 }

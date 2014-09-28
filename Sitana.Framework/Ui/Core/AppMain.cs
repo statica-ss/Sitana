@@ -75,6 +75,12 @@ namespace Sitana.Framework.Ui.Core
 
         protected override void Dispose(bool disposing)
         {
+            if (MainView != null)
+            {
+                MainView.ViewRemoved();
+                MainView = null;
+            }
+
             base.Dispose(disposing);
             Current = null;
         }
