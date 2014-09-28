@@ -28,4 +28,25 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             Name = name;
         }
     }
+
+    public struct InvokeParam
+    {
+        public readonly string Id;
+        public readonly object Value;
+
+        public InvokeParam(string id, object value)
+        {
+            Id = id;
+            Value = value;
+        }
+    }
+
+    public class InvokeParameters: Dictionary<string, object>
+    {
+        public void Set(InvokeParam param)
+        {
+            Remove(param.Id);
+            Add(param.Id, param.Value);
+        }
+    }
 }

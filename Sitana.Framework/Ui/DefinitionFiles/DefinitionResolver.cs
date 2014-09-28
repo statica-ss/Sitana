@@ -8,31 +8,13 @@ using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Content;
 using System.Reflection;
 using Sitana.Framework.Ui.Controllers;
+using Sitana.Framework.Cs;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
 {
     public static class DefinitionResolver
     {
-        private static readonly Dictionary<string, object> _parameters = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
-
-        public static object Parameter(string id)
-        {
-            object val;
-
-            if ( !_parameters.TryGetValue(id, out val) )
-            {
-                throw new Exception(String.Format("Unable to find parameter {0}.", id));
-            }
-            return val;
-        }
-
-        public static void Parameter(string id, object value)
-        {
-            _parameters.Remove(id);
-            _parameters.Add(id, value);
-        }
-
-        public static object GetFieldValue(UiController controller, object binding, object definition)
+        public static object GetFieldValue(UiController controller, object binding, object definition, InvokeParameters invokeParameters)
         {
             FieldName field = (FieldName)definition;
 
@@ -48,7 +30,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
                 for (int idx = 0; idx < indices.Length; ++idx)
                 {
-                    indices[idx] = (int)ObtainParameter(field.Parameters[idx]);
+                    indices[idx] = (int)ObtainParameter(invokeParameters, field.Parameters[idx]);
                 }
             }
 
@@ -74,7 +56,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             throw new Exception(String.Format("Cannot find field: {0}{1}", field.Name, indices != null ? '['+indices.ToString()+']' : ""));
         }
 
-        public static object InvokeMethod(UiController controller, object binding, object definition)
+        public static object InvokeMethod(UiController controller, object binding, object definition, InvokeParameters invokeParameters)
         {
             MethodName method = (MethodName)definition;
 
@@ -87,7 +69,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             {
                 for (int idx = 0; idx < parameters.Length; ++idx)
                 {
-                    parameters[idx] = ObtainParameter(method.Parameters[idx]);
+                    parameters[idx] = ObtainParameter(invokeParameters, method.Parameters[idx]);
                     types[idx] = parameters[idx] != null ? parameters[idx].GetType() : typeof(object);
                 }
             }
@@ -111,9 +93,9 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             throw new Exception(String.Format("Cannot find method: {0}({1})", method.Name, parameters.ToString()));
         }
 
-        public static T InvokeMethod<T>(UiController controller, object binding, object definition)
+        public static T InvokeMethod<T>(UiController controller, object binding, object definition, InvokeParameters invokeParameters)
         {
-            object result = InvokeMethod(controller, binding, definition);
+            object result = InvokeMethod(controller, binding, definition, invokeParameters);
             return (T)Convert.ChangeType(result, typeof(T));
         }
 
@@ -121,10 +103,10 @@ namespace Sitana.Framework.Ui.DefinitionFiles
         {
             if ( definition is FieldName )
             {
-                return GetFieldValue(controller, binding, definition);
+                return GetFieldValue(controller, binding, definition, null);
             }
 
-            return InvokeMethod(controller, binding, definition);
+            return InvokeMethod(controller, binding, definition, null);
         }
 
         public static T GetValueFromMethodOrField<T>(UiController controller, object binding, object definition)
@@ -133,11 +115,12 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return (T)Convert.ChangeType(result, typeof(T));
         }
 
-        static object ObtainParameter(object parameter)
+        static object ObtainParameter(InvokeParameters invokeParameters, object parameter)
         {
             if ( parameter is ReflectionParameter)
             {
-                return Parameter(((ReflectionParameter)parameter).Name);
+                ReflectionParameter rp = (ReflectionParameter)parameter;
+                return invokeParameters[rp.Name];
             }
 
             return parameter;
@@ -152,9 +135,9 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
             object result = GetValueFromMethodOrField(controller, binding, definition);
 
-            if (result is StringBuilder)
+            if ((result is StringBuilder) || (result is SharedString))
             {
-                return (result as StringBuilder).ToString();
+                return result.ToString();
             }
 
             if (result is string)
@@ -165,23 +148,23 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return null;
         }
 
-        public static StringBuilder GetStringBuilder(UiController controller, object binding, object definition)
+        public static SharedString GetSharedString(UiController controller, object binding, object definition)
         {
             if ( definition is string )
             {
-                return new StringBuilder((string)definition);
+                return new SharedString((string)definition);
             }
 
             object result = GetValueFromMethodOrField(controller, binding, definition);
 
-            if (result is StringBuilder)
+            if (result is SharedString)
             {
-                return result as StringBuilder;
+                return result as SharedString;
             }
 
             if (result is string)
             {
-                return new StringBuilder((string)result);
+                return new SharedString((string)result);
             }
 
             return null;

@@ -36,16 +36,9 @@ namespace Sitana.Framework.Ui.Views
             file["BackgroundColor"] = parser.ParseColor("BackgroundColor");
 
             file["Opacity"] = parser.ParseInt("Opacity", 100);
-        }
 
-        delegate void NoArgsVoid();
-
-        enum Delegates
-        {
-            OnAdded,
-            OnRemoved,
-            OnActivated,
-            OnDeactivated
+            file["ViewRemoved"] = parser.ParseDelegate("ViewRemoved");
+            file["ViewAdded"] = parser.ParseDelegate("ViewAdded");
         }
 
         public string Id { get; set; }
@@ -58,7 +51,7 @@ namespace Sitana.Framework.Ui.Views
 
         public PositionParameters PositionParameters { get; private set; }
 
-        DelegatesMap _delegates;
+        Dictionary<string, object> _delegates = new Dictionary<string, object>();
 
         public float Opacity { get; set; }
         
@@ -67,6 +60,8 @@ namespace Sitana.Framework.Ui.Views
         public Margin Margin { get { return PositionParameters.Margin; } set { PositionParameters.Margin = value; } }
 
         private UiController _controller = null;
+
+        public object Binding { get; private set; }
 
         public virtual UiContainer Parent
         {
@@ -97,6 +92,7 @@ namespace Sitana.Framework.Ui.Views
         protected float DisplayOpacity { get; private set; }
 
         private ColorWrapper _backgroundColor = new ColorWrapper(Color.Transparent);
+        private InvokeParameters _invokeParameters = new InvokeParameters();
 
         public virtual Color BackgroundColor
         {
@@ -144,31 +140,25 @@ namespace Sitana.Framework.Ui.Views
             Update(time);
         }
 
-        void CallDelegate(Enum id)
-        {
-            var del = GetDelegate<NoArgsVoid>(id);
-            if (del != null) del();
-        }
-
         internal void ViewActivated()
         {
-            CallDelegate(Delegates.OnActivated);
+            CallDelegate("ViewActivated");
         }
 
         internal void ViewDeactivated()
         {
-            CallDelegate(Delegates.OnDeactivated);
+            CallDelegate("ViewDeactivated");
         }
 
         public void ViewAdded()
         {
-            CallDelegate(Delegates.OnAdded);
+            CallDelegate("ViewAdded");
             OnAdded();
         }
 
         public void ViewRemoved()
         {
-            CallDelegate(Delegates.OnRemoved);
+            CallDelegate("ViewRemoved");
             OnRemoved();
         }
 
@@ -213,18 +203,6 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected void RegisterDelegate(Enum id, Type delegateType, string methodName)
-        {
-            if (_delegates == null) _delegates = new DelegatesMap();
-            _delegates.RegisterDelegate(id, delegateType, methodName);
-        }
-
-        protected DELEGATE GetDelegate<DELEGATE>(Enum id)
-        {
-            if (_delegates == null) return default(DELEGATE);
-            return (DELEGATE)(object)_delegates.FindMethod(id, Controller);
-        }
-
         protected void Init(ref UiController controller, object binding, DefinitionFile file)
         {
             Type controllerType = file["Controller"] as Type;
@@ -253,6 +231,8 @@ namespace Sitana.Framework.Ui.Views
             }
 
             BackgroundColor = DefinitionResolver.GetColor(controller, binding, file["BackgroundColor"]) ?? Color.Transparent;
+            RegisterDelegate("ViewRemoved", file["ViewRemoved"]);
+            RegisterDelegate("ViewAdded", file["ViewAdded"]);
         }
 
         protected abstract void Init(UiController controller, object binding, DefinitionFile file);
@@ -270,6 +250,44 @@ namespace Sitana.Framework.Ui.Views
         void IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
         {
             Init(controller, binding, file);
+        }
+
+        protected void RegisterDelegate(string id, object definition)
+        {
+            if (definition != null)
+            {
+                _delegates.Add(id, definition);
+            }
+        }
+
+        protected object CallDelegate(string id, params InvokeParam[] args)
+        {
+            _invokeParameters.Clear();
+
+            foreach (var param in args)
+            {
+                _invokeParameters.Set(param);
+            }
+
+            object definition;
+
+            if (_delegates.TryGetValue(id, out definition))
+            {
+                return DefinitionResolver.InvokeMethod(Controller, Binding, _delegates[id], _invokeParameters);
+            }
+
+            return null;
+        }
+
+        protected bool HasDelegate(string id)
+        {
+            return _delegates.ContainsKey(id);
+        }
+
+        protected T CallDelegate<T>(string id, params InvokeParam[] args)
+        {
+            object result = CallDelegate(id, args);
+            return (T)Convert.ChangeType(result, typeof(T));
         }
     }
 }

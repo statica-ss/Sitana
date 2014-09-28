@@ -55,7 +55,7 @@
     <Compile Include="ContentManagement\FontManager.cs" />
     <Compile Include="ContentManagement\TitleContainerEx.cs" />
     <Compile Include="ContentTypes\XFile.cs" />
-    <Compile Include="Cs\DelegatesMap.cs" />
+    <Compile Include="Cs\SharedString.cs" />
     <Compile Include="Cs\SharedValue.cs" />
     <Compile Include="Definitions\Length.cs" />
     <Compile Include="Definitions\Margin.cs" />

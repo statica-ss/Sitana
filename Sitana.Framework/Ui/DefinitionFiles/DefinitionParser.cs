@@ -112,12 +112,6 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
         object ParseParameter(string methodDef, string val)
         {
-            if (val.StartsWith("$"))
-            {
-                val = val.Substring(1).Trim();
-                return new ReflectionParameter(val);
-            }
-
             if ( val.StartsWith("\'"))
             {
                 val = val.Trim('\'');
@@ -132,10 +126,22 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
                 return intVal;
             }
 
-            Exception ex = Error("Unable to solve parameter type in method: {0}.", methodDef);
-            if (ex != null) throw ex;
+            val = val.Trim();
+            return new ReflectionParameter(val);
+        }
 
-            return val;
+        public object ParseDelegate(string name)
+        {
+            name = Value(name);
+            
+            object result = ParseMethodOrField(name);
+
+            if (result is MethodName || result is FieldName)
+            {
+                return result;
+            }
+
+            return null;
         }
 
         public object ParseString(string name)
