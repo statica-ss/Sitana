@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Sitana.Framework.Content;
+using Sitana.Framework.Cs;
 
 namespace Sitana.Framework.Graphics
 {
@@ -88,6 +89,19 @@ namespace Sitana.Framework.Graphics
             _spriteBatch.DrawString(_font, text, position, color);
         }
 
+        public void DrawText(SharedString text, Rectangle target, TextAlign align, Color color)
+        {
+            if (_font == null || text == null)
+            {
+                return;
+            }
+
+            lock (text)
+            {
+                DrawText(text.StringBuilder, target, align, color);
+            }
+        }
+
         public void DrawText(StringBuilder text, Point position, TextAlign align, Color color)
         {
             Rectangle target = new Rectangle(position.X, position.Y, 0, 0);
@@ -98,6 +112,21 @@ namespace Sitana.Framework.Graphics
         {
             Rectangle target = new Rectangle(position.X, position.Y, 0, 0);
             DrawText(text, target, align, color);
+        }
+
+        public void DrawText(SharedString text, Point position, TextAlign align, Color color)
+        {
+            if (_font == null || text == null)
+            {
+                return;
+            }
+
+            Rectangle target = new Rectangle(position.X, position.Y, 0, 0);
+
+            lock (text)
+            {
+                DrawText(text.StringBuilder, target, align, color);
+            }
         }
 
         public void DrawNinePatchRect(Rectangle target, Color color)
