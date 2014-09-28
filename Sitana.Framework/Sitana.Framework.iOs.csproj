@@ -107,7 +107,6 @@
     <Compile Include="Cs\BitConverterLE.cs" />
     <Compile Include="Cs\Containers.cs" />
     <Compile Include="Cs\CsToolkit.cs" />
-    <Compile Include="Cs\DelegatesMap.cs" />
     <Compile Include="Cs\Deletages.cs" />
     <Compile Include="Cs\IIndexedContainer.cs" />
     <Compile Include="Cs\IndexedArray.cs" />
@@ -212,5 +211,6 @@
     <Compile Include="Ui\Views\Parameters\PositionParameters.cs" />
     <Compile Include="Ui\Views\Parameters\UiViewDrawParameters.cs" />
     <Compile Include="Helpers\StringParser.cs" />
+    <Compile Include="Cs\SharedString.cs" />
   </ItemGroup>
 </Project>
