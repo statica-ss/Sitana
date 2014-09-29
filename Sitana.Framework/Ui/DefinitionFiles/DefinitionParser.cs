@@ -43,8 +43,6 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             return _node.Attribute(attribute);
         }
 
-        
-
         object ParseMethodOrField(string name)
         {
             if (name.StartsWith("{"))

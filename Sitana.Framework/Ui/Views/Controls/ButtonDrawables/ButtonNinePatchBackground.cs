@@ -12,11 +12,11 @@ using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Ui.Views.ButtonDrawables
 {
-    public class ButtonNinePatchBackground : ButtonSolidBackground
+    public class NinePatchBackground : SolidBackground
     {
         public new static void Parse(XNode node, DefinitionFile file)
         {
-            ButtonSolidBackground.Parse(node, file);
+            SolidBackground.Parse(node, file);
 
             var parser = new DefinitionParser(node);
 
@@ -48,9 +48,9 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _imagePushed = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImagePushed"]);
         }
 
-        public override void Draw(AdvancedDrawBatch drawBatch, ref Rectangle target, UiButton.State state)
+        public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.State state, object argument)
         {
-            Color color = ColorFromState(state);
+            Color color = ColorFromState(state) * opacity;
 
             NinePatchImage image = _imageReleased;
 

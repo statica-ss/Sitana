@@ -7,16 +7,77 @@ using Microsoft.Xna.Framework;
 using Sitana.Framework.Input.TouchPad;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Xml;
+using Sitana.Framework.Essentials.Ui.DefinitionFiles;
+using Sitana.Framework.Diagnostics;
+using System;
+using Sitana.Framework.Ui.Views.ButtonDrawables;
+using Sitana.Framework.Cs;
 
 namespace Sitana.Framework.Ui.Views
 {
     public class UiButton: UiView, IGestureListener
     {
-        delegate void OnClickDelegate(UiButton sender);
-
-        enum Delegates
+        public new static void Parse(XNode node, DefinitionFile file)
         {
-            OnClick
+            UiView.Parse(node, file);
+
+            var parser = new DefinitionParser(node);
+
+            file["Text"] = parser.ParseString("Text");
+
+            foreach (var cn in node.Nodes)
+            {
+                switch (cn.Tag)
+                {
+                    case "UiButton.Drawables":
+                        ParseDrawables(cn, file);
+                        break;
+                }
+            }
+        }
+
+        protected static void ParseDrawables(XNode node, DefinitionFile file)
+        {
+            List<DefinitionFile> list = new List<DefinitionFile>();
+
+            for (int idx = 0; idx < node.Nodes.Count; ++idx)
+            {
+                XNode childNode = node.Nodes[idx];
+                DefinitionFile newFile = DefinitionFile.LoadFile(childNode);
+
+                if (!newFile.Class.IsSubclassOf(typeof(ButtonDrawable)))
+                {
+                    string error = node.NodeError("Button Drawable must inherit from ButtonDrawable type.");
+                    if (DefinitionParser.EnableCheckMode)
+                    {
+                        ConsoleEx.WriteLine(error);
+                    }
+                    else
+                    {
+                        throw new Exception(error);
+                    }
+                }
+
+                list.Add(newFile);
+            }
+
+            if (file["Drawables"] != null)
+            {
+                string error = node.NodeError("Drawables already defined");
+                if (DefinitionParser.EnableCheckMode)
+                {
+                    ConsoleEx.WriteLine(error);
+                }
+                else
+                {
+                    throw new Exception(error);
+                }
+            }
+            else
+            {
+                file["Drawables"] = list;
+            }
         }
 
         public enum State
@@ -46,6 +107,23 @@ namespace Sitana.Framework.Ui.Views
         private int _touchId = 0;
 
         private Dictionary<int, bool> _touches = new Dictionary<int, bool>();
+
+        private List<ButtonDrawable> _drawables = new List<ButtonDrawable>();
+
+        private SharedString _text;
+
+        public State ButtonState
+        {
+            get
+            {
+                return Enabled ? (IsPushed ? State.Pushed : State.Released) : State.Disabled;
+            }
+        }
+
+        public UiButton()
+        {
+            Enabled = true;
+        }
 
         protected override void OnAdded()
         {
@@ -191,11 +269,45 @@ namespace Sitana.Framework.Ui.Views
         protected override void Init(UiController controller, object binding, DefinitionFile file)
         {
             base.Init(ref controller, binding, file);
+
+            _text = DefinitionResolver.GetSharedString(controller, binding, file["Text"]);
+
+            List<DefinitionFile> drawableFiles = file["Drawables"] as List<DefinitionFile>;
+
+            if ( drawableFiles != null )
+            {
+                foreach (var def in drawableFiles)
+                {
+                    ButtonDrawable drawable = def.CreateInstance(controller, binding) as ButtonDrawable;
+
+                    if (drawable != null)
+                    {
+                        _drawables.Add(drawable);
+                    }
+                }
+            }
+        }
+
+        protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
+        {
+            if (DisplayOpacity == 0)
+            {
+                return;
+            }
+
+            var batch = parameters.DrawBatch;
+
+            for (int idx = 0; idx < _drawables.Count; ++idx)
+            {
+                var drawable = _drawables[idx];
+
+                drawable.Draw(batch, ScreenBounds, DisplayOpacity, ButtonState, _text);
+            }
         }
 
         void DoAction()
         {
-            CallDelegate("Click");
+            CallDelegate("Click", new InvokeParam("sender", this));
         }
     }
 }

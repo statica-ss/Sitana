@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="Graphics\Fonts\FontManager.cs" />
     <Compile Include="ContentManagement\TitleContainerEx.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
     <Compile Include="Xml\XFile.cs" />
     <Compile Include="Cs\SharedString.cs" />
     <Compile Include="Cs\SharedValue.cs" />
