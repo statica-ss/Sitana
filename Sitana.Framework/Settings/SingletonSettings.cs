@@ -15,16 +15,16 @@ namespace Sitana.Framework.Settings
     {
         // Defines if type has been loaded or created.
         [System.Xml.Serialization.XmlIgnoreAttribute]
-        public Boolean Loaded { get; private set; }
+        public bool Loaded { get; private set; }
 
         // Instance of type.
         private static T _instance;
 
         // Flag to avoid creation of an instance using new.
-        private static Boolean _allowCreation = false;
+        private static bool _allowCreation = false;
 
         // Lock object for synchronization.
-        private static Object _lockObj = new Object();
+        private static object _lockObj = new object();
 
         // Returns instance of singleton class.
         public static T Instance

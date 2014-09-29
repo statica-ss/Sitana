@@ -15,6 +15,7 @@ using Sitana.Framework.Cs;
 using System.Text;
 using System;
 using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Content
 {
@@ -95,7 +96,6 @@ namespace Sitana.Framework.Content
             Sprite.Register();
             BitmapFont.Register();
             NinePatchImage.Register();
-            TextureEx.Register();
             ModelXLoader.Register();
             XFile.Register();
             DefinitionFile.Register();

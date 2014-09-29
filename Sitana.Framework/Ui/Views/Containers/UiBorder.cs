@@ -3,6 +3,7 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Ui.Views
 {

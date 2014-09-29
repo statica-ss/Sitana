@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Content
 {

@@ -20,7 +20,7 @@ namespace Sitana.Framework.Settings
         /// </summary>
         /// <param name="path">Path to isolated storage file.</param>
         /// <param name="obj">Object to serialize.</param>
-        public static void Serialize(String path, Object obj)
+        public static void Serialize(string path, object obj)
         {
             // Write to the Isolated Storage
             var xmlWriterSettings = new XmlWriterSettings { Indent = true };
@@ -50,7 +50,7 @@ namespace Sitana.Framework.Settings
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="path">Path to isolated storage file.</param>
         /// <returns></returns>
-        public static T Deserialize<T>(String path)
+        public static T Deserialize<T>(string path)
         {
             T obj = default(T);
 
@@ -77,7 +77,7 @@ namespace Sitana.Framework.Settings
             return obj;
         }
 
-        public static String PathFromType(Type type)
+        public static string PathFromType(Type type)
         {
             return type.Name + "__(" + type.Namespace + ").xml";
         }

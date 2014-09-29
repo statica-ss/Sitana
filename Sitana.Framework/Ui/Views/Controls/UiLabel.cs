@@ -26,6 +26,7 @@ using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using System;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Cs;
+using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Ui.Views
 {

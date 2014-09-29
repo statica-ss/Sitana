@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace Sitana.Framework.Content
+namespace Sitana.Framework.Xml
 {
     public class XFile : ContentLoader.AdditionalType
     {

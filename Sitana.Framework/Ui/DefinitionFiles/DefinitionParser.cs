@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Sitana.Framework.Content;
 using Sitana.Framework.Diagnostics;
 using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 {

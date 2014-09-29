@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// SITANA - Copyright (C) The Sitana Team.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE.txt', which is part of this source code package.using Sitana.Framework.Content;
+
+using System;
 using System.Diagnostics;
 using System.IO.IsolatedStorage;
 using System.Reflection;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+using Sitana.Framework.Cs;
 
 namespace Sitana.Framework
 {
@@ -16,12 +17,12 @@ namespace Sitana.Framework
             return IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly | IsolatedStorageScope.Domain, typeof(System.Security.Policy.Url), typeof(System.Security.Policy.Url));
         }
         
-        public static Boolean CloseApp()
+        public static bool CloseApp()
         {
             return false;
         }
 
-        public static void OpenWebsite(String url)
+        public static void OpenWebsite(string url)
         {
             if (url.StartsWith(Uri.UriSchemeHttp) || url.StartsWith(Uri.UriSchemeHttps))
             {
@@ -29,7 +30,7 @@ namespace Sitana.Framework
             }
         }
 
-        public static void OpenMail(String name, String address, String subject, String text, Action completedAction)
+        public static void OpenMail(string name, string address, string subject, string text, EmptyArgsVoidDelegate completed)
         {
             name = Uri.EscapeDataString(name);
             subject = Uri.EscapeDataString(subject);
@@ -38,13 +39,13 @@ namespace Sitana.Framework
 
             Process.Start(command);
 
-            if (completedAction != null)
+            if (completed != null)
             {
-                completedAction.Invoke();
+                completed.Invoke();
             }
         }
 
-        public static String CurrentVersion
+        public static string CurrentVersion
         {
             get
             {

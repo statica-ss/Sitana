@@ -13,6 +13,7 @@ using Sitana.Framework.Cs;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Diagnostics;
+using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Ui.Views
 {

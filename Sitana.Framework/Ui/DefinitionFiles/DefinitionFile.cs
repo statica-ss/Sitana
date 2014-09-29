@@ -5,6 +5,7 @@ using Sitana.Framework.Diagnostics;
 using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Content;
+using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
 {
