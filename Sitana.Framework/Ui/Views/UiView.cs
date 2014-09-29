@@ -204,11 +204,13 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected void Init(ref UiController controller, object binding, DefinitionFile definition)
+        protected virtual void Init(object controller, object binding, DefinitionFile definition)
         {
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiButton));
 
             Type controllerType = file["Controller"] as Type;
+
+            _controller = controller as UiController;
 
             if (controllerType != null)
             {
@@ -217,15 +219,14 @@ namespace Sitana.Framework.Ui.Views
                 if (newController != null)
                 {
                     newController.AttachView(this);
-                    Controller = newController;
-                    controller = newController;
+                    Controller = newController;                   
                 }
             }
 
             Id = (string)file["Id"];
-            Visible = DefinitionResolver.Get<bool>(controller, binding, file["Visible"], true);
+            Visible = DefinitionResolver.Get<bool>(Controller, binding, file["Visible"], true);
 
-            int opacity = DefinitionResolver.Get<int>(controller, binding, file["Opacity"], 100);
+            int opacity = DefinitionResolver.Get<int>(Controller, binding, file["Opacity"], 100);
             Opacity = (float)opacity / 100.0f;
 
             if (Visible)
@@ -233,12 +234,10 @@ namespace Sitana.Framework.Ui.Views
                 DisplayOpacity = Opacity;
             }
 
-            BackgroundColor = DefinitionResolver.GetColor(controller, binding, file["BackgroundColor"]) ?? Color.Transparent;
+            BackgroundColor = DefinitionResolver.GetColor(Controller, binding, file["BackgroundColor"]) ?? Color.Transparent;
             RegisterDelegate("ViewRemoved", file["ViewRemoved"]);
             RegisterDelegate("ViewAdded", file["ViewAdded"]);
         }
-
-        protected abstract void Init(UiController controller, object binding, DefinitionFile file);
 
         public void CreatePositionParameters(UiController controller, object binding, DefinitionFile file, Type type)
         {
@@ -291,6 +290,11 @@ namespace Sitana.Framework.Ui.Views
         {
             object result = CallDelegate(id, args);
             return (T)Convert.ChangeType(result, typeof(T));
+        }
+
+        public virtual Point ComputeSize(int width, int height)
+        {
+            return new Point(PositionParameters.Width.Compute(width-PositionParameters.Margin.Width), PositionParameters.Height.Compute(height-PositionParameters.Margin.Height));
         }
     }
 }

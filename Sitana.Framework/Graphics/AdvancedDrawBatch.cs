@@ -106,23 +106,6 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        //public CullMode CullMode
-        //{
-        //    get
-        //    {
-        //        return _rasterizerState.CullMode;
-        //    }
-
-        //    set
-        //    {
-        //        if (_rasterizerState.CullMode != value)
-        //        {
-        //            Flush();
-        //            _rasterizerState.CullMode = value;
-        //        }
-        //    }
-        //}
-
         private Rectangle? ScissorRectangle
         {
             get

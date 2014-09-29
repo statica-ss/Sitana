@@ -97,25 +97,6 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected override void Draw(ref UiViewDrawParameters parameters)
-        {
-            if (DisplayOpacity == 0)
-            {
-                return;
-            }
-
-            UiViewDrawParameters drawParams = parameters;
-
-            parameters.DrawBatch.DrawRectangle(ScreenBounds, BackgroundColor * DisplayOpacity);
-
-            for (int idx = 0; idx < _children.Count; ++idx)
-            {
-                parameters.DrawBatch.PushClip(_children[idx].ScreenBounds);
-                _children[idx].ViewDraw(ref drawParams);
-                parameters.DrawBatch.PopClip();
-            }
-        }
-
         protected override Rectangle CalculateChildBounds(UiView view)
         {
             if (_children.Count < 2)
@@ -202,32 +183,17 @@ namespace Sitana.Framework.Ui.Views
             _minSizeFromChildren = new Point(minSizeX, minSizeY);
         }
 
-        protected override void Init(UiController controller, object binding, DefinitionFile definition)
+        protected override void Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(ref controller, binding, definition);
+            base.Init(controller, binding, definition);
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiSplitterView));
 
-            SplitMode = DefinitionResolver.Get<Mode>(controller, binding, file["Mode"], Mode.Vertical);
-            _splitterPosition = (float)DefinitionResolver.Get<Length>(controller, binding, file["Position"], Length.Default).Compute(100) / 100.0f;
-            _splitterSize = DefinitionResolver.Get<Length>(controller, binding, file["SplitterSize"], Length.Default).Compute(100);
+            SplitMode = DefinitionResolver.Get<Mode>(Controller, binding, file["Mode"], Mode.Vertical);
+            _splitterPosition = (float)DefinitionResolver.Get<Length>(Controller, binding, file["Position"], Length.Default).Compute(100) / 100.0f;
+            _splitterSize = DefinitionResolver.Get<Length>(Controller, binding, file["SplitterSize"], Length.Default).Compute(100);
 
-            List<DefinitionFile> children = file["Children"] as List<DefinitionFile>;
-
-            if (children != null)
-            {
-                for (int idx = 0; idx < children.Count; ++idx)
-                {
-                    var childFile = children[idx];
-                    var child = childFile.CreateInstance(controller, binding) as UiView;
-                    child.CreatePositionParameters(controller, binding, childFile, typeof(PositionParameters));
-
-                    if (child != null)
-                    {
-                        Add(child);
-                    }
-                }
-            }
+            InitChildren(Controller, binding, definition);
         }
     }
 }

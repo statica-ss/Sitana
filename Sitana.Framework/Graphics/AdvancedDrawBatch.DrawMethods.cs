@@ -134,5 +134,23 @@ namespace Sitana.Framework.Graphics
             SpriteBatchIsNeeded();
             _ninePatchImage.Draw(_spriteBatch, target, Vector2.One, color);
         }
+
+        public void DrawImage(Point position, Point size, Point textureSrc, Color color)
+        {
+            if (_texture != null)
+            {
+                PushVertex(new Vector2(position.X, position.Y), color, new Point(textureSrc.X, textureSrc.Y));
+                PushVertex(new Vector2(position.X + size.X, position.Y), color, new Point(textureSrc.X + size.X, textureSrc.Y));
+                PushVertex(new Vector2(position.X, position.Y + size.Y), color, new Point(textureSrc.X, textureSrc.Y+size.Y));
+                
+                PushVertex(new Vector2(position.X + size.X, position.Y), color, new Point(textureSrc.X + size.X, textureSrc.Y));
+                PushVertex(new Vector2(position.X, position.Y + size.Y), color, new Point(textureSrc.X, textureSrc.Y + size.Y));
+                PushVertex(new Vector2(position.X+size.X, position.Y+size.Y), color, new Point(textureSrc.X+size.X, textureSrc.Y+size.Y));
+            }
+            else
+            {
+                DrawRectangle(new Rectangle(position.X, position.Y, size.X, size.Y), color);
+            }
+        }
     }
 }

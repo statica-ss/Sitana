@@ -12,7 +12,7 @@ using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 {
-    public class DefinitionParser
+    public struct DefinitionParser
     {
         public static bool EnableCheckMode = false;
 
@@ -301,7 +301,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
             if (name.IsNullOrEmpty())
             {
-                return new Margin(0);
+                return null;
             }
 
             string[] elements = name.Replace(" ", "").Split(',');
@@ -329,7 +329,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             Exception ex = Error(id, "Margin format is 'left,top,right,bottom' or 'all'.");
             if (ex != null) throw ex;
 
-            return new Margin(0);
+            return null;
         }
 
         public object ParseInt(string id)
@@ -378,14 +378,15 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             name = name.Replace(" ", "");
 
             bool percent = name.EndsWith("%");
-
-            name = name.TrimEnd('%');
+            bool add100 = name.StartsWith("@");
+            name = name.Trim('%', '@');
 
             int length;
             
+
             if ( int.TryParse(name, out length))
             {
-                return new Length(length, percent);
+                return new Length(length, percent, add100);
             }
 
             if ( name.ToLowerInvariant() == "auto" )

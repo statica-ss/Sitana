@@ -17,6 +17,7 @@ namespace Sitana.Framework
         bool _percent;
 
         bool _auto;
+        bool _add100;
 
         public bool IsAuto
         {
@@ -28,13 +29,15 @@ namespace Sitana.Framework
 
         public Length(bool auto)
         {
+            _add100 = false;
             _auto = auto;
             _length = 0;
             _percent = false;
         }
 
-        public Length(int length, bool percent)
+        public Length(int length, bool percent, bool add100)
         {
+            _add100 = add100;
             _auto = false;
             _length = length;
             _percent = percent;
@@ -45,16 +48,19 @@ namespace Sitana.Framework
             _auto = false;
             _length = length;
             _percent = false;
+            _add100 = false;
         }
 
         public int Compute(int size)
         {
+            int add = _add100 ? size : 0;
+
             if ( _percent )
             {
-                return _length * size / 100;
+                return add + _length * size / 100;
             }
 
-            return _length;
+            return add + _length;
         }
     }
 }

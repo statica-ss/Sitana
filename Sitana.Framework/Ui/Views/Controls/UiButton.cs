@@ -266,13 +266,13 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected override void Init(UiController controller, object binding, DefinitionFile definition)
+        protected override void Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(ref controller, binding, definition);
+            base.Init(controller, binding, definition);
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiButton));
 
-            _text = DefinitionResolver.GetSharedString(controller, binding, file["Text"]);
+            _text = DefinitionResolver.GetSharedString(Controller, binding, file["Text"]);
 
             List<DefinitionFile> drawableFiles = file["Drawables"] as List<DefinitionFile>;
 
@@ -280,7 +280,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 foreach (var def in drawableFiles)
                 {
-                    ButtonDrawable drawable = def.CreateInstance(controller, binding) as ButtonDrawable;
+                    ButtonDrawable drawable = def.CreateInstance(Controller, binding) as ButtonDrawable;
 
                     if (drawable != null)
                     {
