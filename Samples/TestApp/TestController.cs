@@ -33,7 +33,7 @@ namespace TestApp
             {
                 Color color = new Color(random.Next(256), random.Next(256), random.Next(256));
                 _text.Format("#{0:X2}{1:X2}{2:X2}", color.R, color.G, color.B);
-                _color.Value = color;
+                TextColor.Value = color;
 
                 Thread.Sleep(500);
             }
@@ -71,7 +71,6 @@ namespace TestApp
 
         public ColorWrapper TextColor { get; private set; }
 
-        ColorWrapper _color = new ColorWrapper(Color.Green);
         SharedString _text = new SharedString();
 
         public static void OnLoadContent(AppMain main)
