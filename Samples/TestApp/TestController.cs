@@ -44,6 +44,11 @@ namespace TestApp
             Console.WriteLine("Test button {0} {1}", index, binding);
         }
 
+        public void OnClick(UiButton button)
+        {
+            Console.WriteLine("Test button");
+        }
+
         public bool GetVisible(int val)
         {
             return val > 4;
