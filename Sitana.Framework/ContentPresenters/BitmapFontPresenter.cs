@@ -154,7 +154,7 @@ namespace Sitana.Framework.Content
         private Int32 _biggestWidth = 0;
 
         private Boolean _fixedWidth = false;
-        private Pair<Single, Single>? _underline = null;
+        private Tuple<Single, Single> _underline = null;
 
         private Texture2D _onePixelWhite = null;
         private Vector2 _size = Vector2.Zero;
@@ -220,7 +220,7 @@ namespace Sitana.Framework.Content
                                 {
                                     if (Single.TryParse(underlineParams[1], NumberStyles.Any, CultureInfo.InvariantCulture, out offset))
                                     {
-                                        _underline = new Pair<Single, Single>(thickness, offset);
+                                        _underline = new Tuple<Single, Single>(thickness, offset);
                                     }
                                 }
                             }
@@ -253,7 +253,7 @@ namespace Sitana.Framework.Content
 
             _spacing = spacing * BitmapFont.Height;
 
-            if ( _underline.HasValue )
+            if ( _underline != null )
             {
                 _onePixelWhite = ContentLoader.Current.OnePixelWhiteTexture;
             }
@@ -493,10 +493,10 @@ namespace Sitana.Framework.Content
             Vector2 currentPosition = position - origin * scale;
             Single spacing = _spacing;
             
-            if (_underline.HasValue)
+            if (_underline != null)
             {
-                Vector2 underlinePos = currentPosition + new Vector2(-_startOffset*scale.X, (origin.Y + _size.Y * (1+_underline.Value.Second)) * scale.Y );
-                Vector2 lineScale = scale * new Vector2(_size.X, _underline.Value.First);
+                Vector2 underlinePos = currentPosition + new Vector2(-_startOffset*scale.X, (origin.Y + _size.Y * (1+_underline.Item2)) * scale.Y );
+                Vector2 lineScale = scale * new Vector2(_size.X, _underline.Item1);
 
                 spriteBatch.Draw(_onePixelWhite, underlinePos, null, _colors[0], 0, new Vector2(0, 0), lineScale, SpriteEffects.None, 0);
             }

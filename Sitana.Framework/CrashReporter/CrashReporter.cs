@@ -16,11 +16,11 @@ namespace Sitana.Framework.CrashReporter
 
         private object _exceptionsLock = new object();
 
-        private List<Pair<DateTime, string>> _crashes = new List<Pair<DateTime, string>>();
+        private List<Tuple<DateTime, string>> _crashes = new List<Tuple<DateTime, string>>();
         private string _deviceGuid = string.Empty;
         private bool _deviceSent = false;
 
-        private List<Pair<DateTime, string>> _sentCrashes = new List<Pair<DateTime, string>>();
+        private List<Tuple<DateTime, string>> _sentCrashes = new List<Tuple<DateTime, string>>();
 
         private EcsHttpClient _httpClient;
 
@@ -80,7 +80,7 @@ namespace Sitana.Framework.CrashReporter
 
             lock (_exceptionsLock)
             {
-                _crashes.Add(new Pair<DateTime, string>(DateTime.UtcNow, exceptionString));
+                _crashes.Add(new Tuple<DateTime, string>(DateTime.UtcNow, exceptionString));
             }
 
             Serialize();
@@ -124,7 +124,7 @@ namespace Sitana.Framework.CrashReporter
             lock (_exceptionsLock)
             {
                 _sentCrashes = _crashes;
-                _crashes = new List<Pair<DateTime, string>>();
+                _crashes = new List<Tuple<DateTime, string>>();
             }
 
             if (_sentCrashes.Count > CrashReportInfo.MaxCapacity)
@@ -142,8 +142,8 @@ namespace Sitana.Framework.CrashReporter
             {
                 var crashReport = new CrashReport()
                 {
-                    Crash = crash.Second,
-                    Time = new DateAndTime(crash.First)
+                    Crash = crash.Item2,
+                    Time = new DateAndTime(crash.Item1)
                 };
 
                 crashReportInfo.Add(crashReport);
@@ -234,7 +234,7 @@ namespace Sitana.Framework.CrashReporter
 
                                     String text = reader.ReadString();
 
-                                    _crashes.Add(new Pair<DateTime,string>(dt, text));
+                                    _crashes.Add(new Tuple<DateTime, string>(dt, text));
                                 }
                             }
                         }
@@ -279,15 +279,15 @@ namespace Sitana.Framework.CrashReporter
                             {
                                 foreach (var keyVal in _sentCrashes)
                                 {
-                                    writer.Write(keyVal.First.ToBinary());
-                                    writer.Write(keyVal.Second);
+                                    writer.Write(keyVal.Item1.ToBinary());
+                                    writer.Write(keyVal.Item2);
                                 }
                             }
 
                             foreach (var keyVal in _crashes)
                             {
-                                writer.Write(keyVal.First.ToBinary());
-                                writer.Write(keyVal.Second);
+                                writer.Write(keyVal.Item1.ToBinary());
+                                writer.Write(keyVal.Item2);
                             }
                         }
                     }

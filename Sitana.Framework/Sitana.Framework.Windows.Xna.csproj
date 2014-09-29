@@ -96,7 +96,6 @@
     <Compile Include="DataTransfer\Ecs\EcsResponse.cs" />
     <Compile Include="CrashReporter\Data\Session.cs" />
     <Compile Include="Cs\CsToolkit.cs" />
-    <Compile Include="Cs\Containers.cs" />
     <Compile Include="Cs\Deletages.cs" />
     <Compile Include="Cs\IIndexedContainer.cs" />
     <Compile Include="Cs\IndexedArray.cs" />

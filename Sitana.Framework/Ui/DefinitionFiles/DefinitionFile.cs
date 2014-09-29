@@ -4,10 +4,11 @@ using System.Reflection;
 using Sitana.Framework.Diagnostics;
 using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Controllers;
+using Sitana.Framework.Content;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
 {
-    public class DefinitionFile
+    public class DefinitionFile : ContentLoader.AdditionalType
     {
         public readonly Type Class;
         public readonly string Anchor;
@@ -15,6 +16,26 @@ namespace Sitana.Framework.Ui.DefinitionFiles
         Dictionary<string, object> _values = new Dictionary<string, object>();
 
         bool _locked = false;
+
+        /// <summary>
+        /// Registers additional type in ContentLoader
+        /// </summary>
+        public static void Register()
+        {
+            RegisterType(typeof(DefinitionFile), Load, true);
+        }
+
+        // <summary>
+        /// Loads content object
+        /// </summary>
+        /// <param name="name">name of resource</param>
+        /// <param name="contentLoader">content loader to load additional resources and files</param>
+        /// <returns></returns>
+        public static Object Load(String path)
+        {
+            XNode node = new XFile(path);
+            return DefinitionFile.LoadFile(node);
+        }
 
         public DefinitionFile(Type type, string anchor)
         {

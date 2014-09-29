@@ -40,9 +40,9 @@ namespace Sitana.Framework.Content
         /// </summary>
         /// <param name="path">Path of font file.</param>
         /// <param name="contentLoader">Content loader used to load assets.</param>
-        private XFile(String path)
+        internal XFile(String path)
         {
-            Name = ContentLoader.Current.AbsolutePath(path + ".xml"); 
+            Name = ContentLoader.Current.AbsolutePath(path + ".xml");
 
             try
             {

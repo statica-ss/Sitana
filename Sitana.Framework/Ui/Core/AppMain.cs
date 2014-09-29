@@ -113,6 +113,8 @@ namespace Sitana.Framework.Ui.Core
 
         protected override void Update(GameTime gameTime)
         {
+            UiTask.Process();
+
             var newSize = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
             if (_lastSize != newSize)
@@ -173,8 +175,8 @@ namespace Sitana.Framework.Ui.Core
 
         public void LoadView(string path)
         {
-            XNode node = ContentLoader.Current.Load<XFile>(path);
-            _mainView = DefinitionFile.LoadFile(node);
+            DefinitionFile file = ContentLoader.Current.Load<DefinitionFile>(path);
+            _mainView = file;
         }
     }
 }
