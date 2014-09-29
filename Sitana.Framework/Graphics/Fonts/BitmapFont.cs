@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Globalization;
 using Sitana.Framework.Cs;
 using System;
+using Sitana.Framework.Graphics;
 
 namespace Sitana.Framework.Content
 {

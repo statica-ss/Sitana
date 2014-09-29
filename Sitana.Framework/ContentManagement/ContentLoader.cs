@@ -16,6 +16,7 @@ using System.Text;
 using System;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
+using Sitana.Framework.Graphics;
 
 namespace Sitana.Framework.Content
 {

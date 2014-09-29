@@ -6,8 +6,9 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Sitana.Framework.Content;
 
-namespace Sitana.Framework.Content
+namespace Sitana.Framework.Graphics
 {
     /// <summary>
     /// Loader for texture from png file instead of xnb.

@@ -72,11 +72,10 @@
     <Compile Include="ContentGenerators\LoadSpriteAtlas.cs" />
     <Compile Include="ContentManagement\ContentLoader.cs" />
     <Compile Include="ContentManagement\LoadResourceInfo.cs" />
-    <Compile Include="ContentPresenters\ICustomDraw.cs" />
     <Compile Include="Graphics\Sprites\SpritePresenter.cs" />
     <Compile Include="Graphics\Fonts\BitmapFont.cs" />
-    <Compile Include="ContentTypes\LoadTexture2DFromPng.cs" />
-    <Compile Include="ContentTypes\ModelXLoader.cs" />
+    <Compile Include="Graphics\Images\LoadTexture2DFromPng.cs" />
+    <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
     <Compile Include="Graphics\Sprites\Sprite.cs" />
     <Compile Include="CrashReporter\CrashReporter.cs" />
     <Compile Include="CrashReporter\Data\Application.cs" />
