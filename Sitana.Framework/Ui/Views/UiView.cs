@@ -223,9 +223,11 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
+            Binding = binding;
+
             Id = (string)file["Id"];
             Visible = DefinitionResolver.Get<bool>(Controller, binding, file["Visible"], true);
-
+            
             int opacity = DefinitionResolver.Get<int>(Controller, binding, file["Opacity"], 100);
             Opacity = (float)opacity / 100.0f;
 
@@ -270,6 +272,8 @@ namespace Sitana.Framework.Ui.Views
             {
                 _invokeParameters.Set(param);
             }
+
+            _invokeParameters.Set(new InvokeParam("binding", Binding));
 
             object definition;
 

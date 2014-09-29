@@ -111,6 +111,8 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
         object ParseParameter(string methodDef, string val)
         {
+            val = val.Trim(' ');
+
             if ( val.StartsWith("\'"))
             {
                 val = val.Trim('\'');

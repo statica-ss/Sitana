@@ -62,7 +62,8 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
             object context = method.Binding ? binding : controller;
 
-            Type[] types = method.Parameters.Length > 0 ? new Type[method.Parameters.Length] : null;
+            //Type[] types = method.Parameters.Length > 0 ? new Type[method.Parameters.Length] : null;
+
             object[] parameters = method.Parameters.Length > 0 ? new object[method.Parameters.Length] : null;
 
             if (parameters != null)
@@ -70,24 +71,30 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 for (int idx = 0; idx < parameters.Length; ++idx)
                 {
                     parameters[idx] = ObtainParameter(invokeParameters, method.Parameters[idx]);
-                    types[idx] = parameters[idx] != null ? parameters[idx].GetType() : typeof(object);
+                    //types[idx] = parameters[idx] != null ? parameters[idx].GetType() : typeof(object);
                 }
             }
 
             MethodInfo info;
-            
-            if (types != null)
-            {
-                info = context.GetType().GetMethod(method.Name, types);
-            }
-            else
-            {
+
+            //if (types != null)
+            //{
+              //  info = context.GetType().GetMethod(method.Name, types);
+            //}
+            //else
+            //{
                 info = context.GetType().GetMethod(method.Name);
-            }
+            //}
 
             if (info != null)
             {
-                return info.Invoke(context, parameters);
+                try
+                {
+                    return info.Invoke(context, parameters);
+                }
+                catch (TargetParameterCountException)
+                {
+                }
             }
 
             throw new Exception(String.Format("Cannot find method: {0}({1})", method.Name, parameters.ToString()));

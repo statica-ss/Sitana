@@ -25,6 +25,7 @@ namespace Sitana.Framework.Ui.Views
             var parser = new DefinitionParser(node);
 
             file["Text"] = parser.ParseString("Text");
+            file["Click"] = parser.ParseDelegate("Click");
 
             foreach (var cn in node.Nodes)
             {
@@ -273,6 +274,8 @@ namespace Sitana.Framework.Ui.Views
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiButton));
 
             _text = DefinitionResolver.GetSharedString(Controller, binding, file["Text"]);
+
+            RegisterDelegate("Click", file["Click"]);
 
             List<DefinitionFile> drawableFiles = file["Drawables"] as List<DefinitionFile>;
 

@@ -39,9 +39,9 @@ namespace TestApp
             }
         }
 
-        protected void OnClick(UiButton button)
+        public void OnClick(UiButton button, object binding, int index)
         {
-            Console.WriteLine("Test button");
+            Console.WriteLine("Test button {0} {1}", index, binding);
         }
 
         public bool GetVisible(int val)
