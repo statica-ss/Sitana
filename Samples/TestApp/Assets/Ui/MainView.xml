@@ -5,9 +5,10 @@
     xmlns:window="type:Sitana.Framework.Ui.Views.PositionParameters,Sitana.Framework"
     window:Width="640" window:Height="480" SplitterSize="4" Position="45" Mode="Vertical" ViewRemoved="{OnViewRemoved()}">
   <UiSplitterView.Children>
-    <UiLabel BackgroundColor="#ff0000" Text="{Test('This is some text defined in xml file.')}" TextColor="{TextColor}" Font="TestFont" FontSize="21"/>
+    <!--<UiLabel BackgroundColor="#ff0000" Text="{Test('This is some text defined in xml file.')}" TextColor="{TextColor}" Font="TestFont" FontSize="21"/>-->
     <!--<UiLabel BackgroundColor="#ddff00" Text="{Test2()}" TextColor="#0000ff" Font="TestFont" FontSize="21"/>-->
 
+    <UiButton Style="OtherButton" Text="{Test('This is some text defined in xml file.')}"/>
     <UiButton Style="DefaultButton" Text="{Test2()}"/>
     
 <!--<UiListBox Binding="{List}">

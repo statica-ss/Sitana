@@ -1,13 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <core:StylesContainer
-    xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"    
+    xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
     xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
     xmlns:core="namespace:Sitana.Framework.Ui.Core,Sitana.Framework">
+  
   <Style Name="DefaultButton">
     <UiButton>
       <UiButton.Drawables>
-        <button:SolidBackground ColorPushed="#80ffffff" ColorReleased="#ffffff" ColorDisabled="#80ffffff"/>
-        <button:Text ColorPushed="#80000000" ColorReleased="#000000" ColorDisabled="#80000000" Font="TestFont" FontSize="21" TextAlign="Right,Middle" Padding="10"/>
+        <button:SolidBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000"/>
+        <button:Text ColorPushed="#ffb0b0" ColorReleased="#c09090" ColorDisabled="#80c09090" Font="TestFont" FontSize="21" TextAlign="Right,Middle" Padding="10"/>
+      </UiButton.Drawables>
+    </UiButton>
+  </Style>
+
+  <Style Name="OtherButton">
+    <UiButton>
+      <UiButton.Drawables>
+        <button:SolidBackground ColorPushed="#4040a0" ColorReleased="#000080" ColorDisabled="#80000080"/>
+        <button:Text ColorPushed="#b0b0ff" ColorReleased="#9090c0" ColorDisabled="#809090c0" Font="TestFont" FontSize="21" TextAlign="Left,Middle" Padding="10"/>
       </UiButton.Drawables>
     </UiButton>
   </Style>
