@@ -56,7 +56,7 @@ namespace Sitana.Framework.Ui.Views
         }
 
         protected List<UiView> _children = new List<UiView>();
-        Rectangle _bounds = new Rectangle();
+        protected Rectangle _bounds = new Rectangle();
 
         public void Remove(UiView view)
         {
@@ -197,6 +197,10 @@ namespace Sitana.Framework.Ui.Views
             }
 
             return null;
+        }
+
+        public virtual void UpdateChildBounds(UiView view, Rectangle bounds)
+        {
         }
 
         protected override void Init(object controller, object binding, DefinitionFile definition)

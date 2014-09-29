@@ -377,42 +377,49 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
                 return null;
             }
 
-            name = name.Replace(" ", "");
-
-            bool percent = name.EndsWith("%");
-            Length.Mode mode = Length.Mode.Begining;
-
-            if (name.StartsWith("@"))
-            {
-                mode = Length.Mode.End;
-            }
-            else if (name.StartsWith("C"))
-            {
-                mode = Length.Mode.Center;
-            }
-
-            name = name.Trim('%', '@', 'C');
-            int length;
-
-            if (String.IsNullOrEmpty(name))
-            {
-                return new Length(0, percent, mode);
-            }
-
-            if ( int.TryParse(name, out length))
-            {
-                return new Length(length, percent, mode);
-            }
-
-            if ( name.ToLowerInvariant() == "auto" )
+            if (name.ToLowerInvariant() == "auto")
             {
                 return new Length(true);
             }
 
-            Exception ex = Error(id, "Length format is integer with optional '%' sign at the end.");
-            if (ex != null) throw ex;
+            name = name.Replace(" ", "");
 
-            return null;
+            string[] vals = name.SplitAndKeep('-', '+');
+
+            int length = 0;
+            int percent = 0;
+
+            foreach (var val in vals)
+            {
+                if (val == "C" || val == "+C")
+                {
+                    percent += 50;
+                }
+                else if (val == "-C")
+                {
+                    percent -= 50;
+                }
+                else if (val == "@" || val =="+@")
+                {
+                    percent += 100;
+                }
+                else if (val == "-@")
+                {
+                    percent -= 100;
+                }
+                else if (val.EndsWith("%"))
+                {
+                    string newVal = val.TrimEnd('%');
+
+                    percent += int.Parse(newVal);
+                }
+                else
+                {
+                    length += int.Parse(val);
+                }
+            }
+
+            return new Length(length, percent);
         }
     }
 }

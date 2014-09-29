@@ -6,12 +6,25 @@
     pp:Width="640" pp:Height="480" SplitterSize="4" Position="45" Mode="Horizontal" ViewRemoved="{OnViewRemoved()}" ClipChildren="true" ViewResized="{OnResized(width,height}}">
   <UiSplitterView.Children>
 
-    <UiSplitterView Mode="Vertical" BackgroundColor="#203040">
-        <UiSplitterView.Children>
-            <UiLabel Text="{Info}" TextColor="#ffffff" Font="TestFont" FontSize="21"/>    
-            <UiLabel Text="{Test2()}" TextColor="{TextColor}" Font="TestFont" FontSize="21"/>
-        </UiSplitterView.Children>
-    </UiSplitterView>
+    <UiStackPanel Mode="Vertical" BackgroundColor="#203040" Spacing="10" Padding="10">
+      <UiStackPanel.Children>
+        <UiLabel Text="{Info}" BackgroundColor="#20ff8080" TextColor="#ffffff" Font="TestFont" FontSize="21" pp:Height="32"/>
+        <UiLabel Text="{Test2()}" BackgroundColor="#208080ff" TextColor="{TextColor}" Font="TestFont" FontSize="21" pp:Height="32" pp:Width="C-10" pp:Align="Left"/>
+        <UiLabel Text="{ButtonClick}" BackgroundColor="#2080ff80" TextColor="#ffffff" Font="TestFont" FontSize="21" pp:Height="32" pp:Width="C-10" pp:Align="Right"/>
+        <UiStackPanel Mode="Horizontal" BackgroundColor="#2080ffff" Spacing="10" Padding="10" pp:Height="40">
+          <UiStackPanel.Children>
+            <UiRectangle BackgroundColor="#ff0000" pp:Width="20" pp:Height="20"/>
+            <UiRectangle BackgroundColor="#ff8000" pp:Width="20" pp:Height="20"/>
+            <UiRectangle BackgroundColor="#ffff00" pp:Width="20" pp:Height="20"/>
+            <UiRectangle BackgroundColor="#00ff00" pp:Width="20" pp:Height="20"/>
+            <UiRectangle BackgroundColor="#00ffff" pp:Width="20" pp:Height="20"/>
+            <UiRectangle BackgroundColor="#0000ff" pp:Width="20" pp:Height="20"/>
+            <UiRectangle BackgroundColor="#8000ff" pp:Width="20" pp:Height="20"/>
+            <UiRectangle BackgroundColor="#ff00ff" pp:Width="20" pp:Height="20"/>
+          </UiStackPanel.Children>
+        </UiStackPanel>
+      </UiStackPanel.Children>
+    </UiStackPanel>
 
     <UiBorder BackgroundColor="#ff0000">
       <UiBorder.Children>

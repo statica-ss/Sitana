@@ -316,7 +316,19 @@ namespace Sitana.Framework.Ui.Views
 
         public virtual Point ComputeSize(int width, int height)
         {
-            return new Point(PositionParameters.Width.Compute(width-PositionParameters.Margin.Width), PositionParameters.Height.Compute(height-PositionParameters.Margin.Height));
+            var size = new Point(PositionParameters.Width.Compute(width-PositionParameters.Margin.Width), PositionParameters.Height.Compute(height-PositionParameters.Margin.Height));
+
+            if (size.X == 0 && PositionParameters.Align.HasFlag(Align.StretchHorz))
+            {
+                size.X = width;
+            }
+
+            if (size.Y == 0 && PositionParameters.Align.HasFlag(Align.StretchVert))
+            {
+                size.Y = height;
+            }
+
+            return size;
         }
     }
 }

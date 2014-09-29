@@ -22,6 +22,7 @@ namespace TestApp
         {
             TextColor = new ColorWrapper();
             Info = new SharedString();
+            ButtonClick = new SharedString();
 
             _workingThread = new Thread(new ThreadStart(DoWork));
             _workingThread.Start();
@@ -47,12 +48,12 @@ namespace TestApp
 
         public void OnClick(UiButton button, object binding, int index)
         {
-            Console.WriteLine("Test button {0} {1}", index, binding);
+            ButtonClick.Format("Test button {0} {1}", index, binding);
         }
 
         public void OnClick(UiButton button)
         {
-            Console.WriteLine("Test button");
+            ButtonClick.StringValue = "Test button";
         }
 
         public bool GetVisible(int val)
@@ -79,7 +80,8 @@ namespace TestApp
 
         SharedString _text = new SharedString();
         public SharedString Info {get; private set;}
-
+        public SharedString ButtonClick { get; private set; }
+        
         public static void OnLoadContent(AppMain main)
         {
             FontManager.Instance.AddFont("TestFont", "Fonts/TestFont", 16);

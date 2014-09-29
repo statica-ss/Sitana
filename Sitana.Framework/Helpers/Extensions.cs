@@ -120,5 +120,46 @@ namespace Sitana.Framework
         {
             return rect.Contains(vec.ToPoint());
         }
+
+        public static string[] SplitAndKeep(this string text, params char[] seperators)
+        {
+            int startIndex = 0;
+
+            List<string> result = new List<string>();
+            char? addChar = null;
+
+            while (startIndex < text.Length)
+            {
+                int minIndex = text.Length;
+
+                foreach (var ch in seperators)
+                {
+                    int index = text.IndexOf(ch, startIndex);
+
+                    if (index >= 0)
+                    {
+                        minIndex = Math.Min(index, minIndex);
+                    }
+                }
+
+                if (addChar.HasValue)
+                {
+                    result.Add(addChar.Value + text.Substring(startIndex, minIndex - startIndex));
+                }
+                else
+                {
+                    result.Add(text.Substring(startIndex, minIndex - startIndex));
+                }
+
+                if (minIndex < text.Length)
+                {
+                    addChar = text[minIndex];
+                }
+
+                startIndex = minIndex+1;
+            }
+
+            return result.ToArray();
+        }
     }
 }

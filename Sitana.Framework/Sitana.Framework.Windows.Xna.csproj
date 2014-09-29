@@ -59,8 +59,10 @@
     <Compile Include="Ui\Core\StylesContainer.cs" />
     <Compile Include="Ui\Core\StylesManager.cs" />
     <Compile Include="Ui\DefinitionFiles\DefinitionFileWithStyle.cs" />
+    <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
+    <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
     <Compile Include="Xml\XFile.cs" />
     <Compile Include="Cs\SharedString.cs" />
     <Compile Include="Cs\SharedValue.cs" />
