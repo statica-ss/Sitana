@@ -8,12 +8,7 @@
     <UiLabel BackgroundColor="#ff0000" Text="{Test('This is some text defined in xml file.')}" TextColor="{TextColor}" Font="TestFont" FontSize="21"/>
     <!--<UiLabel BackgroundColor="#ddff00" Text="{Test2()}" TextColor="#0000ff" Font="TestFont" FontSize="21"/>-->
 
-    <UiButton Text="{Test2()}">
-      <UiButton.Drawables>
-        <button:SolidBackground ColorPushed="#80ffffff" ColorReleased="#ffffff" ColorDisabled="#80ffffff"/>
-        <button:Text ColorPushed="#80000000" ColorReleased="#000000" ColorDisabled="#80000000" Font="TestFont" FontSize="21" TextAlign="Right,Middle" Padding="10"/>
-      </UiButton.Drawables>
-    </UiButton>
+    <UiButton Style="DefaultButton" Text="{Test2()}"/>
     
 <!--<UiListBox Binding="{List}">
         <UiListBox.ItemTemplate>

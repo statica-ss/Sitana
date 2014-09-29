@@ -28,6 +28,7 @@ namespace TestApp
             {
                 ContentLoader.Init(main.Content, "TestApp");
 
+                StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
                 main.LoadView("Ui/MainView");
 
                 main.Window.AllowUserResizing = true;

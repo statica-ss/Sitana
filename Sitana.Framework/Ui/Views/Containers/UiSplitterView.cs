@@ -28,7 +28,7 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionParser parser = new DefinitionParser(node);
 
-            file["Mode"] = parser.ParseEnum<Mode>("Mode", Mode.Horizontal);
+            file["Mode"] = parser.ParseEnum<Mode>("Mode");
             file["Position"] = parser.ParseLength("Position");
             file["SplitterSize"] = parser.ParseLength("SplitterSize");
 
@@ -202,13 +202,15 @@ namespace Sitana.Framework.Ui.Views
             _minSizeFromChildren = new Point(minSizeX, minSizeY);
         }
 
-        protected override void Init(UiController controller, object binding, DefinitionFile file)
+        protected override void Init(UiController controller, object binding, DefinitionFile definition)
         {
-            base.Init(ref controller, binding, file);
+            base.Init(ref controller, binding, definition);
 
-            SplitMode = DefinitionResolver.Get<Mode>(controller, binding, file["Mode"]);
-            _splitterPosition = (float)DefinitionResolver.Get<Length>(controller, binding, file["Position"]).Compute(100) / 100.0f;
-            _splitterSize = DefinitionResolver.Get<Length>(controller, binding, file["SplitterSize"]).Compute(100);
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiSplitterView));
+
+            SplitMode = DefinitionResolver.Get<Mode>(controller, binding, file["Mode"], Mode.Vertical);
+            _splitterPosition = (float)DefinitionResolver.Get<Length>(controller, binding, file["Position"], Length.Default).Compute(100) / 100.0f;
+            _splitterSize = DefinitionResolver.Get<Length>(controller, binding, file["SplitterSize"], Length.Default).Compute(100);
 
             List<DefinitionFile> children = file["Children"] as List<DefinitionFile>;
 

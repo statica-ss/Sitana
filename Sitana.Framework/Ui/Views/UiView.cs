@@ -33,10 +33,10 @@ namespace Sitana.Framework.Ui.Views
             file["Id"] = node.Attribute("Id");
             file["Controller"] = Type.GetType(node.Attribute("Controller"));
 
-            file["Visible"] = parser.ParseBoolean("Visible", true);
+            file["Visible"] = parser.ParseBoolean("Visible");
             file["BackgroundColor"] = parser.ParseColor("BackgroundColor");
 
-            file["Opacity"] = parser.ParseInt("Opacity", 100);
+            file["Opacity"] = parser.ParseInt("Opacity");
 
             file["ViewRemoved"] = parser.ParseDelegate("ViewRemoved");
             file["ViewAdded"] = parser.ParseDelegate("ViewAdded");
@@ -204,8 +204,10 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected void Init(ref UiController controller, object binding, DefinitionFile file)
+        protected void Init(ref UiController controller, object binding, DefinitionFile definition)
         {
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiButton));
+
             Type controllerType = file["Controller"] as Type;
 
             if (controllerType != null)
@@ -221,9 +223,9 @@ namespace Sitana.Framework.Ui.Views
             }
 
             Id = (string)file["Id"];
-            Visible = DefinitionResolver.GetBoolean(controller, binding, file["Visible"]);
+            Visible = DefinitionResolver.Get<bool>(controller, binding, file["Visible"], true);
 
-            int opacity = DefinitionResolver.Get<int>(controller, binding, file["Opacity"]);
+            int opacity = DefinitionResolver.Get<int>(controller, binding, file["Opacity"], 100);
             Opacity = (float)opacity / 100.0f;
 
             if (Visible)

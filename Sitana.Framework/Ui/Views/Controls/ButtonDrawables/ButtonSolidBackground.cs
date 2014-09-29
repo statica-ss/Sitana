@@ -31,8 +31,10 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             Init(controller, binding, file);
         }
 
-        protected virtual void Init(UiController controller, object binding, DefinitionFile file)
+        protected virtual void Init(UiController controller, object binding, DefinitionFile definition)
         {
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(NinePatchBackground));
+
             _colorDisabled = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorDisabled"]);
             _colorReleased = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorReleased"]);
             _colorPushed = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorPushed"]);

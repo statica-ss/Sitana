@@ -26,7 +26,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             file["Font"] = parser.Value("Font");
             file["FontSize"] = parser.ParseInt("FontSize");
-            file["TextAlign"] = parser.ParseEnum<TextAlign>("TextAlign", TextAlign.Center | TextAlign.Middle);
+            file["TextAlign"] = parser.ParseEnum<TextAlign>("TextAlign");
             file["Padding"] = parser.ParseInt("Padding");
         }
 
@@ -44,16 +44,18 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             Init(controller, binding, file);
         }
 
-        protected virtual void Init(UiController controller, object binding, DefinitionFile file)
+        protected virtual void Init(UiController controller, object binding, DefinitionFile definition)
         {
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(NinePatchBackground));
+
             _colorDisabled = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorDisabled"]);
             _colorReleased = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorReleased"]);
             _colorPushed = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorPushed"]);
-            _padding = DefinitionResolver.Get<int>(controller, binding, file["Padding"]);
+            _padding = DefinitionResolver.Get<int>(controller, binding, file["Padding"], 0);
 
             _font = DefinitionResolver.GetString(controller, binding, file["Font"]);
-            _fontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"]);
-            _textAlign = DefinitionResolver.Get<TextAlign>(controller, binding, file["TextAlign"]);
+            _fontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"], 0);
+            _textAlign = DefinitionResolver.Get<TextAlign>(controller, binding, file["TextAlign"], TextAlign.Center | TextAlign.Middle);
         }
 
         public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.State state, object argument)

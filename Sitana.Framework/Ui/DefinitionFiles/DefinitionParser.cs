@@ -219,7 +219,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             return null;
         }
 
-        public object ParseBoolean(string id, bool defaultValue = false)
+        public object ParseBoolean(string id)
         {
             string name = Value(id);
             object method = ParseMethodOrField(name);
@@ -231,7 +231,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
             if (name.IsNullOrEmpty())
             {
-                return defaultValue;
+                return null;
             }
 
             bool value;
@@ -244,7 +244,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             Exception ex = Error(id, "Invalid format. Expected true or false or Method/Property name.");
             if (ex != null) throw ex;
 
-            return defaultValue;
+            return null;
         }
 
         public object ParseNinePatchImage(string id)
@@ -268,13 +268,13 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             }
         }
 
-        public T ParseEnum<T>(string id, T defaultValue) where T: struct
+        public object ParseEnum<T>(string id) where T: struct
         {
             string name = Value(id);
 
             if (name.IsNullOrEmpty())
             {
-                return defaultValue;
+                return null;
             }
 
             T value;
@@ -286,7 +286,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             Exception ex = Error(id, "Error while parsing enumeration: {0}.", typeof(T).FullName);
             if (ex != null) throw ex;
 
-            return defaultValue;
+            return null;
         }
 
         public object ParseMargin(string id)
@@ -332,12 +332,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             return new Margin(0);
         }
 
-        public object ParseInt(string name)
-        {
-            return ParseInt(name, 0);
-        }
-
-        public object ParseInt(string id, int defaultValue)
+        public object ParseInt(string id)
         {
             string name = Value(id);
             object method = ParseMethodOrField(name);
@@ -349,7 +344,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
             if (name.IsNullOrEmpty())
             {
-                return defaultValue;
+                return null;
             }
 
             int value;
@@ -362,7 +357,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             Exception ex = Error(id, "Invalid format. Expected Integer.");
             if (ex != null) throw ex;
 
-            return defaultValue;
+            return null;
         }
 
         public object ParseLength(string id)

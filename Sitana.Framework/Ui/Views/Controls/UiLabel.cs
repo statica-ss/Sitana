@@ -100,12 +100,14 @@ namespace Sitana.Framework.Ui.Views
             parameters.DrawBatch.DrawText(Text, ScreenBounds, TextAlign.Center | TextAlign.Middle, TextColor.Value * DisplayOpacity);
         }
 
-        protected override void Init(UiController controller, object binding, DefinitionFile file)
+        protected override void Init(UiController controller, object binding, DefinitionFile definition)
         {
-            base.Init(ref controller, binding, file);
+            base.Init(ref controller, binding, definition);
+
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiLabel));
 
             FontName = file["Font"] as string;
-            FontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"]);
+            FontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"], 0);
 
             Text = DefinitionResolver.GetSharedString(controller, binding, file["Text"]);
             TextColor = DefinitionResolver.GetColorWrapper(controller, binding, file["TextColor"]) ?? new ColorWrapper(Color.White);

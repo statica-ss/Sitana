@@ -39,13 +39,15 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         protected NinePatchImage _imageReleased = null;
         protected NinePatchImage _imageDisabled = null;
 
-        protected override void Init(UiController controller, object binding, DefinitionFile file)
+        protected override void Init(UiController controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, file);
+            base.Init(controller, binding, definition);
 
-            _imageDisabled = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImageDisabled"]);
-            _imageReleased = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImageReleased"]);
-            _imagePushed = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImagePushed"]);
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(NinePatchBackground));
+
+            _imageDisabled = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImageDisabled"], null);
+            _imageReleased = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImageReleased"], null);
+            _imagePushed = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImagePushed"], null);
         }
 
         public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.State state, object argument)

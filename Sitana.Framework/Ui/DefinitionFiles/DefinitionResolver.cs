@@ -170,21 +170,6 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return null;
         }
 
-        public static bool GetBoolean(UiController controller, object binding, object definition)
-        {
-            if (definition == null)
-            {
-                return false;
-            }
-
-            if (definition is bool)
-            {
-                return (bool)definition;
-            }
-
-            return GetValueFromMethodOrField<bool>(controller, binding, definition);
-        }
-
         public static Color? GetColor(UiController controller, object binding, object definition)
         {
             if (definition == null)
@@ -215,11 +200,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return GetValueFromMethodOrField<ColorWrapper>(controller, binding, definition);
         }
 
-        public static T Get<T>(UiController controller, object binding, object definition)
+        public static T Get<T>(UiController controller, object binding, object definition, T defaultValue)
         {
             if (definition == null)
             {
-                return default(T);
+                return defaultValue;
             }
 
             if ( definition is T)

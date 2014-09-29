@@ -102,6 +102,8 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 file = new DefinitionFile(type, node.Owner.Name);
                 method.Invoke(null, new object[] { node, file });
                 file.ParseAdditionalParameters(node);
+
+                file["Style"] = node.Attribute("Style");
             }
 
             return file;
@@ -117,6 +119,8 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 file = new DefinitionFile(type, "");
                 method.Invoke(null, new object[] { attributesNode, file });
                 file.ParseAdditionalParameters(attributesNode);
+
+                file["Style"] = attributesNode.Attribute("Style");
             }
 
             return file;
@@ -169,6 +173,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             obj.Init(controller, context, this);
 
             return obj;
+        }
+
+        public bool HasKey(string name)
+        {
+            return _values.ContainsKey(name);
         }
     }
 }

@@ -266,9 +266,11 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected override void Init(UiController controller, object binding, DefinitionFile file)
+        protected override void Init(UiController controller, object binding, DefinitionFile definition)
         {
-            base.Init(ref controller, binding, file);
+            base.Init(ref controller, binding, definition);
+
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiButton));
 
             _text = DefinitionResolver.GetSharedString(controller, binding, file["Text"]);
 

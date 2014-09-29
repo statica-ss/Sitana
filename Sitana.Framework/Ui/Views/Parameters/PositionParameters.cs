@@ -34,9 +34,9 @@ namespace Sitana.Framework.Ui.Views
 
         protected virtual void Init(UiController controller, object binding, DefinitionFile file)
         {
-            Width = DefinitionResolver.Get<Length>(controller, binding, file["Width"]);
-            Height = DefinitionResolver.Get<Length>(controller, binding, file["Height"]);
-            Margin = DefinitionResolver.Get<Margin>(controller, binding, file["Margin"]);
+            Width = DefinitionResolver.Get<Length>(controller, binding, file["Width"], Length.Default);
+            Height = DefinitionResolver.Get<Length>(controller, binding, file["Height"], Length.Default);
+            Margin = DefinitionResolver.Get<Margin>(controller, binding, file["Margin"], Margin.Zero);
         }
 
         public Rectangle ComputePosition(Rectangle target)
