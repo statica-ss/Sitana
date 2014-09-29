@@ -378,15 +378,28 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             name = name.Replace(" ", "");
 
             bool percent = name.EndsWith("%");
-            bool add100 = name.StartsWith("@");
-            name = name.Trim('%', '@');
+            Length.Mode mode = Length.Mode.Begining;
 
+            if (name.StartsWith("@"))
+            {
+                mode = Length.Mode.End;
+            }
+            else if (name.StartsWith("C"))
+            {
+                mode = Length.Mode.Center;
+            }
+
+            name = name.Trim('%', '@', 'C');
             int length;
-            
+
+            if (String.IsNullOrEmpty(name))
+            {
+                return new Length(0, percent, mode);
+            }
 
             if ( int.TryParse(name, out length))
             {
-                return new Length(length, percent, add100);
+                return new Length(length, percent, mode);
             }
 
             if ( name.ToLowerInvariant() == "auto" )

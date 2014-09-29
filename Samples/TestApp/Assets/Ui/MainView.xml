@@ -12,8 +12,8 @@
 
     <UiBorder BackgroundColor="#ff0000">
       <UiBorder.Children>
-        <UiButton Style="OtherButton" Text="{Test('Text defined in xml.')}" pp:Width="320" pp:Height="64" pp:X="25%" pp:Align="Right,Top"/>
-        <!--<UiButton Style="OtherButton" Text="{Test('Text defined in xml.')}" pp:Width="320" pp:Height="64" pp:X="75%" pp:Align="Left,Middle"/>-->
+        <UiButton Style="OtherButton" Text="{Test('Text defined in xml.')}" pp:Width="320" pp:Height="64" pp:X="C" pp:Y="C-10" pp:Align="Center,Bottom"/>
+        <UiButton Style="OtherButton" Text="{Test('Text defined in xml.')}" pp:Width="320" pp:Height="64" pp:X="C" pp:Y="C+10" pp:Align="Center,Top"/>
       </UiBorder.Children>
     </UiBorder>
     

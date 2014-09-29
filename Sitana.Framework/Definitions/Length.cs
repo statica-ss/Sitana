@@ -11,13 +11,21 @@ namespace Sitana.Framework
 {
     public struct Length
     {
+        public enum Mode
+        { 
+            Begining,
+            Center,
+            End
+        }
+
         public readonly static Length Default = new Length(true);
 
         int _length;
         bool _percent;
 
         bool _auto;
-        bool _add100;
+        Mode _mode;
+        
 
         public bool IsAuto
         {
@@ -29,15 +37,15 @@ namespace Sitana.Framework
 
         public Length(bool auto)
         {
-            _add100 = false;
+            _mode = Mode.Begining;
             _auto = auto;
             _length = 0;
             _percent = false;
         }
 
-        public Length(int length, bool percent, bool add100)
+        public Length(int length, bool percent, Mode mode)
         {
-            _add100 = add100;
+            _mode = mode;
             _auto = false;
             _length = length;
             _percent = percent;
@@ -48,12 +56,23 @@ namespace Sitana.Framework
             _auto = false;
             _length = length;
             _percent = false;
-            _add100 = false;
+            _mode = Mode.Begining;
         }
 
         public int Compute(int size)
         {
-            int add = _add100 ? size : 0;
+            int add = 0;
+
+            switch (_mode)
+            {
+                case Mode.Center:
+                    add = size / 2;
+                    break;
+
+                case Mode.End:
+                    add = size;
+                    break;
+            }
 
             if ( _percent )
             {
