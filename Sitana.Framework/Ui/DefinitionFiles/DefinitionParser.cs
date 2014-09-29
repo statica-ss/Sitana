@@ -374,7 +374,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
             if ( name.IsNullOrEmpty())
             {
-                return new Length(true);
+                return null;
             }
 
             name = name.Replace(" ", "");
@@ -412,7 +412,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             Exception ex = Error(id, "Length format is integer with optional '%' sign at the end.");
             if (ex != null) throw ex;
 
-            return new Length(true);
+            return null;
         }
     }
 }

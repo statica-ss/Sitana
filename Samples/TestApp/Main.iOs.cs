@@ -19,6 +19,8 @@ namespace TestApp
 
 			ContentLoader.Init(main.Content, "Assets");
 
+            StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
+
 			main.LoadView("Ui/MainView");
 
 			main.Graphics.IsFullScreen = true;

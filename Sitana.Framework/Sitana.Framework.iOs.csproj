@@ -60,8 +60,6 @@
   <ItemGroup>
     <Folder Include="ContentGenerators\" />
     <Folder Include="ContentManagement\" />
-    <Folder Include="ContentPresenters\" />
-    <Folder Include="ContentTypes\" />
     <Folder Include="CrashReporter\" />
     <Folder Include="Cs\" />
     <Folder Include="DataTransfer\" />
@@ -75,26 +73,16 @@
     <Folder Include="Settings\" />
     <Folder Include="System\" />
     <Folder Include="Ui\" />
+    <Folder Include="Xml\" />
+    <Folder Include="Graphics\Sprites\" />
+    <Folder Include="Graphics\Fonts\" />
+    <Folder Include="Graphics\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentGenerators\LoadSpriteAtlas.cs" />
     <Compile Include="ContentManagement\ContentLoader.cs" />
-    <Compile Include="ContentManagement\FontManager.cs" />
     <Compile Include="ContentManagement\LoadResourceInfo.cs" />
     <Compile Include="ContentManagement\TitleContainerEx.cs" />
-    <Compile Include="ContentPresenters\BitmapFontPresenter.cs" />
-    <Compile Include="ContentPresenters\ICustomDraw.cs" />
-    <Compile Include="ContentPresenters\IFontPresenter.cs" />
-    <Compile Include="ContentPresenters\RichContentPresenter.cs" />
-    <Compile Include="ContentPresenters\SpriteFontPresenter.cs" />
-    <Compile Include="ContentPresenters\SpritePresenter.cs" />
-    <Compile Include="ContentTypes\BitmapFont.cs" />
-    <Compile Include="ContentTypes\FontLoader.cs" />
-    <Compile Include="ContentTypes\ModelXLoader.cs" />
-    <Compile Include="ContentTypes\NinePatchImage.cs" />
-    <Compile Include="ContentTypes\Sprite.cs" />
-    <Compile Include="ContentTypes\TextureEx.cs" />
-    <Compile Include="ContentTypes\XFile.cs" />
     <Compile Include="CrashReporter\CrashReporter.cs" />
     <Compile Include="CrashReporter\Data\Application.cs" />
     <Compile Include="CrashReporter\Data\Crash.cs" />
@@ -105,7 +93,6 @@
     <Compile Include="CrashReporter\Data\Device.cs" />
     <Compile Include="CrashReporter\Data\Session.cs" />
     <Compile Include="Cs\BitConverterLE.cs" />
-    <Compile Include="Cs\Containers.cs" />
     <Compile Include="Cs\CsToolkit.cs" />
     <Compile Include="Cs\Deletages.cs" />
     <Compile Include="Cs\IIndexedContainer.cs" />
@@ -169,8 +156,6 @@
     <Compile Include="Input\TouchPad\IGestureListener.cs" />
     <Compile Include="Input\TouchPad\TouchElement.cs" />
     <Compile Include="Input\TouchPad\TouchPad.cs" />
-    <Compile Include="Media\MusicControler.cs" />
-    <Compile Include="Media\MusicControlerIos.cs" />
     <Compile Include="Media\SoundControler.cs" />
     <Compile Include="Media\SoundEffectContainer.cs" />
     <Compile Include="Misc\AppRater.cs" />
@@ -179,12 +164,10 @@
     <Compile Include="Misc\ConsoleEx.cs" />
     <Compile Include="Misc\DelayedActionInvoker.cs" />
     <Compile Include="Misc\InfoBar.cs" />
-    <Compile Include="Misc\PerformanceProfiler.cs" />
     <Compile Include="Misc\RemoteConsoleClient.cs" />
     <Compile Include="Misc\StringsManager.cs" />
     <Compile Include="Misc\UiTask.cs" />
     <Compile Include="Misc\UuidGenerator.cs" />
-    <Compile Include="Misc\XNode.cs" />
     <Compile Include="Settings\Serializator.cs" />
     <Compile Include="Settings\SingletonSettings.cs" />
     <Compile Include="System\SystemWrapper.Ios.cs" />
@@ -212,5 +195,21 @@
     <Compile Include="Ui\Views\Parameters\UiViewDrawParameters.cs" />
     <Compile Include="Helpers\StringParser.cs" />
     <Compile Include="Cs\SharedString.cs" />
+    <Compile Include="Xml\XFile.cs" />
+    <Compile Include="Xml\XNode.cs" />
+    <Compile Include="Graphics\Sprites\Sprite.cs" />
+    <Compile Include="Graphics\Sprites\SpritePresenter.cs" />
+    <Compile Include="Graphics\Fonts\BitmapFont.cs" />
+    <Compile Include="Graphics\Fonts\FontManager.cs" />
+    <Compile Include="Graphics\Images\LoadTexture2DFromPng.cs" />
+    <Compile Include="Graphics\Images\NinePatchImage.cs" />
+    <Compile Include="Ui\Core\StylesManager.cs" />
+    <Compile Include="Ui\Core\StylesContainer.cs" />
+    <Compile Include="Ui\DefinitionFiles\DefinitionFileWithStyle.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
+    <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
+    <Compile Include="Media\MusicController.cs" />
+    <Compile Include="Media\MusicController.iOs.cs" />
   </ItemGroup>
 </Project>

@@ -61,8 +61,6 @@ namespace Sitana.Framework.Ui.Core
                 throw new Exception("There can be only one AppMain instance.");
             }
 
-            
-
             Current = this;
 
             InactiveSleepTime = TimeSpan.FromMilliseconds(100);
@@ -71,6 +69,8 @@ namespace Sitana.Framework.Ui.Core
 
             Graphics.IsFullScreen = true;
             Graphics.SynchronizeWithVerticalRetrace = true;
+
+            MusicController.Instance.Initialize();
         }
 
         protected override void Dispose(bool disposing)

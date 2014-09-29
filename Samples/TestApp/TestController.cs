@@ -21,6 +21,7 @@ namespace TestApp
         public TestController()
         {
             TextColor = new ColorWrapper();
+            Info = new SharedString();
 
             _workingThread = new Thread(new ThreadStart(DoWork));
             _workingThread.Start();
@@ -37,6 +38,11 @@ namespace TestApp
 
                 Thread.Sleep(500);
             }
+        }
+
+        public void OnResized(int width, int height)
+        {
+            Info.Format("Main view is {0}x{1} pixels.", width, height);
         }
 
         public void OnClick(UiButton button, object binding, int index)
@@ -72,6 +78,7 @@ namespace TestApp
         public ColorWrapper TextColor { get; private set; }
 
         SharedString _text = new SharedString();
+        public SharedString Info {get; private set;}
 
         public static void OnLoadContent(AppMain main)
         {

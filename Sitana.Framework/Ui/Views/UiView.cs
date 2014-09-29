@@ -40,6 +40,11 @@ namespace Sitana.Framework.Ui.Views
 
             file["ViewRemoved"] = parser.ParseDelegate("ViewRemoved");
             file["ViewAdded"] = parser.ParseDelegate("ViewAdded");
+
+            file["ViewActivated"] = parser.ParseDelegate("ViewActivated");
+            file["ViewDeactivated"] = parser.ParseDelegate("ViewDeactivated");
+
+            file["ViewResized"] = parser.ParseDelegate("ViewResized");
         }
 
         public string Id { get; set; }
@@ -63,6 +68,8 @@ namespace Sitana.Framework.Ui.Views
         private UiController _controller = null;
 
         public object Binding { get; private set; }
+
+        private Rectangle _lastSize = Rectangle.Empty;
 
         public virtual UiContainer Parent
         {
@@ -137,6 +144,13 @@ namespace Sitana.Framework.Ui.Views
         {
             float opacity = Visible ? Opacity : 0;
             DisplayOpacity = time * 4 * opacity + (1 - time * 4) * DisplayOpacity;
+
+            if ( _lastSize != Bounds)
+            {
+                CallDelegate("ViewResized", new InvokeParam("bounds", Bounds), new InvokeParam("size", new Point(Bounds.Width, Bounds.Height)),
+                    new InvokeParam("width", Bounds.Width), new InvokeParam("height", Bounds.Height));
+                _lastSize = Bounds;
+            }
 
             Update(time);
         }
@@ -237,8 +251,12 @@ namespace Sitana.Framework.Ui.Views
             }
 
             BackgroundColor = DefinitionResolver.GetColor(Controller, binding, file["BackgroundColor"]) ?? Color.Transparent;
+
             RegisterDelegate("ViewRemoved", file["ViewRemoved"]);
             RegisterDelegate("ViewAdded", file["ViewAdded"]);
+            RegisterDelegate("ViewActivated", file["ViewActivated"]);
+            RegisterDelegate("ViewDeactivated", file["ViewDeactivated"]);
+            RegisterDelegate("ViewResized", file["ViewResized"]);
         }
 
         public void CreatePositionParameters(UiController controller, object binding, DefinitionFile file, Type type)

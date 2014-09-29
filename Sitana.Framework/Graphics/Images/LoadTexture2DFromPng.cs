@@ -15,16 +15,12 @@ namespace Sitana.Framework.Graphics
     /// </summary>
     public class LoadTexture2DFromPng : ContentLoader.AdditionalType
     {
-        private static Boolean _enablePremultiply;
         /// <summary>
         /// Registers type in ContentLoader.
         /// </summary>
-        public static void Register(Boolean premultiply)
+        public static void Register()
         {
             RegisterType(typeof(Texture2D), Load, true);
-
-            // Set premultiply flag.
-            _enablePremultiply = premultiply;
         }
 
         /// <summary>
