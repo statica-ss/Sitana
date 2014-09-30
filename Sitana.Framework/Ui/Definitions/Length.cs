@@ -13,6 +13,7 @@ namespace Sitana.Framework
     public struct Length
     {
         public readonly static Length Default = new Length(true);
+        public readonly static Length Zero = new Length(0);
 
         int _length;
         int _percent;
@@ -47,6 +48,11 @@ namespace Sitana.Framework
             _auto = false;
             _length = length;
             _percent = 0;
+        }
+
+        public int Compute()
+        {
+            return Compute(0);
         }
 
         public int Compute(int size)

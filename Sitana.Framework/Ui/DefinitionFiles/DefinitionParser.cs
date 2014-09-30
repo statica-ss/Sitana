@@ -378,6 +378,12 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
         public object ParseLength(string id)
         {
+            return ParseLength(id, true);
+        }
+
+        // TODO: Special values error while allowSpecialValues is set to false.
+        public object ParseLength(string id, bool allowSpecialValues)
+        {
             string name = Value(id);
             object method = ParseMethodOrField(name);
 

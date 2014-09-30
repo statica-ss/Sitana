@@ -18,8 +18,8 @@ namespace Sitana.Framework.Ui.Views
             DefinitionParser parser = new DefinitionParser(node);
 
             file["Mode"] = parser.ParseEnum<Mode>("Mode");
-            file["Spacing"] = parser.ParseInt("Spacing");
-            file["Padding"] = parser.ParseInt("Padding");
+            file["Spacing"] = parser.ParseLength("Spacing", false);
+            file["Padding"] = parser.ParseLength("Padding", false);
 
             foreach (var cn in node.Nodes)
             {
@@ -41,19 +41,19 @@ namespace Sitana.Framework.Ui.Views
         bool _vertical = false;
         bool _updateBounds = true;
 
-        int _spacing = 0;
-        int _padding = 0;
+        Length _spacing;
+        Length _padding;
 
         public int Spacing
         {
             get
             {
-                return _spacing;
+                return _spacing.Compute(0);
             }
 
             set
             {
-                _spacing = value;
+                _spacing = new Length(value);
                 RecalcLayout();
             }
         }
@@ -62,12 +62,12 @@ namespace Sitana.Framework.Ui.Views
         {
             get
             {
-                return _padding;
+                return _padding.Compute();
             }
 
             set
             {
-                _padding = value;
+                _padding = new Length(value);
                 RecalcLayout();
             }
         }
@@ -130,8 +130,6 @@ namespace Sitana.Framework.Ui.Views
         protected override Rectangle CalculateChildBounds(UiView view)
         {
             Rectangle childBounds = Bounds;
-
-            
 
             int index = _children.IndexOf(view);
 
@@ -249,8 +247,8 @@ namespace Sitana.Framework.Ui.Views
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiSplitterView));
 
             StackMode = DefinitionResolver.Get<Mode>(Controller, binding, file["Mode"], Mode.Vertical);
-            _spacing = DefinitionResolver.Get<int>(Controller, binding, file["Spacing"], 0);
-            _padding = DefinitionResolver.Get<int>(Controller, binding, file["Padding"], 0);
+            _spacing = DefinitionResolver.Get<Length>(Controller, binding, file["Spacing"], Length.Zero);
+            _padding = DefinitionResolver.Get<Length>(Controller, binding, file["Padding"], Length.Zero);
 
             InitChildren(Controller, binding, definition);
         }
