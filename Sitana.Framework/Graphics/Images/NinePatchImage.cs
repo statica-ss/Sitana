@@ -41,7 +41,6 @@ namespace Sitana.Framework.Content
         /// <returns></returns>
         public static Object Load(String name)
         {
-            String directory = Path.GetDirectoryName(name);
             XNode node = null;
 
             try

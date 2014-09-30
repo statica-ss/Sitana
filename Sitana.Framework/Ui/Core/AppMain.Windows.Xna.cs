@@ -20,41 +20,12 @@ using Sitana.Framework.Graphics;
 using Sitana.Framework.Ui.Views;
 using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework;
+using System.Windows.Forms;
 
 namespace Sitana.Framework.Ui.Core
 {
     public partial class AppMain
     {
-        protected override void BeginRun()
-        {
-            base.BeginRun();
-
-            Window.ClientSizeChanged += (o, e) =>
-            {
-                if (Window.ClientBounds.IsEmpty)
-                {
-                    return;
-                }
-
-                if (MainView != null)
-                {
-                    int width = Math.Max(Window.ClientBounds.Width, MainView.MinSize.X);
-                    int height = Math.Max(Window.ClientBounds.Height, MainView.MinSize.Y);
-
-                    MainView.Bounds = new Rectangle(0, 0, width, height);
-
-                    Graphics.PreferredBackBufferWidth = width;
-                    Graphics.PreferredBackBufferHeight = height;
-                    Graphics.ApplyChanges();
-                }
-
-                if (Draw())
-                {
-                    GraphicsDevice.Present();
-                }
-            };
-        }
-
         public void ResizeToView()
         {
             Graphics.PreferredBackBufferWidth = MainView.PositionParameters.Width.Compute(100);
@@ -63,6 +34,27 @@ namespace Sitana.Framework.Ui.Core
             MainView.Bounds = new Rectangle(0, 0, MainView.PositionParameters.Width.Compute(100), MainView.PositionParameters.Height.Compute(100));
 
             Graphics.ApplyChanges();
+        }
+
+        public void OnSize(int width, int height)
+        {
+            if (MainView != null)
+            {
+                int newWidth = Math.Max(width, MainView.MinSize.X);
+                int newHeight = Math.Max(height, MainView.MinSize.Y);
+
+                MainView.Bounds = new Rectangle(0, 0, width, height);
+
+                Form gameForm = (Form)Form.FromHandle(Window.Handle);
+                gameForm.MinimumSize = new System.Drawing.Size(MainView.MinSize.X, MainView.MinSize.Y);
+
+                if (newWidth != width || newHeight != height)
+                {
+                    Graphics.PreferredBackBufferWidth = width;
+                    Graphics.PreferredBackBufferHeight = height;
+                    Graphics.ApplyChanges();
+                }
+            }
         }
     }
 }

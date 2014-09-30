@@ -45,6 +45,9 @@ namespace Sitana.Framework.Ui.Views
             file["ViewDeactivated"] = parser.ParseDelegate("ViewDeactivated");
 
             file["ViewResized"] = parser.ParseDelegate("ViewResized");
+
+            file["MinWidth"] = parser.ParseInt("MinWidth");
+            file["MinHeight"] = parser.ParseInt("MinHeight");
         }
 
         public string Id { get; set; }
@@ -184,6 +187,7 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
+            parameters.DrawBatch.Texture = null;
             parameters.DrawBatch.DrawRectangle(ScreenBounds, BackgroundColor * DisplayOpacity);
         }
 
@@ -257,6 +261,11 @@ namespace Sitana.Framework.Ui.Views
             RegisterDelegate("ViewActivated", file["ViewActivated"]);
             RegisterDelegate("ViewDeactivated", file["ViewDeactivated"]);
             RegisterDelegate("ViewResized", file["ViewResized"]);
+
+            MinSize = new Point(
+                DefinitionResolver.Get<int>(Controller, binding, file["MinWidth"], 0),
+                DefinitionResolver.Get<int>(Controller, binding, file["MinHeight"], 0)
+            );
         }
 
         public void CreatePositionParameters(UiController controller, object binding, DefinitionFile file, Type type)

@@ -9,6 +9,7 @@ using Sitana.Framework.Content;
 using System.Reflection;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Cs;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
 {
@@ -208,6 +209,14 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             if ( definition is T)
             {
                 return (T)definition;
+            }
+
+            if (typeof(T) == typeof(NinePatchImage) || typeof(T) == typeof(Texture2D))
+            {
+                if (definition is string)
+                {
+                    return ContentLoader.Current.Load<T>(definition as string);
+                }
             }
 
             return GetValueFromMethodOrField<T>(controller, binding, definition);

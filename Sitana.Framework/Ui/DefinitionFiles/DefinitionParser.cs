@@ -9,6 +9,7 @@ using Sitana.Framework.Content;
 using Sitana.Framework.Diagnostics;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 {
@@ -254,13 +255,26 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             string name = Value(id);
             object method = ParseMethodOrField(name);
 
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
+
             if (method != null)
             {
                 return method;
             }
 
+            IGraphicsDeviceService deviceService = ContentLoader.Current.GetService<IGraphicsDeviceService>();
+
+            if (deviceService == null || deviceService.GraphicsDevice == null)
+            {
+                return name;
+            }
+
             try
             {
+                
                 return ContentLoader.Current.Load<NinePatchImage>(name);
             }
             catch(Exception ex)

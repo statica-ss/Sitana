@@ -7,8 +7,8 @@
   <Style Name="DefaultButton">
     <UiButton>
       <UiButton.Drawables>
-        <button:SolidBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000"/>
-        <button:Text ColorPushed="#ffb0b0" ColorReleased="#c09090" ColorDisabled="#80c09090" Font="TestFont" FontSize="21" TextAlign="Left,Middle" Padding="10"/>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Ui/Button"/>
+        <button:Text ColorPushed="#ffb0b0" ColorReleased="#c09090" ColorDisabled="#80c09090" Font="TestFont" FontSize="21" TextAlign="Center,Middle" Padding="10"/>
       </UiButton.Drawables>
     </UiButton>
   </Style>

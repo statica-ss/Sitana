@@ -21,18 +21,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             var parser = new DefinitionParser(node);
 
             file["ImagePushed"] = parser.ParseNinePatchImage("ImagePushed");
-            file["ImageReleased"] = parser.ParseNinePatchImage("ImageReleased");
+            file["ImageReleased"] = parser.ParseNinePatchImage("Image");
             file["ImageDisabled"] = parser.ParseNinePatchImage("ImageDisabled");
-        }
-
-        private static object ConvertToNinePatchImage(object definition)
-        {
-            if (definition is string)
-            {
-                return ContentLoader.Current.Load<NinePatchImage>(definition as string);
-            }
-
-            return definition;
         }
 
         protected NinePatchImage _imagePushed = null;

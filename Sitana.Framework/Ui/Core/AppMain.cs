@@ -121,7 +121,7 @@ namespace Sitana.Framework.Ui.Core
             {
                 if (MainView != null)
                 {
-                    MainView.Bounds = new Rectangle(0, 0, newSize.X, newSize.Y);
+                    OnSize(newSize.X, newSize.Y);
                 }
 
                 _lastSize = newSize;
