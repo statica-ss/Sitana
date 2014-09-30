@@ -46,8 +46,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["ViewResized"] = parser.ParseDelegate("ViewResized");
 
-            file["MinWidth"] = parser.ParseInt("MinWidth");
-            file["MinHeight"] = parser.ParseInt("MinHeight");
+            file["MinWidth"] = parser.ParseLength("MinWidth", false);
+            file["MinHeight"] = parser.ParseLength("MinHeight", false);
         }
 
         public string Id { get; set; }
@@ -56,7 +56,13 @@ namespace Sitana.Framework.Ui.Views
 
         public Boolean Visible { get; set; }
 
-        public virtual Point MinSize {get; protected set;}
+        public virtual Point MinSize
+        {
+            get
+            {
+                return new Point(_minWidth.Compute(), _minHeight.Compute());
+            }
+        }
 
         public PositionParameters PositionParameters { get; private set; }
 
@@ -69,6 +75,9 @@ namespace Sitana.Framework.Ui.Views
         public Margin Margin { get { return PositionParameters.Margin; } set { PositionParameters.Margin = value; } }
 
         private UiController _controller = null;
+
+        protected Length _minWidth;
+        protected Length _minHeight;
 
         public object Binding { get; private set; }
 
@@ -134,7 +143,6 @@ namespace Sitana.Framework.Ui.Views
         public UiView()
         {
             Bounds = Rectangle.Empty;
-            MinSize = new Point(10, 10);
             PositionParameters = null;
         }
 
@@ -152,6 +160,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 CallDelegate("ViewResized", new InvokeParam("bounds", Bounds), new InvokeParam("size", new Point(Bounds.Width, Bounds.Height)),
                     new InvokeParam("width", Bounds.Width), new InvokeParam("height", Bounds.Height));
+
                 _lastSize = Bounds;
             }
 
@@ -262,10 +271,8 @@ namespace Sitana.Framework.Ui.Views
             RegisterDelegate("ViewDeactivated", file["ViewDeactivated"]);
             RegisterDelegate("ViewResized", file["ViewResized"]);
 
-            MinSize = new Point(
-                DefinitionResolver.Get<int>(Controller, binding, file["MinWidth"], 0),
-                DefinitionResolver.Get<int>(Controller, binding, file["MinHeight"], 0)
-            );
+            _minWidth = DefinitionResolver.Get<Length>(Controller, binding, file["MinWidth"], Length.Zero);
+            _minHeight = DefinitionResolver.Get<Length>(Controller, binding, file["MinHeight"], Length.Zero);
         }
 
         public void CreatePositionParameters(UiController controller, object binding, DefinitionFile file, Type type)

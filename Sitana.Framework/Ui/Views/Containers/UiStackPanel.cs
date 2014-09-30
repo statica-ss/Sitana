@@ -50,12 +50,6 @@ namespace Sitana.Framework.Ui.Views
             {
                 return _spacing.Compute(0);
             }
-
-            set
-            {
-                _spacing = new Length(value);
-                RecalcLayout();
-            }
         }
 
         public int Padding

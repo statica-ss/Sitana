@@ -15,11 +15,10 @@ namespace Sitana.Framework
         public readonly static Length Default = new Length(true);
         public readonly static Length Zero = new Length(0);
 
-        int _length;
-        int _percent;
+        double _length;
+        double _percent;
 
         bool _auto;
-        
 
         public bool IsAuto
         {
@@ -36,7 +35,7 @@ namespace Sitana.Framework
             _percent = 0;
         }
 
-        public Length(int length, int percent)
+        public Length(double length, double percent)
         {
             _auto = false;
             _length = length;
@@ -57,7 +56,7 @@ namespace Sitana.Framework
 
         public int Compute(int size)
         {
-            return (int)(UiUnit.Unit * (_percent * size / 100 + _length));
+            return (int)(_percent * size + UiUnit.Unit * _length);
         }
     }
 }

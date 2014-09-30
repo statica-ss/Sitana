@@ -28,7 +28,7 @@ namespace TestApp
             {
                 ContentLoader.Init(main.Content, "TestApp");
                 UiUnit.Unit = 0.5;
-                UiUnit.FontUnit = 0.5;
+                UiUnit.FontUnit = 0.5;// 1.0;
 
                 StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
                 main.LoadView("Ui/MainView");

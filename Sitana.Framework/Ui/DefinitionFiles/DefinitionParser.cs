@@ -406,26 +406,26 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
             string[] vals = name.SplitAndKeep('-', '+');
 
-            int length = 0;
-            int percent = 0;
+            double length = 0;
+            double percent = 0;
 
             foreach (var val in vals)
             {
                 if (val == "C" || val == "+C")
                 {
-                    percent += 50;
+                    percent += 0.5;
                 }
                 else if (val == "-C")
                 {
-                    percent -= 50;
+                    percent -= 0.5;
                 }
                 else if (val == "@" || val =="+@")
                 {
-                    percent += 100;
+                    percent += 1;
                 }
                 else if (val == "-@")
                 {
-                    percent -= 100;
+                    percent -= 1;
                 }
                 else if (val.EndsWith("%"))
                 {
@@ -435,7 +435,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
                 }
                 else
                 {
-                    length += int.Parse(val);
+                    length += double.Parse(val, CultureInfo.InvariantCulture);
                 }
             }
 

@@ -36,8 +36,6 @@ namespace Sitana.Framework.Ui.Views
             file["Children"] = list;
         }
 
-        private Point _minSizeSet = Point.Zero;
-
         private bool _clipChildren = false;
 
         protected Point _minSizeFromChildren = Point.Zero;
@@ -46,12 +44,7 @@ namespace Sitana.Framework.Ui.Views
         {
             get
             {
-                return new Point(Math.Max(_minSizeFromChildren.X, _minSizeSet.X), Math.Max(_minSizeFromChildren.Y, _minSizeSet.Y));
-            }
-
-            protected set
-            {
-                _minSizeSet = value;
+                return new Point(Math.Max(_minSizeFromChildren.X, _minWidth.Compute()), Math.Max(_minSizeFromChildren.Y, _minHeight.Compute()));
             }
         }
 
