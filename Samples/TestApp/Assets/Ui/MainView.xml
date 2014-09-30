@@ -9,9 +9,9 @@
 
     <UiStackPanel Mode="Vertical" BackgroundColor="#203040" Spacing="10" Padding="10">
       <UiStackPanel.Children>
-        <UiLabel Text="{Info}" BackgroundColor="#20ff8080" TextColor="#ffffff" Font="TestFont" FontSize="21" pp:Height="32"/>
-        <UiLabel Text="{Test2()}" BackgroundColor="#208080ff" TextColor="{TextColor}" Font="TestFont" FontSize="21" pp:Height="32" pp:Width="C-10" pp:Align="Left"/>
-        <UiLabel Text="{ButtonClick}" BackgroundColor="#2080ff80" TextColor="#ffffff" Font="TestFont" FontSize="21" pp:Height="32" pp:Width="C-10" pp:Align="Right"/>
+        <UiLabel Text="{Info}" BackgroundColor="#20ff8080" TextColor="#ffffff" Font="TestFont" FontSize="16" pp:Height="32"/>
+        <UiLabel Text="{Test2()}" BackgroundColor="#208080ff" TextColor="{TextColor}" Font="TestFont" FontSize="16" pp:Height="32" pp:Width="C-10" pp:Align="Left"/>
+        <UiLabel Text="{ButtonClick}" BackgroundColor="#2080ff80" TextColor="#ffffff" Font="TestFont" FontSize="16" pp:Height="32" pp:Width="C-10" pp:Align="Right"/>
         <UiStackPanel Mode="Horizontal" BackgroundColor="#2080ffff" Spacing="10" Padding="10" pp:Height="40">
           <UiStackPanel.Children>
             <UiRectangle BackgroundColor="#ff0000" pp:Width="20" pp:Height="20"/>
@@ -36,7 +36,7 @@
     
 <!--<UiListBox Binding="{List}">
         <UiListBox.ItemTemplate>
-            <UiLabel Text="{{Text}}" list:Width="100%" list:Height="Auto" Font="TestFont" FontSize="21" TextColor="0,0,0" TextAlign="Center"/>
+            <UiLabel Text="{{Text}}" list:Width="100%" list:Height="Auto" Font="TestFont" FontSize="16" TextColor="0,0,0" TextAlign="Center"/>
         </UiListBox.ItemTemplate>
     </UiListBox>-->
   </UiSplitterView.Children>

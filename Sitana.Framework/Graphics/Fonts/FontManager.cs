@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Sitana.Framework.Cs;
 using Microsoft.Xna.Framework.Graphics;
+using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework.Content
 {
@@ -39,6 +40,8 @@ namespace Sitana.Framework.Content
 
         public SpriteFont FindFont(string fontName, int size)
         {
+            size = Math.Max(1,(int)(UiUnit.FontUnit * size));
+
             List<SpriteFont> list = null;
             _fonts.TryGetValue(fontName, out list);
 
@@ -75,7 +78,7 @@ namespace Sitana.Framework.Content
                 }
             }
 
-            return null;
+            return list[size];
         }
     }
 }

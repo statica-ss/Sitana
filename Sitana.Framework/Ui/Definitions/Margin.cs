@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework
 {
@@ -14,10 +15,10 @@ namespace Sitana.Framework
     {
         public static readonly Margin None = new Margin(null);
 
-        public int Top { get { return _top.GetValueOrDefault(); } }
-        public int Bottom { get { return _bottom.GetValueOrDefault(); } }
-        public int Left { get { return _left.GetValueOrDefault(); } }
-        public int Right { get { return _right.GetValueOrDefault(); } }
+        public int Top { get { return Get(_top).GetValueOrDefault(); } }
+        public int Bottom { get { return Get(_bottom).GetValueOrDefault(); } }
+        public int Left { get { return Get(_left).GetValueOrDefault(); } }
+        public int Right { get { return Get(_right).GetValueOrDefault(); } }
 
         public int? _top;
         public int? _bottom;
@@ -60,42 +61,52 @@ namespace Sitana.Framework
             return rect;
         }
 
+        int? Get(int? value)
+        {
+            if (value.HasValue)
+            {
+                return (int)(UiUnit.Unit*value.Value);
+            }
+
+            return null;
+        }
+
         public void RepairRect(ref Rectangle rect, int width, int height)
         {
-            if (_left.HasValue && rect.Left < _left.Value)
+            if (_left.HasValue && rect.Left < Get(_left).Value)
             {
-                int diff = _left.Value - rect.Left;
+                int diff = Get(_left).Value - rect.Left;
                 rect.X += diff;
             }
 
-            if (_right.HasValue && rect.Right > width-_right.Value)
+            if (_right.HasValue && rect.Right > width - Get(_right).Value)
             {
-                int diff = rect.Right - (width - _right.Value);
+                int diff = rect.Right - (width - Get(_right).Value);
                 rect.X -= diff;
             }
 
-            if (_left.HasValue && rect.Left < _left.Value)
+            if (_left.HasValue && rect.Left < Get(_left).Value)
             {
-                int diff = _left.Value - rect.Left;
+                int diff = Get(_left).Value - rect.Left;
                 rect.X += diff;
                 rect.Width -= diff;
             }
 
-            if (_top.HasValue && rect.Top < _top.Value)
+            if (_top.HasValue && rect.Top < Get(_top).Value)
             {
-                int diff = _top.Value - rect.Top;
+                int diff = Get(_top).Value - rect.Top;
                 rect.Y += diff;
             }
 
-            if (_bottom.HasValue && rect.Bottom > height - _bottom.Value)
+            if (_bottom.HasValue && rect.Bottom > height - Get(_bottom).Value)
             {
-                int diff = rect.Bottom - (height - _bottom.Value);
+                int diff = rect.Bottom - (height - Get(_bottom).Value);
                 rect.Y -= diff;
             }
 
-            if (_top.HasValue && rect.Top < _top.Value)
+            if (_top.HasValue && rect.Top < Get(_top).Value)
             {
-                int diff = _top.Value - rect.Top;
+                int diff = Get(_top).Value - rect.Top;
                 rect.Y += diff;
                 rect.Height -= diff;
             }

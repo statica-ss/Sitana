@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework
 {
@@ -50,7 +51,7 @@ namespace Sitana.Framework
 
         public int Compute(int size)
         {
-            return _percent * size / 100 + _length;
+            return (int)(UiUnit.Unit * (_percent * size / 100 + _length));
         }
     }
 }
