@@ -14,10 +14,15 @@ Sitana Framework is multiple platform Games (and Apps) framework based on MonoGa
 
 Run `Download.exe` on Windows or `mono Download.exe` on Mac OS and Linux, to download all necessary packages.
 
+### Samples
+
+Main directory solutions include sample application on every platform.
+
 ## License
 
 Sitana is released under [Apache License 2.0](LICENSE.txt).
 
 ## Current Roadmap
 
+See [version 1.0 todo](TODO_V1.md), which contains task list to complete before version 1.0 is released.
 [Version1.md](Version1.md) contains task list to complete before version 1.0 is released.
