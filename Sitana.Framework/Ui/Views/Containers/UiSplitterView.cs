@@ -10,6 +10,7 @@ using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Views.Parameters;
+using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -27,8 +28,8 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionParser parser = new DefinitionParser(node);
 
-            file["Mode"] = parser.ParseEnum<Mode>("Mode", Mode.Horizontal);
-            file["Position"] = parser.ParseLength("Position");
+            file["Mode"] = parser.ParseEnum<Mode>("Mode");
+            file["Position"] = parser.ParseInt("Position");
             file["SplitterSize"] = parser.ParseLength("SplitterSize");
 
             foreach (var cn in node.Nodes)
@@ -93,25 +94,6 @@ namespace Sitana.Framework.Ui.Views
 
                 RecalcLayout();
                 OnChildrenModified();
-            }
-        }
-
-        protected override void Draw(ref UiViewDrawParameters parameters)
-        {
-            if (DisplayOpacity == 0)
-            {
-                return;
-            }
-
-            UiViewDrawParameters drawParams = parameters;
-
-            parameters.DrawBatch.DrawRectangle(ScreenBounds, BackgroundColor * DisplayOpacity);
-
-            for (int idx = 0; idx < _children.Count; ++idx)
-            {
-                parameters.DrawBatch.PushClip(_children[idx].ScreenBounds);
-                _children[idx].ViewDraw(ref drawParams);
-                parameters.DrawBatch.PopClip();
             }
         }
 
@@ -194,37 +176,23 @@ namespace Sitana.Framework.Ui.Views
             else
             {
                 minSizeX = Math.Max((int)(_children[0].MinSize.X / _splitterPosition), (int)(_children[1].MinSize.X / (1 - _splitterPosition)));
-
                 minSizeY = Math.Max(_children[0].MinSize.Y, _children[1].MinSize.Y);
             }
 
             _minSizeFromChildren = new Point(minSizeX, minSizeY);
         }
 
-        protected override void Init(UiController controller, object binding, DefinitionFile file)
+        protected override void Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(ref controller, binding, file);
+            base.Init(controller, binding, definition);
 
-            SplitMode = DefinitionResolver.Get<Mode>(controller, binding, file["Mode"]);
-            _splitterPosition = (float)DefinitionResolver.Get<Length>(controller, binding, file["Position"]).Compute(100) / 100.0f;
-            _splitterSize = DefinitionResolver.Get<Length>(controller, binding, file["SplitterSize"]).Compute(100);
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiSplitterView));
 
-            List<DefinitionFile> children = file["Children"] as List<DefinitionFile>;
+            SplitMode = DefinitionResolver.Get<Mode>(Controller, binding, file["Mode"], Mode.Vertical);
+            _splitterPosition = (float)DefinitionResolver.Get<int>(Controller, binding, file["Position"], 50) / 100.0f;
+            _splitterSize = DefinitionResolver.Get<Length>(Controller, binding, file["SplitterSize"], Length.Default).Compute(100);
 
-            if (children != null)
-            {
-                for (int idx = 0; idx < children.Count; ++idx)
-                {
-                    var childFile = children[idx];
-                    var child = childFile.CreateInstance(controller, binding) as UiView;
-                    child.CreatePositionParameters(controller, binding, childFile, typeof(PositionParameters));
-
-                    if (child != null)
-                    {
-                        Add(child);
-                    }
-                }
-            }
+            InitChildren(Controller, binding, definition);
         }
     }
 }

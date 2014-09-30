@@ -8,10 +8,12 @@ using Microsoft.Xna.Framework;
 using Sitana.Framework.Content;
 using Sitana.Framework.Diagnostics;
 using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Xml;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 {
-    public class DefinitionParser
+    public struct DefinitionParser
     {
         public static bool EnableCheckMode = false;
 
@@ -41,8 +43,6 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
         {
             return _node.Attribute(attribute);
         }
-
-        
 
         object ParseMethodOrField(string name)
         {
@@ -112,6 +112,8 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
         object ParseParameter(string methodDef, string val)
         {
+            val = val.Trim(' ');
+
             if ( val.StartsWith("\'"))
             {
                 val = val.Trim('\'');
@@ -220,7 +222,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             return null;
         }
 
-        public object ParseBoolean(string id, bool defaultValue = false)
+        public object ParseBoolean(string id)
         {
             string name = Value(id);
             object method = ParseMethodOrField(name);
@@ -232,7 +234,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
             if (name.IsNullOrEmpty())
             {
-                return defaultValue;
+                return null;
             }
 
             bool value;
@@ -245,7 +247,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             Exception ex = Error(id, "Invalid format. Expected true or false or Method/Property name.");
             if (ex != null) throw ex;
 
-            return defaultValue;
+            return null;
         }
 
         public object ParseNinePatchImage(string id)
@@ -253,13 +255,26 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             string name = Value(id);
             object method = ParseMethodOrField(name);
 
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
+
             if (method != null)
             {
                 return method;
             }
 
+            IGraphicsDeviceService deviceService = ContentLoader.Current.GetService<IGraphicsDeviceService>();
+
+            if (deviceService == null || deviceService.GraphicsDevice == null)
+            {
+                return name;
+            }
+
             try
             {
+                
                 return ContentLoader.Current.Load<NinePatchImage>(name);
             }
             catch(Exception ex)
@@ -269,13 +284,13 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             }
         }
 
-        public T ParseEnum<T>(string id, T defaultValue) where T: struct
+        public object ParseEnum<T>(string id) where T: struct
         {
             string name = Value(id);
 
             if (name.IsNullOrEmpty())
             {
-                return defaultValue;
+                return null;
             }
 
             T value;
@@ -287,7 +302,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             Exception ex = Error(id, "Error while parsing enumeration: {0}.", typeof(T).FullName);
             if (ex != null) throw ex;
 
-            return defaultValue;
+            return null;
         }
 
         public object ParseMargin(string id)
@@ -302,7 +317,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
             if (name.IsNullOrEmpty())
             {
-                return new Margin(0);
+                return null;
             }
 
             string[] elements = name.Replace(" ", "").Split(',');
@@ -330,15 +345,10 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             Exception ex = Error(id, "Margin format is 'left,top,right,bottom' or 'all'.");
             if (ex != null) throw ex;
 
-            return new Margin(0);
+            return null;
         }
 
-        public object ParseInt(string name)
-        {
-            return ParseInt(name, 0);
-        }
-
-        public object ParseInt(string id, int defaultValue)
+        public object ParseInt(string id)
         {
             string name = Value(id);
             object method = ParseMethodOrField(name);
@@ -350,7 +360,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
             if (name.IsNullOrEmpty())
             {
-                return defaultValue;
+                return null;
             }
 
             int value;
@@ -363,10 +373,16 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             Exception ex = Error(id, "Invalid format. Expected Integer.");
             if (ex != null) throw ex;
 
-            return defaultValue;
+            return null;
         }
 
         public object ParseLength(string id)
+        {
+            return ParseLength(id, true);
+        }
+
+        // TODO: Special values error while allowSpecialValues is set to false.
+        public object ParseLength(string id, bool allowSpecialValues)
         {
             string name = Value(id);
             object method = ParseMethodOrField(name);
@@ -378,31 +394,52 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
             if ( name.IsNullOrEmpty())
             {
+                return null;
+            }
+
+            if (name.ToLowerInvariant() == "auto")
+            {
                 return new Length(true);
             }
 
             name = name.Replace(" ", "");
 
-            bool percent = name.EndsWith("%");
+            string[] vals = name.SplitAndKeep('-', '+');
 
-            name = name.TrimEnd('%');
+            int length = 0;
+            int percent = 0;
 
-            int length;
-            
-            if ( int.TryParse(name, out length))
+            foreach (var val in vals)
             {
-                return new Length(length, percent);
+                if (val == "C" || val == "+C")
+                {
+                    percent += 50;
+                }
+                else if (val == "-C")
+                {
+                    percent -= 50;
+                }
+                else if (val == "@" || val =="+@")
+                {
+                    percent += 100;
+                }
+                else if (val == "-@")
+                {
+                    percent -= 100;
+                }
+                else if (val.EndsWith("%"))
+                {
+                    string newVal = val.TrimEnd('%');
+
+                    percent += int.Parse(newVal);
+                }
+                else
+                {
+                    length += int.Parse(val);
+                }
             }
 
-            if ( name.ToLowerInvariant() == "auto" )
-            {
-                return new Length(true);
-            }
-
-            Exception ex = Error(id, "Length format is integer with optional '%' sign at the end.");
-            if (ex != null) throw ex;
-
-            return new Length(true);
+            return new Length(length, percent);
         }
     }
 }

@@ -14,6 +14,9 @@ using System.Diagnostics;
 using Sitana.Framework.Cs;
 using System.Text;
 using System;
+using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Xml;
+using Sitana.Framework.Graphics;
 
 namespace Sitana.Framework.Content
 {
@@ -71,7 +74,7 @@ namespace Sitana.Framework.Content
 
         public Int32 TextureRescaleFactor { get; private set; }
 
-        private List<Pair<string, string>> _specialFolders = new List<Pair<string, string>>();
+        private List<Tuple<string, string>> _specialFolders = new List<Tuple<string, string>>();
 
         public T GetService<T>()
         {
@@ -94,9 +97,9 @@ namespace Sitana.Framework.Content
             Sprite.Register();
             BitmapFont.Register();
             NinePatchImage.Register();
-            TextureEx.Register();
             ModelXLoader.Register();
             XFile.Register();
+            DefinitionFile.Register();
 
             Current.TextureRescaleFactor = 0;
         }
@@ -129,7 +132,7 @@ namespace Sitana.Framework.Content
 
         public void AddSpecialFolder(string id, string name)
         {
-            _specialFolders.Add(new Pair<string, string>('['+id+']', name));
+            _specialFolders.Add(new Tuple<string, string>('[' + id + ']', name));
         }
 
         /// <summary>
@@ -150,7 +153,7 @@ namespace Sitana.Framework.Content
             
             for (int idx = 0; idx < _specialFolders.Count; ++idx)
             {
-                _pathBuilder.Replace(_specialFolders[idx].First, _specialFolders[idx].Second);
+                _pathBuilder.Replace(_specialFolders[idx].Item1, _specialFolders[idx].Item2);
             }
 
             return _pathBuilder.ToString();

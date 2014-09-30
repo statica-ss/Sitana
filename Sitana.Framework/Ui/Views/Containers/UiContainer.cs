@@ -8,6 +8,8 @@ using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Controllers;
+using Sitana.Framework.Xml;
+using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -16,6 +18,9 @@ namespace Sitana.Framework.Ui.Views
         public new static void Parse(XNode node, DefinitionFile file)
         {
             UiView.Parse(node, file);
+
+            var parser = new DefinitionParser(node);
+            file["ClipChildren"] = parser.ParseBoolean("ClipChildren");
         }
 
         protected static void ParseChildren(XNode node, DefinitionFile file)
@@ -33,6 +38,8 @@ namespace Sitana.Framework.Ui.Views
 
         private Point _minSizeSet = Point.Zero;
 
+        private bool _clipChildren = false;
+
         protected Point _minSizeFromChildren = Point.Zero;
 
         public override Point MinSize
@@ -49,7 +56,7 @@ namespace Sitana.Framework.Ui.Views
         }
 
         protected List<UiView> _children = new List<UiView>();
-        Rectangle _bounds = new Rectangle();
+        protected Rectangle _bounds = new Rectangle();
 
         public void Remove(UiView view)
         {
@@ -112,7 +119,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected virtual Rectangle CalculateChildBounds(UiView view)
         {
-            return view.PositionParameters.ComputePosition(new Rectangle(0,0,Bounds.Width, Bounds.Height));
+            return view.PositionParameters.Margin.ComputeRect(new Rectangle(0,0,Bounds.Width, Bounds.Height));
         }
 
         protected override void Draw(ref UiViewDrawParameters parameters)
@@ -126,14 +133,20 @@ namespace Sitana.Framework.Ui.Views
 
             UiViewDrawParameters drawParams = parameters;
 
-            parameters.DrawBatch.PushClip(ScreenBounds);
+            if (_clipChildren)
+            {
+                parameters.DrawBatch.PushClip(ScreenBounds);
+            }
 
             for (int idx = 0; idx < _children.Count; ++idx)
             {
                 _children[idx].ViewDraw(ref drawParams);
             }
 
-            parameters.DrawBatch.PopClip();
+            if (_clipChildren)
+            {
+                parameters.DrawBatch.PopClip();
+            }
         }
 
         protected override void Update(float time)
@@ -186,9 +199,44 @@ namespace Sitana.Framework.Ui.Views
             return null;
         }
 
-        protected override void Init(UiController controller, object binding, DefinitionFile file)
+        public virtual void UpdateChildBounds(UiView view, Rectangle bounds)
         {
-            base.Init(ref controller, binding, file);
+        }
+
+        protected override void Init(object controller, object binding, DefinitionFile definition)
+        {
+            base.Init(controller, binding, definition);
+
+            var file = new DefinitionFileWithStyle(definition, typeof(UiContainer));
+
+            _clipChildren = DefinitionResolver.Get<bool>(Controller, binding, file["ClipChildren"], false);
+        }
+
+        protected void InitChildren(UiController controller, object binding, DefinitionFile definition)
+        {
+            InitChildren(controller, binding, definition, typeof(PositionParameters));
+        }
+
+        protected void InitChildren(UiController controller, object binding, DefinitionFile definition, Type positionParametersType)
+        {
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiSplitterView));
+
+            List<DefinitionFile> children = file["Children"] as List<DefinitionFile>;
+
+            if (children != null)
+            {
+                for (int idx = 0; idx < children.Count; ++idx)
+                {
+                    var childFile = children[idx];
+                    var child = childFile.CreateInstance(controller, binding) as UiView;
+                    child.CreatePositionParameters(controller, binding, childFile, positionParametersType);
+
+                    if (child != null)
+                    {
+                        Add(child);
+                    }
+                }
+            }
         }
     }
 }

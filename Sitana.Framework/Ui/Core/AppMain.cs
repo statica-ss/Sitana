@@ -61,8 +61,6 @@ namespace Sitana.Framework.Ui.Core
                 throw new Exception("There can be only one AppMain instance.");
             }
 
-            
-
             Current = this;
 
             InactiveSleepTime = TimeSpan.FromMilliseconds(100);
@@ -71,6 +69,8 @@ namespace Sitana.Framework.Ui.Core
 
             Graphics.IsFullScreen = true;
             Graphics.SynchronizeWithVerticalRetrace = true;
+
+            MusicController.Instance.Initialize();
         }
 
         protected override void Dispose(bool disposing)
@@ -113,13 +113,15 @@ namespace Sitana.Framework.Ui.Core
 
         protected override void Update(GameTime gameTime)
         {
+            UiTask.Process();
+
             var newSize = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
             if (_lastSize != newSize)
             {
                 if (MainView != null)
                 {
-                    MainView.Bounds = new Rectangle(0, 0, newSize.X, newSize.Y);
+                    OnSize(newSize.X, newSize.Y);
                 }
 
                 _lastSize = newSize;
@@ -173,8 +175,8 @@ namespace Sitana.Framework.Ui.Core
 
         public void LoadView(string path)
         {
-            XNode node = ContentLoader.Current.Load<XFile>(path);
-            _mainView = DefinitionFile.LoadFile(node);
+            DefinitionFile file = ContentLoader.Current.Load<DefinitionFile>(path);
+            _mainView = file;
         }
     }
 }

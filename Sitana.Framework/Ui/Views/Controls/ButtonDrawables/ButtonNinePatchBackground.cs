@@ -8,48 +8,41 @@ using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Graphics;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Ui.Views.ButtonDrawables
 {
-    public class ButtonNinePatchBackground : ButtonSolidBackground
+    public class NinePatchBackground : SolidBackground
     {
         public new static void Parse(XNode node, DefinitionFile file)
         {
-            ButtonSolidBackground.Parse(node, file);
+            SolidBackground.Parse(node, file);
 
             var parser = new DefinitionParser(node);
 
             file["ImagePushed"] = parser.ParseNinePatchImage("ImagePushed");
-            file["ImageReleased"] = parser.ParseNinePatchImage("ImageReleased");
+            file["ImageReleased"] = parser.ParseNinePatchImage("Image");
             file["ImageDisabled"] = parser.ParseNinePatchImage("ImageDisabled");
-        }
-
-        private static object ConvertToNinePatchImage(object definition)
-        {
-            if (definition is string)
-            {
-                return ContentLoader.Current.Load<NinePatchImage>(definition as string);
-            }
-
-            return definition;
         }
 
         protected NinePatchImage _imagePushed = null;
         protected NinePatchImage _imageReleased = null;
         protected NinePatchImage _imageDisabled = null;
 
-        protected override void Init(UiController controller, object binding, DefinitionFile file)
+        protected override void Init(UiController controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, file);
+            base.Init(controller, binding, definition);
 
-            _imageDisabled = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImageDisabled"]);
-            _imageReleased = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImageReleased"]);
-            _imagePushed = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImagePushed"]);
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(NinePatchBackground));
+
+            _imageDisabled = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImageDisabled"], null);
+            _imageReleased = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImageReleased"], null);
+            _imagePushed = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImagePushed"], null);
         }
 
-        public override void Draw(AdvancedDrawBatch drawBatch, ref Rectangle target, UiButton.State state)
+        public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.State state, object argument)
         {
-            Color color = ColorFromState(state);
+            Color color = ColorFromState(state) * opacity;
 
             NinePatchImage image = _imageReleased;
 

@@ -9,6 +9,7 @@ using Sitana.Framework.Content;
 using System.Reflection;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Cs;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
 {
@@ -62,32 +63,30 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
             object context = method.Binding ? binding : controller;
 
-            Type[] types = method.Parameters.Length > 0 ? new Type[method.Parameters.Length] : null;
-            object[] parameters = method.Parameters.Length > 0 ? new object[method.Parameters.Length] : null;
+            object[] parameters = new object[method.Parameters.Length];
 
-            if (parameters != null)
-            {
-                for (int idx = 0; idx < parameters.Length; ++idx)
-                {
-                    parameters[idx] = ObtainParameter(invokeParameters, method.Parameters[idx]);
-                    types[idx] = parameters[idx] != null ? parameters[idx].GetType() : typeof(object);
-                }
-            }
-
-            MethodInfo info;
             
-            if (types != null)
+            for (int idx = 0; idx < parameters.Length; ++idx)
             {
-                info = context.GetType().GetMethod(method.Name, types);
-            }
-            else
-            {
-                info = context.GetType().GetMethod(method.Name);
+                parameters[idx] = ObtainParameter(invokeParameters, method.Parameters[idx]);
             }
 
-            if (info != null)
+            MethodInfo[] infos = context.GetType().GetMethods();
+
+            if (infos != null)
             {
-                return info.Invoke(context, parameters);
+                foreach (var info in infos)
+                {
+                    if (info.Name == method.Name)
+                    {
+                        ParameterInfo[] methodParams = info.GetParameters();
+
+                        if (parameters.Length == methodParams.Length)
+                        {
+                            return info.Invoke(context, parameters);
+                        }
+                    }
+                }
             }
 
             throw new Exception(String.Format("Cannot find method: {0}({1})", method.Name, parameters.ToString()));
@@ -170,21 +169,6 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return null;
         }
 
-        public static bool GetBoolean(UiController controller, object binding, object definition)
-        {
-            if (definition == null)
-            {
-                return false;
-            }
-
-            if (definition is bool)
-            {
-                return (bool)definition;
-            }
-
-            return GetValueFromMethodOrField<bool>(controller, binding, definition);
-        }
-
         public static Color? GetColor(UiController controller, object binding, object definition)
         {
             if (definition == null)
@@ -215,16 +199,24 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return GetValueFromMethodOrField<ColorWrapper>(controller, binding, definition);
         }
 
-        public static T Get<T>(UiController controller, object binding, object definition)
+        public static T Get<T>(UiController controller, object binding, object definition, T defaultValue)
         {
             if (definition == null)
             {
-                return default(T);
+                return defaultValue;
             }
 
             if ( definition is T)
             {
                 return (T)definition;
+            }
+
+            if (typeof(T) == typeof(NinePatchImage) || typeof(T) == typeof(Texture2D))
+            {
+                if (definition is string)
+                {
+                    return ContentLoader.Current.Load<T>(definition as string);
+                }
             }
 
             return GetValueFromMethodOrField<T>(controller, binding, definition);

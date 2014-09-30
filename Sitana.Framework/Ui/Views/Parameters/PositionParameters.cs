@@ -6,16 +6,20 @@ using Microsoft.Xna.Framework;
 using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Ui.Views
 {
     public class PositionParameters: IDefinitionClass
     {
-        public Margin Margin = Margin.Zero;
+        public Margin Margin = Margin.None;
         public Align  Align = Align.StretchHorz | Align.StretchVert;
 
         public Length Width;
         public Length Height;
+
+        public Length X;
+        public Length Y;
 
         public static void Parse(XNode node, DefinitionFile file)
         {
@@ -24,6 +28,11 @@ namespace Sitana.Framework.Ui.Views
             file["Width"] = parser.ParseLength("Width");
             file["Height"] = parser.ParseLength("Height");
             file["Margin"] = parser.ParseMargin("Margin");
+
+            file["Align"] = parser.ParseEnum<Align>("Align");
+
+            file["X"] = parser.ParseLength("X");
+            file["Y"] = parser.ParseLength("Y");
         }
 
         void IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
@@ -33,55 +42,14 @@ namespace Sitana.Framework.Ui.Views
 
         protected virtual void Init(UiController controller, object binding, DefinitionFile file)
         {
-            Width = DefinitionResolver.Get<Length>(controller, binding, file["Width"]);
-            Height = DefinitionResolver.Get<Length>(controller, binding, file["Height"]);
-            Margin = DefinitionResolver.Get<Margin>(controller, binding, file["Margin"]);
-        }
+            Width = DefinitionResolver.Get<Length>(controller, binding, file["Width"], Length.Default);
+            Height = DefinitionResolver.Get<Length>(controller, binding, file["Height"], Length.Default);
+            Margin = DefinitionResolver.Get<Margin>(controller, binding, file["Margin"], Margin.None);
 
-        public Rectangle ComputePosition(Rectangle target)
-        {
-            Rectangle bounds = target;
+            Align = DefinitionResolver.Get<Align>(controller, binding, file["Align"], Align.StretchHorz | Align.StretchVert);
 
-            int width = Width.Compute(target.Width);
-            int height = Height.Compute(target.Height);
-
-            switch(Align & Sitana.Framework.Align.Horz)
-            {
-                case Sitana.Framework.Align.Left:
-                    bounds.X = target.Left;
-                    bounds.Width = width;
-                    break;
-
-                case Sitana.Framework.Align.Right:
-                    bounds.X = target.Right - width;
-                    bounds.Width = width;
-                    break;
-
-                case Sitana.Framework.Align.Center:
-                    bounds.X = target.Center.X - width / 2;
-                    bounds.Width = width;
-                    break;
-            }
-
-            switch (Align & Sitana.Framework.Align.Vert)
-            {
-                case Sitana.Framework.Align.Top:
-                    bounds.Y = target.Top;
-                    bounds.Height = height;
-                    break;
-
-                case Sitana.Framework.Align.Bottom:
-                    bounds.Y = target.Bottom - height;
-                    bounds.Height = height;
-                    break;
-
-                case Sitana.Framework.Align.Middle:
-                    bounds.Y = target.Center.Y - height / 2;
-                    bounds.Height = height;
-                    break;
-            }
-
-            return Margin.ComputeRect(bounds);
+            X = DefinitionResolver.Get<Length>(controller, binding, file["X"], Length.Default);
+            Y = DefinitionResolver.Get<Length>(controller, binding, file["Y"], Length.Default);
         }
     }
 }

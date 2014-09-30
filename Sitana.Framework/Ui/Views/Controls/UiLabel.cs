@@ -26,6 +26,7 @@ using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using System;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Cs;
+using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -99,15 +100,17 @@ namespace Sitana.Framework.Ui.Views
             parameters.DrawBatch.DrawText(Text, ScreenBounds, TextAlign.Center | TextAlign.Middle, TextColor.Value * DisplayOpacity);
         }
 
-        protected override void Init(UiController controller, object binding, DefinitionFile file)
+        protected override void Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(ref controller, binding, file);
+            base.Init(controller, binding, definition);
+
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiLabel));
 
             FontName = file["Font"] as string;
-            FontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"]);
+            FontSize = DefinitionResolver.Get<int>(Controller, binding, file["FontSize"], 0);
 
-            Text = DefinitionResolver.GetSharedString(controller, binding, file["Text"]);
-            TextColor = DefinitionResolver.GetColorWrapper(controller, binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
+            Text = DefinitionResolver.GetSharedString(Controller, binding, file["Text"]);
+            TextColor = DefinitionResolver.GetColorWrapper(Controller, binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
         }
     }
 }

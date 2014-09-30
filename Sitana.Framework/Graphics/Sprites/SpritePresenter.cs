@@ -8,13 +8,11 @@ using System;
 
 namespace Sitana.Framework.Content
 {
-    public class SpritePresenter : ICustomDraw
+    public class SpritePresenter
     {
         private Sprite _sprite;
         private Int32 _currentSequence = 0;
         private Double[] _currentFrames;
-
-        private ICustomDraw _customDraw;
 
         public Point FrameSize
         {
@@ -49,27 +47,6 @@ namespace Sitana.Framework.Content
         {
             _sprite = sprite;
             _currentFrames = new Double[sprite.Sequences.Length];
-            _customDraw = this;
-        }
-
-        void ICustomDraw.Draw(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle source, Color color, Single angle, Vector2 origin, Vector2 scale, SpriteEffects spriteEffects)
-        {
-            spriteBatch.Draw(texture, position, source, color, angle, origin, scale, spriteEffects, 0);
-        }
-
-        public ICustomDraw CustomDraw
-        {
-            set
-            {
-                if (value != null)
-                {
-                    _customDraw = value;
-                }
-                else
-                {
-                    _customDraw = this;
-                }
-            }
         }
 
         public void SetSequence(Int32 id)
@@ -143,7 +120,7 @@ namespace Sitana.Framework.Content
                 offsetY = (frame / _sprite.Columns) * _sprite.FrameSize.Y;
             }
 
-            _customDraw.Draw(spriteBatch, _sprite.SpriteSheet[sheetPart], position, new Rectangle(offsetX, offsetY, _sprite.FrameSize.X, _sprite.FrameSize.Y), color, angle, origin, scale, spriteEffects);
+            spriteBatch.Draw(_sprite.SpriteSheet[sheetPart], position, new Rectangle(offsetX, offsetY, _sprite.FrameSize.X, _sprite.FrameSize.Y), color, angle, origin, scale, spriteEffects, 0);
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Color color, Single angle, Vector2 origin, Single scale, SpriteEffects spriteEffects)
@@ -186,7 +163,7 @@ namespace Sitana.Framework.Content
                     offsetY = (frame / _sprite.Columns) * _sprite.FrameSize.Y;
                 }
 
-                _customDraw.Draw(spriteBatch, _sprite.SpriteSheet[idx], position, new Rectangle(offsetX, offsetY, _sprite.FrameSize.X, _sprite.FrameSize.Y), colors.Length > 1 ? colors[idx] : colors[0], angle, origin, scale, spriteEffects);
+                spriteBatch.Draw(_sprite.SpriteSheet[idx], position, new Rectangle(offsetX, offsetY, _sprite.FrameSize.X, _sprite.FrameSize.Y), colors.Length > 1 ? colors[idx] : colors[0], angle, origin, scale, spriteEffects, 0);
             }
         }
     }

@@ -43,7 +43,7 @@ namespace Sitana.Framework.Graphics.Model.Importers
 
             List<Int16> subsetIndices = new List<Int16>();
 
-            List<Pair<String, Material>> materials = new  List<Pair<String, Material>>();
+            List<Tuple<String, Material>> materials = new List<Tuple<String, Material>>();
 
             Int32 subsetMaterial = -1;
             List<String> temp = new List<String>();
@@ -138,23 +138,23 @@ namespace Sitana.Framework.Graphics.Model.Importers
             return new ModelX(new List<Material[]>(){GetArrayOfMaterials(materials)}, subsets.ToArray(), vertices.ToArray());
         }
 
-        private static Material[] GetArrayOfMaterials(List<Pair<String,Material>> materials)
+        private static Material[] GetArrayOfMaterials(List<Tuple<String, Material>> materials)
         {
             Material[] mats = new Material[materials.Count];
 
             for(Int32 idx = 0; idx < materials.Count;++idx)
             {
-                mats[idx] = materials[idx].Second;
+                mats[idx] = materials[idx].Item2;
             }
 
             return mats;
         }
 
-        private static Int32 FindMaterial(String name, List<Pair<String,Material>> materials)
+        private static Int32 FindMaterial(String name, List<Tuple<String, Material>> materials)
         {
             for ( Int32 idx = 0; idx < materials.Count; ++idx )
             {
-                if ( materials[idx].First == name)
+                if ( materials[idx].Item1 == name)
                 {
                     return idx;
                 }
@@ -163,7 +163,7 @@ namespace Sitana.Framework.Graphics.Model.Importers
             return -1;
         }
 
-        private static void ReadMaterials(List<Pair<String, Material>> materials, Stream stream)
+        private static void ReadMaterials(List<Tuple<String, Material>> materials, Stream stream)
         {
             StreamReader reader = new StreamReader(stream);
 
@@ -207,7 +207,7 @@ namespace Sitana.Framework.Graphics.Model.Importers
 
                         if (matName != null)
                         {
-                            materials.Add(new Pair<String,Material>(matName, new Material(textureName, diffuse.ToVector3(), ambient.ToVector3(), specular.ToVector3(), specularExponent, Vector3.Zero, opacity)));
+                            materials.Add(new Tuple<String, Material>(matName, new Material(textureName, diffuse.ToVector3(), ambient.ToVector3(), specular.ToVector3(), specularExponent, Vector3.Zero, opacity)));
                         }
 
                         matName = parts[1];
@@ -247,7 +247,7 @@ namespace Sitana.Framework.Graphics.Model.Importers
 
             if (matName != null)
             {
-                materials.Add(new Pair<String,Material>(matName, new Material(textureName, diffuse.ToVector3(), ambient.ToVector3(), specular.ToVector3(), specularExponent, Vector3.Zero, opacity)));
+                materials.Add(new Tuple<String, Material>(matName, new Material(textureName, diffuse.ToVector3(), ambient.ToVector3(), specular.ToVector3(), specularExponent, Vector3.Zero, opacity)));
             }
         }
 

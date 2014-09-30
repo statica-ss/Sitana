@@ -16,6 +16,7 @@ using Sitana.Framework.Graphics.Model.Exporters;
 using Sitana.Framework.Graphics.Model.Importers;
 using Sitana.Framework.Graphics.Model;
 using Sitana.Framework.Content;
+using Sitana.Framework.Graphics;
 
 namespace ModelConverter
 {

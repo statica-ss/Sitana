@@ -10,7 +10,7 @@ using Sitana.Framework.Graphics.Model.Importers;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace Sitana.Framework.Content
+namespace Sitana.Framework.Graphics
 {
     public class ModelXLoader: ContentLoader.AdditionalType
     {

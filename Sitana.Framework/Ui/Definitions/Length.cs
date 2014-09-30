@@ -6,15 +6,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework
 {
     public struct Length
     {
+        public readonly static Length Default = new Length(true);
+        public readonly static Length Zero = new Length(0);
+
         int _length;
-        bool _percent;
+        int _percent;
 
         bool _auto;
+        
 
         public bool IsAuto
         {
@@ -28,10 +33,10 @@ namespace Sitana.Framework
         {
             _auto = auto;
             _length = 0;
-            _percent = false;
+            _percent = 0;
         }
 
-        public Length(int length, bool percent)
+        public Length(int length, int percent)
         {
             _auto = false;
             _length = length;
@@ -42,17 +47,17 @@ namespace Sitana.Framework
         {
             _auto = false;
             _length = length;
-            _percent = false;
+            _percent = 0;
+        }
+
+        public int Compute()
+        {
+            return Compute(0);
         }
 
         public int Compute(int size)
         {
-            if ( _percent )
-            {
-                return _length * size / 100;
-            }
-
-            return _length;
+            return (int)(UiUnit.Unit * (_percent * size / 100 + _length));
         }
     }
 }

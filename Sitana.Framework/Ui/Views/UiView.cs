@@ -13,6 +13,7 @@ using Sitana.Framework.Cs;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Diagnostics;
+using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -32,13 +33,21 @@ namespace Sitana.Framework.Ui.Views
             file["Id"] = node.Attribute("Id");
             file["Controller"] = Type.GetType(node.Attribute("Controller"));
 
-            file["Visible"] = parser.ParseBoolean("Visible", true);
+            file["Visible"] = parser.ParseBoolean("Visible");
             file["BackgroundColor"] = parser.ParseColor("BackgroundColor");
 
-            file["Opacity"] = parser.ParseInt("Opacity", 100);
+            file["Opacity"] = parser.ParseInt("Opacity");
 
             file["ViewRemoved"] = parser.ParseDelegate("ViewRemoved");
             file["ViewAdded"] = parser.ParseDelegate("ViewAdded");
+
+            file["ViewActivated"] = parser.ParseDelegate("ViewActivated");
+            file["ViewDeactivated"] = parser.ParseDelegate("ViewDeactivated");
+
+            file["ViewResized"] = parser.ParseDelegate("ViewResized");
+
+            file["MinWidth"] = parser.ParseInt("MinWidth");
+            file["MinHeight"] = parser.ParseInt("MinHeight");
         }
 
         public string Id { get; set; }
@@ -62,6 +71,8 @@ namespace Sitana.Framework.Ui.Views
         private UiController _controller = null;
 
         public object Binding { get; private set; }
+
+        private Rectangle _lastSize = Rectangle.Empty;
 
         public virtual UiContainer Parent
         {
@@ -137,6 +148,13 @@ namespace Sitana.Framework.Ui.Views
             float opacity = Visible ? Opacity : 0;
             DisplayOpacity = time * 4 * opacity + (1 - time * 4) * DisplayOpacity;
 
+            if ( _lastSize != Bounds)
+            {
+                CallDelegate("ViewResized", new InvokeParam("bounds", Bounds), new InvokeParam("size", new Point(Bounds.Width, Bounds.Height)),
+                    new InvokeParam("width", Bounds.Width), new InvokeParam("height", Bounds.Height));
+                _lastSize = Bounds;
+            }
+
             Update(time);
         }
 
@@ -169,6 +187,7 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
+            parameters.DrawBatch.Texture = null;
             parameters.DrawBatch.DrawRectangle(ScreenBounds, BackgroundColor * DisplayOpacity);
         }
 
@@ -203,9 +222,13 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected void Init(ref UiController controller, object binding, DefinitionFile file)
+        protected virtual void Init(object controller, object binding, DefinitionFile definition)
         {
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiButton));
+
             Type controllerType = file["Controller"] as Type;
+
+            _controller = controller as UiController;
 
             if (controllerType != null)
             {
@@ -214,15 +237,16 @@ namespace Sitana.Framework.Ui.Views
                 if (newController != null)
                 {
                     newController.AttachView(this);
-                    Controller = newController;
-                    controller = newController;
+                    Controller = newController;                   
                 }
             }
 
-            Id = (string)file["Id"];
-            Visible = DefinitionResolver.GetBoolean(controller, binding, file["Visible"]);
+            Binding = binding;
 
-            int opacity = DefinitionResolver.Get<int>(controller, binding, file["Opacity"]);
+            Id = (string)file["Id"];
+            Visible = DefinitionResolver.Get<bool>(Controller, binding, file["Visible"], true);
+            
+            int opacity = DefinitionResolver.Get<int>(Controller, binding, file["Opacity"], 100);
             Opacity = (float)opacity / 100.0f;
 
             if (Visible)
@@ -230,12 +254,19 @@ namespace Sitana.Framework.Ui.Views
                 DisplayOpacity = Opacity;
             }
 
-            BackgroundColor = DefinitionResolver.GetColor(controller, binding, file["BackgroundColor"]) ?? Color.Transparent;
+            BackgroundColor = DefinitionResolver.GetColor(Controller, binding, file["BackgroundColor"]) ?? Color.Transparent;
+
             RegisterDelegate("ViewRemoved", file["ViewRemoved"]);
             RegisterDelegate("ViewAdded", file["ViewAdded"]);
-        }
+            RegisterDelegate("ViewActivated", file["ViewActivated"]);
+            RegisterDelegate("ViewDeactivated", file["ViewDeactivated"]);
+            RegisterDelegate("ViewResized", file["ViewResized"]);
 
-        protected abstract void Init(UiController controller, object binding, DefinitionFile file);
+            MinSize = new Point(
+                DefinitionResolver.Get<int>(Controller, binding, file["MinWidth"], 0),
+                DefinitionResolver.Get<int>(Controller, binding, file["MinHeight"], 0)
+            );
+        }
 
         public void CreatePositionParameters(UiController controller, object binding, DefinitionFile file, Type type)
         {
@@ -269,6 +300,8 @@ namespace Sitana.Framework.Ui.Views
                 _invokeParameters.Set(param);
             }
 
+            _invokeParameters.Set(new InvokeParam("binding", Binding));
+
             object definition;
 
             if (_delegates.TryGetValue(id, out definition))
@@ -288,6 +321,23 @@ namespace Sitana.Framework.Ui.Views
         {
             object result = CallDelegate(id, args);
             return (T)Convert.ChangeType(result, typeof(T));
+        }
+
+        public virtual Point ComputeSize(int width, int height)
+        {
+            var size = new Point(PositionParameters.Width.Compute(width-PositionParameters.Margin.Width), PositionParameters.Height.Compute(height-PositionParameters.Margin.Height));
+
+            if (size.X == 0 && PositionParameters.Align.HasFlag(Align.StretchHorz))
+            {
+                size.X = width;
+            }
+
+            if (size.Y == 0 && PositionParameters.Align.HasFlag(Align.StretchVert))
+            {
+                size.Y = height;
+            }
+
+            return size;
         }
     }
 }

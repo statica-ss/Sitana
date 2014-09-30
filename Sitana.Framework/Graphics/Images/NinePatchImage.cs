@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Content
 {
@@ -40,7 +41,6 @@ namespace Sitana.Framework.Content
         /// <returns></returns>
         public static Object Load(String name)
         {
-            String directory = Path.GetDirectoryName(name);
             XNode node = null;
 
             try

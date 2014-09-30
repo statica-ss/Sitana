@@ -91,5 +91,10 @@ namespace Sitana.Framework
 
             return new Rectangle(x1, y1, x2-x1, y2-y1);
         }
+
+        public static Rectangle IntersectRectangle(Rectangle r1, Rectangle r2)
+        {
+            return IntersectRectangle(ref r1, ref r2);
+        }
     }
 }

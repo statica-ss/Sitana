@@ -6,24 +6,21 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Sitana.Framework.Content;
 
-namespace Sitana.Framework.Content
+namespace Sitana.Framework.Graphics
 {
     /// <summary>
     /// Loader for texture from png file instead of xnb.
     /// </summary>
     public class LoadTexture2DFromPng : ContentLoader.AdditionalType
     {
-        private static Boolean _enablePremultiply;
         /// <summary>
         /// Registers type in ContentLoader.
         /// </summary>
-        public static void Register(Boolean premultiply)
+        public static void Register()
         {
             RegisterType(typeof(Texture2D), Load, true);
-
-            // Set premultiply flag.
-            _enablePremultiply = premultiply;
         }
 
         /// <summary>

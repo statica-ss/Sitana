@@ -51,6 +51,10 @@ namespace Sitana.Framework.Graphics
                 {
                     Texture = _ninePatchImage.Texture;
                 }
+                else
+                {
+                    Texture = null;
+                }
             }
         }
 
@@ -106,23 +110,6 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        //public CullMode CullMode
-        //{
-        //    get
-        //    {
-        //        return _rasterizerState.CullMode;
-        //    }
-
-        //    set
-        //    {
-        //        if (_rasterizerState.CullMode != value)
-        //        {
-        //            Flush();
-        //            _rasterizerState.CullMode = value;
-        //        }
-        //    }
-        //}
-
         private Rectangle? ScissorRectangle
         {
             get
@@ -147,7 +134,7 @@ namespace Sitana.Framework.Graphics
                     if (GraphicsDevice.ScissorRectangle != value.Value)
                     {
                         Flush();
-                        GraphicsDevice.ScissorRectangle = value.Value;
+                        GraphicsDevice.ScissorRectangle = GraphicsHelper.IntersectRectangle(value.Value, GraphicsDevice.Viewport.Bounds);
                     }
 
                     _rasterizerState = _rasterizerScissors;

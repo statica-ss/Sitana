@@ -1,21 +1,23 @@
 Containers:
 
-UiBorder
-UiStackPanel
+---UiBorder
+---UiStackPanel
 UiWrapPanel
 UiTabControl
 UiNavigationPanel
 UiPage
 ScrollView
-UiSplitterView
+---UiSplitterView
+UiAccordion
 
 Controls:
 
-UiAccordion
-UiButton
+---UiButton
 UiCheckBox
 UiImage
+UiNinePatchRect
 ---UiLabel
 UiListBox
 UiRadioButton
 UiTextBox
+---UiRectangle
