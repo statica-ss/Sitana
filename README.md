@@ -24,5 +24,4 @@ Sitana is released under [Apache License 2.0](LICENSE.txt).
 
 ## Current Roadmap
 
-See [version 1.0 todo](TODO_V1.md), which contains task list to complete before version 1.0 is released.
 [Version1.md](Version1.md) contains task list to complete before version 1.0 is released.
