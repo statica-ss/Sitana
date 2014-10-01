@@ -7,7 +7,7 @@ using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Common;
 
-namespace Sitana.Framework.PP.Elements
+namespace Sitana.Framework.Games.Elements
 {
     public class PpRectangle: PpElement
     {

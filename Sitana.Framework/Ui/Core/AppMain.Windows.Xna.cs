@@ -47,8 +47,6 @@ namespace Sitana.Framework.Ui.Core
 
                 Form gameForm = (Form)Form.FromHandle(Window.Handle);
                 gameForm.MinimumSize = new System.Drawing.Size(MainView.MinSize.X, MainView.MinSize.Y);
-
-                
             }
         }
     }

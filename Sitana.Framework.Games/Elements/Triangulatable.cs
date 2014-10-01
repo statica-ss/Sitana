@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using FarseerPhysics.Common;
 
-namespace Sitana.Framework.PP.Elements
+namespace Sitana.Framework.Games
 {
     public abstract class Triangulatable
     {

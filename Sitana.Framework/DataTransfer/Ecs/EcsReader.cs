@@ -58,7 +58,7 @@ namespace Sitana.Framework.DataTransfer
             }
         }
 
-        internal EcsReader(byte[] array, int offset, int size, EcsReader parent): this(array, offset, size, parent._encoding)
+        public EcsReader(byte[] array, int offset, int size, EcsReader parent): this(array, offset, size, parent._encoding)
         {
             _types = parent._types;
         }

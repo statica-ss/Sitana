@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Common;
 using Sitana.Framework.DataTransfer;
 using FarseerPhysics.Common.Decomposition;
+using Sitana.Framework.Games.Scene;
 
-namespace Sitana.Framework.PP.Elements
+namespace Sitana.Framework.Games.Elements
 {
     public abstract class PpElement: Triangulatable, IEcsStructure
     {

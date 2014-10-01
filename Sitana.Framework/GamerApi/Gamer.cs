@@ -4,7 +4,7 @@
 
 using Sitana.Framework.Cs;
 
-namespace Sitana.Framework.Games.Apis
+namespace Sitana.Framework.GamerApi
 {
     public class Gamer: Singleton<Gamer>
     {

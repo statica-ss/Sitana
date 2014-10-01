@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Sitana.Framework.Games.Apis
+namespace Sitana.Framework.GamerApi
 {
     public class AchievementInfoEventArgs : EventArgs
     {

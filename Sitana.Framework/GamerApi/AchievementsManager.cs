@@ -8,7 +8,7 @@ using Sitana.Framework.Cs;
 using System.IO;
 using Sitana.Framework.Settings;
 
-namespace Sitana.Framework.Games.Apis
+namespace Sitana.Framework.GamerApi
 {
     public class AchievementsManager: Singleton<AchievementsManager>
     {
