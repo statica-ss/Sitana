@@ -61,20 +61,10 @@ namespace Sitana.Framework.Graphics
 
         public void DrawText(StringBuilder text, Rectangle target, TextAlign align, Color color)
         {
-            if (_font == null || text == null)
-            {
-                return;
-            }
-
-            SpriteBatchIsNeeded();
-
-            Vector2 size = _font.MeasureString(text);
-            Vector2 position = TextPosition(ref target, align, size);
-
-            _spriteBatch.DrawString(_font, text, position, color);
+            DrawText(text, target, align, color);
         }
 
-        public void DrawText(string text, Rectangle target, TextAlign align, Color color)
+        public void DrawText(StringBuilder text, Rectangle target, TextAlign align, Color color, float scale)
         {
             if (_font == null || text == null)
             {
@@ -83,13 +73,38 @@ namespace Sitana.Framework.Graphics
 
             SpriteBatchIsNeeded();
 
-            Vector2 size = _font.MeasureString(text);
+            Vector2 size = _font.MeasureString(text) * scale;
             Vector2 position = TextPosition(ref target, align, size);
 
-            _spriteBatch.DrawString(_font, text, position, color);
+            _spriteBatch.DrawString(_font, text, position, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+        }
+
+        public void DrawText(string text, Rectangle target, TextAlign align, Color color)
+        {
+            DrawText(text, target, align, color, 1);
+        }
+
+        public void DrawText(string text, Rectangle target, TextAlign align, Color color, float scale)
+        {
+            if (_font == null || text == null)
+            {
+                return;
+            }
+
+            SpriteBatchIsNeeded();
+
+            Vector2 size = _font.MeasureString(text) * scale;
+            Vector2 position = TextPosition(ref target, align, size);
+
+            _spriteBatch.DrawString(_font, text, position, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
         }
 
         public void DrawText(SharedString text, Rectangle target, TextAlign align, Color color)
+        {
+            DrawText(text, target, align, color, 1);
+        }
+
+        public void DrawText(SharedString text, Rectangle target, TextAlign align, Color color, float scale)
         {
             if (_font == null || text == null)
             {
@@ -98,7 +113,7 @@ namespace Sitana.Framework.Graphics
 
             lock (text)
             {
-                DrawText(text.StringBuilder, target, align, color);
+                DrawText(text.StringBuilder, target, align, color, scale);
             }
         }
 
@@ -110,11 +125,21 @@ namespace Sitana.Framework.Graphics
 
         public void DrawText(string text, Point position, TextAlign align, Color color)
         {
+            DrawText(text, position, align, color, 1);
+        }
+
+        public void DrawText(string text, Point position, TextAlign align, Color color, float scale)
+        {
             Rectangle target = new Rectangle(position.X, position.Y, 0, 0);
-            DrawText(text, target, align, color);
+            DrawText(text, target, align, color, scale);
         }
 
         public void DrawText(SharedString text, Point position, TextAlign align, Color color)
+        {
+            DrawText(text, position, align, color, 1);
+        }
+
+        public void DrawText(SharedString text, Point position, TextAlign align, Color color, float scale)
         {
             if (_font == null || text == null)
             {
@@ -125,7 +150,7 @@ namespace Sitana.Framework.Graphics
 
             lock (text)
             {
-                DrawText(text.StringBuilder, target, align, color);
+                DrawText(text.StringBuilder, target, align, color, scale);
             }
         }
 

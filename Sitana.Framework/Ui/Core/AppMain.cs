@@ -94,7 +94,10 @@ namespace Sitana.Framework.Ui.Core
                 Transition = 1
             };
 
+            
             GraphicsDevice.Clear(MainView.BackgroundColor);
+
+            _drawBatch.Reset();
             MainView.ViewDraw(ref drawParameters);
             _drawBatch.Flush();
 

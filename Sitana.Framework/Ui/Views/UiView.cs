@@ -47,6 +47,27 @@ namespace Sitana.Framework.Ui.Views
 
             file["MinWidth"] = parser.ParseLength("MinWidth", false);
             file["MinHeight"] = parser.ParseLength("MinHeight", false);
+
+            foreach (var cn in node.Nodes)
+            {
+                if (cn.Tag == "UiView.TransitionEffect")
+                {
+                    if (cn.Nodes.Count != 1)
+                    {
+                        string error = node.NodeError("UiView.TransitionEffect must have exactly 1 child.");
+                        if (DefinitionParser.EnableCheckMode)
+                        {
+                            ConsoleEx.WriteLine(error);
+                        }
+                        else
+                        {
+                            throw new Exception(error);
+                        }
+                    }
+
+                    file["TransitionEffect"] = DefinitionFile.LoadFile(cn.Nodes[0]);
+                }
+            }
         }
 
         public string Id { get; set; }
@@ -81,6 +102,8 @@ namespace Sitana.Framework.Ui.Views
         public object Binding { get; private set; }
 
         private Rectangle _lastSize = Rectangle.Empty;
+
+        protected TransitionEffect _transitionEffect = null;
 
         public virtual UiContainer Parent
         {
@@ -272,6 +295,14 @@ namespace Sitana.Framework.Ui.Views
 
             _minWidth = DefinitionResolver.Get<Length>(Controller, binding, file["MinWidth"], Length.Zero);
             _minHeight = DefinitionResolver.Get<Length>(Controller, binding, file["MinHeight"], Length.Zero);
+
+
+            DefinitionFile transitionEffectFile = file["TransitionEffect"] as DefinitionFile;
+
+            if (transitionEffectFile != null)
+            {
+                _transitionEffect = transitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+            }
         }
 
         public void CreatePositionParameters(UiController controller, object binding, DefinitionFile file, Type type)

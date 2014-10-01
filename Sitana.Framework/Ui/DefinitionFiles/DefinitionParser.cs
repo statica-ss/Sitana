@@ -375,6 +375,34 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return null;
         }
 
+        public object ParseFloat(string id)
+        {
+            string name = Value(id);
+            object method = ParseMethodOrField(name);
+
+            if (method != null)
+            {
+                return method;
+            }
+
+            if (name.IsNullOrEmpty())
+            {
+                return null;
+            }
+
+            double value;
+
+            if (double.TryParse(name, NumberStyles.Number, CultureInfo.InvariantCulture, out value))
+            {
+                return value;
+            }
+
+            Exception ex = Error(id, "Invalid format. Expected Integer.");
+            if (ex != null) throw ex;
+
+            return null;
+        }
+
         public object ParseLength(string id)
         {
             return ParseLength(id, true);
