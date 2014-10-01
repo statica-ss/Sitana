@@ -6,7 +6,7 @@
     <ProjectGuid>{E2DF6AB0-B3BA-49E1-92DD-081731255053}</ProjectGuid>
     <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>Ebatianos.Essentials</RootNamespace>
+    <RootNamespace>Sitana.Framework</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>Sitana.Framework</AssemblyName>
   </PropertyGroup>
