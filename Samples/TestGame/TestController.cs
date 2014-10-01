@@ -11,81 +11,15 @@ using System.Threading;
 
 namespace TestGame
 {
-
-    public class TestController : UiController
+    public class GameController : UiController
     {
-        private bool _continueWork = true;
-        private Thread _workingThread;
-
-        public TestController()
+        public GameController()
         {
-            TextColor = new ColorWrapper();
-            Info = new SharedString();
-            ButtonClick = new SharedString();
-
-            _workingThread = new Thread(new ThreadStart(DoWork));
-            _workingThread.Start();
         }
-
-        void DoWork()
-        {
-            Random random = new Random();
-            while (_continueWork)
-            {
-                Color color = new Color(random.Next(256), random.Next(256), random.Next(256));
-                _text.Format("#{0:X2}{1:X2}{2:X2}", color.R, color.G, color.B);
-                TextColor.Value = color;
-
-                Thread.Sleep(500);
-            }
-        }
-
-        public void OnResized(int width, int height)
-        {
-            Info.Format("Main view is {0}x{1} pixels.", width, height);
-        }
-
-        public void OnClick(UiButton button, object binding, int index)
-        {
-            ButtonClick.Format("Test button {0} {1}", index, binding);
-        }
-
-        public void OnClick(UiButton button)
-        {
-            ButtonClick.StringValue = "Test button";
-        }
-
-        public bool GetVisible(int val)
-        {
-            return val > 4;
-        }
-
-        public string Test(string text)
-        {
-            return text;
-        }
-
-        public SharedString Test2()
-        {
-            return _text;
-        }
-
-        public void OnViewRemoved()
-        {
-            _continueWork = false;
-        }
-
-        public ColorWrapper TextColor { get; private set; }
-
-        SharedString _text = new SharedString();
-        public SharedString Info {get; private set;}
-        public SharedString ButtonClick { get; private set; }
         
         public static void OnLoadContent(AppMain main)
         {
-            FontManager.Instance.AddFont("TestFont", "Fonts/TestFont16", 16);
-            FontManager.Instance.AddFont("TestFont", "Fonts/TestFont12", 12);
-            FontManager.Instance.AddFont("TestFont", "Fonts/TestFont8", 8);
+            FontManager.Instance.AddFont("TestFont", "Fonts/TestFont", new int[]{8,12,16});
         }
     }
 }

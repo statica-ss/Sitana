@@ -12,14 +12,5 @@
       </UiButton.Drawables>
     </UiButton>
   </Style>
-
-  <Style Name="OtherButton">
-    <UiButton>
-      <UiButton.Drawables>
-        <button:SolidBackground ColorPushed="#4040a0" ColorReleased="#000080" ColorDisabled="#80000080"/>
-        <button:Text ColorPushed="#b0b0ff" ColorReleased="#9090c0" ColorDisabled="#809090c0" Font="TestFont" FontSize="16" TextAlign="Center,Middle" Padding="10"/>
-      </UiButton.Drawables>
-    </UiButton>
-  </Style>
     
 </core:StylesContainer>

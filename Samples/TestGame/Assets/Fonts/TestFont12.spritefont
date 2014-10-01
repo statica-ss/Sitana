@@ -56,10 +56,10 @@ with.
         <Start>&#x20;</Start>
         <End>&#xA0;</End>
       </CharacterRegion>
-      
+
       <CharacterRegion>
-        <Start>&#xC0;</Start>
-        <End>&#x17E;</End>
+        <Start>&#xA9;</Start>
+        <End>&#xA9;</End>
       </CharacterRegion>
       
     </CharacterRegions>

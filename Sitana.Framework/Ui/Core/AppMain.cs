@@ -18,6 +18,7 @@ namespace Sitana.Framework.Ui.Core
     {
         public delegate void LoadDelegate(AppMain main);
 
+
         public static AppMain Current { get; private set; }
 
         private GraphicsDeviceManager _graphics;

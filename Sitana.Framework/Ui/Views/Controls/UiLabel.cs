@@ -43,6 +43,7 @@ namespace Sitana.Framework.Ui.Views
             file["FontSize"] = parser.ParseInt("FontSize");
 
             file["TextColor"] = parser.ParseColor("TextColor");
+            file["TextAlign"] = parser.ParseEnum<TextAlign>("TextAlign");
         }
 
         public SharedString Text { get; private set; }
@@ -80,6 +81,8 @@ namespace Sitana.Framework.Ui.Views
         int _fontSize = 0;
         string _fontName = null;
 
+        TextAlign _textAlign;
+
         SpriteFont _font;
 
         protected override void Draw(ref UiViewDrawParameters parameters)
@@ -97,7 +100,7 @@ namespace Sitana.Framework.Ui.Views
             }
 
             parameters.DrawBatch.Font = _font;
-            parameters.DrawBatch.DrawText(Text, ScreenBounds, TextAlign.Center | TextAlign.Middle, TextColor.Value * DisplayOpacity);
+            parameters.DrawBatch.DrawText(Text, ScreenBounds, _textAlign, TextColor.Value * DisplayOpacity);
         }
 
         protected override void Init(object controller, object binding, DefinitionFile definition)
@@ -111,6 +114,8 @@ namespace Sitana.Framework.Ui.Views
 
             Text = DefinitionResolver.GetSharedString(Controller, binding, file["Text"]);
             TextColor = DefinitionResolver.GetColorWrapper(Controller, binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
+
+            _textAlign = DefinitionResolver.Get<TextAlign>(Controller, binding, file["TextAlign"], TextAlign.Middle | TextAlign.Center);
         }
     }
 }

@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp.Assets.Windows.Xna"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Framework.Games.Windows.Xna", "Sitana.Framework.Games\Sitana.Framework.Games.Windows.Xna.csproj", "{34C29D3D-33C1-4D10-8AE3-D54FAF6540B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGame.Windows.Xna", "Samples\TestGame\TestGame.Windows.Xna.csproj", "{9E6CF1FE-C0C6-4327-8D7A-5AFF873B6D9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGame.Assets.Windows.Xna", "Samples\TestGame\Assets\TestGame.Assets.Windows.Xna.contentproj", "{2766F0AF-5142-46FC-8646-AFE89F28A70A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -29,6 +33,12 @@ Global
 		{34C29D3D-33C1-4D10-8AE3-D54FAF6540B9}.Debug|x86.Build.0 = Debug|x86
 		{34C29D3D-33C1-4D10-8AE3-D54FAF6540B9}.Release|x86.ActiveCfg = Release|x86
 		{34C29D3D-33C1-4D10-8AE3-D54FAF6540B9}.Release|x86.Build.0 = Release|x86
+		{9E6CF1FE-C0C6-4327-8D7A-5AFF873B6D9E}.Debug|x86.ActiveCfg = Debug|x86
+		{9E6CF1FE-C0C6-4327-8D7A-5AFF873B6D9E}.Debug|x86.Build.0 = Debug|x86
+		{9E6CF1FE-C0C6-4327-8D7A-5AFF873B6D9E}.Release|x86.ActiveCfg = Release|x86
+		{9E6CF1FE-C0C6-4327-8D7A-5AFF873B6D9E}.Release|x86.Build.0 = Release|x86
+		{2766F0AF-5142-46FC-8646-AFE89F28A70A}.Debug|x86.ActiveCfg = Debug|x86
+		{2766F0AF-5142-46FC-8646-AFE89F28A70A}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

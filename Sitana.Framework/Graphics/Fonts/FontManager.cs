@@ -12,6 +12,15 @@ namespace Sitana.Framework.Content
     {
         Dictionary<string, List<SpriteFont>> _fonts = new Dictionary<string, List<SpriteFont>>();
 
+        public void AddFont(string name, string path, int[] sizes)
+        {
+            foreach (int size in sizes)
+            {
+                string fontPath = String.Format("{0}{1}", path, size);
+                AddFont(name, fontPath, size);
+            }
+        }
+
         public void AddFont(string fontName, string path, int size)
         {
             if (size > 256)
