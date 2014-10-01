@@ -37,11 +37,13 @@ namespace TestGame
             StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
             main.LoadView("Ui/MainView");
 
-            main.Window.AllowUserResizing = true;
-            main.Window.ClientSizeChanged += Window_ClientSizeChanged;
             main.Graphics.IsFullScreen = false;
 
             main.IsMouseVisible = true;
+
+            main.Window.AllowUserResizing = true;
+            main.Window.ClientSizeChanged += Window_ClientSizeChanged;
+
             main.OnLoadContent += GameController.OnLoadContent;
             main.OnLoadedView += (s)=>s.ResizeToView();
         }
@@ -50,8 +52,9 @@ namespace TestGame
         {
             UiTask.BeginInvoke(() =>
                 {
-                    double unit = Math.Min((double)AppMain.Current.GraphicsDevice.Viewport.Height / (double)AppMain.Current.MainView.PositionParameters.Height.Value,
-                        (double)AppMain.Current.GraphicsDevice.Viewport.Width / (double)AppMain.Current.MainView.PositionParameters.Width.Value);
+                    double unit = Math.Min(
+                        (double)AppMain.Current.GraphicsDevice.Viewport.Height / 480.0,
+                        (double)AppMain.Current.GraphicsDevice.Viewport.Width / 480.0);
 
                     unit = Math.Round(unit, 1);
 

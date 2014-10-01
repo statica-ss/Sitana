@@ -3,7 +3,7 @@
     xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
     xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
     xmlns:pp="type:Sitana.Framework.Ui.Views.PositionParameters,Sitana.Framework"
-    pp:Width="800" pp:Height="480" BackgroundColor="#003040">
+    pp:Width="720" pp:Height="480" BackgroundColor="#003040">
   <UiBorder.Children>
     <UiLabel Text="SITANA GAME" Font="TestFont" FontSize="16" pp:X="C" pp:Y="20" TextAlign="Center,Top" pp:Align="Center,Top" pp:Width="@" pp:Height="@"/>
     <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="Uniform" pp:X="C" pp:Y="C-75" pp:Align="Center,Middle" pp:Width="150" pp:Height="150"/>
