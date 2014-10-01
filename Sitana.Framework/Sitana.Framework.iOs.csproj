@@ -77,6 +77,7 @@
     <Folder Include="Graphics\Sprites\" />
     <Folder Include="Graphics\Fonts\" />
     <Folder Include="Graphics\Images\" />
+    <Folder Include="Ui\Definitions\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentGenerators\LoadSpriteAtlas.cs" />
@@ -110,8 +111,6 @@
     <Compile Include="DataTransfer\Ecs\EcsWriter.cs" />
     <Compile Include="Definitions\Align.cs" />
     <Compile Include="Definitions\KeyboardContext.cs" />
-    <Compile Include="Definitions\Length.cs" />
-    <Compile Include="Definitions\Margin.cs" />
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
     <Compile Include="Definitions\TextAlign.cs" />
@@ -211,5 +210,11 @@
     <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
     <Compile Include="Media\MusicController.cs" />
     <Compile Include="Media\MusicController.iOs.cs" />
+    <Compile Include="Ui\Definitions\Length.cs" />
+    <Compile Include="Ui\Definitions\Margin.cs" />
+    <Compile Include="Ui\Core\AppMain.Mobile.cs" />
+    <Compile Include="Ui\Core\UiUnit.cs" />
+    <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
+    <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
   </ItemGroup>
 </Project>

@@ -28,6 +28,14 @@ namespace Sitana.Framework
             }
         }
 
+        public double Value
+        {
+            get
+            {
+                return _length;
+            }
+        }
+
         public Length(bool auto)
         {
             _auto = auto;
