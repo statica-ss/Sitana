@@ -121,6 +121,7 @@
     <BundleResource Include="Assets\Built\iOs\Fonts\TestFont16.xnb">
       <Link>Assets\Fonts\TestFont16.xnb</Link>
     </BundleResource>
+    <BundleResource Include="Assets\Ui\Logo.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

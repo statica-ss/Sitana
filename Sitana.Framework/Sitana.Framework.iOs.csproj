@@ -207,5 +207,7 @@
     <Compile Include="GamerApi\AchievementsHandler.cs" />
     <Compile Include="GamerApi\AchievementsManager.cs" />
     <Compile Include="GamerApi\Gamer.cs" />
+    <Compile Include="Ui\Views\Controls\UiImage.cs" />
+    <Compile Include="Definitions\Stretch.cs" />
   </ItemGroup>
 </Project>
