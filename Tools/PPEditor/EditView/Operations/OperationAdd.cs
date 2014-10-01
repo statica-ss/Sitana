@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Sitana.Framework.PP.Elements;
 using Sitana.Framework.Graphics;
 using System.Windows.Forms;
+using Sitana.Framework.Games.Elements;
 
 namespace Editor
 {

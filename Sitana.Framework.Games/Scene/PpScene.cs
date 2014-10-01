@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sitana.Framework.PP.Elements;
 using Sitana.Framework.DataTransfer;
+using Sitana.Framework.Games.Elements;
 
-namespace Sitana.Framework.PP
+namespace Sitana.Framework.Games.Scene
 {
     public class PpScene: List<PpElement>, IEcsStructure
     {

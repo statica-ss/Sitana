@@ -45,7 +45,7 @@ namespace Sitana.Framework.Content
             List<SpriteFont> list = null;
             _fonts.TryGetValue(fontName, out list);
 
-            if (list.Count < size)
+            if (list.Count <= size)
             {
                 return list.FindLast(f => f != null);
             }

@@ -6,7 +6,7 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Factories;
 
-namespace Sitana.Framework.PP.Elements
+namespace Sitana.Framework.Games.Elements
 {
     public class PpCircle: PpElement
     {

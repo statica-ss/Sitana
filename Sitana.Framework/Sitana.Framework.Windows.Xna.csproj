@@ -33,9 +33,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FarseerPhysics.XNA">
-      <HintPath>..\ThirdParty\Dependences\farseer\FarseerPhysics.XNA.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.GamerServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
@@ -118,18 +115,11 @@
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
     <Compile Include="Definitions\TransitionType.cs" />
-    <Compile Include="Games\Aabb.cs" />
-    <Compile Include="Games\APIs\AchievementsHandler.cs" />
-    <Compile Include="Games\APIs\AchievementsManager.cs" />
-    <Compile Include="Games\APIs\AchievementInfoEventArgs.cs" />
-    <Compile Include="Games\APIs\Gamer.cs" />
+    <Compile Include="GamerApi\AchievementsHandler.cs" />
+    <Compile Include="GamerApi\AchievementsManager.cs" />
+    <Compile Include="GamerApi\AchievementInfoEventArgs.cs" />
+    <Compile Include="GamerApi\Gamer.cs" />
     <Compile Include="Graphics\Images\NinePatchImage.cs" />
-    <Compile Include="Games\PP\Elements\PpCircle.cs" />
-    <Compile Include="Games\PP\Elements\PpPolygon.cs" />
-    <Compile Include="Games\PP\Elements\PpElement.cs" />
-    <Compile Include="Games\PP\Elements\PpRectangle.cs" />
-    <Compile Include="Games\PP\Elements\Triangulatable.cs" />
-    <Compile Include="Games\PP\PpScene.cs" />
     <Compile Include="Graphics\3D\BasicShaderEffect.cs" />
     <Compile Include="Graphics\3D\IShaderEffect.cs" />
     <Compile Include="Graphics\3D\ModelX\Exporters\EmxExporter.cs" />

@@ -6,7 +6,7 @@
     <ProjectGuid>{E2DF6AB0-B3BA-49E1-92DD-081731255053}</ProjectGuid>
     <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>Ebatianos.Essentials</RootNamespace>
+    <RootNamespace>Sitana.Framework</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>Sitana.Framework</AssemblyName>
   </PropertyGroup>
@@ -40,9 +40,6 @@
       <HintPath>..\ThirdParty\Dependences\MonoGame\iOs\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Services" />
-    <Reference Include="FarseerPhysics.iOS">
-      <HintPath>..\ThirdParty\Dependences\Farseer\FarseerPhysics.iOS.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
@@ -77,6 +74,8 @@
     <Folder Include="Graphics\Sprites\" />
     <Folder Include="Graphics\Fonts\" />
     <Folder Include="Graphics\Images\" />
+    <Folder Include="Ui\Definitions\" />
+    <Folder Include="GamerApi\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentGenerators\LoadSpriteAtlas.cs" />
@@ -110,23 +109,10 @@
     <Compile Include="DataTransfer\Ecs\EcsWriter.cs" />
     <Compile Include="Definitions\Align.cs" />
     <Compile Include="Definitions\KeyboardContext.cs" />
-    <Compile Include="Definitions\Length.cs" />
-    <Compile Include="Definitions\Margin.cs" />
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
     <Compile Include="Definitions\TextAlign.cs" />
     <Compile Include="Definitions\TransitionType.cs" />
-    <Compile Include="Games\Aabb.cs" />
-    <Compile Include="Games\APIs\AchievementInfoEventArgs.cs" />
-    <Compile Include="Games\APIs\AchievementsHandler.cs" />
-    <Compile Include="Games\APIs\AchievementsManager.cs" />
-    <Compile Include="Games\APIs\Gamer.cs" />
-    <Compile Include="Games\PP\PpScene.cs" />
-    <Compile Include="Games\PP\Elements\PpCircle.cs" />
-    <Compile Include="Games\PP\Elements\PpElement.cs" />
-    <Compile Include="Games\PP\Elements\PpPolygon.cs" />
-    <Compile Include="Games\PP\Elements\PpRectangle.cs" />
-    <Compile Include="Games\PP\Elements\Triangulatable.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.DrawMethods.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.Helpers.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.cs" />
@@ -211,5 +197,15 @@
     <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
     <Compile Include="Media\MusicController.cs" />
     <Compile Include="Media\MusicController.iOs.cs" />
+    <Compile Include="Ui\Definitions\Length.cs" />
+    <Compile Include="Ui\Definitions\Margin.cs" />
+    <Compile Include="Ui\Core\AppMain.Mobile.cs" />
+    <Compile Include="Ui\Core\UiUnit.cs" />
+    <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
+    <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
+    <Compile Include="GamerApi\AchievementInfoEventArgs.cs" />
+    <Compile Include="GamerApi\AchievementsHandler.cs" />
+    <Compile Include="GamerApi\AchievementsManager.cs" />
+    <Compile Include="GamerApi\Gamer.cs" />
   </ItemGroup>
 </Project>

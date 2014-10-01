@@ -8,7 +8,7 @@ using FarseerPhysics.Common;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Common.Decomposition;
 using Microsoft.Xna.Framework.Graphics;
-using Sitana.Framework.PP.Elements;
+using Sitana.Framework.Games.Elements;
 
 namespace Editor
 {

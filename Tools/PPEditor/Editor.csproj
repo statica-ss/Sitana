@@ -114,6 +114,10 @@
       <Project>{306B0FFC-00CC-4DA3-BCB1-EA536AB0FD43}</Project>
       <Name>Sitana.Extensions.WinForms.Xna</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Sitana.Framework.Games\Sitana.Framework.Games.Windows.Xna.csproj">
+      <Project>{34C29D3D-33C1-4D10-8AE3-D54FAF6540B9}</Project>
+      <Name>Sitana.Framework.Games.Windows.Xna</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.Windows.Xna.csproj">
       <Project>{68D03401-FD88-48C5-9821-0C3A07F89C34}</Project>
       <Name>Sitana.Framework.Windows.Xna</Name>

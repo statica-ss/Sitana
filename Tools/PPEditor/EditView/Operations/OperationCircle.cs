@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using System.Windows.Forms;
 using Sitana.Framework.Graphics;
 using Microsoft.Xna.Framework.Graphics;
-using Sitana.Framework.PP.Elements;
+using Sitana.Framework.Games.Elements;
 
 namespace Editor
 {

@@ -8,7 +8,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Common.Decomposition;
 
-namespace Sitana.Framework.PP.Elements
+namespace Sitana.Framework.Games.Elements
 {
     public class PpPolygon: PpElement
     {

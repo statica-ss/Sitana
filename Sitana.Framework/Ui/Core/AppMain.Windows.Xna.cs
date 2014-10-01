@@ -28,10 +28,10 @@ namespace Sitana.Framework.Ui.Core
     {
         public void ResizeToView()
         {
-            Graphics.PreferredBackBufferWidth = MainView.PositionParameters.Width.Compute(100);
-            Graphics.PreferredBackBufferHeight = MainView.PositionParameters.Height.Compute(100);
+            Graphics.PreferredBackBufferWidth = MainView.PositionParameters.Width.Compute();
+            Graphics.PreferredBackBufferHeight = MainView.PositionParameters.Height.Compute();
 
-            MainView.Bounds = new Rectangle(0, 0, MainView.PositionParameters.Width.Compute(100), MainView.PositionParameters.Height.Compute(100));
+            MainView.Bounds = new Rectangle(0, 0, MainView.PositionParameters.Width.Compute(), MainView.PositionParameters.Height.Compute());
 
             Graphics.ApplyChanges();
         }
@@ -47,13 +47,6 @@ namespace Sitana.Framework.Ui.Core
 
                 Form gameForm = (Form)Form.FromHandle(Window.Handle);
                 gameForm.MinimumSize = new System.Drawing.Size(MainView.MinSize.X, MainView.MinSize.Y);
-
-                if (newWidth != width || newHeight != height)
-                {
-                    Graphics.PreferredBackBufferWidth = width;
-                    Graphics.PreferredBackBufferHeight = height;
-                    Graphics.ApplyChanges();
-                }
             }
         }
     }
