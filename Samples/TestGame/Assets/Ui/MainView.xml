@@ -5,10 +5,11 @@
     xmlns:pp="type:Sitana.Framework.Ui.Views.PositionParameters,Sitana.Framework"
     pp:Width="800" pp:Height="480" BackgroundColor="#003040">
   <UiBorder.Children>
-    <UiLabel Text="Sitana Sample Game" Font="TestFont" FontSize="16" pp:X="C" pp:Y="50" TextAlign="Center,Top" pp:Align="Center,Top" pp:Width="500" pp:Height="200"/>
-    <UiButton Style="DefaultButton" Text="Start Game" pp:Width="320" pp:Height="60" pp:X="C" pp:Y="@-170" pp:Align="Center,Bottom" />
-    <UiButton Style="DefaultButton" Text="Exit" pp:Width="320" pp:Height="60" pp:X="C" pp:Y="@-100" pp:Align="Center,Bottom" />
+    <UiLabel Text="SITANA GAME" Font="TestFont" FontSize="16" pp:X="C" pp:Y="20" TextAlign="Center,Top" pp:Align="Center,Top" pp:Width="@" pp:Height="@"/>
+    <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="Uniform" pp:X="C" pp:Y="C-75" pp:Align="Center,Middle" pp:Width="150" pp:Height="150"/>
+    <UiButton Style="DefaultButton" Text="Start Game" pp:Width="320" pp:Height="60" pp:X="C" pp:Y="C+40" pp:Align="Center,Top" />
+    <UiButton Style="DefaultButton" Text="Exit" pp:Width="320" pp:Height="60" pp:X="C" pp:Y="C+110" pp:Align="Center,Top" />
+    <UiLabel Text="Copyright © SitanaTeam." Font="TestFont" FontSize="8" pp:X="C" pp:Y="@-20" TextAlign="Center,Bottom" pp:Align="Center,Bottom" pp:Width="500" pp:Height="200"/>
     
-    <UiLabel Text="Copyright © SitanaTeam." Font="TestFont" FontSize="8" pp:X="C" pp:Y="@-50" TextAlign="Center,Bottom" pp:Align="Center,Bottom" pp:Width="500" pp:Height="200"/>
   </UiBorder.Children>
 </UiBorder>

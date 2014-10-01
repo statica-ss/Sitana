@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Diagnostics;
-using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Views.Parameters;

@@ -23,7 +23,7 @@
   - [ ] Controls
     - [X] UiButton
     - [ ] UiCheckBox
-    - [ ] UiImage
+    - [X] UiImage
     - [ ] UiNinePatchRect
     - [X] UiLabel
     - [ ] UiListBox

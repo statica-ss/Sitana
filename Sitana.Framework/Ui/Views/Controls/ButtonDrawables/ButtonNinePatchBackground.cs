@@ -4,7 +4,6 @@
 
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Content;
-using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Graphics;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.DefinitionFiles;
@@ -20,9 +19,9 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             var parser = new DefinitionParser(node);
 
-            file["ImagePushed"] = parser.ParseNinePatchImage("ImagePushed");
-            file["ImageReleased"] = parser.ParseNinePatchImage("Image");
-            file["ImageDisabled"] = parser.ParseNinePatchImage("ImageDisabled");
+            file["ImagePushed"] = parser.ParseResource<NinePatchImage>("ImagePushed");
+            file["ImageReleased"] = parser.ParseResource<NinePatchImage>("Image");
+            file["ImageDisabled"] = parser.ParseResource<NinePatchImage>("ImageDisabled");
         }
 
         protected NinePatchImage _imagePushed = null;

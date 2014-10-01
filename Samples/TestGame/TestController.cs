@@ -8,6 +8,7 @@ using Sitana.Framework.Ui.Core;
 using Sitana.Framework.Ui.Views;
 using Sitana.Framework.Cs;
 using System.Threading;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace TestGame
 {

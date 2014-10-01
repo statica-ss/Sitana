@@ -12,5 +12,14 @@
       </UiButton.Drawables>
     </UiButton>
   </Style>
-    
+
+  <Style Name="DefaultButtonSystem">
+    <UiButton>
+      <UiButton.Drawables>
+        <button:NinePatchBackground ColorPushed="#4080a0" ColorReleased="#004080" ColorDisabled="#80004080" Image="Ui/Button"/>
+        <button:Text ColorPushed="#b0d0ff" ColorReleased="#90b0c0" ColorDisabled="#8090b0c0" Font="TestFont" FontSize="12" TextAlign="Center,Middle" Padding="10"/>
+      </UiButton.Drawables>
+    </UiButton>
+  </Style>
+
 </core:StylesContainer>

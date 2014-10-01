@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Microsoft.Xna.Framework;

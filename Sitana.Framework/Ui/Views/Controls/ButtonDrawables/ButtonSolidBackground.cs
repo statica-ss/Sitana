@@ -3,7 +3,6 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using Microsoft.Xna.Framework;
-using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Graphics;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.DefinitionFiles;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Sitana.Framework.Ui.DefinitionFiles;
-using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Ui.Controllers;
 using Microsoft.Xna.Framework;

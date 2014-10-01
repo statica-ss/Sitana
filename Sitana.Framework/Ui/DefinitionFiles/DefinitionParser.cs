@@ -11,7 +11,7 @@ using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
+namespace Sitana.Framework.Ui.DefinitionFiles
 {
     public struct DefinitionParser
     {
@@ -250,7 +250,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             return null;
         }
 
-        public object ParseNinePatchImage(string id)
+        public object ParseResource<T>(string id)
         {
             string name = Value(id);
             object method = ParseMethodOrField(name);
@@ -274,10 +274,9 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
             try
             {
-                
-                return ContentLoader.Current.Load<NinePatchImage>(name);
+                return ContentLoader.Current.Load<T>(name);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 if (!EnableCheckMode) throw ex;
                 return null;

@@ -11,7 +11,6 @@ using System.Text;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Views.ButtonDrawables;
 using System.Threading;
-using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Diagnostics;
 
 namespace TestApp

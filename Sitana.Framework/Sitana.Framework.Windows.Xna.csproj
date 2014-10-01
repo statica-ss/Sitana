@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Definitions\Stretch.cs" />
     <Compile Include="Graphics\Fonts\FontManager.cs" />
     <Compile Include="ContentManagement\TitleContainerEx.cs" />
     <Compile Include="Media\MusicController.Common.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
+    <Compile Include="Ui\Views\Controls\UiImage.cs" />
     <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
     <Compile Include="Xml\XFile.cs" />
     <Compile Include="Cs\SharedString.cs" />

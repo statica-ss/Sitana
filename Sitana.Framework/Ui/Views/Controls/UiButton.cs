@@ -8,7 +8,6 @@ using Sitana.Framework.Input.TouchPad;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
-using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Diagnostics;
 using System;
 using Sitana.Framework.Ui.Views.ButtonDrawables;
@@ -112,6 +111,19 @@ namespace Sitana.Framework.Ui.Views
         private List<ButtonDrawable> _drawables = new List<ButtonDrawable>();
 
         private SharedString _text;
+
+        public string Text
+        {
+            get
+            {
+                return _text.StringValue;
+            }
+
+            set
+            {
+                _text.StringValue = value;
+            }
+        }
 
         public State ButtonState
         {
@@ -274,6 +286,11 @@ namespace Sitana.Framework.Ui.Views
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiButton));
 
             _text = DefinitionResolver.GetSharedString(Controller, binding, file["Text"]);
+
+            if (_text == null)
+            {
+                _text = new SharedString();
+            }
 
             RegisterDelegate("Click", file["Click"]);
 

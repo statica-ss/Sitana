@@ -152,5 +152,23 @@ namespace Sitana.Framework.Graphics
                 DrawRectangle(new Rectangle(position.X, position.Y, size.X, size.Y), color);
             }
         }
+
+        public void DrawImage(Rectangle target, Rectangle textureSrc, Color color)
+        {
+            if (_texture != null)
+            {
+                PushVertex(new Vector2(target.Left, target.Top), color, new Point(textureSrc.Left, textureSrc.Top));
+                PushVertex(new Vector2(target.Right, target.Top), color, new Point(textureSrc.Right, textureSrc.Top));
+                PushVertex(new Vector2(target.Left, target.Bottom), color, new Point(textureSrc.Left, textureSrc.Bottom));
+
+                PushVertex(new Vector2(target.Right, target.Top), color, new Point(textureSrc.Right, textureSrc.Top));
+                PushVertex(new Vector2(target.Left, target.Bottom), color, new Point(textureSrc.Left, textureSrc.Bottom));
+                PushVertex(new Vector2(target.Right, target.Bottom), color, new Point(textureSrc.Right, textureSrc.Bottom));
+            }
+            else
+            {
+                DrawRectangle(target, color);
+            }
+        }
     }
 }
