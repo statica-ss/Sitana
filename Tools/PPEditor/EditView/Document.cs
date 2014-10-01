@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Sitana.Framework.Cs;
-using Sitana.Framework.PP;
+﻿using Sitana.Framework.Cs;
 using Microsoft.Xna.Framework;
-using Sitana.Framework.PP.Elements;
 using System.IO;
 using Sitana.Framework.DataTransfer;
+using Sitana.Framework.Games.Scene;
+using Sitana.Framework.Games.Elements;
 
 namespace Editor
 {

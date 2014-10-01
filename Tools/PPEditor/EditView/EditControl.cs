@@ -19,7 +19,7 @@ namespace Editor
 
         PrimitiveBatch _primitiveBatch;
         SpriteBatch _spriteBatch;
-        IFontPresenter _fontPresenter;
+        //IFontPresenter _fontPresenter;
         Vector2? _lastPosition = null;
 
         DateTime? _timeToFix = null;
@@ -39,13 +39,13 @@ namespace Editor
             System.Reflection.Assembly thisExe;
             thisExe = System.Reflection.Assembly.GetExecutingAssembly();
 
-            using (Stream textureStream = thisExe.GetManifestResourceStream("Editor.Resources.UiFont.png"))
-            {
-                using (Stream infoStream = thisExe.GetManifestResourceStream("Editor.Resources.UiFont.ff0"))
-                {
-                    _fontPresenter = new BitmapFontPresenter(new BitmapFont(GraphicsDevice, textureStream, infoStream), null);
-                }
-            }
+            //using (Stream textureStream = thisExe.GetManifestResourceStream("Editor.Resources.UiFont.png"))
+            //{
+            //    using (Stream infoStream = thisExe.GetManifestResourceStream("Editor.Resources.UiFont.ff0"))
+            //    {
+            //        _fontPresenter = new BitmapFontPresenter(new BitmapFont(GraphicsDevice, textureStream, infoStream), null);
+            //    }
+            //}
 
             MouseDown += new MouseEventHandler(EditControl_MouseDown);
             MouseUp += new MouseEventHandler(EditControl_MouseUp);
@@ -200,7 +200,7 @@ namespace Editor
             if (_lastPosition.HasValue && EditView.Instance.Operation.Mark)
             {
                 Vector2 vert = EditView.Instance.PositionFromDisplay(_lastPosition.Value, Height);
-                _fontPresenter.DrawText(_spriteBatch, String.Format(CultureInfo.InvariantCulture, "{0},{1}", vert.X, vert.Y), new Vector2(20, Height - 24), Color.White, 1, Align.Bottom | Align.Left);
+                //_fontPresenter.DrawText(_spriteBatch, String.Format(CultureInfo.InvariantCulture, "{0},{1}", vert.X, vert.Y), new Vector2(20, Height - 24), Color.White, 1, Align.Bottom | Align.Left);
             }
 
             _spriteBatch.End();
