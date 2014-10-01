@@ -5,12 +5,13 @@ using System.Text;
 using Sitana.Framework.Cs;
 using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework.Ui.Core;
+using Sitana.Framework.Graphics;
 
 namespace Sitana.Framework.Content
 {
     public sealed class FontManager: Singleton<FontManager>
     {
-        Dictionary<string, List<SpriteFont>> _fonts = new Dictionary<string, List<SpriteFont>>();
+        Dictionary<string, FontFace> _fonts = new Dictionary<string, FontFace>();
 
         public void AddFont(string name, string path, int[] sizes)
         {
@@ -23,71 +24,26 @@ namespace Sitana.Framework.Content
 
         public void AddFont(string fontName, string path, int size)
         {
-            if (size > 256)
-            {
-                throw new Exception("Max font size is 256");
-            }
-
             SpriteFont font = ContentLoader.Current.Load<SpriteFont>(path);
 
-            List<SpriteFont> list = null;
-            _fonts.TryGetValue(fontName, out list);
+            FontFace fonts = null;
+            _fonts.TryGetValue(fontName, out fonts);
 
-            if (list == null)
+            if (fonts == null)
             {
-                list = new List<SpriteFont>();
-                _fonts.Add(fontName, list);
+                fonts = new FontFace(fontName);
+                _fonts.Add(fontName, fonts);
             }
 
-            while (list.Count < size + 1)
-            {
-                list.Add(null);
-            }
-
-            list[size] = font;
+            fonts.Add(size, font);
         }
 
-        public SpriteFont FindFont(string fontName, int size)
+        public FontFace FindFont(string name)
         {
-            size = Math.Max(1,(int)(UiUnit.FontUnit * size));
+            FontFace fonts;
+            _fonts.TryGetValue(name, out fonts);
 
-            List<SpriteFont> list = null;
-            _fonts.TryGetValue(fontName, out list);
-
-            if (list.Count <= size)
-            {
-                return list.FindLast(f => f != null);
-            }
-
-            if (list[size] == null)
-            {
-                int indexNext = size+1;
-                int indexPrev = size-1;
-
-                while (indexPrev > 0 || indexNext < list.Count)
-                {
-                    if (indexNext < list.Count)
-                    {
-                        if (list[indexNext] != null)
-                        {
-                            return list[indexNext];
-                        }
-                    }
-
-                    if (indexPrev > 0)
-                    {
-                        if (list[indexPrev] != null)
-                        {
-                            return list[indexPrev];
-                        }
-                    }
-
-                    indexPrev--;
-                    indexNext++;
-                }
-            }
-
-            return list[size];
+            return fonts;
         }
     }
 }

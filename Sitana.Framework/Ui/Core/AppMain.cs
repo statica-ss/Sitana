@@ -89,7 +89,9 @@ namespace Sitana.Framework.Ui.Core
 
             var drawParameters = new UiViewDrawParameters()
             {
-                DrawBatch = _drawBatch
+                DrawBatch = _drawBatch,
+                Opacity = 1,
+                Transition = 1
             };
 
             GraphicsDevice.Clear(MainView.BackgroundColor);

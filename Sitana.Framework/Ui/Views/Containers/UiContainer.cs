@@ -116,7 +116,9 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
-            if (DisplayOpacity == 0)
+            float opacity = DisplayOpacity * parameters.Opacity;
+
+            if (opacity == 0 )
             {
                 return;
             }
@@ -124,6 +126,7 @@ namespace Sitana.Framework.Ui.Views
             base.Draw(ref parameters);
 
             UiViewDrawParameters drawParams = parameters;
+            drawParams.Opacity = opacity;
 
             if (_clipChildren)
             {

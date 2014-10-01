@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Definitions\Stretch.cs" />
+    <Compile Include="Graphics\Fonts\FontFace.cs" />
     <Compile Include="Graphics\Fonts\FontManager.cs" />
     <Compile Include="ContentManagement\TitleContainerEx.cs" />
     <Compile Include="Media\MusicController.Common.cs" />

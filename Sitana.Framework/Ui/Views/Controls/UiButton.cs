@@ -312,7 +312,9 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
         {
-            if (DisplayOpacity == 0)
+            float opacity = DisplayOpacity * parameters.Opacity;
+
+            if (opacity == 0)
             {
                 return;
             }
@@ -322,8 +324,7 @@ namespace Sitana.Framework.Ui.Views
             for (int idx = 0; idx < _drawables.Count; ++idx)
             {
                 var drawable = _drawables[idx];
-
-                drawable.Draw(batch, ScreenBounds, DisplayOpacity, ButtonState, _text);
+                drawable.Draw(batch, ScreenBounds, opacity, ButtonState, _text);
             }
         }
 

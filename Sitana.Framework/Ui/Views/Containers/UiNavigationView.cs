@@ -15,16 +15,21 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
-            if (DisplayOpacity == 0)
+            float opacity = DisplayOpacity * parameters.Opacity;
+
+            if (opacity == 0)
             {
                 return;
             }
 
-            parameters.DrawBatch.DrawRectangle(ScreenBounds, BackgroundColor * DisplayOpacity);
+            parameters.DrawBatch.DrawRectangle(ScreenBounds, BackgroundColor * opacity);
+
+            UiViewDrawParameters drawParams = parameters;
+            drawParams.Opacity = opacity;
 
             for (int idx = 0; idx < _children.Count; ++idx)
             {
-                _children[idx].ViewDraw(ref parameters);
+                _children[idx].ViewDraw(ref drawParams);
             }
         }
 

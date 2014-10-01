@@ -45,48 +45,38 @@ namespace Sitana.Framework.Ui.Views
             set
             {
                 _fontName = value;
-                _font = null;
+                _fontFace = null;
             }
         }
+        
+        public int FontSize {get;set;}
 
-        public int FontSize
-        {
-            get
-            {
-                return _fontSize;
-            }
+        string _fontName;
 
-            set
-            {
-                _fontSize = value;
-                _font = null;
-            }
-        }
+        FontFace _fontFace = null;
 
-
-        int _fontSize = 0;
-        string _fontName = null;
-
-        TextAlign _textAlign;
-
-        SpriteFont _font;
+        public TextAlign TextAlign {get;set;}
 
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
-            if (DisplayOpacity == 0 || TextColor.Value.A == 0)
+            float opacity = DisplayOpacity * parameters.Opacity;
+
+            if (opacity == 0 || TextColor.Value.A == 0)
             {
                 return;
             }
 
             base.Draw(ref parameters);
 
-            if (_font == null )
+            if (_fontFace == null)
             {
-                _font = FontManager.Instance.FindFont(FontName, FontSize);
+                _fontFace = FontManager.Instance.FindFont(FontName);
             }
 
-            parameters.DrawBatch.Font = _font;
-            parameters.DrawBatch.DrawText(Text, ScreenBounds, _textAlign, TextColor.Value * DisplayOpacity);
+            SpriteFont font = _fontFace.Find(FontSize);
+            
+            parameters.DrawBatch.Font = font;
+            parameters.DrawBatch.DrawText(Text, ScreenBounds, TextAlign, TextColor.Value * opacity);
         }
 
         protected override void Init(object controller, object binding, DefinitionFile definition)
@@ -101,7 +91,7 @@ namespace Sitana.Framework.Ui.Views
             Text = DefinitionResolver.GetSharedString(Controller, binding, file["Text"]);
             TextColor = DefinitionResolver.GetColorWrapper(Controller, binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
 
-            _textAlign = DefinitionResolver.Get<TextAlign>(Controller, binding, file["TextAlign"], TextAlign.Middle | TextAlign.Center);
+            TextAlign = DefinitionResolver.Get<TextAlign>(Controller, binding, file["TextAlign"], TextAlign.Middle | TextAlign.Center);
         }
     }
 }
