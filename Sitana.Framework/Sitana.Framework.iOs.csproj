@@ -127,6 +127,10 @@
     <Compile Include="Graphics\3D\ModelX\ModelXRenderer.cs" />
     <Compile Include="Graphics\3D\ModelX\Exporters\EmxExporter.cs" />
     <Compile Include="Graphics\3D\ModelX\Exporters\IExporter.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffects\Group.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffects\Scale.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffects\Swype.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffects\Vanish.cs" />
     <Compile Include="Graphics\3D\ModelX\Importers\EmxImporter.cs" />
     <Compile Include="Graphics\3D\ModelX\Importers\IImporter.cs" />
     <Compile Include="Graphics\3D\ModelX\Importers\ObjImporter.cs" />
@@ -209,5 +213,7 @@
     <Compile Include="GamerApi\Gamer.cs" />
     <Compile Include="Ui\Views\Controls\UiImage.cs" />
     <Compile Include="Definitions\Stretch.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffect.cs" />
+    <Compile Include="Graphics\Fonts\FontFace.cs" />
   </ItemGroup>
 </Project>

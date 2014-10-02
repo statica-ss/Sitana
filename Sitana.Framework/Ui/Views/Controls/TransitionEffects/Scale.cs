@@ -32,7 +32,6 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
         double _horizontal;
         double _vertical;
         double _power;
-        bool _reverse = false;
 
         Origin _origin = Origin.Container;
 
