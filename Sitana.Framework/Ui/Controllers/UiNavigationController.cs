@@ -22,13 +22,21 @@ namespace Sitana.Framework.Ui.Controllers
                     {
                         _navigation = View as UiNavigationView;
                     }
-                    else
+                    else if (View is UiPage)
                     {
                         _navigation = View.Parent as UiNavigationView;
                     }
                 }
 
                 return _navigation;
+            }
+        }
+
+        protected override void OnViewAttached()
+        {
+            if ( !(View is UiPage) && !(View is UiNavigationView))
+            {
+                throw new InvalidOperationException("Attached view must be either UiNavigationView or UiPage.");
             }
         }
 

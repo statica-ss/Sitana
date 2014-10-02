@@ -162,7 +162,7 @@
     <Compile Include="Settings\SingletonSettings.cs" />
     <Compile Include="System\SystemWrapper.Ios.cs" />
     <Compile Include="Ui\Controllers\UiController.cs" />
-    <Compile Include="Ui\Controllers\UiPageController.cs" />
+    <Compile Include="Ui\Controllers\UiNavigationController.cs" />
     <Compile Include="Ui\Core\AppMain.cs" />
     <Compile Include="Ui\DefinitionFiles\DefinitionFile.cs" />
     <Compile Include="Ui\DefinitionFiles\DefinitionParser.cs" />
