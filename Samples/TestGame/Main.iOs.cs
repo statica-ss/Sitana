@@ -26,10 +26,10 @@ namespace TestGame
 			main.Graphics.IsFullScreen = true;
 			main.Graphics.SupportedOrientations = DisplayOrientation.Portrait | DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight | DisplayOrientation.PortraitDown;
 
-			main.OnLoadContent += TestController.OnLoadContent;
+			main.OnLoadContent += GameController.OnLoadContent;
 
 			// Compute scale factor.
-			double scale = Math.Min((double)main.Graphics.PreferredBackBufferWidth / 960.0, (double)main.Graphics.PreferredBackBufferHeight / 640.0);
+			double scale = Math.Min((double)main.Graphics.PreferredBackBufferWidth / 480.0, (double)main.Graphics.PreferredBackBufferHeight / 480.0);
 			scale = Math.Round(scale, 1);
 
 			UiUnit.FontUnit = scale;

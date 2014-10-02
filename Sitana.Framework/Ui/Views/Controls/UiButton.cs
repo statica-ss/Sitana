@@ -8,7 +8,6 @@ using Sitana.Framework.Input.TouchPad;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
-using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Diagnostics;
 using System;
 using Sitana.Framework.Ui.Views.ButtonDrawables;
@@ -16,7 +15,7 @@ using Sitana.Framework.Cs;
 
 namespace Sitana.Framework.Ui.Views
 {
-    public class UiButton: UiView, IGestureListener
+    public class UiButton: UiView
     {
         public new static void Parse(XNode node, DefinitionFile file)
         {
@@ -113,6 +112,19 @@ namespace Sitana.Framework.Ui.Views
 
         private SharedString _text;
 
+        public string Text
+        {
+            get
+            {
+                return _text.StringValue;
+            }
+
+            set
+            {
+                _text.StringValue = value;
+            }
+        }
+
         public State ButtonState
         {
             get
@@ -155,7 +167,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        void IGestureListener.OnGesture(Gesture gesture)
+        protected override void OnGesture(Gesture gesture)
         {
             Rectangle bounds = ScreenBounds;
 
@@ -275,6 +287,11 @@ namespace Sitana.Framework.Ui.Views
 
             _text = DefinitionResolver.GetSharedString(Controller, binding, file["Text"]);
 
+            if (_text == null)
+            {
+                _text = new SharedString();
+            }
+
             RegisterDelegate("Click", file["Click"]);
 
             List<DefinitionFile> drawableFiles = file["Drawables"] as List<DefinitionFile>;
@@ -295,7 +312,9 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
         {
-            if (DisplayOpacity == 0)
+            float opacity = DisplayOpacity * parameters.Opacity;
+
+            if (opacity == 0)
             {
                 return;
             }
@@ -305,8 +324,7 @@ namespace Sitana.Framework.Ui.Views
             for (int idx = 0; idx < _drawables.Count; ++idx)
             {
                 var drawable = _drawables[idx];
-
-                drawable.Draw(batch, ScreenBounds, DisplayOpacity, ButtonState, _text);
+                drawable.Draw(batch, ScreenBounds, opacity, ButtonState, _text);
             }
         }
 

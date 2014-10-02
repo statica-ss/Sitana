@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using Sitana.Framework.Ui.Core;
 
-namespace Sitana.Framework
+namespace Sitana.Framework.Ui
 {
     public struct Length
     {

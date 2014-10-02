@@ -11,7 +11,7 @@ using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
+namespace Sitana.Framework.Ui.DefinitionFiles
 {
     public struct DefinitionParser
     {
@@ -250,7 +250,7 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             return null;
         }
 
-        public object ParseNinePatchImage(string id)
+        public object ParseResource<T>(string id)
         {
             string name = Value(id);
             object method = ParseMethodOrField(name);
@@ -274,10 +274,9 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
 
             try
             {
-                
-                return ContentLoader.Current.Load<NinePatchImage>(name);
+                return ContentLoader.Current.Load<T>(name);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 if (!EnableCheckMode) throw ex;
                 return null;
@@ -376,6 +375,34 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
             return null;
         }
 
+        public object ParseFloat(string id)
+        {
+            string name = Value(id);
+            object method = ParseMethodOrField(name);
+
+            if (method != null)
+            {
+                return method;
+            }
+
+            if (name.IsNullOrEmpty())
+            {
+                return null;
+            }
+
+            double value;
+
+            if (double.TryParse(name, NumberStyles.Number, CultureInfo.InvariantCulture, out value))
+            {
+                return value;
+            }
+
+            Exception ex = Error(id, "Invalid format. Expected Integer.");
+            if (ex != null) throw ex;
+
+            return null;
+        }
+
         public object ParseLength(string id)
         {
             return ParseLength(id, true);
@@ -431,9 +458,9 @@ namespace Sitana.Framework.Essentials.Ui.DefinitionFiles
                 {
                     string newVal = val.TrimEnd('%');
 
-                    percent += int.Parse(newVal);
+                    percent += double.Parse(newVal, CultureInfo.InvariantCulture) / 100.0;
                 }
-                else
+                else if(!val.IsNullOrWhiteSpace())
                 {
                     length += double.Parse(val, CultureInfo.InvariantCulture);
                 }

@@ -20,19 +20,21 @@
     - [X] UiStackPanel
     - [X] UiWrapPanel
     - [ ] UiTabControl
-    - [ ] UiNavigationPanel
-    - [ ] UiPage
-    - [ ] ScrollView
+    - [X] UiNavigationView
+    - [X] UiPage
+      - [X] Transition Effects
+    - [ ] UiScrollView
     - [X] UiSplitterView
     - [ ] UiAccordion
   - [ ] Controls
     - [X] UiButton
     - [ ] UiCheckBox
-    - [ ] UiImage
-    - [ ] UiNinePatchRect
+    - [X] UiImage
+    - [X] UiNinePatchRect (nine patch drawing implemented in UiRectangle)
     - [X] UiLabel
     - [ ] UiListBox
     - [ ] UiRadioButton
     - [ ] UiTextBox
     - [X] UiRectangle
+    - [ ] UiSlider
   

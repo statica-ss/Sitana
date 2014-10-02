@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Definitions\Stretch.cs" />
+    <Compile Include="Graphics\Fonts\FontFace.cs" />
     <Compile Include="Graphics\Fonts\FontManager.cs" />
     <Compile Include="ContentManagement\TitleContainerEx.cs" />
     <Compile Include="Media\MusicController.Common.cs" />
@@ -62,6 +64,12 @@
     <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffect.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffects\Group.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffects\Scale.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffects\Swype.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffects\Vanish.cs" />
+    <Compile Include="Ui\Views\Controls\UiImage.cs" />
     <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
     <Compile Include="Xml\XFile.cs" />
     <Compile Include="Cs\SharedString.cs" />
@@ -161,7 +169,7 @@
     <Compile Include="System\Keyboard\MessageHook.cs" />
     <Compile Include="System\SystemWrapper.cs" />
     <Compile Include="Ui\Controllers\UiController.cs" />
-    <Compile Include="Ui\Controllers\UiPageController.cs" />
+    <Compile Include="Ui\Controllers\UiNavigationController.cs" />
     <Compile Include="Ui\Core\AppMain.cs" />
     <Compile Include="Ui\DefinitionFiles\DefinitionResolver.cs" />
     <Compile Include="Ui\DefinitionFiles\DefinitionFile.cs" />

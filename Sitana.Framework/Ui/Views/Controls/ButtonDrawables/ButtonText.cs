@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Sitana.Framework.Ui.DefinitionFiles;
-using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Ui.Controllers;
 using Microsoft.Xna.Framework;
@@ -39,6 +38,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         protected TextAlign _textAlign;
         protected int _padding;
 
+        private FontFace _fontFace;
+
         void IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
         {
             Init(controller, binding, file);
@@ -61,7 +62,13 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.State state, object argument)
         {
             SharedString str = (SharedString)argument;
-            SpriteFont font = FontManager.Instance.FindFont(_font, _fontSize);
+
+            if (_fontFace == null)
+            {
+                _fontFace = FontManager.Instance.FindFont(_font);
+            }
+
+            SpriteFont font = _fontFace.Find(_fontSize);
 
             Color color = ColorFromState(state) * opacity;
 

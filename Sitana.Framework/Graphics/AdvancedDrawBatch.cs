@@ -12,6 +12,7 @@ namespace Sitana.Framework.Graphics
     {
         PrimitiveBatch _primitiveBatch;
         SpriteBatch _spriteBatch;
+        BasicEffect _basicEffect;
 
         static RasterizerState _rasterizerScissors = new RasterizerState() { CullMode = CullMode.None, ScissorTestEnable = true };
         static RasterizerState _rasterizerNoScissors = new RasterizerState() { CullMode = CullMode.None, ScissorTestEnable = false };
@@ -35,6 +36,28 @@ namespace Sitana.Framework.Graphics
         NinePatchImage _ninePatchImage;
 
         Stack<Rectangle?> _scissors = new Stack<Rectangle?>();
+
+        Stack<Matrix> _transforms = new Stack<Matrix>();
+
+        Matrix _transform = Matrix.Identity;
+
+        public Matrix Transform
+        {
+            get
+            {
+                return _transform;
+            }
+
+            set
+            {
+                if (_transform != value)
+                {
+                    Flush();
+                }
+
+                _transform = value;
+            }
+        }
 
         public NinePatchImage NinePatchImage
         {
@@ -190,11 +213,19 @@ namespace Sitana.Framework.Graphics
         {
             _scissors.Clear();
             ScissorRectangle = null;
+            _transforms.Clear();
+            _transform = Matrix.Identity;
         }
 
-        public void PushClip(Rectangle? rect)
+        public void PushClip(Rectangle rect)
         {
             _scissors.Push(ScissorRectangle);
+
+            if (ScissorRectangle.HasValue)
+            {
+                rect = GraphicsHelper.IntersectRectangle(rect, ScissorRectangle.Value);
+            }
+
             ScissorRectangle = rect;
         }
 
@@ -210,11 +241,32 @@ namespace Sitana.Framework.Graphics
             }
         }
 
+        public void PushTransform(Matrix transform)
+        {
+            _transforms.Push(Transform);
+            Transform = transform * _transform;
+        }
+
+        public void PopTransform()
+        {
+            if (_transforms.Count > 0)
+            {
+                Transform = _transforms.Pop();
+            }
+            else
+            {
+                Transform = Matrix.Identity;
+            }
+        }
+
         public AdvancedDrawBatch(GraphicsDevice device)
         {
             GraphicsDevice = device;
             _primitiveBatch = new PrimitiveBatch(device);
             _spriteBatch = new SpriteBatch(device);
+            _basicEffect = new BasicEffect(device);
+
+            
         }
 
         public void Flush()
@@ -241,8 +293,19 @@ namespace Sitana.Framework.Graphics
 
             if (!_spriteBatchStarted)
             {
-                _spriteBatch.Begin(SpriteSortMode.Deferred, _blendState, _samplerState, DepthStencilState.None, _rasterizerState);
+                Matrix projection = Matrix.CreateOrthographicOffCenter(0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 0, 0, 1);
+                Matrix halfPixelOffset = Matrix.CreateTranslation(-0.5f, -0.5f, 0);
 
+                _basicEffect.TextureEnabled = true;
+                _basicEffect.VertexColorEnabled = true;
+
+                _basicEffect.Alpha = 1;
+                _basicEffect.Projection = halfPixelOffset * projection;
+                _basicEffect.View = Matrix.Identity;
+                _basicEffect.VertexColorEnabled = true;
+                _basicEffect.World = _transform;
+
+                _spriteBatch.Begin(SpriteSortMode.Deferred, _blendState, _samplerState, DepthStencilState.None, _rasterizerState, _basicEffect);
                 _spriteBatchStarted = true;
             }
         }
@@ -256,8 +319,10 @@ namespace Sitana.Framework.Graphics
 
             if (!_primitiveBatchStarted)
             {
+                _primitiveBatch.Transform = _transform;
                 _primitiveBatch.Begin(_primitiveType, _rasterizerState, _samplerState, _texture);
                 GraphicsDevice.BlendState = _blendState;
+
                 _primitiveBatchStarted = true;
             }
         }

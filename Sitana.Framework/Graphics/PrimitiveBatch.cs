@@ -60,6 +60,8 @@ namespace Sitana.Framework.Graphics
 
         public Matrix Transform { get; set; }
 
+        public BasicEffect BasicEffect { get { return _basicEffect; } }
+
         // the constructor creates a new PrimitiveBatch and sets up all of the internals
         // that PrimitiveBatch will need.
         public PrimitiveBatch(GraphicsDevice graphicsDevice)

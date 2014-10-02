@@ -28,12 +28,20 @@ namespace Sitana.Framework.Ui.Core
     {
         public void ResizeToView()
         {
-            Graphics.PreferredBackBufferWidth = MainView.PositionParameters.Width.Compute();
-            Graphics.PreferredBackBufferHeight = MainView.PositionParameters.Height.Compute();
+            if (!Graphics.IsFullScreen)
+            {
+                int width = MainView.PositionParameters.Width.Compute();
+                int height = MainView.PositionParameters.Height.Compute();
 
-            MainView.Bounds = new Rectangle(0, 0, MainView.PositionParameters.Width.Compute(), MainView.PositionParameters.Height.Compute());
+                if (width > 0 && height > 0)
+                {
+                    Graphics.PreferredBackBufferWidth = width;
+                    Graphics.PreferredBackBufferHeight = height;
 
-            Graphics.ApplyChanges();
+                    MainView.Bounds = new Rectangle(0, 0, width, height);
+                    Graphics.ApplyChanges();
+                }
+            }
         }
 
         public void OnSize(int width, int height)
@@ -45,8 +53,11 @@ namespace Sitana.Framework.Ui.Core
 
                 MainView.Bounds = new Rectangle(0, 0, width, height);
 
-                Form gameForm = (Form)Form.FromHandle(Window.Handle);
-                gameForm.MinimumSize = new System.Drawing.Size(MainView.MinSize.X, MainView.MinSize.Y);
+                if (Window.AllowUserResizing)
+                {
+                    Form gameForm = (Form)Form.FromHandle(Window.Handle);
+                    gameForm.MinimumSize = new System.Drawing.Size(MainView.MinSize.X, MainView.MinSize.Y);
+                }
             }
         }
     }

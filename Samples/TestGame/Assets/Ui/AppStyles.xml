@@ -2,24 +2,96 @@
 <core:StylesContainer
     xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
     xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
-    xmlns:core="namespace:Sitana.Framework.Ui.Core,Sitana.Framework">
+    xmlns:core="namespace:Sitana.Framework.Ui.Core,Sitana.Framework"
+    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework">
   
   <Style Name="DefaultButton">
-    <UiButton>
+    <UiButton Width="320" Height="60" X="C" Align="Center,Top">
       <UiButton.Drawables>
-        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Ui/Button"/>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Ui/Button" ScaleByUnit="true" Scale="0.5"/>
         <button:Text ColorPushed="#ffb0b0" ColorReleased="#c09090" ColorDisabled="#80c09090" Font="TestFont" FontSize="16" TextAlign="Center,Middle" Padding="10"/>
       </UiButton.Drawables>
     </UiButton>
   </Style>
 
-  <Style Name="OtherButton">
-    <UiButton>
+  <Style Name="DefaultButtonSystem">
+    <UiButton Width="320" Height="60" X="C" Align="Center,Top">
       <UiButton.Drawables>
-        <button:SolidBackground ColorPushed="#4040a0" ColorReleased="#000080" ColorDisabled="#80000080"/>
-        <button:Text ColorPushed="#b0b0ff" ColorReleased="#9090c0" ColorDisabled="#809090c0" Font="TestFont" FontSize="16" TextAlign="Center,Middle" Padding="10"/>
+        <button:NinePatchBackground ColorPushed="#4080a0" ColorReleased="#004080" ColorDisabled="#80004080" Image="Ui/Button" ScaleByUnit="true" Scale="0.5"/>
+        <button:Text ColorPushed="#b0d0ff" ColorReleased="#90b0c0" ColorDisabled="#8090b0c0" Font="TestFont" FontSize="14" TextAlign="Center,Middle" Padding="10"/>
       </UiButton.Drawables>
     </UiButton>
   </Style>
-    
+
+  <Style Name="Transition1">
+    <UiPage ShowTime="600" HideTime="600">
+      <UiView.ShowTransitionEffect>
+        <effect:Group>
+          <effect:Scale Horizontal="1.5" Vertical="1.5" Power="2"/>
+          <effect:Vanish Power="2"/>
+        </effect:Group>
+      </UiView.ShowTransitionEffect>
+      <UiView.HideTransitionEffect>
+        <effect:Group>
+          <effect:Scale Horizontal="0.5" Vertical="0.5"/>
+          <effect:Swype Horizontal="-750" Power="1.5"/>
+          <effect:Vanish Power="3"/>
+        </effect:Group>
+      </UiView.HideTransitionEffect>
+    </UiPage>
+  </Style>
+
+  <Style Name="Transition2">
+    <UiPage ShowTime="600" HideTime="1200">
+      <UiView.ShowTransitionEffect>
+        <effect:Group>
+          <effect:Swype Horizontal="750" Vertical="500"/>
+          <effect:Vanish Power="0.75"/>
+        </effect:Group>
+      </UiView.ShowTransitionEffect>
+      <UiView.HideTransitionEffect>
+        <effect:Group>
+          <effect:Swype Horizontal="-750" Power="1.5"/>
+          <effect:Vanish Power="3"/>
+        </effect:Group>
+      </UiView.HideTransitionEffect>
+    </UiPage>
+  </Style>
+
+  <Style Name="Transition3">
+    <UiPage ShowTime="500">
+      <UiView.ShowTransitionEffect>
+        <effect:Swype Horizontal="@"/>
+      </UiView.ShowTransitionEffect>
+    </UiPage>
+  </Style>
+
+  <Style Name="Transition4">
+    <UiPage ShowTime="1000">
+      <UiView.ShowTransitionEffect>
+        <effect:Vanish Power="5"/>
+      </UiView.ShowTransitionEffect>
+    </UiPage>
+  </Style>
+
+  <Style Name="Transition5">
+    <UiPage ShowTime="600" HideTime="600">
+      <UiView.ShowTransitionEffect>
+        <effect:Group>
+          <effect:Scale Horizontal="1.5" Vertical="1.5" Power="2"/>
+          <effect:Vanish Power="2"/>
+        </effect:Group>
+      </UiView.ShowTransitionEffect>
+      <UiView.HideTransitionEffect>
+        <effect:Group>
+          <effect:Scale Horizontal="0" Vertical="0" Power="3"/>
+          <effect:Vanish Power="10"/>
+        </effect:Group>
+      </UiView.HideTransitionEffect>
+    </UiPage>
+  </Style>
+
+  <!-- Change default transition style to see how transitions work-->
+  <Style Name="Transition" Source="Transition5"/>
+  
 </core:StylesContainer>

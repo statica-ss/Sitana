@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Views.Parameters;
+using Microsoft.Xna.Framework;
+using Sitana.Framework.Xml;
+using Sitana.Framework.Content;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -13,19 +16,13 @@ namespace Sitana.Framework.Ui.Views
     {
         List<DefinitionFile> _history = new List<DefinitionFile>();
 
-        protected override void Draw(ref UiViewDrawParameters parameters)
+        public new static void Parse(XNode node, DefinitionFile file)
         {
-            if (DisplayOpacity == 0)
-            {
-                return;
-            }
+            UiContainer.Parse(node, file);
 
-            parameters.DrawBatch.DrawRectangle(ScreenBounds, BackgroundColor * DisplayOpacity);
+            DefinitionParser parser = new DefinitionParser(node);
 
-            for (int idx = 0; idx < _children.Count; ++idx)
-            {
-                _children[idx].ViewDraw(ref parameters);
-            }
+            file["Page"] = parser.ParseString("Page");
         }
 
         protected override void Update(float time)
@@ -50,10 +47,17 @@ namespace Sitana.Framework.Ui.Views
 
         internal void NavigateTo(DefinitionFile def)
         {
-            UiPage view = UiPage.Load(def);
-            AddPage(view);
+            UiPage view = def.CreateInstance(Controller, Binding) as UiPage;
 
-            _history.Add(def);
+            if (view != null)
+            {
+                AddPage(view);
+                _history.Add(def);
+            }
+            else
+            {
+                throw new Exception("Error while navigating to page.");
+            }
         }
 
         internal void NavigateBack()
@@ -83,12 +87,23 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        protected override Rectangle CalculateChildBounds(UiView view)
+        {
+            return new Rectangle(0, 0, Bounds.Width, Bounds.Height);
+        }
+
         private void AddPage(UiPage page)
         {
             for (int idx = 0; idx < _children.Count; ++idx)
             {
                 var child = _children[idx] as UiPage;
                 child.Hide();
+
+                if (child.HideTransitionEffect == null)
+                {
+                    child.HideTransitionEffect = page.ShowTransitionEffect != null ? page.ShowTransitionEffect.Reverse() : null;
+                    child.HideSpeed = page.ShowSpeed;
+                }
             }
 
             _children.Add(page);
@@ -98,9 +113,60 @@ namespace Sitana.Framework.Ui.Views
             page.ViewAdded();
         }
 
+        protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
+        {
+            float opacity = DisplayOpacity * parameters.Opacity;
+
+            if (opacity == 0)
+            {
+                return;
+            }
+
+            Color backgroundColor = BackgroundColor * opacity;
+
+            if (backgroundColor.A > 0)
+            {
+                parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
+            }
+
+            parameters.DrawBatch.PushClip(ScreenBounds);
+
+            for (int idx = 0; idx < _children.Count; ++idx)
+            {
+                UiPage page = _children[idx] as UiPage;
+
+                UiViewDrawParameters drawParams = parameters;
+                drawParams.Opacity = opacity;
+                drawParams.Transition = page.Transition;
+                drawParams.TransitionPageRectangle = page.ScreenBounds;
+                drawParams.TransitionPageModeHide = page.PageStatus == UiPage.Status.Hide;
+                page.ViewDraw(ref drawParams);
+            }
+
+            parameters.DrawBatch.PopClip();
+        }
+
         public override void Add(UiView view)
         {
-            throw new InvalidOperationException("Cannot add views to UiNavigationPage. Use NavigateTo instead.");
+            if (!_children.Contains(view))
+            {
+                throw new InvalidOperationException("Cannot add views to UiNavigationPage. Use NavigateTo instead.");
+            }
+        }
+
+        protected override void Init(object controller, object binding, DefinitionFile definition)
+        {
+            base.Init(controller, binding, definition);
+
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiNavigationView));
+
+            string url = DefinitionResolver.GetString(Controller, binding, file["Page"]);
+
+            DefinitionFile pageFile = ContentLoader.Current.Load<DefinitionFile>(url);
+
+            NavigateTo(pageFile);
+            UiPage page = _children[0] as UiPage;
+            page.InstantShow();
         }
     }
 }

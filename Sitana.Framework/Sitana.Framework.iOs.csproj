@@ -127,6 +127,10 @@
     <Compile Include="Graphics\3D\ModelX\ModelXRenderer.cs" />
     <Compile Include="Graphics\3D\ModelX\Exporters\EmxExporter.cs" />
     <Compile Include="Graphics\3D\ModelX\Exporters\IExporter.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffects\Group.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffects\Scale.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffects\Swype.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffects\Vanish.cs" />
     <Compile Include="Graphics\3D\ModelX\Importers\EmxImporter.cs" />
     <Compile Include="Graphics\3D\ModelX\Importers\IImporter.cs" />
     <Compile Include="Graphics\3D\ModelX\Importers\ObjImporter.cs" />
@@ -158,7 +162,7 @@
     <Compile Include="Settings\SingletonSettings.cs" />
     <Compile Include="System\SystemWrapper.Ios.cs" />
     <Compile Include="Ui\Controllers\UiController.cs" />
-    <Compile Include="Ui\Controllers\UiPageController.cs" />
+    <Compile Include="Ui\Controllers\UiNavigationController.cs" />
     <Compile Include="Ui\Core\AppMain.cs" />
     <Compile Include="Ui\DefinitionFiles\DefinitionFile.cs" />
     <Compile Include="Ui\DefinitionFiles\DefinitionParser.cs" />
@@ -207,5 +211,9 @@
     <Compile Include="GamerApi\AchievementsHandler.cs" />
     <Compile Include="GamerApi\AchievementsManager.cs" />
     <Compile Include="GamerApi\Gamer.cs" />
+    <Compile Include="Ui\Views\Controls\UiImage.cs" />
+    <Compile Include="Definitions\Stretch.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffect.cs" />
+    <Compile Include="Graphics\Fonts\FontFace.cs" />
   </ItemGroup>
 </Project>

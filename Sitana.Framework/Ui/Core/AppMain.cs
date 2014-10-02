@@ -18,6 +18,7 @@ namespace Sitana.Framework.Ui.Core
     {
         public delegate void LoadDelegate(AppMain main);
 
+
         public static AppMain Current { get; private set; }
 
         private GraphicsDeviceManager _graphics;
@@ -88,10 +89,15 @@ namespace Sitana.Framework.Ui.Core
 
             var drawParameters = new UiViewDrawParameters()
             {
-                DrawBatch = _drawBatch
+                DrawBatch = _drawBatch,
+                Opacity = 1,
+                Transition = 1
             };
 
+            
             GraphicsDevice.Clear(MainView.BackgroundColor);
+
+            _drawBatch.Reset();
             MainView.ViewDraw(ref drawParameters);
             _drawBatch.Flush();
 
@@ -130,7 +136,6 @@ namespace Sitana.Framework.Ui.Core
             IDefinitionClass obj = _mainView.CreateInstance(null, null);
 
             MainView = (UiContainer)obj;
-            MainView.CreatePositionParameters(MainView.Controller, null, _mainView, typeof(PositionParameters));
 
             MainView.RecalculateAll();
 

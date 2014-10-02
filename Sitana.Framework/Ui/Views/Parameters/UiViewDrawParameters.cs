@@ -9,7 +9,12 @@ namespace Sitana.Framework.Ui.Views.Parameters
 {
     public struct UiViewDrawParameters
     {
-        public AdvancedDrawBatch    DrawBatch { get; set; }
-        public Point                Transition { get; set; }
+        public AdvancedDrawBatch DrawBatch;
+        
+        public float Opacity;
+        public float Transition;
+
+        public Rectangle TransitionPageRectangle;
+        public bool TransitionPageModeHide;
     }
 }

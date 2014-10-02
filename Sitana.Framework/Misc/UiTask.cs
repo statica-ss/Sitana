@@ -34,7 +34,7 @@ namespace Sitana.Framework
             for (int idx = 0; idx < _tasks.Count; )
             {
                 var pair = _tasks[idx];
-                if (pair.Item1 >= ticks)
+                if (pair.Item1 <= ticks)
                 {
                     pair.Item2.Invoke();
                     _tasks.RemoveAt(idx);

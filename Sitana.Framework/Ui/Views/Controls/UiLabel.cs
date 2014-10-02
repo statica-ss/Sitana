@@ -1,20 +1,7 @@
-﻿/// This file is a part of the EBATIANOS.ESSENTIALS class library.
-/// (C)2013-2014 Sebastian Sejud. All rights reserved.
-///
-/// THIS SOURCE FILE IS THE PROPERTY OF SEBASTIAN SEJUD AND IS NOT TO BE 
-/// RE-DISTRIBUTED BY ANY MEANS WHATSOEVER WITHOUT THE EXPRESSED WRITTEN 
-/// CONSENT OF SEBASTIAN SEJUD.
-/// 
-/// THIS SOURCE CODE CAN ONLY BE USED UNDER THE TERMS AND CONDITIONS OUTLINED
-/// IN THE EBATIANOS.ESSENTIALS LICENSE AGREEMENT. SEBASTIAN SEJUD GRANTS
-/// TO YOU (ONE SOFTWARE DEVELOPER) THE LIMITED RIGHT TO USE THIS SOFTWARE 
-/// ON A SINGLE COMPUTER.
-///
-/// CONTACT INFORMATION:
-/// essentials@sejud.com
-/// sejud.com/essentials-library
-/// 
-///---------------------------------------------------------------------------
+﻿// SITANA - Copyright (C) The Sitana Team.
+// This file is subject to the terms and conditions defined in
+// file 'LICENSE.txt', which is part of this source code package.
+
 using Sitana.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Text;
@@ -22,7 +9,6 @@ using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework.Content;
 using Sitana.Framework.Ui.DefinitionFiles;
-using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using System;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Cs;
@@ -43,6 +29,7 @@ namespace Sitana.Framework.Ui.Views
             file["FontSize"] = parser.ParseInt("FontSize");
 
             file["TextColor"] = parser.ParseColor("TextColor");
+            file["TextAlign"] = parser.ParseEnum<TextAlign>("TextAlign");
         }
 
         public SharedString Text { get; private set; }
@@ -58,46 +45,38 @@ namespace Sitana.Framework.Ui.Views
             set
             {
                 _fontName = value;
-                _font = null;
+                _fontFace = null;
             }
         }
+        
+        public int FontSize {get;set;}
 
-        public int FontSize
-        {
-            get
-            {
-                return _fontSize;
-            }
+        string _fontName;
 
-            set
-            {
-                _fontSize = value;
-                _font = null;
-            }
-        }
+        FontFace _fontFace = null;
 
-
-        int _fontSize = 0;
-        string _fontName = null;
-
-        SpriteFont _font;
+        public TextAlign TextAlign {get;set;}
 
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
-            if (DisplayOpacity == 0 || TextColor.Value.A == 0)
+            float opacity = DisplayOpacity * parameters.Opacity;
+
+            if (opacity == 0 || TextColor.Value.A == 0)
             {
                 return;
             }
 
             base.Draw(ref parameters);
 
-            if (_font == null )
+            if (_fontFace == null)
             {
-                _font = FontManager.Instance.FindFont(FontName, FontSize);
+                _fontFace = FontManager.Instance.FindFont(FontName);
             }
 
-            parameters.DrawBatch.Font = _font;
-            parameters.DrawBatch.DrawText(Text, ScreenBounds, TextAlign.Center | TextAlign.Middle, TextColor.Value * DisplayOpacity);
+            SpriteFont font = _fontFace.Find(FontSize);
+            
+            parameters.DrawBatch.Font = font;
+            parameters.DrawBatch.DrawText(Text, ScreenBounds, TextAlign, TextColor.Value * opacity);
         }
 
         protected override void Init(object controller, object binding, DefinitionFile definition)
@@ -111,6 +90,8 @@ namespace Sitana.Framework.Ui.Views
 
             Text = DefinitionResolver.GetSharedString(Controller, binding, file["Text"]);
             TextColor = DefinitionResolver.GetColorWrapper(Controller, binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
+
+            TextAlign = DefinitionResolver.Get<TextAlign>(Controller, binding, file["TextAlign"], TextAlign.Middle | TextAlign.Center);
         }
     }
 }

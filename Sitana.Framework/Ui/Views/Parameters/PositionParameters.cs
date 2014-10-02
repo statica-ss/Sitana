@@ -3,14 +3,13 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using Microsoft.Xna.Framework;
-using Sitana.Framework.Essentials.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Ui.Views
 {
-    public class PositionParameters: IDefinitionClass
+    public class PositionParameters
     {
         public Margin Margin = Margin.None;
         public Align  Align = Align.StretchHorz | Align.StretchVert;
@@ -35,13 +34,10 @@ namespace Sitana.Framework.Ui.Views
             file["Y"] = parser.ParseLength("Y");
         }
 
-        void IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
+        internal void Init(UiController controller, object binding, DefinitionFile definition)
         {
-            Init(controller, binding, file);
-        }
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiView));
 
-        protected virtual void Init(UiController controller, object binding, DefinitionFile file)
-        {
             Width = DefinitionResolver.Get<Length>(controller, binding, file["Width"], Length.Default);
             Height = DefinitionResolver.Get<Length>(controller, binding, file["Height"], Length.Default);
             Margin = DefinitionResolver.Get<Margin>(controller, binding, file["Margin"], Margin.None);
