@@ -22,5 +22,10 @@ namespace TestGame
         {
             FontManager.Instance.AddFont("TestFont", "Fonts/TestFont", new int[]{6,8,10,12,14,16,20,24,28,32,38});
         }
+
+        public void OpenLink(UiButton button)
+        {
+            SystemWrapper.OpenWebsite(button.Text);
+        }
     }
 }

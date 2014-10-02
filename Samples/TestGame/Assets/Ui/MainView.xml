@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UiBorder Controller="TestGame.GameController,TestGame"
     xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
+    xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
     Width="720" Height="480" BackgroundColor="#006080">
   <UiBorder.Children>
     <UiNavigationView Page="Ui/MainPage" BackgroundColor="#003040" X="C" Y="4" Width="@-8" Height="@-32" Align="Center,Top"/>
 
-    <UiLabel Text="http://github.com/SitanaTeam/Sitana" Font="TestFont" FontSize="8" X="@-6" Y="@-14" TextAlign="Right,Middle" Align="Right,Middle"/>
-
     <UiLabel Text="Copyright © SitanaTeam." Font="TestFont" FontSize="8" X="6" Y="@-14" TextAlign="Left,Middle" Align="Left,Middle"/>
+
+    <UiButton Text="http://github.com/SitanaTeam/Sitana" X="@-6" Y="@-14" Height="32" Width="200" Align="Right,Middle" Click="{OpenLink(sender)}">
+      <UiButton.Drawables>
+        <button:Text ColorPushed="#b0ffff" ColorReleased="#ffffff" Font="TestFont" FontSize="8" TextAlign="Right,Middle" Padding="0"/>
+      </UiButton.Drawables>
+    </UiButton>
     
     
   </UiBorder.Children>
