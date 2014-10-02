@@ -5,18 +5,26 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Controllers;
+using Sitana.Framework.Xml;
 
 namespace Sitana.Framework.Ui.Views
 {
     public abstract class TransitionEffect: IDefinitionClass
     {
-        public abstract void Get(double transition, out Matrix transform, out float opacity);
+        internal bool HideTransition {get; private set;}
+
+        public abstract void Get(double transition, Point size, out Matrix transform, out float opacity);
+
+        public abstract TransitionEffect Reverse();
 
         void IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
         {
             Init(controller, binding, file);
         }
 
-        protected abstract void Init(UiController controller, object binding, DefinitionFile definition);
+        protected virtual void Init(UiController controller, object binding, DefinitionFile definition)
+        {
+            
+        }
     }
 }

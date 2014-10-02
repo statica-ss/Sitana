@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<UiBorder Controller="TestGame.GameController,TestGame"
+<UiNavigationView Controller="TestGame.GameController,TestGame"
     xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
-    xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
     xmlns:pp="type:Sitana.Framework.Ui.Views.PositionParameters,Sitana.Framework"
-    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
-    pp:Width="720" pp:Height="480" BackgroundColor="#003040">
-  <UiBorder.Children>
-    <UiLabel Text="SITANA GAME" Font="TestFont" FontSize="20" pp:X="C" pp:Y="20" TextAlign="Center,Top" pp:Align="Center,Top" pp:Width="@" pp:Height="@"/>
-    <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="Uniform" pp:X="C" pp:Y="C-75" pp:Align="Center,Middle" pp:Width="150" pp:Height="150"/>
-    <UiButton Style="DefaultButton" Text="Start Game" pp:Width="320" pp:Height="60" pp:X="C" pp:Y="C+40" pp:Align="Center,Top" />
-    <UiButton Style="DefaultButton" Text="Exit" pp:Width="320" pp:Height="60" pp:X="C" pp:Y="C+110" pp:Align="Center,Top" />
-    <UiLabel Text="Copyright © SitanaTeam." Font="TestFont" FontSize="8" pp:X="C" pp:Y="@-20" TextAlign="Center,Bottom" pp:Align="Center,Bottom" pp:Width="500" pp:Height="200">
-      <UiView.TransitionEffect>
-        <effect:Vanish Power="2"/>
-      </UiView.TransitionEffect>
-    </UiLabel>
-    
-  </UiBorder.Children>
-</UiBorder>
+    pp:Width="720" pp:Height="480" BackgroundColor="#003040" Page="Ui/MainPage"/>

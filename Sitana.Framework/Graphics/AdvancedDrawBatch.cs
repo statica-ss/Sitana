@@ -41,6 +41,24 @@ namespace Sitana.Framework.Graphics
 
         Matrix _transform = Matrix.Identity;
 
+        public Matrix Transform
+        {
+            get
+            {
+                return _transform;
+            }
+
+            set
+            {
+                if (_transform != value)
+                {
+                    Flush();
+                }
+
+                _transform = value;
+            }
+        }
+
         public NinePatchImage NinePatchImage
         {
             get
@@ -199,9 +217,15 @@ namespace Sitana.Framework.Graphics
             _transform = Matrix.Identity;
         }
 
-        public void PushClip(Rectangle? rect)
+        public void PushClip(Rectangle rect)
         {
             _scissors.Push(ScissorRectangle);
+
+            if (ScissorRectangle.HasValue)
+            {
+                rect = GraphicsHelper.IntersectRectangle(rect, ScissorRectangle.Value);
+            }
+
             ScissorRectangle = rect;
         }
 
@@ -219,24 +243,20 @@ namespace Sitana.Framework.Graphics
 
         public void PushTransform(Matrix transform)
         {
-            _transforms.Push(_transform);
-            _transform = transform;
-
-            Flush();
+            _transforms.Push(Transform);
+            Transform = _transform * transform;
         }
 
         public void PopTransform()
         {
             if (_transforms.Count > 0)
             {
-                _transform = _transforms.Pop();
+                Transform = _transforms.Pop();
             }
             else
             {
-                _transform = Matrix.Identity;
+                Transform = Matrix.Identity;
             }
-
-            Flush();
         }
 
         public AdvancedDrawBatch(GraphicsDevice device)

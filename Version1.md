@@ -15,9 +15,10 @@
     - [X] UiStackPanel
     - [X] UiWrapPanel
     - [ ] UiTabControl
-    - [ ] UiNavigationPanel
-    - [ ] UiPage
-    - [ ] ScrollView
+    - [X] UiNavigationView
+    - [X] UiPage
+      - [X] Transition Effects
+    - [ ] UiScrollView
     - [X] UiSplitterView
     - [ ] UiAccordion
   - [ ] Controls

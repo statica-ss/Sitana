@@ -9,7 +9,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Ui.Core;
 
-namespace Sitana.Framework
+namespace Sitana.Framework.Ui
 {
     public struct Margin
     {

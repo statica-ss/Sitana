@@ -460,7 +460,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
                     percent += int.Parse(newVal);
                 }
-                else
+                else if(!val.IsNullOrWhiteSpace())
                 {
                     length += double.Parse(val, CultureInfo.InvariantCulture);
                 }

@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Sitana.Framework.Content;
 
 namespace Sitana.Framework.Ui.Controllers
 {
-    public class UiPageController: UiController
+    public abstract class UiPageController: UiController
     {
         UiNavigationView _navigation = null;
 
@@ -26,18 +27,18 @@ namespace Sitana.Framework.Ui.Controllers
 
         protected void NavigateTo(string uri)
         {
-            DefinitionFile def = null;
-            _navigation.NavigateTo(def);
+            DefinitionFile def = ContentLoader.Current.Load<DefinitionFile>(uri);
+            Navigation.NavigateTo(def);
         }
 
         protected void NavigateBack()
         {
-            _navigation.NavigateBack();
+            Navigation.NavigateBack();
         }
 
         protected void NavigateBack(string anchor)
         {
-            _navigation.NavigateBack(anchor);
+            Navigation.NavigateBack(anchor);
         }
     }
 }
