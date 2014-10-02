@@ -6,7 +6,7 @@ using Sitana.Framework.Ui.Controllers;
 
 namespace TestGame
 {
-    public class MainPage : UiPageController
+    public class MainPage : UiNavigationController
     {
         public void OnNewGame()
         {

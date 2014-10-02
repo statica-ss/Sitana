@@ -6,7 +6,7 @@ using Sitana.Framework.Ui.Controllers;
 
 namespace TestGame
 {
-    public class OptionsPage: UiPageController
+    public class OptionsPage: UiNavigationController
     {
 
     }

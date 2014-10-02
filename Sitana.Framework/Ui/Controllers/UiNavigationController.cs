@@ -8,7 +8,7 @@ using Sitana.Framework.Content;
 
 namespace Sitana.Framework.Ui.Controllers
 {
-    public abstract class UiPageController: UiController
+    public abstract class UiNavigationController: UiController
     {
         UiNavigationView _navigation = null;
 
@@ -18,7 +18,14 @@ namespace Sitana.Framework.Ui.Controllers
             {
                 if ( _navigation == null )
                 {
-                    _navigation = View.Parent as UiNavigationView;
+                    if (View is UiNavigationView)
+                    {
+                        _navigation = View as UiNavigationView;
+                    }
+                    else
+                    {
+                        _navigation = View.Parent as UiNavigationView;
+                    }
                 }
 
                 return _navigation;
