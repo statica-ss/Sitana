@@ -11,7 +11,7 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
 {
     public class Vanish : TransitionEffect
     {
-        public new static void Parse(XNode node, DefinitionFile file)
+        public static void Parse(XNode node, DefinitionFile file)
         {
             var parser = new DefinitionParser(node);
             file["Power"] = parser.ParseFloat("Power");

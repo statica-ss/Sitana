@@ -9,7 +9,10 @@
     <effect:Swype Horizontal="@" Vertical="C"/>
   </UiView.ShowTransitionEffect>
   <UiView.HideTransitionEffect>
-    <effect:Swype Horizontal="-@" Power="1.5"/>
+    <effect:Group>
+      <effect:Swype Horizontal="-@" Power="1.5"/>
+      <effect:Vanish Power="3"/>
+    </effect:Group>
   </UiView.HideTransitionEffect>
   <UiPage.Content>
     <UiBorder>
