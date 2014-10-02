@@ -8,6 +8,7 @@ using Sitana.Framework.Graphics;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
+using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework.Ui.Views.ButtonDrawables
 {
@@ -22,11 +23,16 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["ImagePushed"] = parser.ParseResource<NinePatchImage>("ImagePushed");
             file["ImageReleased"] = parser.ParseResource<NinePatchImage>("Image");
             file["ImageDisabled"] = parser.ParseResource<NinePatchImage>("ImageDisabled");
+            file["ScaleByUnit"] = parser.ParseBoolean("ScaleByUnit");
+            file["Scale"] = parser.ParseFloat("Scale");
         }
 
         protected NinePatchImage _imagePushed = null;
         protected NinePatchImage _imageReleased = null;
         protected NinePatchImage _imageDisabled = null;
+
+        protected bool _scaleByUnit = false;
+        protected float _scale = 1;
 
         protected override void Init(UiController controller, object binding, DefinitionFile definition)
         {
@@ -37,6 +43,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _imageDisabled = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImageDisabled"], null);
             _imageReleased = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImageReleased"], null);
             _imagePushed = DefinitionResolver.Get<NinePatchImage>(controller, binding, file["ImagePushed"], null);
+            _scaleByUnit = DefinitionResolver.Get<bool>(controller, binding, file["ScaleByUnit"], false);
+            _scale = (float)DefinitionResolver.Get<double>(controller, binding, file["Scale"], 1);
         }
 
         public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.State state, object argument)
@@ -62,8 +70,12 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
                     break;
             }
 
+            float scale = _scaleByUnit ? (float)UiUnit.Unit : 1;
+
             drawBatch.NinePatchImage = image;
-            drawBatch.DrawNinePatchRect(target, color);
+            drawBatch.DrawNinePatchRect(target, color, scale * _scale);
         }
+
+
     }
 }

@@ -13,6 +13,7 @@ using Sitana.Framework.Cs;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Diagnostics;
 using Sitana.Framework.Xml;
+using Sitana.Framework.Input.TouchPad;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -23,7 +24,7 @@ namespace Sitana.Framework.Ui.Views
     /// MinSize
     /// Opacity
     /// </summary>
-    public abstract class UiView: IDefinitionClass
+    public abstract class UiView : IDefinitionClass, IGestureListener
     {
         public static void Parse(XNode node, DefinitionFile file)
         {
@@ -125,7 +126,8 @@ namespace Sitana.Framework.Ui.Views
 
         protected TransitionEffect _showTransitionEffect = null;
         protected TransitionEffect _hideTransitionEffect = null;
-        
+
+        private bool _enableGestureHandling = false;
 
         public virtual UiContainer Parent
         {
@@ -192,6 +194,8 @@ namespace Sitana.Framework.Ui.Views
 
         internal void ViewDraw(ref UiViewDrawParameters parameters)
         {
+            _enableGestureHandling = Visible && parameters.Transition > 0.99;
+
             TransitionEffect transitionEffect = parameters.TransitionPageModeHide ? _hideTransitionEffect : _showTransitionEffect;
 
             if (transitionEffect != null)
@@ -429,6 +433,18 @@ namespace Sitana.Framework.Ui.Views
             }
 
             return size;
+        }
+
+        void IGestureListener.OnGesture(Gesture gesture)
+        {
+            if (_enableGestureHandling)
+            {
+                OnGesture(gesture);
+            }
+        }
+
+        protected virtual void OnGesture(Gesture gesture)
+        {
         }
     }
 }

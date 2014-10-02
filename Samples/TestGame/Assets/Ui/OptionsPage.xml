@@ -13,6 +13,8 @@
         <UiButton Style="DefaultButton" Text="Test" Y="C+40" Align="Center,Top"/>
         <UiButton Style="DefaultButtonSystem" Text="back" Y="C+110" Click="{NavigateBack()}"/>
 
+        <UiRectangle Image="Ui/Button" Color="#20506080" Scale="0.25" ScaleByUnit="true" Align="Center,Middle" X="C" Y="C-70" Width="150" Height="150"/>
+        
       </UiBorder.Children>
     </UiBorder>
   </UiPage.Content>

@@ -110,6 +110,7 @@
     <BundleResource Include="Assets\Ui\AppStyles.xml" />
     <BundleResource Include="Assets\Ui\Button.xml" />
     <BundleResource Include="Assets\Ui\MainPage.xml" />
+    <BundleResource Include="Assets\Ui\OptionsPage.xml" />
     <BundleResource Include="Assets\Ui\MainView.xml" />
     <BundleResource Include="Resources\Icon-60%402x.png" />
     <BundleResource Include="Resources\Icon-72.png" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <Compile Include="Main.iOs.cs" />
     <Compile Include="TestController.cs" />
+    <Compile Include="OptionsPage.cs" />
     <Compile Include="MainPage.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -25,10 +25,11 @@
     - [X] UiButton
     - [ ] UiCheckBox
     - [X] UiImage
-    - [ ] UiNinePatchRect
+    - [X] UiNinePatchRect (nine patch drawing implemented in UiRectangle)
     - [X] UiLabel
     - [ ] UiListBox
     - [ ] UiRadioButton
     - [ ] UiTextBox
     - [X] UiRectangle
+    - [ ] UiSlider
   

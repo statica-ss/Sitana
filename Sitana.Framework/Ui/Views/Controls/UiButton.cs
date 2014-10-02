@@ -15,7 +15,7 @@ using Sitana.Framework.Cs;
 
 namespace Sitana.Framework.Ui.Views
 {
-    public class UiButton: UiView, IGestureListener
+    public class UiButton: UiView
     {
         public new static void Parse(XNode node, DefinitionFile file)
         {
@@ -167,7 +167,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        void IGestureListener.OnGesture(Gesture gesture)
+        protected override void OnGesture(Gesture gesture)
         {
             Rectangle bounds = ScreenBounds;
 

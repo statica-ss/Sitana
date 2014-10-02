@@ -156,8 +156,21 @@ namespace Sitana.Framework.Graphics
 
         public void DrawNinePatchRect(Rectangle target, Color color)
         {
+            DrawNinePatchRect(target, color, 1);
+        }
+
+        public void DrawNinePatchRect(Rectangle target, Color color, float scale)
+        {
             SpriteBatchIsNeeded();
-            _ninePatchImage.Draw(_spriteBatch, target, Vector2.One, color);
+
+            if (_ninePatchImage != null)
+            {
+                _ninePatchImage.Draw(_spriteBatch, target, new Vector2(scale), color);
+            }
+            else
+            {
+                DrawRectangle(target, color);
+            }
         }
 
         public void DrawImage(Point position, Point size, Point textureSrc, Color color)

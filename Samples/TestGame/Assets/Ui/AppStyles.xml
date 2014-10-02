@@ -8,7 +8,7 @@
   <Style Name="DefaultButton">
     <UiButton Width="320" Height="60" X="C" Align="Center,Top">
       <UiButton.Drawables>
-        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Ui/Button"/>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Ui/Button" ScaleByUnit="true" Scale="0.5"/>
         <button:Text ColorPushed="#ffb0b0" ColorReleased="#c09090" ColorDisabled="#80c09090" Font="TestFont" FontSize="16" TextAlign="Center,Middle" Padding="10"/>
       </UiButton.Drawables>
     </UiButton>
@@ -17,7 +17,7 @@
   <Style Name="DefaultButtonSystem">
     <UiButton Width="320" Height="60" X="C" Align="Center,Top">
       <UiButton.Drawables>
-        <button:NinePatchBackground ColorPushed="#4080a0" ColorReleased="#004080" ColorDisabled="#80004080" Image="Ui/Button"/>
+        <button:NinePatchBackground ColorPushed="#4080a0" ColorReleased="#004080" ColorDisabled="#80004080" Image="Ui/Button" ScaleByUnit="true" Scale="0.5"/>
         <button:Text ColorPushed="#b0d0ff" ColorReleased="#90b0c0" ColorDisabled="#8090b0c0" Font="TestFont" FontSize="14" TextAlign="Center,Middle" Padding="10"/>
       </UiButton.Drawables>
     </UiButton>
