@@ -14,7 +14,7 @@ namespace Sitana.Framework.Ui.Views.Parameters
         public float Opacity;
         public float Transition;
 
-        public Point TransitionPageSize;
+        public Rectangle TransitionPageRectangle;
         public bool TransitionPageModeHide;
     }
 }

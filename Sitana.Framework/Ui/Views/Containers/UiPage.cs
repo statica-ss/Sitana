@@ -41,6 +41,7 @@ namespace Sitana.Framework.Ui.Views
             }
 
             var parser = new DefinitionParser(node);
+
             file["ShowTime"] = parser.ParseFloat("ShowTime");
             file["HideTime"] = parser.ParseFloat("HideTime");
         }
@@ -174,7 +175,7 @@ namespace Sitana.Framework.Ui.Views
             UiViewDrawParameters drawParams = parameters;
             drawParams.Opacity = opacity;
             drawParams.Transition = Transition;
-            drawParams.TransitionPageSize = new Point(Bounds.Width, Bounds.Height);
+            drawParams.TransitionPageRectangle = ScreenBounds;
             drawParams.TransitionPageModeHide = PageStatus == Status.Hide;
 
             parameters.DrawBatch.PushClip(ScreenBounds);

@@ -138,7 +138,7 @@ namespace Sitana.Framework.Ui.Views
                 UiViewDrawParameters drawParams = parameters;
                 drawParams.Opacity = opacity;
                 drawParams.Transition = page.Transition;
-                drawParams.TransitionPageSize = new Point(Bounds.Width, Bounds.Height);
+                drawParams.TransitionPageRectangle = page.ScreenBounds;
                 drawParams.TransitionPageModeHide = page.PageStatus == UiPage.Status.Hide;
                 page.ViewDraw(ref drawParams);
             }

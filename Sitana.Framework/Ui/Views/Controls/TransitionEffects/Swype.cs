@@ -26,8 +26,10 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
         double _power;
         bool _reverse = false;
 
-        public override void Get(double transition, Point size, out Matrix transform, out float opacity)
+        public override void Get(double transition, Rectangle containerRect, Rectangle elementRect, out Matrix transform, out float opacity)
         {
+            Point size = new Point(containerRect.Width, containerRect.Height);
+
             int moveX = _horizontal.Compute(size.X);
             int moveY = _vertical.Compute(size.Y);
 

@@ -244,7 +244,7 @@ namespace Sitana.Framework.Graphics
         public void PushTransform(Matrix transform)
         {
             _transforms.Push(Transform);
-            Transform = _transform * transform;
+            Transform = transform * _transform;
         }
 
         public void PopTransform()

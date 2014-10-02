@@ -19,7 +19,7 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
 
         double _power = 1;
 
-        public override void Get(double transition, Point size, out Matrix transform, out float opacity)
+        public override void Get(double transition, Rectangle containerRect, Rectangle elementRect, out Matrix transform, out float opacity)
         {
             transform = Matrix.Identity;
             opacity = (float)Math.Pow(transition, _power);

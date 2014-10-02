@@ -13,7 +13,7 @@ namespace Sitana.Framework.Ui.Views
     {
         internal bool HideTransition {get; private set;}
 
-        public abstract void Get(double transition, Point size, out Matrix transform, out float opacity);
+        public abstract void Get(double transition, Rectangle containerRect, Rectangle elementRect, out Matrix transform, out float opacity);
 
         public abstract TransitionEffect Reverse();
 

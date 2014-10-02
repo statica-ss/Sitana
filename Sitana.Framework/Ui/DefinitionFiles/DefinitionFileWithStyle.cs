@@ -25,7 +25,12 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             {
                 if (_current.HasKey(id))
                 {
-                    return _current[id];
+                    object value = _current[id];
+
+                    if (value != null)
+                    {
+                        return value;
+                    }
                 }
 
                 if (_style != null)

@@ -2,7 +2,8 @@
 <core:StylesContainer
     xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
     xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
-    xmlns:core="namespace:Sitana.Framework.Ui.Core,Sitana.Framework">
+    xmlns:core="namespace:Sitana.Framework.Ui.Core,Sitana.Framework"
+    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework">
   
   <Style Name="DefaultButton">
     <UiButton>
@@ -22,4 +23,72 @@
     </UiButton>
   </Style>
 
+  <Style Name="Transition1">
+    <UiPage ShowTime="600" HideTime="600">
+      <UiView.ShowTransitionEffect>
+        <effect:Group>
+          <effect:Scale Horizontal="1.5" Vertical="1.5" Power="2"/>
+          <effect:Vanish Power="2"/>
+        </effect:Group>
+      </UiView.ShowTransitionEffect>
+      <UiView.HideTransitionEffect>
+        <effect:Group>
+          <effect:Scale Horizontal="0.5" Vertical="0.5"/>
+          <effect:Swype Horizontal="-750" Power="1.5"/>
+          <effect:Vanish Power="3"/>
+        </effect:Group>
+      </UiView.HideTransitionEffect>
+    </UiPage>
+  </Style>
+
+  <Style Name="Transition2">
+    <UiPage ShowTime="600" HideTime="1200">
+      <UiView.ShowTransitionEffect>
+        <effect:Group>
+          <effect:Swype Horizontal="750" Vertical="500"/>
+          <effect:Vanish Power="0.75"/>
+        </effect:Group>
+      </UiView.ShowTransitionEffect>
+      <UiView.HideTransitionEffect>
+        <effect:Group>
+          <effect:Swype Horizontal="-750" Power="1.5"/>
+          <effect:Vanish Power="3"/>
+        </effect:Group>
+      </UiView.HideTransitionEffect>
+    </UiPage>
+  </Style>
+
+  <Style Name="Transition3">
+    <UiPage ShowTime="500">
+      <UiView.ShowTransitionEffect>
+        <effect:Swype Horizontal="@"/>
+      </UiView.ShowTransitionEffect>
+    </UiPage>
+  </Style>
+
+  <Style Name="Transition4">
+    <UiPage ShowTime="1000">
+      <UiView.ShowTransitionEffect>
+        <effect:Vanish Power="5"/>
+      </UiView.ShowTransitionEffect>
+    </UiPage>
+  </Style>
+
+  <Style Name="Transition5">
+    <UiPage ShowTime="600" HideTime="600">
+      <UiView.ShowTransitionEffect>
+        <effect:Group>
+          <effect:Scale Horizontal="1.5" Vertical="1.5" Power="2"/>
+          <effect:Vanish Power="2"/>
+        </effect:Group>
+      </UiView.ShowTransitionEffect>
+      <UiView.HideTransitionEffect>
+        <effect:Group>
+          <effect:Scale Horizontal="0" Vertical="0" Power="3"/>
+          <effect:Vanish Power="10"/>
+        </effect:Group>
+      </UiView.HideTransitionEffect>
+    </UiPage>
+  </Style>
+  
 </core:StylesContainer>

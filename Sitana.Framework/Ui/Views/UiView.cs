@@ -199,9 +199,7 @@ namespace Sitana.Framework.Ui.Views
                 float opacity;
                 Matrix transform;
 
-                Point size = parameters.TransitionPageSize;
-
-                transitionEffect.Get(drawParameters.Transition, size, out transform, out opacity);
+                transitionEffect.Get(drawParameters.Transition, parameters.TransitionPageRectangle, ScreenBounds, out transform, out opacity);
 
                 drawParameters.Opacity *= opacity;
 
@@ -306,7 +304,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected virtual void Init(object controller, object binding, DefinitionFile definition)
         {
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiButton));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiView));
 
             Type controllerType = file["Controller"] as Type;
 
@@ -319,7 +317,7 @@ namespace Sitana.Framework.Ui.Views
                 if (newController != null)
                 {
                     newController.AttachView(this);
-                    Controller = newController;                   
+                    Controller = newController;
                 }
             }
 

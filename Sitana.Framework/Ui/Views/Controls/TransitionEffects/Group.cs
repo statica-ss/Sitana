@@ -41,7 +41,7 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
 
         List<TransitionEffect> _effects = new List<TransitionEffect>();
 
-        public override void Get(double transition, Point size, out Matrix transform, out float opacity)
+        public override void Get(double transition, Rectangle containerRect, Rectangle elementRect, out Matrix transform, out float opacity)
         {
             opacity = 1;
             transform = Matrix.Identity;
@@ -50,7 +50,7 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
             {
                 Matrix tr;
                 float op;
-                _effects[idx].Get(transition, size, out tr, out op);
+                _effects[idx].Get(transition, containerRect, elementRect, out tr, out op);
 
                 opacity *= op;
                 transform *= tr;

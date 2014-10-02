@@ -66,6 +66,7 @@
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
     <Compile Include="Ui\Views\Controls\TransitionEffect.cs" />
     <Compile Include="Ui\Views\Controls\TransitionEffects\Group.cs" />
+    <Compile Include="Ui\Views\Controls\TransitionEffects\Scale.cs" />
     <Compile Include="Ui\Views\Controls\TransitionEffects\Swype.cs" />
     <Compile Include="Ui\Views\Controls\TransitionEffects\Vanish.cs" />
     <Compile Include="Ui\Views\Controls\UiImage.cs" />
