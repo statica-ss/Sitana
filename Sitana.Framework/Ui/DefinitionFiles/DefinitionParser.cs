@@ -458,7 +458,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 {
                     string newVal = val.TrimEnd('%');
 
-                    percent += int.Parse(newVal);
+                    percent += double.Parse(newVal, CultureInfo.InvariantCulture) / 100.0;
                 }
                 else if(!val.IsNullOrWhiteSpace())
                 {

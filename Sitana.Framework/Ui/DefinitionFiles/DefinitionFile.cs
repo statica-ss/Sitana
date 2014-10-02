@@ -69,8 +69,6 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             }
         }
 
-        public readonly Dictionary<Type, DefinitionFile> AdditionalParameters = new Dictionary<Type, DefinitionFile>();
-
         public static Type GetType(XNode node)
         {
             string ns = node.Namespace;
@@ -100,7 +98,6 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             {
                 file = new DefinitionFile(type, node.Owner.Name);
                 method.Invoke(null, new object[] { node, file });
-                file.ParseAdditionalParameters(node);
 
                 file["Style"] = node.Attribute("Style");
             }
@@ -117,7 +114,6 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             {
                 file = new DefinitionFile(type, "");
                 method.Invoke(null, new object[] { attributesNode, file });
-                file.ParseAdditionalParameters(attributesNode);
 
                 file["Style"] = attributesNode.Attribute("Style");
             }
@@ -125,52 +121,10 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return file;
         }
 
-        void ParseAdditionalParameters(XNode node)
-        {
-            Dictionary<Type, DefinitionFile> parameters = AdditionalParameters;
-
-            foreach (var attrib in node.Attributes)
-            {
-                if (attrib.StartsWith("type:"))
-                {
-                    string[] elements = attrib.Substring(5).Split(':');
-
-                    var type = Type.GetType(elements[0].Trim());
-
-                    if (type == null)
-                    {
-                        string error = node.NodeError("Cannot find type defined in parameter namespace.");
-
-                        if (DefinitionParser.EnableCheckMode)
-                        {
-                            ConsoleEx.WriteLine(error);
-                            continue;
-                        }
-                        else
-                        {
-                            throw new Exception(error);
-                        }
-                    }
-
-                    if (!parameters.ContainsKey(type))
-                    {
-                        XNode newNode = node.EnucleateAttributes("type:" + elements[0] + ":");
-                        DefinitionFile newFile = DefinitionFile.CreateFile(type, newNode);
-
-                        if (newFile != null)
-                        {
-                            parameters.Add(type, newFile);
-                        }
-                    }
-                }
-            }
-        }
-
         public IDefinitionClass CreateInstance(UiController controller, object context)
         {
             IDefinitionClass obj = (IDefinitionClass)Activator.CreateInstance(Class);
             obj.Init(controller, context, this);
-
             return obj;
         }
 

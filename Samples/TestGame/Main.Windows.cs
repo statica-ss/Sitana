@@ -59,7 +59,6 @@ namespace TestGame
                     unit = Math.Round(unit, 1);
 
                     UiUnit.FontUnit = UiUnit.Unit = unit;
-                    AppMain.Current.MainView.RecalculateAll();
                 });
         }
     }

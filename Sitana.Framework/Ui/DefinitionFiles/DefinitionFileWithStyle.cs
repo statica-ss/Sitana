@@ -9,14 +9,22 @@ namespace Sitana.Framework.Ui.DefinitionFiles
     public struct DefinitionFileWithStyle
     {
         DefinitionFile _current;
-        DefinitionFile _style;
+        DefinitionFile[] _style;
 
         public DefinitionFileWithStyle(DefinitionFile current, Type targetType)
         {
             _current = current;
 
             string name = current["Style"] as string;
-            _style = StylesManager.Instance.FindStyle(name, targetType);
+
+            string[] styles = name.Replace(" ", "").Split(',');
+
+            _style = new DefinitionFile[styles.Length];
+
+            for (int idx = 0; idx < styles.Length; ++idx)
+            {
+                _style[idx] = StylesManager.Instance.FindStyle(styles[idx], targetType);
+            }
         }
 
         public object this[string id]
@@ -35,7 +43,18 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
                 if (_style != null)
                 {
-                    return _style[id];
+                    for (int idx = 0; idx < _style.Length; ++idx)
+                    {
+                        if ( _style[idx] != null )
+                        {
+                            object value = _style[idx][id];
+
+                            if (value != null)
+                            {
+                                return value;
+                            }
+                        }
+                    }
                 }
 
                 return null;

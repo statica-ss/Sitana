@@ -136,7 +136,6 @@ namespace Sitana.Framework.Ui.Core
             IDefinitionClass obj = _mainView.CreateInstance(null, null);
 
             MainView = (UiContainer)obj;
-            MainView.CreatePositionParameters(MainView.Controller, null, _mainView, typeof(PositionParameters));
 
             MainView.RecalculateAll();
 

@@ -6,11 +6,8 @@ using Sitana.Framework.Ui.Controllers;
 
 namespace TestGame
 {
-    public class MainPage : UiPageController
+    public class OptionsPage: UiPageController
     {
-        public void OnNewGame()
-        {
-            NavigateTo("Ui/MainPage");
-        }
+
     }
 }

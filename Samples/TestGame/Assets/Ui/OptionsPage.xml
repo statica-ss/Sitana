@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UiPage Controller="TestGame.OptionsPage,TestGame"
+    xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
+    xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
+    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
+    Style="Transition">
+  <!-- Change style to see different transition effects-->
+  <UiPage.Content>
+    <UiBorder>
+      <UiBorder.Children>
+        <UiLabel Text="OPTIONS" Font="TestFont" FontSize="18" X="C" Y="20" TextAlign="Center,Top" Align="Center,Top" Width="@" Height="@"/>
+
+        <UiButton Style="DefaultButton" Text="Test" Y="C+40" Align="Center,Top"/>
+        <UiButton Style="DefaultButtonSystem" Text="back" Y="C+110" Click="{NavigateBack()}"/>
+
+      </UiBorder.Children>
+    </UiBorder>
+  </UiPage.Content>
+</UiPage>

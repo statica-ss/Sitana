@@ -20,14 +20,23 @@ namespace Sitana.Framework.Ui.Core
                     throw new Exception("Invalid node. Expected: Style");
                 }
 
-                if (cn.Nodes.Count != 1 )
-                {
-                    throw new Exception("Invalid number of child nodes. Style can have only one child node.");
-                }
-
                 string name = cn.Attribute("Name");
 
-                definitions.Add(name, DefinitionFile.LoadFile(cn.Nodes[0]));
+                string src = cn.Attribute("Source");
+
+                if (src.IsNullOrWhiteSpace())
+                {
+                    if (cn.Nodes.Count != 1)
+                    {
+                        throw new Exception("Invalid number of child nodes. Style can have only one child node.");
+                    }
+
+                    definitions.Add(name, DefinitionFile.LoadFile(cn.Nodes[0]));
+                }
+                else
+                {
+                    definitions.Add(name, definitions[src]);
+                }
             }
 
             file["Styles"] = definitions;

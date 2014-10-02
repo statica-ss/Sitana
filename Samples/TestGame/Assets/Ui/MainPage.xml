@@ -2,22 +2,18 @@
 <UiPage Controller="TestGame.MainPage,TestGame"
     xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
     xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
-    xmlns:pp="type:Sitana.Framework.Ui.Views.PositionParameters,Sitana.Framework"
     xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
-    Style="Transition5">
+    Style="Transition">
   <!-- Change style to see different transition effects-->
   <UiPage.Content>
     <UiBorder>
       <UiBorder.Children>
-        <UiLabel Text="SITANA GAME" Font="TestFont" FontSize="20" pp:X="C" pp:Y="20" TextAlign="Center,Top" pp:Align="Center,Top" pp:Width="@" pp:Height="@"/>
+        <UiLabel Text="SITANA GAME" Font="TestFont" FontSize="20" X="C" Y="20" TextAlign="Center,Top" Align="Center,Top" Width="@" Height="@"/>
 
-        <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="Uniform" pp:X="C" pp:Y="C-75" pp:Align="Center,Middle" pp:Width="150" pp:Height="150"/>
+        <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="Uniform" X="C" Y="C-75" Align="Center,Middle" Width="150" Height="150"/>
         
-        <UiButton Style="DefaultButton" Text="Start Game" pp:Width="320" pp:Height="60" pp:X="C" pp:Y="C+40" pp:Align="Center,Top" Click="{OnClick()}"/>
-        <UiButton Style="DefaultButton" Text="Exit" pp:Width="320" pp:Height="60" pp:X="C" pp:Y="C+110" pp:Align="Center,Top" />
-        <UiLabel Text="Copyright © SitanaTeam." Font="TestFont" FontSize="8" pp:X="C" pp:Y="@-20" TextAlign="Center,Bottom" pp:Align="Center,Bottom" pp:Width="500" pp:Height="200"/>
-        
-        
+        <UiButton Style="DefaultButton" Text="Start Game" Y="C+40" Click="{OnNewGame()}"/>
+        <UiButton Style="DefaultButton" Text="Options" Y="C+110" Click="{NavigateTo('Ui/OptionsPage')}"/>
         
       </UiBorder.Children>
     </UiBorder>

@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Main.Windows.cs" />
     <Compile Include="MainPage.cs" />
+    <Compile Include="OptionsPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestController.cs" />
   </ItemGroup>

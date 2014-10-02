@@ -144,6 +144,14 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        protected override void OnRemoved()
+        {
+            for (int idx = 0; idx < _children.Count; ++idx)
+            {
+                _children[idx].ViewRemoved();
+            }
+        }
+
         protected override void Update(float time)
         {
             for (int idx = 0; idx < _children.Count; ++idx)
@@ -224,7 +232,6 @@ namespace Sitana.Framework.Ui.Views
                 {
                     var childFile = children[idx];
                     var child = childFile.CreateInstance(controller, binding) as UiView;
-                    child.CreatePositionParameters(controller, binding, childFile, positionParametersType);
 
                     if (child != null)
                     {

@@ -70,6 +70,8 @@ namespace Sitana.Framework.Ui.Core
                     RegisterStyle(el.Key, el.Value, overwrite);
                 }
             }
+
+            
         }
     }
 }

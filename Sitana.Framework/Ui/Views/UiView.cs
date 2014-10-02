@@ -48,6 +48,8 @@ namespace Sitana.Framework.Ui.Views
             file["MinWidth"] = parser.ParseLength("MinWidth", false);
             file["MinHeight"] = parser.ParseLength("MinHeight", false);
 
+            PositionParameters.Parse(node, file);
+
             foreach (var cn in node.Nodes)
             {
                 if (cn.Tag == "UiView.ShowTransitionEffect")
@@ -345,6 +347,7 @@ namespace Sitana.Framework.Ui.Views
             _minWidth = DefinitionResolver.Get<Length>(Controller, binding, file["MinWidth"], Length.Zero);
             _minHeight = DefinitionResolver.Get<Length>(Controller, binding, file["MinHeight"], Length.Zero);
 
+            CreatePositionParameters(Controller, binding, definition);
 
             DefinitionFile showTransitionEffectFile = file["ShowTransitionEffect"] as DefinitionFile;
             DefinitionFile hideTransitionEffectFile = file["HideTransitionEffect"] as DefinitionFile;
@@ -360,14 +363,10 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public void CreatePositionParameters(UiController controller, object binding, DefinitionFile file, Type type)
+        void CreatePositionParameters(UiController controller, object binding, DefinitionFile file)
         {
-            PositionParameters = (PositionParameters)Activator.CreateInstance(type);
-
-            if ( file.AdditionalParameters.TryGetValue(type, out file))
-            {
-                (PositionParameters as IDefinitionClass).Init(controller, binding, file);
-            }
+            PositionParameters = new PositionParameters();
+            PositionParameters.Init(controller, binding, file);
         }
 
         void IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)

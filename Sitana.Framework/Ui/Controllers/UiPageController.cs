@@ -25,18 +25,18 @@ namespace Sitana.Framework.Ui.Controllers
             }
         }
 
-        protected void NavigateTo(string uri)
+        public void NavigateTo(string uri)
         {
             DefinitionFile def = ContentLoader.Current.Load<DefinitionFile>(uri);
             Navigation.NavigateTo(def);
         }
 
-        protected void NavigateBack()
+        public void NavigateBack()
         {
             Navigation.NavigateBack();
         }
 
-        protected void NavigateBack(string anchor)
+        public void NavigateBack(string anchor)
         {
             Navigation.NavigateBack(anchor);
         }
