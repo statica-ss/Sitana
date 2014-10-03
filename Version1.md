@@ -2,16 +2,17 @@
 
 - [ ] Platforms
   - [X] iOS
-  - [X] Windows (XNA)
+  - [X] Windows.XNA
   - [ ] Android
   - [ ] Windows Phone
-  - [ ] Windows (DirectX)
+
 - [ ] Content Types
   - [X] 3D Models
   - [X] Sprites
   - [X] BitmapFont
   - [ ] BitmapFont drawing
   - [X] NinePatchImage
+
 - [ ] User Interface
   - [X] Application core
   - [X] UI XML parsing system
@@ -19,7 +20,7 @@
     - [X] UiBorder
     - [X] UiStackPanel
     - [X] UiWrapPanel
-    - [ ] UiTabControl
+    - [X] UiContentSlider
     - [X] UiNavigationView
     - [X] UiPage
       - [X] Transition Effects
@@ -30,11 +31,10 @@
     - [X] UiButton
     - [ ] UiCheckBox
     - [X] UiImage
-    - [X] UiNinePatchRect (nine patch drawing implemented in UiRectangle)
     - [X] UiLabel
     - [ ] UiListBox
     - [ ] UiRadioButton
     - [ ] UiTextBox
     - [X] UiRectangle
     - [ ] UiSlider
-  
+    - [X] UiIndexSelector

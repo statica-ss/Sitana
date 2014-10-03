@@ -31,52 +31,9 @@ namespace Sitana.Framework.Ui.Views
                 switch (cn.Tag)
                 {
                     case "UiButton.Drawables":
-                        ParseDrawables(cn, file);
+                        ParseDrawables(cn, file, typeof(ButtonDrawable));
                         break;
                 }
-            }
-        }
-
-        protected static void ParseDrawables(XNode node, DefinitionFile file)
-        {
-            List<DefinitionFile> list = new List<DefinitionFile>();
-
-            for (int idx = 0; idx < node.Nodes.Count; ++idx)
-            {
-                XNode childNode = node.Nodes[idx];
-                DefinitionFile newFile = DefinitionFile.LoadFile(childNode);
-
-                if (!newFile.Class.IsSubclassOf(typeof(ButtonDrawable)))
-                {
-                    string error = node.NodeError("Button Drawable must inherit from ButtonDrawable type.");
-                    if (DefinitionParser.EnableCheckMode)
-                    {
-                        ConsoleEx.WriteLine(error);
-                    }
-                    else
-                    {
-                        throw new Exception(error);
-                    }
-                }
-
-                list.Add(newFile);
-            }
-
-            if (file["Drawables"] != null)
-            {
-                string error = node.NodeError("Drawables already defined");
-                if (DefinitionParser.EnableCheckMode)
-                {
-                    ConsoleEx.WriteLine(error);
-                }
-                else
-                {
-                    throw new Exception(error);
-                }
-            }
-            else
-            {
-                file["Drawables"] = list;
             }
         }
 
@@ -104,13 +61,13 @@ namespace Sitana.Framework.Ui.Views
 
         UiButtonMode _mode = UiButtonMode.Release;
 
-        private int _touchId = 0;
+        protected int _touchId = 0;
 
         private Dictionary<int, bool> _touches = new Dictionary<int, bool>();
 
-        private List<ButtonDrawable> _drawables = new List<ButtonDrawable>();
+        protected List<ButtonDrawable> _drawables = new List<ButtonDrawable>();
 
-        private SharedString _text;
+        protected SharedString _text;
 
         public string Text
         {
@@ -328,7 +285,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        void DoAction()
+        protected virtual void DoAction()
         {
             CallDelegate("Click", new InvokeParam("sender", this));
         }

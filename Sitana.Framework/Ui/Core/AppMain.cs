@@ -91,7 +91,7 @@ namespace Sitana.Framework.Ui.Core
             {
                 DrawBatch = _drawBatch,
                 Opacity = 1,
-                Transition = 1
+                Transition = 0
             };
 
             

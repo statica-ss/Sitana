@@ -10,10 +10,68 @@
       <UiBorder.Children>
         <UiLabel Text="OPTIONS" Font="TestFont" FontSize="18" X="C" Y="20" TextAlign="Center,Top" Align="Center,Top" Width="@" Height="@"/>
 
-        <UiButton Style="DefaultButton" Text="Test" Y="C+40" Align="Center,Top"/>
+        <UiButton Style="DefaultButton" Text="Test" Y="C+40" Align="Center,Top" Click="{Next()}"/>
         <UiButton Style="DefaultButtonSystem" Text="back" Y="C+110" Click="{NavigateBack()}"/>
 
-        <UiRectangle Image="Ui/Button" Color="#20506080" Scale="0.25" ScaleByUnit="true" Align="Center,Middle" X="C" Y="C-70" Width="150" Height="150"/>
+        <UiContentSlider Id="TestSlider" TransitionTime="250" X="C" Y="C-75" Align="Center,Middle" Width="400" Height="150" BackgroundColor="#ffffff" ClipChildren="True" Cycle="True">
+          <UiContentSlider.ShowTransitionEffectNext>
+            <effect:Group>
+              <effect:Swype Horizontal="110%" Power="3"/>
+              <effect:Vanish Power="2"/>
+            </effect:Group>
+          </UiContentSlider.ShowTransitionEffectNext>
+
+          <UiContentSlider.ShowTransitionEffectPrev>
+            <effect:Group>
+              <effect:Swype Horizontal="-110%" Power="3"/>
+              <effect:Vanish Power="2"/>
+            </effect:Group>
+          </UiContentSlider.ShowTransitionEffectPrev>
+
+          <UiContentSlider.Children>
+            <UiStackPanel Mode="Horizontal" Spacing="10" Padding="10">
+              <UiStackPanel.Children>
+                <UiRectangle Color="#ff0000" Width="39"/>
+                <UiRectangle Color="#ff8000" Width="39"/>
+                <UiRectangle Color="#ffff00" Width="39"/>
+                <UiRectangle Color="#00ff00" Width="39"/>
+                <UiRectangle Color="#00ffff" Width="39"/>
+                <UiRectangle Color="#0000ff" Width="39"/>
+                <UiRectangle Color="#8000ff" Width="39"/>
+                <UiRectangle Color="#ff00ff" Width="39"/>
+              </UiStackPanel.Children>
+            </UiStackPanel>
+
+            <UiStackPanel Mode="Vertical" Spacing="10" Padding="10">
+              <UiStackPanel.Children>
+                <UiRectangle Color="#ff8000" Height="25"/>
+                <UiRectangle Color="#00ff00" Height="25"/>
+                <UiRectangle Color="#0000ff" Height="25"/>
+                <UiRectangle Color="#ff00ff" Height="25"/>
+              </UiStackPanel.Children>
+            </UiStackPanel>
+
+            <UiStackPanel Mode="Horizontal" Spacing="10" Padding="10">
+              <UiStackPanel.Children>
+                <UiRectangle Color="#ff0000" Width="120"/>
+                <UiRectangle Color="#00ff00" Width="120"/>
+                <UiRectangle Color="#0000ff" Width="120"/>
+              </UiStackPanel.Children>
+            </UiStackPanel>
+            
+          </UiContentSlider.Children>
+          
+        </UiContentSlider>
+
+        <UiIndexSelector Context="TestSlider" Spacing="25%" Width="380" Height="16" X="C" Y="C+8" Align="Center,Middle" ElementWidth="150%">
+          <UiButton.Drawables>
+            <button:NinePatchBackground ColorPushed="#40ffffff" ColorReleased="#80ffffff" Image="Ui/Button" ScaleByUnit="true" Scale="0.2"/>
+            <button:Text ColorPushed="#ffffff" ColorReleased="#ffffff" Font="TestFont" FontSize="6" TextAlign="Center,Middle"/>
+          </UiButton.Drawables>
+        </UiIndexSelector>
+        
+        <UiButton Style="TransparentWhiteButton" Text="next" Y="C+8" X="C+190" Align="Right,Middle" Click="{Next()}"/>
+        <UiButton Style="TransparentWhiteButton" Text="prev" Y="C+8" X="C-190" Align="Left,Middle" Click="{Prev()}"/>
         
       </UiBorder.Children>
     </UiBorder>

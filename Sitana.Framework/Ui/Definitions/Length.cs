@@ -13,6 +13,7 @@ namespace Sitana.Framework.Ui
     public struct Length
     {
         public readonly static Length Default = new Length(true);
+        public readonly static Length Stretch = new Length(0, 1);
         public readonly static Length Zero = new Length(0);
 
         double _length;

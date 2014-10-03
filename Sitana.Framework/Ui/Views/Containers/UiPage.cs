@@ -100,6 +100,7 @@ namespace Sitana.Framework.Ui.Views
         public UiPage()
         {
             PageStatus = Status.Show;
+            Transition = 1;
         }
 
         internal void Hide()
@@ -132,19 +133,19 @@ namespace Sitana.Framework.Ui.Views
             switch(PageStatus)
             {
                 case Status.Show:
-                    Transition += time * _showSpeed;
-                    if ( Transition >= 1 )
+                    Transition -= time * _showSpeed;
+                    if ( Transition <= 0 )
                     {
-                        Transition = 1;
+                        Transition = 0;
                         PageStatus = Status.Visible;
                     }
                     break;
 
                 case Status.Hide:
-                    Transition -= time * _hideSpeed;
-                    if (Transition <= 0)
+                    Transition += time * _hideSpeed;
+                    if (Transition >= 1)
                     {
-                        Transition = 0;
+                        Transition = 1;
                         PageStatus = Status.Done;
                     }
                     break;
@@ -175,17 +176,13 @@ namespace Sitana.Framework.Ui.Views
             UiViewDrawParameters drawParams = parameters;
             drawParams.Opacity = opacity;
             drawParams.Transition = Transition;
-            drawParams.TransitionPageRectangle = ScreenBounds;
-            drawParams.TransitionPageModeHide = PageStatus == Status.Hide;
-
-            parameters.DrawBatch.PushClip(ScreenBounds);
+            drawParams.TransitionRectangle = ScreenBounds;
+            drawParams.TransitionModeHide = PageStatus == Status.Hide;
 
             for (int idx = 0; idx < _children.Count; ++idx)
             {
                 _children[idx].ViewDraw(ref drawParams);
             }
-
-            parameters.DrawBatch.PopClip();
         }
 
         protected override Rectangle CalculateChildBounds(UiView view)
@@ -195,7 +192,7 @@ namespace Sitana.Framework.Ui.Views
 
         internal void InstantShow()
         {
-            Transition = 1;
+            Transition = 0;
             PageStatus = Status.Visible;
         }
     }

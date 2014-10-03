@@ -221,12 +221,29 @@ namespace Sitana.Framework.Graphics
         {
             _scissors.Push(ScissorRectangle);
 
+            TransformRect(ref rect);
+
             if (ScissorRectangle.HasValue)
             {
                 rect = GraphicsHelper.IntersectRectangle(rect, ScissorRectangle.Value);
             }
 
             ScissorRectangle = rect;
+        }
+
+        void TransformRect(ref Rectangle rect)
+        {
+            Vector3 topLeft = new Vector3(rect.Left, rect.Top, 0);
+            Vector3 bottomRight = new Vector3(rect.Right, rect.Bottom, 0);
+
+            topLeft = Vector3.Transform(topLeft, _transform);
+            bottomRight = Vector3.Transform(bottomRight, _transform);
+
+            rect.X = (int)topLeft.X;
+            rect.Y = (int)topLeft.Y;
+
+            rect.Width = (int)(bottomRight.X-topLeft.X);
+            rect.Height = (int)(bottomRight.Y - topLeft.Y);
         }
 
         public void PopClip()

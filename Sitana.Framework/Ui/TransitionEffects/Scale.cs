@@ -37,6 +37,7 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
 
         public override void Get(double transition, Rectangle containerRect, Rectangle elementRect, out Matrix transform, out float opacity)
         {
+            transition = Math.Max(0, 1 - transition);
             float mul = 1 - (float)Math.Pow(transition, _power);
 
             float scaleX = (float)(_horizontal * mul + (1-mul));

@@ -91,6 +91,49 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        protected static void ParseDrawables(XNode node, DefinitionFile file, Type drawableType)
+        {
+            List<DefinitionFile> list = new List<DefinitionFile>();
+
+            for (int idx = 0; idx < node.Nodes.Count; ++idx)
+            {
+                XNode childNode = node.Nodes[idx];
+                DefinitionFile newFile = DefinitionFile.LoadFile(childNode);
+
+                if (!newFile.Class.IsSubclassOf(drawableType))
+                {
+                    string error = node.NodeError(String.Format("Drawable must inherit from {0} type.", drawableType.Name));
+                    if (DefinitionParser.EnableCheckMode)
+                    {
+                        ConsoleEx.WriteLine(error);
+                    }
+                    else
+                    {
+                        throw new Exception(error);
+                    }
+                }
+
+                list.Add(newFile);
+            }
+
+            if (file["Drawables"] != null)
+            {
+                string error = node.NodeError("Drawables already defined");
+                if (DefinitionParser.EnableCheckMode)
+                {
+                    ConsoleEx.WriteLine(error);
+                }
+                else
+                {
+                    throw new Exception(error);
+                }
+            }
+            else
+            {
+                file["Drawables"] = list;
+            }
+        }
+
         public string Id { get; set; }
 
         public virtual Rectangle Bounds { get; set; }
@@ -194,9 +237,9 @@ namespace Sitana.Framework.Ui.Views
 
         internal void ViewDraw(ref UiViewDrawParameters parameters)
         {
-            _enableGestureHandling = Visible && parameters.Transition > 0.99;
+            _enableGestureHandling = Visible && parameters.Transition == 0;
 
-            TransitionEffect transitionEffect = parameters.TransitionPageModeHide ? _hideTransitionEffect : _showTransitionEffect;
+            TransitionEffect transitionEffect = parameters.TransitionModeHide ? _hideTransitionEffect : _showTransitionEffect;
 
             if (transitionEffect != null)
             {
@@ -205,7 +248,7 @@ namespace Sitana.Framework.Ui.Views
                 float opacity;
                 Matrix transform;
 
-                transitionEffect.Get(drawParameters.Transition, parameters.TransitionPageRectangle, ScreenBounds, out transform, out opacity);
+                transitionEffect.Get(drawParameters.Transition, parameters.TransitionRectangle, ScreenBounds, out transform, out opacity);
 
                 drawParameters.Opacity *= opacity;
 
@@ -249,12 +292,21 @@ namespace Sitana.Framework.Ui.Views
 
         public void ViewAdded()
         {
+            if (!Id.IsNullOrWhiteSpace())
+            {
+                Controller.Register(Id, this);
+            }
             CallDelegate("ViewAdded");
             OnAdded();
         }
 
         public void ViewRemoved()
         {
+            if (!Id.IsNullOrWhiteSpace())
+            {
+                Controller.Unregister(Id, this);
+            }
+
             CallDelegate("ViewRemoved");
             OnRemoved();
         }
@@ -331,7 +383,7 @@ namespace Sitana.Framework.Ui.Views
 
             Id = (string)file["Id"];
             Visible = DefinitionResolver.Get<bool>(Controller, binding, file["Visible"], true);
-            
+
             int opacity = DefinitionResolver.Get<int>(Controller, binding, file["Opacity"], 100);
             Opacity = (float)opacity / 100.0f;
 
