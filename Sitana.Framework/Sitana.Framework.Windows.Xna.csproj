@@ -58,7 +58,6 @@
     <Compile Include="Media\MusicController.Common.cs" />
     <Compile Include="Media\MusicController.cs" />
     <Compile Include="Ui\Controllers\IIndexedElement.cs" />
-    <Compile Include="Ui\Controllers\UiIndexedController.cs" />
     <Compile Include="Ui\Core\StylesContainer.cs" />
     <Compile Include="Ui\Core\StylesManager.cs" />
     <Compile Include="Ui\Core\UiUnit.cs" />

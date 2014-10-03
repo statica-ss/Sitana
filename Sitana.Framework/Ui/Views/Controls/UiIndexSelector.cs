@@ -29,6 +29,13 @@ namespace Sitana.Framework.Ui.Views
 
             file["ElementWidth"] = parser.ParseLength("ElementWidth");
             file["ElementHeight"] = parser.ParseLength("ElementHeight");
+            file["Mode"] = parser.ParseEnum<Mode>("Mode");
+        }
+
+        enum Mode
+        {
+            Horizontal,
+            Vertical
         }
 
         private Length _spacing;
@@ -36,6 +43,7 @@ namespace Sitana.Framework.Ui.Views
         private Length _elementHeight;
         private int _pushedIndex = -1;
 
+        private bool _vertical = false;
 
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
@@ -46,12 +54,11 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
-            
-            int spacing = _spacing.Compute(Bounds.Height);
+            int spacing = _spacing.Compute(_vertical ? Bounds.Width : Bounds.Height);
 
             Rectangle rect = GetFirstRect();
 
-            int size = rect.Width;
+            int size = _vertical ? rect.Height : rect.Width;
             int selected = _element.SelectedIndex;
 
             int count = _element.Count;
@@ -72,7 +79,14 @@ namespace Sitana.Framework.Ui.Views
                     _drawables[di].Draw(parameters.DrawBatch, rect, opacity, state, _text);
                 }
 
-                rect.X += size + spacing;
+                if (_vertical)
+                {
+                    rect.Y += size + spacing;
+                }
+                else
+                {
+                    rect.X += size + spacing;
+                }
             }
         }
 
@@ -80,14 +94,27 @@ namespace Sitana.Framework.Ui.Views
         {
             Rectangle rect = ScreenBounds;
 
+            int sizeContext = _vertical ? Bounds.Width : Bounds.Height;
+
             int count = _element.Count;
-            int spacing = _spacing.Compute(Bounds.Height);
+            int spacing = _spacing.Compute(sizeContext);
 
-            int width = _elementWidth.Compute(Bounds.Height);
-            int height = _elementHeight.Compute(Bounds.Height);
+            int width = _elementWidth.Compute(sizeContext);
+            int height = _elementHeight.Compute(sizeContext);
 
-            int posX = rect.Center.X - (width * count + spacing * (count-1)) / 2;
-            int posY = rect.Center.Y - height / 2;
+            int posX=0;
+            int posY = 0;
+
+            if (_vertical)
+            {
+                posX = rect.Center.X - width / 2;
+                posY = rect.Center.Y - (height * count + spacing * (count - 1)) / 2;
+            }
+            else
+            {
+                posX = rect.Center.X - (width * count + spacing * (count - 1)) / 2;
+                posY = rect.Center.Y - height / 2;
+            }
 
             rect = new Rectangle(posX, posY, width, height);
 
@@ -105,9 +132,11 @@ namespace Sitana.Framework.Ui.Views
             _element = Controller.Find(id) as IIndexedElement;
 
             _spacing = DefinitionResolver.Get<Length>(Controller, Binding, file["Spacing"], Length.Zero);
+            _vertical = DefinitionResolver.Get<Mode>(Controller, Binding, file["Mode"], Mode.Horizontal) == Mode.Vertical;
 
             _elementWidth = DefinitionResolver.Get<Length>(Controller, Binding, file["ElementWidth"], Length.Stretch);
             _elementHeight = DefinitionResolver.Get<Length>(Controller, Binding, file["ElementHeight"], Length.Stretch);
+
         }
 
         protected override void OnGesture(Gesture gesture)
@@ -118,12 +147,12 @@ namespace Sitana.Framework.Ui.Views
 
             if (IsPushed && _touchId == gesture.TouchId)
             {
-                int spacing = _spacing.Compute(Bounds.Height);
+                int spacing = _spacing.Compute(_vertical?Bounds.Width : Bounds.Height);
                 int count = _element.Count;
 
                 Rectangle rect = GetFirstRect();
 
-                int size = rect.Width;
+                int size = _vertical ? rect.Height : rect.Width;
 
                 Point point = gesture.Origin.ToPoint();
 
@@ -132,9 +161,17 @@ namespace Sitana.Framework.Ui.Views
                     if (rect.Contains(point))
                     {
                         _pushedIndex = idx;
+                        _checkRect = rect;
                     }
-                    
-                    rect.X += size + spacing;
+
+                    if (_vertical)
+                    {
+                        rect.Y += size + spacing;
+                    }
+                    else
+                    {
+                        rect.X += size + spacing;
+                    }
                 }
             }
         }
