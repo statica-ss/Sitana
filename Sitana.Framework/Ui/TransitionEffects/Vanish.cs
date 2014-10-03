@@ -22,6 +22,8 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
         public override void Get(double transition, Rectangle containerRect, Rectangle elementRect, out Matrix transform, out float opacity)
         {
             transform = Matrix.Identity;
+
+            transition = Math.Max(0, 1 - transition);
             opacity = (float)Math.Pow(transition, _power);
         }
 

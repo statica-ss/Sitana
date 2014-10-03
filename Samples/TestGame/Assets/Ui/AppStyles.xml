@@ -23,6 +23,15 @@
     </UiButton>
   </Style>
 
+  <Style Name="TransparentWhiteButton">
+    <UiButton Width="48" Height="16" Align="Center,Center">
+      <UiButton.Drawables>
+        <button:NinePatchBackground ColorPushed="#40ffffff" ColorReleased="#80ffffff" Image="Ui/Button" ScaleByUnit="true" Scale="0.2"/>
+        <button:Text ColorPushed="#ffffff" ColorReleased="#ffffff" Font="TestFont" FontSize="8" TextAlign="Center,Middle"/>
+      </UiButton.Drawables>
+    </UiButton>
+  </Style>
+
   <Style Name="Transition1">
     <UiPage ShowTime="600" HideTime="600">
       <UiView.ShowTransitionEffect>
@@ -92,6 +101,6 @@
   </Style>
 
   <!-- Change default transition style to see how transitions work-->
-  <Style Name="Transition" Source="Transition5"/>
+  <Style Name="Transition" Source="Transition1"/>
   
 </core:StylesContainer>

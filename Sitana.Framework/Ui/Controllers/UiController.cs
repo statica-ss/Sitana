@@ -12,6 +12,8 @@ namespace Sitana.Framework.Ui.Controllers
     {
         public UiView View { get; private set; }
 
+        Dictionary<string, UiView> _views = new Dictionary<string, UiView>();
+
         internal void AttachView(UiView view)
         {
             View = view;
@@ -22,7 +24,7 @@ namespace Sitana.Framework.Ui.Controllers
         {
         }
 
-        protected TYPE Find<TYPE>(string id) where TYPE: UiView
+        public TYPE Find<TYPE>(string id) where TYPE: UiView
         {
             var view = Find(id);
 
@@ -34,16 +36,25 @@ namespace Sitana.Framework.Ui.Controllers
             return default(TYPE);
         }
 
-        protected UiView Find(string id)
+        public UiView Find(string id)
         {
-            UiContainer container = View as UiContainer;
+            UiView view;
 
-            if (container != null)
+            _views.TryGetValue(id, out view);
+            return view;
+        }
+
+        internal void Register(string id, UiView view)
+        {
+            _views.Add(id, view);
+        }
+
+        internal void Unregister(string id, UiView view)
+        {
+            if (Find(id) == view)
             {
-                return container.ViewFromId(id);
+                _views.Remove(id);
             }
-
-            return null;
         }
     }
 }

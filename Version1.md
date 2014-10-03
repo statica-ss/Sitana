@@ -14,7 +14,7 @@
     - [X] UiBorder
     - [X] UiStackPanel
     - [X] UiWrapPanel
-    - [ ] UiTabControl
+    - [X] UiContentSlider
     - [X] UiNavigationView
     - [X] UiPage
       - [X] Transition Effects
@@ -25,11 +25,10 @@
     - [X] UiButton
     - [ ] UiCheckBox
     - [X] UiImage
-    - [X] UiNinePatchRect (nine patch drawing implemented in UiRectangle)
     - [X] UiLabel
     - [ ] UiListBox
     - [ ] UiRadioButton
     - [ ] UiTextBox
     - [X] UiRectangle
     - [ ] UiSlider
-  
+    - [X] UiIndexSelector

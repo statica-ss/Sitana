@@ -33,7 +33,7 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
             int moveX = _horizontal.Compute(size.X);
             int moveY = _vertical.Compute(size.Y);
 
-            float mul = 1 - (float)Math.Pow(transition, _power);
+            float mul = (float)Math.Pow(transition, _power);
 
             if (_reverse)
             {
@@ -58,7 +58,7 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
         {
             return new Swype()
             {
-                _power = _power,
+                _power = 1/_power,
                 _horizontal = _horizontal,
                 _vertical = _vertical,
                 _reverse = true

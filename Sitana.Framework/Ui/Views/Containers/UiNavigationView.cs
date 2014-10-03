@@ -14,8 +14,6 @@ namespace Sitana.Framework.Ui.Views
 {
     public class UiNavigationView: UiContainer
     {
-        List<DefinitionFile> _history = new List<DefinitionFile>();
-
         public new static void Parse(XNode node, DefinitionFile file)
         {
             UiContainer.Parse(node, file);
@@ -24,6 +22,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["Page"] = parser.ParseString("Page");
         }
+
+        List<DefinitionFile> _history = new List<DefinitionFile>();
 
         protected override void Update(float time)
         {
@@ -129,7 +129,10 @@ namespace Sitana.Framework.Ui.Views
                 parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
             }
 
-            parameters.DrawBatch.PushClip(ScreenBounds);
+            if (_clipChildren)
+            {
+                parameters.DrawBatch.PushClip(ScreenBounds);
+            }
 
             for (int idx = 0; idx < _children.Count; ++idx)
             {
@@ -138,12 +141,15 @@ namespace Sitana.Framework.Ui.Views
                 UiViewDrawParameters drawParams = parameters;
                 drawParams.Opacity = opacity;
                 drawParams.Transition = page.Transition;
-                drawParams.TransitionPageRectangle = page.ScreenBounds;
-                drawParams.TransitionPageModeHide = page.PageStatus == UiPage.Status.Hide;
+                drawParams.TransitionRectangle = page.ScreenBounds;
+                drawParams.TransitionModeHide = page.PageStatus == UiPage.Status.Hide;
                 page.ViewDraw(ref drawParams);
             }
 
-            parameters.DrawBatch.PopClip();
+            if (_clipChildren)
+            {
+                parameters.DrawBatch.PopClip();
+            }
         }
 
         public override void Add(UiView view)

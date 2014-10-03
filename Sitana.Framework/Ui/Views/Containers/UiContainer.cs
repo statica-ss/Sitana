@@ -35,7 +35,7 @@ namespace Sitana.Framework.Ui.Views
             file["Children"] = list;
         }
 
-        private bool _clipChildren = false;
+        protected bool _clipChildren = false;
 
         protected Point _minSizeFromChildren = Point.Zero;
 
