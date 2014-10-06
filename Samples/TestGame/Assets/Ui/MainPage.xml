@@ -30,7 +30,7 @@
             </UiBorder>
           </UiListBox.ItemTemplate>
         </UiListBox>
-
+        
         <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="Uniform" X="75%" Y="C-30" Align="Center,Middle" Width="100" Height="100"/>
 
         <UiButton Style="DefaultButton" X="75%" Text="Start Game" Y="C+40" Click="{OnNewGame()}"/>

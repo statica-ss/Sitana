@@ -102,7 +102,7 @@ namespace Sitana.Framework.Ui.Views
             SetPushed(false);
             OnPushedChanged();
 
-            TouchPad.Instance.AddListener(GestureType.Down | GestureType.Up | GestureType.Move | GestureType.HorizontalDrag, this);
+            TouchPad.Instance.AddListener(GestureType.Down | GestureType.Up | GestureType.Move, this);
         }
 
         protected override void OnRemoved()

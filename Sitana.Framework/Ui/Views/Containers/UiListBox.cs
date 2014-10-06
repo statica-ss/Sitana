@@ -78,7 +78,7 @@ namespace Sitana.Framework.Ui.Views
 
         Dictionary<object, UiView> _bindingToElement = new Dictionary<object, UiView>();
 
-        int _updateScrollPosition = 0;
+        Point _updateScrollPosition = Point.Zero;
 
         object _recalcLock = new object();
 
@@ -87,7 +87,7 @@ namespace Sitana.Framework.Ui.Views
         protected override void OnAdded()
         {
             base.OnAdded();
-            _scroller = new Scroller(this, _vertical);
+            _scroller = new Scroller(this, !_vertical, _vertical);
         }
 
         protected override void OnRemoved()
@@ -141,7 +141,7 @@ namespace Sitana.Framework.Ui.Views
                     int count = _items.Count;
 
                     _updateScrollPosition = _scroller.ScrollPosition;
-                    int position = -_updateScrollPosition;
+                    Point position = new Point(-_updateScrollPosition.X, -_updateScrollPosition.Y);
 
                     for (int idx = 0; idx < count; ++idx)
                     {
@@ -166,48 +166,37 @@ namespace Sitana.Framework.Ui.Views
                         if (_vertical)
                         {
                             bounds.Height = size.Y;
-                            bounds.Y = position + view.PositionParameters.Margin.Top;
+                            bounds.Y = position.Y + view.PositionParameters.Margin.Top;
 
-                            position = bounds.Bottom + view.PositionParameters.Margin.Bottom;
+                            position.Y = bounds.Bottom + view.PositionParameters.Margin.Bottom;
                         }
                         else
                         {
                             bounds.Width = size.X;
-                            bounds.X = position + view.PositionParameters.Margin.Left;
+                            bounds.X = position.X + view.PositionParameters.Margin.Left;
 
-                            position = bounds.Right + view.PositionParameters.Margin.Right;
+                            position.X = bounds.Right + view.PositionParameters.Margin.Right;
                         }
 
                         view.Bounds = bounds;
                     }
 
-                    _scroller.MaxScroll = position + _updateScrollPosition;
+                    _scroller.MaxScroll = new Point(_updateScrollPosition.X + position.X, _updateScrollPosition.Y + position.Y);
                 }
             }
             else
             {
-                int scrollPosition = _scroller.ScrollPosition;
+                Point scrollPosition = _scroller.ScrollPosition;
 
                 if (scrollPosition != _updateScrollPosition)
                 {
-                    int diff = _updateScrollPosition - scrollPosition;
+                    Point diff = new Point(_updateScrollPosition.X - scrollPosition.X, _updateScrollPosition.Y - scrollPosition.Y);
                     _updateScrollPosition = scrollPosition;
-
-                    Point offset = new Point(diff, diff);
-
-                    if (_vertical)
-                    {
-                        offset.X = 0;
-                    }
-                    else
-                    {
-                        offset.Y = 0;
-                    }
 
                     for (int idx = 0; idx < _children.Count; ++idx)
                     {
                         var child = _children[idx];
-                        child.Move(offset);
+                        child.Move(diff);
                     }
                 }
             }

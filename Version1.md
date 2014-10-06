@@ -24,7 +24,7 @@
     - [X] UiNavigationView
     - [X] UiPage
       - [X] Transition Effects
-    - [ ] UiScrollView
+    - [X] UiScrollView
     - [X] UiSplitterView
     - [ ] UiAccordion
   - [ ] Controls

@@ -86,7 +86,7 @@ namespace Sitana.Framework.Ui.Views
             RecalcLayout();
         }
 
-        public void RecalcLayout()
+        public virtual void RecalcLayout()
         {
             for (Int32 idx = 0; idx < _children.Count; ++idx)
             {

@@ -10,47 +10,54 @@ namespace Sitana.Framework.Ui.Views
 {
     public class Scroller
     {
-        float _scrollPosition = 0;
+        float _scrollPositionX = 0;
+        float _scrollPositionY = 0;
 
-        int _touchId = 0;
-        int _maxScroll = 0;
+        int _touchIdX = 0;
+        int _touchIdY = 0;
 
-        float _scrollSpeed = 0;
+        int _maxScrollX = 0;
+        int _maxScrollY = 0;
+
+        float _scrollSpeedX = 0;
+        float _scrollSpeedY = 0;
 
         double? _lastMoveTime = null;
 
         IGestureListener _listener;
 
-        bool _vertical = false;
-
         Rectangle _bounds = new Rectangle(0,0,1,1);
 
-        public int ScrollPosition
+        public Point ScrollPosition
         {
             get
             {
-                return (int)_scrollPosition;
+                return new Point((int)_scrollPositionX, (int)_scrollPositionY);
             }
         }
 
-        public int MaxScroll
+        public Point MaxScroll
         {
             set
             {
-                _maxScroll = value;
+                _maxScrollX = value.X;
+                _maxScrollY = value.Y;
             }
         }
 
-        public Scroller(IGestureListener listener, bool vertical)
+        public Scroller(IGestureListener listener, bool horizontal, bool vertical)
         {
             _listener = listener;
-            _vertical = vertical;
 
-            if (_vertical)
+            if (horizontal && vertical)
+            {
+                TouchPad.Instance.AddListener(GestureType.FreeDrag | GestureType.Down | GestureType.Up, _listener);
+            }
+            else if (vertical)
             {
                 TouchPad.Instance.AddListener(GestureType.VerticalDrag | GestureType.Down | GestureType.Up, _listener);
             }
-            else
+            else if ( horizontal )
             {
                 TouchPad.Instance.AddListener(GestureType.HorizontalDrag | GestureType.Down | GestureType.Up, _listener);
             }
@@ -65,52 +72,83 @@ namespace Sitana.Framework.Ui.Views
         {
             if (_bounds != bounds)
             {
-                float factor = 1;
-                factor = _vertical ? (float)bounds.Height/(float)_bounds.Height : (float)bounds.Width/(float)_bounds.Width;
+                float factorX = 1;
+                float factorY = 1;
+                factorX = (float)bounds.Width/(float)_bounds.Width;
+                factorY = (float)bounds.Height / (float)_bounds.Height;
+
                 _bounds = bounds;
 
-                _scrollPosition *= factor;
+                _scrollPositionX *= factorX;
+                _scrollPositionY *= factorY;
             }
 
-            int size = _vertical ? bounds.Height : bounds.Width;
+            float desiredScrollX = Math.Max(0, Math.Min(_maxScrollX - bounds.Width, _scrollPositionX));
+            float desiredScrollY = Math.Max(0, Math.Min(_maxScrollY - bounds.Height, _scrollPositionY));
 
-            float desiredScroll = Math.Max(0, Math.Min(_maxScroll - size, _scrollPosition));
-
-            if (Math.Abs(desiredScroll - _scrollPosition) > bounds.Height / 5)
+            if (Math.Abs(desiredScrollX - _scrollPositionX) > bounds.Width / 5)
             {
-                _touchId = 0;
-                _scrollSpeed = 0;
+                _scrollSpeedX = 0;
+                _touchIdX = 0;
             }
 
-            if (desiredScroll != _scrollPosition)
+            if (Math.Abs(desiredScrollY - _scrollPositionY) > bounds.Height / 5)
             {
-                int sign = Math.Sign(desiredScroll - _scrollPosition);
+                _scrollSpeedY = 0;
+                _touchIdY = 0;
+            }
+
+            _scrollPositionX = ComputeScroll(time, _scrollPositionX, _maxScrollX, bounds.Width);
+            _scrollPositionY = ComputeScroll(time, _scrollPositionY, _maxScrollY, bounds.Height);
+
+            if ( _touchIdX == 0)
+            {
+                _scrollPositionX += _scrollSpeedX * time;
+                _scrollSpeedX -= _scrollSpeedX * time * 10;
+
+                if (Math.Abs(_scrollSpeedX) < 1)
+                {
+                    _scrollSpeedX = 0;
+                }
+            }
+
+            if(_touchIdY == 0)
+            {
+                _scrollPositionY += _scrollSpeedY * time;
+                _scrollSpeedY -= _scrollSpeedY * time * 10;
+
+                if (Math.Abs(_scrollSpeedY) < 1)
+                {
+                    _scrollSpeedY = 0;
+                }
+            }
+        }
+
+        private float ComputeScroll(float time, float scrollPosition, float maxScroll, int size)
+        {
+            float desiredScroll = Math.Max(0, Math.Min(maxScroll - size, scrollPosition));
+
+            if (desiredScroll != scrollPosition)
+            {
+                int sign = Math.Sign(desiredScroll - scrollPosition);
 
                 for (int idx = 0; idx < 10; ++idx)
                 {
-                    _scrollPosition = time * desiredScroll + (1 - time) * _scrollPosition;
+                    scrollPosition = time * desiredScroll + (1 - time) * scrollPosition;
                 }
 
-                if (Math.Abs(desiredScroll - _scrollPosition) < 1)
+                if (Math.Abs(desiredScroll - scrollPosition) < 1)
                 {
-                    _scrollPosition = desiredScroll;
+                    scrollPosition = desiredScroll;
                 }
 
-                if (Math.Sign(desiredScroll - _scrollPosition) != sign)
+                if (Math.Sign(desiredScroll - scrollPosition) != sign)
                 {
-                    _scrollPosition = desiredScroll;
+                    scrollPosition = desiredScroll;
                 }
             }
-            else if ( _touchId == 0)
-            {
-                _scrollPosition += _scrollSpeed * time;
-                _scrollSpeed -= _scrollSpeed * time * 10;
 
-                if (Math.Abs(_scrollSpeed) < 1)
-                {
-                    _scrollSpeed = 0;
-                }
-            }
+            return scrollPosition;
         }
 
         public void OnGesture(Gesture gesture, Rectangle screenBounds)
@@ -118,62 +156,71 @@ namespace Sitana.Framework.Ui.Views
             switch (gesture.GestureType)
             {
                 case GestureType.Down:
-                    if (_touchId == 0)
+                    if (_touchIdX == 0 && _touchIdY == 0)
                     {
                         if (screenBounds.Contains(gesture.Position.ToPoint()))
                         {
-                            _touchId = gesture.TouchId;
+                            _touchIdX = _touchIdY = gesture.TouchId;
                             gesture.Handled = true;
                             gesture.LockedListener = _listener;
                             _lastMoveTime = null;
-                            _scrollSpeed = 0;
+                            _scrollSpeedX = 0;
+                            _scrollSpeedY = 0;
                         }
                     }
                     break;
 
                 case GestureType.Up:
-                    if (_touchId == gesture.TouchId)
+                    if (_touchIdX == gesture.TouchId)
                     {
-                        _touchId = 0;
+                        _touchIdX = 0;
+                        gesture.Handled = true;
+                        _lastMoveTime = null;
+                    }
+
+                    if (_touchIdY == gesture.TouchId)
+                    {
+                        _touchIdY = 0;
                         gesture.Handled = true;
                         _lastMoveTime = null;
                     }
                     break;
 
-                case GestureType.VerticalDrag:
-                    if (_touchId == gesture.TouchId)
-                    {
-                        _scrollPosition -= gesture.Offset.Y;
-                        gesture.Handled = true;
-
-                        if (_lastMoveTime != null)
-                        {
-                            double time = AppMain.Current.TotalGameTime - _lastMoveTime.Value;
-                            _scrollSpeed = -gesture.Offset.Y / (float)time;
-                        }
-                        else
-                        {
-                            _scrollSpeed = 0;
-                        }
-
-                        _lastMoveTime = AppMain.Current.TotalGameTime;
-                    }
-                    break;
-
                 case GestureType.HorizontalDrag:
-                    if (_touchId == gesture.TouchId)
+                case GestureType.VerticalDrag:
+                case GestureType.FreeDrag:
+                    if (_touchIdX == gesture.TouchId || _touchIdY == gesture.TouchId)
                     {
-                        _scrollPosition -= gesture.Offset.X;
                         gesture.Handled = true;
+
+                        if (_touchIdX != 0)
+                        {
+                            _scrollPositionX -= gesture.Offset.X;
+                        }
+
+                        if (_touchIdY != 0)
+                        {
+                            _scrollPositionY -= gesture.Offset.Y;
+                        }
 
                         if (_lastMoveTime != null)
                         {
                             double time = AppMain.Current.TotalGameTime - _lastMoveTime.Value;
-                            _scrollSpeed = (_scrollSpeed + -gesture.Offset.X / (float)time) / 2;
+
+                            if (_touchIdX != 0)
+                            {
+                                _scrollSpeedX = (_scrollSpeedX + -gesture.Offset.X / (float)time) / 2;
+                            }
+
+                            if (_touchIdY != 0)
+                            {
+                                _scrollSpeedY = (_scrollSpeedY + -gesture.Offset.Y / (float)time) / 2;
+                            }
                         }
                         else
                         {
-                            _scrollSpeed = 0;
+                            _scrollSpeedX = 0;
+                            _scrollSpeedY = 0;
                         }
 
                         _lastMoveTime = AppMain.Current.TotalGameTime;
