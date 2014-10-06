@@ -31,7 +31,7 @@ namespace Sitana.Framework.Graphics
         Texture2D _texture = null;
         PrimitiveType _primitiveType = PrimitiveType.TriangleList;
 
-        Font _font = null;
+        UniversalFont _font = null;
 
         NinePatchImage _ninePatchImage;
 
@@ -81,7 +81,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        public Font Font
+        public UniversalFont Font
         {
             get
             {
@@ -97,12 +97,10 @@ namespace Sitana.Framework.Graphics
 
                 _font = value;
 
-                if (_font != null)
+                if (_font != null && _font.SitanaFont != null)
                 {
-                    Texture = _font.FontSheet;
+                    Texture = _font.SitanaFont.FontSheet;
                 }
-
-                
             }
         }
 

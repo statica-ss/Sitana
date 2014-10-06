@@ -75,7 +75,7 @@ namespace Sitana.Framework.Ui.Views
             }
 
             float scale;
-            Font font = _fontFace.Find(FontSize, out scale);
+            UniversalFont font = _fontFace.Find(FontSize, out scale);
             
             parameters.DrawBatch.Font = font;
             parameters.DrawBatch.DrawText(Text, ScreenBounds, TextAlign, TextColor.Value * opacity, scale);

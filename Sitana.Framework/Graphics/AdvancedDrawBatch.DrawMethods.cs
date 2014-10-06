@@ -71,14 +71,19 @@ namespace Sitana.Framework.Graphics
                 return;
             }
 
-            PrimitiveBatchNeeded();
-
             Vector2 size = _font.MeasureString(text) * scale;
             Vector2 position = TextPosition(ref target, align, size);
 
-            _font.Draw(_primitiveBatch, text, position, color, new Vector2(scale));
-
-            //_spriteBatch.DrawString(_font, text, position, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+            if (_font.SitanaFont != null)
+            {
+                PrimitiveBatchNeeded();
+                _font.SitanaFont.Draw(_primitiveBatch, text, position, color, new Vector2(scale));
+            }
+            else
+            {
+                SpriteBatchIsNeeded();
+                _spriteBatch.DrawString(_font.SpriteFont, text, position, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+            }
         }
 
         public void DrawText(string text, Rectangle target, TextAlign align, Color color)
@@ -93,12 +98,19 @@ namespace Sitana.Framework.Graphics
                 return;
             }
 
-            PrimitiveBatchNeeded();
-
             Vector2 size = _font.MeasureString(text) * scale;
             Vector2 position = TextPosition(ref target, align, size);
 
-            _font.Draw(_primitiveBatch, text, position, color, new Vector2(scale));
+            if (_font.SitanaFont != null)
+            {
+                PrimitiveBatchNeeded();
+                _font.SitanaFont.Draw(_primitiveBatch, text, position, color, new Vector2(scale));
+            }
+            else
+            {
+                SpriteBatchIsNeeded();
+                _spriteBatch.DrawString(_font.SpriteFont, text, position, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+            }
         }
 
         public void DrawText(SharedString text, Rectangle target, TextAlign align, Color color)

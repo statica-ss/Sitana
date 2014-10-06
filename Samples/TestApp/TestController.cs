@@ -84,9 +84,9 @@ namespace TestApp
         
         public static void OnLoadContent(AppMain main)
         {
-            FontManager.Instance.AddFont("TestFont", "Fonts/TestFont16", 16);
-            FontManager.Instance.AddFont("TestFont", "Fonts/TestFont12", 12);
-            FontManager.Instance.AddFont("TestFont", "Fonts/TestFont8", 8);
+            FontManager.Instance.AddSpriteFont("TestFont", "Fonts/TestFont16", 16);
+            FontManager.Instance.AddSpriteFont("TestFont", "Fonts/TestFont12", 12);
+            FontManager.Instance.AddSpriteFont("TestFont", "Fonts/TestFont8", 8);
         }
     }
 }

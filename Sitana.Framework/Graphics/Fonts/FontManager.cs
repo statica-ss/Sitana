@@ -13,19 +13,38 @@ namespace Sitana.Framework.Content
     {
         Dictionary<string, FontFace> _fonts = new Dictionary<string, FontFace>();
 
-        public void AddFont(string name, string path, int[] sizes)
+        public void AddSitanaFont(string name, string path, int[] sizes)
         {
             foreach (int size in sizes)
             {
                 string fontPath = String.Format("{0}{1}", path, size);
-                AddFont(name, fontPath, size);
+                AddSitanaFont(name, fontPath, size);
             }
         }
 
-        public void AddFont(string fontName, string path, int size)
+        public void AddSpriteFont(string name, string path, int[] sizes)
+        {
+            foreach (int size in sizes)
+            {
+                string fontPath = String.Format("{0}{1}", path, size);
+                AddSpriteFont(name, fontPath, size);
+            }
+        }
+
+        public void AddSitanaFont(string fontName, string path, int size)
         {
             Font font = ContentLoader.Current.Load<Font>(path);
+            Add(fontName, size, new UniversalFont(font));
+        }
 
+        public void AddSpriteFont(string fontName, string path, int size)
+        {
+            SpriteFont font = ContentLoader.Current.Load<SpriteFont>(path);
+            Add(fontName, size, new UniversalFont(font));
+        }
+
+        private void Add(string fontName, int size, UniversalFont font)
+        {
             FontFace fonts = null;
             _fonts.TryGetValue(fontName, out fonts);
 
