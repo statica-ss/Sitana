@@ -29,7 +29,7 @@ namespace Sitana.Framework.Ui
         {
             get
             {
-                return _left.GetValueOrDefault() + _right.GetValueOrDefault();
+                return Get(_left).GetValueOrDefault() + Get(_right).GetValueOrDefault();
             }
         }
 
@@ -37,7 +37,7 @@ namespace Sitana.Framework.Ui
         {
             get
             {
-                return _top.GetValueOrDefault() + _bottom.GetValueOrDefault();
+                return Get(_top).GetValueOrDefault() + Get(_bottom).GetValueOrDefault();
             }
         }
 

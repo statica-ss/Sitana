@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sitana.Framework
+namespace Sitana.Framework.Ui
 {
     public enum Stretch
     {

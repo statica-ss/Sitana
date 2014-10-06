@@ -156,8 +156,6 @@ namespace Sitana.Framework.Input.TouchPad
                         _gesture.TouchId = MouseId;
                         _gesture.Offset = Vector2.Zero;
 
-                        
-
                         OnGesture();
                     }
                 }
@@ -209,10 +207,7 @@ namespace Sitana.Framework.Input.TouchPad
 
             OnGesture();
 
-            if (_gesture.Handled)
-            {
-                element.LockedGesture = GestureType.Down;
-            }
+            element.LockedListener = _gesture.LockedListener;
 
             _elements.Add(id, element);
         }
@@ -230,6 +225,7 @@ namespace Sitana.Framework.Input.TouchPad
             _gesture.Handled = false;
             _gesture.TouchId = id;
             _gesture.Offset = move;
+            _gesture.LockedListener = element.LockedListener;
 
             if (move != Vector2.Zero)
             {
@@ -241,6 +237,8 @@ namespace Sitana.Framework.Input.TouchPad
                 }
             }
 
+            element.LockedListener = _gesture.LockedListener;
+
             _elements.Remove(id);
             _elements.Add(id, element);
         }
@@ -251,6 +249,7 @@ namespace Sitana.Framework.Input.TouchPad
             Vector2 move = position - element.Position;
 
             element.Position = position;
+            element.LockedListener = null;
 
             _elements.Remove(id);
 
@@ -258,6 +257,7 @@ namespace Sitana.Framework.Input.TouchPad
             _gesture.Origin = element.Origin;
             _gesture.Position = position;
             _gesture.Handled = false;
+            _gesture.LockedListener = element.LockedListener;
             _gesture.TouchId = id;
             _gesture.Offset = move;
 
@@ -434,6 +434,12 @@ namespace Sitana.Framework.Input.TouchPad
 
         void OnGesture()
         {
+            if (_gesture.LockedListener != null)
+            {
+                _gesture.LockedListener.OnGesture(_gesture);
+                return;
+            }
+
             for(int idx = 0; idx < _listeners.Count; ++idx )
             {
                 var listener = _listeners[idx];

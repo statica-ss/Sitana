@@ -32,7 +32,7 @@
     - [ ] UiCheckBox
     - [X] UiImage
     - [X] UiLabel
-    - [ ] UiListBox
+    - [X] UiListBox
     - [ ] UiRadioButton
     - [ ] UiTextBox
     - [X] UiRectangle

@@ -153,6 +153,7 @@ namespace Sitana.Framework.Ui.Views
                             _checkRect = ScreenBounds;
 
                             gesture.Handled = true;
+                            gesture.LockedListener = this;
 
                             if (_mode == UiButtonMode.Press)
                             {

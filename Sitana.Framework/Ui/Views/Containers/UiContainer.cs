@@ -109,6 +109,11 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        public override void Move(Point offset)
+        {
+            _bounds = new Rectangle(_bounds.X + offset.X, _bounds.Y + offset.Y, _bounds.Width, _bounds.Height);
+        }
+
         protected virtual Rectangle CalculateChildBounds(UiView view)
         {
             return view.PositionParameters.Margin.ComputeRect(new Rectangle(0,0,Bounds.Width, Bounds.Height));
@@ -123,7 +128,13 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
-            base.Draw(ref parameters);
+            Color backgroundColor = BackgroundColor * opacity;
+
+            if (backgroundColor.A > 0)
+            {
+                parameters.DrawBatch.Texture = null;
+                parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
+            }
 
             UiViewDrawParameters drawParams = parameters;
             drawParams.Opacity = opacity;
@@ -135,7 +146,7 @@ namespace Sitana.Framework.Ui.Views
 
             for (int idx = 0; idx < _children.Count; ++idx)
             {
-                _children[idx].ViewDraw(ref drawParams);
+                _children[idx].ViewDraw(ref drawParams);   
             }
 
             if (_clipChildren)

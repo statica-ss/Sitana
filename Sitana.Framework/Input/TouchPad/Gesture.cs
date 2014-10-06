@@ -17,5 +17,6 @@ namespace Sitana.Framework.Input.TouchPad
         public Vector2 Offset { internal set; get; }
 
         public bool Handled { get; set; }
+        public IGestureListener LockedListener { get; set; }
     }
 }

@@ -8,12 +8,34 @@
   <UiPage.Content>
     <UiBorder>
       <UiBorder.Children>
-        <UiLabel Text="SITANA GAME" Font="TestFont" FontSize="20" X="C" Y="20" TextAlign="Center,Top" Align="Center,Top" Width="@" Height="@"/>
 
-        <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="Uniform" X="C" Y="C-75" Align="Center,Middle" Width="150" Height="150"/>
-        
-        <UiButton Style="DefaultButton" Text="Start Game" Y="C+40" Click="{OnNewGame()}"/>
-        <UiButton Style="DefaultButton" Text="Options" Y="C+110" Click="{NavigateTo('Ui/OptionsPage')}"/>
+        <UiListBox Items="{Items}" Width="@-20" Height="100" Align="Left,Top" X="10" Y="10" Mode="Horizontal" BackgroundColor="255,255,255,32" ClipChildren="True">
+          <UiListBox.ItemTemplate>
+            <UiBorder Width="128" Margin="10,10,10,10" BackgroundColor="255,255,255,32">
+              <UiBorder.Children>
+                <UiLabel Text="{{Name}}" Font="TestFont" FontSize="16" X="C" Y="10" TextAlign="Center,Top" Align="Center,Top"/>
+                <UiLabel Text="{{Age}}" Font="TestFont" FontSize="16" X="C" Y="@-10" TextAlign="Center,Bottom" Align="Center,Bottom"/>
+              </UiBorder.Children>
+            </UiBorder>
+          </UiListBox.ItemTemplate>
+        </UiListBox>
+
+        <UiListBox Items="{Items}" Width="320" Height="@-130" Align="Left,Top" X="10" Y="120" Mode="Vertical" BackgroundColor="255,255,255,32" ClipChildren="True">
+          <UiListBox.ItemTemplate>
+            <UiBorder Height="32" Margin="10,10,10,10" BackgroundColor="255,255,255,32">
+              <UiBorder.Children>
+                <UiLabel Text="{{Name}}" Font="TestFont" FontSize="16" X="10" Y="C" TextAlign="Left,Middle" Align="Center,Top"/>
+                <UiLabel Text="{{Age}}" Font="TestFont" FontSize="16" X="@-10" Y="C" TextAlign="Right,Middle" Align="Center,Bottom"/>
+              </UiBorder.Children>
+            </UiBorder>
+          </UiListBox.ItemTemplate>
+        </UiListBox>
+
+        <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="Uniform" X="75%" Y="C-30" Align="Center,Middle" Width="100" Height="100"/>
+
+        <UiButton Style="DefaultButton" X="75%" Text="Start Game" Y="C+40" Click="{OnNewGame()}"/>
+        <UiButton Style="DefaultButton" X="75%" Text="Options" Y="C+110" Click="{NavigateTo('Ui/OptionsPage')}"/>
+
         
       </UiBorder.Children>
     </UiBorder>

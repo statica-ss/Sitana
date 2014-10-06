@@ -498,5 +498,10 @@ namespace Sitana.Framework.Ui.Views
         protected virtual void OnGesture(Gesture gesture)
         {
         }
+
+        public virtual void Move(Point offset)
+        {
+            Bounds = new Rectangle(Bounds.X + offset.X, Bounds.Y + offset.Y, Bounds.Width, Bounds.Height);
+        }
     }
 }
