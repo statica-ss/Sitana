@@ -170,7 +170,7 @@ namespace Sitana.Framework.Ui.Views
         protected TransitionEffect _showTransitionEffect = null;
         protected TransitionEffect _hideTransitionEffect = null;
 
-        private bool _enableGestureHandling = false;
+        protected bool _enableGestureHandling = false;
 
         public virtual UiContainer Parent
         {

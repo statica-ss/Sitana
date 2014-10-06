@@ -84,6 +84,8 @@ namespace Sitana.Framework.Ui.Views
 
         Scroller _scroller = null;
 
+        int _newElementsLimit = 10;
+
         protected override void OnAdded()
         {
             base.OnAdded();
@@ -134,11 +136,21 @@ namespace Sitana.Framework.Ui.Views
                 _recalculate = false;
             }
 
+            lock (_items)
+            {
+                if (_enableGestureHandling && _children.Count != _items.Count)
+                {
+                    recalculate = true;
+                }
+            }
+
             if (recalculate)
             {
                 lock (_items)
                 {
                     int count = _items.Count;
+
+                    int added = 0;
 
                     _updateScrollPosition = _scroller.ScrollPosition;
                     Point position = new Point(-_updateScrollPosition.X, -_updateScrollPosition.Y);
@@ -158,6 +170,7 @@ namespace Sitana.Framework.Ui.Views
 
                             view.Parent = this;
                             view.ViewAdded();
+                            added++;
                         }
 
                         Rectangle bounds = CalculateItemBounds(view);
@@ -179,6 +192,11 @@ namespace Sitana.Framework.Ui.Views
                         }
 
                         view.Bounds = bounds;
+
+                        if (added > _newElementsLimit)
+                        {
+                            break;
+                        }
                     }
 
                     _scroller.MaxScroll = new Point(_updateScrollPosition.X + position.X, _updateScrollPosition.Y + position.Y);
