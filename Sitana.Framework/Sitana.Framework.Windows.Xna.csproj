@@ -54,6 +54,7 @@
     <Compile Include="Definitions\Stretch.cs" />
     <Compile Include="Graphics\Fonts\Font.cs" />
     <Compile Include="Graphics\Fonts\FontFace.cs" />
+    <Compile Include="Graphics\Fonts\FontLoader.cs" />
     <Compile Include="Graphics\Fonts\FontManager.cs" />
     <Compile Include="ContentManagement\TitleContainerEx.cs" />
     <Compile Include="Graphics\Fonts\Glyph.cs" />
@@ -95,7 +96,6 @@
     <Compile Include="ContentManagement\ContentLoader.cs" />
     <Compile Include="ContentManagement\LoadResourceInfo.cs" />
     <Compile Include="Graphics\Sprites\SpritePresenter.cs" />
-    <Compile Include="Graphics\Fonts\BitmapFont.cs" />
     <Compile Include="Graphics\Images\LoadTexture2DFromPng.cs" />
     <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
     <Compile Include="Graphics\Sprites\Sprite.cs" />

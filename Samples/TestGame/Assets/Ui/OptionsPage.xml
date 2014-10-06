@@ -66,7 +66,7 @@
         <UiIndexSelector Context="TestSlider" Spacing="25%" Width="380" Height="16" X="C" Y="C+8" Align="Center,Middle" ElementWidth="150%">
           <UiButton.Drawables>
             <button:NinePatchBackground ColorPushed="#40ffffff" ColorReleased="#80ffffff" Image="Ui/Button" ScaleByUnit="true" Scale="0.2"/>
-            <button:Text ColorPushed="#ffffff" ColorReleased="#ffffff" Font="TestFont" FontSize="6" TextAlign="Center,Middle"/>
+            <button:Text ColorPushed="#ffffff" ColorReleased="#ffffff" Font="TestFont" FontSize="12" TextAlign="Center,Middle"/>
           </UiButton.Drawables>
         </UiIndexSelector>
         
@@ -75,5 +75,5 @@
         
       </UiBorder.Children>
     </UiBorder>
-  </UiPage.Content>
+  </UiPage.Content> 
 </UiPage>

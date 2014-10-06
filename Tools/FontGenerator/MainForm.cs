@@ -16,6 +16,8 @@ namespace FontGenerator
     {
         List<char> _previewCharacters = new List<char>() {'A','b','c','@','!','0','1','2' };
 
+        private bool _skipGeneration = true;
+
         public MainForm()
         {
             InitializeComponent();
@@ -23,10 +25,30 @@ namespace FontGenerator
             InstalledFontCollection fonts = new InstalledFontCollection();
 
             foreach (FontFamily font in fonts.Families)
-                fontName.Items.Add(font.Name);
+                FontFace.Items.Add(font.Name);
 
-            fontName.Text = "Segoe UI";
-            AdditionalCharacters.Text = "";
+            Settings.Instance.Init();
+
+            FontFace.Text = Settings.Instance.Face;
+            FontSize.Text = Settings.Instance.Size.ToString();
+            FontStyle.SelectedIndex = Settings.Instance.Style;
+
+            BorderColor.BackColor = Color.FromArgb(Settings.Instance.BorderColor);
+            FillColor.BackColor = Color.FromArgb(Settings.Instance.FillColor);
+
+            BorderSize.Value = Settings.Instance.BorderSize;
+            BorderOpacity.Value = (Decimal)((double)Settings.Instance.BorderOpacity / 100.0);
+
+            MinChar.Text = Settings.Instance.MinChar;
+            MaxChar.Text = Settings.Instance.MaxChar;
+
+            AdditionalCharacters.Text = Settings.Instance.AdditionalCharacters;
+
+            BorderRound.Checked = Settings.Instance.RoundBorder;
+
+            _skipGeneration = false;
+            GeneratePreview();
+            
         }
 
         private void textColor_Click(object sender, EventArgs e)
@@ -48,11 +70,11 @@ namespace FontGenerator
             ColorDialog dialog = new ColorDialog();
 
             dialog.FullOpen = true;
-            dialog.Color = borderColor.BackColor;
+            dialog.Color = BorderColor.BackColor;
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                borderColor.BackColor = dialog.Color;
+                BorderColor.BackColor = dialog.Color;
                 GeneratePreview();
             }
         }
@@ -108,8 +130,13 @@ namespace FontGenerator
 
         void GeneratePreview()
         {
+            if (_skipGeneration)
+            {
+                return;
+            }
+
             Bitmap bitmap;
-            var font = Generate(_previewCharacters, out bitmap);
+            var font = Generate(_previewCharacters, preview.Width - 10, out bitmap);
 
             if (preview.Image != null)
             {
@@ -159,14 +186,39 @@ namespace FontGenerator
             GeneratePreview();
         }
 
-        private SitanaFont Generate(List<char> characters, out Bitmap bitmap)
+        private void SaveSettings()
         {
+            Settings.Instance.Face = FontFace.Text;
+            Settings.Instance.Size = int.Parse(FontSize.Text);
+            Settings.Instance.Style = FontStyle.SelectedIndex;
+
+            Settings.Instance.BorderColor = BorderColor.BackColor.ToArgb();
+            Settings.Instance.FillColor = FillColor.BackColor.ToArgb();
+
+            Settings.Instance.BorderSize = (int)BorderSize.Value;
+            Settings.Instance.BorderOpacity = (int)(BorderOpacity.Value * 100);
+
+
+            Settings.Instance.MinChar = MinChar.Text;
+            Settings.Instance.MaxChar = MaxChar.Text;
+
+            Settings.Instance.AdditionalCharacters = AdditionalCharacters.Text;
+
+            Settings.Instance.RoundBorder = BorderRound.Checked;
+
+            Settings.Instance.Serialize();
+        }
+
+        private SitanaFont Generate(List<char> characters, int width, out Bitmap bitmap)
+        {
+            SaveSettings();
+
             SitanaFont sitanaFont;
 
-            FontStyle style = (FontStyle)Enum.Parse(typeof(FontStyle), fontStyle.Text);
-            int size = int.Parse(fontSize.Text);
-
-            using (Font font = new Font(new FontFamily(fontName.Text), size, style))
+            FontStyle style = (FontStyle)Enum.Parse(typeof(FontStyle), FontStyle.Text);
+            int size = int.Parse(FontSize.Text);
+            
+            using (Font font = new Font(new FontFamily(FontFace.Text), size, style, GraphicsUnit.Point))
             {
                 using (Brush brush = new SolidBrush(FillColor.BackColor))
                 {
@@ -174,10 +226,10 @@ namespace FontGenerator
 
                     if ( BorderOpacity.Value > 0 && BorderSize.Value > 0)
                     {
-                        float border = (float)BorderSize.Value;
+                        float border = (float)BorderSize.Value * (float)size / 100f;
                         int alpha = (int)((double)BorderOpacity.Value * 255.0);
 
-                        pen = new Pen(Color.FromArgb(alpha, borderColor.BackColor), border);
+                        pen = new Pen(Color.FromArgb(alpha, BorderColor.BackColor), border);
 
                         if ( BorderRound.Checked )
                         {
@@ -189,7 +241,7 @@ namespace FontGenerator
                         }
                     }
 
-                    new SitanaFontGenerator(font, pen, brush).Generate(characters, 256, out sitanaFont, out bitmap);
+                    new SitanaFontGenerator(font, pen, brush).Generate(characters, width, out sitanaFont, out bitmap);
 
                     return sitanaFont;
                 }
@@ -228,12 +280,15 @@ namespace FontGenerator
                 }
 
                 Bitmap bitmap;
-                SitanaFont font = Generate(list, out bitmap);
+                SitanaFont font = Generate(list, 2048, out bitmap);
 
                 string directory = Path.GetDirectoryName(fileSelector.FileName);
-                string infoFile = Path.GetFileNameWithoutExtension(fileSelector.FileName) + ".sft";
+                string fileNoExt = Path.GetFileNameWithoutExtension(fileSelector.FileName);
+                string infoFile = fileNoExt + ".sft";
 
                 infoFile = Path.Combine(directory, infoFile);
+
+                font.FontSheetPath = String.Empty;// fileNoExt;
 
                 using (Stream stream = new FileStream(infoFile, FileMode.Create))
                 {

@@ -20,10 +20,10 @@ namespace Sitana.Framework.Graphics
         public short DefaultKerning = short.MinValue;
         private Dictionary<char, short> _kerning = new Dictionary<char, short>();
 
-        public short Kerning(char nextChar)
+        public short Kerning(char previousChar)
         {
             short kerning;
-            if ( _kerning.TryGetValue(nextChar, out kerning) )
+            if (_kerning.TryGetValue(previousChar, out kerning))
             {
                 return kerning;
             }
@@ -45,6 +45,7 @@ namespace Sitana.Framework.Graphics
             writer.Write(Y);
             writer.Write(Width);
             writer.Write(Height);
+            writer.Write(Top);
             writer.Write(DefaultKerning);
 
             writer.Write(_kerning.Count);
@@ -63,6 +64,7 @@ namespace Sitana.Framework.Graphics
             Y = reader.ReadInt16();
             Width = reader.ReadInt16();
             Height = reader.ReadInt16();
+            Top = reader.ReadInt16();
             DefaultKerning = reader.ReadInt16();
 
             int count = reader.ReadInt32();

@@ -31,7 +31,7 @@ namespace Sitana.Framework.Graphics
         Texture2D _texture = null;
         PrimitiveType _primitiveType = PrimitiveType.TriangleList;
 
-        SpriteFont _font = null;
+        Font _font = null;
 
         NinePatchImage _ninePatchImage;
 
@@ -81,7 +81,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        public SpriteFont Font
+        public Font Font
         {
             get
             {
@@ -96,6 +96,13 @@ namespace Sitana.Framework.Graphics
                 }
 
                 _font = value;
+
+                if (_font != null)
+                {
+                    Texture = _font.FontSheet;
+                }
+
+                
             }
         }
 

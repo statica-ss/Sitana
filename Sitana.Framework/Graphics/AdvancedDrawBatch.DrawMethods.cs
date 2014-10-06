@@ -71,12 +71,14 @@ namespace Sitana.Framework.Graphics
                 return;
             }
 
-            SpriteBatchIsNeeded();
+            PrimitiveBatchNeeded();
 
             Vector2 size = _font.MeasureString(text) * scale;
             Vector2 position = TextPosition(ref target, align, size);
 
-            _spriteBatch.DrawString(_font, text, position, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+            _font.Draw(_primitiveBatch, text, position, color, new Vector2(scale));
+
+            //_spriteBatch.DrawString(_font, text, position, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
         }
 
         public void DrawText(string text, Rectangle target, TextAlign align, Color color)
@@ -91,12 +93,12 @@ namespace Sitana.Framework.Graphics
                 return;
             }
 
-            SpriteBatchIsNeeded();
+            PrimitiveBatchNeeded();
 
             Vector2 size = _font.MeasureString(text) * scale;
             Vector2 position = TextPosition(ref target, align, size);
 
-            _spriteBatch.DrawString(_font, text, position, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+            _font.Draw(_primitiveBatch, text, position, color, new Vector2(scale));
         }
 
         public void DrawText(SharedString text, Rectangle target, TextAlign align, Color color)

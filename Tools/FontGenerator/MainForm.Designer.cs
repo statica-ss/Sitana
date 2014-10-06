@@ -29,10 +29,10 @@
       private void InitializeComponent()
       {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.fontName = new System.Windows.Forms.ComboBox();
+            this.FontFace = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.fontStyle = new System.Windows.Forms.ComboBox();
-            this.fontSize = new System.Windows.Forms.ComboBox();
+            this.FontStyle = new System.Windows.Forms.ComboBox();
+            this.FontSize = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -41,7 +41,7 @@
             this.MaxChar = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.borderColor = new System.Windows.Forms.Button();
+            this.BorderColor = new System.Windows.Forms.Button();
             this.FillColor = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.preview = new System.Windows.Forms.PictureBox();
@@ -59,15 +59,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.BorderSize)).BeginInit();
             this.SuspendLayout();
             // 
-            // fontName
+            // FontFace
             // 
-            this.fontName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
-            this.fontName.FormattingEnabled = true;
-            this.fontName.Location = new System.Drawing.Point(15, 30);
-            this.fontName.Name = "fontName";
-            this.fontName.Size = new System.Drawing.Size(179, 215);
-            this.fontName.TabIndex = 1;
-            this.fontName.SelectedIndexChanged += new System.EventHandler(this.fontName_SelectedIndexChanged);
+            this.FontFace.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
+            this.FontFace.FormattingEnabled = true;
+            this.FontFace.Location = new System.Drawing.Point(15, 30);
+            this.FontFace.Name = "FontFace";
+            this.FontFace.Size = new System.Drawing.Size(179, 215);
+            this.FontFace.TabIndex = 1;
+            this.FontFace.SelectedIndexChanged += new System.EventHandler(this.fontName_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -79,27 +79,27 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Font face";
             // 
-            // fontStyle
+            // FontStyle
             // 
-            this.fontStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
-            this.fontStyle.FormattingEnabled = true;
-            this.fontStyle.Items.AddRange(new object[] {
+            this.FontStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
+            this.FontStyle.FormattingEnabled = true;
+            this.FontStyle.Items.AddRange(new object[] {
             "Regular",
             "Italic",
             "Bold",
             "Bold, Italic"});
-            this.fontStyle.Location = new System.Drawing.Point(200, 30);
-            this.fontStyle.Name = "fontStyle";
-            this.fontStyle.Size = new System.Drawing.Size(63, 215);
-            this.fontStyle.TabIndex = 3;
-            this.fontStyle.Text = "Regular";
-            this.fontStyle.SelectedIndexChanged += new System.EventHandler(this.fontStyle_SelectedIndexChanged);
+            this.FontStyle.Location = new System.Drawing.Point(200, 30);
+            this.FontStyle.Name = "FontStyle";
+            this.FontStyle.Size = new System.Drawing.Size(63, 215);
+            this.FontStyle.TabIndex = 3;
+            this.FontStyle.Text = "Regular";
+            this.FontStyle.SelectedIndexChanged += new System.EventHandler(this.fontStyle_SelectedIndexChanged);
             // 
-            // fontSize
+            // FontSize
             // 
-            this.fontSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
-            this.fontSize.FormattingEnabled = true;
-            this.fontSize.Items.AddRange(new object[] {
+            this.FontSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
+            this.FontSize.FormattingEnabled = true;
+            this.FontSize.Items.AddRange(new object[] {
             "8",
             "9",
             "10",
@@ -117,13 +117,13 @@
             "36",
             "48",
             "72"});
-            this.fontSize.Location = new System.Drawing.Point(269, 30);
-            this.fontSize.Name = "fontSize";
-            this.fontSize.Size = new System.Drawing.Size(59, 215);
-            this.fontSize.TabIndex = 5;
-            this.fontSize.Text = "23";
-            this.fontSize.SelectedIndexChanged += new System.EventHandler(this.fontSize_SelectedIndexChanged);
-            this.fontSize.TextUpdate += new System.EventHandler(this.fontSize_TextUpdate);
+            this.FontSize.Location = new System.Drawing.Point(269, 30);
+            this.FontSize.Name = "FontSize";
+            this.FontSize.Size = new System.Drawing.Size(59, 215);
+            this.FontSize.TabIndex = 5;
+            this.FontSize.Text = "23";
+            this.FontSize.SelectedIndexChanged += new System.EventHandler(this.fontSize_SelectedIndexChanged);
+            this.FontSize.TextUpdate += new System.EventHandler(this.fontSize_TextUpdate);
             // 
             // label2
             // 
@@ -197,15 +197,15 @@
             this.label7.TabIndex = 8;
             this.label7.Text = "Border clr.";
             // 
-            // borderColor
+            // BorderColor
             // 
-            this.borderColor.BackColor = System.Drawing.Color.White;
-            this.borderColor.Location = new System.Drawing.Point(90, 274);
-            this.borderColor.Name = "borderColor";
-            this.borderColor.Size = new System.Drawing.Size(64, 30);
-            this.borderColor.TabIndex = 9;
-            this.borderColor.UseVisualStyleBackColor = false;
-            this.borderColor.Click += new System.EventHandler(this.borderColor_Click);
+            this.BorderColor.BackColor = System.Drawing.Color.White;
+            this.BorderColor.Location = new System.Drawing.Point(90, 274);
+            this.BorderColor.Name = "BorderColor";
+            this.BorderColor.Size = new System.Drawing.Size(64, 30);
+            this.BorderColor.TabIndex = 9;
+            this.BorderColor.UseVisualStyleBackColor = false;
+            this.BorderColor.Click += new System.EventHandler(this.borderColor_Click);
             // 
             // FillColor
             // 
@@ -307,15 +307,9 @@
             // 
             // BorderSize
             // 
-            this.BorderSize.DecimalPlaces = 1;
-            this.BorderSize.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
             this.BorderSize.Location = new System.Drawing.Point(161, 276);
             this.BorderSize.Maximum = new decimal(new int[] {
-            20,
+            25,
             0,
             0,
             0});
@@ -361,7 +355,7 @@
             this.Controls.Add(this.BorderSize);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.AdditionalCharacters);
-            this.Controls.Add(this.fontName);
+            this.Controls.Add(this.FontFace);
             this.Controls.Add(this.BorderOpacity);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.GenerateBtn);
@@ -370,7 +364,7 @@
             this.Controls.Add(this.label8);
             this.Controls.Add(this.FillColor);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.borderColor);
+            this.Controls.Add(this.BorderColor);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.MaxChar);
             this.Controls.Add(this.label5);
@@ -378,8 +372,8 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.fontSize);
-            this.Controls.Add(this.fontStyle);
+            this.Controls.Add(this.FontSize);
+            this.Controls.Add(this.FontStyle);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -399,10 +393,10 @@
 
       #endregion
 
-      private System.Windows.Forms.ComboBox fontName;
+      private System.Windows.Forms.ComboBox FontFace;
       private System.Windows.Forms.Label label1;
-      private System.Windows.Forms.ComboBox fontStyle;
-      private System.Windows.Forms.ComboBox fontSize;
+      private System.Windows.Forms.ComboBox FontStyle;
+      private System.Windows.Forms.ComboBox FontSize;
       private System.Windows.Forms.Label label2;
       private System.Windows.Forms.Label label3;
       private System.Windows.Forms.Label label4;
@@ -411,7 +405,7 @@
       private System.Windows.Forms.TextBox MaxChar;
       private System.Windows.Forms.Label label6;
       private System.Windows.Forms.Label label7;
-      private System.Windows.Forms.Button borderColor;
+      private System.Windows.Forms.Button BorderColor;
       private System.Windows.Forms.Button FillColor;
       private System.Windows.Forms.Label label8;
       private System.Windows.Forms.PictureBox preview;

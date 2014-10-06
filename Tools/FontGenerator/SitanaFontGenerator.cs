@@ -49,6 +49,13 @@ namespace FontGenerator
                 baseLine--;
             }
 
+            int top;
+            int left;
+
+            image = CropCharacter(image, 0, out left, out top);
+
+            int emptyCut = left / 2;
+
             image.Dispose();
 
             Dictionary<char, Bitmap> bitmaps = new Dictionary<char, Bitmap>();
@@ -61,7 +68,7 @@ namespace FontGenerator
                 Bitmap bitmap;
                 SitanaGlyph glyph;
 
-                CreateGlyph(ch, list, out glyph, out bitmap);
+                CreateGlyph(ch, emptyCut, list, out glyph, out bitmap);
 
                 bitmaps.Add(ch, bitmap);
                 glyphs.Add(ch, glyph);
@@ -129,18 +136,18 @@ namespace FontGenerator
             }
         }
 
-        void CreateGlyph(char character, List<char> list, out SitanaGlyph glyph, out Bitmap bitmap)
+        void CreateGlyph(char character, int emptyCut, List<char> list, out SitanaGlyph glyph, out Bitmap bitmap)
         {
             string text = character.ToString();
 
-            int additional = (int)(_pen.Width);
+            int additional = (int)(_pen != null ? _pen.Width : 0);
 
             bitmap = Generate(text, _font, _pen, _brush, additional);
 
             int left = 0;
             int top = 0;
 
-            bitmap = CropCharacter(bitmap, out left, out top);
+            bitmap = CropCharacter(bitmap, emptyCut, out left, out top);
 
             glyph = new SitanaGlyph();
             glyph.Character = character;
@@ -156,7 +163,6 @@ namespace FontGenerator
                 float bothWidth = _globalGraphics.MeasureString(String.Format("{0}{1}", ch, character), _font).Width;
 
                 float diff = bothWidth - (secondWidth + firstWidth) + left;
-
                 glyph.AddKerning(ch, (short)(diff * 10));
             }
         }
@@ -199,7 +205,7 @@ namespace FontGenerator
             return image;
         }
 
-        Bitmap CropCharacter(Bitmap bitmap, out int cropLeft, out int cropTop)
+        Bitmap CropCharacter(Bitmap bitmap, int emptyCut, out int cropLeft, out int cropTop)
         {
             cropLeft = 0;
             Int32 cropRight = bitmap.Width - 1;
@@ -229,12 +235,18 @@ namespace FontGenerator
                 cropBottom--;
             }
 
+            if (cropLeft == cropRight)
+            {
+                cropLeft = emptyCut;
+                cropRight = bitmap.Width - 1 - emptyCut;
+            }
+
             // Add some padding back in.
             cropLeft = Math.Max(cropLeft, 0);
             cropRight = Math.Min(cropRight, bitmap.Width - 1);
 
             Int32 width = cropRight - cropLeft + 1;
-            Int32 height = cropBottom - cropTop + 1;
+            Int32 height = cropBottom - cropTop + 2;
 
             // Crop the glyph.
             Bitmap croppedBitmap = new Bitmap(width, height, bitmap.PixelFormat);
