@@ -68,7 +68,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
                 _fontFace = FontManager.Instance.FindFont(_font);
             }
 
-            SpriteFont font = _fontFace.Find(_fontSize);
+            float scale;
+            Font font = _fontFace.Find(_fontSize, out scale);
 
             Color color = ColorFromState(state) * opacity;
 
@@ -76,7 +77,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             rect.Inflate(-_padding, -_padding);
 
             drawBatch.Font = font;
-            drawBatch.DrawText(str, rect, _textAlign, color);
+            drawBatch.DrawText(str, rect, _textAlign, color, scale);
         }
 
         protected Color ColorFromState(UiButton.State state)

@@ -68,15 +68,17 @@ namespace Sitana.Framework.Ui.Views
 
             base.Draw(ref parameters);
 
+            
             if (_fontFace == null)
             {
                 _fontFace = FontManager.Instance.FindFont(FontName);
             }
 
-            SpriteFont font = _fontFace.Find(FontSize);
+            float scale;
+            Font font = _fontFace.Find(FontSize, out scale);
             
             parameters.DrawBatch.Font = font;
-            parameters.DrawBatch.DrawText(Text, ScreenBounds, TextAlign, TextColor.Value * opacity);
+            parameters.DrawBatch.DrawText(Text, ScreenBounds, TextAlign, TextColor.Value * opacity, scale);
         }
 
         protected override void Init(object controller, object binding, DefinitionFile definition)

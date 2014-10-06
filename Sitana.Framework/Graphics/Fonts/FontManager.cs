@@ -24,7 +24,7 @@ namespace Sitana.Framework.Content
 
         public void AddFont(string fontName, string path, int size)
         {
-            SpriteFont font = ContentLoader.Current.Load<SpriteFont>(path);
+            Font font = ContentLoader.Current.Load<Font>(path);
 
             FontFace fonts = null;
             _fonts.TryGetValue(fontName, out fonts);

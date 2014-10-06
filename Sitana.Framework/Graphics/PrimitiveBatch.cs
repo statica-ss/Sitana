@@ -15,6 +15,19 @@ namespace Sitana.Framework.Graphics
         // buffer that is unnecessarily large will waste memory.
         const Int32 DefaultBufferSize = 500;
 
+        public PrimitiveType PrimitiveType
+        {
+            get
+            {
+                if (!_hasBegun)
+                {
+                    throw new Exception("PrimitiveBatch not started.");
+                }
+
+                return _primitiveType;
+            }
+        }
+
         // A block of vertices that calling AddVertex will fill. Flush will draw using
         // this array, and will determine how many primitives to draw from
         // positionInBuffer.

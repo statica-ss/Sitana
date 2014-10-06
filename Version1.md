@@ -10,7 +10,7 @@
   - [X] 3D Models
   - [X] Sprites
   - [X] BitmapFont
-  - [ ] BitmapFont drawing
+  - [X] BitmapFont drawing
   - [X] NinePatchImage
 
 - [ ] User Interface
@@ -38,3 +38,8 @@
     - [X] UiRectangle
     - [ ] UiSlider
     - [X] UiIndexSelector
+    
+- [ ] Tools
+  - [X] Font generator
+  - [X] Model converter
+  - [ ] Platform Editor

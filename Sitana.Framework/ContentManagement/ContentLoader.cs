@@ -95,11 +95,11 @@ namespace Sitana.Framework.Content
             Current = new ContentLoader(manager, root);
 
             Sprite.Register();
-            BitmapFont.Register();
             NinePatchImage.Register();
             ModelXLoader.Register();
             XFile.Register();
             DefinitionFile.Register();
+            FontLoader.Register();
 
             Current.TextureRescaleFactor = 0;
         }

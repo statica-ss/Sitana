@@ -9,5 +9,7 @@ namespace Sitana.Framework.Ui.Core
     {
         public static double Unit = 1;
         public static double FontUnit = 1;
+
+        public static bool EnableFontScaling = false;
     }
 }

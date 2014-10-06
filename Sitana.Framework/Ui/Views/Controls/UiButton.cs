@@ -69,6 +69,8 @@ namespace Sitana.Framework.Ui.Views
 
         protected SharedString _text;
 
+        protected Rectangle _checkRect;
+
         public string Text
         {
             get
@@ -148,6 +150,8 @@ namespace Sitana.Framework.Ui.Views
                             _touchId = gesture.TouchId;
 
                             SetPushed(true);
+                            _checkRect = ScreenBounds;
+
                             gesture.Handled = true;
 
                             if (_mode == UiButtonMode.Press)
@@ -189,7 +193,7 @@ namespace Sitana.Framework.Ui.Views
 
                     if (_touchId == gesture.TouchId)
                     {
-                        SetPushed(bounds.Contains(gesture.Position));
+                        SetPushed(_checkRect.Contains(gesture.Position));
                         //gesture.Handled = true;
                     }
                     break;
