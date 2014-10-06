@@ -22,9 +22,9 @@
 
         <UiListBox Items="{Items}" Width="320" Height="@-130" Align="Left,Top" X="10" Y="120" Mode="Vertical" BackgroundColor="255,255,255,32" ClipChildren="True">
           <UiListBox.ItemTemplate>
-            <UiBorder Height="32" Margin="10,10,10,10" BackgroundColor="255,255,255,32">
+            <UiBorder Height="64" Margin="10,10,10,10" BackgroundColor="255,255,255,32">
               <UiBorder.Children>
-                <UiLabel Text="{{Name}}" Font="TestFont" FontSize="16" X="10" Y="C" TextAlign="Left,Middle" Align="Center,Top"/>
+                <UiButton Style="DefaultButton" Text="{{Name}}" X="C" Y="C" Align="Center,Middle"/>
                 <UiLabel Text="{{Age}}" Font="TestFont" FontSize="16" X="@-10" Y="C" TextAlign="Right,Middle" Align="Center,Bottom"/>
               </UiBorder.Children>
             </UiBorder>

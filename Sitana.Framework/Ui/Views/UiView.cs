@@ -172,6 +172,16 @@ namespace Sitana.Framework.Ui.Views
 
         protected bool _enableGestureHandling = false;
 
+        public bool IsPointInsideView(ref Point point)
+        {
+            if (Parent != null)
+            {
+                return Parent.ScreenBounds.Contains(point) && Parent.IsPointInsideView(ref point);
+            }
+
+            return true;
+        }
+
         public virtual UiContainer Parent
         {
             get

@@ -130,11 +130,13 @@ namespace Sitana.Framework.Ui.Views
         {
             Rectangle bounds = ScreenBounds;
 
+            Point point = gesture.Position.ToPoint();
+
             switch(gesture.GestureType)
             {
                 case GestureType.Down:
 
-                    if (bounds.Contains(gesture.Origin))
+                    if (bounds.Contains(gesture.Origin) && IsPointInsideView(ref point))
                     {
                         if ( _mode == UiButtonMode.Game)
                         {
@@ -152,8 +154,8 @@ namespace Sitana.Framework.Ui.Views
                             SetPushed(true);
                             _checkRect = ScreenBounds;
 
-                            gesture.Handled = true;
-                            gesture.LockedListener = this;
+                            //gesture.Handled = true;
+                            //gesture.LockedListener = this;
 
                             if (_mode == UiButtonMode.Press)
                             {
@@ -171,7 +173,7 @@ namespace Sitana.Framework.Ui.Views
 
                     if (_mode == UiButtonMode.Game)
                     {
-                        if (bounds.Contains(gesture.Origin))
+                        if (bounds.Contains(gesture.Origin) && IsPointInsideView(ref point))
                         {
                             if (!_touches.ContainsKey(gesture.TouchId))
                             {
