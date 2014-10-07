@@ -27,13 +27,13 @@
     - [X] UiScrollView
     - [X] UiSplitterView
     - [ ] UiAccordion
+    - [ ] UiRadioGroup
   - [ ] Controls
     - [X] UiButton
     - [ ] UiCheckBox
     - [X] UiImage
     - [X] UiLabel
     - [X] UiListBox
-    - [ ] UiRadioButton
     - [ ] UiTextBox
     - [X] UiRectangle
     - [ ] UiSlider
