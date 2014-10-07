@@ -362,7 +362,6 @@ namespace Sitana.Framework.Ui.Views
 
             if (backgroundColor.A > 0)
             {
-                parameters.DrawBatch.Texture = null;
                 parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
             }
         }

@@ -65,11 +65,13 @@ namespace Sitana.Framework.Ui.Views
 
             Point maxBounds = Point.Zero;
 
+            Point offset = _scroller != null ? _scroller.ScrollPosition : Point.Zero;
+
             for (int idx = 0; idx < _children.Count; ++idx)
             {
                 var child = _children[idx];
-                maxBounds.X = Math.Max(child.Bounds.Right, maxBounds.X);
-                maxBounds.Y = Math.Max(child.Bounds.Bottom, maxBounds.Y);
+                maxBounds.X = Math.Max(child.Bounds.Right + offset.X, maxBounds.X);
+                maxBounds.Y = Math.Max(child.Bounds.Bottom + offset.Y, maxBounds.Y);
             }
 
             if (_scroller != null)
@@ -140,6 +142,11 @@ namespace Sitana.Framework.Ui.Views
         protected override void OnGesture(Gesture gesture)
         {
             _scroller.OnGesture(gesture);
+
+            if (gesture.GestureType == GestureType.FreeDrag)
+            {
+                Console.Write("@");
+            }
         }
     }
 }

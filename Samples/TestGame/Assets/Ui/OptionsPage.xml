@@ -10,14 +10,8 @@
       <UiBorder.Children>
         <UiLabel Text="OPTIONS" Font="TestFont" FontSize="18" X="C" Y="20" TextAlign="Center,Top" Align="Center,Top" Width="@" Height="@"/>
 
-        <UiButton Style="DefaultButton" Text="Test" X="75%" Y="C+40" Align="Center,Top" Click="{Next()}"/>
-        <UiButton Style="DefaultButtonSystem" Text="back" X="75%" Y="C+110" Click="{NavigateBack()}"/>
-
-        <UiScrollView Align="Center,Middle" X="25%" Y="75%" Width="40%" Height="40%" ClipChildren="True" BackgroundColor="#40ffffff">
-          <UiScrollView.Children>
-            <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="UniformToFill" X="0" Y="0" Align="Top,Left" Width="512" Height="512"/>
-          </UiScrollView.Children>
-        </UiScrollView>
+        <UiButton Style="DefaultButton" Text="Test" X="C" Y="C+40" Align="Center,Top" Click="{Next()}"/>
+        <UiButton Style="DefaultButtonSystem" Text="back" X="C" Y="C+110" Click="{NavigateBack()}"/>
         
         <UiContentSlider Id="TestSlider" TransitionTime="250" X="C" Y="C-100" Align="Center,Middle" Width="400" Height="150" BackgroundColor="#40ffffff" ClipChildren="True" Cycle="True">
           <UiContentSlider.ShowTransitionEffectNext>

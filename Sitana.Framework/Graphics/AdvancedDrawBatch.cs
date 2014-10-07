@@ -33,15 +33,13 @@ namespace Sitana.Framework.Graphics
 
         UniversalFont _font = null;
 
-        NinePatchImage _ninePatchImage;
-
         Stack<Rectangle?> _scissors = new Stack<Rectangle?>();
 
         Stack<Matrix> _transforms = new Stack<Matrix>();
 
         Matrix _transform = Matrix.Identity;
 
-        public Matrix Transform
+        private Matrix Transform
         {
             get
             {
@@ -59,29 +57,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        public NinePatchImage NinePatchImage
-        {
-            get
-            {
-                return _ninePatchImage;
-            }
-
-            set
-            {
-                _ninePatchImage = value;
-
-                if (value != null)
-                {
-                    Texture = _ninePatchImage.Texture;
-                }
-                else
-                {
-                    Texture = null;
-                }
-            }
-        }
-
-        public UniversalFont Font
+        private UniversalFont Font
         {
             get
             {
@@ -178,7 +154,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        public PrimitiveType PrimitiveType
+        private PrimitiveType PrimitiveType
         {
             get
             {
@@ -196,7 +172,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        public Texture2D Texture
+        private Texture2D Texture
         {
             get
             {
@@ -304,6 +280,12 @@ namespace Sitana.Framework.Graphics
                 _spriteBatch.End();
                 _spriteBatchStarted = false;
             }
+        }
+
+        public void BeginPrimitive(PrimitiveType type, Texture2D texture)
+        {
+            PrimitiveType = type;
+            Texture = texture;
         }
 
         void SpriteBatchIsNeeded()

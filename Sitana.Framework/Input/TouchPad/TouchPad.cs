@@ -355,9 +355,14 @@ namespace Sitana.Framework.Input.TouchPad
                 _gesture.Position = element.Position;
                 _gesture.Origin = element.Origin;
 
+                IGestureListener captureBy = _gesture.PointerCapturedBy;
+
                 for (int idx = 0; idx < _listeners.Count; ++idx)
                 {
                     var listener = _listeners[idx];
+
+                    if (_gesture.PointerCapturedBy != null && _gesture.PointerCapturedBy != listener.Listener)
+                        continue;
 
                     if ((listener.GestureType & element.LockedGesture) != GestureType.None)
                     {
@@ -383,7 +388,7 @@ namespace Sitana.Framework.Input.TouchPad
 
                         listener.Listener.OnGesture(_gesture);
 
-                        if (_gesture.PointerCapturedBy != null)
+                        if (_gesture.PointerCapturedBy != captureBy)
                         {
                             SendCapturedGesture(_gesture.TouchId, _gesture.PointerCapturedBy);
                             return;

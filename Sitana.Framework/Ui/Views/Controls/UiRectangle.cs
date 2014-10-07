@@ -58,8 +58,7 @@ namespace Sitana.Framework.Ui.Views
 
             float scale = _scaleByUnit ? (float)UiUnit.Unit : 1;
 
-            parameters.DrawBatch.NinePatchImage = _image;
-            parameters.DrawBatch.DrawNinePatchRect(ScreenBounds, color * opacity, scale * _scale);
+            parameters.DrawBatch.DrawNinePatchRect(_image, ScreenBounds, color * opacity, scale * _scale);
         }
     }
 }

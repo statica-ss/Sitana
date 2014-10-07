@@ -159,14 +159,12 @@ namespace Sitana.Framework.Ui.Views
                     if (_touchIdX == gesture.TouchId)
                     {
                         _touchIdX = 0;
-                        gesture.Handled = true;
                         _lastMoveTime = null;
                     }
 
                     if (_touchIdY == gesture.TouchId)
                     {
                         _touchIdY = 0;
-                        gesture.Handled = true;
                         _lastMoveTime = null;
                     }
                     break;

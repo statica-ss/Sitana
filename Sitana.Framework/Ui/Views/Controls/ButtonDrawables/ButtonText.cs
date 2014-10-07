@@ -76,8 +76,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             Rectangle rect = target;
             rect.Inflate(-_padding, -_padding);
 
-            drawBatch.Font = font;
-            drawBatch.DrawText(str, rect, _textAlign, color, scale);
+            drawBatch.DrawText(font, str, rect, _textAlign, color, scale);
         }
 
         protected Color ColorFromState(UiButton.State state)
