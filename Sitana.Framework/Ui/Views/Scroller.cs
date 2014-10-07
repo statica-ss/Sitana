@@ -24,7 +24,7 @@ namespace Sitana.Framework.Ui.Views
 
         double? _lastMoveTime = null;
 
-        IGestureListener _listener;
+        UiView _view;
 
         Rectangle _bounds = new Rectangle(0,0,1,1);
 
@@ -45,27 +45,27 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public Scroller(IGestureListener listener, bool horizontal, bool vertical)
+        public Scroller(UiView view, bool horizontal, bool vertical)
         {
-            _listener = listener;
+            _view = view;
 
             if (horizontal && vertical)
             {
-                TouchPad.Instance.AddListener(GestureType.FreeDrag | GestureType.Down | GestureType.Up, _listener);
+                TouchPad.Instance.AddListener(GestureType.FreeDrag | GestureType.Down | GestureType.Up, _view);
             }
             else if (vertical)
             {
-                TouchPad.Instance.AddListener(GestureType.VerticalDrag | GestureType.Down | GestureType.Up, _listener);
+                TouchPad.Instance.AddListener(GestureType.VerticalDrag | GestureType.Down | GestureType.Up, _view);
             }
             else if ( horizontal )
             {
-                TouchPad.Instance.AddListener(GestureType.HorizontalDrag | GestureType.Down | GestureType.Up, _listener);
+                TouchPad.Instance.AddListener(GestureType.HorizontalDrag | GestureType.Down | GestureType.Up, _view);
             }
         }
 
         public void Remove()
         {
-            TouchPad.Instance.RemoveListener(_listener);
+            TouchPad.Instance.RemoveListener(_view);
         }
 
         public void Update(float time, Rectangle bounds)
@@ -151,25 +151,10 @@ namespace Sitana.Framework.Ui.Views
             return scrollPosition;
         }
 
-        public void OnGesture(Gesture gesture, Rectangle screenBounds)
+        public void OnGesture(Gesture gesture)
         {
             switch (gesture.GestureType)
             {
-                case GestureType.Down:
-                    if (_touchIdX == 0 && _touchIdY == 0)
-                    {
-                        if (screenBounds.Contains(gesture.Position.ToPoint()))
-                        {
-                            _touchIdX = _touchIdY = gesture.TouchId;
-                            gesture.Handled = true;
-                            gesture.LockedListener = _listener;
-                            _lastMoveTime = null;
-                            _scrollSpeedX = 0;
-                            _scrollSpeedY = 0;
-                        }
-                    }
-                    break;
-
                 case GestureType.Up:
                     if (_touchIdX == gesture.TouchId)
                     {
@@ -189,6 +174,19 @@ namespace Sitana.Framework.Ui.Views
                 case GestureType.HorizontalDrag:
                 case GestureType.VerticalDrag:
                 case GestureType.FreeDrag:
+
+                    if (gesture.PointerCapturedBy == null)
+                    {
+                        if (_touchIdX == 0 && _touchIdY == 0)
+                        {
+                            if (_view.IsPointInsideView(gesture.Origin))
+                            {
+                                _touchIdX = _touchIdY = gesture.TouchId;
+                                gesture.CapturePointer(_view);
+                            }
+                        }
+                    }
+
                     if (_touchIdX == gesture.TouchId || _touchIdY == gesture.TouchId)
                     {
                         gesture.Handled = true;

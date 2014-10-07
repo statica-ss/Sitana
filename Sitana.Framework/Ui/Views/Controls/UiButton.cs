@@ -130,13 +130,20 @@ namespace Sitana.Framework.Ui.Views
         {
             Rectangle bounds = ScreenBounds;
 
-            Point point = gesture.Position.ToPoint();
-
             switch(gesture.GestureType)
             {
+                case GestureType.CapturedByOther:
+
+                    if (_touchId == gesture.TouchId)
+                    {
+                        _touchId = 0;
+                        SetPushed(false);
+                    }
+                    break;
+
                 case GestureType.Down:
 
-                    if (bounds.Contains(gesture.Origin) && IsPointInsideView(ref point))
+                    if (IsPointInsideView(gesture.Origin))
                     {
                         if ( _mode == UiButtonMode.Game)
                         {
@@ -154,8 +161,7 @@ namespace Sitana.Framework.Ui.Views
                             SetPushed(true);
                             _checkRect = ScreenBounds;
 
-                            //gesture.Handled = true;
-                            //gesture.LockedListener = this;
+                            gesture.Handled = true;
 
                             if (_mode == UiButtonMode.Press)
                             {
@@ -173,7 +179,7 @@ namespace Sitana.Framework.Ui.Views
 
                     if (_mode == UiButtonMode.Game)
                     {
-                        if (bounds.Contains(gesture.Origin) && IsPointInsideView(ref point))
+                        if (IsPointInsideView(gesture.Position))
                         {
                             if (!_touches.ContainsKey(gesture.TouchId))
                             {
@@ -197,7 +203,6 @@ namespace Sitana.Framework.Ui.Views
                     if (_touchId == gesture.TouchId)
                     {
                         SetPushed(_checkRect.Contains(gesture.Position));
-                        //gesture.Handled = true;
                     }
                     break;
 
@@ -223,7 +228,6 @@ namespace Sitana.Framework.Ui.Views
 
                         _touchId = 0;
                         SetPushed(false);
-                        //gesture.Handled = true;
                     }
                     break;
             }

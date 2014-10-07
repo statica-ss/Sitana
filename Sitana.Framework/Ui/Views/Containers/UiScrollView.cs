@@ -139,7 +139,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void OnGesture(Gesture gesture)
         {
-            _scroller.OnGesture(gesture, ScreenBounds);
+            _scroller.OnGesture(gesture);
         }
     }
 }

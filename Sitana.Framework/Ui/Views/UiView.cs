@@ -136,7 +136,19 @@ namespace Sitana.Framework.Ui.Views
 
         public string Id { get; set; }
 
-        public virtual Rectangle Bounds { get; set; }
+        public virtual Rectangle Bounds
+        {
+            get
+            {
+                return _bounds;
+            }
+
+            set
+            {
+                _bounds = value;
+                _enableGestureHandling = false;
+            }
+        }
 
         public Boolean Visible { get; set; }
 
@@ -163,6 +175,8 @@ namespace Sitana.Framework.Ui.Views
         protected Length _minWidth;
         protected Length _minHeight;
 
+        protected Rectangle _bounds = new Rectangle();
+
         public object Binding { get; private set; }
 
         private Rectangle _lastSize = Rectangle.Empty;
@@ -172,14 +186,28 @@ namespace Sitana.Framework.Ui.Views
 
         protected bool _enableGestureHandling = false;
 
-        public bool IsPointInsideView(ref Point point)
+        public bool IsPointInsideView(Vector2 point)
         {
-            if (Parent != null)
+            bool ret = ScreenBounds.Contains(point);
+
+            if (ret && Parent != null)
             {
-                return Parent.ScreenBounds.Contains(point) && Parent.IsPointInsideView(ref point);
+                return Parent.IsPointInsideView(point);
             }
 
-            return true;
+            return ret;
+        }
+
+        public bool IsPointInsideView(Point point)
+        {
+            bool ret = ScreenBounds.Contains(point);
+
+            if (ret && Parent != null)
+            {
+                return Parent.IsPointInsideView(point);
+            }
+
+            return ret;
         }
 
         public virtual UiContainer Parent
@@ -512,6 +540,9 @@ namespace Sitana.Framework.Ui.Views
         public virtual void Move(Point offset)
         {
             Bounds = new Rectangle(Bounds.X + offset.X, Bounds.Y + offset.Y, Bounds.Width, Bounds.Height);
+            _enableGestureHandling = false;
         }
+
+        
     }
 }

@@ -39,6 +39,14 @@ namespace Sitana.Framework.Ui.Views
 
         protected Point _minSizeFromChildren = Point.Zero;
 
+        public bool ClipChildren
+        {
+            get
+            {
+                return _clipChildren;
+            }
+        }
+
         public override Point MinSize
         {
             get
@@ -48,7 +56,6 @@ namespace Sitana.Framework.Ui.Views
         }
 
         protected List<UiView> _children = new List<UiView>();
-        protected Rectangle _bounds = new Rectangle();
 
         public void Remove(UiView view)
         {
@@ -105,6 +112,7 @@ namespace Sitana.Framework.Ui.Views
             set
             {
                 _bounds = value;
+                _enableGestureHandling = false;
                 RecalcLayout();
             }
         }

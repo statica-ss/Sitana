@@ -37,6 +37,7 @@ namespace Sitana.Framework.Input.TouchPad
         List<ListenerInfo> _listeners = new List<ListenerInfo>();
 
         Gesture _gesture = new Gesture();
+        Gesture _gesturePointerCapturedBy = new Gesture();
 
         Vector2? _rightClick;
         DateTime _rightClickTime;
@@ -207,7 +208,7 @@ namespace Sitana.Framework.Input.TouchPad
 
             OnGesture();
 
-            element.LockedListener = _gesture.LockedListener;
+            element.LockedListener = _gesture.PointerCapturedBy;
 
             _elements.Add(id, element);
         }
@@ -225,7 +226,7 @@ namespace Sitana.Framework.Input.TouchPad
             _gesture.Handled = false;
             _gesture.TouchId = id;
             _gesture.Offset = move;
-            _gesture.LockedListener = element.LockedListener;
+            _gesture.PointerCapturedBy = element.LockedListener;
 
             if (move != Vector2.Zero)
             {
@@ -237,7 +238,7 @@ namespace Sitana.Framework.Input.TouchPad
                 }
             }
 
-            element.LockedListener = _gesture.LockedListener;
+            element.LockedListener = _gesture.PointerCapturedBy;
 
             _elements.Remove(id);
             _elements.Add(id, element);
@@ -257,7 +258,7 @@ namespace Sitana.Framework.Input.TouchPad
             _gesture.Origin = element.Origin;
             _gesture.Position = position;
             _gesture.Handled = false;
-            _gesture.LockedListener = element.LockedListener;
+            _gesture.PointerCapturedBy = element.LockedListener;
             _gesture.TouchId = id;
             _gesture.Offset = move;
 
@@ -382,6 +383,12 @@ namespace Sitana.Framework.Input.TouchPad
 
                         listener.Listener.OnGesture(_gesture);
 
+                        if (_gesture.PointerCapturedBy != null)
+                        {
+                            SendCapturedGesture(_gesture.TouchId, _gesture.PointerCapturedBy);
+                            return;
+                        }
+
                         if (_gesture.Handled)
                         {
                             return;
@@ -432,11 +439,27 @@ namespace Sitana.Framework.Input.TouchPad
             }
         }
 
+        void SendCapturedGesture(int touchId, IGestureListener capture)
+        {
+            _gesturePointerCapturedBy.GestureType = GestureType.CapturedByOther;
+            _gesturePointerCapturedBy.TouchId = touchId;
+
+            for (int idx2 = 0; idx2 < _listeners.Count; ++idx2)
+            {
+                var listener = _listeners[idx2];
+
+                if (listener.Listener != capture)
+                {
+                    listener.Listener.OnGesture(_gesturePointerCapturedBy);
+                }
+            }
+        }
+
         void OnGesture()
         {
-            if (_gesture.LockedListener != null)
+            if (_gesture.PointerCapturedBy != null)
             {
-                _gesture.LockedListener.OnGesture(_gesture);
+                _gesture.PointerCapturedBy.OnGesture(_gesture);
                 return;
             }
 
@@ -447,6 +470,12 @@ namespace Sitana.Framework.Input.TouchPad
                 if ( listener.GestureType.HasFlag(_gesture.GestureType) )
                 {
                     listener.Listener.OnGesture(_gesture);
+
+                    if (_gesture.PointerCapturedBy != null)
+                    {
+                        SendCapturedGesture(_gesture.TouchId, _gesture.PointerCapturedBy);
+                        return;
+                    }
 
                     if ( _gesture.Handled )
                     {

@@ -84,8 +84,6 @@ namespace Sitana.Framework.Ui.Views
 
         Scroller _scroller = null;
 
-        int _newElementsLimit = 10;
-
         protected override void OnAdded()
         {
             base.OnAdded();
@@ -193,9 +191,12 @@ namespace Sitana.Framework.Ui.Views
 
                         view.Bounds = bounds;
 
-                        if (added > _newElementsLimit)
+                        if (position.X > Bounds.Width * 2 || position.Y > Bounds.Height * 2)
                         {
-                            break;
+                            if (added > 0)
+                            {
+                                break;
+                            }
                         }
                     }
 
@@ -224,7 +225,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void OnGesture(Gesture gesture)
         {
-            _scroller.OnGesture(gesture, ScreenBounds);
+            _scroller.OnGesture(gesture);
         }
 
         protected override void Draw(ref UiViewDrawParameters parameters)
