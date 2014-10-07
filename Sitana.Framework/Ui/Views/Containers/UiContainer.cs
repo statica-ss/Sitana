@@ -39,6 +39,14 @@ namespace Sitana.Framework.Ui.Views
 
         protected Point _minSizeFromChildren = Point.Zero;
 
+        public bool ClipChildren
+        {
+            get
+            {
+                return _clipChildren;
+            }
+        }
+
         public override Point MinSize
         {
             get
@@ -48,7 +56,6 @@ namespace Sitana.Framework.Ui.Views
         }
 
         protected List<UiView> _children = new List<UiView>();
-        protected Rectangle _bounds = new Rectangle();
 
         public void Remove(UiView view)
         {
@@ -86,7 +93,7 @@ namespace Sitana.Framework.Ui.Views
             RecalcLayout();
         }
 
-        public void RecalcLayout()
+        public virtual void RecalcLayout()
         {
             for (Int32 idx = 0; idx < _children.Count; ++idx)
             {
@@ -105,8 +112,14 @@ namespace Sitana.Framework.Ui.Views
             set
             {
                 _bounds = value;
+                _enableGestureHandling = false;
                 RecalcLayout();
             }
+        }
+
+        public override void Move(Point offset)
+        {
+            _bounds = new Rectangle(_bounds.X + offset.X, _bounds.Y + offset.Y, _bounds.Width, _bounds.Height);
         }
 
         protected virtual Rectangle CalculateChildBounds(UiView view)
@@ -123,7 +136,12 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
-            base.Draw(ref parameters);
+            Color backgroundColor = BackgroundColor * opacity;
+
+            if (backgroundColor.A > 0)
+            {
+                parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
+            }
 
             UiViewDrawParameters drawParams = parameters;
             drawParams.Opacity = opacity;
@@ -135,7 +153,7 @@ namespace Sitana.Framework.Ui.Views
 
             for (int idx = 0; idx < _children.Count; ++idx)
             {
-                _children[idx].ViewDraw(ref drawParams);
+                _children[idx].ViewDraw(ref drawParams);   
             }
 
             if (_clipChildren)

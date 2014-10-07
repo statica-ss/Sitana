@@ -8,12 +8,12 @@
   <UiPage.Content>
     <UiBorder>
       <UiBorder.Children>
-        <UiLabel Text="SITANA GAME" Font="TestFont" FontSize="20" X="C" Y="20" TextAlign="Center,Top" Align="Center,Top" Width="@" Height="@"/>
-
-        <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="Uniform" X="C" Y="C-75" Align="Center,Middle" Width="150" Height="150"/>
         
-        <UiButton Style="DefaultButton" Text="Start Game" Y="C+40" Click="{OnNewGame()}"/>
-        <UiButton Style="DefaultButton" Text="Options" Y="C+110" Click="{NavigateTo('Ui/OptionsPage')}"/>
+        <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="Uniform" X="C" Y="C-80" Align="Center,Middle" Width="200" Height="200"/>
+
+        <UiButton Style="DefaultButton" X="C" Text="Start Game" Y="C+40" Click="{OnNewGame()}"/>
+        <UiButton Style="DefaultButton" X="C" Text="Options" Y="C+110" Click="{NavigateTo('Ui/OptionsPage')}"/>
+
         
       </UiBorder.Children>
     </UiBorder>

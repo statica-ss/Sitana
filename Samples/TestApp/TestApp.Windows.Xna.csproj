@@ -75,7 +75,7 @@
   <ItemGroup>
     <Compile Include="Main.Windows.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestController.cs" />
+    <Compile Include="MainController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.Windows.Xna.csproj">

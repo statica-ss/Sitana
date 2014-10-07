@@ -41,7 +41,6 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
         public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.State state, object argument)
         {
-            drawBatch.Texture = null;
             drawBatch.DrawRectangle(target, ColorFromState(state) * opacity);
         }
 

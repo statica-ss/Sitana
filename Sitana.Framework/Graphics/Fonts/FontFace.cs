@@ -9,7 +9,7 @@ namespace Sitana.Framework.Graphics
 {
     public class FontFace
     {
-        public readonly Dictionary<int, Tuple<Font, int>> Fonts = new Dictionary<int, Tuple<Font, int>>();
+        public readonly Dictionary<int, Tuple<UniversalFont, int>> Fonts = new Dictionary<int, Tuple<UniversalFont, int>>();
         public readonly string Name;
 
         int _maxSize = 0;
@@ -20,18 +20,18 @@ namespace Sitana.Framework.Graphics
             Name = name;
         }
 
-        internal void Add(int size, Font font)
+        internal void Add(int size, UniversalFont font)
         {
-            Fonts.Add(size, new Tuple<Font,int>(font, size));
+            Fonts.Add(size, new Tuple<UniversalFont, int>(font, size));
             _minSize = Math.Min(size, _minSize);
             _maxSize = Math.Max(size, _maxSize);
         }
 
-        public Font Find(int size, out float scale)
+        public UniversalFont Find(int size, out float scale)
         {
             size = Math.Max(1, (int)(UiUnit.FontUnit * size));
 
-            Tuple<Font, int> font = null;
+            Tuple<UniversalFont, int> font = null;
             Fonts.TryGetValue(size, out font);
 
             scale = 1;

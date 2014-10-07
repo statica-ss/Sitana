@@ -72,8 +72,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             float scale = _scaleByUnit ? (float)UiUnit.Unit : 1;
 
-            drawBatch.NinePatchImage = image;
-            drawBatch.DrawNinePatchRect(target, color, scale * _scale);
+            drawBatch.DrawNinePatchRect(image, target, color, scale * _scale);
         }
 
 

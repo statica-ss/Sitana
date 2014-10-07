@@ -23,7 +23,7 @@ namespace Sitana.Framework.Settings
         // Flag to avoid creation of an instance using new.
         private static bool _allowCreation = false;
 
-        // Lock object for synchronization.
+        // LockedListener object for synchronization.
         private static object _lockObj = new object();
 
         // Returns instance of singleton class.

@@ -51,13 +51,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Definitions\Stretch.cs" />
+    <Compile Include="Ui\Binding\IItemsConsumer.cs" />
+    <Compile Include="Ui\Binding\IItemsProvider.cs" />
+    <Compile Include="Ui\Binding\ItemsList.cs" />
+    <Compile Include="Ui\Definitions\Stretch.cs" />
     <Compile Include="Graphics\Fonts\Font.cs" />
     <Compile Include="Graphics\Fonts\FontFace.cs" />
     <Compile Include="Graphics\Fonts\FontLoader.cs" />
     <Compile Include="Graphics\Fonts\FontManager.cs" />
     <Compile Include="ContentManagement\TitleContainerEx.cs" />
     <Compile Include="Graphics\Fonts\Glyph.cs" />
+    <Compile Include="Graphics\Fonts\UniversalFont.cs" />
     <Compile Include="Media\MusicController.Common.cs" />
     <Compile Include="Media\MusicController.cs" />
     <Compile Include="Ui\Controllers\IIndexedElement.cs" />
@@ -66,6 +70,8 @@
     <Compile Include="Ui\Core\UiUnit.cs" />
     <Compile Include="Ui\DefinitionFiles\DefinitionFileWithStyle.cs" />
     <Compile Include="Ui\Views\Containers\UiContentSlider.cs" />
+    <Compile Include="Ui\Views\Containers\UiListBox.cs" />
+    <Compile Include="Ui\Views\Containers\UiScrollView.cs" />
     <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
@@ -77,6 +83,7 @@
     <Compile Include="Ui\Views\Controls\UiImage.cs" />
     <Compile Include="Ui\Views\Controls\UiIndexSelector.cs" />
     <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
+    <Compile Include="Ui\Views\Scroller.cs" />
     <Compile Include="Xml\XFile.cs" />
     <Compile Include="Cs\SharedString.cs" />
     <Compile Include="Cs\SharedValue.cs" />

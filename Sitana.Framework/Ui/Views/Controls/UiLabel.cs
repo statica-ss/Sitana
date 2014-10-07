@@ -75,10 +75,9 @@ namespace Sitana.Framework.Ui.Views
             }
 
             float scale;
-            Font font = _fontFace.Find(FontSize, out scale);
+            UniversalFont font = _fontFace.Find(FontSize, out scale);
             
-            parameters.DrawBatch.Font = font;
-            parameters.DrawBatch.DrawText(Text, ScreenBounds, TextAlign, TextColor.Value * opacity, scale);
+            parameters.DrawBatch.DrawText(font, Text, ScreenBounds, TextAlign, TextColor.Value * opacity, scale);
         }
 
         protected override void Init(object controller, object binding, DefinitionFile definition)

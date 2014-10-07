@@ -1,42 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<UiSplitterView Controller="TestApp.TestController,TestApp"
+<UiBorder Controller="TestApp.MainController,TestApp"
     xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
     xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
-    Width="640" Height="480" SplitterSize="4" Position="45" Mode="Horizontal" ViewRemoved="{OnViewRemoved()}" ClipChildren="true" ViewResized="{OnResized(width,height}}"
-    MinWidth="480" MinHeight="320">
-  <UiSplitterView.Children>
-
-    <UiStackPanel Mode="Vertical" BackgroundColor="#203040" Spacing="10" Padding="10">
-      <UiStackPanel.Children>
-        <UiLabel Text="{Info}" BackgroundColor="#20ff8080" TextColor="#ffffff" Font="TestFont" FontSize="16" Height="32"/>
-        <UiLabel Text="{Test2()}" BackgroundColor="#208080ff" TextColor="{TextColor}" Font="TestFont" FontSize="16" Height="32" Width="C-10" Align="Left"/>
-        <UiLabel Text="{ButtonClick}" BackgroundColor="#2080ff80" TextColor="#ffffff" Font="TestFont" FontSize="16" Height="32" Width="C-10" Align="Right"/>
-        <UiStackPanel Mode="Horizontal" BackgroundColor="#2080ffff" Spacing="10" Padding="10" Height="40">
-          <UiStackPanel.Children>
-            <UiRectangle BackgroundColor="#ff0000" Width="20" Height="20"/>
-            <UiRectangle BackgroundColor="#ff8000" Width="20" Height="20"/>
-            <UiRectangle BackgroundColor="#ffff00" Width="20" Height="20"/>
-            <UiRectangle BackgroundColor="#00ff00" Width="20" Height="20"/>
-            <UiRectangle BackgroundColor="#00ffff" Width="20" Height="20"/>
-            <UiRectangle BackgroundColor="#0000ff" Width="20" Height="20"/>
-            <UiRectangle BackgroundColor="#8000ff" Width="20" Height="20"/>
-            <UiRectangle BackgroundColor="#ff00ff" Width="20" Height="20"/>
-          </UiStackPanel.Children>
-        </UiStackPanel>
-      </UiStackPanel.Children>
-    </UiStackPanel>
-
-    <UiBorder BackgroundColor="#ff0000">
+    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
+    Width="720" Height="480" BackgroundColor="#006080">
+  <UiBorder.Children>
+    
+    <UiBorder ClipChildren="true" BackgroundColor="#003040" X="C" Y="4" Width="@-8" Height="@-32" Align="Center,Top">
       <UiBorder.Children>
-        <UiButton Style="DefaultButton" Text="{Test('Text from method.')}" Width="320" Height="64" X="C" Y="C-10" Align="Center,Bottom" Click="{OnClick(sender, binding, 1)}"/>
-        <UiButton Style="OtherButton" Text="Text defined in xml." Width="320" Height="64" X="C" Y="C+10" Align="Center,Top" Click="{OnClick(sender)}"/>
+
+        <UiListBox Items="{Items}" Width="@-20" Height="100" Align="Left,Top" X="10" Y="10" Mode="Horizontal" BackgroundColor="255,255,255,32" ClipChildren="True">
+          <UiListBox.ItemTemplate>
+            <UiBorder Width="128" Margin="10,10,10,10" BackgroundColor="255,255,255,32">
+              <UiBorder.Children>
+                <UiLabel Text="{{Name}}" Font="TestFont" FontSize="16" X="C" Y="10" TextAlign="Center,Top" Align="Center,Top"/>
+                <UiLabel Text="{{Age}}" Font="TestFont" FontSize="16" X="C" Y="@-10" TextAlign="Center,Bottom" Align="Center,Bottom"/>
+              </UiBorder.Children>
+            </UiBorder>
+          </UiListBox.ItemTemplate>
+        </UiListBox>
+
+        <UiListBox Items="{Items}" Width="320" Height="@-130" Align="Left,Top" X="10" Y="120" Mode="Vertical" BackgroundColor="255,255,255,32" ClipChildren="True">
+          <UiListBox.ItemTemplate>
+            <UiBorder Height="64" Margin="10,10,10,10" BackgroundColor="255,255,255,32">
+              <UiBorder.Children>
+                <UiButton Style="DefaultButton" Text="{{Name}}" Width="C" Height="@-20" X="10" Y="C" Align="Left,Middle"/>
+                <UiLabel Text="{{Age}}" Font="TestFont" FontSize="16" X="@-10" Y="C" TextAlign="Right,Middle" Align="Center,Bottom"/>
+              </UiBorder.Children>
+            </UiBorder>
+          </UiListBox.ItemTemplate>
+        </UiListBox>
+
+        <UiScrollView Align="Left,Top" X="340" Y="120" Width="@-350" Height="C-120" ClipChildren="True" BackgroundColor="#40ffffff">
+          <UiScrollView.Children>
+            <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="UniformToFill" X="0" Y="0" Align="Top,Left" Width="1990" Height="2560"/>
+          </UiScrollView.Children>
+        </UiScrollView>
+
+        <UiContentSlider Id="TestSlider" TransitionTime="250" X="340" Y="C+10" Align="Left,Top" Width="@-350" Height="C-42" BackgroundColor="#40ffffff" ClipChildren="True" Cycle="True">
+          <UiContentSlider.ShowTransitionEffectNext>
+            <effect:Group>
+              <effect:Swype Horizontal="110%" Power="3"/>
+              <effect:Vanish Power="2"/>
+            </effect:Group>
+          </UiContentSlider.ShowTransitionEffectNext>
+
+          <UiContentSlider.ShowTransitionEffectPrev>
+            <effect:Group>
+              <effect:Swype Horizontal="-110%" Power="3"/>
+              <effect:Vanish Power="2"/>
+            </effect:Group>
+          </UiContentSlider.ShowTransitionEffectPrev>
+
+          <UiContentSlider.Children>
+            <UiStackPanel Mode="Horizontal" Spacing="10" Padding="5">
+              <UiStackPanel.Children>
+                <UiRectangle Color="#ff0000" Width="10%-10"/>
+                <UiRectangle Color="#ff8000" Width="10%-10"/>
+                <UiRectangle Color="#ffff00" Width="10%-10"/>
+                <UiRectangle Color="#00ff00" Width="10%-10"/>
+                <UiRectangle Color="#00ffff" Width="10%-10"/>
+                <UiRectangle Color="#0000ff" Width="10%-10"/>
+                <UiRectangle Color="#8000ff" Width="10%-10"/>
+                <UiRectangle Color="#ff00ff" Width="10%-10"/>
+                <UiRectangle Color="#808080" Width="10%-10"/>
+                <UiRectangle Color="#ffffff" Width="10%-10"/>
+              </UiStackPanel.Children>
+            </UiStackPanel>
+
+            <UiStackPanel Mode="Vertical" Spacing="10" Padding="5">
+              <UiStackPanel.Children>
+                <UiRectangle Color="#ff0000" Height="20%-10"/>
+                <UiRectangle Color="#00ff00" Height="20%-10"/>
+                <UiRectangle Color="#00ffff" Height="20%-10"/>
+                <UiRectangle Color="#0000ff" Height="20%-10"/>
+                <UiRectangle Color="#ff00ff" Height="20%-10"/>
+              </UiStackPanel.Children>
+            </UiStackPanel>
+
+            <UiStackPanel Mode="Horizontal" Spacing="10" Padding="5">
+              <UiStackPanel.Children>
+                <UiRectangle Color="#ff0000" Width="33.3%-10"/>
+                <UiRectangle Color="#00ff00" Width="33.3%-10"/>
+                <UiRectangle Color="#0000ff" Width="33.3%-10"/>
+              </UiStackPanel.Children>
+            </UiStackPanel>
+
+          </UiContentSlider.Children>
+
+        </UiContentSlider>
+
+        <UiIndexSelector Context="TestSlider" Spacing="25%" Width="@-350" Height="16" X="340" Y="@-16" Align="Left,Middle" ElementWidth="150%">
+          <UiButton.Drawables>
+            <button:NinePatchBackground ColorPushed="#40ffffff" ColorReleased="#80ffffff" Image="Ui/Button" ScaleByUnit="true" Scale="0.2"/>
+            <button:Text ColorPushed="#ffffff" ColorReleased="#ffffff" Font="TestFont" FontSize="12" TextAlign="Center,Middle"/>
+          </UiButton.Drawables>
+        </UiIndexSelector>
+
+        <UiButton Style="TransparentWhiteButton" Text="next" Y="@-16" X="@-10" Align="Right,Middle" Click="{Next()}"/>
+        <UiButton Style="TransparentWhiteButton" Text="prev" Y="@-16" X="340" Align="Left,Middle" Click="{Prev()}"/>
+
       </UiBorder.Children>
     </UiBorder>
+
+    <UiLabel Text="Copyright © SitanaTeam." Font="TestFont" FontSize="10" X="6" Y="@-14" TextAlign="Left,Middle" Align="Left,Middle"/>
+
+    <UiButton Text="https://github.com/SitanaTeam/Sitana" X="@-6" Y="@-14" Height="32" Width="200" Align="Right,Middle" Click="{OpenLink(sender)}">
+      <UiButton.Drawables>
+        <button:Text ColorPushed="#b0ffff" ColorReleased="#ffffff" Font="TestFont" FontSize="10" TextAlign="Right,Middle" Padding="0"/>
+      </UiButton.Drawables>
+    </UiButton>
     
-<!--<UiListBox Binding="{List}">
-        <UiListBox.ItemTemplate>
-            <UiLabel Text="{{Text}}" list:Width="100%" list:Height="Auto" Font="TestFont" FontSize="16" TextColor="0,0,0" TextAlign="Center"/>
-        </UiListBox.ItemTemplate>
-    </UiListBox>-->
-  </UiSplitterView.Children>
-</UiSplitterView>
+    
+  </UiBorder.Children>
+</UiBorder>

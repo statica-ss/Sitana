@@ -79,7 +79,7 @@ namespace Sitana.Framework.Ui.Views
 
                 case Align.StretchVert:
                     childRect.Y = 0;
-                    childRect.Width = Bounds.Height;
+                    childRect.Height = Bounds.Height;
                     break;
             }
 

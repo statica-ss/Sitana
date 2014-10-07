@@ -30,6 +30,8 @@ namespace Sitana.Framework.Ui.Core
 
         private Point _lastSize = Point.Zero;
 
+        public double TotalGameTime { get; private set; }
+
         public GraphicsDeviceManager Graphics
         {
             get
@@ -59,6 +61,8 @@ namespace Sitana.Framework.Ui.Core
             Graphics.SynchronizeWithVerticalRetrace = true;
 
             MusicController.Instance.Initialize();
+
+            TotalGameTime = 0;
         }
 
         protected override void Dispose(bool disposing)
@@ -106,6 +110,8 @@ namespace Sitana.Framework.Ui.Core
 
         protected override void Update(GameTime gameTime)
         {
+            TotalGameTime = gameTime.TotalGameTime.TotalSeconds;
+
             UiTask.Process();
 
             var newSize = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);

@@ -20,7 +20,7 @@ namespace TestGame
         
         public static void OnLoadContent(AppMain main)
         {
-            FontManager.Instance.AddFont("TestFont", "Fonts/Font", new int[]{8,10,12,14,16,20,24,28,32,38,44,50,58});
+            FontManager.Instance.AddSitanaFont("TestFont", "Fonts/Font", new int[]{8,10,12,14,16,20,24,28,32,38,44,50,58});
         }
         
         public void OpenLink(UiButton button)

@@ -24,7 +24,7 @@
     - [X] UiNavigationView
     - [X] UiPage
       - [X] Transition Effects
-    - [ ] UiScrollView
+    - [X] UiScrollView
     - [X] UiSplitterView
     - [ ] UiAccordion
   - [ ] Controls
@@ -32,7 +32,7 @@
     - [ ] UiCheckBox
     - [X] UiImage
     - [X] UiLabel
-    - [ ] UiListBox
+    - [X] UiListBox
     - [ ] UiRadioButton
     - [ ] UiTextBox
     - [X] UiRectangle

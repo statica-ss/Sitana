@@ -80,8 +80,7 @@ namespace Sitana.Framework.Ui.Views
                 source = new Rectangle(pos.X - srcWidth / 2, pos.Y - srcHeight / 2, srcWidth, srcHeight);
             }
 
-            parameters.DrawBatch.Texture = _image;
-            parameters.DrawBatch.DrawImage(target, source, _color.Value * opacity);
+            parameters.DrawBatch.DrawImage(_image, target, source, _color.Value * opacity);
         }
 
         protected override void Init(object controller, object binding, DefinitionFile definition)

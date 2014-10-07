@@ -31,9 +31,7 @@ namespace Sitana.Framework.Graphics
         Texture2D _texture = null;
         PrimitiveType _primitiveType = PrimitiveType.TriangleList;
 
-        Font _font = null;
-
-        NinePatchImage _ninePatchImage;
+        UniversalFont _font = null;
 
         Stack<Rectangle?> _scissors = new Stack<Rectangle?>();
 
@@ -41,7 +39,7 @@ namespace Sitana.Framework.Graphics
 
         Matrix _transform = Matrix.Identity;
 
-        public Matrix Transform
+        private Matrix Transform
         {
             get
             {
@@ -59,29 +57,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        public NinePatchImage NinePatchImage
-        {
-            get
-            {
-                return _ninePatchImage;
-            }
-
-            set
-            {
-                _ninePatchImage = value;
-
-                if (value != null)
-                {
-                    Texture = _ninePatchImage.Texture;
-                }
-                else
-                {
-                    Texture = null;
-                }
-            }
-        }
-
-        public Font Font
+        private UniversalFont Font
         {
             get
             {
@@ -97,12 +73,10 @@ namespace Sitana.Framework.Graphics
 
                 _font = value;
 
-                if (_font != null)
+                if (_font != null && _font.SitanaFont != null)
                 {
-                    Texture = _font.FontSheet;
+                    Texture = _font.SitanaFont.FontSheet;
                 }
-
-                
             }
         }
 
@@ -180,7 +154,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        public PrimitiveType PrimitiveType
+        private PrimitiveType PrimitiveType
         {
             get
             {
@@ -198,7 +172,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        public Texture2D Texture
+        private Texture2D Texture
         {
             get
             {
@@ -306,6 +280,12 @@ namespace Sitana.Framework.Graphics
                 _spriteBatch.End();
                 _spriteBatchStarted = false;
             }
+        }
+
+        public void BeginPrimitive(PrimitiveType type, Texture2D texture)
+        {
+            PrimitiveType = type;
+            Texture = texture;
         }
 
         void SpriteBatchIsNeeded()

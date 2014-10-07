@@ -17,5 +17,17 @@ namespace Sitana.Framework.Input.TouchPad
         public Vector2 Offset { internal set; get; }
 
         public bool Handled { get; set; }
+        
+        public IGestureListener PointerCapturedBy { get; internal set; }
+
+        public void CapturePointer(IGestureListener captureBy)
+        {
+            if (PointerCapturedBy != null)
+            {
+                throw new Exception("Pointer already captured by another listener.");
+            }
+
+            PointerCapturedBy = captureBy;
+        }
     }
 }

@@ -159,5 +159,10 @@ namespace Sitana.Framework.Cs
             
             return _stringBuilder.Equals(obj);
         }
+
+        public static implicit operator SharedString(string text)  // explicit byte to digit conversion operator
+        {
+            return new SharedString(text);
+        }
     }
 }

@@ -136,7 +136,19 @@ namespace Sitana.Framework.Ui.Views
 
         public string Id { get; set; }
 
-        public virtual Rectangle Bounds { get; set; }
+        public virtual Rectangle Bounds
+        {
+            get
+            {
+                return _bounds;
+            }
+
+            set
+            {
+                _bounds = value;
+                _enableGestureHandling = false;
+            }
+        }
 
         public Boolean Visible { get; set; }
 
@@ -163,6 +175,8 @@ namespace Sitana.Framework.Ui.Views
         protected Length _minWidth;
         protected Length _minHeight;
 
+        protected Rectangle _bounds = new Rectangle();
+
         public object Binding { get; private set; }
 
         private Rectangle _lastSize = Rectangle.Empty;
@@ -170,7 +184,31 @@ namespace Sitana.Framework.Ui.Views
         protected TransitionEffect _showTransitionEffect = null;
         protected TransitionEffect _hideTransitionEffect = null;
 
-        private bool _enableGestureHandling = false;
+        protected bool _enableGestureHandling = false;
+
+        public bool IsPointInsideView(Vector2 point)
+        {
+            bool ret = ScreenBounds.Contains(point);
+
+            if (ret && Parent != null)
+            {
+                return Parent.IsPointInsideView(point);
+            }
+
+            return ret;
+        }
+
+        public bool IsPointInsideView(Point point)
+        {
+            bool ret = ScreenBounds.Contains(point);
+
+            if (ret && Parent != null)
+            {
+                return Parent.IsPointInsideView(point);
+            }
+
+            return ret;
+        }
 
         public virtual UiContainer Parent
         {
@@ -324,7 +362,6 @@ namespace Sitana.Framework.Ui.Views
 
             if (backgroundColor.A > 0)
             {
-                parameters.DrawBatch.Texture = null;
                 parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
             }
         }
@@ -498,5 +535,13 @@ namespace Sitana.Framework.Ui.Views
         protected virtual void OnGesture(Gesture gesture)
         {
         }
+
+        public virtual void Move(Point offset)
+        {
+            Bounds = new Rectangle(Bounds.X + offset.X, Bounds.Y + offset.Y, Bounds.Width, Bounds.Height);
+            _enableGestureHandling = false;
+        }
+
+        
     }
 }

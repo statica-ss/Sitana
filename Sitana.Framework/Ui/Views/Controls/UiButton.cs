@@ -102,7 +102,7 @@ namespace Sitana.Framework.Ui.Views
             SetPushed(false);
             OnPushedChanged();
 
-            TouchPad.Instance.AddListener(GestureType.Down | GestureType.Up | GestureType.Move | GestureType.HorizontalDrag, this);
+            TouchPad.Instance.AddListener(GestureType.Down | GestureType.Up | GestureType.Move, this);
         }
 
         protected override void OnRemoved()
@@ -132,9 +132,18 @@ namespace Sitana.Framework.Ui.Views
 
             switch(gesture.GestureType)
             {
+                case GestureType.CapturedByOther:
+
+                    if (_touchId == gesture.TouchId)
+                    {
+                        _touchId = 0;
+                        SetPushed(false);
+                    }
+                    break;
+
                 case GestureType.Down:
 
-                    if (bounds.Contains(gesture.Origin))
+                    if (IsPointInsideView(gesture.Origin))
                     {
                         if ( _mode == UiButtonMode.Game)
                         {
@@ -170,7 +179,7 @@ namespace Sitana.Framework.Ui.Views
 
                     if (_mode == UiButtonMode.Game)
                     {
-                        if (bounds.Contains(gesture.Origin))
+                        if (IsPointInsideView(gesture.Position))
                         {
                             if (!_touches.ContainsKey(gesture.TouchId))
                             {
@@ -194,7 +203,6 @@ namespace Sitana.Framework.Ui.Views
                     if (_touchId == gesture.TouchId)
                     {
                         SetPushed(_checkRect.Contains(gesture.Position));
-                        //gesture.Handled = true;
                     }
                     break;
 
@@ -220,7 +228,6 @@ namespace Sitana.Framework.Ui.Views
 
                         _touchId = 0;
                         SetPushed(false);
-                        //gesture.Handled = true;
                     }
                     break;
             }
