@@ -39,8 +39,9 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _colorPushed = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorPushed"]);
         }
 
-        public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.State state, object argument)
+        public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.DrawButtonInfo info)
         {
+            UiButton.State state = info.ButtonState;
             drawBatch.DrawRectangle(target, ColorFromState(state) * opacity);
         }
 
@@ -48,7 +49,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         {
             Color color = Color.Transparent;
 
-            switch (state)
+            switch (state & UiButton.State.Mask)
             {
                 case UiButton.State.Disabled:
                     color = _colorDisabled.Value;
@@ -58,7 +59,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
                     color = _colorPushed.Value;
                     break;
 
-                case UiButton.State.Released:
+                case UiButton.State.None:
                     color = _colorReleased.Value;
                     break;
             }

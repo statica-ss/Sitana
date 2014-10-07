@@ -199,6 +199,33 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return GetValueFromMethodOrField<ColorWrapper>(controller, binding, definition);
         }
 
+        public static SharedValue<T> GetShared<T>(UiController controller, object binding, object definition, T defaultValue)
+        {
+            if (definition == null)
+            {
+                return new SharedValue<T>(defaultValue);
+            }
+
+            if (definition is T)
+            {
+                return new SharedValue<T>((T)definition);
+            }
+
+            object value = GetValueFromMethodOrField(controller, binding, definition);
+
+            if (value is T)
+            {
+                return new SharedValue<T>((T)value);
+            }
+
+            if (value is SharedValue<T>)
+            {
+                return (SharedValue<T>)value;
+            }
+
+            throw new Exception("Unable to get shared value for type.");
+        }
+
         public static T Get<T>(UiController controller, object binding, object definition, T defaultValue)
         {
             if (definition == null)

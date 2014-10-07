@@ -25,7 +25,7 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\Windows.Xna\x86\Release\</OutputPath>
+    <OutputPath>..\_Bin\Windows.Xna\</OutputPath>
     <DefineConstants>TRACE;WINDOWS;ELOGGING</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -73,6 +73,7 @@
     <Compile Include="Ui\Views\Containers\UiListBox.cs" />
     <Compile Include="Ui\Views\Containers\UiScrollView.cs" />
     <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonCheckMark.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
     <Compile Include="Ui\TransitionEffects\TransitionEffect.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Ui\TransitionEffects\Scale.cs" />
     <Compile Include="Ui\TransitionEffects\Swype.cs" />
     <Compile Include="Ui\TransitionEffects\Vanish.cs" />
+    <Compile Include="Ui\Views\Controls\UiCheckBox.cs" />
     <Compile Include="Ui\Views\Controls\UiImage.cs" />
     <Compile Include="Ui\Views\Controls\UiIndexSelector.cs" />
     <Compile Include="Ui\Views\Controls\UiRectangle.cs" />

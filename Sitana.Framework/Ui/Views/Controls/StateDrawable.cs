@@ -9,6 +9,6 @@ namespace Sitana.Framework.Ui.Views
 {
     public abstract class StateDrawable<T>
     {
-        public abstract void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, T state, object argument);
+        public abstract void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, T context);
     }
 }

@@ -59,14 +59,16 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _textAlign = DefinitionResolver.Get<TextAlign>(controller, binding, file["TextAlign"], TextAlign.Center | TextAlign.Middle);
         }
 
-        public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.State state, object argument)
+        public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.DrawButtonInfo info)
         {
-            SharedString str = (SharedString)argument;
+            SharedString str = info.Text;
 
             if (_fontFace == null)
             {
                 _fontFace = FontManager.Instance.FindFont(_font);
             }
+
+            UiButton.State state = info.ButtonState;
 
             float scale;
             UniversalFont font = _fontFace.Find(_fontSize, out scale);
@@ -83,7 +85,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         {
             Color color = Color.Transparent;
 
-            switch (state)
+            switch (state & UiButton.State.Mask)
             {
                 case UiButton.State.Disabled:
                     color = _colorDisabled.Value;
@@ -93,7 +95,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
                     color = _colorPushed.Value;
                     break;
 
-                case UiButton.State.Released:
+                case UiButton.State.None:
                     color = _colorReleased.Value;
                     break;
             }

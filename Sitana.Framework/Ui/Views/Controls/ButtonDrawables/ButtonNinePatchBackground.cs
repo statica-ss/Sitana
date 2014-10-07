@@ -47,13 +47,15 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _scale = (float)DefinitionResolver.Get<double>(controller, binding, file["Scale"], 1);
         }
 
-        public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.State state, object argument)
+        public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.DrawButtonInfo info)
         {
+            UiButton.State state = info.ButtonState;
+
             Color color = ColorFromState(state) * opacity;
 
             NinePatchImage image = _imageReleased;
 
-            switch (state)
+            switch (state & UiButton.State.Mask)
             {
                 case UiButton.State.Disabled:
                     if (_imageDisabled != null)

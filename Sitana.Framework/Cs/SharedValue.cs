@@ -15,6 +15,15 @@ namespace Sitana.Framework.Cs
 
         T _value = default(T);
 
+        public SharedValue(T value)
+        {
+            _value = value;
+        }
+
+        public SharedValue()
+        {
+        }
+
         public T Value
         {
             get

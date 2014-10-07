@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sitana.Framework.Ui.Views.ButtonDrawables
 {
-    public abstract class ButtonDrawable : StateDrawable<UiButton.State>
+    public abstract class ButtonDrawable : StateDrawable<UiButton.DrawButtonInfo>
     {
     }
 }

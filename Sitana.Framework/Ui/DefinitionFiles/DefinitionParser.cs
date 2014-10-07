@@ -156,7 +156,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return method;
             }
 
-            return name;
+            return name.Replace("\\n", "\n");
         }
 
         public object ParseColor(string id)
