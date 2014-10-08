@@ -17,6 +17,15 @@ namespace Sitana.Framework.Ui.Views
 {
     public class UiButton: UiView
     {
+        public struct DrawButtonInfo
+        {
+            public SharedString Text;
+            public State ButtonState;
+            public Rectangle Target;
+            public float Opacity;
+            public float EllapsedTime;
+        }
+
         public new static void Parse(XNode node, DefinitionFile file)
         {
             UiView.Parse(node, file);
@@ -37,11 +46,14 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        [Flags]
         public enum State
         {
-            Disabled,
-            Released,
-            Pushed
+            None,
+            Disabled = 0x2,
+            Pushed = 0x1,
+            Mask = 0xf,
+            Checked = 0x10
         }
 
         protected UiButtonMode ButtonMode
@@ -71,24 +83,24 @@ namespace Sitana.Framework.Ui.Views
 
         protected Rectangle _checkRect;
 
-        public string Text
+        public SharedString Text
         {
             get
             {
-                return _text.StringValue;
+                return _text;
             }
 
             set
             {
-                _text.StringValue = value;
+                _text = value;
             }
         }
 
-        public State ButtonState
+        public virtual State ButtonState
         {
             get
             {
-                return Enabled ? (IsPushed ? State.Pushed : State.Released) : State.Disabled;
+                return Enabled ? (IsPushed ? State.Pushed : State.None) : State.Disabled;
             }
         }
 
@@ -289,10 +301,18 @@ namespace Sitana.Framework.Ui.Views
 
             var batch = parameters.DrawBatch;
 
+            var drawInfo = new DrawButtonInfo();
+            drawInfo.Text = _text;
+            drawInfo.ButtonState = ButtonState;
+
+            drawInfo.Target = ScreenBounds;
+            drawInfo.Opacity = opacity;
+            drawInfo.EllapsedTime = parameters.EllapsedTime;
+
             for (int idx = 0; idx < _drawables.Count; ++idx)
             {
                 var drawable = _drawables[idx];
-                drawable.Draw(batch, ScreenBounds, opacity, ButtonState, _text);
+                drawable.Draw(batch, drawInfo);
             }
         }
 

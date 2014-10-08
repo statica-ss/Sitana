@@ -63,20 +63,27 @@ namespace Sitana.Framework.Ui.Views
 
             int count = _element.Count;
 
+            var drawInfo = new DrawButtonInfo();
+
+            drawInfo.Opacity = opacity;
+            drawInfo.EllapsedTime = parameters.EllapsedTime;
+
             for (int idx = 0; idx < count; ++idx)
             {
-                UiButton.State state = UiButton.State.Released;
-
                 _element.GetText(_text, idx);
 
+                drawInfo.ButtonState = State.None;
                 if (idx == selected || idx == _pushedIndex)
                 {
-                    state = UiButton.State.Pushed;
+                    drawInfo.ButtonState = UiButton.State.Pushed;
                 }
+
+                drawInfo.Text = _text;
+                drawInfo.Target = rect;
 
                 for (int di = 0; di < _drawables.Count; ++di)
                 {
-                    _drawables[di].Draw(parameters.DrawBatch, rect, opacity, state, _text);
+                    _drawables[di].Draw(parameters.DrawBatch, drawInfo);
                 }
 
                 if (_vertical)

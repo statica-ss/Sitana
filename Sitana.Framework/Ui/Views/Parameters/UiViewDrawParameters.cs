@@ -16,5 +16,7 @@ namespace Sitana.Framework.Ui.Views.Parameters
 
         public Rectangle TransitionRectangle;
         public bool TransitionModeHide;
+
+        public float EllapsedTime;
     }
 }

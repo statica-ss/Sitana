@@ -41,7 +41,12 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
         public string Value(string attribute)
         {
-            return _node.Attribute(attribute);
+            return _node.Attribute(attribute);   
+        }
+
+        public string ValueOrNull(string attribute)
+        {
+            return _node.HasAttribute(attribute) ? _node.Attribute(attribute) : null;
         }
 
         object ParseMethodOrField(string name)
@@ -148,6 +153,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
         public object ParseString(string name)
         {
+            if (!_node.HasAttribute(name))
+            {
+                return null;
+            }
+
             name = Value(name);
             object method = ParseMethodOrField(name);
 
@@ -156,7 +166,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return method;
             }
 
-            return name;
+            return name.Replace("\\n", "\n");
         }
 
         public object ParseColor(string id)

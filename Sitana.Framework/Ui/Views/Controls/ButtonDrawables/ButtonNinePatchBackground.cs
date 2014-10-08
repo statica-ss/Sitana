@@ -12,11 +12,11 @@ using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework.Ui.Views.ButtonDrawables
 {
-    public class NinePatchBackground : SolidBackground
+    public class NinePatchBackground : ButtonDrawable
     {
         public new static void Parse(XNode node, DefinitionFile file)
         {
-            SolidBackground.Parse(node, file);
+            ButtonDrawable.Parse(node, file);
 
             var parser = new DefinitionParser(node);
 
@@ -47,13 +47,17 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _scale = (float)DefinitionResolver.Get<double>(controller, binding, file["Scale"], 1);
         }
 
-        public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.State state, object argument)
+        public override void Draw(AdvancedDrawBatch drawBatch, UiButton.DrawButtonInfo info)
         {
-            Color color = ColorFromState(state) * opacity;
+            Update(info.EllapsedTime, info.ButtonState);
+
+            UiButton.State state = info.ButtonState;
+
+            Color color = ColorFromState * info.Opacity;
 
             NinePatchImage image = _imageReleased;
 
-            switch (state)
+            switch (state & UiButton.State.Mask)
             {
                 case UiButton.State.Disabled:
                     if (_imageDisabled != null)
@@ -72,9 +76,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             float scale = _scaleByUnit ? (float)UiUnit.Unit : 1;
 
-            drawBatch.DrawNinePatchRect(image, target, color, scale * _scale);
+            drawBatch.DrawNinePatchRect(image, info.Target, color, scale * _scale);
         }
-
-
     }
 }
