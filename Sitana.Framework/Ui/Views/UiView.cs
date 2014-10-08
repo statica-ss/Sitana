@@ -91,7 +91,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected static void ParseDrawables(XNode node, DefinitionFile file, Type drawableType)
+        public static void ParseDrawables(XNode node, DefinitionFile file, Type drawableType)
         {
             List<DefinitionFile> list = new List<DefinitionFile>();
 

@@ -80,11 +80,11 @@ namespace Sitana.Framework.Ui.Core
         protected override void Draw(GameTime gameTime)
         {
             Viewport viewport = GraphicsDevice.Viewport;
-            Draw();
+            Draw((float)gameTime.ElapsedGameTime.TotalSeconds);
             GraphicsDevice.Viewport = viewport;
         }
 
-        public bool Draw()
+        public bool Draw(float ellapsedTime)
         {
             if (_drawBatch == null)
             {
@@ -95,7 +95,8 @@ namespace Sitana.Framework.Ui.Core
             {
                 DrawBatch = _drawBatch,
                 Opacity = 1,
-                Transition = 0
+                Transition = 0,
+                EllapsedTime = ellapsedTime
             };
 
             

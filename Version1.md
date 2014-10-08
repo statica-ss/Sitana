@@ -30,7 +30,7 @@
     - [ ] UiRadioGroup
   - [ ] Controls
     - [X] UiButton
-    - [ ] UiCheckBox
+    - [X] UiCheckBox
     - [X] UiImage
     - [X] UiLabel
     - [X] UiListBox

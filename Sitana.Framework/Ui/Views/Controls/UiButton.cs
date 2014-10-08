@@ -21,6 +21,9 @@ namespace Sitana.Framework.Ui.Views
         {
             public SharedString Text;
             public State ButtonState;
+            public Rectangle Target;
+            public float Opacity;
+            public float EllapsedTime;
         }
 
         public new static void Parse(XNode node, DefinitionFile file)
@@ -302,10 +305,14 @@ namespace Sitana.Framework.Ui.Views
             drawInfo.Text = _text;
             drawInfo.ButtonState = ButtonState;
 
+            drawInfo.Target = ScreenBounds;
+            drawInfo.Opacity = opacity;
+            drawInfo.EllapsedTime = parameters.EllapsedTime;
+
             for (int idx = 0; idx < _drawables.Count; ++idx)
             {
                 var drawable = _drawables[idx];
-                drawable.Draw(batch, ScreenBounds, opacity, drawInfo);
+                drawable.Draw(batch, drawInfo);
             }
         }
 

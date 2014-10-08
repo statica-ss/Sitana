@@ -12,11 +12,11 @@ using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework.Ui.Views.ButtonDrawables
 {
-    public class CheckMark : SolidBackground
+    public class CheckMark : ButtonDrawable
     {
-        public static void Parse(XNode node, DefinitionFile file)
+        public new static void Parse(XNode node, DefinitionFile file)
         {
-            SolidBackground.Parse(node, file);
+            ButtonDrawable.Parse(node, file);
 
             var parser = new DefinitionParser(node);
 
@@ -40,11 +40,13 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _scale = (float)DefinitionResolver.Get<double>(controller, binding, file["Scale"], 1);
         }
 
-        public override void Draw(AdvancedDrawBatch drawBatch, Rectangle target, float opacity, UiButton.DrawButtonInfo info)
+        public override void Draw(AdvancedDrawBatch drawBatch, UiButton.DrawButtonInfo info)
         {
+            Update(info.EllapsedTime, info.ButtonState);
+
             UiButton.State state = info.ButtonState;
 
-            Color color = ColorFromState(state) * opacity;
+            Color color = ColorFromState * info.Opacity;
 
             Texture2D image = _imageUnchecked;
 
@@ -61,6 +63,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
                 int width = (int)(scale * image.Width);
                 int height = (int)(scale * image.Height);
+
+                Rectangle target = info.Target;
 
                 target.X = target.Center.X - width / 2;
                 target.Y = target.Center.Y - height / 2;

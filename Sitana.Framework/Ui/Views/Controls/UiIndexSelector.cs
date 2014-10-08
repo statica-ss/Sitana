@@ -65,6 +65,9 @@ namespace Sitana.Framework.Ui.Views
 
             var drawInfo = new DrawButtonInfo();
 
+            drawInfo.Opacity = opacity;
+            drawInfo.EllapsedTime = parameters.EllapsedTime;
+
             for (int idx = 0; idx < count; ++idx)
             {
                 _element.GetText(_text, idx);
@@ -76,10 +79,11 @@ namespace Sitana.Framework.Ui.Views
                 }
 
                 drawInfo.Text = _text;
+                drawInfo.Target = rect;
 
                 for (int di = 0; di < _drawables.Count; ++di)
                 {
-                    _drawables[di].Draw(parameters.DrawBatch, rect, opacity, drawInfo);
+                    _drawables[di].Draw(parameters.DrawBatch, drawInfo);
                 }
 
                 if (_vertical)
