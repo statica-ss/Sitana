@@ -11,6 +11,10 @@ namespace Sitana.Framework.Cs
 {
     public class SharedValue<T>
     {
+        public delegate void ValueChangedDelegate(T newValue);
+
+        public event ValueChangedDelegate ValueChanged;
+
         object _sharedLock = new object();
 
         T _value = default(T);
@@ -39,6 +43,11 @@ namespace Sitana.Framework.Cs
                 lock(_sharedLock)
                 {
                     _value = value;
+                }
+
+                if (ValueChanged != null)
+                {
+                    ValueChanged(value);
                 }
             }
         }

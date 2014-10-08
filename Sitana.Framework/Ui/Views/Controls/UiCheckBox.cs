@@ -16,7 +16,6 @@ namespace Sitana.Framework.Ui.Views
             UiButton.Parse(node, file);
 
             var parser = new DefinitionParser(node);
-
             file["Checked"] = parser.ParseBoolean("Checked");
         }
 

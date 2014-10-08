@@ -25,7 +25,7 @@ namespace Sitana.Framework.Ui.Views
             var parser = new DefinitionParser(node);
 
             file["Text"] = parser.ParseString("Text");
-            file["Font"] = parser.Value("Font");
+            file["Font"] = parser.ValueOrNull("Font");
             file["FontSize"] = parser.ParseInt("FontSize");
 
             file["TextColor"] = parser.ParseColor("TextColor");
