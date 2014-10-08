@@ -57,7 +57,7 @@ namespace TestApp
 
         public void OpenLink(UiButton button)
         {
-            SystemWrapper.OpenWebsite(button.Text);
+            SystemWrapper.OpenWebsite(button.Text.StringValue);
         }
 
         public static void OnLoadContent(AppMain main)
