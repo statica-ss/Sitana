@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphics\Textures\MappedTexture2D.cs" />
+    <Compile Include="Graphics\Textures\PartialTexture2D.cs" />
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
     <Compile Include="Ui\Binding\ItemsList.cs" />
