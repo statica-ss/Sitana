@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Framework.Windows.Xna", "..\Sitana.Framework\Sitana.Framework.Windows.Xna.csproj", "{68D03401-FD88-48C5-9821-0C3A07F89C34}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Extensions.WinForms.Xna", "..\Sitana.Extensions\WinForms\Sitana.Extensions.WinForms.Xna.csproj", "{306B0FFC-00CC-4DA3-BCB1-EA536AB0FD43}"
@@ -16,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Framework.Games.Windows.Xna", "..\Sitana.Framework.Games\Sitana.Framework.Games.Windows.Xna.csproj", "{34C29D3D-33C1-4D10-8AE3-D54FAF6540B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontGenerator", "FontGenerator\FontGenerator.csproj", "{A6D66130-A920-475C-9726-C60AF700F3CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BatchTool", "BatchTool\BatchTool.csproj", "{0231D86D-9841-466B-BAD0-70DAA8B17092}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +97,16 @@ Global
 		{A6D66130-A920-475C-9726-C60AF700F3CE}.Release|Mixed Platforms.Build.0 = Release|x86
 		{A6D66130-A920-475C-9726-C60AF700F3CE}.Release|x86.ActiveCfg = Release|x86
 		{A6D66130-A920-475C-9726-C60AF700F3CE}.Release|x86.Build.0 = Release|x86
+		{0231D86D-9841-466B-BAD0-70DAA8B17092}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0231D86D-9841-466B-BAD0-70DAA8B17092}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{0231D86D-9841-466B-BAD0-70DAA8B17092}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{0231D86D-9841-466B-BAD0-70DAA8B17092}.Debug|x86.ActiveCfg = Debug|x86
+		{0231D86D-9841-466B-BAD0-70DAA8B17092}.Debug|x86.Build.0 = Debug|x86
+		{0231D86D-9841-466B-BAD0-70DAA8B17092}.Release|Any CPU.ActiveCfg = Release|x86
+		{0231D86D-9841-466B-BAD0-70DAA8B17092}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{0231D86D-9841-466B-BAD0-70DAA8B17092}.Release|Mixed Platforms.Build.0 = Release|x86
+		{0231D86D-9841-466B-BAD0-70DAA8B17092}.Release|x86.ActiveCfg = Release|x86
+		{0231D86D-9841-466B-BAD0-70DAA8B17092}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

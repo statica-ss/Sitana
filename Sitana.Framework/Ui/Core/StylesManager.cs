@@ -53,7 +53,7 @@ namespace Sitana.Framework.Ui.Core
 
         public void LoadStyles(string filename, bool overwrite)
         {
-            XFile file = new XFile(filename);
+            XFile file = XFile.FromPath(filename);
             DefinitionFile def = DefinitionFile.LoadFile(file);
 
             if ( def.Class != typeof(StylesContainer))
