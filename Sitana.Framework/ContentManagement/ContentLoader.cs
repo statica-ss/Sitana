@@ -17,7 +17,12 @@ using System;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Graphics;
+
+#if SHARP_ZIP_LIB
 using ICSharpCode.SharpZipLib.Zip;
+#else
+using Sitana.Framework.DummyZipLib;
+#endif
 
 namespace Sitana.Framework.Content
 {
@@ -106,9 +111,9 @@ namespace Sitana.Framework.Content
             ZipFile zipFile = new ZipFile(zipPath);
             zipFile.Password = password;
 
-            ContentManager manager = new ZipContentManager(serviceProvider, zipFile);
+            //ContentManager manager = new ZipContentManager(serviceProvider, zipFile);
 
-            Current = new ContentLoader(manager, zipFile);
+            //Current = new ContentLoader(manager, zipFile);
 
             RegisterTypes();
         }
