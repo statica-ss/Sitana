@@ -17,6 +17,7 @@ using System;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Graphics;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace Sitana.Framework.Content
 {
@@ -90,10 +91,30 @@ namespace Sitana.Framework.Content
 
         private StringBuilder _pathBuilder = new StringBuilder();
 
-        public static void Init(ContentManager manager, string root)
-        {
-            Current = new ContentLoader(manager, root);
+        private ZipFile _zipFile = null;
 
+        public static void Init(IServiceProvider serviceProvider, string root)
+        {
+            ContentManager manager = new ContentManager(serviceProvider, root);
+            Current = new ContentLoader(manager);
+
+            RegisterTypes();
+        }
+
+        public static void Init(IServiceProvider serviceProvider, string zipPath, string password)
+        {
+            ZipFile zipFile = new ZipFile(zipPath);
+            zipFile.Password = password;
+
+            ContentManager manager = new ZipContentManager(serviceProvider, zipFile);
+
+            Current = new ContentLoader(manager, zipFile);
+
+            RegisterTypes();
+        }
+
+        private static void RegisterTypes()
+        {
             Sprite.Register();
             NinePatchImage.Register();
             ModelXLoader.Register();
@@ -114,10 +135,20 @@ namespace Sitana.Framework.Content
         /// </summary>
         /// <param name="services">Services container from Game class - allows creating ContentManagers</param>
         /// <param name="contentPaths">Paths for each content manager</param>
-        private ContentLoader(ContentManager manager, string root)
+        private ContentLoader(ContentManager manager)
         {
             _contentManager = manager;
-            _contentManager.RootDirectory = root;
+        }
+
+        /// <summary>
+        /// Initializes ContentLoader
+        /// </summary>
+        /// <param name="services">Services container from Game class - allows creating ContentManagers</param>
+        /// <param name="contentPaths">Paths for each content manager</param>
+        private ContentLoader(ContentManager manager, ZipFile zipFile)
+        {
+            _contentManager = manager;
+            _zipFile = zipFile;
         }
 
         private String ContentName(Type type, String name)
@@ -266,7 +297,12 @@ namespace Sitana.Framework.Content
 
         public string AbsolutePath(string path)
         {
-            return Path.GetFullPath(Path.Combine(_contentManager.RootDirectory, FullPath(path)));
+            if (_zipFile == null)
+            {
+                return Path.GetFullPath(Path.Combine(_contentManager.RootDirectory, FullPath(path)));
+            }
+
+            return path;
         }
 
         /// <summary>
@@ -278,6 +314,15 @@ namespace Sitana.Framework.Content
         {
             // Convert path from backslashes to slashes format
             name = FullPath(name);
+
+            if (_zipFile != null)
+            {
+                var entry = _zipFile.GetEntry(name.Replace('\\', '/'));
+                if (entry != null)
+                {
+                    return _zipFile.GetInputStream(entry);
+                }
+            }
 
             try
             {
