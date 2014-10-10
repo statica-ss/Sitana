@@ -17,7 +17,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Windows.Xna\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWS;ELOGGING</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS;ELOGGING;SHARP_ZIP_LIB</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -26,13 +26,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\_Bin\Windows.Xna\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;ELOGGING</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS;ELOGGING;SHARP_ZIP_LIB</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\ThirdParty\Dependences\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.GamerServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
@@ -51,6 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentManagement\ZipContentManager.cs" />
+    <Compile Include="ContentManagement\ZipFile.cs" />
+    <Compile Include="Graphics\Textures\PartialTexture2D.cs" />
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
     <Compile Include="Ui\Binding\ItemsList.cs" />
@@ -103,7 +109,6 @@
     <Compile Include="Input\TouchPad\GestureType.cs" />
     <Compile Include="Xml\XNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ContentGenerators\LoadSpriteAtlas.cs" />
     <Compile Include="ContentManagement\ContentLoader.cs" />
     <Compile Include="ContentManagement\LoadResourceInfo.cs" />
     <Compile Include="Graphics\Sprites\SpritePresenter.cs" />

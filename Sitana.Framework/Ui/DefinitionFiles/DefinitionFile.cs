@@ -33,7 +33,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
         /// <returns></returns>
         public static Object Load(String path)
         {
-            XNode node = new XFile(path);
+            XNode node = XFile.FromPath(path);
             return DefinitionFile.LoadFile(node);
         }
 

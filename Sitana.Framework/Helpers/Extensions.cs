@@ -63,14 +63,19 @@ namespace Sitana.Framework
 
         public static String Merge(this String[] lines, String separator)
         {
+            return lines.Merge(separator, 0, lines.Length);
+        }
+
+        public static String Merge(this String[] lines, String separator, int start, int count)
+        {
             if (lines.Length == 0)
             {
                 return String.Empty;
             }
 
-            String output = lines[0];
+            String output = lines[start];
 
-            for (Int32 idx = 1; idx < lines.Length; ++idx)
+            for (Int32 idx = start + 1; idx < start + count; ++idx)
             {
                 output += separator;
                 output += lines[idx];

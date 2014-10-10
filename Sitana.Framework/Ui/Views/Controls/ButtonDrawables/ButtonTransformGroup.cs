@@ -12,7 +12,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 {
     public class TransformGroup : ButtonDrawable
     {
-        public static void Parse(XNode node, DefinitionFile file)
+        public new static void Parse(XNode node, DefinitionFile file)
         {
             ButtonDrawable.Parse(node, file);
 

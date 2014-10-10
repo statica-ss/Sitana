@@ -30,9 +30,9 @@ namespace Sitana.Framework.Xml
         /// <param name="name">name of resource</param>
         /// <param name="contentLoader">content loader to load additional resources and files</param>
         /// <returns></returns>
-        public static Object Load(String name)
+        public static Object Load(string name)
         {
-            return new XFile(name);
+            return FromPath(name);
         }
 
         /// <summary>
@@ -40,23 +40,39 @@ namespace Sitana.Framework.Xml
         /// </summary>
         /// <param name="path">Path of font file.</param>
         /// <param name="contentLoader">Content loader used to load assets.</param>
-        internal XFile(String path)
+        private XFile(string name)
         {
-            Name = ContentLoader.Current.AbsolutePath(path + ".xml");
+            Name = name;
+        }
+
+        public static XFile FromPath(string name)
+        {
+            name = ContentLoader.Current.AbsolutePath(name + ".xml");
 
             try
             {
                 // Open font definition file and load info.
-                using (Stream stream = ContentLoader.Current.Open(path + ".xml"))
+                using (Stream stream = ContentLoader.Current.Open(name))
                 {
-                    XmlReader reader = XmlReader.Create(stream);
-                    _node = XNode.ReadXml(reader, this);
+                    return FromStream(stream, name);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw new Exception(String.Format("{0}: error: The XML file has invalid elements.", Name), ex);
+                throw new Exception(String.Format("{0}: error: The XML file has invalid elements.", name), ex);
             }
+        }
+
+        public static XFile FromStream(Stream stream, string name)
+        {
+            XmlReader reader = XmlReader.Create(stream);
+
+            var xfile = new XFile(name);
+            var node = XNode.ReadXml(reader, xfile);
+
+            xfile._node = node;
+
+            return xfile;
         }
 
         public static implicit operator XNode(XFile file)
