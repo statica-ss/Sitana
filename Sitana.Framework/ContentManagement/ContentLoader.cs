@@ -300,16 +300,6 @@ namespace Sitana.Framework.Content
             throw new FileNotFoundException("Couldn't find file: " + name);
         }
 
-        public string AbsolutePath(string path)
-        {
-            if (_zipFile == null)
-            {
-                return Path.GetFullPath(Path.Combine(_contentManager.RootDirectory, FullPath(path)));
-            }
-
-            return path;
-        }
-
         /// <summary>
         /// Opens stream for given file path
         /// </summary>

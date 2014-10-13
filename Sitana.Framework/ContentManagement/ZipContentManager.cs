@@ -1,6 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Content;
+
+#if SHARP_ZIP_LIB
 using ICSharpCode.SharpZipLib.Zip;
+#else
+using Sitana.Framework.DummyZipLib;
+#endif
 
 namespace Sitana.Framework.Content
 {

@@ -47,7 +47,7 @@ namespace Sitana.Framework.Xml
 
         public static XFile FromPath(string name)
         {
-            name = ContentLoader.Current.AbsolutePath(name + ".xml");
+            name = name + ".xml";
 
             try
             {

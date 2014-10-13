@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Sitana.Framework.DummyZipLib
 {
-    class ZipFile
+    public class ZipFile
     {
         public String Password{set{}}
 
