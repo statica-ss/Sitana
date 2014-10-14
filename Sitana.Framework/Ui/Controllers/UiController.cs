@@ -56,5 +56,14 @@ namespace Sitana.Framework.Ui.Controllers
                 _views.Remove(id);
             }
         }
+
+        internal void UpdateInternal(float time)
+        {
+            Update(time);
+        }
+
+        protected virtual void Update(float time)
+        {
+        }
     }
 }

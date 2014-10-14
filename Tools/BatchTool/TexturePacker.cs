@@ -11,13 +11,20 @@ namespace BatchTool
 {
     class TexturePacker
     {
+        enum CropType
+        {
+            None = 0,
+            Width = 1,
+            Height = 2
+        }
+
         public static void Pack(XNode node)
         {
             Console.WriteLine("\nTexturePacker v.1.0.0");
 
             int maxWidth;
             int margin;
-            bool crop;
+            CropType crop;
 
             if (!int.TryParse(node.Attribute("MaxWidth"), out maxWidth))
             {
@@ -29,9 +36,9 @@ namespace BatchTool
                 margin = 4;
             }
 
-            if (!bool.TryParse(node.Attribute("Crop"), out crop))
+            if (!Enum.TryParse<CropType>(node.Attribute("Crop"), out crop))
             {
-                crop = false;
+                crop = CropType.None;
             }
 
             string input = node.Attribute("Input");
@@ -68,9 +75,9 @@ namespace BatchTool
                     id = textureId.Replace("*", id.Substring(input.Length)).Replace('\\', '/').Replace("//", "/");
                     Bitmap image = (Bitmap)Bitmap.FromFile(file);
 
-                    if (crop)
+                    if (crop != CropType.None)
                     {
-                        image = Crop(image);
+                        image = Crop(image, crop);
                     }
 
                     Console.WriteLine("File: {0} = {1} x {2} -> {3}", file, image.Width, image.Height, id);
@@ -80,8 +87,8 @@ namespace BatchTool
 
                 images.Sort((i1, i2) => i1.Item2.Height - i2.Item2.Height);
 
-                int posX = 0;
-                int posY = 0;
+                int posX = margin;
+                int posY = margin;
 
                 foreach (var img in images)
                 {
@@ -143,23 +150,23 @@ namespace BatchTool
             }
         }
 
-        static Bitmap Crop(Bitmap bmp)
+        static Bitmap Crop(Bitmap bmp, CropType crop)
         {
             int w = bmp.Width;
             int h = bmp.Height;
 
-            Func<int, bool> allWhiteRow = row =>
+            Func<int, bool> allTransparentRow = row =>
             {
                 for (int i = 0; i < w; ++i)
-                    if (bmp.GetPixel(i, row).R != 255)
+                    if (bmp.GetPixel(i, row).A != 0)
                         return false;
                 return true;
             };
 
-            Func<int, bool> allWhiteColumn = col =>
+            Func<int, bool> allTransparentColumn = col =>
             {
                 for (int i = 0; i < h; ++i)
-                    if (bmp.GetPixel(col, i).R != 255)
+                    if (bmp.GetPixel(col, i).A != 0)
                         return false;
                 return true;
             };
@@ -167,7 +174,7 @@ namespace BatchTool
             int topmost = 0;
             for (int row = 0; row < h; ++row)
             {
-                if (allWhiteRow(row))
+                if (allTransparentRow(row))
                     topmost = row;
                 else break;
             }
@@ -175,7 +182,7 @@ namespace BatchTool
             int bottommost = 0;
             for (int row = h - 1; row >= 0; --row)
             {
-                if (allWhiteRow(row))
+                if (allTransparentRow(row))
                     bottommost = row;
                 else break;
             }
@@ -183,7 +190,7 @@ namespace BatchTool
             int leftmost = 0, rightmost = 0;
             for (int col = 0; col < w; ++col)
             {
-                if (allWhiteColumn(col))
+                if (allTransparentColumn(col))
                     leftmost = col;
                 else
                     break;
@@ -191,30 +198,30 @@ namespace BatchTool
 
             for (int col = w - 1; col >= 0; --col)
             {
-                if (allWhiteColumn(col))
+                if (allTransparentColumn(col))
                     rightmost = col;
                 else
                     break;
             }
 
-            rightmost = Math.Min(rightmost + 1, w);
-            leftmost = Math.Max(0, leftmost);
-            topmost = Math.Max(0, topmost);
-            bottommost = Math.Min(bottommost + 1, h);
-
             if (rightmost == 0) rightmost = w; // As reached left
             if (bottommost == 0) bottommost = h; // As reached top.
+
+            rightmost = Math.Min(rightmost + 1, w);
+            leftmost = Math.Max(0, leftmost-1);
+            topmost = Math.Max(0, topmost-1);
+            bottommost = Math.Min(bottommost + 1, h);
 
             int croppedWidth = rightmost - leftmost;
             int croppedHeight = bottommost - topmost;
 
-            if (croppedWidth == 0) // No border on left or right
+            if (!crop.HasFlag(CropType.Width) || croppedWidth == 0) // No border on left or right
             {
                 leftmost = 0;
                 croppedWidth = w;
             }
 
-            if (croppedHeight == 0) // No border on top or bottom
+            if (!crop.HasFlag(CropType.Height) || croppedHeight == 0) // No border on top or bottom
             {
                 topmost = 0;
                 croppedHeight = h;
@@ -225,7 +232,7 @@ namespace BatchTool
                 var target = new Bitmap(croppedWidth, croppedHeight);
                 using (Graphics g = Graphics.FromImage(target))
                 {
-                    g.Clear(Color.Aqua);
+                    g.Clear(Color.Transparent);
                     g.DrawImage(bmp,
                       new RectangleF(0, 0, croppedWidth, croppedHeight),
                       new RectangleF(leftmost, topmost, croppedWidth, croppedHeight),

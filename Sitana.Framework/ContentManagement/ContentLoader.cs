@@ -111,9 +111,9 @@ namespace Sitana.Framework.Content
             ZipFile zipFile = new ZipFile(zipPath);
             zipFile.Password = password;
 
-            //ContentManager manager = new ZipContentManager(serviceProvider, zipFile);
+            ContentManager manager = new ZipContentManager(serviceProvider, zipFile);
 
-            //Current = new ContentLoader(manager, zipFile);
+            Current = new ContentLoader(manager, zipFile);
 
             RegisterTypes();
         }
