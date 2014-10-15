@@ -21,7 +21,7 @@ namespace Sitana.Framework.Ui.Views
             DefinitionParser parser = new DefinitionParser(node);
 
             file["SelectedIndex"] = parser.ParseInt("SelectedIndex");
-            file["TransitionSpeed"] = parser.ParseFloat("TransitionSpeed");
+            file["TransitionTime"] = parser.ParseFloat("TransitionTime");
             file["Cycle"] = parser.ParseBoolean("Cycle");
 
             foreach (var cn in node.Nodes)
@@ -138,6 +138,8 @@ namespace Sitana.Framework.Ui.Views
                     {
                         float opacity2;
                         Matrix transform;
+
+                        drawParams.Transition = transition;
 
                         transitionEffect.Get(transition, ScreenBounds, view.ScreenBounds, out transform, out opacity2);
 
@@ -352,7 +354,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        int IIndexedElement.SelectedIndex
+        public int SelectedIndex
         {
             get
             {

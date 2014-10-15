@@ -243,19 +243,20 @@ namespace Sitana.Framework.Diagnostics
 
             Color normalColor = Color.White * 0.75f;
             Color errorColor = Color.Red;
+            Color backgroundColor = Color.Black * 0.25f;
 
             int offset = Math.Max(1, _height / 10);
 
             _display.Reset(new Point(offset, offset));
 
             batch.BeginPrimitive(PrimitiveType.TriangleList, null);
-            batch.PushVertex(new Vector2(0, 0), Color.Black);
-            batch.PushVertex(new Vector2(0, _height + offset * 2), Color.Black);
-            batch.PushVertex(new Vector2(6000, 0), Color.Black);
+            batch.PushVertex(new Vector2(0, 0), backgroundColor);
+            batch.PushVertex(new Vector2(0, _height + offset * 2), backgroundColor);
+            batch.PushVertex(new Vector2(6000, 0), backgroundColor);
 
-            batch.PushVertex(new Vector2(0, _height + offset * 2), Color.Black);
-            batch.PushVertex(new Vector2(6000, 0), Color.Black);
-            batch.PushVertex(new Vector2(6000, _height + offset * 2), Color.Black);
+            batch.PushVertex(new Vector2(0, _height + offset * 2), backgroundColor);
+            batch.PushVertex(new Vector2(6000, 0), backgroundColor);
+            batch.PushVertex(new Vector2(6000, _height + offset * 2), backgroundColor);
 
             int lastMaxFrameFill = (int)(100 * _maxFrame / (_targetFrameTime)) - 100;
             Color color;
