@@ -124,6 +124,8 @@ namespace Sitana.Framework.Diagnostics
 
         private int _height;
 
+        
+
     #if !IOS && !MACOSX && !ANDROID
         internal static Stopwatch StopWatch = new Stopwatch();
     #endif
@@ -148,6 +150,8 @@ namespace Sitana.Framework.Diagnostics
             int size = height / 2;
 
             _display = new SevenSegmentDisplay(size, out _height);
+
+            _height = _height + Math.Max(2, _height / 5);
 
             Enabled = true;
 
@@ -241,9 +245,9 @@ namespace Sitana.Framework.Diagnostics
                 return;
             }
 
-            Color normalColor = Color.White * 0.75f;
+            Color normalColor = Color.LightBlue;
             Color errorColor = Color.Red;
-            Color backgroundColor = Color.Black * 0.25f;
+            Color backgroundColor = Color.Black;
 
             int offset = Math.Max(1, _height / 10);
 
@@ -251,12 +255,12 @@ namespace Sitana.Framework.Diagnostics
 
             batch.BeginPrimitive(PrimitiveType.TriangleList, null);
             batch.PushVertex(new Vector2(0, 0), backgroundColor);
-            batch.PushVertex(new Vector2(0, _height + offset * 2), backgroundColor);
+            batch.PushVertex(new Vector2(0, _height), backgroundColor);
             batch.PushVertex(new Vector2(6000, 0), backgroundColor);
 
-            batch.PushVertex(new Vector2(0, _height + offset * 2), backgroundColor);
+            batch.PushVertex(new Vector2(0, _height), backgroundColor);
             batch.PushVertex(new Vector2(6000, 0), backgroundColor);
-            batch.PushVertex(new Vector2(6000, _height + offset * 2), backgroundColor);
+            batch.PushVertex(new Vector2(6000, _height), backgroundColor);
 
             int lastMaxFrameFill = (int)(100 * _maxFrame / (_targetFrameTime)) - 100;
             Color color;
@@ -299,6 +303,15 @@ namespace Sitana.Framework.Diagnostics
 
                 color = (lastUpdatePercent > counter.MaxFill) ? errorColor : normalColor;
                 _display.Draw(batch, _stringBuilder, color);
+            }
+        }
+
+        public void ComputeContentRect(ref Rectangle rect)
+        {
+            if (Enabled)
+            {
+                rect.Y += _height;
+                rect.Height -= _height;
             }
         }
     }

@@ -68,7 +68,7 @@ namespace Sitana.Framework.Diagnostics
 
             batch.BeginPrimitive(Microsoft.Xna.Framework.Graphics.PrimitiveType.TriangleList, null);
 
-            Color offColor = color * 0.2f;
+            Color offColor = color * 0.15f;
 
             // a
             c = (code & 0x01) != 0 ? color : offColor;

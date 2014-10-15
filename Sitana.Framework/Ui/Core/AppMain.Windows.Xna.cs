@@ -21,6 +21,7 @@ using Sitana.Framework.Ui.Views;
 using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework;
 using System.Windows.Forms;
+using Sitana.Framework.Diagnostics;
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -51,7 +52,10 @@ namespace Sitana.Framework.Ui.Core
                 int newWidth = Math.Max(width, MainView.MinSize.X);
                 int newHeight = Math.Max(height, MainView.MinSize.Y);
 
-                MainView.Bounds = new Rectangle(0, 0, width, height);
+                var rect = new Rectangle(0, 0, width, height);
+                PerformanceProfiler.Instance.ComputeContentRect(ref rect);
+
+                MainView.Bounds = rect;
 
                 if (Window.AllowUserResizing)
                 {
