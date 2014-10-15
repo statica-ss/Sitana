@@ -58,8 +58,6 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
                 _fontFace = FontManager.Instance.FindFont(_font);
             }
 
-            UiButton.State state = info.ButtonState;
-
             float scale;
             UniversalFont font = _fontFace.Find(_fontSize, out scale);
 

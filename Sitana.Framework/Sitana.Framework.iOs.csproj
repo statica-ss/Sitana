@@ -76,6 +76,7 @@
     <Folder Include="Graphics\Images\" />
     <Folder Include="Ui\Definitions\" />
     <Folder Include="GamerApi\" />
+    <Folder Include="Diagnostics\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
@@ -234,5 +235,7 @@
     <Compile Include="Graphics\AdvancedDrawBatch.Helpers.cs" />
     <Compile Include="Ui\Core\AppMain.Mobile.cs" />
     <Compile Include="Media\MusicController.iOs.cs" />
+    <Compile Include="Diagnostics\PerformanceProfiler.cs" />
+    <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
   </ItemGroup>
 </Project>

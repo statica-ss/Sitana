@@ -16,7 +16,6 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         {
             Update(info.EllapsedTime, info.ButtonState);
 
-            UiButton.State state = info.ButtonState;
             drawBatch.DrawRectangle(info.Target, ColorFromState * info.Opacity);
         }
     }
