@@ -13,21 +13,33 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Fonts/TestFont8.spritefont
+#begin Fonts/Font20.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
-/build:Fonts/TestFont8.spritefont
+/build:Fonts/Font20.spritefont
 
-#begin Fonts/TestFont12.spritefont
+#begin Fonts/Font24.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
-/build:Fonts/TestFont12.spritefont
+/build:Fonts/Font24.spritefont
 
-#begin Fonts/TestFont16.spritefont
+#begin Fonts/Font8.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
-/build:Fonts/TestFont16.spritefont
+/build:Fonts/Font8.spritefont
+
+#begin Fonts/Font12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Font12.spritefont
+
+#begin Fonts/Font16.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Font16.spritefont
 

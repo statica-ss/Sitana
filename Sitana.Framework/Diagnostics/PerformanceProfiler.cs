@@ -123,7 +123,7 @@ namespace Sitana.Framework.Diagnostics
         private SevenSegmentDisplay _display;
 
         private int _height;
-
+        private int _right;
         
 
     #if !IOS && !MACOSX && !ANDROID
@@ -253,6 +253,14 @@ namespace Sitana.Framework.Diagnostics
 
             _display.Reset(new Point(offset, offset));
 
+            if (_right > 0)
+            {
+                Matrix matrix;
+
+                matrix = Matrix.CreateRotationZ(MathHelper.PiOver2) * Matrix.CreateTranslation(new Vector3(_right, 0, 0));
+                batch.PushTransform(matrix);
+            }
+
             batch.BeginPrimitive(PrimitiveType.TriangleList, null);
             batch.PushVertex(new Vector2(0, 0), backgroundColor);
             batch.PushVertex(new Vector2(0, _height), backgroundColor);
@@ -304,14 +312,28 @@ namespace Sitana.Framework.Diagnostics
                 color = (lastUpdatePercent > counter.MaxFill) ? errorColor : normalColor;
                 _display.Draw(batch, _stringBuilder, color);
             }
+
+            if (_right > 0)
+            {
+                batch.PopTransform();
+            }
         }
 
         public void ComputeContentRect(ref Rectangle rect)
         {
             if (Enabled)
             {
-                rect.Y += _height;
-                rect.Height -= _height;
+                _right = rect.Width > rect.Height ? rect.Width : 0;
+
+                if (_right > 0)
+                {
+                    rect.Width -= _height;
+                }
+                else
+                {
+                    rect.Y += _height;
+                    rect.Height -= _height;
+                }
             }
         }
     }

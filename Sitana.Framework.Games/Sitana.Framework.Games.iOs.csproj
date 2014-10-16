@@ -33,11 +33,11 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
-    <Reference Include="Lidgren.Network">
-      <HintPath>..\ThirdParty\Dependences\MonoGame\iOs\Lidgren.Network.dll</HintPath>
-    </Reference>
     <Reference Include="FarseerPhysics.iOS">
       <HintPath>..\ThirdParty\Dependences\Farseer\FarseerPhysics.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Lidgren.Network">
+      <HintPath>..\ThirdParty\Dependences\MonoGame\iOs\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\ThirdParty\Dependences\MonoGame\iOs\MonoGame.Framework.dll</HintPath>
