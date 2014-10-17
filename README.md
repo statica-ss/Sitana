@@ -20,7 +20,7 @@ Main directory solutions include sample application on every platform.
 
 ## License
 
-Sitana is released under [Apache License 2.0](LICENSE.txt).
+Sitana is released under [Microsoft Public License (Ms-PL)](LICENSE.txt).
 
 ## Current Roadmap
 
