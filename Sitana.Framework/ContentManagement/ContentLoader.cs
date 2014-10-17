@@ -111,9 +111,9 @@ namespace Sitana.Framework.Content
             ZipFile zipFile = new ZipFile(zipPath);
             zipFile.Password = password;
 
-            //ContentManager manager = new ZipContentManager(serviceProvider, zipFile);
+            ContentManager manager = new ZipContentManager(serviceProvider, zipFile);
 
-            //Current = new ContentLoader(manager, zipFile);
+            Current = new ContentLoader(manager, zipFile);
 
             RegisterTypes();
         }
@@ -298,16 +298,6 @@ namespace Sitana.Framework.Content
 
             // If no resource was loaded, that means the resource file doesn't exist
             throw new FileNotFoundException("Couldn't find file: " + name);
-        }
-
-        public string AbsolutePath(string path)
-        {
-            if (_zipFile == null)
-            {
-                return Path.GetFullPath(Path.Combine(_contentManager.RootDirectory, FullPath(path)));
-            }
-
-            return path;
         }
 
         /// <summary>

@@ -110,17 +110,24 @@
     <BundleResource Include="Resources\Icon-76.png" />
     <BundleResource Include="Resources\Icon-76%402x.png" />
     <BundleResource Include="Assets\Ui\AppStyles.xml" />
-    <BundleResource Include="Assets\Built\iOs\Fonts\TestFont8.xnb">
-      <Link>Assets\Fonts\TestFont8.xnb</Link>
-    </BundleResource>
-    <BundleResource Include="Assets\Built\iOs\Fonts\TestFont12.xnb">
-      <Link>Assets\Fonts\TestFont12.xnb</Link>
-    </BundleResource>
-    <BundleResource Include="Assets\Built\iOs\Fonts\TestFont16.xnb">
-      <Link>Assets\Fonts\TestFont16.xnb</Link>
-    </BundleResource>
     <BundleResource Include="Assets\Ui\Button.png" />
     <BundleResource Include="Assets\Ui\Button.xml" />
+    <BundleResource Include="Assets\Ui\Logo.png" />
+    <BundleResource Include="Assets\Built\iOs\Fonts\Font8.xnb">
+      <Link>Assets\Fonts\Font8.xnb</Link>
+    </BundleResource>
+    <BundleResource Include="Assets\Built\iOs\Fonts\Font12.xnb">
+      <Link>Assets\Fonts\Font12.xnb</Link>
+    </BundleResource>
+    <BundleResource Include="Assets\Built\iOs\Fonts\Font16.xnb">
+      <Link>Assets\Fonts\Font16.xnb</Link>
+    </BundleResource>
+    <BundleResource Include="Assets\Built\iOs\Fonts\Font20.xnb">
+      <Link>Assets\Fonts\Font20.xnb</Link>
+    </BundleResource>
+    <BundleResource Include="Assets\Built\iOs\Fonts\Font24.xnb">
+      <Link>Assets\Fonts\Font24.xnb</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Info.plist" />
@@ -129,7 +136,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Main.iOs.cs" />
-    <Compile Include="TestController.cs" />
+    <Compile Include="MainController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.iOs.csproj">

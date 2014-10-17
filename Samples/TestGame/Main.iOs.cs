@@ -17,7 +17,7 @@ namespace TestGame
 		{
 			var main = new AppMain();
 
-			ContentLoader.Init(main.Content, "Assets");
+			ContentLoader.Init(main.Services, "Assets");
 
             StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
 

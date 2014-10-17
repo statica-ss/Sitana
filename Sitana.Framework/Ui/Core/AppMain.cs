@@ -11,6 +11,7 @@ using Sitana.Framework.Input.TouchPad;
 using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Content;
+using Sitana.Framework.Diagnostics;
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -98,7 +99,6 @@ namespace Sitana.Framework.Ui.Core
                 Transition = 0,
                 EllapsedTime = ellapsedTime
             };
-
             
             GraphicsDevice.Clear(MainView.BackgroundColor);
 
@@ -106,11 +106,16 @@ namespace Sitana.Framework.Ui.Core
             MainView.ViewDraw(ref drawParameters);
             _drawBatch.Flush();
 
+            PerformanceProfiler.Instance.Draw(_drawBatch);
+            _drawBatch.Flush();
+
             return true;
         }
 
         protected override void Update(GameTime gameTime)
         {
+            PerformanceProfiler.Instance.Update(gameTime.ElapsedGameTime);
+
             TotalGameTime = gameTime.TotalGameTime.TotalSeconds;
 
             UiTask.Process();

@@ -56,6 +56,8 @@
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
     <Compile Include="ContentManagement\ZipFile.cs" />
+    <Compile Include="Diagnostics\PerformanceProfiler.cs" />
+    <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
     <Compile Include="Graphics\Textures\PartialTexture2D.cs" />
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
@@ -184,9 +186,7 @@
     <Compile Include="Misc\UuidGenerator.cs" />
     <Compile Include="Settings\Serializator.cs" />
     <Compile Include="Settings\SingletonSettings.cs" />
-    <Compile Include="System\Keyboard\KeyboardHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="System\Keyboard\KeyboardHandler.cs" />
     <Compile Include="System\Keyboard\MessageHook.cs" />
     <Compile Include="System\SystemWrapper.cs" />
     <Compile Include="Ui\Controllers\UiController.cs" />
@@ -211,14 +211,8 @@
     <Compile Include="Ui\Views\Parameters\UiViewDrawParameters.cs" />
     <Compile Include="Ui\Views\Controls\UiLabel.cs" />
     <Compile Include="Ui\Views\UiView.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Graphics\AdvancedDrawBatch.DrawMethods.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Graphics\AdvancedDrawBatch.Helpers.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Ui\Core\AppMain.Windows.Xna.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

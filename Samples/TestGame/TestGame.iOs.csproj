@@ -119,40 +119,33 @@
     <BundleResource Include="Resources\Icon-76%402x.png" />
     <BundleResource Include="Resources\Icon.png" />
     <BundleResource Include="Resources\Icon%402x.png" />
-    <BundleResource Include="Assets\Built\iOs\Fonts\TestFont8.xnb">
-      <Link>Assets\Fonts\TestFont8.xnb</Link>
-    </BundleResource>
-    <BundleResource Include="Assets\Built\iOs\Fonts\TestFont12.xnb">
-      <Link>Assets\Fonts\TestFont12.xnb</Link>
-    </BundleResource>
-    <BundleResource Include="Assets\Built\iOs\Fonts\TestFont16.xnb">
-      <Link>Assets\Fonts\TestFont16.xnb</Link>
-    </BundleResource>
     <BundleResource Include="Assets\Ui\Logo.png" />
-    <BundleResource Include="Assets\Built\iOs\Fonts\TestFont6.xnb">
-      <Link>Assets\Fonts\TestFont6.xnb</Link>
-    </BundleResource>
-    <BundleResource Include="Assets\Built\iOs\Fonts\TestFont10.xnb">
-      <Link>Assets\Fonts\TestFont10.xnb</Link>
-    </BundleResource>
-    <BundleResource Include="Assets\Built\iOs\Fonts\TestFont14.xnb">
-      <Link>Assets\Fonts\TestFont14.xnb</Link>
-    </BundleResource>
-    <BundleResource Include="Assets\Built\iOs\Fonts\TestFont20.xnb">
-      <Link>Assets\Fonts\TestFont20.xnb</Link>
-    </BundleResource>
-    <BundleResource Include="Assets\Built\iOs\Fonts\TestFont24.xnb">
-      <Link>Assets\Fonts\TestFont24.xnb</Link>
-    </BundleResource>
-    <BundleResource Include="Assets\Built\iOs\Fonts\TestFont28.xnb">
-      <Link>Assets\Fonts\TestFont28.xnb</Link>
-    </BundleResource>
-    <BundleResource Include="Assets\Built\iOs\Fonts\TestFont32.xnb">
-      <Link>Assets\Fonts\TestFont32.xnb</Link>
-    </BundleResource>
-    <BundleResource Include="Assets\Built\iOs\Fonts\TestFont38.xnb">
-      <Link>Assets\Fonts\TestFont38.xnb</Link>
-    </BundleResource>
+    <BundleResource Include="Assets\Fonts\Font8.png" />
+    <BundleResource Include="Assets\Fonts\Font10.png" />
+    <BundleResource Include="Assets\Fonts\Font12.png" />
+    <BundleResource Include="Assets\Fonts\Font14.png" />
+    <BundleResource Include="Assets\Fonts\Font16.png" />
+    <BundleResource Include="Assets\Fonts\Font20.png" />
+    <BundleResource Include="Assets\Fonts\Font24.png" />
+    <BundleResource Include="Assets\Fonts\Font28.png" />
+    <BundleResource Include="Assets\Fonts\Font32.png" />
+    <BundleResource Include="Assets\Fonts\Font38.png" />
+    <BundleResource Include="Assets\Fonts\Font44.png" />
+    <BundleResource Include="Assets\Fonts\Font50.png" />
+    <BundleResource Include="Assets\Fonts\Font58.png" />
+    <BundleResource Include="Assets\Fonts\Font8.sft" />
+    <BundleResource Include="Assets\Fonts\Font10.sft" />
+    <BundleResource Include="Assets\Fonts\Font12.sft" />
+    <BundleResource Include="Assets\Fonts\Font14.sft" />
+    <BundleResource Include="Assets\Fonts\Font16.sft" />
+    <BundleResource Include="Assets\Fonts\Font20.sft" />
+    <BundleResource Include="Assets\Fonts\Font24.sft" />
+    <BundleResource Include="Assets\Fonts\Font28.sft" />
+    <BundleResource Include="Assets\Fonts\Font32.sft" />
+    <BundleResource Include="Assets\Fonts\Font38.sft" />
+    <BundleResource Include="Assets\Fonts\Font44.sft" />
+    <BundleResource Include="Assets\Fonts\Font50.sft" />
+    <BundleResource Include="Assets\Fonts\Font58.sft" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -161,9 +154,9 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Main.iOs.cs" />
-    <Compile Include="TestController.cs" />
     <Compile Include="OptionsPage.cs" />
     <Compile Include="MainPage.cs" />
+    <Compile Include="GameController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.iOs.csproj">

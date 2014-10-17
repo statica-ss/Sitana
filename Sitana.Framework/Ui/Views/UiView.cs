@@ -304,6 +304,11 @@ namespace Sitana.Framework.Ui.Views
 
         internal void ViewUpdate(float time)
         {
+            if (_controller != null)
+            {
+                _controller.UpdateInternal(time);
+            }
+
             float opacity = Visible ? Opacity : 0;
             DisplayOpacity = time * 4 * opacity + (1 - time * 4) * DisplayOpacity;
 

@@ -17,7 +17,7 @@ namespace TestApp
 		{
 			var main = new AppMain();
 
-			ContentLoader.Init(main.Content, "Assets");
+			ContentLoader.Init(main.Services, "Assets");
 
             StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
 
@@ -26,7 +26,7 @@ namespace TestApp
 			main.Graphics.IsFullScreen = true;
 			main.Graphics.SupportedOrientations = DisplayOrientation.Portrait | DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight | DisplayOrientation.PortraitDown;
 
-			main.OnLoadContent += TestController.OnLoadContent;
+			main.OnLoadContent += MainController.OnLoadContent;
 
 			main.Run();
 		}
