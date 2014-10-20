@@ -65,6 +65,7 @@
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this._propertyDensity = new System.Windows.Forms.ToolStripTextBox();
             this._propertyType = new System.Windows.Forms.ToolStripComboBox();
+            this._buttonOperationImage = new System.Windows.Forms.ToolStripButton();
             this._toolbar.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -85,12 +86,12 @@
             this._buttonOperationRectangle,
             this._buttonOperationEllipse,
             this._buttonOperationPolygon,
+            this._buttonOperationImage,
             this.toolStripSeparator3,
             this._snapToGrid});
-            this._toolbar.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this._toolbar.Location = new System.Drawing.Point(3, 23);
+            this._toolbar.Location = new System.Drawing.Point(6, 0);
             this._toolbar.Name = "_toolbar";
-            this._toolbar.Size = new System.Drawing.Size(434, 23);
+            this._toolbar.Size = new System.Drawing.Size(536, 25);
             this._toolbar.TabIndex = 0;
             this._toolbar.Text = "toolStrip1";
             this._toolbar.TextDirection = System.Windows.Forms.ToolStripTextDirection.Vertical90;
@@ -106,7 +107,7 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(38, 19);
+            this.toolStripButton1.Size = new System.Drawing.Size(38, 22);
             this.toolStripButton1.Text = "&File";
             this.toolStripButton1.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             // 
@@ -305,7 +306,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this._placeholder);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(957, 572);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(957, 593);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
@@ -325,7 +326,7 @@
             this._placeholder.Dock = System.Windows.Forms.DockStyle.Fill;
             this._placeholder.Location = new System.Drawing.Point(0, 0);
             this._placeholder.Name = "_placeholder";
-            this._placeholder.Size = new System.Drawing.Size(957, 572);
+            this._placeholder.Size = new System.Drawing.Size(957, 593);
             this._placeholder.TabIndex = 0;
             // 
             // _propertiesToolbar
@@ -338,10 +339,9 @@
             this.toolStripLabel1,
             this._propertyDensity,
             this._propertyType});
-            this._propertiesToolbar.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this._propertiesToolbar.Location = new System.Drawing.Point(3, 0);
+            this._propertiesToolbar.Location = new System.Drawing.Point(551, 0);
             this._propertiesToolbar.Name = "_propertiesToolbar";
-            this._propertiesToolbar.Size = new System.Drawing.Size(219, 23);
+            this._propertiesToolbar.Size = new System.Drawing.Size(230, 25);
             this._propertiesToolbar.TabIndex = 1;
             // 
             // _propertyColor
@@ -417,6 +417,16 @@
             this._propertyType.Size = new System.Drawing.Size(75, 20);
             this._propertyType.DropDownClosed += new System.EventHandler(this._propertyType_DropDownClosed);
             // 
+            // _buttonOperationImage
+            // 
+            this._buttonOperationImage.Image = ((System.Drawing.Image)(resources.GetObject("_buttonOperationImage.Image")));
+            this._buttonOperationImage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._buttonOperationImage.Name = "_buttonOperationImage";
+            this._buttonOperationImage.Size = new System.Drawing.Size(60, 20);
+            this._buttonOperationImage.Text = "Image";
+            this._buttonOperationImage.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
+            this._buttonOperationImage.Click += new System.EventHandler(this._buttonOperationImage_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -480,6 +490,7 @@
         private System.Windows.Forms.ToolStripMenuItem _propertyTextureMapping;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton _snapToGrid;
+        private System.Windows.Forms.ToolStripButton _buttonOperationImage;
     }
 }
 

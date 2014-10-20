@@ -226,11 +226,6 @@ namespace Sitana.Framework.Ui.Views
         protected override void OnGesture(Gesture gesture)
         {
             _scroller.OnGesture(gesture);
-
-            if (gesture.GestureType == GestureType.VerticalDrag)
-            {
-                Console.Write("@");
-            }
         }
 
         protected override void Draw(ref UiViewDrawParameters parameters)

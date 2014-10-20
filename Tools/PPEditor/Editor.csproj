@@ -67,6 +67,7 @@
     <Compile Include="EditView\MouseOperation.cs" />
     <Compile Include="EditView\Operations\OperationAdd.cs" />
     <Compile Include="EditView\Operations\OperationCircle.cs" />
+    <Compile Include="EditView\Operations\OperationImage.cs" />
     <Compile Include="EditView\Operations\OperationPolygon.cs" />
     <Compile Include="EditView\Operations\OperationPan.cs" />
     <Compile Include="EditView\Operations\OperationRectangle.cs" />

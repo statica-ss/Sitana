@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<core:StylesContainer
+    xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
+    xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
+    xmlns:core="namespace:Sitana.Framework.Ui.Core,Sitana.Framework"
+    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework">
+  
+  <Style Name="MenuButton">
+    <UiButton Width="40" Height="24" Y="C" Align="Left,Middle">
+      <UiButton.Drawables>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Ui/Button" ScaleByUnit="true" Scale="0.25"/>
+        <button:Text ColorPushed="#ffb0b0" ColorReleased="#c09090" ColorDisabled="#80c09090" Font="Font" FontSize="8" TextAlign="Center,Middle" Padding="2"/>
+      </UiButton.Drawables>
+    </UiButton>
+  </Style>
+
+  
+  
+</core:StylesContainer>

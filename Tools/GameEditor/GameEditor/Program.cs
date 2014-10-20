@@ -1,0 +1,54 @@
+using System;
+using Sitana.Framework.Content;
+using Sitana.Framework.Ui.Core;
+using Sitana.Framework;
+
+namespace GameEditor
+{
+    public static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            using (var main = new AppMain())
+            {
+                ContentLoader.Init(main.Services, "GameEditor");
+
+                UiUnit.Unit = 1;
+                UiUnit.FontUnit = 1;
+                UiUnit.EnableFontScaling = true;
+
+                StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
+                main.LoadView("Ui/MainView");
+
+                main.Window.AllowUserResizing = true;
+                main.Window.ClientSizeChanged += Window_ClientSizeChanged;
+
+                main.Graphics.IsFullScreen = false;
+
+                main.IsMouseVisible = true;
+                main.OnLoadContent += MainController.OnLoadContent;
+                main.OnLoadedView += (a) => a.ResizeToView();
+
+                main.Run();
+            }
+        }
+
+        static void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            //UiTask.BeginInvoke(() =>
+            //{
+            //    double unit = Math.Min((double)AppMain.Current.GraphicsDevice.Viewport.Width / 640.0,
+            //                            (double)AppMain.Current.GraphicsDevice.Viewport.Height / 480.0);
+
+            //    unit = Math.Min(1, unit);
+
+            //    UiUnit.FontUnit = UiUnit.Unit = unit;
+            //});
+        }
+
+    }
+}
