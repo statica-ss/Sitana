@@ -25,7 +25,7 @@ namespace TestApp
         {
             using (var main = new AppMain())
             {
-                ContentLoader.Init(main.Content, "TestApp");
+                ContentLoader.Init(main.Services, "TestApp");
 
                 UiUnit.Unit = 1;
                 UiUnit.FontUnit = 1;

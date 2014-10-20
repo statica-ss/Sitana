@@ -9,6 +9,8 @@
     <RootNamespace>TestApp.iOs</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>TestApp</AssemblyName>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -130,19 +132,14 @@
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Info.plist" />
-    <None Include="Entitlements.plist" />
+    <BundleResource Include="iOs\Info.plist">
+      <Link>Info.plist</Link>
+    </BundleResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Main.iOs.cs" />
     <Compile Include="MainController.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.iOs.csproj">
-      <Project>{E2DF6AB0-B3BA-49E1-92DD-081731255053}</Project>
-      <Name>Sitana.Framework.iOs</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />

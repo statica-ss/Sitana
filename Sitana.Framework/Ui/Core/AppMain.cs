@@ -182,5 +182,10 @@ namespace Sitana.Framework.Ui.Core
             DefinitionFile file = ContentLoader.Current.Load<DefinitionFile>(path);
             _mainView = file;
         }
+
+        public void SizeChanged()
+        {
+            _lastSize = Point.Zero;
+        }
     }
 }

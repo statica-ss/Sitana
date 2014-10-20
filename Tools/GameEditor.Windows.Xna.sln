@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEditor", "GameEditor\GameEditor.csproj", "{CF70A662-797C-44BC-9CF8-E0E63270FC7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEditor", "GameEditor\GameEditor.Windows.Xna.csproj", "{CF70A662-797C-44BC-9CF8-E0E63270FC7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Framework.Windows.Xna", "..\..\Sitana.Framework\Sitana.Framework.Windows.Xna.csproj", "{68D03401-FD88-48C5-9821-0C3A07F89C34}"
 EndProject

@@ -74,7 +74,7 @@
   <ItemGroup>
     <Compile Include="MainController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Main.Windows.Xna.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

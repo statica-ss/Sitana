@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NinePatch 
+	Texture="Ui/Button"
+	Source="0,0,64,64"
+	Scalable="30,30,2,2"
+/>
