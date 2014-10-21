@@ -29,13 +29,12 @@ namespace GameEditor
             _appMain = new AppMain();
 
             _appMain.Window.Window.CollectionBehavior = NSWindowCollectionBehavior.FullScreenPrimary;
-            _appMain.Window.Window.DidResize += Window_DidResize;
 
             ContentLoader.Init(_appMain.Services, "Assets");
 
             UiUnit.Unit = 1;
             UiUnit.FontUnit = 1;
-            UiUnit.EnableFontScaling = true;
+            UiUnit.EnableFontScaling = false;
 
             StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
             _appMain.LoadView("Ui/MainView");
@@ -46,23 +45,10 @@ namespace GameEditor
 
             _appMain.IsMouseVisible = true;
             _appMain.OnLoadContent += MainController.OnLoadContent;
+            _appMain.OnLoadedView += (a) => a.ResizeToView();
 
             _appMain.Run();
-        }
 
-        void Window_DidResize(object sender, EventArgs e)
-        {
-            UiTask.BeginInvoke(() =>
-                {
-                    double unit = Math.Min((double)AppMain.Current.GraphicsDevice.Viewport.Width / 640.0,
-                        (double)AppMain.Current.GraphicsDevice.Viewport.Height / 480.0);
-
-                    unit = Math.Min(1, unit);
-
-                    UiUnit.FontUnit = UiUnit.Unit = unit;
-
-                    _appMain.SizeChanged();
-                });
         }
 
         public override bool ApplicationShouldTerminateAfterLastWindowClosed(NSApplication sender)

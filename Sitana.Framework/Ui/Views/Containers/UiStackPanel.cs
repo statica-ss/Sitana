@@ -237,11 +237,11 @@ namespace Sitana.Framework.Ui.Views
         {
             base.Init(controller, binding, definition);
 
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiSplitterView));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiStackPanel));
 
-            StackMode = DefinitionResolver.Get<Mode>(Controller, binding, file["Mode"], Mode.Vertical);
-            _spacing = DefinitionResolver.Get<Length>(Controller, binding, file["Spacing"], Length.Zero);
-            _padding = DefinitionResolver.Get<Length>(Controller, binding, file["Padding"], Length.Zero);
+            StackMode = DefinitionResolver.Get<Mode>(Controller, Binding, file["Mode"], Mode.Vertical);
+            _spacing = DefinitionResolver.Get<Length>(Controller, Binding, file["Spacing"], Length.Zero);
+            _padding = DefinitionResolver.Get<Length>(Controller, Binding, file["Padding"], Length.Zero);
 
             InitChildren(Controller, binding, definition);
         }

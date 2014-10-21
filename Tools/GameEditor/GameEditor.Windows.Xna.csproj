@@ -110,7 +110,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Sitana.Framework\Sitana.Framework.Windows.Xna.csproj">
+    <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.Windows.Xna.csproj">
       <Project>{68D03401-FD88-48C5-9821-0C3A07F89C34}</Project>
       <Name>Sitana.Framework.Windows.Xna</Name>
     </ProjectReference>

@@ -7,14 +7,38 @@ using Sitana.Framework.Content;
 using Sitana.Framework.Ui.Views;
 using Sitana.Framework;
 using Sitana.Framework.Ui.Controllers;
+using Sitana.Framework.Cs;
+using Sitana.Framework.Ui.Binding;
 
 namespace GameEditor
 {
     public class MainController: UiController
     {
+        public SharedString MessageBoxText { get; private set; }
+
+        public SharedString FileName { get; private set; }
+
+        public IItemsProvider Layers
+        {
+            get
+            {
+                return Document.Instance.Layers;
+            }
+        }
+
+        EmptyArgsVoidDelegate _onMessageBoxYes;
+        EmptyArgsVoidDelegate _onMessageBoxNo;
+        EmptyArgsVoidDelegate _onMessageBoxClose;
+
         public static void OnLoadContent(AppMain main)
         {
             FontManager.Instance.AddSpriteFont("Font", "Fonts/Font", new int[] { 8, 12, 16, 20, 24 });
+        }
+
+        public MainController()
+        {
+            MessageBoxText = new SharedString();
+            FileName = Document.Instance.FileName;
         }
 
         public void OpenLink(UiButton sender)
@@ -22,14 +46,241 @@ namespace GameEditor
             SystemWrapper.OpenWebsite(sender.Text.StringValue);
         }
 
+        public void New()
+        {
+            MessageBoxYesNoCancel("Do you want to save current file?",
+                () =>
+                {
+                    UiTask.BeginInvoke(()=>
+                        {
+                            if(SaveInternal())
+                            {
+                                Document.Instance.New();
+                            }
+                        });
+                }, 
+                () =>
+                {
+                    Document.Instance.New();
+                },
+                ()=>
+                {
+                    HideElement("FileMenu");
+                });
+        }
+
         public void Open()
         {
-            string path = SystemWrapper.OpenFileDialog("Open file");
-
-            if ( path != null )
+            UiTask.BeginInvoke(()=>
             {
-                Console.WriteLine(path);
+                string path = SystemWrapper.OpenFileDialog("Open file");
+
+                if (path != null)
+                {
+                    MessageBoxYesNoCancel("Do you want to save current file?", 
+                        () =>
+                            {
+                                UiTask.BeginInvoke(()=>
+                                    {
+                                        if(SaveInternal())
+                                        {
+                                            Open(path);
+                                        }
+                                    });
+                                
+                            }, 
+                        () =>
+                            {
+                                Open(path);
+                            },
+                            ()=>
+                            {
+
+                                HideElement("FileMenu");
+                            });
+                }
+
+                HideElement("FileMenu");
+            });
+        }
+
+        private bool SaveInternal()
+        {
+            if (Document.Instance.FilePath == null)
+            {
+                string path = SystemWrapper.SaveFileDialog("Save file");
+
+                if (path != null)
+                {
+                    Document.Instance.Save(path);
+                    return true;
+                }
+                return false;
             }
+            else
+            {
+                Document.Instance.Save();
+                return true;
+            }
+        }
+
+        public void Save()
+        {
+            if (Document.Instance.FilePath == null)
+            {
+                SaveAs();
+            }
+            else
+            {
+                HideElement("FileMenu");
+                Document.Instance.Save();
+            }
+        }
+
+        public void SaveAs()
+        {
+            UiTask.BeginInvoke(()=>
+            {
+                string path = SystemWrapper.SaveFileDialog("Save file");
+
+                if (path != null)
+                {
+                        Document.Instance.Save(path);
+                }
+
+                HideElement("FileMenu");
+            });
+        }
+
+        public void Exit()
+        {
+            MessageBoxYesNoCancel("Do you want to save current file?", () =>
+            {
+                Save();
+                AppMain.Current.Exit();
+            }, AppMain.Current.Exit,
+                ()=>
+                {
+                    HideElement("FileMenu");
+                });
+        }
+
+        public void MessageBox(string text)
+        {
+            MessageBoxText.StringValue = text;
+            ShowElement("MessageBox");
+            HideElement("MessageBoxNo");
+            HideElement("MessageBoxYes");
+            HideElement("MessageBoxCancel");
+
+            HideElement("MessageBoxNo2");
+            HideElement("MessageBoxYes2");
+
+            ShowElement("MessageBoxOk");
+        }
+
+        public void MessageBoxYesNo(string text, EmptyArgsVoidDelegate onYes, EmptyArgsVoidDelegate onNo = null, EmptyArgsVoidDelegate alwaysCall = null)
+        {
+            _onMessageBoxYes = onYes;
+            _onMessageBoxNo = onNo;
+            _onMessageBoxClose = alwaysCall;
+
+            MessageBoxText.StringValue = text;
+            ShowElement("MessageBox");
+            ShowElement("MessageBoxNo2");
+            ShowElement("MessageBoxYes2");
+
+            HideElement("MessageBoxCancel");
+            HideElement("MessageBoxNo");
+            HideElement("MessageBoxYes");
+
+            HideElement("MessageBoxOk");
+        }
+
+        public void MessageBoxYesNoCancel(string text, EmptyArgsVoidDelegate onYes, EmptyArgsVoidDelegate onNo = null, EmptyArgsVoidDelegate alwaysCall = null)
+        {
+            _onMessageBoxYes = onYes;
+            _onMessageBoxNo = onNo;
+            _onMessageBoxClose = alwaysCall;
+
+            MessageBoxText.StringValue = text;
+            ShowElement("MessageBox");
+            ShowElement("MessageBoxNo");
+            ShowElement("MessageBoxYes");
+            ShowElement("MessageBoxCancel");
+            HideElement("MessageBoxOk");
+
+            HideElement("MessageBoxNo2");
+            HideElement("MessageBoxYes2");
+        }
+
+        public void AddTiledLayer()
+        {
+            Document.Current.AddTilesetLayer();
+        }
+
+        public void AddVectorLayer()
+        {
+            Document.Current.AddVectorLayer();
+        }
+
+        public void RemoveLayer()
+        {
+            if ( Document.Current.Layers.Count == 1 )
+            {
+                MessageBox("Cannot remove last layer!");
+                return;
+            }
+
+            MessageBoxYesNo("Do you want to delete selected layer?", () =>
+            {
+                Document.Current.RemoveSelectedLayer();
+            });
+        }
+
+        public void SelectLayer(Layer layer)
+        {
+            Document.Current.Select(layer);
+        }
+
+        public void OnMessageBoxCancel()
+        {
+            CloseMessageBox();
+        }
+
+        public void OnMessageBoxYes()
+        {
+            if (_onMessageBoxYes != null)
+            {
+                _onMessageBoxYes();
+            }
+
+            CloseMessageBox();
+        }
+
+        public void OnMessageBoxNo()
+        {
+            if (_onMessageBoxNo != null)
+            {
+                _onMessageBoxNo();
+            }
+            CloseMessageBox();
+        }
+
+        void CloseMessageBox()
+        {
+            HideElement("MessageBox");
+
+            if ( _onMessageBoxClose != null )
+            {
+                _onMessageBoxClose();
+                _onMessageBoxClose = null;
+            }
+        }
+
+        void Open(string path)
+        {
+
         }
     }
 }

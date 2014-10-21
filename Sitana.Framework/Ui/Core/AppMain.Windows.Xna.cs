@@ -45,7 +45,7 @@ namespace Sitana.Framework.Ui.Core
             }
         }
 
-        public void OnSize(int width, int height)
+        private void OnSize(int width, int height)
         {
             if (MainView != null)
             {

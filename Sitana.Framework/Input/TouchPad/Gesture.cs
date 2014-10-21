@@ -22,7 +22,7 @@ namespace Sitana.Framework.Input.TouchPad
 
         public void CapturePointer(IGestureListener captureBy)
         {
-            if (PointerCapturedBy != null)
+            if (PointerCapturedBy != null && PointerCapturedBy != captureBy)
             {
                 throw new Exception("Pointer already captured by another listener.");
             }

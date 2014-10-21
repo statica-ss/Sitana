@@ -65,5 +65,15 @@ namespace Sitana.Framework.Ui.Controllers
         protected virtual void Update(float time)
         {
         }
+
+        public void ShowElement(string id)
+        {
+            Find(id).Visible.Value = true;
+        }
+
+        public void HideElement(string id)
+        {
+            Find(id).Visible.Value = false;
+        }
     }
 }

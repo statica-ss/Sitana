@@ -12,6 +12,11 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 {
     public class SolidBackground : ButtonDrawable
     {
+        public new static void Parse(XNode node, DefinitionFile file)
+        {
+            ButtonDrawable.Parse(node, file);
+        }
+
         public override void Draw(AdvancedDrawBatch drawBatch, UiButton.DrawButtonInfo info)
         {
             Update(info.EllapsedTime, info.ButtonState);

@@ -23,7 +23,6 @@
     <UseSGen>false</UseSGen>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <EnablePackageSigning>false</EnablePackageSigning>
-    <CodeSigningKey>Mac Developer</CodeSigningKey>
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
@@ -70,6 +69,7 @@
     <Folder Include="Resources\" />
     <Folder Include="Assets\" />
     <Folder Include="Assets\Fonts\" />
+    <Folder Include="Document\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -78,6 +78,10 @@
   <ItemGroup>
     <Compile Include="Main.MacOs.cs" />
     <Compile Include="MainController.cs" />
+    <Compile Include="Document\Document.cs" />
+    <Compile Include="Document\Layer.cs" />
+    <Compile Include="Document\VectorLayer.cs" />
+    <Compile Include="Document\TiledLayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.MacOs.csproj">
@@ -106,5 +110,6 @@
       <Link>Assets\Fonts\Font8.xnb</Link>
     </BundleResource>
     <BundleResource Include="Resources\Icon.icns" />
+    <BundleResource Include="Assets\Ui\CheckBox.png" />
   </ItemGroup>
 </Project>

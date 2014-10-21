@@ -119,6 +119,7 @@ namespace Sitana.Framework.Ui.Core
             TotalGameTime = gameTime.TotalGameTime.TotalSeconds;
 
             UiTask.Process();
+            DelayedActionInvoker.Instance.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             var newSize = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 

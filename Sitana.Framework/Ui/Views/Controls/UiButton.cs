@@ -34,6 +34,7 @@ namespace Sitana.Framework.Ui.Views
 
             file["Text"] = parser.ParseString("Text");
             file["Click"] = parser.ParseDelegate("Click");
+            file["Enabled"] = parser.ParseBoolean("Enabled");
 
             foreach (var cn in node.Nodes)
             {
@@ -275,6 +276,8 @@ namespace Sitana.Framework.Ui.Views
             RegisterDelegate("Click", file["Click"]);
 
             List<DefinitionFile> drawableFiles = file["Drawables"] as List<DefinitionFile>;
+
+            Enabled = DefinitionResolver.Get<bool>(Controller, binding, file["Enabled"], true);
 
             if ( drawableFiles != null )
             {

@@ -57,5 +57,17 @@ namespace Sitana.Framework
         public static void DisableLock(Boolean disable)
         {
         }
+
+        public static string OpenFileDialog(string title)
+        {
+            System.Windows.Forms.OpenFileDialog dlg = new System.Windows.Forms.OpenFileDialog();
+
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                return dlg.FileName;
+            }
+
+            return null;
+        }
     }
 }

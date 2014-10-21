@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEditor", "GameEditor\GameEditor.Windows.Xna.csproj", "{CF70A662-797C-44BC-9CF8-E0E63270FC7D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Framework.Windows.Xna", "..\..\Sitana.Framework\Sitana.Framework.Windows.Xna.csproj", "{68D03401-FD88-48C5-9821-0C3A07F89C34}"
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEditor.Windows.Xna", "GameEditor\GameEditor.Windows.Xna.csproj", "{CF70A662-797C-44BC-9CF8-E0E63270FC7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assets", "GameEditor\Assets\Assets.contentproj", "{BA598712-D972-41C3-8720-33A81CFCAD8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Framework.Windows.Xna", "..\Sitana.Framework\Sitana.Framework.Windows.Xna.csproj", "{68D03401-FD88-48C5-9821-0C3A07F89C34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,16 +21,16 @@ Global
 		{CF70A662-797C-44BC-9CF8-E0E63270FC7D}.Release|Any CPU.ActiveCfg = Release|x86
 		{CF70A662-797C-44BC-9CF8-E0E63270FC7D}.Release|x86.ActiveCfg = Release|x86
 		{CF70A662-797C-44BC-9CF8-E0E63270FC7D}.Release|x86.Build.0 = Release|x86
+		{BA598712-D972-41C3-8720-33A81CFCAD8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA598712-D972-41C3-8720-33A81CFCAD8A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BA598712-D972-41C3-8720-33A81CFCAD8A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA598712-D972-41C3-8720-33A81CFCAD8A}.Release|x86.ActiveCfg = Debug|Any CPU
 		{68D03401-FD88-48C5-9821-0C3A07F89C34}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{68D03401-FD88-48C5-9821-0C3A07F89C34}.Debug|x86.ActiveCfg = Debug|x86
 		{68D03401-FD88-48C5-9821-0C3A07F89C34}.Debug|x86.Build.0 = Debug|x86
 		{68D03401-FD88-48C5-9821-0C3A07F89C34}.Release|Any CPU.ActiveCfg = Release|x86
 		{68D03401-FD88-48C5-9821-0C3A07F89C34}.Release|x86.ActiveCfg = Release|x86
 		{68D03401-FD88-48C5-9821-0C3A07F89C34}.Release|x86.Build.0 = Release|x86
-		{BA598712-D972-41C3-8720-33A81CFCAD8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA598712-D972-41C3-8720-33A81CFCAD8A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{BA598712-D972-41C3-8720-33A81CFCAD8A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA598712-D972-41C3-8720-33A81CFCAD8A}.Release|x86.ActiveCfg = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

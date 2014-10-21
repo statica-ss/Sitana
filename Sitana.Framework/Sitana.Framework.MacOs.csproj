@@ -212,7 +212,8 @@
     <Compile Include="Ui\Views\UiView.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.DrawMethods.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.Helpers.cs" />
-    <Compile Include="Ui\Core\AppMain.Mobile.cs" />
     <Compile Include="System\SystemWrapper.MacOs.cs" />
+    <Compile Include="Ui\Core\AppMain.MacOs.cs" />
+    <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
   </ItemGroup>
 </Project>

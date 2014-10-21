@@ -66,6 +66,21 @@ namespace Sitana.Framework.Ui.Binding
             }
         }
 
+        public void Clear()
+        {
+            lock (this)
+            {
+                for (int idx = 0; idx < _consumers.Count; ++idx)
+                {
+                    for (int el = 0; el < _elements.Count; ++idx)
+                    {
+                        var element = _elements[el];
+                        _consumers[idx].Removed(element);
+                    }
+                }
+            }
+        }
+
         public void RemoveAt(int index)
         {
             lock (this)

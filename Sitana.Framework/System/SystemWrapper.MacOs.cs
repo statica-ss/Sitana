@@ -73,5 +73,20 @@ namespace Sitana.Framework
 
             return null;
         }
+
+        public static string SaveFileDialog(string promt)
+        {
+            var savePanel = new NSSavePanel();
+            savePanel.ReleasedWhenClosed = true;
+            savePanel.Prompt = promt;
+
+            var result = savePanel.RunModal();
+            if (result == 1)
+            {
+                return savePanel.Url.AbsoluteString;
+            }
+
+            return null;
+        }
     }
 }

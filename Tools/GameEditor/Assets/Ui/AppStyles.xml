@@ -9,11 +9,80 @@
     <UiButton Width="40" Height="24" Y="C" Align="Left,Middle">
       <UiButton.Drawables>
         <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Ui/Button" ScaleByUnit="true" Scale="0.25"/>
-        <button:Text ColorPushed="#ffb0b0" ColorReleased="#c09090" ColorDisabled="#80c09090" Font="Font" FontSize="8" TextAlign="Center,Middle" Padding="2"/>
+        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" TextAlign="Center,Middle" Padding="2"/>
       </UiButton.Drawables>
     </UiButton>
   </Style>
 
-  
-  
+  <Style Name="MessageBoxButton">
+    <UiButton Width="40" Height="24" Align="Center,Top" ShowHideTime="0">
+      <UiButton.Drawables>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Ui/Button" ScaleByUnit="true" Scale="0.25"/>
+        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" TextAlign="Center,Middle" Padding="2"/>
+      </UiButton.Drawables>
+    </UiButton>
+  </Style>
+
+  <Style Name="UiButton">
+    <UiButton Width="64" Height="24" Align="Center,Top" ShowHideTime="0">
+      <UiButton.Drawables>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Ui/Button" ScaleByUnit="true" Scale="0.25"/>
+        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" TextAlign="Center,Middle" Padding="2"/>
+      </UiButton.Drawables>
+    </UiButton>
+  </Style>
+
+  <Style Name="MenuStripLayout">
+    <UiModalLayout X="0" Y="4" Width="320" Height="32" Align="Left,Top" ShowTime="250" HideTime="250"/>
+  </Style>
+
+  <Style Name="MenuStrip">
+    <UiStackPanel Mode="Horizontal" Padding="4" Spacing="4" BackgroundColor="#006080">
+      <UiView.ShowTransitionEffect>
+        <effect:Group>
+          <effect:Swype Horizontal="C" Power="2"/>
+          <effect:Rotate Angle="30"/>
+        </effect:Group>
+      </UiView.ShowTransitionEffect>
+      <UiView.HideTransitionEffect>
+        <effect:Group>
+          <effect:Swype Horizontal="-C" Power="2"/>
+          <effect:Rotate Angle="30"/>
+        </effect:Group>
+      </UiView.HideTransitionEffect>
+    </UiStackPanel>
+  </Style>
+
+  <Style Name="Headers">
+        <UiLabel Font="Font" FontSize="8" TextColor="#a0ffffff" Align="Left,Middle" TextAlign="Left,Middle"/>
+   </Style>
+
+  <Style Name="CheckBox">
+    <UiCheckBox Width="16" Height="16" Align="Right,Middle">
+      <UiButton.Drawables>
+        <button:TransformGroup Reverse="false" ChangeTime="150">
+          <TransformGroup.TransitionEffect>
+            <effect:Group>
+              <effect:Scale Horizontal="1.25" Vertical="1.25" Power="3"/>
+            </effect:Group>
+          </TransformGroup.TransitionEffect>
+          <TransformGroup.Drawables>
+            <button:NinePatchBackground Style="ChangeTime" ColorPushed="#20ffffff" ColorReleased="#20ffffff" Image="Ui/Button" ScaleByUnit="true" Scale="0"/>
+          </TransformGroup.Drawables>
+        </button:TransformGroup>
+        <button:TransformGroup Reverse="false" ChangeTime="100">
+          <TransformGroup.TransitionEffect>
+            <effect:Group>
+              <effect:Scale Horizontal="1.25" Vertical="1.25" Power="3"/>
+            </effect:Group>
+          </TransformGroup.TransitionEffect>
+          <TransformGroup.Drawables>
+            <button:CheckMark Style="ChangeTime" ColorPushed="#80ffffff" ColorReleased="#ffffff" ImageChecked="Ui/CheckBox" Scale="0.15"/>
+            <button:CheckMark Style="ChangeTime" ColorPushed="#40ffffff" ColorReleased="#00000000" ImageUnchecked="Ui/CheckBox" Scale="0.15"/>
+          </TransformGroup.Drawables>
+        </button:TransformGroup>
+      </UiButton.Drawables>
+    </UiCheckBox>
+  </Style>
+
 </core:StylesContainer>

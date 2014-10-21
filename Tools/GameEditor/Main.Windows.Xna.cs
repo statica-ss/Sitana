@@ -39,15 +39,16 @@ namespace GameEditor
 
         static void Window_ClientSizeChanged(object sender, EventArgs e)
         {
-            //UiTask.BeginInvoke(() =>
-            //{
-            //    double unit = Math.Min((double)AppMain.Current.GraphicsDevice.Viewport.Width / 640.0,
-            //                            (double)AppMain.Current.GraphicsDevice.Viewport.Height / 480.0);
+            UiTask.BeginInvoke(() =>
+            {
+                double unit = Math.Min((double)AppMain.Current.GraphicsDevice.Viewport.Width / 640.0,
+                                        (double)AppMain.Current.GraphicsDevice.Viewport.Height / 480.0);
 
-            //    unit = Math.Min(1, unit);
+                unit = Math.Min(1, unit);
 
-            //    UiUnit.FontUnit = UiUnit.Unit = unit;
-            //});
+                UiUnit.FontUnit = UiUnit.Unit = unit;
+                AppMain.Current.SizeChanged();
+            });
         }
 
     }
