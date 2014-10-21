@@ -18,7 +18,7 @@ namespace Sitana.Framework.Ui.Core
     public partial class AppMain: Game
     {
         public delegate void LoadDelegate(AppMain main);
-
+        public delegate bool CloseDelegate(AppMain main);
 
         public static AppMain Current { get; private set; }
 
@@ -28,6 +28,8 @@ namespace Sitana.Framework.Ui.Core
 
         public event LoadDelegate OnLoadContent;
         public event LoadDelegate OnLoadedView;
+
+        public CloseDelegate CanClose { get; set;}
 
         private Point _lastSize = Point.Zero;
 
@@ -64,6 +66,8 @@ namespace Sitana.Framework.Ui.Core
             MusicController.Instance.Initialize();
 
             TotalGameTime = 0;
+
+            PlatformInit();
         }
 
         protected override void Dispose(bool disposing)

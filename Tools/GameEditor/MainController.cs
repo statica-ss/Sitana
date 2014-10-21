@@ -14,9 +14,21 @@ namespace GameEditor
 {
     public class MainController: UiController
     {
-        public SharedString MessageBoxText { get; private set; }
+        static readonly string SaveChangesQuestionFormat = "Do you want to save changes in\n{0}?";
 
+        public static MainController Current { get; private set; }
+
+        public SharedString MessageBoxText { get; private set; }
         public SharedString FileName { get; private set; }
+
+
+        public bool CanClose
+        { 
+            get
+            {
+                return !Document.Current.IsModified;
+            }
+        }
 
         public IItemsProvider Layers
         {
@@ -30,6 +42,14 @@ namespace GameEditor
         EmptyArgsVoidDelegate _onMessageBoxNo;
         EmptyArgsVoidDelegate _onMessageBoxClose;
 
+        string SaveChangesQuestion
+        {
+            get
+            {
+                return String.Format(SaveChangesQuestionFormat, Document.Current.FileName);
+            }
+        }
+
         public static void OnLoadContent(AppMain main)
         {
             FontManager.Instance.AddSpriteFont("Font", "Font", 8);
@@ -37,6 +57,13 @@ namespace GameEditor
 
         public MainController()
         {
+            if (Current != null)
+            {
+                throw new Exception("There can be only one MainController!");
+            }
+
+            Current = this;
+
             MessageBoxText = new SharedString();
             FileName = Document.Instance.FileName;
         }
@@ -48,7 +75,7 @@ namespace GameEditor
 
         public void New()
         {
-            MessageBoxYesNoCancel("Do you want to save current file?",
+            MessageBoxYesNoCancel(SaveChangesQuestion,
                 () =>
                 {
                     UiTask.BeginInvoke(()=>
@@ -77,7 +104,7 @@ namespace GameEditor
 
                 if (path != null)
                 {
-                    MessageBoxYesNoCancel("Do you want to save current file?", 
+                    MessageBoxYesNoCancel(SaveChangesQuestion, 
                         () =>
                             {
                                 UiTask.BeginInvoke(()=>
@@ -145,7 +172,7 @@ namespace GameEditor
 
                 if (path != null)
                 {
-                        Document.Instance.Save(path);
+                    Document.Instance.Save(path);
                 }
 
                 HideElement("FileMenu");
@@ -154,15 +181,22 @@ namespace GameEditor
 
         public void Exit()
         {
-            MessageBoxYesNoCancel("Do you want to save current file?", () =>
+            MessageBoxYesNoCancel(SaveChangesQuestion, () =>
             {
-                Save();
-                AppMain.Current.Exit();
-            }, AppMain.Current.Exit,
-                ()=>
+                if ( SaveInternal() )
                 {
-                    HideElement("FileMenu");
-                });
+                    AppMain.Current.Exit();
+                }
+            }, 
+            ()=>
+            {
+                Document.Current.CancelModified();
+                AppMain.Current.Exit();
+            },
+            ()=>
+            {
+                HideElement("FileMenu");
+            });
         }
 
         public void MessageBox(string text)
@@ -232,7 +266,7 @@ namespace GameEditor
                 return;
             }
 
-            MessageBoxYesNo("Do you want to delete selected layer?", () =>
+            MessageBoxYesNo(String.Format("Do you want to delete layer \n{0}?", Document.Current.SelectedLayer.Name ), () =>
             {
                 Document.Current.RemoveSelectedLayer();
             });

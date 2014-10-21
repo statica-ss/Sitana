@@ -4,38 +4,54 @@ using Sitana.Framework.Ui.Core;
 using Sitana.Framework;
 using System.Resources;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace GameEditor
 {
     public static class Program
     {
+        static AppMain _appMain;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            using (var main = new AppMain())
+            using (_appMain = new AppMain())
             {
-                ContentLoader.Init(main.Services, Assembly.GetExecutingAssembly(), "GameEditor.Assets");
 
-                UiUnit.Unit = 1;
-                UiUnit.FontUnit = 1;
-                UiUnit.EnableFontScaling = true;
+                ContentLoader.Init(_appMain.Services, Assembly.GetExecutingAssembly(), "GameEditor.Assets");
 
                 StylesManager.Instance.LoadStyles("AppStyles", true);
-                main.LoadView("MainView");
+                _appMain.LoadView("MainView");
 
-                main.Window.AllowUserResizing = true;
-                main.Window.ClientSizeChanged += Window_ClientSizeChanged;
+                _appMain.Window.AllowUserResizing = true;
+                _appMain.Window.ClientSizeChanged += Window_ClientSizeChanged;
 
-                main.Graphics.IsFullScreen = false;
+                _appMain.Graphics.IsFullScreen = false;
+                _appMain.CanClose = (a) =>
+                    {
+                        if (!MainController.Current.CanClose)
+                        {
+                            // This makes the game remain active after close button is pressed.
+                            Form form = (Form)Form.FromHandle(_appMain.Window.Handle);
+                            form.Hide();
+                            form.Show();
 
-                main.IsMouseVisible = true;
-                main.OnLoadContent += MainController.OnLoadContent;
-                main.OnLoadedView += (a) => a.ResizeToView();
+                            MainController.Current.Exit();
+                        }
 
-                main.Run();
+                        return MainController.Current.CanClose;
+                    };
+
+                _appMain.IsMouseVisible = true;
+                _appMain.OnLoadContent += MainController.OnLoadContent;
+                _appMain.OnLoadedView += (a) => a.ResizeToView();
+
+                _appMain.InactiveSleepTime = TimeSpan.FromSeconds(1);
+
+                _appMain.Run();
             }
         }
 

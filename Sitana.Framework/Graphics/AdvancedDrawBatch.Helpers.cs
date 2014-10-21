@@ -41,5 +41,23 @@ namespace Sitana.Framework.Graphics
 
             return pos;
         }
+
+        private Vector2 TextOrigin(TextAlign align, Vector2 size)
+        {
+            Vector2 origin = Vector2.Zero;
+
+            switch (align & TextAlign.Horz)
+            {
+            case TextAlign.Right:
+                origin.X = size.X;
+                break;
+
+            case TextAlign.Center:
+                origin.X = size.X / 2;
+                break;
+            }
+
+            return origin;
+        }
     }
 }

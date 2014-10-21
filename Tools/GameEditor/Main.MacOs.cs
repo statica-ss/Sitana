@@ -32,14 +32,20 @@ namespace GameEditor
 
             ContentLoader.Init(_appMain.Services, "Assets");
 
-            UiUnit.Unit = 1;
-            UiUnit.FontUnit = 1;
-            UiUnit.EnableFontScaling = false;
-
             StylesManager.Instance.LoadStyles("AppStyles", true);
             _appMain.LoadView("MainView");
 
             _appMain.Window.AllowUserResizing = true;
+
+            _appMain.CanClose = (a) =>
+            {
+                if (!MainController.Current.CanClose)
+                {
+                    MainController.Current.Exit();
+                }
+
+                return MainController.Current.CanClose;
+            };
 
             _appMain.Graphics.IsFullScreen = false;
 

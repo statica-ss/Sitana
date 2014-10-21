@@ -25,6 +25,24 @@ namespace GameEditor
 
         private int _layerIndex = 1;
 
+        public bool IsModified { get; private set;}
+
+        public Layer SelectedLayer
+        {
+            get
+            {
+                for( int idx = 0; idx < Layers.Count; ++idx )
+                {
+                    if(Layers[idx].Selected.Value)
+                    {
+                        return Layers[idx];
+                    }
+                }
+
+                return Layers[0];
+            }
+        }
+
         public void New()
         {
             _nextIndex++;
@@ -33,6 +51,7 @@ namespace GameEditor
 
             Layers.Clear();
             AddVectorLayer();
+            IsModified = true;
         }
 
         public Document()
@@ -50,6 +69,13 @@ namespace GameEditor
         {
             FilePath = path;
             FileName.StringValue = Path.GetFileNameWithoutExtension(path);
+
+            IsModified = false;
+        }
+
+        public void CancelModified()
+        {
+            IsModified = false;
         }
 
         public void AddVectorLayer()

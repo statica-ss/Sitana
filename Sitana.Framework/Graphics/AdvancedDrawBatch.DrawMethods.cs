@@ -92,8 +92,11 @@ namespace Sitana.Framework.Graphics
             }
             else
             {
+                Vector2 origin = TextOrigin(align, size);
+                position.X += origin.X * scale;
+
                 SpriteBatchIsNeeded();
-                _spriteBatch.DrawString(_font.SpriteFont, text, position, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                _spriteBatch.DrawString(_font.SpriteFont, text, position, color, 0, origin, scale, SpriteEffects.None, 0);
             }
         }
 
@@ -121,8 +124,11 @@ namespace Sitana.Framework.Graphics
             }
             else
             {
+                Vector2 origin = TextOrigin(align, size);
+                position.X += origin.X * scale;
+
                 SpriteBatchIsNeeded();
-                _spriteBatch.DrawString(_font.SpriteFont, text, position, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                _spriteBatch.DrawString(_font.SpriteFont, text, position, color, 0, origin, scale, SpriteEffects.None, 0);
             }
         }
 

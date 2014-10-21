@@ -44,7 +44,20 @@ namespace Sitana.Framework.Ui.Core
             }
         }
 
-        public void OnSize(int width, int height)
+        void PlatformInit()
+        {
+            Window.Window.WindowShouldClose = (a) =>
+            {
+                if ( CanClose != null )
+                {
+                    return CanClose(this);
+                }
+
+                return true;
+            };
+        }
+
+        void OnSize(int width, int height)
         {
             if (MainView != null)
             {

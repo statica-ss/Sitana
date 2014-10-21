@@ -45,7 +45,19 @@ namespace Sitana.Framework.Ui.Core
             }
         }
 
-        private void OnSize(int width, int height)
+        void PlatformInit()
+        {
+            Form form = (Form)Form.FromHandle(Window.Handle);
+            form.FormClosing += (o, e) =>
+                {
+                    if (CanClose != null)
+                    {
+                        e.Cancel = !CanClose(this);
+                    }
+                };
+        }
+
+        void OnSize(int width, int height)
         {
             if (MainView != null)
             {

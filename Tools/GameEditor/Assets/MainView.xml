@@ -70,7 +70,7 @@
 
 
 
-        <UiModalLayout Id="MessageBox" BackgroundColor="#80000000" ShowTime="250" HideTime="0">
+        <UiModalLayout Id="MessageBox" BackgroundColor="#80000000" ShowTime="0" HideTime="0" TouchOutsideToHide="false">
             <UiModalLayout.Children>
                 <UiBorder>
                     <UiView.ShowTransitionEffect>
