@@ -32,7 +32,7 @@ namespace GameEditor
 
         public static void OnLoadContent(AppMain main)
         {
-            FontManager.Instance.AddSpriteFont("Font", "Fonts/Font", new int[] { 8, 12, 16, 20, 24 });
+            FontManager.Instance.AddSpriteFont("Font", "Font", 8);
         }
 
         public MainController()

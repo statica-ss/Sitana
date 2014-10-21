@@ -2,6 +2,8 @@ using System;
 using Sitana.Framework.Content;
 using Sitana.Framework.Ui.Core;
 using Sitana.Framework;
+using System.Resources;
+using System.Reflection;
 
 namespace GameEditor
 {
@@ -15,14 +17,14 @@ namespace GameEditor
         {
             using (var main = new AppMain())
             {
-                ContentLoader.Init(main.Services, "GameEditor");
+                ContentLoader.Init(main.Services, Assembly.GetExecutingAssembly(), "GameEditor.Assets");
 
                 UiUnit.Unit = 1;
                 UiUnit.FontUnit = 1;
                 UiUnit.EnableFontScaling = true;
 
-                StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
-                main.LoadView("Ui/MainView");
+                StylesManager.Instance.LoadStyles("AppStyles", true);
+                main.LoadView("MainView");
 
                 main.Window.AllowUserResizing = true;
                 main.Window.ClientSizeChanged += Window_ClientSizeChanged;

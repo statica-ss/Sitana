@@ -9,8 +9,8 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
-    <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>
-    <ContentRootDirectory>GameEditor</ContentRootDirectory>
+    <OutputPath>.\</OutputPath>
+    <ContentRootDirectory>.</ContentRootDirectory>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>Assets</RootNamespace>
@@ -24,51 +24,31 @@
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.VideoImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fonts\Font12.spritefont">
-      <Name>Font12</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-    </Compile>
-    <Compile Include="Fonts\Font16.spritefont">
-      <Name>Font16</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-    </Compile>
-    <Compile Include="Fonts\Font20.spritefont">
-      <Name>Font20</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-    </Compile>
-    <Compile Include="Fonts\Font24.spritefont">
-      <Name>Font24</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-    </Compile>
-    <Compile Include="Fonts\Font8.spritefont">
-      <Name>Font8</Name>
+    <Compile Include="Font.spritefont">
+      <Name>Font</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Ui\AppStyles.xml">
+    <None Include="AppStyles.xml">
       <Name>AppStyles</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Compile Include="Ui\Button.png">
+    <Compile Include="Button.png">
       <Name>Button</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <None Include="Ui\Button.xml">
+    <None Include="Button.xml">
       <Name>Button</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Ui\MainView.xml">
+    <None Include="MainView.xml">
       <Name>MainView</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
@@ -76,7 +56,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ui\CheckBox.png">
+    <Compile Include="CheckBox.png">
       <Name>CheckBox</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>

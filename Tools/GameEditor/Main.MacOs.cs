@@ -36,8 +36,8 @@ namespace GameEditor
             UiUnit.FontUnit = 1;
             UiUnit.EnableFontScaling = false;
 
-            StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
-            _appMain.LoadView("Ui/MainView");
+            StylesManager.Instance.LoadStyles("AppStyles", true);
+            _appMain.LoadView("MainView");
 
             _appMain.Window.AllowUserResizing = true;
 

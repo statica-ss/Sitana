@@ -20,6 +20,7 @@ using Sitana.Framework.Graphics;
 
 #if SHARP_ZIP_LIB
 using ICSharpCode.SharpZipLib.Zip;
+using System.Reflection;
 #else
 using Sitana.Framework.DummyZipLib;
 #endif
@@ -97,6 +98,20 @@ namespace Sitana.Framework.Content
         private StringBuilder _pathBuilder = new StringBuilder();
 
         private ZipFile _zipFile = null;
+        
+
+#if RESOURCE_MANAGER_AVALIABLE
+
+        private System.Resources.ResourceManager _resourceManager = null;
+
+        public static void Init(IServiceProvider serviceProvider, Assembly assembly, string root)
+        {
+            ContentManager manager = new ResourcesContentManager(serviceProvider, assembly, root);
+            Current = new ContentLoader(manager);
+
+            RegisterTypes();
+        }
+#endif
 
         public static void Init(IServiceProvider serviceProvider, string root)
         {
@@ -105,6 +120,8 @@ namespace Sitana.Framework.Content
 
             RegisterTypes();
         }
+
+
 
         public static void Init(IServiceProvider serviceProvider, string zipPath, string password)
         {
@@ -318,6 +335,15 @@ namespace Sitana.Framework.Content
                     return _zipFile.GetInputStream(entry);
                 }
             }
+
+            #if RESOURCE_MANAGER_AVALIABLE
+
+            if (_contentManager is ResourcesContentManager)
+            {
+                return (_contentManager as ResourcesContentManager).Open(name);
+            }
+
+            #endif
 
             try
             {

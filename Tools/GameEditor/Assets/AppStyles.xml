@@ -8,7 +8,7 @@
   <Style Name="MenuButton">
     <UiButton Width="40" Height="24" Y="C" Align="Left,Middle">
       <UiButton.Drawables>
-        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Ui/Button" ScaleByUnit="true" Scale="0.25"/>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" ScaleByUnit="true" Scale="0.25"/>
         <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" TextAlign="Center,Middle" Padding="2"/>
       </UiButton.Drawables>
     </UiButton>
@@ -17,7 +17,7 @@
   <Style Name="MessageBoxButton">
     <UiButton Width="40" Height="24" Align="Center,Top" ShowHideTime="0">
       <UiButton.Drawables>
-        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Ui/Button" ScaleByUnit="true" Scale="0.25"/>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" ScaleByUnit="true" Scale="0.25"/>
         <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" TextAlign="Center,Middle" Padding="2"/>
       </UiButton.Drawables>
     </UiButton>
@@ -26,7 +26,7 @@
   <Style Name="UiButton">
     <UiButton Width="64" Height="24" Align="Center,Top" ShowHideTime="0">
       <UiButton.Drawables>
-        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Ui/Button" ScaleByUnit="true" Scale="0.25"/>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" ScaleByUnit="true" Scale="0.25"/>
         <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" TextAlign="Center,Middle" Padding="2"/>
       </UiButton.Drawables>
     </UiButton>
@@ -67,7 +67,7 @@
             </effect:Group>
           </TransformGroup.TransitionEffect>
           <TransformGroup.Drawables>
-            <button:NinePatchBackground Style="ChangeTime" ColorPushed="#20ffffff" ColorReleased="#20ffffff" Image="Ui/Button" ScaleByUnit="true" Scale="0"/>
+            <button:NinePatchBackground Style="ChangeTime" ColorPushed="#20ffffff" ColorReleased="#20ffffff" Image="Button" ScaleByUnit="true" Scale="0"/>
           </TransformGroup.Drawables>
         </button:TransformGroup>
         <button:TransformGroup Reverse="false" ChangeTime="100">
@@ -77,8 +77,8 @@
             </effect:Group>
           </TransformGroup.TransitionEffect>
           <TransformGroup.Drawables>
-            <button:CheckMark Style="ChangeTime" ColorPushed="#80ffffff" ColorReleased="#ffffff" ImageChecked="Ui/CheckBox" Scale="0.15"/>
-            <button:CheckMark Style="ChangeTime" ColorPushed="#40ffffff" ColorReleased="#00000000" ImageUnchecked="Ui/CheckBox" Scale="0.15"/>
+            <button:CheckMark Style="ChangeTime" ColorPushed="#80ffffff" ColorReleased="#ffffff" ImageChecked="CheckBox" Scale="0.15"/>
+            <button:CheckMark Style="ChangeTime" ColorPushed="#40ffffff" ColorReleased="#00000000" ImageUnchecked="CheckBox" Scale="0.15"/>
           </TransformGroup.Drawables>
         </button:TransformGroup>
       </UiButton.Drawables>

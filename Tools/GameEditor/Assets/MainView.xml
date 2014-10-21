@@ -10,7 +10,7 @@
             <UiBorder.Children />
         </UiBorder>
 
-        <UiBorder BackgroundColor="#004030" X="4" Y="36" Width="320" Height="220" Align="Left,Top" Mode="Vertical">
+        <UiBorder BackgroundColor="#003040" X="4" Y="36" Width="320" Height="220" Align="Left,Top" Mode="Vertical">
             <UiBorder.Children>
 
                 <UiRectangle Color="#20ffffff" Width="@-4" Height="20" X="2" Y="2" Align="Top,Left"/>
