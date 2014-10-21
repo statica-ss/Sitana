@@ -69,5 +69,17 @@ namespace Sitana.Framework
 
             return null;
         }
+
+        public static string SaveFileDialog(string title)
+        {
+            System.Windows.Forms.SaveFileDialog dlg = new System.Windows.Forms.SaveFileDialog();
+
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                return dlg.FileName;
+            }
+
+            return null;
+        }
     }
 }
