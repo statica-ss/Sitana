@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<core:StylesContainer
+    xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
+    xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
+    xmlns:core="namespace:Sitana.Framework.Ui.Core,Sitana.Framework"
+    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework">
+
+  <Include Path="MenuStyles"/>
+
+  <Style Name="MessageBoxButton">
+    <UiCheckBox Width="48" Height="24" HorizontalAlignment="Center" VerticalAlignment="Bottom" ShowHideTime="0" Y="@-16">
+      <UiButton.Drawables>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" />
+        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2"/>
+      </UiButton.Drawables>
+    </UiCheckBox>
+  </Style>
+    
+  <Style Name="TabButton">
+    <UiButton Width="64" Height="18" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-2,0,0">
+      <UiButton.Drawables>
+        <button:NinePatchBackground ColorPushed="#ffffff" ColorReleased="#ffa0a0" Image="Tab" Checked="true"/>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" Image="Tab" Checked="false"/>
+
+        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" Font="Font" FontSize="8" Margin="2" Checked="false"/>
+        <button:Text ColorPushed="#a04040" ColorReleased="#800000" Font="Font" FontSize="8" Margin="2" Checked="true"/>
+      </UiButton.Drawables>
+    </UiButton>
+  </Style>
+
+  <Style Name="UiButton">
+    <UiButton Width="64" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" ShowHideTime="0">
+      <UiButton.Drawables>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" />
+        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" Margin="2"/>
+      </UiButton.Drawables>
+    </UiButton>
+  </Style>
+
+  <Style Name="UiCheckBox">
+    <UiCheckBox Width="72" Height="20" HorizontalAlignment="Right" VerticalAlignment="Center">
+      <UiButton.Drawables>
+        <button:NinePatchBackground ColorPushed="#ffa0a0" ColorReleased="#ffa0a0" Image="Button" Checked="true"/>
+            ž<button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" Image="Button" Checked="false"/>
+
+            <button:Text ColorPushed="#800000" ColorReleased="#800000" Font="Font" FontSize="8" Margin="2" Checked="true"/>
+            <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" Font="Font" FontSize="8" Margin="2" Checked="false"/>
+      </UiButton.Drawables>
+    </UiCheckBox>
+  </Style>
+
+</core:StylesContainer>

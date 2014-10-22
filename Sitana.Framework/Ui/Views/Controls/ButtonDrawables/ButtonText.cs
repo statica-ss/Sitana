@@ -23,14 +23,13 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             file["Font"] = parser.Value("Font");
             file["FontSize"] = parser.ParseInt("FontSize");
-            file["TextAlign"] = parser.ParseEnum<TextAlign>("TextAlign");
-            file["Padding"] = parser.ParseInt("Padding");
+            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
+            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
         }
 
         protected string _font;
         protected int _fontSize;
         protected TextAlign _textAlign;
-        protected int _padding;
 
         private FontFace _fontFace;
 
@@ -40,11 +39,13 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(NinePatchBackground));
 
-            _padding = DefinitionResolver.Get<int>(controller, binding, file["Padding"], 0);
-
             _font = DefinitionResolver.GetString(controller, binding, file["Font"]);
             _fontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"], 0);
-            _textAlign = DefinitionResolver.Get<TextAlign>(controller, binding, file["TextAlign"], TextAlign.Center | TextAlign.Middle);
+
+            HorizontalAlignment horzAlign = DefinitionResolver.Get<HorizontalAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalAlignment.Center);
+            VerticalAlignment vertAlign = DefinitionResolver.Get<VerticalAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalAlignment.Center);
+
+            _textAlign = UiHelper.TextAlignFromAlignment(horzAlign, vertAlign);
         }
 
         public override void Draw(AdvancedDrawBatch drawBatch, UiButton.DrawButtonInfo info)
@@ -61,12 +62,11 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             float scale;
             UniversalFont font = _fontFace.Find(_fontSize, out scale);
 
-            Color color = ColorFromState * info.Opacity;
+            Color color = ColorFromState * info.Opacity * Opacity;
 
-            Rectangle rect = info.Target;
-            rect.Inflate(-_padding, -_padding);
+            Rectangle target = _margin.ComputeRect(info.Target);
 
-            drawBatch.DrawText(font, str, rect, _textAlign, color, scale);
+            drawBatch.DrawText(font, str, target, _textAlign, color, scale);
         }
     }
 }

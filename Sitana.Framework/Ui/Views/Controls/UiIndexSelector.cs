@@ -30,6 +30,9 @@ namespace Sitana.Framework.Ui.Views
             file["ElementWidth"] = parser.ParseLength("ElementWidth");
             file["ElementHeight"] = parser.ParseLength("ElementHeight");
             file["Mode"] = parser.ParseEnum<Mode>("Mode");
+
+            file["ContentHorizontalAlignment"] = parser.ParseEnum<HorizontalAlignment>("ContentHorizontalAlignment");
+            file["ContentVerticalAlignment"] = parser.ParseEnum<VerticalAlignment>("ContentVerticalAlignment");
         }
 
         enum Mode
@@ -44,6 +47,9 @@ namespace Sitana.Framework.Ui.Views
         private int _pushedIndex = -1;
 
         private bool _vertical = false;
+
+        private HorizontalAlignment _contentHorizontalAlignment;
+        private VerticalAlignment _contentVerticalAlignment;
 
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
@@ -73,9 +79,14 @@ namespace Sitana.Framework.Ui.Views
                 _element.GetText(_text, idx);
 
                 drawInfo.ButtonState = State.None;
-                if (idx == selected || idx == _pushedIndex)
+                if (idx == _pushedIndex)
                 {
-                    drawInfo.ButtonState = UiButton.State.Pushed;
+                    drawInfo.ButtonState |= UiButton.State.Pushed;
+                }
+
+                if ( idx == selected )
+                {
+                    drawInfo.ButtonState |= UiButton.State.Checked;
                 }
 
                 drawInfo.Text = _text;
@@ -114,13 +125,69 @@ namespace Sitana.Framework.Ui.Views
 
             if (_vertical)
             {
-                posX = rect.Center.X - width / 2;
-                posY = rect.Center.Y - (height * count + spacing * (count - 1)) / 2;
+                switch(_contentHorizontalAlignment)
+                {
+                case HorizontalAlignment.Left:
+                case HorizontalAlignment.Stretch:
+                    posX = rect.Center.X;
+                    break;
+
+                case HorizontalAlignment.Center:
+                    posX = rect.Center.X - width / 2;
+                    break;
+
+                case HorizontalAlignment.Right:
+                    posX = rect.Right - width;
+                    break;
+                }
+
+                switch(_contentVerticalAlignment)
+                {
+                case VerticalAlignment.Top:
+                case VerticalAlignment.Stretch:
+                    posY = rect.Y;
+                    break;
+
+                case VerticalAlignment.Center:
+                    posY = rect.Center.Y - (height * count + spacing * (count - 1)) / 2;
+                    break;
+
+                case VerticalAlignment.Bottom:
+                    posY = rect.Bottom - (height * count + spacing * (count - 1));
+                    break;
+                }
             }
             else
             {
-                posX = rect.Center.X - (width * count + spacing * (count - 1)) / 2;
-                posY = rect.Center.Y - height / 2;
+                switch(_contentHorizontalAlignment)
+                {
+                case HorizontalAlignment.Left:
+                case HorizontalAlignment.Stretch:
+                    posX = rect.X;
+                    break;
+                case HorizontalAlignment.Center:
+                    posX = rect.Center.X - (width * count + spacing * (count - 1)) / 2;
+                    break;
+                case HorizontalAlignment.Right:
+                    posX = rect.Right - (width * count + spacing * (count - 1));
+                    break;
+                }
+
+                switch(_contentVerticalAlignment)
+                {
+                case VerticalAlignment.Top:
+                case VerticalAlignment.Stretch:
+                    posY = rect.Y;
+                    break;
+
+                case VerticalAlignment.Center:
+                    posY = rect.Center.Y - height / 2;
+                    break;
+
+                case VerticalAlignment.Bottom:
+                    posY = rect.Bottom - height;
+                    break;
+                }
             }
 
             rect = new Rectangle(posX, posY, width, height);
@@ -144,6 +211,8 @@ namespace Sitana.Framework.Ui.Views
             _elementWidth = DefinitionResolver.Get<Length>(Controller, Binding, file["ElementWidth"], Length.Stretch);
             _elementHeight = DefinitionResolver.Get<Length>(Controller, Binding, file["ElementHeight"], Length.Stretch);
 
+            _contentHorizontalAlignment = DefinitionResolver.Get<HorizontalAlignment>(Controller, Binding, file["ContentHorizontalAlignment"], HorizontalAlignment.Center);
+            _contentVerticalAlignment = DefinitionResolver.Get<VerticalAlignment>(Controller, Binding, file["ContentVerticalAlignment"], VerticalAlignment.Center);
         }
 
         protected override void OnGesture(Gesture gesture)

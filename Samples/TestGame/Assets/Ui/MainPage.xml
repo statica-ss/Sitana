@@ -9,7 +9,7 @@
     <UiBorder>
       <UiBorder.Children>
         
-        <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="Uniform" X="C" Y="C-80" Align="Center,Middle" Width="200" Height="200"/>
+        <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="Uniform" X="C" Y="C-80" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="200"/>
 
         <UiButton Style="DefaultButton" X="C" Text="Start Game" Y="C+40" Click="{OnNewGame()}"/>
         <UiButton Style="DefaultButton" X="C" Text="Options" Y="C+110" Click="{NavigateTo('Ui/OptionsPage')}"/>

@@ -104,6 +104,7 @@
     <Compile Include="Definitions\KeyboardContext.cs" />
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
+    <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
     <Compile Include="Definitions\TransitionType.cs" />
     <Compile Include="Games\Platform\Physics\IObjFinder.cs" />
     <Compile Include="Graphics\3D\ModelX\ModelXRenderer.cs" />

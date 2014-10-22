@@ -4,13 +4,13 @@
     xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
     Width="720" Height="480" BackgroundColor="#006080">
   <UiBorder.Children>
-    <UiNavigationView ClipChildren="true" Page="Ui/MainPage" BackgroundColor="#003040" X="C" Y="4" Width="@-8" Height="@-32" Align="Center,Top"/>
+    <UiNavigationView ClipChildren="true" Page="Ui/MainPage" BackgroundColor="#003040" X="C" Y="4" Width="@-8" Height="@-32" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
-    <UiLabel Text="Copyright © SitanaTeam." Font="TestFont" FontSize="10" X="6" Y="@-14" TextAlign="Left,Middle" Align="Left,Middle"/>
+    <UiLabel Text="Copyright © SitanaTeam." Font="TestFont" FontSize="10" X="6" Y="@-14" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-    <UiButton Text="https://github.com/SitanaTeam/Sitana" X="@-6" Y="@-14" Height="32" Width="200" Align="Right,Middle" Click="{OpenLink(sender)}">
+    <UiButton Text="https://github.com/SitanaTeam/Sitana" X="@-6" Y="@-14" Height="32" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center" Click="{OpenLink(sender)}">
       <UiButton.Drawables>
-        <button:Text ColorPushed="#b0ffff" ColorReleased="#ffffff" Font="TestFont" FontSize="10" TextAlign="Right,Middle" Padding="0"/>
+        <button:Text ColorPushed="#b0ffff" ColorReleased="#ffffff" Font="TestFont" FontSize="10" HorizontalContentAlignment="Right" Padding="0"/>
       </UiButton.Drawables>
     </UiButton>
     

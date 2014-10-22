@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UiBorder
+    xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
+    xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
+    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
+    Width="340" Height="32" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <UiBorder.Children>
+        <UiStackPanel Style="MenuStrip" X="0" Y="4" Height="28" VerticalAlignment="Top">
+            <UiStackPanel.Children>
+                <UiButton Style="MenuButton" Text="File" Click="{ShowElement('FileMenu')}" />
+                <UiButton Style="MenuButton" Text="Edit" />
+                <UiButton Style="MenuButton" Text="View" Click="{ShowElement('ViewMenu')}"/>
+                <UiButton Style="MenuButton" Text="Help" />
+            </UiStackPanel.Children>
+        </UiStackPanel>
+
+        <UiLabel Text="{FileName}" Font="Font" FontSize="8" X="@-4" Y="16" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+        <!-- File menu -->
+        <UiModalLayout Id="FileMenu" Style="MenuStripLayout">
+            <UiModalLayout.Children>
+                <UiStackPanel Style="MenuStrip">
+                    <UiStackPanel.Children>
+                        <UiButton Style="MenuButton" Text="New" Click="{New()}" />
+                        <UiButton Style="MenuButton" Text="Open" Click="{Open()}" />
+                        <UiButton Style="MenuButton" Text="Save" Click="{Save()}" />
+                        <UiButton Style="MenuButton" Text="Save As..." Width="64" Click="{SaveAs()}" />
+                    </UiStackPanel.Children>
+                </UiStackPanel>
+            </UiModalLayout.Children>
+        </UiModalLayout>
+
+        <!-- View -->
+
+        <UiModalLayout Id="ViewMenu" Style="MenuStripLayout">
+            <UiModalLayout.Children>
+                <UiStackPanel Style="MenuStrip">
+                    <UiStackPanel.Children>
+                        <UiCheckBox Style="MenuCheckBox" Text="All layers" Checked="{ShowAllLayers}"/>
+                    </UiStackPanel.Children>
+                </UiStackPanel>
+            </UiModalLayout.Children>
+        </UiModalLayout>
+
+    </UiBorder.Children>
+</UiBorder>

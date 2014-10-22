@@ -136,6 +136,11 @@ namespace Editor
             EditView.Instance.Operation = new OperationCircle();
         }
 
+        private void _buttonOperationImage_Click(object sender, EventArgs e)
+        {
+            EditView.Instance.Operation = new OperationImage();
+        }
+
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Document.Instance.New();

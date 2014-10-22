@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<UiBorder
+    xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
+    xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
+    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
+    Tag="Properties">
+    <UiBorder.Children>
+        <UiRectangle Width="256" HorizontalAlignment="Center" X="C" Y="32" VerticalAlignment="Top" Height="256"/>
+    </UiBorder.Children>
+</UiBorder>

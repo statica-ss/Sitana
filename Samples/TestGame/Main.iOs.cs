@@ -24,7 +24,7 @@ namespace TestGame
 			main.LoadView("Ui/MainView");
 
 			main.Graphics.IsFullScreen = true;
-			main.Graphics.SupportedOrientations = DisplayOrientation.Portrait | DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight | DisplayOrientation.PortraitDown;
+			main.Graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
 
 			main.OnLoadContent += GameController.OnLoadContent;
 

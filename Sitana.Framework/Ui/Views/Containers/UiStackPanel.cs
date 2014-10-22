@@ -136,17 +136,17 @@ namespace Sitana.Framework.Ui.Views
                 Point size = view.ComputeSize(width, height);
                 int posX = Padding + parameters.Margin.Left;
 
-                switch (parameters.Align & Align.Horz)
+                switch (parameters.HorizontalAlignment)
                 {
-                    case Align.Center:
+                case HorizontalAlignment.Center:
                         posX = (width - size.X) / 2;
                         break;
 
-                    case Align.Right:
+                case HorizontalAlignment.Right:
                         posX = width - Padding - parameters.Margin.Right - size.X;
                         break;
 
-                    case Align.StretchHorz:
+                case HorizontalAlignment.Stretch:
                         size.X = width - Padding * 2 - parameters.Margin.Width;
                         break;
                 }
@@ -169,17 +169,17 @@ namespace Sitana.Framework.Ui.Views
                 Point size = view.ComputeSize(width, height);
                 int posY = Padding + parameters.Margin.Top;
 
-                switch (parameters.Align & Align.Vert)
+                switch (parameters.VerticalAlignment)
                 {
-                    case Align.Middle:
+                case VerticalAlignment.Center:
                         posY = (height - size.Y)/2;
                         break;
 
-                    case Align.Bottom:
+                case VerticalAlignment.Bottom:
                         posY = height - Padding - parameters.Margin.Bottom - size.Y;
                         break;
 
-                    case Align.StretchVert:
+                case VerticalAlignment.Stretch:
                         size.Y = height - Padding * 2 - parameters.Margin.Height;
                         break;
                 }
@@ -237,11 +237,11 @@ namespace Sitana.Framework.Ui.Views
         {
             base.Init(controller, binding, definition);
 
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiSplitterView));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiStackPanel));
 
-            StackMode = DefinitionResolver.Get<Mode>(Controller, binding, file["Mode"], Mode.Vertical);
-            _spacing = DefinitionResolver.Get<Length>(Controller, binding, file["Spacing"], Length.Zero);
-            _padding = DefinitionResolver.Get<Length>(Controller, binding, file["Padding"], Length.Zero);
+            StackMode = DefinitionResolver.Get<Mode>(Controller, Binding, file["Mode"], Mode.Vertical);
+            _spacing = DefinitionResolver.Get<Length>(Controller, Binding, file["Spacing"], Length.Zero);
+            _padding = DefinitionResolver.Get<Length>(Controller, Binding, file["Padding"], Length.Zero);
 
             InitChildren(Controller, binding, definition);
         }

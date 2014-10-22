@@ -17,7 +17,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Windows.Xna\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWS;ELOGGING;SHARP_ZIP_LIB</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS;ELOGGING;SHARP_ZIP_LIB;RESOURCE_MANAGER_AVALIABLE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -26,7 +26,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\_Bin\Windows.Xna\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;ELOGGING;SHARP_ZIP_LIB</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS;ELOGGING;SHARP_ZIP_LIB;RESOURCE_MANAGER_AVALIABLE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentManagement\ResourcesContentManager.cs" />
     <Compile Include="ContentManagement\ZipContentManager.cs" />
     <Compile Include="ContentManagement\ZipFile.cs" />
     <Compile Include="Diagnostics\PerformanceProfiler.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
     <Compile Include="Ui\Binding\ItemsList.cs" />
+    <Compile Include="Ui\Definitions\HorizontalAlignment.cs" />
     <Compile Include="Ui\Definitions\Stretch.cs" />
     <Compile Include="Graphics\Fonts\Font.cs" />
     <Compile Include="Graphics\Fonts\FontFace.cs" />
@@ -77,13 +79,16 @@
     <Compile Include="Ui\Core\StylesManager.cs" />
     <Compile Include="Ui\Core\UiUnit.cs" />
     <Compile Include="Ui\DefinitionFiles\DefinitionFileWithStyle.cs" />
+    <Compile Include="Ui\Definitions\UiHelper.cs" />
+    <Compile Include="Ui\Definitions\VerticalAlignment.cs" />
     <Compile Include="Ui\TransitionEffects\Rotate.cs" />
     <Compile Include="Ui\Views\Containers\UiContentSlider.cs" />
     <Compile Include="Ui\Views\Containers\UiListBox.cs" />
+    <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
     <Compile Include="Ui\Views\Containers\UiScrollView.cs" />
     <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
-    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonCheckMark.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonImage.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
     <Compile Include="Ui\TransitionEffects\TransitionEffect.cs" />
     <Compile Include="Ui\TransitionEffects\Group.cs" />
@@ -95,6 +100,7 @@
     <Compile Include="Ui\Views\Controls\UiImage.cs" />
     <Compile Include="Ui\Views\Controls\UiIndexSelector.cs" />
     <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
+    <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
     <Compile Include="Ui\Views\Scroller.cs" />
     <Compile Include="Xml\XFile.cs" />
     <Compile Include="Cs\SharedString.cs" />
@@ -117,17 +123,6 @@
     <Compile Include="Graphics\Images\LoadTexture2DFromPng.cs" />
     <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
     <Compile Include="Graphics\Sprites\Sprite.cs" />
-    <Compile Include="CrashReporter\CrashReporter.cs" />
-    <Compile Include="CrashReporter\Data\Application.cs" />
-    <Compile Include="CrashReporter\Data\Crash.cs" />
-    <Compile Include="CrashReporter\Data\CrashInstance.cs" />
-    <Compile Include="CrashReporter\Data\CrashReport.cs" />
-    <Compile Include="CrashReporter\Data\CrashReportInfo.cs" />
-    <Compile Include="CrashReporter\Data\DateAndTime.cs" />
-    <Compile Include="CrashReporter\Data\Device.cs" />
-    <Compile Include="DataTransfer\Ecs\EcsRequest.cs" />
-    <Compile Include="DataTransfer\Ecs\EcsResponse.cs" />
-    <Compile Include="CrashReporter\Data\Session.cs" />
     <Compile Include="Cs\CsToolkit.cs" />
     <Compile Include="Cs\Deletages.cs" />
     <Compile Include="Cs\IIndexedContainer.cs" />
@@ -135,12 +130,6 @@
     <Compile Include="Cs\IndexedList.cs" />
     <Compile Include="Cs\Singleton.cs" />
     <Compile Include="Cs\BitConverterLE.cs" />
-    <Compile Include="DataTransfer\Ecs\EcsHttpClient.cs" />
-    <Compile Include="DataTransfer\Ecs\EcsProtocol.cs" />
-    <Compile Include="DataTransfer\Ecs\EcsStructure.cs" />
-    <Compile Include="DataTransfer\Ecs\EcsReader.cs" />
-    <Compile Include="DataTransfer\Ecs\EcsWriter.cs" />
-    <Compile Include="DataTransfer\ReadContentHelper.cs" />
     <Compile Include="Definitions\Align.cs" />
     <Compile Include="Definitions\KeyboardContext.cs" />
     <Compile Include="Definitions\Orientation.cs" />
@@ -169,7 +158,6 @@
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
-    <Compile Include="Helpers\ParametersColletion.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="Helpers\SpriteOptimizer.cs" />
     <Compile Include="Media\SoundControler.cs" />

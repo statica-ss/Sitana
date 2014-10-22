@@ -114,6 +114,7 @@
     <Compile Include="Input\InputHandler.cs" />
     <Compile Include="Input\KeyInfo.cs" />
     <Compile Include="Input\PointerInfo.cs" />
+    <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
     <Compile Include="Input\RegisteredGesture.cs" />
     <Compile Include="Input\TouchInputHandler.cs" />
     <Compile Include="Media\MusicControler.cs" />

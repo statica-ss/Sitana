@@ -377,7 +377,19 @@ namespace Sitana.Framework.Ui.Views
 
         void IIndexedElement.GetText(SharedString text, int index)
         {
-            text.Format("{0}", index+1);
+            var child = _children[index];
+
+            if (child.Tag != null)
+            {
+                lock(child.Tag)
+                {
+                    text.Copy(child.Tag.StringBuilder);
+                }
+            }
+            else
+            {
+                text.Format("{0}", index + 1);
+            }
         }
     }
 }

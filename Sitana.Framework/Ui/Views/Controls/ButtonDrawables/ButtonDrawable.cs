@@ -20,6 +20,9 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["ColorPushed"] = parser.ParseColor("ColorPushed");
             file["ColorReleased"] = parser.ParseColor("ColorReleased");
             file["ColorDisabled"] = parser.ParseColor("ColorDisabled");
+            file["Margin"] = parser.ParseMargin("Margin");
+
+            file["Checked"]= parser.ParseBoolean("Checked");
         }
 
         protected float CheckedState = float.NaN;
@@ -30,7 +33,23 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         protected ColorWrapper _colorReleased;
         protected ColorWrapper _colorDisabled;
 
+        protected bool? _checked;
+
+        protected Margin _margin;
+
         float _changeSpeed = 1;
+
+        protected float Opacity
+        {
+            get
+            {
+                if (_checked.HasValue)
+                {
+                    return _checked.Value ? CheckedState : 1 - CheckedState;
+                }
+                return 1;
+            }
+        }
 
         void IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
         {
@@ -74,6 +93,17 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _colorDisabled = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorDisabled"]);
             _colorReleased = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorReleased"]);
             _colorPushed = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorPushed"]);
+
+            _margin = DefinitionResolver.Get<Margin>(controller, binding, file["Margin"], Margin.None);
+
+            if ( file["Checked"] != null )
+            {
+                _checked = DefinitionResolver.Get<bool>(controller, binding, file["Checked"], false);
+            }
+            else
+            {
+                _checked = null;
+            }
         }
 
         protected Color ColorFromState

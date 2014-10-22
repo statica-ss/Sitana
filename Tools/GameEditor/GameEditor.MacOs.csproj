@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{191E6C98-0C15-4161-A863-AC59B5B17D4B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>GameEditor</RootNamespace>
+    <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
+    <AssemblyName>GameEditor</AssemblyName>
+    <SuppressXamMacUpsell>True</SuppressXamMacUpsell>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\_Bin\MacOs</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <UseSGen>false</UseSGen>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CreatePackage>false</CreatePackage>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>..\_Bin\MacOs</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <UseSGen>false</UseSGen>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CreatePackage>false</CreatePackage>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\_Bin\MacOs</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <LinkMode>SdkOnly</LinkMode>
+    <UseSGen>false</UseSGen>
+    <IncludeMonoRuntime>true</IncludeMonoRuntime>
+    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <CreatePackage>true</CreatePackage>
+    <CodeSigningKey>3rd Party Mac Developer Application</CodeSigningKey>
+    <EnableCodeSigning>true</EnableCodeSigning>
+    <EnablePackageSigning>true</EnablePackageSigning>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="MonoMac" />
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\..\ThirdParty\Dependences\MonoGame\MacOs\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+    <Folder Include="Assets\" />
+    <Folder Include="Document\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Info.plist" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Main.MacOs.cs" />
+    <Compile Include="MainController.cs" />
+    <Compile Include="Document\Document.cs" />
+    <Compile Include="Document\DocLayer.cs" />
+    <Compile Include="Document\DocTiledLayer.cs" />
+    <Compile Include="Document\DocVectorLayer.cs" />
+    <Compile Include="EditorSettings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.MacOs.csproj">
+      <Project>{9A6B9310-FEB6-4B5E-89B2-613FA31BDD21}</Project>
+      <Name>Sitana.Framework.MacOs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sitana.Framework.Games\Sitana.Framework.Games.MacOs.csproj">
+      <Project>{78F1EF91-2450-4E6D-9638-A4F954BAF807}</Project>
+      <Name>Sitana.Framework.Games.MacOs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Icon.icns" />
+    <BundleResource Include="Assets\CheckBox.png" />
+    <BundleResource Include="Assets\Button.png" />
+    <BundleResource Include="Assets\MainView.xml" />
+    <BundleResource Include="Assets\AppStyles.xml" />
+    <BundleResource Include="Assets\Button.xml" />
+    <BundleResource Include="Assets\MacOs\Font.xnb">
+      <Link>Assets\Font.xnb</Link>
+    </BundleResource>
+    <BundleResource Include="Assets\Menu.xml" />
+    <BundleResource Include="Assets\MenuStyles.xml" />
+    <BundleResource Include="Assets\MessageBox.xml" />
+    <BundleResource Include="Assets\Tab.png" />
+    <BundleResource Include="Assets\Tab.xml" />
+    <BundleResource Include="Assets\LayerProperties.xml" />
+    <BundleResource Include="Assets\LayerInsert.xml" />
+  </ItemGroup>
+</Project>

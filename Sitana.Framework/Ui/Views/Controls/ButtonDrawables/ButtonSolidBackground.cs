@@ -12,11 +12,17 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 {
     public class SolidBackground : ButtonDrawable
     {
+        public new static void Parse(XNode node, DefinitionFile file)
+        {
+            ButtonDrawable.Parse(node, file);
+        }
+
         public override void Draw(AdvancedDrawBatch drawBatch, UiButton.DrawButtonInfo info)
         {
             Update(info.EllapsedTime, info.ButtonState);
 
-            drawBatch.DrawRectangle(info.Target, ColorFromState * info.Opacity);
+            Rectangle target = _margin.ComputeRect(info.Target);
+            drawBatch.DrawRectangle(target, ColorFromState * info.Opacity * Opacity);
         }
     }
 }

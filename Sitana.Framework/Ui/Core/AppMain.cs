@@ -18,7 +18,8 @@ namespace Sitana.Framework.Ui.Core
     public partial class AppMain: Game
     {
         public delegate void LoadDelegate(AppMain main);
-
+        public delegate bool CloseDelegate(AppMain main);
+        public delegate void ResizedDelegate(int width, int height);
 
         public static AppMain Current { get; private set; }
 
@@ -28,6 +29,9 @@ namespace Sitana.Framework.Ui.Core
 
         public event LoadDelegate OnLoadContent;
         public event LoadDelegate OnLoadedView;
+        public event ResizedDelegate Resized;
+
+        public CloseDelegate CanClose { get; set;}
 
         private Point _lastSize = Point.Zero;
 
@@ -64,6 +68,8 @@ namespace Sitana.Framework.Ui.Core
             MusicController.Instance.Initialize();
 
             TotalGameTime = 0;
+
+            PlatformInit();
         }
 
         protected override void Dispose(bool disposing)
@@ -119,6 +125,7 @@ namespace Sitana.Framework.Ui.Core
             TotalGameTime = gameTime.TotalGameTime.TotalSeconds;
 
             UiTask.Process();
+            DelayedActionInvoker.Instance.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             var newSize = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
@@ -181,6 +188,11 @@ namespace Sitana.Framework.Ui.Core
         {
             DefinitionFile file = ContentLoader.Current.Load<DefinitionFile>(path);
             _mainView = file;
+        }
+
+        public void SizeChanged()
+        {
+            _lastSize = Point.Zero;
         }
     }
 }

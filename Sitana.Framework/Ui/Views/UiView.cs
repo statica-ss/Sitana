@@ -49,6 +49,13 @@ namespace Sitana.Framework.Ui.Views
             file["MinWidth"] = parser.ParseLength("MinWidth", false);
             file["MinHeight"] = parser.ParseLength("MinHeight", false);
 
+            file["ShowHideTime"] = parser.ParseFloat("ShowHideTime");
+
+            file["HideTime"] = parser.ParseFloat("HideTime");
+            file["ShowTime"] = parser.ParseFloat("ShowTime");
+
+            file["Tag"] = parser.ParseString("Tag");
+
             PositionParameters.Parse(node, file);
 
             foreach (var cn in node.Nodes)
@@ -150,7 +157,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public Boolean Visible { get; set; }
+        public SharedValue<bool> Visible { get; protected set;}
 
         public virtual Point MinSize
         {
@@ -175,6 +182,9 @@ namespace Sitana.Framework.Ui.Views
         protected Length _minWidth;
         protected Length _minHeight;
 
+        float _showSpeed;
+        float _hideSpeed;
+
         protected Rectangle _bounds = new Rectangle();
 
         public object Binding { get; private set; }
@@ -185,6 +195,8 @@ namespace Sitana.Framework.Ui.Views
         protected TransitionEffect _hideTransitionEffect = null;
 
         protected bool _enableGestureHandling = false;
+
+        public SharedString Tag { get; private set;}
 
         public bool IsPointInsideView(Vector2 point)
         {
@@ -236,7 +248,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected float DisplayOpacity { get; private set; }
+        protected float DisplayOpacity { get; set; }
 
         private ColorWrapper _backgroundColor = new ColorWrapper(Color.Transparent);
         private InvokeParameters _invokeParameters = new InvokeParameters();
@@ -275,7 +287,7 @@ namespace Sitana.Framework.Ui.Views
 
         internal void ViewDraw(ref UiViewDrawParameters parameters)
         {
-            _enableGestureHandling = Visible && parameters.Transition == 0;
+            _enableGestureHandling = Visible.Value && Math.Abs(parameters.Transition) < 0.000001;
 
             TransitionEffect transitionEffect = parameters.TransitionModeHide ? _hideTransitionEffect : _showTransitionEffect;
 
@@ -304,13 +316,25 @@ namespace Sitana.Framework.Ui.Views
 
         internal void ViewUpdate(float time)
         {
+            _enableGestureHandling = false;
+
             if (_controller != null)
             {
                 _controller.UpdateInternal(time);
             }
 
-            float opacity = Visible ? Opacity : 0;
-            DisplayOpacity = time * 4 * opacity + (1 - time * 4) * DisplayOpacity;
+            float opacity = Visible.Value ? Opacity : 0;
+
+            if ( DisplayOpacity < opacity )
+            {
+                DisplayOpacity += _showSpeed * time;
+                DisplayOpacity = Math.Min(DisplayOpacity, opacity);
+            }
+            else if ( DisplayOpacity > opacity )
+            {
+                DisplayOpacity -= _hideSpeed * time;
+                DisplayOpacity = Math.Max(DisplayOpacity, opacity);
+            }
 
             if ( _lastSize != Bounds)
             {
@@ -424,12 +448,14 @@ namespace Sitana.Framework.Ui.Views
             Binding = binding;
 
             Id = (string)file["Id"];
-            Visible = DefinitionResolver.Get<bool>(Controller, binding, file["Visible"], true);
+            Visible = DefinitionResolver.GetShared<bool>(Controller, binding, file["Visible"], true);
+
+            Tag = DefinitionResolver.GetSharedString(Controller, Binding, file["Tag"]);
 
             int opacity = DefinitionResolver.Get<int>(Controller, binding, file["Opacity"], 100);
             Opacity = (float)opacity / 100.0f;
 
-            if (Visible)
+            if (Visible.Value)
             {
                 DisplayOpacity = Opacity;
             }
@@ -444,6 +470,32 @@ namespace Sitana.Framework.Ui.Views
 
             _minWidth = DefinitionResolver.Get<Length>(Controller, binding, file["MinWidth"], Length.Zero);
             _minHeight = DefinitionResolver.Get<Length>(Controller, binding, file["MinHeight"], Length.Zero);
+
+            _showSpeed = (float) Math.Max(
+                    DefinitionResolver.Get<double>(Controller, binding, file["ShowHideTime"], -1),
+                    DefinitionResolver.Get<double>(Controller, binding, file["ShowTime"], -1));
+
+            if ( _showSpeed < 0 )
+            {
+                _showSpeed = 250;
+            }
+
+            _showSpeed /= 1000.0f;
+
+            _showSpeed = _showSpeed > 0 ? 1 / _showSpeed : 10000;
+
+            _hideSpeed = (float) Math.Max(
+                DefinitionResolver.Get<double>(Controller, binding, file["ShowHideTime"], -1),
+                DefinitionResolver.Get<double>(Controller, binding, file["HideTime"], -1));
+
+            if ( _hideSpeed < 0 )
+            {
+                _hideSpeed = 250;
+            }
+
+            _hideSpeed /= 1000.0f;
+
+            _hideSpeed = _hideSpeed > 0 ? 1 / _hideSpeed : 10000;
 
             CreatePositionParameters(Controller, binding, definition);
 
@@ -516,12 +568,12 @@ namespace Sitana.Framework.Ui.Views
         {
             var size = new Point(PositionParameters.Width.Compute(width-PositionParameters.Margin.Width), PositionParameters.Height.Compute(height-PositionParameters.Margin.Height));
 
-            if (size.X == 0 && PositionParameters.Align.HasFlag(Align.StretchHorz))
+            if (size.X == 0 && PositionParameters.HorizontalAlignment == HorizontalAlignment.Stretch)
             {
                 size.X = width;
             }
 
-            if (size.Y == 0 && PositionParameters.Align.HasFlag(Align.StretchVert))
+            if (size.Y == 0 && PositionParameters.VerticalAlignment == VerticalAlignment.Stretch)
             {
                 size.Y = height;
             }

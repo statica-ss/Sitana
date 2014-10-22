@@ -116,6 +116,18 @@ namespace Sitana.Framework.Cs
             }
         }
 
+        public void Copy(StringBuilder other)
+        {
+            lock(this)
+            {
+                _stringBuilder.Clear();
+                for(int idx = 0; idx < other.Length; ++idx)
+                {
+                    _stringBuilder.Append(other[idx]);
+                }
+            }
+        }
+
         public void Append(string value)
         {
             // lock(this) - see explanation above.

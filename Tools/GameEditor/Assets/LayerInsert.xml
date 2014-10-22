@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<UiBorder
+    xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
+    xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
+    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
+    Tag="Insert">
+    <UiBorder.Children>
+    <UiScrollView Mode="Vertical" Margin="0,10,0,32" ClipChildren="true">
+        <UiScrollView.Children>
+            <UiRectangle Width="320" HorizontalAlignment="Center" X="C" Y="0" VerticalAlignment="Top" Height="1024"/>
+        </UiScrollView.Children>
+    </UiScrollView>
+
+    <UiStackPanel Mode="Horizontal" Padding="10" Spacing="4" Y="@-32" VerticalAlignment="Top" Height="32">
+         <UiStackPanel.Children>
+            <UiCheckBox Style="UiCheckBox" Text="Select"/>
+            <UiCheckBox Style="UiCheckBox" Text="Eraser"/>
+        </UiStackPanel.Children>
+    </UiStackPanel>
+
+    </UiBorder.Children>
+</UiBorder>

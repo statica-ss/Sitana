@@ -76,6 +76,8 @@ namespace Sitana.Framework.Ui.Views
         bool _recalculate = true;
         bool _vertical = false;
 
+        object _childrenLock = new object();
+
         Dictionary<object, UiView> _bindingToElement = new Dictionary<object, UiView>();
 
         Point _updateScrollPosition = Point.Zero;
@@ -136,7 +138,7 @@ namespace Sitana.Framework.Ui.Views
 
             lock (_items)
             {
-                if (_enableGestureHandling && _children.Count != _items.Count)
+                if (_children.Count != _items.Count)
                 {
                     recalculate = true;
                 }
@@ -163,8 +165,12 @@ namespace Sitana.Framework.Ui.Views
                         if (view == null)
                         {
                             view = (UiView)_template.CreateInstance(Controller, bind);
-                            _bindingToElement.Add(bind, view);
-                            _children.Add(view);
+
+                            lock(_childrenLock)
+                            {
+                                _bindingToElement.Add(bind, view);
+                                _children.Add(view);
+                            }
 
                             view.Parent = this;
                             view.ViewAdded();
@@ -226,11 +232,6 @@ namespace Sitana.Framework.Ui.Views
         protected override void OnGesture(Gesture gesture)
         {
             _scroller.OnGesture(gesture);
-
-            if (gesture.GestureType == GestureType.VerticalDrag)
-            {
-                Console.Write("@");
-            }
         }
 
         protected override void Draw(ref UiViewDrawParameters parameters)
@@ -282,21 +283,21 @@ namespace Sitana.Framework.Ui.Views
 
             if (_vertical)
             {
-                switch (pos.Align & Align.Horz)
+                switch (pos.HorizontalAlignment)
                 {
-                    case Align.Center:
+                case HorizontalAlignment.Center:
                         childRect.X = posX - size.X / 2;
                         break;
 
-                    case Align.Left:
+                case HorizontalAlignment.Left:
                         childRect.X = posX;
                         break;
 
-                    case Align.Right:
+                case HorizontalAlignment.Right:
                         childRect.X = posX - size.X;
                         break;
 
-                    case Align.StretchHorz:
+                case HorizontalAlignment.Stretch:
                         childRect.X = 0;
                         childRect.Width = Bounds.Width;
                         break;
@@ -306,21 +307,21 @@ namespace Sitana.Framework.Ui.Views
             }
             else
             {
-                switch (pos.Align & Align.Vert)
+                switch (pos.VerticalAlignment)
                 {
-                    case Align.Middle:
+                case VerticalAlignment.Center:
                         childRect.Y = posY - size.Y / 2;
                         break;
 
-                    case Align.Top:
+                case VerticalAlignment.Top:
                         childRect.Y = posY;
                         break;
 
-                    case Align.Bottom:
+                case VerticalAlignment.Bottom:
                         childRect.Y = posY - size.Y;
                         break;
 
-                    case Align.StretchVert:
+                case VerticalAlignment.Stretch:
                         childRect.Y = 0;
                         childRect.Height = Bounds.Height;
                         break;
@@ -348,6 +349,20 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        void IItemsConsumer.RemovedAll()
+        {
+            lock(_childrenLock)
+            {
+                _children.Clear();
+                _bindingToElement.Clear();
+            }
+
+            lock (_recalcLock)
+            {
+                _recalculate = true;
+            }
+        }
+
         void IItemsConsumer.Removed(object item)
         {
             lock (_recalcLock)
@@ -355,14 +370,15 @@ namespace Sitana.Framework.Ui.Views
                 _recalculate = true;
             }
 
-            UiTask.BeginInvoke(() =>
+            lock(_childrenLock)
+            {
+                UiView view;
+                if (_bindingToElement.TryGetValue(item, out view))
                 {
-                    UiView view;
-                    if (_bindingToElement.TryGetValue(item, out view))
-                    {
-                        _children.Remove(view);
-                    }
-                });
+                    _children.Remove(view);
+                    _bindingToElement.Remove(item);
+                }
+            }
         }
     }
 }

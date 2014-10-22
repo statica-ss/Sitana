@@ -12,7 +12,8 @@ namespace Sitana.Framework.Ui.Views
     public class PositionParameters
     {
         public Margin Margin = Margin.None;
-        public Align  Align = Align.StretchHorz | Align.StretchVert;
+        public HorizontalAlignment  HorizontalAlignment = HorizontalAlignment.Stretch;
+        public VerticalAlignment  VerticalAlignment = VerticalAlignment.Stretch;
 
         public Length Width;
         public Length Height;
@@ -28,7 +29,8 @@ namespace Sitana.Framework.Ui.Views
             file["Height"] = parser.ParseLength("Height");
             file["Margin"] = parser.ParseMargin("Margin");
 
-            file["Align"] = parser.ParseEnum<Align>("Align");
+            file["HorizontalAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalAlignment");
+            file["VerticalAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalAlignment");
 
             file["X"] = parser.ParseLength("X");
             file["Y"] = parser.ParseLength("Y");
@@ -42,7 +44,8 @@ namespace Sitana.Framework.Ui.Views
             Height = DefinitionResolver.Get<Length>(controller, binding, file["Height"], Length.Default);
             Margin = DefinitionResolver.Get<Margin>(controller, binding, file["Margin"], Margin.None);
 
-            Align = DefinitionResolver.Get<Align>(controller, binding, file["Align"], Align.StretchHorz | Align.StretchVert);
+            HorizontalAlignment = DefinitionResolver.Get<HorizontalAlignment>(controller, binding, file["HorizontalAlignment"], HorizontalAlignment.Stretch);
+            VerticalAlignment = DefinitionResolver.Get<VerticalAlignment>(controller, binding, file["VerticalAlignment"], VerticalAlignment.Stretch);
 
             X = DefinitionResolver.Get<Length>(controller, binding, file["X"], Length.Default);
             Y = DefinitionResolver.Get<Length>(controller, binding, file["Y"], Length.Default);

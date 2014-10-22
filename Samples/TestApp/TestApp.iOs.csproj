@@ -92,9 +92,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
-    <Reference Include="Lidgren.Network">
-      <HintPath>..\..\ThirdParty\Dependences\MonoGame\iOs\Lidgren.Network.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\..\ThirdParty\Dependences\MonoGame\iOs\MonoGame.Framework.dll</HintPath>
     </Reference>
@@ -130,8 +127,9 @@
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Info.plist" />
-    <None Include="Entitlements.plist" />
+    <BundleResource Include="iOs\Info.plist">
+      <Link>Info.plist</Link>
+    </BundleResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
@@ -139,13 +137,13 @@
     <Compile Include="MainController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\" />
+    <Folder Include="Assets\Fonts\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.iOs.csproj">
       <Project>{E2DF6AB0-B3BA-49E1-92DD-081731255053}</Project>
       <Name>Sitana.Framework.iOs</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\" />
-    <Folder Include="Assets\Fonts\" />
   </ItemGroup>
 </Project>

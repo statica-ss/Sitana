@@ -14,7 +14,8 @@ namespace Editor
         Selection,
         Polygon,
         Rectangle,
-        Circle
+        Circle,
+        Image
     }
 
     public abstract class MouseOperation

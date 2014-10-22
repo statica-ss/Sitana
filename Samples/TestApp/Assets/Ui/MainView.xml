@@ -6,38 +6,38 @@
     Width="720" Height="480" BackgroundColor="#006080">
   <UiBorder.Children>
     
-    <UiBorder ClipChildren="true" BackgroundColor="#003040" X="C" Y="4" Width="@-8" Height="@-32" Align="Center,Top">
+    <UiBorder ClipChildren="true" BackgroundColor="#003040" X="C" Y="4" Width="@-8" Height="@-32" HorizontalAlignment="Center" VerticalAlignment="Top">
       <UiBorder.Children>
 
-        <UiListBox Items="{Items}" Width="@-20" Height="100" Align="Left,Top" X="10" Y="10" Mode="Horizontal" BackgroundColor="255,255,255,32" ClipChildren="True">
+        <UiListBox Items="{Items}" Width="@-20" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" X="10" Y="10" Mode="Horizontal" BackgroundColor="255,255,255,32" ClipChildren="True">
           <UiListBox.ItemTemplate>
             <UiBorder Width="128" Margin="10,10,10,10" BackgroundColor="255,255,255,32">
               <UiBorder.Children>
-                <UiLabel Text="{{Name}}" Font="TestFont" FontSize="16" X="C" Y="10" TextAlign="Center,Top" Align="Center,Top"/>
-                <UiLabel Text="{{Age}}" Font="TestFont" FontSize="16" X="C" Y="@-10" TextAlign="Center,Bottom" Align="Center,Bottom"/>
+                <UiLabel Text="{{Name}}" Font="TestFont" FontSize="16" X="C" Y="10" VerticalContentAlignment="Top" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <UiLabel Text="{{Age}}" Font="TestFont" FontSize="16" X="C" Y="@-10" VerticalContentAlignment="Bottom" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
               </UiBorder.Children>
             </UiBorder>
           </UiListBox.ItemTemplate>
         </UiListBox>
 
-        <UiListBox Items="{Items}" Width="320" Height="@-130" Align="Left,Top" X="10" Y="120" Mode="Vertical" BackgroundColor="255,255,255,32" ClipChildren="True">
+        <UiListBox Items="{Items}" Width="320" Height="@-130" HorizontalAlignment="Left" VerticalAlignment="Top" X="10" Y="120" Mode="Vertical" BackgroundColor="255,255,255,32" ClipChildren="True">
           <UiListBox.ItemTemplate>
             <UiBorder Height="64" Margin="10,10,10,10" BackgroundColor="255,255,255,32">
               <UiBorder.Children>
-                <UiButton Style="DefaultButton" Text="{{Name}}" Width="C" Height="@-20" X="10" Y="C" Align="Left,Middle"/>
-                <UiLabel Text="{{Age}}" Font="TestFont" FontSize="16" X="@-10" Y="C" TextAlign="Right,Middle" Align="Center,Bottom"/>
+                <UiButton Style="DefaultButton" Text="{{Name}}" Width="C" Height="@-20" X="10" Y="C" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <UiLabel Text="{{Age}}" Font="TestFont" FontSize="16" X="@-10" Y="C" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
               </UiBorder.Children>
             </UiBorder>
           </UiListBox.ItemTemplate>
         </UiListBox>
 
-        <UiScrollView Align="Left,Top" X="340" Y="120" Width="@-350" Height="C-120" ClipChildren="True" BackgroundColor="#40ffffff">
+        <UiScrollView HorizontalAlignment="Left" VerticalAlignment="Top" X="340" Y="120" Width="@-350" Height="C-120" ClipChildren="True" BackgroundColor="#40ffffff">
           <UiScrollView.Children>
-            <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="UniformToFill" X="0" Y="0" Align="Top,Left" Width="1990" Height="2560"/>
+            <UiImage Image="Ui/Logo" Color="#ffffff" Stretch="UniformToFill" X="0" Y="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1990" Height="2560"/>
           </UiScrollView.Children>
         </UiScrollView>
 
-        <UiContentSlider Id="TestSlider" TransitionTime="250" X="340" Y="C+10" Align="Left,Top" Width="@-350" Height="C-42" BackgroundColor="#40ffffff" ClipChildren="True" Cycle="True">
+        <UiContentSlider Id="TestSlider" TransitionTime="250" X="340" Y="C+10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="@-350" Height="C-42" BackgroundColor="#40ffffff" ClipChildren="True" Cycle="True">
           <UiContentSlider.ShowTransitionEffectNext>
             <effect:Group>
               <effect:Swype Horizontal="110%" Power="3"/>
@@ -90,24 +90,24 @@
 
         </UiContentSlider>
 
-        <UiIndexSelector Context="TestSlider" Spacing="25%" Width="@-350" Height="16" X="340" Y="@-16" Align="Left,Middle" ElementWidth="150%">
+        <UiIndexSelector Context="TestSlider" Spacing="25%" Width="@-350" Height="16" X="340" Y="@-16" HorizontalAlignment="Left" VerticalAlignment="Center" ElementWidth="150%">
           <UiButton.Drawables>
             <button:NinePatchBackground ColorPushed="#40ffffff" ColorReleased="#80ffffff" Image="Ui/Button" ScaleByUnit="true" Scale="0.2"/>
-            <button:Text ColorPushed="#ffffff" ColorReleased="#ffffff" Font="TestFont" FontSize="12" TextAlign="Center,Middle"/>
+            <button:Text ColorPushed="#ffffff" ColorReleased="#ffffff" Font="TestFont" FontSize="12"/>
           </UiButton.Drawables>
         </UiIndexSelector>
 
-        <UiButton Style="TransparentWhiteButton" Text="next" Y="@-16" X="@-10" Align="Right,Middle" Click="{Next()}"/>
-        <UiButton Style="TransparentWhiteButton" Text="prev" Y="@-16" X="340" Align="Left,Middle" Click="{Prev()}"/>
+        <UiButton Style="TransparentWhiteButton" Text="next" Y="@-16" X="@-10" HorizontalAlignment="Right" VerticalAlignment="Center" Click="{Next()}"/>
+        <UiButton Style="TransparentWhiteButton" Text="prev" Y="@-16" X="340" HorizontalAlignment="Left" VerticalAlignment="Center" Click="{Prev()}"/>
 
       </UiBorder.Children>
     </UiBorder>
 
-    <UiLabel Text="Copyright © SitanaTeam." Font="TestFont" FontSize="10" X="6" Y="@-14" TextAlign="Left,Middle" Align="Left,Middle"/>
+    <UiLabel Text="Copyright © SitanaTeam." Font="TestFont" FontSize="10" X="6" Y="@-14" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-    <UiButton Text="https://github.com/SitanaTeam/Sitana" X="@-6" Y="@-14" Height="32" Width="200" Align="Right,Middle" Click="{OpenLink(sender)}">
+    <UiButton Text="https://github.com/SitanaTeam/Sitana" X="@-6" Y="@-14" Height="32" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center" Click="{OpenLink(sender)}">
       <UiButton.Drawables>
-        <button:Text ColorPushed="#b0ffff" ColorReleased="#ffffff" Font="TestFont" FontSize="10" TextAlign="Right,Middle" Padding="0"/>
+        <button:Text ColorPushed="#b0ffff" ColorReleased="#ffffff" Font="TestFont" FontSize="10" HorizontalContentAlignment="Right" Padding="0"/>
       </UiButton.Drawables>
     </UiButton>
     

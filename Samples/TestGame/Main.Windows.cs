@@ -33,7 +33,7 @@ namespace TestGame
         static void Init(AppMain main)
         {
             UiUnit.EnableFontScaling = true;
-            ContentLoader.Init(main.Content, "TestGame");
+            ContentLoader.Init(main.Services, "TestGame");
 
             StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
             main.LoadView("Ui/MainView");

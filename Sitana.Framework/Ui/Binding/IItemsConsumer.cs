@@ -9,6 +9,7 @@ namespace Sitana.Framework.Ui.Binding
     {
         void Added(object item, int index);
         void Removed(object item);
+        void RemovedAll();
 
         void Recalculate();
     }

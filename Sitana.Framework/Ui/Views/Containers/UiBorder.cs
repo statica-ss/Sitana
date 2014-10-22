@@ -16,13 +16,13 @@ namespace Sitana.Framework.Ui.Views
         {
             UiContainer.Parse(node, file);
 
-            foreach(var cn in node.Nodes)
+            foreach (var cn in node.Nodes)
             {
-                switch ( cn.Tag )
+                switch(cn.Tag)
                 {
-                    case "UiBorder.Children":
-                        ParseChildren(cn, file);
-                        break;
+                case "UiBorder.Children":
+                    ParseChildren(cn, file);
+                    break;
                 }
             }
         }
@@ -43,44 +43,44 @@ namespace Sitana.Framework.Ui.Views
             int posX = pos.X.Compute(Bounds.Width);
             int posY = pos.Y.Compute(Bounds.Height);
 
-            switch (pos.Align & Align.Horz)
+            switch(pos.HorizontalAlignment)
             {
-                case Align.Center:
-                    childRect.X = posX - size.X / 2;
-                    break;
+            case HorizontalAlignment.Center:
+                childRect.X = posX - size.X / 2;
+                break;
 
-                case Align.Left:
-                    childRect.X = posX;
-                    break;
+            case HorizontalAlignment.Left:
+                childRect.X = posX;
+                break;
 
-                case Align.Right:
-                    childRect.X = posX - size.X;
-                    break;
+            case HorizontalAlignment.Right:
+                childRect.X = posX - size.X;
+                break;
 
-                case Align.StretchHorz:
-                    childRect.X = 0;
-                    childRect.Width = Bounds.Width;
-                    break;
+            case HorizontalAlignment.Stretch:
+                childRect.X = 0;
+                childRect.Width = Bounds.Width;
+                break;
             }
 
-            switch (pos.Align & Align.Vert)
+            switch(pos.VerticalAlignment)
             {
-                case Align.Middle:
-                    childRect.Y = posY - size.Y / 2;
-                    break;
+            case VerticalAlignment.Center:
+                childRect.Y = posY - size.Y / 2;
+                break;
 
-                case Align.Top:
-                    childRect.Y = posY;
-                    break;
+            case VerticalAlignment.Top:
+                childRect.Y = posY;
+                break;
 
-                case Align.Bottom:
-                    childRect.Y = posY - size.Y;
-                    break;
+            case VerticalAlignment.Bottom:
+                childRect.Y = posY - size.Y;
+                break;
 
-                case Align.StretchVert:
-                    childRect.Y = 0;
-                    childRect.Height = Bounds.Height;
-                    break;
+            case VerticalAlignment.Stretch:
+                childRect.Y = 0;
+                childRect.Height = Bounds.Height;
+                break;
             }
 
             pos.Margin.RepairRect(ref childRect, Bounds.Width, Bounds.Height);

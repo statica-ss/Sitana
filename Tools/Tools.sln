@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Framework.Windows.Xna", "..\Sitana.Framework\Sitana.Framework.Windows.Xna.csproj", "{68D03401-FD88-48C5-9821-0C3A07F89C34}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Extensions.WinForms.Xna", "..\Sitana.Extensions\WinForms\Sitana.Extensions.WinForms.Xna.csproj", "{306B0FFC-00CC-4DA3-BCB1-EA536AB0FD43}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelConverter", "ModelConverter\ModelConverter.csproj", "{DD76480A-12AE-42BB-BCD8-DABF01EDD0F0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "PPEditor\Editor.csproj", "{9D315B99-9D0F-417A-955A-C33C3CE41474}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteConsole", "RemoteConsole\RemoteConsole.csproj", "{AC11091E-F338-4FCF-8EC9-C2E68B5BADF9}"
 EndProject
@@ -16,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontGenerator", "FontGenerator\FontGenerator.csproj", "{A6D66130-A920-475C-9726-C60AF700F3CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BatchTool", "BatchTool\BatchTool.csproj", "{0231D86D-9841-466B-BAD0-70DAA8B17092}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEditor.Windows.Xna", "GameEditor\GameEditor.Windows.Xna.csproj", "{CF70A662-797C-44BC-9CF8-E0E63270FC7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,16 +57,6 @@ Global
 		{DD76480A-12AE-42BB-BCD8-DABF01EDD0F0}.Release|Mixed Platforms.Build.0 = Release|x86
 		{DD76480A-12AE-42BB-BCD8-DABF01EDD0F0}.Release|x86.ActiveCfg = Release|x86
 		{DD76480A-12AE-42BB-BCD8-DABF01EDD0F0}.Release|x86.Build.0 = Release|x86
-		{9D315B99-9D0F-417A-955A-C33C3CE41474}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{9D315B99-9D0F-417A-955A-C33C3CE41474}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{9D315B99-9D0F-417A-955A-C33C3CE41474}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{9D315B99-9D0F-417A-955A-C33C3CE41474}.Debug|x86.ActiveCfg = Debug|x86
-		{9D315B99-9D0F-417A-955A-C33C3CE41474}.Debug|x86.Build.0 = Debug|x86
-		{9D315B99-9D0F-417A-955A-C33C3CE41474}.Release|Any CPU.ActiveCfg = Release|x86
-		{9D315B99-9D0F-417A-955A-C33C3CE41474}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{9D315B99-9D0F-417A-955A-C33C3CE41474}.Release|Mixed Platforms.Build.0 = Release|x86
-		{9D315B99-9D0F-417A-955A-C33C3CE41474}.Release|x86.ActiveCfg = Release|x86
-		{9D315B99-9D0F-417A-955A-C33C3CE41474}.Release|x86.Build.0 = Release|x86
 		{AC11091E-F338-4FCF-8EC9-C2E68B5BADF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AC11091E-F338-4FCF-8EC9-C2E68B5BADF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC11091E-F338-4FCF-8EC9-C2E68B5BADF9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -107,6 +97,16 @@ Global
 		{0231D86D-9841-466B-BAD0-70DAA8B17092}.Release|Mixed Platforms.Build.0 = Release|x86
 		{0231D86D-9841-466B-BAD0-70DAA8B17092}.Release|x86.ActiveCfg = Release|x86
 		{0231D86D-9841-466B-BAD0-70DAA8B17092}.Release|x86.Build.0 = Release|x86
+		{CF70A662-797C-44BC-9CF8-E0E63270FC7D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{CF70A662-797C-44BC-9CF8-E0E63270FC7D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{CF70A662-797C-44BC-9CF8-E0E63270FC7D}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{CF70A662-797C-44BC-9CF8-E0E63270FC7D}.Debug|x86.ActiveCfg = Debug|x86
+		{CF70A662-797C-44BC-9CF8-E0E63270FC7D}.Debug|x86.Build.0 = Debug|x86
+		{CF70A662-797C-44BC-9CF8-E0E63270FC7D}.Release|Any CPU.ActiveCfg = Release|x86
+		{CF70A662-797C-44BC-9CF8-E0E63270FC7D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{CF70A662-797C-44BC-9CF8-E0E63270FC7D}.Release|Mixed Platforms.Build.0 = Release|x86
+		{CF70A662-797C-44BC-9CF8-E0E63270FC7D}.Release|x86.ActiveCfg = Release|x86
+		{CF70A662-797C-44BC-9CF8-E0E63270FC7D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -45,7 +45,19 @@ namespace Sitana.Framework.Ui.Core
             }
         }
 
-        public void OnSize(int width, int height)
+        void PlatformInit()
+        {
+            Form form = (Form)Form.FromHandle(Window.Handle);
+            form.FormClosing += (o, e) =>
+                {
+                    if (CanClose != null)
+                    {
+                        e.Cancel = !CanClose(this);
+                    }
+                };
+        }
+
+        void OnSize(int width, int height)
         {
             if (MainView != null)
             {
@@ -56,7 +68,12 @@ namespace Sitana.Framework.Ui.Core
                 PerformanceProfiler.Instance.ComputeContentRect(ref rect);
 
                 MainView.Bounds = rect;
-
+                
+                if ( Resized != null )
+                {
+                    Resized(rect.Width, rect.Height);
+                }
+                
                 if (Window.AllowUserResizing)
                 {
                     Form gameForm = (Form)Form.FromHandle(Window.Handle);
