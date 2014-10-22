@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Sitana.Framework.Content;
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -15,27 +16,35 @@ namespace Sitana.Framework.Ui.Core
 
             foreach(var cn in node.Nodes)
             {
-                if ( cn.Tag != "Style" )
+                if (cn.Tag == "Include")
                 {
-                    throw new Exception("Invalid node. Expected: Style");
-                }
-
-                string name = cn.Attribute("Name");
-
-                string src = cn.Attribute("Source");
-
-                if (src.IsNullOrWhiteSpace())
-                {
-                    if (cn.Nodes.Count != 1)
-                    {
-                        throw new Exception("Invalid number of child nodes. Style can have only one child node.");
-                    }
-
-                    definitions.Add(name, DefinitionFile.LoadFile(cn.Nodes[0]));
+                    string filename = cn.Attribute("Path");
+                    StylesManager.Instance.LoadStyles(filename, true);
                 }
                 else
                 {
-                    definitions.Add(name, definitions[src]);
+                    if (cn.Tag != "Style")
+                    {
+                        throw new Exception("Invalid node. Expected: Style");
+                    }
+
+                    string name = cn.Attribute("Name");
+
+                    string src = cn.Attribute("Source");
+
+                    if (src.IsNullOrWhiteSpace())
+                    {
+                        if (cn.Nodes.Count != 1)
+                        {
+                            throw new Exception("Invalid number of child nodes. Style can have only one child node.");
+                        }
+
+                        definitions.Add(name, DefinitionFile.LoadFile(cn.Nodes[0]));
+                    }
+                    else
+                    {
+                        definitions.Add(name, definitions[src]);
+                    }
                 }
             }
 

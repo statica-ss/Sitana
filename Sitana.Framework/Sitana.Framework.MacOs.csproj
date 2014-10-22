@@ -53,6 +53,7 @@
   <ItemGroup>
     <Folder Include="ContentManagement\" />
     <Folder Include="System\" />
+    <Folder Include="Ui\DefinitionFiles\Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -215,5 +216,6 @@
     <Compile Include="System\SystemWrapper.MacOs.cs" />
     <Compile Include="Ui\Core\AppMain.MacOs.cs" />
     <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
+    <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
   </ItemGroup>
 </Project>

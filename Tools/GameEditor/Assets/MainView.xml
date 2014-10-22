@@ -3,35 +3,29 @@
         xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework" 
         xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework" 
         xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework" 
+        xmlns:cmd="namespace:Sitana.Framework.Ui.DefinitionFiles.Commands,Sitana.Framework" 
         Width="720" Height="480" MinWidth="640" MinHeight="480" BackgroundColor="#006080">
     <UiBorder.Children>
-
         <UiBorder ClipChildren="true" BackgroundColor="#003040" X="328" Y="4" Width="@-332" Height="@-8" Align="Left,Top">
             <UiBorder.Children />
         </UiBorder>
-
         <UiBorder BackgroundColor="#003040" X="4" Y="36" Width="320" Height="220" Align="Left,Top" Mode="Vertical">
             <UiBorder.Children>
-
-                <UiRectangle Color="#20ffffff" Width="@-4" Height="20" X="2" Y="2" Align="Top,Left"/>
-                <UiLabel Style="Headers" X="8" Y="12" Text="Layers"/>
-
-                <UiButton Style="UiButton" Width="" Text="+ Vector" Align="Top,Left" X="4" Y="28" Click="{AddVectorLayer()}"/>
-                <UiButton Style="UiButton" Text="+ Tiled" Align="Top,Left" X="72" Y="28" Click="{AddTiledLayer()}"/>
-                <UiButton Style="UiButton" Width="24" Text="-" Align="Top,Right" X="@-4" Y="28" Click="{RemoveLayer()}"/>
-
+                <UiRectangle Color="#20ffffff" Width="@-4" Height="20" X="2" Y="2" Align="Top,Left" />
+                <UiLabel Style="Headers" X="8" Y="12" Text="Layers" />
+                <UiButton Style="UiButton" Width="" Text="+ Vector" Align="Top,Left" X="4" Y="28" Click="{AddVectorLayer()}" />
+                <UiButton Style="UiButton" Text="+ Tiled" Align="Top,Left" X="72" Y="28" Click="{AddTiledLayer()}" />
+                <UiButton Style="UiButton" Width="24" Text="-" Align="Top,Right" X="@-4" Y="28" Click="{RemoveLayer()}" />
                 <UiListBox Items="{Layers}" ClipChildren="true" Align="StretchHorz, Top" Y="56" Height="@-60">
                     <UiListBox.ItemTemplate>
                         <UiBorder Height="32" Margin="4,4,4,4" BackgroundColor="255,255,255,32">
                             <UiBorder.Children>
-                                <UiRectangle Color="#40ff0000" Visible="{{Selected}}" ShowHideTime="100"/>
-
+                                <UiRectangle Color="#40ff0000" Visible="{{Selected}}" ShowHideTime="100" />
                                 <UiButton Width="@" X="0" Align="Left,Top" Height="@" Click="{SelectLayer(binding)}" Visible="{{NotSelected}}" ShowHideTime="50">
                                     <UiButton.Drawables>
-                                        <button:SolidBackground ColorPushed="#20ff0000" ColorReleased="#00000000"/>
+                                        <button:SolidBackground ColorPushed="#20ff0000" ColorReleased="#00000000" />
                                     </UiButton.Drawables>
                                 </UiButton>
-
                                 <UiLabel Text="{{Name}}" Font="Font" FontSize="8" X="4" Y="C" TextAlign="Left,Middle" Align="Left,Middle" />
                                 <UiLabel Text="{{Type}}" Font="Font" FontSize="8" X="C" Y="C" TextAlign="Left,Middle" Align="Left,Middle" />
                             </UiBorder.Children>
@@ -41,62 +35,8 @@
             </UiBorder.Children>
         </UiBorder>
 
-        <UiStackPanel Style="MenuStrip" X="0" Y="4" Height="28" Width="320" Align="Left,Top">
-            <UiStackPanel.Children>
-                <UiButton Style="MenuButton" Text="File" Click="{ShowElement('FileMenu')}" />
-                <UiButton Style="MenuButton" Text="Edit" />
-                <UiButton Style="MenuButton" Text="View" />
-                <UiButton Style="MenuButton" Text="Help" />
-            </UiStackPanel.Children>
-        </UiStackPanel>
+        <cmd:IncludeView Path="Menu"/>
+        <cmd:IncludeView Path="MessageBox"/>
 
-        <UiLabel Text="{FileName}" Font="Font" FontSize="8" X="316" Y="16" TextAlign="Right,Middle" Align="Right,Middle" />
-
-        <!-- File menu -->
-        <UiModalLayout Id="FileMenu" Style="MenuStripLayout">
-            <UiModalLayout.Children>
-                <UiStackPanel Style="MenuStrip">
-                    <UiStackPanel.Children>
-                        <UiButton Style="MenuButton" Text="New" Click="{New()}" />
-                        <UiButton Style="MenuButton" Text="Open" Click="{Open()}" />
-                        <UiButton Style="MenuButton" Text="Save" Click="{Save()}" />
-                        <UiButton Style="MenuButton" Text="Save As..." Width="64" Click="{SaveAs()}" />
-                        <UiRectangle Width="1" Color="#40ffffff" />
-                        <UiButton Style="MenuButton" Text="Exit" Width="64" Click="{Exit()}" />
-                    </UiStackPanel.Children>
-                </UiStackPanel>
-            </UiModalLayout.Children>
-        </UiModalLayout>
-
-
-
-        <UiModalLayout Id="MessageBox" BackgroundColor="#80000000" ShowTime="0" HideTime="0" TouchOutsideToHide="false">
-            <UiModalLayout.Children>
-                <UiBorder>
-                    <UiView.ShowTransitionEffect>
-                        <effect:Group>
-                            <effect:Rotate Angle="180" />
-                            <effect:Scale Horizontal="0.25" Vertical="0.25" />
-                        </effect:Group>
-                    </UiView.ShowTransitionEffect>
-                    <UiView.HideTransitionEffect>
-                        <effect:Group>
-                            <effect:Scale Horizontal="0.25" Vertical="0.25" />
-                        </effect:Group>
-                    </UiView.HideTransitionEffect>
-                    <UiBorder.Children>
-                        <UiLabel Text="{MessageBoxText}" Font="Font" FontSize="8" Width="@-16" Height="128" X="C" Y="C-8" Align="Center,Bottom" TextAlign="Center,Bottom" />
-                        <UiButton Id="MessageBoxOk" Style="MessageBoxButton" Text="OK" X="C" Y="C+8" Click="{OnMessageBoxCancel()}" />
-                        <UiButton Id="MessageBoxYes" Style="MessageBoxButton" Text="Yes" X="C-48" Y="C+8" Click="{OnMessageBoxYes()}" />
-                        <UiButton Id="MessageBoxNo" Style="MessageBoxButton" Text="No" X="C" Y="C+8" Click="{OnMessageBoxNo()}" />
-                        <UiButton Id="MessageBoxCancel" Style="MessageBoxButton" Text="Cancel" X="C+48" Y="C+8" Click="{OnMessageBoxCancel()}" />
-
-                        <UiButton Id="MessageBoxYes2" Style="MessageBoxButton" Text="Yes" X="C-24" Y="C+8" Click="{OnMessageBoxYes()}" />
-                        <UiButton Id="MessageBoxNo2" Style="MessageBoxButton" Text="No" X="C+24" Y="C+8" Click="{OnMessageBoxNo()}" />
-
-                    </UiBorder.Children>
-                </UiBorder>
-            </UiModalLayout.Children>
-        </UiModalLayout>
     </UiBorder.Children>
 </UiBorder>

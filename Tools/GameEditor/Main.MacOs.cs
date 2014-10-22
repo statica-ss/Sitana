@@ -33,6 +33,7 @@ namespace GameEditor
             ContentLoader.Init(_appMain.Services, "Assets");
 
             StylesManager.Instance.LoadStyles("AppStyles", true);
+
             _appMain.LoadView("MainView");
 
             _appMain.Window.AllowUserResizing = true;

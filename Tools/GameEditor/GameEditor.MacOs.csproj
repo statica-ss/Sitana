@@ -96,5 +96,8 @@
     <BundleResource Include="Assets\MacOs\Font.xnb">
       <Link>Assets\Font.xnb</Link>
     </BundleResource>
+    <BundleResource Include="Assets\Menu.xml" />
+    <BundleResource Include="Assets\MenuStyles.xml" />
+    <BundleResource Include="Assets\MessageBox.xml" />
   </ItemGroup>
 </Project>

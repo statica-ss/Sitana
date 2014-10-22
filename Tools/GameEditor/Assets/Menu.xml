@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UiBorder
+    xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
+    xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
+    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework">
+    <UiBorder.Children>
+        <UiStackPanel Style="MenuStrip" X="0" Y="4" Height="28" Width="320" Align="Left,Top">
+                    <UiStackPanel.Children>
+                        <UiButton Style="MenuButton" Text="File" Click="{ShowElement('FileMenu')}" />
+                        <UiButton Style="MenuButton" Text="Edit" />
+                        <UiButton Style="MenuButton" Text="View" />
+                        <UiButton Style="MenuButton" Text="Help" />
+                    </UiStackPanel.Children>
+                </UiStackPanel>
+
+                <UiLabel Text="{FileName}" Font="Font" FontSize="8" X="316" Y="16" TextAlign="Right,Middle" Align="Right,Middle" />
+
+                <!-- File menu -->
+                <UiModalLayout Id="FileMenu" Style="MenuStripLayout">
+                    <UiModalLayout.Children>
+                        <UiStackPanel Style="MenuStrip">
+                            <UiStackPanel.Children>
+                                <UiButton Style="MenuButton" Text="New" Click="{New()}" />
+                                <UiButton Style="MenuButton" Text="Open" Click="{Open()}" />
+                                <UiButton Style="MenuButton" Text="Save" Click="{Save()}" />
+                                <UiButton Style="MenuButton" Text="Save As..." Width="64" Click="{SaveAs()}" />
+                                <UiRectangle Width="1" Color="#40ffffff" Margin="0,4,0,4" />
+                                <UiButton Style="MenuButton" Text="Exit" Width="64" Click="{Exit()}" />
+                            </UiStackPanel.Children>
+                        </UiStackPanel>
+                    </UiModalLayout.Children>
+                </UiModalLayout>
+    </UiBorder.Children>
+</UiBorder>

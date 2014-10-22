@@ -97,7 +97,12 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             if (method != null)
             {
                 file = new DefinitionFile(type, node.Owner.Name);
-                method.Invoke(null, new object[] { node, file });
+                object retValue = method.Invoke(null, new object[] { node, file });
+
+                if ( retValue is DefinitionFile )
+                {
+                    file = retValue as DefinitionFile;
+                }
 
                 file["Style"] = node.Attribute("Style");
             }
