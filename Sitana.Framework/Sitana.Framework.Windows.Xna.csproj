@@ -100,6 +100,7 @@
     <Compile Include="Ui\Views\Controls\UiImage.cs" />
     <Compile Include="Ui\Views\Controls\UiIndexSelector.cs" />
     <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
+    <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
     <Compile Include="Ui\Views\Scroller.cs" />
     <Compile Include="Xml\XFile.cs" />
     <Compile Include="Cs\SharedString.cs" />

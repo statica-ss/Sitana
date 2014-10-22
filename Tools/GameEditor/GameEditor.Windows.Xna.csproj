@@ -74,14 +74,17 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Document\DocLayer.cs" />
+    <Compile Include="Document\DocTiledLayer.cs" />
+    <Compile Include="Document\DocVectorLayer.cs" />
     <Compile Include="MainController.cs" />
     <Compile Include="Document\Document.cs" />
-    <Compile Include="Document\Layer.cs" />
-    <Compile Include="Document\VectorLayer.cs" />
-    <Compile Include="Document\TiledLayer.cs" />
     <Compile Include="Main.Windows.Xna.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Assets\Menu.xml" />
+    <EmbeddedResource Include="Assets\MenuStyles.xml" />
+    <EmbeddedResource Include="Assets\MessageBox.xml" />
     <Content Include="Icon.ico" />
     <EmbeddedResource Include="Assets\AppStyles.xml" />
     <EmbeddedResource Include="Assets\Button.xml" />
@@ -115,6 +118,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Sitana.Framework.Games\Sitana.Framework.Games.Windows.Xna.csproj">
+      <Project>{34C29D3D-33C1-4D10-8AE3-D54FAF6540B9}</Project>
+      <Name>Sitana.Framework.Games.Windows.Xna</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.Windows.Xna.csproj">
       <Project>{68D03401-FD88-48C5-9821-0C3A07F89C34}</Project>
       <Name>Sitana.Framework.Windows.Xna</Name>

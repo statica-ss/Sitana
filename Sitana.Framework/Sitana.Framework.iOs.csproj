@@ -104,6 +104,7 @@
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
     <Compile Include="Ui\TransitionEffects\TransitionEffect.cs" />
     <Compile Include="Ui\TransitionEffects\Group.cs" />
+    <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
     <Compile Include="Ui\TransitionEffects\Scale.cs" />
     <Compile Include="Ui\TransitionEffects\Swype.cs" />
     <Compile Include="Ui\TransitionEffects\Vanish.cs" />
