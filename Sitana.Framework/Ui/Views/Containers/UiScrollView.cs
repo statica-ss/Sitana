@@ -16,6 +16,9 @@ namespace Sitana.Framework.Ui.Views
         {
             UiContainer.Parse(node, file);
 
+            var parser = new DefinitionParser(node);
+            file["Mode"] = parser.ParseEnum<Mode>("Mode");
+
             foreach (var cn in node.Nodes)
             {
                 switch (cn.Tag)
@@ -27,13 +30,23 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        [Flags]
+        enum Mode
+        {
+            None = 0,
+            Horizontal = 1,
+            Vertical = 2,
+            Both = Horizontal | Vertical
+        }
+
         Scroller _scroller = null;
         Point _updateScrollPosition = Point.Zero;
+        Mode _mode = Mode.Both;
 
         protected override void OnAdded()
         {
             base.OnAdded();
-            _scroller = new Scroller(this, true, true);
+            _scroller = new Scroller(this, _mode.HasFlag(Mode.Horizontal), _mode.HasFlag(Mode.Vertical));
         }
 
         protected override void OnRemoved()
@@ -45,7 +58,10 @@ namespace Sitana.Framework.Ui.Views
         protected override void Init(object controller, object binding, DefinitionFile definition)
         {
             base.Init(controller, binding, definition);
-            InitChildren(Controller, binding, definition);
+
+            var file = new DefinitionFileWithStyle(definition, typeof(UiContainer));
+
+            _mode = DefinitionResolver.Get<Mode>(Controller, Binding, file["Mode"], Mode.Both);
         }
 
         protected override Rectangle CalculateChildBounds(UiView view)

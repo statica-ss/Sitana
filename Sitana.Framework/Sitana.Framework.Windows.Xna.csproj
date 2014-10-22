@@ -87,8 +87,8 @@
     <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
     <Compile Include="Ui\Views\Containers\UiScrollView.cs" />
     <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
-    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonCheckMark.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonImage.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
     <Compile Include="Ui\TransitionEffects\TransitionEffect.cs" />
     <Compile Include="Ui\TransitionEffects\Group.cs" />

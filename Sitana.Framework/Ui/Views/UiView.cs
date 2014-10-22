@@ -54,6 +54,8 @@ namespace Sitana.Framework.Ui.Views
             file["HideTime"] = parser.ParseFloat("HideTime");
             file["ShowTime"] = parser.ParseFloat("ShowTime");
 
+            file["Tag"] = parser.ParseString("Tag");
+
             PositionParameters.Parse(node, file);
 
             foreach (var cn in node.Nodes)
@@ -193,6 +195,8 @@ namespace Sitana.Framework.Ui.Views
         protected TransitionEffect _hideTransitionEffect = null;
 
         protected bool _enableGestureHandling = false;
+
+        public SharedString Tag { get; private set;}
 
         public bool IsPointInsideView(Vector2 point)
         {
@@ -445,6 +449,8 @@ namespace Sitana.Framework.Ui.Views
 
             Id = (string)file["Id"];
             Visible = DefinitionResolver.GetShared<bool>(Controller, binding, file["Visible"], true);
+
+            Tag = DefinitionResolver.GetSharedString(Controller, Binding, file["Tag"]);
 
             int opacity = DefinitionResolver.Get<int>(Controller, binding, file["Opacity"], 100);
             Opacity = (float)opacity / 100.0f;

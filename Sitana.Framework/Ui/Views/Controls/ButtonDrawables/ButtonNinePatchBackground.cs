@@ -53,7 +53,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             UiButton.State state = info.ButtonState;
 
-            Color color = ColorFromState * info.Opacity;
+            Color color = ColorFromState * info.Opacity * Opacity;
 
             NinePatchImage image = _imageReleased;
 

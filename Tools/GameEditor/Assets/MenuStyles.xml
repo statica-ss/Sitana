@@ -8,7 +8,7 @@
     <Style Name="MenuButton">
     <UiButton Width="40" Height="22" Y="C" HorizontalAlignment="Left" VerticalAlignment="Center">
       <UiButton.Drawables>
-        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" ScaleByUnit="true" Scale="0.25"/>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" />
         <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" Margin="2"/>
       </UiButton.Drawables>
     </UiButton>
@@ -23,16 +23,16 @@
    </Style>
 
    <Style Name="MenuStripLayout">
-    <UiModalLayout X="0" Y="4" Width="320" Height="32" HorizontalAlignment="Left" VerticalAlignment="Top" ShowTime="250" HideTime="250"/>
+    <UiModalLayout X="0" Y="4" Height="32" VerticalAlignment="Top" ShowTime="200" HideTime="200"/>
   </Style>
 
   <Style Name="MenuCheckBox">
-    <UiCheckBox Width="72" Height="18" HorizontalAlignment="Right" VerticalAlignment="Center">
+    <UiCheckBox Width="72" Height="18" HorizontalAlignment="Right" VerticalAlignment="Top">
       <UiButton.Drawables>
-        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" ScaleByUnit="true" Scale="0.25"/>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" ScaleByUnit="true"/>
         <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" HorizontalContentAlignment="Right" Margin="4"/>
-        <button:CheckMark Style="ChangeTime" ColorPushed="#80ffffff" ColorReleased="#ffa0a0" ImageChecked="CheckBox" Scale="0.1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4"/>
-        <button:CheckMark Style="ChangeTime" ColorPushed="#40ffffff" ColorReleased="#40ffa0a0" ImageUnchecked="CheckBox" Scale="0.1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4"/>
+        <button:Image Style="ChangeTime" ColorPushed="#40ffffff" ColorReleased="#40000000" Checked="false" Image="CheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4"/>
+        <button:Image Style="ChangeTime" ColorPushed="#ffffff" ColorReleased="#ffc0c0" Checked="true" Image="CheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4"/>
       </UiButton.Drawables>
     </UiCheckBox>
   </Style>

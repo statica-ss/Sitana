@@ -22,7 +22,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             Update(info.EllapsedTime, info.ButtonState);
 
             Rectangle target = _margin.ComputeRect(info.Target);
-            drawBatch.DrawRectangle(target, ColorFromState * info.Opacity);
+            drawBatch.DrawRectangle(target, ColorFromState * info.Opacity * Opacity);
         }
     }
 }

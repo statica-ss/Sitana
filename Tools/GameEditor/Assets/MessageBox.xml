@@ -3,14 +3,29 @@
     xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework" 
     xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework" 
     xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework" 
-    Id="MessageBox" BackgroundColor="#80000000" ShowTime="0" HideTime="0" TouchOutsideToHide="false">
+    Id="MessageBox" BackgroundColor="#80000000" ShowTime="200" HideTime="200" TouchOutsideToHide="false">
     <UiModalLayout.Children>
         <UiBorder>
             <UiBorder.Children>
-                <UiBorder Height="128" Y="C" VerticalAlignment="Center" BackgroundColor="#80000000">
+
+                <UiRectangle Height="128" Y="C" VerticalAlignment="Center" Color="#80000000">
+                <UiView.ShowTransitionEffect>
+                        <effect:Group>
+                            <effect:Scale Horizontal="0.1" Vertical="2" Power="2" />
+                            <effect:Vanish Power="0.2"/>
+                        </effect:Group>
+                    </UiView.ShowTransitionEffect>
+                    <UiView.HideTransitionEffect>
+                        <effect:Group>
+                            <effect:Scale Horizontal="0.1" Vertical="2" Power="2" />
+                            <effect:Vanish Power="0.2"/>
+                        </effect:Group>
+                    </UiView.HideTransitionEffect>
+                    </UiRectangle>
+
+                <UiBorder Height="128" Y="C" VerticalAlignment="Center">
                     <UiView.ShowTransitionEffect>
                         <effect:Group>
-                            <effect:Rotate Angle="180" />
                             <effect:Scale Horizontal="0.25" Vertical="0.25" />
                         </effect:Group>
                     </UiView.ShowTransitionEffect>

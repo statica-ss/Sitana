@@ -86,6 +86,9 @@
     <EmbeddedResource Include="Assets\Menu.xml" />
     <EmbeddedResource Include="Assets\MenuStyles.xml" />
     <EmbeddedResource Include="Assets\MessageBox.xml" />
+    <EmbeddedResource Include="Assets\Tab.xml" />
+    <EmbeddedResource Include="Assets\LayerInsert.xml" />
+    <EmbeddedResource Include="Assets\LayerProperties.xml" />
     <Content Include="Icon.ico" />
     <EmbeddedResource Include="Assets\AppStyles.xml" />
     <EmbeddedResource Include="Assets\Button.xml" />
@@ -132,6 +135,9 @@
     <EmbeddedResource Include="Assets\Font.xnb" />
     <EmbeddedResource Include="Assets\Button.xnb" />
     <EmbeddedResource Include="Assets\CheckBox.xnb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Tab.xnb" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

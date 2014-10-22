@@ -62,7 +62,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             float scale;
             UniversalFont font = _fontFace.Find(_fontSize, out scale);
 
-            Color color = ColorFromState * info.Opacity;
+            Color color = ColorFromState * info.Opacity * Opacity;
 
             Rectangle target = _margin.ComputeRect(info.Target);
 

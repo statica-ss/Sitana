@@ -23,7 +23,7 @@ namespace GameEditor
 
         public SharedValue<bool> ShowAllLayers
         { 
-            get 
+            get
             { 
                 return EditorSettings.Instance.ShowAllLayersShared;
             }

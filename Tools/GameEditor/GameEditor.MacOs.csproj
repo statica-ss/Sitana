@@ -105,5 +105,9 @@
     <BundleResource Include="Assets\Menu.xml" />
     <BundleResource Include="Assets\MenuStyles.xml" />
     <BundleResource Include="Assets\MessageBox.xml" />
+    <BundleResource Include="Assets\Tab.png" />
+    <BundleResource Include="Assets\Tab.xml" />
+    <BundleResource Include="Assets\LayerProperties.xml" />
+    <BundleResource Include="Assets\LayerInsert.xml" />
   </ItemGroup>
 </Project>
