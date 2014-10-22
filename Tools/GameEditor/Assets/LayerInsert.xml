@@ -8,7 +8,7 @@
     <UiScrollView Mode="Vertical" Margin="0,10,0,32" ClipChildren="true">
         <UiScrollView.Children>
             <UiRectangle Width="320" HorizontalAlignment="Center" X="C" Y="0" VerticalAlignment="Top" Height="1024"/>
-        </UiScrollView.Children>ž
+        </UiScrollView.Children>
     </UiScrollView>
 
     <UiStackPanel Mode="Horizontal" Padding="10" Spacing="4" Y="@-32" VerticalAlignment="Top" Height="32">
