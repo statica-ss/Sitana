@@ -8,7 +8,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles.Commands
 {
     public class IncludeView
     {
-        public new static DefinitionFile Parse(XNode node, DefinitionFile file)
+        public static DefinitionFile Parse(XNode node, DefinitionFile file)
         {
             var path = node.Attribute("Path");
 

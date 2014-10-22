@@ -6,28 +6,28 @@
         xmlns:cmd="namespace:Sitana.Framework.Ui.DefinitionFiles.Commands,Sitana.Framework" 
         Width="720" Height="480" MinWidth="640" MinHeight="480" BackgroundColor="#006080">
     <UiBorder.Children>
-        <UiBorder ClipChildren="true" BackgroundColor="#003040" X="328" Y="4" Width="@-332" Height="@-8" Align="Left,Top">
+        <UiBorder ClipChildren="true" BackgroundColor="#003040" X="328" Y="4" Width="@-332" Height="@-8" HorizontalAlignment="Left" VerticalAlignment="Top">
             <UiBorder.Children />
         </UiBorder>
-        <UiBorder BackgroundColor="#003040" X="4" Y="36" Width="320" Height="220" Align="Left,Top" Mode="Vertical">
+        <UiBorder BackgroundColor="#003040" X="4" Y="36" Width="320" Height="220" HorizontalAlignment="Left" VerticalAlignment="Top" Mode="Vertical">
             <UiBorder.Children>
-                <UiRectangle Color="#20ffffff" Width="@-4" Height="20" X="2" Y="2" Align="Top,Left" />
+                <UiRectangle Color="#20ffffff" Width="@-4" Height="20" X="2" Y="2" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <UiLabel Style="Headers" X="8" Y="12" Text="Layers" />
-                <UiButton Style="UiButton" Width="" Text="+ Vector" Align="Top,Left" X="4" Y="28" Click="{AddVectorLayer()}" />
-                <UiButton Style="UiButton" Text="+ Tiled" Align="Top,Left" X="72" Y="28" Click="{AddTiledLayer()}" />
-                <UiButton Style="UiButton" Width="24" Text="-" Align="Top,Right" X="@-4" Y="28" Click="{RemoveLayer()}" />
-                <UiListBox Items="{Layers}" ClipChildren="true" Align="StretchHorz, Top" Y="56" Height="@-60">
+                <UiButton Style="UiButton" Width="" Text="+ Vector" HorizontalAlignment="Left" VerticalAlignment="Top" X="4" Y="28" Click="{AddVectorLayer()}" />
+                <UiButton Style="UiButton" Text="+ Tiled" HorizontalAlignment="Left" VerticalAlignment="Top" X="72" Y="28" Click="{AddTiledLayer()}" />
+                <UiButton Style="UiButton" Width="24" Text="-" HorizontalAlignment="Right" VerticalAlignment="Top" X="@-4" Y="28" Click="{RemoveLayer()}" />
+                <UiListBox Items="{Layers}" ClipChildren="true" VerticalAlignment="Top" Y="56" Height="@-60">
                     <UiListBox.ItemTemplate>
                         <UiBorder Height="32" Margin="4,4,4,4" BackgroundColor="255,255,255,32">
                             <UiBorder.Children>
                                 <UiRectangle Color="#40ff0000" Visible="{{Selected}}" ShowHideTime="100" />
-                                <UiButton Width="@" X="0" Align="Left,Top" Height="@" Click="{SelectLayer(binding)}" Visible="{{NotSelected}}" ShowHideTime="50">
+                                <UiButton Width="@" X="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="@" Click="{SelectLayer(binding)}" Visible="{{NotSelected}}" ShowHideTime="50">
                                     <UiButton.Drawables>
                                         <button:SolidBackground ColorPushed="#20ff0000" ColorReleased="#00000000" />
                                     </UiButton.Drawables>
                                 </UiButton>
-                                <UiLabel Text="{{Name}}" Font="Font" FontSize="8" X="4" Y="C" TextAlign="Left,Middle" Align="Left,Middle" />
-                                <UiLabel Text="{{Type}}" Font="Font" FontSize="8" X="C" Y="C" TextAlign="Left,Middle" Align="Left,Middle" />
+                                <UiLabel Text="{{Name}}" Font="Font" FontSize="8" X="4" Y="C" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <UiLabel Text="{{Type}}" Font="Font" FontSize="8" X="C" Y="C" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             </UiBorder.Children>
                         </UiBorder>
                     </UiListBox.ItemTemplate>

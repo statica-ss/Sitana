@@ -9,8 +9,6 @@
     <RootNamespace>TestApp.iOs</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>TestApp</AssemblyName>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -94,9 +92,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
-    <Reference Include="Lidgren.Network">
-      <HintPath>..\..\ThirdParty\Dependences\MonoGame\iOs\Lidgren.Network.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\..\ThirdParty\Dependences\MonoGame\iOs\MonoGame.Framework.dll</HintPath>
     </Reference>
@@ -144,5 +139,11 @@
   <ItemGroup>
     <Folder Include="Assets\" />
     <Folder Include="Assets\Fonts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.iOs.csproj">
+      <Project>{E2DF6AB0-B3BA-49E1-92DD-081731255053}</Project>
+      <Name>Sitana.Framework.iOs</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

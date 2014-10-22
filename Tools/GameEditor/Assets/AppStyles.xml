@@ -8,25 +8,25 @@
   <Include Path="MenuStyles"/>
 
   <Style Name="MessageBoxButton">
-    <UiButton Width="48" Height="24" Align="Center,Bottom" ShowHideTime="0" Y="@-16">
+    <UiButton Width="48" Height="24" HorizontalAlignment="Center" VerticalAlignment="Bottom" ShowHideTime="0" Y="@-16">
       <UiButton.Drawables>
         <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" ScaleByUnit="true" Scale="0.25"/>
-        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" TextAlign="Center,Middle" Margin="2"/>
+        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2"/>
       </UiButton.Drawables>
     </UiButton>
   </Style>
 
   <Style Name="UiButton">
-    <UiButton Width="64" Height="24" Align="Center,Top" ShowHideTime="0">
+    <UiButton Width="64" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" ShowHideTime="0">
       <UiButton.Drawables>
         <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" ScaleByUnit="true" Scale="0.25"/>
-        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" TextAlign="Center,Middle" Margin="2"/>
+        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" Margin="2"/>
       </UiButton.Drawables>
     </UiButton>
   </Style>
 
   <Style Name="CheckBox">
-    <UiCheckBox Width="16" Height="16" Align="Right,Middle">
+    <UiCheckBox Width="16" Height="16" HorizontalAlignment="Right" VerticalAlignment="Center">
       <UiButton.Drawables>
         <button:TransformGroup Reverse="false" ChangeTime="150">
           <TransformGroup.TransitionEffect>

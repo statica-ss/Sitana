@@ -106,7 +106,6 @@
     <Compile Include="Ui\Definitions\Margin.cs" />
     <Compile Include="Definitions\TextAlign.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.cs" />
-    <Compile Include="Helpers\StringParser.cs" />
     <Compile Include="Input\TouchPad\IGestureListener.cs" />
     <Compile Include="Input\TouchPad\TouchElement.cs" />
     <Compile Include="Input\TouchPad\TouchPad.cs" />
@@ -120,17 +119,6 @@
     <Compile Include="Graphics\Images\LoadTexture2DFromPng.cs" />
     <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
     <Compile Include="Graphics\Sprites\Sprite.cs" />
-    <Compile Include="CrashReporter\CrashReporter.cs" />
-    <Compile Include="CrashReporter\Data\Application.cs" />
-    <Compile Include="CrashReporter\Data\Crash.cs" />
-    <Compile Include="CrashReporter\Data\CrashInstance.cs" />
-    <Compile Include="CrashReporter\Data\CrashReport.cs" />
-    <Compile Include="CrashReporter\Data\CrashReportInfo.cs" />
-    <Compile Include="CrashReporter\Data\DateAndTime.cs" />
-    <Compile Include="CrashReporter\Data\Device.cs" />
-    <Compile Include="DataTransfer\Ecs\EcsRequest.cs" />
-    <Compile Include="DataTransfer\Ecs\EcsResponse.cs" />
-    <Compile Include="CrashReporter\Data\Session.cs" />
     <Compile Include="Cs\CsToolkit.cs" />
     <Compile Include="Cs\Deletages.cs" />
     <Compile Include="Cs\IIndexedContainer.cs" />
@@ -138,17 +126,10 @@
     <Compile Include="Cs\IndexedList.cs" />
     <Compile Include="Cs\Singleton.cs" />
     <Compile Include="Cs\BitConverterLE.cs" />
-    <Compile Include="DataTransfer\Ecs\EcsHttpClient.cs" />
-    <Compile Include="DataTransfer\Ecs\EcsProtocol.cs" />
-    <Compile Include="DataTransfer\Ecs\EcsStructure.cs" />
-    <Compile Include="DataTransfer\Ecs\EcsReader.cs" />
-    <Compile Include="DataTransfer\Ecs\EcsWriter.cs" />
-    <Compile Include="DataTransfer\ReadContentHelper.cs" />
     <Compile Include="Definitions\Align.cs" />
     <Compile Include="Definitions\KeyboardContext.cs" />
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
-    <Compile Include="Definitions\TransitionType.cs" />
     <Compile Include="GamerApi\AchievementsHandler.cs" />
     <Compile Include="GamerApi\AchievementsManager.cs" />
     <Compile Include="GamerApi\AchievementInfoEventArgs.cs" />
@@ -172,7 +153,6 @@
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
-    <Compile Include="Helpers\ParametersColletion.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="Helpers\SpriteOptimizer.cs" />
     <Compile Include="Media\SoundControler.cs" />
@@ -217,5 +197,9 @@
     <Compile Include="Ui\Core\AppMain.MacOs.cs" />
     <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
     <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
+    <Compile Include="Ui\Definitions\HorizontalAlignment.cs" />
+    <Compile Include="Ui\Definitions\VerticalAlignment.cs" />
+    <Compile Include="Ui\Definitions\UiHelper.cs" />
+    <Compile Include="Helpers\StringParser.cs" />
   </ItemGroup>
 </Project>

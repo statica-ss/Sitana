@@ -36,25 +36,16 @@
     <Reference Include="FarseerPhysics.iOS">
       <HintPath>..\ThirdParty\Dependences\Farseer\FarseerPhysics.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="Lidgren.Network">
-      <HintPath>..\ThirdParty\Dependences\MonoGame\iOs\Lidgren.Network.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\ThirdParty\Dependences\MonoGame\iOs\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Elements\" />
-    <Folder Include="Scene\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Elements\PpCircle.cs" />
-    <Compile Include="Elements\PpElement.cs" />
-    <Compile Include="Elements\PpPolygon.cs" />
-    <Compile Include="Elements\PpRectangle.cs" />
-    <Compile Include="Elements\Triangulatable.cs" />
-    <Compile Include="Scene\PpScene.cs" />
+    <Compile Include="Core\Layer.cs" />
+    <Compile Include="Core\Map.cs" />
+    <Compile Include="Core\TiledLayer.cs" />
+    <Compile Include="Core\VectorLayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
@@ -62,5 +53,8 @@
       <Project>{E2DF6AB0-B3BA-49E1-92DD-081731255053}</Project>
       <Name>Sitana.Framework.iOs</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\" />
   </ItemGroup>
 </Project>

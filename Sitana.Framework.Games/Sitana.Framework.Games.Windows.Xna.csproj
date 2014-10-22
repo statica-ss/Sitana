@@ -48,13 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Elements\PpCircle.cs" />
-    <Compile Include="Elements\PpElement.cs" />
-    <Compile Include="Elements\PpPolygon.cs" />
-    <Compile Include="Elements\PpRectangle.cs" />
-    <Compile Include="Elements\Triangulatable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scene\PpScene.cs" />
+    <Compile Include="Core\Map.cs" />
+    <Compile Include="Core\Layer.cs" />
+    <Compile Include="Core\TiledLayer.cs" />
+    <Compile Include="Core\VectorLayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sitana.Framework\Sitana.Framework.Windows.Xna.csproj">

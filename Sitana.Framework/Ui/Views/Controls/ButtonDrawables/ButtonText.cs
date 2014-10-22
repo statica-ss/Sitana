@@ -23,7 +23,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             file["Font"] = parser.Value("Font");
             file["FontSize"] = parser.ParseInt("FontSize");
-            file["TextAlign"] = parser.ParseEnum<TextAlign>("TextAlign");
+            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
+            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
         }
 
         protected string _font;
@@ -40,7 +41,11 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             _font = DefinitionResolver.GetString(controller, binding, file["Font"]);
             _fontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"], 0);
-            _textAlign = DefinitionResolver.Get<TextAlign>(controller, binding, file["TextAlign"], TextAlign.Center | TextAlign.Middle);
+
+            HorizontalAlignment horzAlign = DefinitionResolver.Get<HorizontalAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalAlignment.Center);
+            VerticalAlignment vertAlign = DefinitionResolver.Get<VerticalAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalAlignment.Center);
+
+            _textAlign = UiHelper.TextAlignFromAlignment(horzAlign, vertAlign);
         }
 
         public override void Draw(AdvancedDrawBatch drawBatch, UiButton.DrawButtonInfo info)

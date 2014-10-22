@@ -1,4 +1,0 @@
-CrashInstance
-0   Id              Int32   Optional
-1   CrashId         Int32
-2   Time            DateAndTime

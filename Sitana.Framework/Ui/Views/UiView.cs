@@ -562,12 +562,12 @@ namespace Sitana.Framework.Ui.Views
         {
             var size = new Point(PositionParameters.Width.Compute(width-PositionParameters.Margin.Width), PositionParameters.Height.Compute(height-PositionParameters.Margin.Height));
 
-            if (size.X == 0 && PositionParameters.Align.HasFlag(Align.StretchHorz))
+            if (size.X == 0 && PositionParameters.HorizontalAlignment == HorizontalAlignment.Stretch)
             {
                 size.X = width;
             }
 
-            if (size.Y == 0 && PositionParameters.Align.HasFlag(Align.StretchVert))
+            if (size.Y == 0 && PositionParameters.VerticalAlignment == VerticalAlignment.Stretch)
             {
                 size.Y = height;
             }

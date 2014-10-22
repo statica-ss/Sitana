@@ -283,21 +283,21 @@ namespace Sitana.Framework.Ui.Views
 
             if (_vertical)
             {
-                switch (pos.Align & Align.Horz)
+                switch (pos.HorizontalAlignment)
                 {
-                    case Align.Center:
+                case HorizontalAlignment.Center:
                         childRect.X = posX - size.X / 2;
                         break;
 
-                    case Align.Left:
+                case HorizontalAlignment.Left:
                         childRect.X = posX;
                         break;
 
-                    case Align.Right:
+                case HorizontalAlignment.Right:
                         childRect.X = posX - size.X;
                         break;
 
-                    case Align.StretchHorz:
+                case HorizontalAlignment.Stretch:
                         childRect.X = 0;
                         childRect.Width = Bounds.Width;
                         break;
@@ -307,21 +307,21 @@ namespace Sitana.Framework.Ui.Views
             }
             else
             {
-                switch (pos.Align & Align.Vert)
+                switch (pos.VerticalAlignment)
                 {
-                    case Align.Middle:
+                case VerticalAlignment.Center:
                         childRect.Y = posY - size.Y / 2;
                         break;
 
-                    case Align.Top:
+                case VerticalAlignment.Top:
                         childRect.Y = posY;
                         break;
 
-                    case Align.Bottom:
+                case VerticalAlignment.Bottom:
                         childRect.Y = posY - size.Y;
                         break;
 
-                    case Align.StretchVert:
+                case VerticalAlignment.Stretch:
                         childRect.Y = 0;
                         childRect.Height = Bounds.Height;
                         break;

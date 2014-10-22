@@ -23,14 +23,16 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["ImageUnchecked"] = parser.ParseResource<Texture2D>("ImageUnchecked");
             file["ImageChecked"] = parser.ParseResource<Texture2D>("ImageChecked");
             file["Scale"] = parser.ParseFloat("Scale");
-            file["Align"] = parser.ParseEnum<Align>("Align");
+            file["HorizontalAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalAlignment");
+            file["VerticalAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalAlignment");
         }
 
         protected Texture2D _imageChecked = null;
         protected Texture2D _imageUnchecked = null;
         protected float _scale = 1;
 
-        protected Align _align;
+        protected HorizontalAlignment _horizontalAlignment;
+        protected VerticalAlignment _verticalAlignment;
 
         protected override void Init(UiController controller, object binding, DefinitionFile definition)
         {
@@ -41,7 +43,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _imageChecked = DefinitionResolver.Get<Texture2D>(controller, binding, file["ImageChecked"], null);
             _imageUnchecked = DefinitionResolver.Get<Texture2D>(controller, binding, file["ImageUnchecked"], null);
             _scale = (float)DefinitionResolver.Get<double>(controller, binding, file["Scale"], 1);
-            _align = DefinitionResolver.Get<Align>(controller, binding, file["Align"], Align.Center | Align.Middle);
+            _horizontalAlignment = DefinitionResolver.Get<HorizontalAlignment>(controller, binding, file["HorizontalAlignment"], HorizontalAlignment.Center);
+            _verticalAlignment = DefinitionResolver.Get<VerticalAlignment>(controller, binding, file["VerticalAlignment"], VerticalAlignment.Center);
         }
 
         public override void Draw(AdvancedDrawBatch drawBatch, UiButton.DrawButtonInfo info)
@@ -70,24 +73,24 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
                 Rectangle target = _margin.ComputeRect(info.Target);
 
-                switch ( _align & Align.Horz)
+                switch ( _horizontalAlignment )
                 {
-                case Align.Center:
+                case HorizontalAlignment.Center:
                     target.X = target.Center.X - width / 2;
                     break;
 
-                case Align.Right:
+                case HorizontalAlignment.Right:
                     target.X = target.Right - width;
                     break;
                 }
 
-                switch ( _align & Align.Vert)
+                switch ( _verticalAlignment)
                 {
-                case Align.Middle:
+                case VerticalAlignment.Center:
                     target.Y = target.Center.Y - height / 2;
                     break;
 
-                case Align.Bottom:
+                case VerticalAlignment.Bottom:
                     target.Y = target.Bottom - height;
                     break;
                 }

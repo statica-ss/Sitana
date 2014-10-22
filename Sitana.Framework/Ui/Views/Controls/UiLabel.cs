@@ -29,7 +29,8 @@ namespace Sitana.Framework.Ui.Views
             file["FontSize"] = parser.ParseInt("FontSize");
 
             file["TextColor"] = parser.ParseColor("TextColor");
-            file["TextAlign"] = parser.ParseEnum<TextAlign>("TextAlign");
+            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
+            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
         }
 
         public SharedString Text { get; private set; }
@@ -87,12 +88,15 @@ namespace Sitana.Framework.Ui.Views
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiLabel));
 
             FontName = file["Font"] as string;
-            FontSize = DefinitionResolver.Get<int>(Controller, binding, file["FontSize"], 0);
+            FontSize = DefinitionResolver.Get<int>(Controller, Binding, file["FontSize"], 0);
 
-            Text = DefinitionResolver.GetSharedString(Controller, binding, file["Text"]);
-            TextColor = DefinitionResolver.GetColorWrapper(Controller, binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
+            Text = DefinitionResolver.GetSharedString(Controller, Binding, file["Text"]);
+            TextColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
 
-            TextAlign = DefinitionResolver.Get<TextAlign>(Controller, binding, file["TextAlign"], TextAlign.Middle | TextAlign.Center);
+            HorizontalAlignment horzAlign = DefinitionResolver.Get<HorizontalAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalAlignment.Center);
+            VerticalAlignment vertAlign = DefinitionResolver.Get<VerticalAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalAlignment.Center);
+
+            TextAlign = UiHelper.TextAlignFromAlignment(horzAlign, vertAlign);
         }
     }
 }
