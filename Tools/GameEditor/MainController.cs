@@ -75,6 +75,13 @@ namespace GameEditor
 
         public void New()
         {
+            if (!Document.Current.IsModified)
+            {
+                Document.Instance.New();
+                HideElement("FileMenu");
+                return;
+            }
+
             MessageBoxYesNoCancel(SaveChangesQuestion,
                 () =>
                 {
@@ -104,6 +111,13 @@ namespace GameEditor
 
                 if (path != null)
                 {
+                    if ( !Document.Current.IsModified )
+                    {
+                        Open(path);
+                        HideElement("FileMenu");
+                        return;
+                    }
+
                     MessageBoxYesNoCancel(SaveChangesQuestion, 
                         () =>
                             {
@@ -126,8 +140,10 @@ namespace GameEditor
                                 HideElement("FileMenu");
                             });
                 }
-
-                HideElement("FileMenu");
+                else
+                {
+                    HideElement("FileMenu");
+                }
             });
         }
 
@@ -181,6 +197,12 @@ namespace GameEditor
 
         public void Exit()
         {
+            if ( !Document.Current.IsModified )
+            {
+                AppMain.Current.Exit();
+                return;
+            }
+
             MessageBoxYesNoCancel(SaveChangesQuestion, () =>
             {
                 if ( SaveInternal() )
@@ -272,7 +294,7 @@ namespace GameEditor
             });
         }
 
-        public void SelectLayer(Layer layer)
+        public void SelectLayer(DocLayer layer)
         {
             Document.Current.Select(layer);
         }

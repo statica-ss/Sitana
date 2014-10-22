@@ -11,9 +11,11 @@ namespace Sitana.Framework.Ui.Binding
 
         List<IItemsConsumer> _consumers = new List<IItemsConsumer>();
 
+        object _consumersLock = new object();
+
         public void Subscribe(IItemsConsumer consumer)
         {
-            lock (this)
+            lock (_consumersLock)
             {
                 _consumers.Add(consumer);
             }
@@ -21,7 +23,7 @@ namespace Sitana.Framework.Ui.Binding
 
         public void Unsubscribe(IItemsConsumer consumer)
         {
-            lock (this)
+            lock (_consumersLock)
             {
                 _consumers.Remove(consumer);
             }
@@ -29,23 +31,31 @@ namespace Sitana.Framework.Ui.Binding
 
         public void Add(T element)
         {
-            lock (this)
+            int index = 0;
+            lock(this)
             {
                 _elements.Add(element);
+                index = _elements.Count - 1;
+            }
 
+            lock(_consumersLock)
+            {
                 for (int idx = 0; idx < _consumers.Count; ++idx)
                 {
-                    _consumers[idx].Added(element, _elements.Count-1);
+                    _consumers[idx].Added(element, index);
                 }
             }
         }
 
         public void Insert(int index, T element)
         {
-            lock (this)
+            lock(this)
             {
                 _elements.Insert(index, element);
+            }
 
+            lock(_consumersLock)
+            {
                 for (int idx = 0; idx < _consumers.Count; ++idx)
                 {
                     _consumers[idx].Added(element, index);
@@ -55,10 +65,13 @@ namespace Sitana.Framework.Ui.Binding
 
         public void Remove(T element)
         {
-            lock (this)
+            lock(this)
             {
                 _elements.Remove(element);
+            }
 
+            lock(_consumersLock)
+            {
                 for (int idx = 0; idx < _consumers.Count; ++idx)
                 {
                     _consumers[idx].Removed(element);
@@ -68,26 +81,32 @@ namespace Sitana.Framework.Ui.Binding
 
         public void Clear()
         {
-            lock (this)
+            lock(_consumersLock)
             {
                 for (int idx = 0; idx < _consumers.Count; ++idx)
                 {
-                    for (int el = 0; el < _elements.Count; ++idx)
-                    {
-                        var element = _elements[el];
-                        _consumers[idx].Removed(element);
-                    }
+                    _consumers[idx].RemovedAll();
                 }
+            }
+
+            lock(this)
+            {
+                _elements.Clear();
             }
         }
 
         public void RemoveAt(int index)
         {
-            lock (this)
-            {
-                T element = _elements[index];
-                _elements.RemoveAt(index);
+            T element;
 
+            lock(this)
+            {
+                element = _elements[index];
+                _elements.RemoveAt(index);
+            }
+
+            lock(_consumersLock)
+            {
                 for (int idx = 0; idx < _consumers.Count; ++idx)
                 {
                     _consumers[idx].Removed(element);

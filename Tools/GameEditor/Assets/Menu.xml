@@ -24,8 +24,8 @@
                                 <UiButton Style="MenuButton" Text="Open" Click="{Open()}" />
                                 <UiButton Style="MenuButton" Text="Save" Click="{Save()}" />
                                 <UiButton Style="MenuButton" Text="Save As..." Width="64" Click="{SaveAs()}" />
-                                <UiRectangle Width="1" Color="#40ffffff" Margin="0,4,0,4" />
-                                <UiButton Style="MenuButton" Text="Exit" Width="64" Click="{Exit()}" />
+<!--                                <UiRectangle Width="1" Color="#40ffffff" Margin="0,4,0,4" />
+                                <UiButton Style="MenuButton" Text="Exit" Width="64" Click="{Exit()}" />-->
                             </UiStackPanel.Children>
                         </UiStackPanel>
                     </UiModalLayout.Children>

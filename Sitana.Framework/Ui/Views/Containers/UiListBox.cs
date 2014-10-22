@@ -76,6 +76,8 @@ namespace Sitana.Framework.Ui.Views
         bool _recalculate = true;
         bool _vertical = false;
 
+        object _childrenLock = new object();
+
         Dictionary<object, UiView> _bindingToElement = new Dictionary<object, UiView>();
 
         Point _updateScrollPosition = Point.Zero;
@@ -136,7 +138,7 @@ namespace Sitana.Framework.Ui.Views
 
             lock (_items)
             {
-                if (_enableGestureHandling && _children.Count != _items.Count)
+                if (_children.Count != _items.Count)
                 {
                     recalculate = true;
                 }
@@ -163,8 +165,12 @@ namespace Sitana.Framework.Ui.Views
                         if (view == null)
                         {
                             view = (UiView)_template.CreateInstance(Controller, bind);
-                            _bindingToElement.Add(bind, view);
-                            _children.Add(view);
+
+                            lock(_childrenLock)
+                            {
+                                _bindingToElement.Add(bind, view);
+                                _children.Add(view);
+                            }
 
                             view.Parent = this;
                             view.ViewAdded();
@@ -343,6 +349,20 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        void IItemsConsumer.RemovedAll()
+        {
+            lock(_childrenLock)
+            {
+                _children.Clear();
+                _bindingToElement.Clear();
+            }
+
+            lock (_recalcLock)
+            {
+                _recalculate = true;
+            }
+        }
+
         void IItemsConsumer.Removed(object item)
         {
             lock (_recalcLock)
@@ -350,14 +370,15 @@ namespace Sitana.Framework.Ui.Views
                 _recalculate = true;
             }
 
-            UiTask.BeginInvoke(() =>
+            lock(_childrenLock)
+            {
+                UiView view;
+                if (_bindingToElement.TryGetValue(item, out view))
                 {
-                    UiView view;
-                    if (_bindingToElement.TryGetValue(item, out view))
-                    {
-                        _children.Remove(view);
-                    }
-                });
+                    _children.Remove(view);
+                    _bindingToElement.Remove(item);
+                }
+            }
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System;
 using Sitana.Framework.Cs;
+using Sitana.Framework.Games;
 
 namespace GameEditor
 {
-    public class Layer
+    public class DocLayer
     {
         public SharedString Name { get; private set;}
         public string Type { get; private set;}
@@ -12,7 +13,9 @@ namespace GameEditor
 
         public SharedValue<bool> NotSelected { get; private set;}
 
-        public Layer(string type)
+        protected Layer _layer = null;
+
+        public DocLayer(string type)
         {
             Name = new SharedString();
             Type = type;

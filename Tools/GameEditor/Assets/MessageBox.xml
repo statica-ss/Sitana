@@ -5,6 +5,9 @@
                Id="MessageBox" BackgroundColor="#80000000" ShowTime="0" HideTime="0" TouchOutsideToHide="false">
     <UiModalLayout.Children>
         <UiBorder>
+            <UiBorder.Children>
+
+            <UiBorder Height="128" Y="C" Align="StretchHorz, Middle" BackgroundColor="#80000000">
             <UiView.ShowTransitionEffect>
                 <effect:Group>
                     <effect:Rotate Angle="180" />
@@ -17,14 +20,16 @@
                 </effect:Group>
             </UiView.HideTransitionEffect>
             <UiBorder.Children>
-                <UiLabel Text="{MessageBoxText}" Font="Font" FontSize="8" Width="@-16" Height="128" X="C" Y="C-8" Align="Center,Bottom" TextAlign="Center,Bottom" />
-                <UiButton Id="MessageBoxOk" Style="MessageBoxButton" Text="OK" X="C" Y="C+8" Click="{OnMessageBoxCancel()}" />
-                <UiButton Id="MessageBoxYes" Style="MessageBoxButton" Text="Yes" X="C-48" Y="C+8" Click="{OnMessageBoxYes()}" />
-                <UiButton Id="MessageBoxNo" Style="MessageBoxButton" Text="No" X="C" Y="C+8" Click="{OnMessageBoxNo()}" />
-                <UiButton Id="MessageBoxCancel" Style="MessageBoxButton" Text="Cancel" X="C+48" Y="C+8" Click="{OnMessageBoxCancel()}" />
-                <UiButton Id="MessageBoxYes2" Style="MessageBoxButton" Text="Yes" X="C-24" Y="C+8" Click="{OnMessageBoxYes()}" />
-                <UiButton Id="MessageBoxNo2" Style="MessageBoxButton" Text="No" X="C+24" Y="C+8" Click="{OnMessageBoxNo()}" />
+                <UiLabel Text="{MessageBoxText}" Font="Font" FontSize="8" Width="@-32" Height="@-80" X="C" Y="16" Align="Center,Top" TextAlign="Center,Middle"/>
+                <UiButton Id="MessageBoxOk" Style="MessageBoxButton" Text="OK" X="C" Click="{OnMessageBoxCancel()}" />
+                <UiButton Id="MessageBoxYes" Style="MessageBoxButton" Text="YES" X="C-56" Click="{OnMessageBoxYes()}" />
+                <UiButton Id="MessageBoxNo" Style="MessageBoxButton" Text="NO" X="C" Click="{OnMessageBoxNo()}" />
+                <UiButton Id="MessageBoxCancel" Style="MessageBoxButton" Text="CANCEL" X="C+56" Click="{OnMessageBoxCancel()}" />
+                <UiButton Id="MessageBoxYes2" Style="MessageBoxButton" Text="YES" X="C-28" Click="{OnMessageBoxYes()}" />
+                <UiButton Id="MessageBoxNo2" Style="MessageBoxButton" Text="NO" X="C+28" Click="{OnMessageBoxNo()}" />
             </UiBorder.Children>
+        </UiBorder>
+        </UiBorder.Children>
         </UiBorder>
     </UiModalLayout.Children>
 </UiModalLayout>

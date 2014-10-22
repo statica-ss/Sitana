@@ -21,42 +21,44 @@ namespace GameEditor
 
         public string FilePath { get; private set;}
 
-        public ItemsList<Layer> Layers { get; private set;}
+        public ItemsList<DocLayer> Layers { get; private set;}
 
         private int _layerIndex = 1;
 
         public bool IsModified { get; private set;}
 
-        public Layer SelectedLayer
+        public DocLayer SelectedLayer
         {
             get
             {
-                for( int idx = 0; idx < Layers.Count; ++idx )
+                for (int idx = 0; idx < Layers.Count; ++idx)
                 {
-                    if(Layers[idx].Selected.Value)
+                    if (Layers[idx].Selected.Value)
                     {
                         return Layers[idx];
                     }
                 }
 
-                return Layers[0];
+                return null;
             }
         }
 
         public void New()
         {
+            _layerIndex = 1;
             _nextIndex++;
             FileName.Format("New {0}", _nextIndex);
             FilePath = null;
 
             Layers.Clear();
             AddVectorLayer();
-            IsModified = true;
+
+            IsModified = false;
         }
 
         public Document()
         {
-            Layers = new ItemsList<Layer>();
+            Layers = new ItemsList<DocLayer>();
             New();
         }
 
@@ -78,22 +80,29 @@ namespace GameEditor
             IsModified = false;
         }
 
+        public void SetModified()
+        {
+            IsModified = true;
+        }
+
         public void AddVectorLayer()
         {
-            var layer = new VectorLayer(String.Format("Layer {0}", _layerIndex));
+            var layer = new DocVectorLayer(String.Format("Layer {0}", _layerIndex));
             Layers.Add(layer);
             _layerIndex++;
 
             Select(layer);
+            SetModified();
         }
             
         public void AddTilesetLayer()
         {
-            var layer = new TilesetLayer(String.Format("Layer {0}", _layerIndex));
+            var layer = new DocTiledLayer(String.Format("Layer {0}", _layerIndex));
             Layers.Add(layer);
             _layerIndex++;
 
             Select(layer);
+            SetModified();
         }
 
         public void RemoveSelectedLayer()
@@ -113,9 +122,10 @@ namespace GameEditor
             }
 
             Select(Layers[0]);
+            SetModified();
         }
 
-        public void Select(Layer layer)
+        public void Select(DocLayer layer)
         {
             for( int idx = 0; idx < Layers.Count; ++idx )
             {

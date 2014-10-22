@@ -28,7 +28,7 @@ namespace GameEditor
         {
             _appMain = new AppMain();
 
-            _appMain.Window.Window.CollectionBehavior = NSWindowCollectionBehavior.FullScreenPrimary;
+            //_appMain.Window.Window.CollectionBehavior = NSWindowCollectionBehavior.FullScreenPrimary;
 
             ContentLoader.Init(_appMain.Services, "Assets");
 

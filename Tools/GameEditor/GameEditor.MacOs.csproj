@@ -76,14 +76,18 @@
     <Compile Include="Main.MacOs.cs" />
     <Compile Include="MainController.cs" />
     <Compile Include="Document\Document.cs" />
-    <Compile Include="Document\Layer.cs" />
-    <Compile Include="Document\VectorLayer.cs" />
-    <Compile Include="Document\TiledLayer.cs" />
+    <Compile Include="Document\DocLayer.cs" />
+    <Compile Include="Document\DocTiledLayer.cs" />
+    <Compile Include="Document\DocVectorLayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.MacOs.csproj">
       <Project>{9A6B9310-FEB6-4B5E-89B2-613FA31BDD21}</Project>
       <Name>Sitana.Framework.MacOs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sitana.Framework.Games\Sitana.Framework.Games.MacOs.csproj">
+      <Project>{78F1EF91-2450-4E6D-9638-A4F954BAF807}</Project>
+      <Name>Sitana.Framework.Games.MacOs</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
