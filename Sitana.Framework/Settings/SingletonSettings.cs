@@ -58,6 +58,8 @@ namespace Sitana.Framework.Settings
                             (_instance as SingletonSettings<T>).Loaded = true;
                         }
 
+                        (_instance as SingletonSettings<T>).Init();
+
                         _allowCreation = false;
                     }
 
@@ -91,6 +93,10 @@ namespace Sitana.Framework.Settings
 
             // Serialize with serializator.
             Serializator.Serialize(path, Instance);
+        }
+
+        protected virtual void Init()
+        {
         }
     }
 }

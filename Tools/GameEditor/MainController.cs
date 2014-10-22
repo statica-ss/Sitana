@@ -21,6 +21,13 @@ namespace GameEditor
         public SharedString MessageBoxText { get; private set; }
         public SharedString FileName { get; private set; }
 
+        public SharedValue<bool> ShowAllLayers
+        { 
+            get 
+            { 
+                return EditorSettings.Instance.ShowAllLayersShared;
+            }
+        }
 
         public bool CanClose
         { 

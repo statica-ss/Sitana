@@ -19,6 +19,7 @@ namespace Sitana.Framework.Ui.Core
     {
         public delegate void LoadDelegate(AppMain main);
         public delegate bool CloseDelegate(AppMain main);
+        public delegate void ResizedDelegate(int width, int height);
 
         public static AppMain Current { get; private set; }
 
@@ -28,6 +29,7 @@ namespace Sitana.Framework.Ui.Core
 
         public event LoadDelegate OnLoadContent;
         public event LoadDelegate OnLoadedView;
+        public event ResizedDelegate Resized;
 
         public CloseDelegate CanClose { get; set;}
 

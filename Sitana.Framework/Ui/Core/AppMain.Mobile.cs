@@ -18,6 +18,10 @@ namespace Sitana.Framework.Ui.Core
             PerformanceProfiler.Instance.ComputeContentRect(ref rect);
 
             MainView.Bounds = rect;
+            if ( Resized != null )
+            {
+                Resized(rect.Width, rect.Height);
+            }
         }
     }
 }

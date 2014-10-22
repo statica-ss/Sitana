@@ -69,6 +69,11 @@ namespace Sitana.Framework.Ui.Core
 
                 MainView.Bounds = rect;
 
+                if ( Resized != null )
+                {
+                    Resized(rect.Width, rect.Height);
+                }
+
                 if (Window.AllowUserResizing)
                 {
                     Window.Window.ContentMinSize = new System.Drawing.SizeF(MainView.MinSize.X, MainView.MinSize.Y);

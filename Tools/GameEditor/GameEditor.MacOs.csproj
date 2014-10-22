@@ -62,6 +62,7 @@
     <Reference Include="MonoGame.Framework">
       <HintPath>..\..\ThirdParty\Dependences\MonoGame\MacOs\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -79,6 +80,7 @@
     <Compile Include="Document\DocLayer.cs" />
     <Compile Include="Document\DocTiledLayer.cs" />
     <Compile Include="Document\DocVectorLayer.cs" />
+    <Compile Include="EditorSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.MacOs.csproj">

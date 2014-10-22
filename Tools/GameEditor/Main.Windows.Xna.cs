@@ -20,6 +20,7 @@ namespace GameEditor
         {
             using (_appMain = new AppMain())
             {
+                Form form = (Form)Form.FromHandle(_appMain.Window.Handle);
 
                 ContentLoader.Init(_appMain.Services, Assembly.GetExecutingAssembly(), "GameEditor.Assets");
 
@@ -27,7 +28,6 @@ namespace GameEditor
                 _appMain.LoadView("MainView");
 
                 _appMain.Window.AllowUserResizing = true;
-                _appMain.Window.ClientSizeChanged += Window_ClientSizeChanged;
 
                 _appMain.Graphics.IsFullScreen = false;
                 _appMain.CanClose = (a) =>
@@ -35,7 +35,6 @@ namespace GameEditor
                         if (!MainController.Current.CanClose)
                         {
                             // This makes the game remain active after close button is pressed.
-                            Form form = (Form)Form.FromHandle(_appMain.Window.Handle);
                             form.Hide();
                             form.Show();
 
@@ -45,29 +44,44 @@ namespace GameEditor
                         return MainController.Current.CanClose;
                     };
 
+                if (EditorSettings.Instance.WindowWidth != 0 || EditorSettings.Instance.WindowHeight != 0)
+                {
+                    _appMain.Graphics.PreferredBackBufferWidth = EditorSettings.Instance.WindowWidth;
+                    _appMain.Graphics.PreferredBackBufferHeight = EditorSettings.Instance.WindowHeight;
+                }
+
                 _appMain.IsMouseVisible = true;
                 _appMain.OnLoadContent += MainController.OnLoadContent;
-                _appMain.OnLoadedView += (a) => a.ResizeToView();
+
+                _appMain.OnLoadedView += (a) =>
+                {
+                    if (EditorSettings.Instance.Fullscreen)
+                    {
+                        form.WindowState = FormWindowState.Maximized;
+                    }
+                    else if (EditorSettings.Instance.WindowWidth == 0 || EditorSettings.Instance.WindowHeight == 0)
+                    {
+                        a.ResizeToView();
+                    }
+                };
+
+                _appMain.Resized += (w, h) =>
+                {
+                    if (form.WindowState == FormWindowState.Normal)
+                    {
+                        EditorSettings.Instance.WindowWidth = w;
+                        EditorSettings.Instance.WindowHeight = h;
+                    }
+
+                    EditorSettings.Instance.Fullscreen = form.WindowState == FormWindowState.Maximized;
+                };
 
                 _appMain.InactiveSleepTime = TimeSpan.FromSeconds(1);
 
                 _appMain.Run();
+
+                EditorSettings.Instance.Serialize();
             }
         }
-
-        static void Window_ClientSizeChanged(object sender, EventArgs e)
-        {
-            UiTask.BeginInvoke(() =>
-            {
-                double unit = Math.Min((double)AppMain.Current.GraphicsDevice.Viewport.Width / 640.0,
-                                        (double)AppMain.Current.GraphicsDevice.Viewport.Height / 480.0);
-
-                unit = Math.Min(1, unit);
-
-                UiUnit.FontUnit = UiUnit.Unit = unit;
-                AppMain.Current.SizeChanged();
-            });
-        }
-
     }
 }
