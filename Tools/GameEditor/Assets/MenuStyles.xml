@@ -6,20 +6,35 @@
     xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework">
 
     <Style Name="MenuButton">
-    <UiButton Width="40" Height="24" Y="C" Align="Left,Middle">
+    <UiButton Width="40" Height="22" Y="C" Align="Left,Middle">
       <UiButton.Drawables>
         <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" ScaleByUnit="true" Scale="0.25"/>
-        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" TextAlign="Center,Middle" Padding="2"/>
+        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" TextAlign="Center,Middle" Margin="2"/>
       </UiButton.Drawables>
     </UiButton>
   </Style>
 
-  <Style Name="Headers">
-        <UiLabel Font="Font" FontSize="8" TextColor="#a0ffffff" Align="Left,Middle" TextAlign="Left,Middle"/>
+   <Style Name="Headers">
+        <UiLabel Font="Font" FontSize="8" TextColor="#a0ffffff" Align="Left,Middle" Y="C" TextAlign="Left,Middle"/>
+   </Style>
+
+   <Style Name="MenuLabel">
+        <UiLabel Font="Font" FontSize="8" TextColor="#a0ffffff" Align="Left,Middle" Y="C" Height="@" TextAlign="Left,Middle"/>
    </Style>
 
    <Style Name="MenuStripLayout">
     <UiModalLayout X="0" Y="4" Width="320" Height="32" Align="Left,Top" ShowTime="250" HideTime="250"/>
+  </Style>
+
+  <Style Name="MenuCheckBox">
+    <UiCheckBox Width="72" Height="18" Align="Right,Middle">
+      <UiButton.Drawables>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" ScaleByUnit="true" Scale="0.25"/>
+        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" TextAlign="Right,Middle" Margin="4"/>
+        <button:CheckMark Style="ChangeTime" ColorPushed="#80ffffff" ColorReleased="#ffa0a0" ImageChecked="CheckBox" Scale="0.1" Align="Left,Middle" Margin="4"/>
+        <button:CheckMark Style="ChangeTime" ColorPushed="#40ffffff" ColorReleased="#40ffa0a0" ImageUnchecked="CheckBox" Scale="0.1" Align="Left,Middle" Margin="4"/>
+      </UiButton.Drawables>
+    </UiCheckBox>
   </Style>
 
   <Style Name="MenuStrip">

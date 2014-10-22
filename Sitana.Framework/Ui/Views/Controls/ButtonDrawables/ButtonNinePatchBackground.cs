@@ -75,8 +75,9 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             }
 
             float scale = _scaleByUnit ? (float)UiUnit.Unit : 1;
+            Rectangle target = _margin.ComputeRect(info.Target);
 
-            drawBatch.DrawNinePatchRect(image, info.Target, color, scale * _scale);
+            drawBatch.DrawNinePatchRect(image, target, color, scale * _scale);
         }
     }
 }

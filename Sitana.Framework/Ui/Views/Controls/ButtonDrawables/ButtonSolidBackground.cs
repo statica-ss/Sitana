@@ -21,7 +21,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         {
             Update(info.EllapsedTime, info.ButtonState);
 
-            drawBatch.DrawRectangle(info.Target, ColorFromState * info.Opacity);
+            Rectangle target = _margin.ComputeRect(info.Target);
+            drawBatch.DrawRectangle(target, ColorFromState * info.Opacity);
         }
     }
 }

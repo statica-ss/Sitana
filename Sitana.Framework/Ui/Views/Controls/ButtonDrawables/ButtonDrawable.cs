@@ -20,6 +20,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["ColorPushed"] = parser.ParseColor("ColorPushed");
             file["ColorReleased"] = parser.ParseColor("ColorReleased");
             file["ColorDisabled"] = parser.ParseColor("ColorDisabled");
+            file["Margin"] = parser.ParseMargin("Margin");
         }
 
         protected float CheckedState = float.NaN;
@@ -29,6 +30,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         protected ColorWrapper _colorPushed;
         protected ColorWrapper _colorReleased;
         protected ColorWrapper _colorDisabled;
+
+        protected Margin _margin;
 
         float _changeSpeed = 1;
 
@@ -74,6 +77,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _colorDisabled = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorDisabled"]);
             _colorReleased = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorReleased"]);
             _colorPushed = DefinitionResolver.GetColorWrapper(controller, binding, file["ColorPushed"]);
+
+            _margin = DefinitionResolver.Get<Margin>(controller, binding, file["Margin"], Margin.None);
         }
 
         protected Color ColorFromState

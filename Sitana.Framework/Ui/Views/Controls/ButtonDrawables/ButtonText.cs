@@ -24,13 +24,11 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["Font"] = parser.Value("Font");
             file["FontSize"] = parser.ParseInt("FontSize");
             file["TextAlign"] = parser.ParseEnum<TextAlign>("TextAlign");
-            file["Padding"] = parser.ParseInt("Padding");
         }
 
         protected string _font;
         protected int _fontSize;
         protected TextAlign _textAlign;
-        protected int _padding;
 
         private FontFace _fontFace;
 
@@ -39,8 +37,6 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             base.Init(controller, binding, definition);
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(NinePatchBackground));
-
-            _padding = DefinitionResolver.Get<int>(controller, binding, file["Padding"], 0);
 
             _font = DefinitionResolver.GetString(controller, binding, file["Font"]);
             _fontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"], 0);
@@ -63,10 +59,9 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             Color color = ColorFromState * info.Opacity;
 
-            Rectangle rect = info.Target;
-            rect.Inflate(-_padding, -_padding);
+            Rectangle target = _margin.ComputeRect(info.Target);
 
-            drawBatch.DrawText(font, str, rect, _textAlign, color, scale);
+            drawBatch.DrawText(font, str, target, _textAlign, color, scale);
         }
     }
 }

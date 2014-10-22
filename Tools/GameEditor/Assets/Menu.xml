@@ -8,7 +8,7 @@
                     <UiStackPanel.Children>
                         <UiButton Style="MenuButton" Text="File" Click="{ShowElement('FileMenu')}" />
                         <UiButton Style="MenuButton" Text="Edit" />
-                        <UiButton Style="MenuButton" Text="View" />
+                        <UiButton Style="MenuButton" Text="View" Click="{ShowElement('ViewMenu')}"/>
                         <UiButton Style="MenuButton" Text="Help" />
                     </UiStackPanel.Children>
                 </UiStackPanel>
@@ -24,11 +24,22 @@
                                 <UiButton Style="MenuButton" Text="Open" Click="{Open()}" />
                                 <UiButton Style="MenuButton" Text="Save" Click="{Save()}" />
                                 <UiButton Style="MenuButton" Text="Save As..." Width="64" Click="{SaveAs()}" />
-<!--                                <UiRectangle Width="1" Color="#40ffffff" Margin="0,4,0,4" />
-                                <UiButton Style="MenuButton" Text="Exit" Width="64" Click="{Exit()}" />-->
                             </UiStackPanel.Children>
                         </UiStackPanel>
                     </UiModalLayout.Children>
                 </UiModalLayout>
+
+                <!-- View -->
+
+                <UiModalLayout Id="ViewMenu" Style="MenuStripLayout">
+                    <UiModalLayout.Children>
+                        <UiStackPanel Style="MenuStrip">
+                            <UiStackPanel.Children>
+                                <UiCheckBox Style="MenuCheckBox" Text="All layers"/>
+                            </UiStackPanel.Children>
+                        </UiStackPanel>
+                    </UiModalLayout.Children>
+                </UiModalLayout>
+
     </UiBorder.Children>
 </UiBorder>

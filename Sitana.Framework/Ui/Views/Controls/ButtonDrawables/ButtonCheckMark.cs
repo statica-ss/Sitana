@@ -23,11 +23,14 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["ImageUnchecked"] = parser.ParseResource<Texture2D>("ImageUnchecked");
             file["ImageChecked"] = parser.ParseResource<Texture2D>("ImageChecked");
             file["Scale"] = parser.ParseFloat("Scale");
+            file["Align"] = parser.ParseEnum<Align>("Align");
         }
 
         protected Texture2D _imageChecked = null;
         protected Texture2D _imageUnchecked = null;
         protected float _scale = 1;
+
+        protected Align _align;
 
         protected override void Init(UiController controller, object binding, DefinitionFile definition)
         {
@@ -38,6 +41,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _imageChecked = DefinitionResolver.Get<Texture2D>(controller, binding, file["ImageChecked"], null);
             _imageUnchecked = DefinitionResolver.Get<Texture2D>(controller, binding, file["ImageUnchecked"], null);
             _scale = (float)DefinitionResolver.Get<double>(controller, binding, file["Scale"], 1);
+            _align = DefinitionResolver.Get<Align>(controller, binding, file["Align"], Align.Center | Align.Middle);
         }
 
         public override void Draw(AdvancedDrawBatch drawBatch, UiButton.DrawButtonInfo info)
@@ -64,10 +68,29 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
                 int width = (int)(scale * image.Width);
                 int height = (int)(scale * image.Height);
 
-                Rectangle target = info.Target;
+                Rectangle target = _margin.ComputeRect(info.Target);
 
-                target.X = target.Center.X - width / 2;
-                target.Y = target.Center.Y - height / 2;
+                switch ( _align & Align.Horz)
+                {
+                case Align.Center:
+                    target.X = target.Center.X - width / 2;
+                    break;
+
+                case Align.Right:
+                    target.X = target.Right - width;
+                    break;
+                }
+
+                switch ( _align & Align.Vert)
+                {
+                case Align.Middle:
+                    target.Y = target.Center.Y - height / 2;
+                    break;
+
+                case Align.Bottom:
+                    target.Y = target.Bottom - height;
+                    break;
+                }
 
                 target.Width = width;
                 target.Height = height;
