@@ -145,7 +145,9 @@ namespace Sitana.Framework.Ui.Core
                 _lastSize = newSize;
             }
 
-            TouchPad.Instance.Update(time);
+
+            TouchPad.Instance.Update(time, IsActive);
+
 
             for(int idx = 0; idx < _updatables.Count; ++idx)
             {

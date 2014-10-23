@@ -109,9 +109,9 @@ namespace Sitana.Framework.Input.TouchPad
             }
         }
 
-        internal void Update(float time)
+        internal void Update(float time, bool active)
         {
-            AnalyzeMouse(time);
+            AnalyzeMouse(time, active);
             AnalyzeTouch(time);
         }
 
@@ -170,17 +170,17 @@ namespace Sitana.Framework.Input.TouchPad
             }
         }
 
-        void AnalyzeMouse(float time)
+        void AnalyzeMouse(float time, bool active)
         {
             MouseState state = Mouse.GetState();
 
-            if (state.RightButton == ButtonState.Pressed && !_rightClick.HasValue)
+            if (active && state.RightButton == ButtonState.Pressed && !_rightClick.HasValue)
             {
                 _rightClick = state.ToVector2();
                 _rightClickTime = DateTime.Now;
             }
 
-            if ( state.RightButton == ButtonState.Released && _rightClick.HasValue)
+            if ( active && state.RightButton == ButtonState.Released && _rightClick.HasValue)
             {
                 Vector2 move = state.ToVector2() - _rightClick.Value;
 
@@ -209,7 +209,7 @@ namespace Sitana.Framework.Input.TouchPad
                 element = TouchElement.Invalid;
             }
 
-            if (state.LeftButton == ButtonState.Pressed)
+            if (active && state.LeftButton == ButtonState.Pressed)
             {
                 if (!element.Valid)
                 {
