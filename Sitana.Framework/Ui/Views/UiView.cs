@@ -98,7 +98,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public static void ParseDrawables(XNode node, DefinitionFile file, Type drawableType)
+        public static void ParseDrawables(XNode node, DefinitionFile file, Type drawableType, string targetId = "Drawables")
         {
             List<DefinitionFile> list = new List<DefinitionFile>();
 
@@ -123,7 +123,7 @@ namespace Sitana.Framework.Ui.Views
                 list.Add(newFile);
             }
 
-            if (file["Drawables"] != null)
+            if (file[targetId] != null)
             {
                 string error = node.NodeError("Drawables already defined");
                 if (DefinitionParser.EnableCheckMode)
@@ -137,7 +137,7 @@ namespace Sitana.Framework.Ui.Views
             }
             else
             {
-                file["Drawables"] = list;
+                file[targetId] = list;
             }
         }
 
@@ -357,12 +357,16 @@ namespace Sitana.Framework.Ui.Views
             CallDelegate("ViewDeactivated");
         }
 
-        public void ViewAdded()
+        internal void RegisterView()
         {
             if (!Id.IsNullOrWhiteSpace())
             {
                 Controller.Register(Id, this);
             }
+        }
+
+        public void ViewAdded()
+        {
             CallDelegate("ViewAdded");
             OnAdded();
         }
@@ -586,6 +590,19 @@ namespace Sitana.Framework.Ui.Views
             if (_enableGestureHandling)
             {
                 OnGesture(gesture);
+            }
+        }
+
+        IGestureListener IGestureListener.Parent
+        {
+            get
+            {
+                if ( Parent != null )
+                {
+                    return Parent;
+                }
+
+                return null;
             }
         }
 

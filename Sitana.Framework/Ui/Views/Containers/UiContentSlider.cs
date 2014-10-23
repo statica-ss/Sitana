@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Sitana.Framework.Ui.Views.Parameters;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Cs;
+using Sitana.Framework.Ui.Interfaces;
 
 namespace Sitana.Framework.Ui.Views
 {

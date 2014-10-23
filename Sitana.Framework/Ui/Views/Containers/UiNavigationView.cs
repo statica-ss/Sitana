@@ -110,6 +110,7 @@ namespace Sitana.Framework.Ui.Views
             page.Bounds = CalculateChildBounds(page);
             page.Parent = this;
 
+            page.RegisterView();
             page.ViewAdded();
         }
 

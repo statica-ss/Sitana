@@ -38,7 +38,7 @@
     - [X] UiRectangle
     - [ ] UiSlider
     - [X] UiIndexSelector
-    - [ ] UiScrollBar
+    - [X] UiScrollBar
     
 - [ ] Tools
   - [X] Font generator

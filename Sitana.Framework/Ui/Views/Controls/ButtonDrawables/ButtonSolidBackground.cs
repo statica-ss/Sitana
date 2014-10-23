@@ -17,7 +17,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             ButtonDrawable.Parse(node, file);
         }
 
-        public override void Draw(AdvancedDrawBatch drawBatch, UiButton.DrawButtonInfo info)
+        public override void Draw(AdvancedDrawBatch drawBatch, DrawButtonInfo info)
         {
             Update(info.EllapsedTime, info.ButtonState);
 

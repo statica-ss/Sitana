@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Content;
 using Sitana.Framework.Diagnostics;
+using Sitana.Framework.Ui.Interfaces;
+using System.Collections.Generic;
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -36,6 +38,8 @@ namespace Sitana.Framework.Ui.Core
         private Point _lastSize = Point.Zero;
 
         public double TotalGameTime { get; private set; }
+
+        public List<IUpdatable> _updatables = new List<IUpdatable>();
 
         public GraphicsDeviceManager Graphics
         {
@@ -120,12 +124,14 @@ namespace Sitana.Framework.Ui.Core
 
         protected override void Update(GameTime gameTime)
         {
+            float time = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             PerformanceProfiler.Instance.Update(gameTime.ElapsedGameTime);
 
             TotalGameTime = gameTime.TotalGameTime.TotalSeconds;
 
             UiTask.Process();
-            DelayedActionInvoker.Instance.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            DelayedActionInvoker.Instance.Update(time);
 
             var newSize = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
@@ -139,8 +145,14 @@ namespace Sitana.Framework.Ui.Core
                 _lastSize = newSize;
             }
 
-            TouchPad.Instance.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-            MainView.ViewUpdate((float)gameTime.ElapsedGameTime.TotalSeconds);
+            TouchPad.Instance.Update(time);
+
+            for(int idx = 0; idx < _updatables.Count; ++idx)
+            {
+                _updatables[idx].Update(time);
+            }
+
+            MainView.ViewUpdate(time);
         }
 
         protected override void LoadContent()
@@ -158,6 +170,7 @@ namespace Sitana.Framework.Ui.Core
 
             MainView.RecalculateAll();
 
+            MainView.RegisterView();
             MainView.ViewAdded();
 
             if ( OnLoadedView != null )
@@ -193,6 +206,16 @@ namespace Sitana.Framework.Ui.Core
         public void SizeChanged()
         {
             _lastSize = Point.Zero;
+        }
+
+        public void RegisterUpdatable(IUpdatable updatable)
+        {
+            _updatables.Add(updatable);
+        }
+
+        public void UnregisterUpdatable(IUpdatable updatable)
+        {
+            _updatables.Remove(updatable);
         }
     }
 }

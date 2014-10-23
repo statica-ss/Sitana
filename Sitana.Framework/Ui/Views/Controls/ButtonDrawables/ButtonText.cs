@@ -48,7 +48,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _textAlign = UiHelper.TextAlignFromAlignment(horzAlign, vertAlign);
         }
 
-        public override void Draw(AdvancedDrawBatch drawBatch, UiButton.DrawButtonInfo info)
+        public override void Draw(AdvancedDrawBatch drawBatch, DrawButtonInfo info)
         {
             Update(info.EllapsedTime, info.ButtonState);
 

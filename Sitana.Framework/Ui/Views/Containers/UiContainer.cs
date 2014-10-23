@@ -39,6 +39,8 @@ namespace Sitana.Framework.Ui.Views
 
         protected Point _minSizeFromChildren = Point.Zero;
 
+        protected bool _added = false;
+
         public bool ClipChildren
         {
             get
@@ -71,8 +73,13 @@ namespace Sitana.Framework.Ui.Views
                 _children.Add(view);
                 view.Bounds = CalculateChildBounds(view);
                 view.Parent = this;
+                view.RegisterView();
 
-                view.ViewAdded();
+                if (_added)
+                {
+                    view.ViewAdded();
+                }
+
                 OnChildrenModified();
             }
         }
@@ -91,6 +98,16 @@ namespace Sitana.Framework.Ui.Views
 
             OnChildrenModified();
             RecalcLayout();
+        }
+
+        protected override void OnAdded()
+        {
+            _added = true;
+
+            for (Int32 idx = 0; idx < _children.Count; ++idx)
+            {
+                _children[idx].ViewAdded();
+            }
         }
 
         public virtual void RecalcLayout()

@@ -44,11 +44,11 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _verticalAlignment = DefinitionResolver.Get<VerticalAlignment>(controller, binding, file["VerticalAlignment"], VerticalAlignment.Center);
         }
 
-        public override void Draw(AdvancedDrawBatch drawBatch, UiButton.DrawButtonInfo info)
+        public override void Draw(AdvancedDrawBatch drawBatch, DrawButtonInfo info)
         {
             Update(info.EllapsedTime, info.ButtonState);
 
-            UiButton.State state = info.ButtonState;
+            ButtonState state = info.ButtonState;
 
             Color color = ColorFromState * info.Opacity * Opacity;
 

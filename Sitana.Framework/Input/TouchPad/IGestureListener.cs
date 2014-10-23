@@ -8,5 +8,7 @@ namespace Sitana.Framework.Input.TouchPad
     public interface IGestureListener
     {
         void OnGesture(Gesture gesture);
+        IGestureListener Parent {get;}
+        string Id{get;}
     }
 }

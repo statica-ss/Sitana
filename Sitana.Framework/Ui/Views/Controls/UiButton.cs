@@ -17,15 +17,6 @@ namespace Sitana.Framework.Ui.Views
 {
     public class UiButton: UiView
     {
-        public struct DrawButtonInfo
-        {
-            public SharedString Text;
-            public State ButtonState;
-            public Rectangle Target;
-            public float Opacity;
-            public float EllapsedTime;
-        }
-
         public new static void Parse(XNode node, DefinitionFile file)
         {
             UiView.Parse(node, file);
@@ -45,16 +36,6 @@ namespace Sitana.Framework.Ui.Views
                         break;
                 }
             }
-        }
-
-        [Flags]
-        public enum State
-        {
-            None,
-            Disabled = 0x2,
-            Pushed = 0x1,
-            Mask = 0xf,
-            Checked = 0x10
         }
 
         protected UiButtonMode ButtonMode
@@ -97,11 +78,11 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public virtual State ButtonState
+        public virtual ButtonState ButtonState
         {
             get
             {
-                return Enabled ? (IsPushed ? State.Pushed : State.None) : State.Disabled;
+                return Enabled ? (IsPushed ? ButtonState.Pushed : ButtonState.None) : ButtonState.Disabled;
             }
         }
 

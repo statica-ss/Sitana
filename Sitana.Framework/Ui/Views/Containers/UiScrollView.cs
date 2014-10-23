@@ -7,17 +7,19 @@ using Sitana.Framework.Xml;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Ui.Views.Parameters;
 using Sitana.Framework.Input.TouchPad;
+using Sitana.Framework.Ui.Interfaces;
 
 namespace Sitana.Framework.Ui.Views
 {
-    public class UiScrollView: UiBorder
+    public class UiScrollView: UiBorder, IScrolledElement
     {
         public new static void Parse(XNode node, DefinitionFile file)
         {
             UiContainer.Parse(node, file);
 
             var parser = new DefinitionParser(node);
-            file["Mode"] = parser.ParseEnum<Mode>("Mode");
+            file["Mode"] = parser.ParseEnum<Scroller.Mode>("Mode");
+            file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
 
             foreach (var cn in node.Nodes)
             {
@@ -30,29 +32,27 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        [Flags]
-        enum Mode
-        {
-            None = 0,
-            Horizontal = 1,
-            Vertical = 2,
-            Both = Horizontal | Vertical
-        }
-
         Scroller _scroller = null;
         Point _updateScrollPosition = Point.Zero;
-        Mode _mode = Mode.Both;
+        ScrollingService _scrollingService;
+        Point _maxScroll = Point.Zero;
+        ScrollingService.ExceedRule _rule = ScrollingService.ExceedRule.Allow;
+        Scroller.Mode _mode = Scroller.Mode.None;
 
         protected override void OnAdded()
         {
+            _scrollingService = new ScrollingService(this, _rule);
+            _scroller = new Scroller(this, _mode, _scrollingService);
+
             base.OnAdded();
-            _scroller = new Scroller(this, _mode.HasFlag(Mode.Horizontal), _mode.HasFlag(Mode.Vertical));
         }
 
         protected override void OnRemoved()
         {
             base.OnRemoved();
+
             _scroller.Remove();
+            _scrollingService.Remove();
         }
 
         protected override void Init(object controller, object binding, DefinitionFile definition)
@@ -61,13 +61,14 @@ namespace Sitana.Framework.Ui.Views
 
             var file = new DefinitionFileWithStyle(definition, typeof(UiContainer));
 
-            _mode = DefinitionResolver.Get<Mode>(Controller, Binding, file["Mode"], Mode.Both);
+            _mode = DefinitionResolver.Get<Scroller.Mode>(Controller, Binding, file["Mode"], Scroller.Mode.BothDrag);
+            _rule = DefinitionResolver.Get<ScrollingService.ExceedRule>(Controller, Binding, file["ExceedRule"], ScrollingService.ExceedRule.Allow);
         }
 
         protected override Rectangle CalculateChildBounds(UiView view)
         {
             Rectangle bounds = base.CalculateChildBounds(view);
-            Point offset = _scroller != null ? _scroller.ScrollPosition : Point.Zero;
+            Point offset = _scroller != null ? ScrollPosition : Point.Zero;
 
             bounds.X -= offset.X;
             bounds.Y -= offset.Y;
@@ -81,7 +82,7 @@ namespace Sitana.Framework.Ui.Views
 
             Point maxBounds = Point.Zero;
 
-            Point offset = _scroller != null ? _scroller.ScrollPosition : Point.Zero;
+            Point offset = _scroller != null ? ScrollPosition : Point.Zero;
 
             for (int idx = 0; idx < _children.Count; ++idx)
             {
@@ -92,8 +93,9 @@ namespace Sitana.Framework.Ui.Views
 
             if (_scroller != null)
             {
-                _scroller.MaxScroll = maxBounds;
-                _updateScrollPosition = _scroller.ScrollPosition;
+
+                _maxScroll = maxBounds;
+                _updateScrollPosition = ScrollPosition;
             }
         }
 
@@ -101,7 +103,7 @@ namespace Sitana.Framework.Ui.Views
         {
             base.Update(time);
 
-            Point scrollPosition = _scroller.ScrollPosition;
+            Point scrollPosition = ScrollPosition;
 
             if (scrollPosition != _updateScrollPosition)
             {
@@ -114,8 +116,14 @@ namespace Sitana.Framework.Ui.Views
                     child.Move(diff);
                 }
             }
+        }
 
-            _scroller.Update(time, Bounds);
+        Point ScrollPosition
+        {
+            get
+            {
+                return new Point((int)_scrollingService.ScrollPositionX, (int)_scrollingService.ScrollPositionY);
+            }
         }
 
         protected override void Draw(ref UiViewDrawParameters parameters)
@@ -159,5 +167,12 @@ namespace Sitana.Framework.Ui.Views
         {
             _scroller.OnGesture(gesture);
         }
+
+        Rectangle IScrolledElement.ScreenBounds { get{ return ScreenBounds;} }
+
+        int IScrolledElement.MaxScrollX { get{return _maxScroll.X;} }
+        int IScrolledElement.MaxScrollY { get{return _maxScroll.Y;} }
+
+        ScrollingService IScrolledElement.ScrollingService {get{ return _scrollingService;}}
     }
 }

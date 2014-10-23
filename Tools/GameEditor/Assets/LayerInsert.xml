@@ -6,12 +6,13 @@
     Tag="Insert">
     <UiBorder.Children>
 
-    <UiRectangle Margin="0,5,0,32" X="@-5" Width="8" HorizontalAlignment="Right" Color="#ffffff"/>
-    <UiScrollView Mode="Vertical" Margin="0,5,0,32" ClipChildren="true" X="5" Width="320" HorizontalAlignment="Left">
+    <UiScrollView Id="TilesetView" Mode="None" Margin="0,5,0,32" ClipChildren="true" X="5" Width="320" HorizontalAlignment="Left" ExceedRule="Allow">
         <UiScrollView.Children>
             <UiRectangle Y="0" VerticalAlignment="Top" Height="1024"/>
         </UiScrollView.Children>
     </UiScrollView>
+
+    <UiScrollBar Style="UiScrollBar" Context="TilesetView" Mode="Vertical" Margin="0,5,0,32"/>
 
     <UiStackPanel Mode="Horizontal" Padding="5" Spacing="4" Y="@-32" VerticalAlignment="Top" Height="32">
          <UiStackPanel.Children>
