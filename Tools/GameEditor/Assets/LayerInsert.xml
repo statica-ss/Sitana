@@ -5,13 +5,16 @@
     xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
     Tag="Insert">
     <UiBorder.Children>
-    <UiScrollView Mode="Vertical" Margin="0,10,0,32" ClipChildren="true">
+
+    <UiScrollView Id="TilesetView" Mode="None" Margin="0,5,0,32" ClipChildren="true" X="5" Width="320" HorizontalAlignment="Left" ExceedRule="Allow">
         <UiScrollView.Children>
-            <UiRectangle Width="320" HorizontalAlignment="Center" X="C" Y="0" VerticalAlignment="Top" Height="1024"/>
+            <UiRectangle Y="0" VerticalAlignment="Top" Height="1024"/>
         </UiScrollView.Children>
     </UiScrollView>
 
-    <UiStackPanel Mode="Horizontal" Padding="10" Spacing="4" Y="@-32" VerticalAlignment="Top" Height="32">
+    <UiScrollBar Style="UiScrollBar" Context="TilesetView" Mode="Vertical" Margin="0,5,0,32"/>
+
+    <UiStackPanel Mode="Horizontal" Padding="5" Spacing="4" Y="@-32" VerticalAlignment="Top" Height="32">
          <UiStackPanel.Children>
             <UiCheckBox Style="UiCheckBox" Text="Select"/>
             <UiCheckBox Style="UiCheckBox" Text="Eraser"/>

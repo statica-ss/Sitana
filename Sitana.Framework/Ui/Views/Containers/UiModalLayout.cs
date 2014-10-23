@@ -45,6 +45,13 @@ namespace Sitana.Framework.Ui.Views
 
         bool _touchOutsideToHide;
 
+        protected override void OnAdded()
+        {
+            TouchPad.Instance.AddListener(GestureType.Down, this);
+
+            base.OnAdded();
+        }
+
         protected override void OnRemoved()
         {
             TouchPad.Instance.RemoveListener(this);
@@ -76,8 +83,6 @@ namespace Sitana.Framework.Ui.Views
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiView));
 
             _touchOutsideToHide = DefinitionResolver.Get<bool>(Controller, Binding, file["TouchOutsideToHide"], true);
-
-            TouchPad.Instance.AddListener(GestureType.Down, this);
 
             Visible = DefinitionResolver.GetShared<bool>(Controller, binding, file["Visible"], false);
 

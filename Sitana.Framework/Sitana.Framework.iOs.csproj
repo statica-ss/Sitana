@@ -113,6 +113,9 @@
     <Compile Include="Ui\Views\Controls\UiImage.cs" />
     <Compile Include="Ui\Views\Controls\UiIndexSelector.cs" />
     <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
+    <Compile Include="Ui\Interfaces\IIndexedElement.cs" />
+    <Compile Include="Ui\Interfaces\IScrolledElement.cs" />
+    <Compile Include="Ui\Interfaces\IUpdatable.cs" />
     <Compile Include="Ui\Views\Scroller.cs" />
     <Compile Include="Xml\XFile.cs" />
     <Compile Include="Cs\SharedString.cs" />

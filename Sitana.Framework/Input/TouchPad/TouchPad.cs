@@ -17,6 +17,7 @@ namespace Sitana.Framework.Input.TouchPad
         {
             public GestureType GestureType;
             public IGestureListener Listener;
+            public IGestureListener Parent;
         }
 
         struct LastTap
@@ -36,6 +37,8 @@ namespace Sitana.Framework.Input.TouchPad
 
         List<ListenerInfo> _listeners = new List<ListenerInfo>();
 
+        Dictionary<IGestureListener, bool> _listenersMap = new Dictionary<IGestureListener, bool>();
+
         Gesture _gesture = new Gesture();
         Gesture _gesturePointerCapturedBy = new Gesture();
 
@@ -46,28 +49,63 @@ namespace Sitana.Framework.Input.TouchPad
 
         public void AddListener(GestureType gestureType, IGestureListener listener)
         {
-            int index = _listeners.FindIndex(el => el.Listener == listener);
-
-            if (index < 0)
+            if (_listenersMap.ContainsKey(listener))
             {
-                _listeners.Insert(0, new ListenerInfo() { GestureType = gestureType, Listener = listener });
+                int index = _listeners.FindIndex(el => el.Listener == listener);
+
+                var element = _listeners[index];
+                element.GestureType |= gestureType;
+
+                _listeners[index] = element;
             }
             else
             {
-                var el = _listeners[index];
-                el.GestureType |= gestureType;
+                IGestureListener parent;
+                int index = FindIndex(listener, out parent);
 
-                _listeners[index] = el;
+                _listeners.Insert(index, new ListenerInfo() { GestureType = gestureType, Listener = listener, Parent = parent });
+                _listenersMap.Add(listener, true);
             }
+        }
+
+        int FindIndex(IGestureListener listener, out IGestureListener listenerParent)
+        {
+            int index = 0;
+            IGestureListener parent = null;
+
+            parent = listener.Parent;
+
+            while(parent != null && !_listenersMap.ContainsKey(parent))
+            {
+                parent = parent.Parent;
+            }
+
+            if ( parent != null )
+            {
+                int first = _listeners.FindIndex((el) => el.Listener == parent || el.Parent == parent);
+
+                if ( first >= 0 )
+                {
+                    index = first;
+                }
+            }
+
+            listenerParent = parent;
+            return index;
         }
 
         public void RemoveListener(IGestureListener listener)
         {
-            int index = _listeners.FindIndex(el => el.Listener == listener);
-
-            if (index >= 0)
+            if (_listenersMap.ContainsKey(listener))
             {
-                _listeners.RemoveAt(index);
+                _listenersMap.Remove(listener);
+
+                int index = _listeners.FindIndex(el => el.Listener == listener);
+
+                if (index >= 0)
+                {
+                    _listeners.RemoveAt(index);
+                }
             }
         }
 

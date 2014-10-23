@@ -11,6 +11,7 @@ using Sitana.Framework.Ui.Views.ButtonDrawables;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Input.TouchPad;
+using Sitana.Framework.Ui.Interfaces;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -78,15 +79,15 @@ namespace Sitana.Framework.Ui.Views
             {
                 _element.GetText(_text, idx);
 
-                drawInfo.ButtonState = State.None;
+                drawInfo.ButtonState = ButtonState.None;
                 if (idx == _pushedIndex)
                 {
-                    drawInfo.ButtonState |= UiButton.State.Pushed;
+                    drawInfo.ButtonState |= ButtonState.Pushed;
                 }
 
                 if ( idx == selected )
                 {
-                    drawInfo.ButtonState |= UiButton.State.Checked;
+                    drawInfo.ButtonState |= ButtonState.Checked;
                 }
 
                 drawInfo.Text = _text;

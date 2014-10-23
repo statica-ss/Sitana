@@ -77,7 +77,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _transitionPushed = (file["TransitionEffect"] as DefinitionFile).CreateInstance(controller, binding) as TransitionEffect;
         }
 
-        public override void Draw(AdvancedDrawBatch drawBatch, UiButton.DrawButtonInfo info)
+        public override void Draw(AdvancedDrawBatch drawBatch,DrawButtonInfo info)
         {
             Update(info.EllapsedTime, info.ButtonState);
 

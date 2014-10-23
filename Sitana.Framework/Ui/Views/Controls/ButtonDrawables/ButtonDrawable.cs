@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace Sitana.Framework.Ui.Views.ButtonDrawables
 {
-    public abstract class ButtonDrawable : StateDrawable<UiButton.DrawButtonInfo>, IDefinitionClass
+    public abstract class ButtonDrawable : StateDrawable<DrawButtonInfo>, IDefinitionClass
     {
         public static void Parse(XNode node, DefinitionFile file)
         {
@@ -56,11 +56,11 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             Init(controller, binding, file);
         }
 
-        protected void Update(float time, UiButton.State state)
+        protected void Update(float time, ButtonState state)
         {
-            float check = ((state & UiButton.State.Checked) == UiButton.State.Checked) ? 1 : 0;
-            float disable = ((state & UiButton.State.Disabled) == UiButton.State.Disabled) ? 1 : 0;
-            float push = ((state & UiButton.State.Pushed) == UiButton.State.Pushed) ? 1 : 0;
+            float check = ((state & ButtonState.Checked) == ButtonState.Checked) ? 1 : 0;
+            float disable = ((state & ButtonState.Disabled) == ButtonState.Disabled) ? 1 : 0;
+            float push = ((state & ButtonState.Pushed) == ButtonState.Pushed) ? 1 : 0;
 
             ComputeState(ref CheckedState, check, time);
             ComputeState(ref DisabledState, disable, time);

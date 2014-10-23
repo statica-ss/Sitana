@@ -21,11 +21,11 @@ namespace Sitana.Framework.Ui.Views
 
         private SharedValue<bool> Checked;
 
-        public override State ButtonState
+        public override ButtonState ButtonState
         {
             get
             {
-                return base.ButtonState | (Checked.Value ? State.Checked : State.None);
+                return base.ButtonState | (Checked.Value ? ButtonState.Checked : ButtonState.None);
             }
         }
 
