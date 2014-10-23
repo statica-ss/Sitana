@@ -72,15 +72,15 @@ namespace Sitana.Framework.Ui.Views
         {
             if (_bounds != bounds)
             {
-                float factorX = 1;
-                float factorY = 1;
-                factorX = (float)bounds.Width/(float)_bounds.Width;
-                factorY = (float)bounds.Height / (float)_bounds.Height;
+//                float factorX = 1;
+//                float factorY = 1;
+//                factorX = (float)bounds.Width/(float)_bounds.Width;
+//                factorY = (float)bounds.Height / (float)_bounds.Height;
 
                 _bounds = bounds;
 
-                _scrollPositionX *= factorX;
-                _scrollPositionY *= factorY;
+//                _scrollPositionX *= factorX;
+//                _scrollPositionY *= factorY;
             }
 
             float desiredScrollX = Math.Max(0, Math.Min(_maxScrollX - bounds.Width, _scrollPositionX));
