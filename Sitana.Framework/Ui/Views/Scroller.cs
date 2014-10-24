@@ -27,6 +27,8 @@ namespace Sitana.Framework.Ui.Views
         UiView _view;
         ScrollingService _service;
 
+        Vector2 _scrollSpeed = Vector2.Zero;
+
         public Scroller(UiView view, Mode mode, ScrollingService scrollingService)
         {
             _view = view;
@@ -57,75 +59,77 @@ namespace Sitana.Framework.Ui.Views
 
         public void OnGesture(Gesture gesture)
         {
-            switch (gesture.GestureType)
+            switch(gesture.GestureType)
             {
-                case GestureType.Up:
-                    if (_touchIdX == gesture.TouchId)
-                    {
-                        _touchIdX = 0;
-                        _lastMoveTime = null;
-                    }
+            case GestureType.Up:
+                if (_touchIdX == gesture.TouchId)
+                {
+                    _touchIdX = 0;
+                    _lastMoveTime = null;
+                    _service.ScrollSpeedX = _scrollSpeed.X;
+                }
 
-                    if (_touchIdY == gesture.TouchId)
-                    {
-                        _touchIdY = 0;
-                        _lastMoveTime = null;
-                    }
-                    break;
+                if (_touchIdY == gesture.TouchId)
+                {
+                    _touchIdY = 0;
+                    _lastMoveTime = null;
+                    _service.ScrollSpeedY = _scrollSpeed.Y;
+                }
+                break;
 
-                case GestureType.HorizontalDrag:
-                case GestureType.VerticalDrag:
-                case GestureType.FreeDrag:
+            case GestureType.HorizontalDrag:
+            case GestureType.VerticalDrag:
+            case GestureType.FreeDrag:
 
-                    if (gesture.PointerCapturedBy == null)
+                if (gesture.PointerCapturedBy == null)
+                {
+                    if (_touchIdX == 0 && _touchIdY == 0)
                     {
-                        if (_touchIdX == 0 && _touchIdY == 0)
+                        if (_view.IsPointInsideView(gesture.Origin))
                         {
-                            if (_view.IsPointInsideView(gesture.Origin))
-                            {
-                                _touchIdX = _touchIdY = gesture.TouchId;
-                                gesture.CapturePointer(_view);
-                            }
+                            _touchIdX = _touchIdY = gesture.TouchId;
+                            gesture.CapturePointer(_view);
                         }
                     }
+                }
 
-                    if (_touchIdX == gesture.TouchId || _touchIdY == gesture.TouchId)
+                if (_touchIdX == gesture.TouchId || _touchIdY == gesture.TouchId)
+                {
+                    gesture.Handled = true;
+
+                    if (_touchIdX != 0)
                     {
-                        gesture.Handled = true;
+                        _service.ScrollPositionX -= gesture.Offset.X;
+                    }
+
+                    if (_touchIdY != 0)
+                    {
+                        _service.ScrollPositionY -= gesture.Offset.Y;
+                    }
+
+                    if (_lastMoveTime != null)
+                    {
+                        double time = AppMain.Current.TotalGameTime - _lastMoveTime.Value;
 
                         if (_touchIdX != 0)
                         {
-                            _service.ScrollPositionX -= gesture.Offset.X;
+                            _scrollSpeed.X = (_service.ScrollSpeedX + -gesture.Offset.X / (float)time) / 2;
                         }
 
                         if (_touchIdY != 0)
                         {
-                            _service.ScrollPositionY -= gesture.Offset.Y;
+                            _scrollSpeed.Y = (_service.ScrollSpeedY + -gesture.Offset.Y / (float)time) / 2;
                         }
-
-                        if (_lastMoveTime != null)
-                        {
-                            double time = AppMain.Current.TotalGameTime - _lastMoveTime.Value;
-
-                            if (_touchIdX != 0)
-                            {
-                            _service.ScrollSpeedX = (_service.ScrollSpeedX + -gesture.Offset.X / (float)time) / 2;
-                            }
-
-                            if (_touchIdY != 0)
-                            {
-                                _service.ScrollSpeedY = (_service.ScrollSpeedY + -gesture.Offset.Y / (float)time) / 2;
-                            }
-                        }
-                        else
-                        {
-                            _service.ScrollSpeedX = 0;
-                            _service.ScrollSpeedY = 0;
-                        }
-
-                        _lastMoveTime = AppMain.Current.TotalGameTime;
                     }
-                    break;
+                    else
+                    {
+                        _scrollSpeed.X = 0;
+                        _scrollSpeed.Y = 0;
+                    }
+
+                    _lastMoveTime = AppMain.Current.TotalGameTime;
+                }
+                break;
             }
         }
     }
