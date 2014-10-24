@@ -78,9 +78,13 @@
     <Compile Include="Document\DocTiledLayer.cs" />
     <Compile Include="Document\DocVectorLayer.cs" />
     <Compile Include="EditorSettings.cs" />
-    <Compile Include="MainController.cs" />
     <Compile Include="Document\Document.cs" />
     <Compile Include="Main.Windows.Xna.cs" />
+    <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\LayerPropertiesController.cs" />
+    <Compile Include="Controllers\LayersListController.cs" />
+    <Compile Include="Controllers\MessageBoxController.cs" />
+    <Compile Include="Controllers\FileMenuController.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\Menu.xml" />
