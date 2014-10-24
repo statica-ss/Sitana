@@ -248,7 +248,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected float DisplayOpacity { get; set; }
+        public float DisplayOpacity { get; protected set; }
 
         private ColorWrapper _backgroundColor = new ColorWrapper(Color.Transparent);
         private InvokeParameters _invokeParameters = new InvokeParameters();
@@ -325,6 +325,8 @@ namespace Sitana.Framework.Ui.Views
 
             float opacity = Visible.Value ? Opacity : 0;
 
+            bool visible = DisplayOpacity > 0;
+
             if ( DisplayOpacity < opacity )
             {
                 DisplayOpacity += _showSpeed * time;
@@ -334,6 +336,14 @@ namespace Sitana.Framework.Ui.Views
             {
                 DisplayOpacity -= _hideSpeed * time;
                 DisplayOpacity = Math.Max(DisplayOpacity, opacity);
+            }
+
+            if ( visible != DisplayOpacity > 0)
+            {
+                if ( Parent != null )
+                {
+                    Parent.RecalcLayout();
+                }
             }
 
             if ( _lastSize != Bounds)
@@ -444,7 +454,7 @@ namespace Sitana.Framework.Ui.Views
 
                 if (newController != null)
                 {
-                    newController.AttachView(this);
+                    newController.Parent = _controller;
                     Controller = newController;
                 }
             }

@@ -237,10 +237,6 @@ namespace Sitana.Framework.Ui.Views
             return null;
         }
 
-        public virtual void UpdateChildBounds(UiView view, Rectangle bounds)
-        {
-        }
-
         protected override void Init(object controller, object binding, DefinitionFile definition)
         {
             base.Init(controller, binding, definition);

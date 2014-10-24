@@ -39,9 +39,12 @@ namespace Sitana.Framework.Ui.Views
 
         bool _vertical = false;
         bool _updateBounds = true;
+        bool _recalculateLayout = true;
 
         Length _spacing;
         Length _padding;
+
+        List<UiView> _tempChildren = new List<UiView>();
 
         public int Spacing
         {
@@ -89,44 +92,89 @@ namespace Sitana.Framework.Ui.Views
                 _updateBounds = false;
             }
 
+            if (_recalculateLayout)
+            {
+                _recalculateLayout = false;
+                RecalcLayout();
+            }
+
             base.Update(time);
         }
 
         void UpdateBounds()
         {
-            Rectangle bounds = Bounds;
+            if (Parent != null)
+            {
+                Parent.RecalcLayout();
+            }
+        }
 
-            int size = 0;
+        public override void Add(UiView view)
+        {
+            if (!_children.Contains(view))
+            {
+                _children.Add(view);
+                view.Parent = this;
+                view.RegisterView();
+
+                if (_added)
+                {
+                    view.ViewAdded();
+                }
+
+                OnChildrenModified();
+
+                _recalculateLayout = true;
+            }
+        }
+
+        public override Point ComputeSize(int width, int height)
+        {
+            Point value = base.ComputeSize(width, height);
+
+            int size = _padding.Compute();
 
             for (int idx = 0; idx < _children.Count; ++idx)
             {
                 var child = _children[idx];
 
-                size += _vertical ? child.Bounds.Height : child.Bounds.Width;
+                if (child.DisplayOpacity > 0)
+                {
+                    if ( size > _padding.Compute())
+                    {
+                        size += _spacing.Compute();
+                    }
+
+                    size += _vertical ? child.Bounds.Height : child.Bounds.Width;
+                }
             }
+
+            size += _padding.Compute();
 
             if (_vertical)
             {
-                bounds.Height = size;
+                value.Y = size;
             }
             else
             {
-                bounds.Width = size;
+                value.X = size;
             }
 
-            if (Parent != null)
-            {
-                Parent.UpdateChildBounds(this, bounds);
-            }
+            return value;
         }
 
         protected override Rectangle CalculateChildBounds(UiView view)
         {
             Rectangle childBounds = Bounds;
 
-            int index = _children.IndexOf(view);
+            int index = _tempChildren.IndexOf(view);
 
-            PositionParameters parameters = _children[index].PositionParameters;
+            if ( index < 0)
+            {
+                return new Rectangle(100000, 10000, 100, 100);
+            }
+
+            PositionParameters parameters = _tempChildren[index].PositionParameters;
 
             int width = Bounds.Width;
             int height = Bounds.Height;
@@ -155,7 +203,7 @@ namespace Sitana.Framework.Ui.Views
 
                 if (index > 0)
                 {
-                    pos = _children[index - 1].Bounds.Bottom + _children[index - 1].PositionParameters.Margin.Bottom + Spacing;
+                    pos = _tempChildren[index - 1].Bounds.Bottom + _tempChildren[index - 1].PositionParameters.Margin.Bottom + Spacing;
                 }
 
                 childBounds.X = posX;
@@ -188,7 +236,7 @@ namespace Sitana.Framework.Ui.Views
 
                 if (index > 0)
                 {
-                    pos = _children[index - 1].Bounds.Right + _children[index - 1].PositionParameters.Margin.Right + Spacing;
+                    pos = _tempChildren[index - 1].Bounds.Right + _tempChildren[index - 1].PositionParameters.Margin.Right + Spacing;
                 }
 
                 childBounds.X = pos + parameters.Margin.Left;
@@ -233,6 +281,19 @@ namespace Sitana.Framework.Ui.Views
             _minSizeFromChildren = new Point(minSizeX, minSizeY);
         }
 
+        public override void RecalcLayout()
+        {
+            _tempChildren.Clear();
+            for(int idx = 0; idx < _children.Count; ++idx)
+            {
+                if ( _children[idx].DisplayOpacity > 0 )
+                {
+                    _tempChildren.Add(_children[idx]);
+                }
+            }
+            base.RecalcLayout();
+        }
+
         protected override void Init(object controller, object binding, DefinitionFile definition)
         {
             base.Init(controller, binding, definition);
@@ -244,7 +305,17 @@ namespace Sitana.Framework.Ui.Views
             _padding = DefinitionResolver.Get<Length>(Controller, Binding, file["Padding"], Length.Zero);
 
             InitChildren(Controller, binding, definition);
-        }
 
+            if ( StackMode == Mode.Vertical )
+            {
+                PositionParameters.Margin._top = null;
+                PositionParameters.Margin._bottom = null;
+            }
+            else
+            {
+                PositionParameters.Margin._left = null;
+                PositionParameters.Margin._right = null;
+            }
+        }
     }
 }

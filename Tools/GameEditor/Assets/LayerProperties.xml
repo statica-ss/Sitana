@@ -1,10 +1,49 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<UiBorder
-    xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
-    xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
-    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
-    Tag="Properties">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<UiBorder Controller="GameEditor.LayerPropertiesController,GameEditor" xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework" xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework" xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework" Tag="Properties">
     <UiBorder.Children>
-        <UiRectangle Width="256" HorizontalAlignment="Center" X="C" Y="32" VerticalAlignment="Top" Height="256"/>
+        <UiScrollView Id="PropertiesList" Mode="VerticalDrag" ClipChildren="true" ExceedRule="Allow" Margin="0,5,0,5">
+            <UiScrollView.Children>
+                <UiStackPanel Mode="Vertical" Margin="4,0,4,0" Spacing="5" VerticalAlignment="Top">
+                    <UiStackPanel.Children>
+                        <UiBorder Style="Property" Visible="{ShowTiled}">
+                            <UiBorder.Children>
+                                <UiLabel Style="PropertyName" Text="WIDTH" />
+                                <UiEditBox Style="UiEditBox,PropertyValue" InputType="Numeric" CancelOnLostFocus="true" TextApply="{OnApplyWidth(text)}" Text="{LayerWidth}"/>
+                            </UiBorder.Children>
+                        </UiBorder>
+                        <UiBorder Style="Property" Visible="{ShowTiled}">
+                            <UiBorder.Children>
+                                <UiLabel Style="PropertyName" Text="HEIGHT" />
+                                <UiEditBox Style="UiEditBox,PropertyValue" InputType="Numeric" CancelOnLostFocus="true" TextApply="{OnApplyHeight(text)}" Text="{LayerHeight}"/>
+                            </UiBorder.Children>
+                        </UiBorder>
+
+                        <UiStackPanel Style="Property" Mode="Horizontal" Visible="{ShowTiled}" Padding="10" Spacing="5">
+                            <UiStackPanel.Children>
+                                <UiCheckBox Style="PropertyCheckBox" Text="TILED WIDTH" Width="86" Checked="{TiledWidth}"/>
+                                <UiCheckBox Style="PropertyCheckBox" Text="TILED HEIGHT" Width="92" Checked="{TiledHeight}"/>
+                            </UiStackPanel.Children>
+                        </UiStackPanel>
+
+                        <UiBorder Style="Property">
+                            <UiBorder.Children>
+                                <UiLabel Style="PropertyName" Text="HORIZONTAL SPEED" />
+                                <UiEditBox Style="UiEditBox,PropertyValue" InputType="Numeric" CancelOnLostFocus="true" TextApply="{OnApplySpeedX(text)}" Text="{LayerSpeedX}"/>
+                            </UiBorder.Children>
+                        </UiBorder>
+                        <UiBorder Style="Property">
+                            <UiBorder.Children>
+                                <UiLabel Style="PropertyName" Text="VERTICAL SPEED" />
+                                <UiEditBox Style="UiEditBox,PropertyValue" InputType="Numeric" CancelOnLostFocus="true" TextApply="{OnApplySpeedY(text)}" Text="{LayerSpeedY}"/>
+                            </UiBorder.Children>
+                        </UiBorder>
+
+                    </UiStackPanel.Children>
+                </UiStackPanel>
+            </UiScrollView.Children>
+        </UiScrollView>
+
+        <UiScrollBar Style="UiScrollBar" Context="PropertiesList" Margin="0,5,0,5"/>
+
     </UiBorder.Children>
 </UiBorder>

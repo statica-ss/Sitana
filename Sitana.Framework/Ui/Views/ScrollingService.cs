@@ -62,6 +62,28 @@ namespace Sitana.Framework.Ui.Views
                 ScrollSpeedY = 0;
             }
 
+            if(ScrollSpeedX != 0)
+            {
+                ScrollPositionX += ScrollSpeedX * time;
+                ScrollSpeedX -= ScrollSpeedX * time * 10;
+
+                if (Math.Abs(ScrollSpeedX) < 1)
+                {
+                    ScrollSpeedX = 0;
+                }
+            }
+
+            if(ScrollSpeedY != 0)
+            {
+                ScrollPositionY += ScrollSpeedY * time;
+                ScrollSpeedY -= ScrollSpeedY * time * 10;
+
+                if (Math.Abs(ScrollSpeedY) < 1)
+                {
+                    ScrollSpeedY = 0;
+                }
+            }
+
             if (_mode == ExceedRule.Allow)
             {
                 ScrollPositionX = ComputeScroll(time, ScrollPositionX, maxScrollX, bounds.Width);

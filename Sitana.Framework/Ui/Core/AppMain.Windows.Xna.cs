@@ -22,11 +22,14 @@ using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework;
 using System.Windows.Forms;
 using Sitana.Framework.Diagnostics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Sitana.Framework.Ui.Core
 {
     public partial class AppMain
     {
+        KeyboardHandler _keyboardHandler;
+
         public void ResizeToView()
         {
             if (!Graphics.IsFullScreen)
@@ -53,6 +56,29 @@ namespace Sitana.Framework.Ui.Core
                     if (CanClose != null)
                     {
                         e.Cancel = !CanClose(this);
+                    }
+                };
+
+            _keyboardHandler = new KeyboardHandler(form.Handle);
+
+            _keyboardHandler.OnCharacter += (c) =>
+                {
+                    if (_currentFocus != null)
+                    {
+                        if (c == '\r')
+                        {
+                            c = '\n';
+                        }
+
+                        _currentFocus.OnCharacter(c);
+                    }
+                };
+
+            _keyboardHandler.OnKey += (k) =>
+                {
+                    if (_currentFocus != null)
+                    {
+                        _currentFocus.OnKey(k);
                     }
                 };
         }

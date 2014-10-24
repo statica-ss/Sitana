@@ -246,8 +246,16 @@ namespace Sitana.Framework.Ui.Views
                     int thumbSize = (int)Math.Ceiling( (float)Bounds.Height * (float)size / (float)maxScroll);
                     int position = Bounds.Height * (int)_element.ScrollingService.ScrollPositionY / maxScroll;
 
-                    return GraphicsHelper.IntersectRectangle(ScreenBounds, 
+                    var rect = GraphicsHelper.IntersectRectangle(ScreenBounds, 
                         new Rectangle(screenBounds.X, screenBounds.Y + position, screenBounds.Width, thumbSize));
+
+                    if ( rect.Height < rect.Width )
+                    {
+                        rect.Height = rect.Width;
+                        rect.Y = Math.Min(rect.Y, screenBounds.Bottom - rect.Height);
+                    }
+
+                    return rect;
                 }
                 else
                 {
@@ -257,8 +265,16 @@ namespace Sitana.Framework.Ui.Views
                     int thumbSize = (int)Math.Ceiling( (float)Bounds.Width * (float)size / (float)maxScroll);
                     int position = (Bounds.Width - thumbSize) * (int)_element.ScrollingService.ScrollPositionX / maxScroll;
 
-                    return GraphicsHelper.IntersectRectangle(ScreenBounds, 
+                    var rect = GraphicsHelper.IntersectRectangle(ScreenBounds, 
                         new Rectangle(screenBounds.X + position, screenBounds.Y, thumbSize, screenBounds.Height));
+
+                    if ( rect.Width < rect.Height )
+                    {
+                        rect.Width = rect.Height;
+                        rect.X = Math.Min(rect.X, screenBounds.Right - rect.Width);
+                    }
+
+                    return rect;
                 }
 
             }

@@ -60,6 +60,9 @@
     <Compile Include="Diagnostics\PerformanceProfiler.cs" />
     <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
     <Compile Include="Graphics\Textures\PartialTexture2D.cs" />
+    <Compile Include="Input\TextInput\IFocusable.cs" />
+    <Compile Include="Input\TextInput\ITextConsumer.cs" />
+    <Compile Include="Input\TextInput\TextInput.Dektop.cs" />
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
     <Compile Include="Ui\Binding\ItemsList.cs" />
@@ -101,6 +104,7 @@
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonTransformGroup.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\DrawButtonInfo.cs" />
     <Compile Include="Ui\Views\Controls\UiCheckBox.cs" />
+    <Compile Include="Ui\Views\Controls\UiEditBox.cs" />
     <Compile Include="Ui\Views\Controls\UiImage.cs" />
     <Compile Include="Ui\Views\Controls\UiIndexSelector.cs" />
     <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
@@ -209,6 +213,7 @@
     <Compile Include="Graphics\AdvancedDrawBatch.Helpers.cs" />
     <Compile Include="Ui\Core\AppMain.Windows.Xna.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,38 +4,55 @@ using System.Text;
 
 namespace Microsoft.Xna.Framework.Input
 {
-    public class KeyboardHandler: MessageHook
+    public class KeyboardHandler : MessageHook
     {
-        public Action<Char> OnCharacter;
+        public delegate void OnCharacterDelegate(char c);
+        public delegate void OnKeyDownDelegate(Keys key);
 
-        public KeyboardHandler( IntPtr window )
-            : base( window )
+        public event OnCharacterDelegate OnCharacter;
+        public event OnKeyDownDelegate OnKey;
+
+        public KeyboardHandler(IntPtr window)
+            : base(window)
         {
-            
+
         }
 
-        protected override void Hook( ref Message m )
+        Keys GetKey(IntPtr wparam)
         {
-            switch ( m.msg )
-            {
-            case Wm.KeyDown:
-                _TranslateMessage( ref m );
-                break;
+            return (Keys)(int)wparam;
+        }
 
-            case Wm.Char:
-                char c = (char)m.wparam;
-                if ( c < (char)0x20 
-                    && c != '\n'
-                    && c != '\r'
-                    //&& c != '\t'//tab //uncomment to accept tab
-                    && c != '\b' )//backspace
+        protected override void Hook(ref Message m)
+        {
+            switch (m.msg)
+            {
+                case Wm.KeyDown:
+
+                    if (OnKey != null)
+                    {
+                        Keys key = GetKey(m.wparam);
+                        OnKey(key);
+                    }
+                    
+                    _TranslateMessage(ref m);
                     break;
 
-                if (OnCharacter != null)
-                {
-                    OnCharacter.Invoke(c);
-                }
-                break;
+                case Wm.Char:
+                    char c = (char)m.wparam;
+
+                    if (c < (char)0x20
+                        && c != '\n'
+                        && c != '\r'
+                        //&& c != '\t'//tab //uncomment to accept tab
+                        && c != '\b')//backspace
+                        break;
+
+                    if (OnCharacter != null)
+                    {
+                        OnCharacter(c);
+                    }
+                    break;
             }
         }
     }

@@ -55,6 +55,26 @@ namespace Sitana.Framework.Ui.Core
 
                 return true;
             };
+
+            Window.TextInput += (sender, e) => 
+            {
+                if(_currentFocus != null)
+                {
+                    char ch = e.Character;
+
+                    if ( ch == 127 )
+                    {
+                        ch = '\b';
+                    }
+
+                    if ( ch == '\r' )
+                    {
+                        ch = '\n';
+                    }
+
+                    _currentFocus.OnCharacter(ch);
+                }
+            };
         }
 
         void OnSize(int width, int height)

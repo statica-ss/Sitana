@@ -87,7 +87,7 @@ namespace GameEditor
 
         public void AddVectorLayer()
         {
-            var layer = new DocVectorLayer(String.Format("Layer {0}", _layerIndex));
+            var layer = new DocVectorLayer(String.Format("LAYER {0}", _layerIndex));
             Layers.Add(layer);
             _layerIndex++;
 
@@ -97,7 +97,7 @@ namespace GameEditor
             
         public void AddTilesetLayer()
         {
-            var layer = new DocTiledLayer(String.Format("Layer {0}", _layerIndex));
+            var layer = new DocTiledLayer(String.Format("LAYER {0}", _layerIndex));
             Layers.Add(layer);
             _layerIndex++;
 

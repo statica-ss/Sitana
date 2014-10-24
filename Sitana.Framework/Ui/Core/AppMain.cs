@@ -14,6 +14,7 @@ using Sitana.Framework.Content;
 using Sitana.Framework.Diagnostics;
 using Sitana.Framework.Ui.Interfaces;
 using System.Collections.Generic;
+using Sitana.Framework.Input;
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -40,6 +41,8 @@ namespace Sitana.Framework.Ui.Core
         public double TotalGameTime { get; private set; }
 
         public List<IUpdatable> _updatables = new List<IUpdatable>();
+
+        IFocusable _currentFocus = null;
 
         public GraphicsDeviceManager Graphics
         {
@@ -145,7 +148,9 @@ namespace Sitana.Framework.Ui.Core
                 _lastSize = newSize;
             }
 
-            TouchPad.Instance.Update(time);
+
+            TouchPad.Instance.Update(time, IsActive);
+
 
             for(int idx = 0; idx < _updatables.Count; ++idx)
             {
@@ -216,6 +221,25 @@ namespace Sitana.Framework.Ui.Core
         public void UnregisterUpdatable(IUpdatable updatable)
         {
             _updatables.Remove(updatable);
+        }
+
+        public void SetFocus(IFocusable focus)
+        {
+            if ( _currentFocus != null )
+            {
+                _currentFocus.Unfocus();
+            }
+
+            _currentFocus = focus;
+        }
+
+        public void ReleaseFocus(IFocusable focus)
+        {
+            if ( _currentFocus == focus )
+            {
+                _currentFocus = null;
+                focus.Unfocus();
+            }
         }
     }
 }

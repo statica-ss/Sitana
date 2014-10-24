@@ -87,7 +87,9 @@
     <EmbeddedResource Include="Assets\MenuStyles.xml" />
     <EmbeddedResource Include="Assets\MessageBox.xml" />
     <EmbeddedResource Include="Assets\Tab.xml" />
-    <EmbeddedResource Include="Assets\LayerInsert.xml" />
+    <EmbeddedResource Include="Assets\LayerInsert.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Assets\LayerProperties.xml" />
     <Content Include="Icon.ico" />
     <EmbeddedResource Include="Assets\AppStyles.xml" />
