@@ -14,6 +14,8 @@ namespace Sitana.Framework.Ui.Controllers
 
         Dictionary<string, UiView> _views = new Dictionary<string, UiView>();
 
+        public UiController Parent { get; internal set;}
+
         internal void AttachView(UiView view)
         {
             View = view;
@@ -41,12 +43,26 @@ namespace Sitana.Framework.Ui.Controllers
             UiView view;
 
             _views.TryGetValue(id, out view);
+
+            if ( view == null )
+            {
+                if ( Parent != null )
+                {
+                    return Parent.Find(id);
+                }
+            }
+
             return view;
         }
 
         internal void Register(string id, UiView view)
         {
             _views.Add(id, view);
+
+            if ( Parent != null )
+            {
+                Parent.Register(id, view);
+            }
         }
 
         internal void Unregister(string id, UiView view)
@@ -54,6 +70,11 @@ namespace Sitana.Framework.Ui.Controllers
             if (Find(id) == view)
             {
                 _views.Remove(id);
+            }
+
+            if ( Parent != null )
+            {
+                Parent.Unregister(id, view);
             }
         }
 

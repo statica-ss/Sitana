@@ -55,6 +55,7 @@
     <Folder Include="System\" />
     <Folder Include="Ui\DefinitionFiles\Commands\" />
     <Folder Include="Ui\Interfaces\" />
+    <Folder Include="Input\TextInput\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -208,5 +209,10 @@
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonState.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\DrawButtonInfo.cs" />
+    <Compile Include="Ui\Views\Controls\UiEditBox.cs" />
+    <Compile Include="Input\TextInput\TextInput.Dektop.cs" />
+    <Compile Include="Input\TextInput\IFocusable.cs" />
+    <Compile Include="Input\TextInput\ITextConsumer.cs" />
+    <Compile Include="Input\TextInput\TextInputType.cs" />
   </ItemGroup>
 </Project>

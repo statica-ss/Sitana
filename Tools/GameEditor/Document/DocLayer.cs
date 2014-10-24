@@ -15,6 +15,8 @@ namespace GameEditor
 
         protected Layer _layer = null;
 
+        public Layer Layer {get{return _layer;}}
+
         public DocLayer(string type)
         {
             Name = new SharedString();

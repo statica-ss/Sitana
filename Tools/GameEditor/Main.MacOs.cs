@@ -40,12 +40,12 @@ namespace GameEditor
 
             _appMain.CanClose = (a) =>
             {
-                if (!MainController.Current.CanClose)
+                if (!FileMenuController.Current.CanClose)
                 {
-                    MainController.Current.Exit();
+                    FileMenuController.Current.Exit();
                 }
 
-                return MainController.Current.CanClose;
+                return FileMenuController.Current.CanClose;
             };
 
             _appMain.Graphics.IsFullScreen = false;

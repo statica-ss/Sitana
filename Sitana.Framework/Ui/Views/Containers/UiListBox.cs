@@ -116,7 +116,7 @@ namespace Sitana.Framework.Ui.Views
                 _recalculate = true;
             }
 
-            return Rectangle.Empty;
+            return view.Bounds;
         }
 
         protected override void Init(object controller, object binding, DefinitionFile definition)
@@ -272,6 +272,16 @@ namespace Sitana.Framework.Ui.Views
                 if (bounds.Intersects(child.Bounds))
                 {
                     child.ViewDraw(ref drawParams);
+                }
+
+                if ( child.Bounds.Top > bounds.Bottom )
+                {
+                    break;
+                }
+
+                if ( child.Bounds.Left > bounds.Right )
+                {
+                    break;
                 }
             }
 

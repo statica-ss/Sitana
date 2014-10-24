@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<UiModalLayout 
+<UiModalLayout Controller="GameEditor.MessageBoxController,GameEditor"
     xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework" 
     xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework" 
     xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework" 
@@ -35,7 +35,7 @@
                         </effect:Group>
                     </UiView.HideTransitionEffect>
                     <UiBorder.Children>
-                        <UiLabel Text="{MessageBoxText}" Font="Font" FontSize="8" Width="@-32" Height="@-80" X="C" Y="16" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                        <UiLabel Text="{MessageBoxText}" Font="Font" FontSize="8" Width="@-32" Height="@-80" X="C" Y="16" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                         <UiButton Id="MessageBoxOk" Style="MessageBoxButton" Text="OK" X="C" Click="{OnMessageBoxCancel()}" />
                         <UiButton Id="MessageBoxYes" Style="MessageBoxButton" Text="YES" X="C-56" Click="{OnMessageBoxYes()}" />
                         <UiButton Id="MessageBoxNo" Style="MessageBoxButton" Text="NO" X="C" Click="{OnMessageBoxNo()}" />

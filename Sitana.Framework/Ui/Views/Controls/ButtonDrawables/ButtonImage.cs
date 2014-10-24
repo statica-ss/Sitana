@@ -48,8 +48,6 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         {
             Update(info.EllapsedTime, info.ButtonState);
 
-            ButtonState state = info.ButtonState;
-
             Color color = ColorFromState * info.Opacity * Opacity;
 
             Texture2D image = _image;

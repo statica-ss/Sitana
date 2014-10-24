@@ -11,6 +11,8 @@ namespace Sitana.Framework.Input.TouchPad
 {
     public partial class TouchPad: Singleton<TouchPad>
     {
+        public delegate void OnTouchDelegate(int id, Vector2 position);
+
         const int MouseId = 1;
 
         struct ListenerInfo
@@ -32,6 +34,9 @@ namespace Sitana.Framework.Input.TouchPad
         public int DoubleTapTimeInMs = 500;
 
         public GestureType RightClickGesture = GestureType.Hold;
+
+        public event OnTouchDelegate TouchDown;
+
 
         Dictionary<int, TouchElement> _elements = new Dictionary<int, TouchElement>();
 
@@ -249,6 +254,11 @@ namespace Sitana.Framework.Input.TouchPad
             element.LockedListener = _gesture.PointerCapturedBy;
 
             _elements.Add(id, element);
+
+            if ( TouchDown != null )
+            {
+                TouchDown(id, position);
+            }
         }
 
         void ProcessMove(int id, Vector2 position, float time)

@@ -68,6 +68,7 @@
     <Folder Include="Resources\" />
     <Folder Include="Assets\" />
     <Folder Include="Document\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -75,12 +76,16 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Main.MacOs.cs" />
-    <Compile Include="MainController.cs" />
     <Compile Include="Document\Document.cs" />
     <Compile Include="Document\DocLayer.cs" />
     <Compile Include="Document\DocTiledLayer.cs" />
     <Compile Include="Document\DocVectorLayer.cs" />
     <Compile Include="EditorSettings.cs" />
+    <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\LayerPropertiesController.cs" />
+    <Compile Include="Controllers\LayersListController.cs" />
+    <Compile Include="Controllers\MessageBoxController.cs" />
+    <Compile Include="Controllers\FileMenuController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.MacOs.csproj">

@@ -9,7 +9,9 @@
         <UiBorder ClipChildren="true" BackgroundColor="#003040" X="348" Y="4" Width="@-352" Height="@-8" HorizontalAlignment="Left" VerticalAlignment="Top">
             <UiBorder.Children />
         </UiBorder>
-        <UiBorder BackgroundColor="#003040" X="4" Y="36" Width="340" Height="220" HorizontalAlignment="Left" VerticalAlignment="Top" Mode="Vertical">
+
+        <UiBorder BackgroundColor="#003040" X="4" Y="36" Width="340" Height="220" HorizontalAlignment="Left" VerticalAlignment="Top" Mode="Vertical"
+        Controller="GameEditor.LayersListController,GameEditor">
             <UiBorder.Children>
                 <UiRectangle Color="#20ffffff" Width="@-4" Height="20" X="2" Y="2" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <UiLabel Style="Headers" X="8" Y="12" Text="Layers" />
