@@ -76,7 +76,7 @@ namespace GameEditor
                     EditorSettings.Instance.Fullscreen = form.WindowState == FormWindowState.Maximized;
                 };
 
-                _appMain.InactiveSleepTime = TimeSpan.FromSeconds(1);
+                _appMain.InactiveSleepTime = TimeSpan.FromMilliseconds(100);
 
                 _appMain.Run();
 
