@@ -21,9 +21,10 @@ namespace Sitana.Framework.Ui.Views
             UiContainer.Parse(node, file);
 
             DefinitionParser parser = new DefinitionParser(node);
-
+            
             file["Items"] = parser.ParseDelegate("Items");
             file["Mode"] = parser.ParseEnum<Mode>("Mode");
+            file["Reverse"] = parser.ParseBoolean("Reverse");
             file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
 
             foreach (var cn in node.Nodes)
@@ -92,6 +93,8 @@ namespace Sitana.Framework.Ui.Views
         Point _maxScroll = Point.Zero;
         ScrollingService.ExceedRule _rule = ScrollingService.ExceedRule.Allow;
 
+        bool _reverse = false;
+
         protected override void OnAdded()
         {
             _scrollingService = new ScrollingService(this, _rule);
@@ -133,6 +136,8 @@ namespace Sitana.Framework.Ui.Views
             _items.Subscribe(this);
 
             _rule = DefinitionResolver.Get<ScrollingService.ExceedRule>(Controller, Binding, file["ExceedRule"], ScrollingService.ExceedRule.Allow);
+
+            _reverse = DefinitionResolver.Get<bool>(Controller, Binding, file["Reverse"], false);
         }
 
         protected override void Update(float time)
@@ -168,7 +173,7 @@ namespace Sitana.Framework.Ui.Views
 
                     for (int idx = 0; idx < count; ++idx)
                     {
-                        object bind = _items.ElementAt(idx);
+                        object bind = _items.ElementAt(_reverse ? count - idx - 1 : idx);
 
                         UiView view;
                         _bindingToElement.TryGetValue(bind, out view);
@@ -272,16 +277,6 @@ namespace Sitana.Framework.Ui.Views
                 if (bounds.Intersects(child.Bounds))
                 {
                     child.ViewDraw(ref drawParams);
-                }
-
-                if ( child.Bounds.Top > bounds.Bottom )
-                {
-                    break;
-                }
-
-                if ( child.Bounds.Left > bounds.Right )
-                {
-                    break;
                 }
             }
 

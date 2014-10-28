@@ -45,21 +45,29 @@ namespace GameEditor
 
         public void New()
         {
-            _layerIndex = 1;
             _nextIndex++;
             FileName.Format("New {0}", _nextIndex);
             FilePath = null;
 
             Layers.Clear();
-            AddVectorLayer();
 
+            foreach (var layer in CurrentTemplate.Instance.Layers)
+            {
+                DocLayer generated = layer.Generate();
+                Layers.Add(generated);
+                if (layer.Selected)
+                {
+                    Select(generated);
+                }
+            }
+
+            _layerIndex = Layers.Count + 1;
             IsModified = false;
         }
 
         public Document()
         {
             Layers = new ItemsList<DocLayer>();
-            New();
         }
 
         public void Save()
@@ -98,12 +106,15 @@ namespace GameEditor
         public void AddTilesetLayer()
         {
             var layer = new DocTiledLayer(String.Format("LAYER {0}", _layerIndex));
+            layer.Layer.Tileset = CurrentTemplate.Instance.Tileset(null).Item1;
             Layers.Add(layer);
             _layerIndex++;
 
             Select(layer);
             SetModified();
         }
+
+
 
         public void RemoveSelectedLayer()
         {

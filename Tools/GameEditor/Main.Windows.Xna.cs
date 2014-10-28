@@ -5,6 +5,7 @@ using Sitana.Framework;
 using System.Resources;
 using System.Reflection;
 using System.Windows.Forms;
+using System.IO;
 
 namespace GameEditor
 {
@@ -16,7 +17,7 @@ namespace GameEditor
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             using (_appMain = new AppMain())
             {
@@ -32,16 +33,16 @@ namespace GameEditor
                 _appMain.Graphics.IsFullScreen = false;
                 _appMain.CanClose = (a) =>
                     {
-                        if (!MainController.Current.CanClose)
+                        if (!FileMenuController.Current.CanClose)
                         {
                             // This makes the game remain active after close button is pressed.
                             form.Hide();
                             form.Show();
 
-                            MainController.Current.Exit();
+                            FileMenuController.Current.Exit();
                         }
 
-                        return MainController.Current.CanClose;
+                        return FileMenuController.Current.CanClose;
                     };
 
                 if (EditorSettings.Instance.WindowWidth != 0 || EditorSettings.Instance.WindowHeight != 0)

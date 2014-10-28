@@ -9,6 +9,7 @@ using Sitana.Framework;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Ui.Binding;
+using System.IO;
 
 namespace GameEditor
 {
@@ -21,14 +22,22 @@ namespace GameEditor
         public SharedValue<bool> ShowAllLayers
         { 
             get
-            { 
+            {
                 return EditorSettings.Instance.ShowAllLayersShared;
             }
         }
 
         public static void OnLoadContent(AppMain main)
         {
+            using (Stream stream = ContentLoader.Current.Open("SampleTemplate.zip"))
+            {
+                CurrentTemplate.Instance.Load(stream);
+            }
+
+            Document.Current.New();
+
             FontManager.Instance.AddSpriteFont("Font", "Font", 8);
+            FontManager.Instance.AddSpriteFont("Symbols", "Symbols", 8);
         }
 
         public MainController()

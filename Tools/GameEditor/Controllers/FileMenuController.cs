@@ -3,6 +3,8 @@ using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework;
 using Sitana.Framework.Ui.Core;
 using Sitana.Framework.Cs;
+using System.IO;
+using Sitana.Framework.Content;
 
 namespace GameEditor
 {
@@ -35,8 +37,15 @@ namespace GameEditor
 
         public void New()
         {
+            ModalDialog.Show("NewFile");
+            HideElement("FileMenu");
+        }
+
+        public void OnNew(string template)
+        {
             if (!Document.Current.IsModified)
             {
+                ChangeTemplate(template);
                 Document.Instance.New();
                 HideElement("FileMenu");
                 return;
@@ -49,12 +58,14 @@ namespace GameEditor
                 {
                     if(SaveInternal())
                     {
+                        ChangeTemplate(template);
                         Document.Instance.New();
                     }
                 });
             }, 
                 () =>
             {
+                ChangeTemplate(template);
                 Document.Instance.New();
             },
                 ()=>
@@ -184,6 +195,37 @@ namespace GameEditor
         void Open(string path)
         {
 
+        }
+
+        bool ChangeTemplate(string template)
+        {
+            if (template == null)
+            {
+                using (Stream stream = ContentLoader.Current.Open("SampleTemplate.zip"))
+                {
+                    CurrentTemplate.Instance.Load(stream);
+                }
+            }
+            else
+            {
+                try
+                {
+                    using (Stream stream = new FileStream(template, FileMode.Open))
+                    {
+                        CurrentTemplate.Instance.Load(stream);
+                    }
+                }
+                catch
+                {
+                    RegisteredTemplates.Instance.InvalidateTemplate(template);
+
+                    MessageBox.Info(string.Format("Failed to load template {0}.", template));
+                    
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

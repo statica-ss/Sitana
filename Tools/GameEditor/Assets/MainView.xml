@@ -1,83 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<UiBorder Controller="GameEditor.MainController,GameEditor" 
-        xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework" 
-        xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework" 
-        xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework" 
-        xmlns:cmd="namespace:Sitana.Framework.Ui.DefinitionFiles.Commands,Sitana.Framework" 
+<UiBorder Controller="GameEditor.MainController,GameEditor"
+        xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
+        xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
+        xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
+        xmlns:cmd="namespace:Sitana.Framework.Ui.DefinitionFiles.Commands,Sitana.Framework"
         Width="720" Height="480" MinWidth="720" MinHeight="480" BackgroundColor="#006080">
-    <UiBorder.Children>
-        <UiBorder ClipChildren="true" BackgroundColor="#003040" X="348" Y="4" Width="@-352" Height="@-8" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <UiBorder.Children />
-        </UiBorder>
+  <UiBorder.Children>
+    <UiBorder ClipChildren="true" BackgroundColor="#003040" X="348" Y="4" Width="@-352" Height="@-8" HorizontalAlignment="Left" VerticalAlignment="Top">
+      <UiBorder.Children />
+    </UiBorder>
 
-        <UiBorder BackgroundColor="#003040" X="4" Y="36" Width="340" Height="220" HorizontalAlignment="Left" VerticalAlignment="Top" Mode="Vertical"
-        Controller="GameEditor.LayersListController,GameEditor">
-            <UiBorder.Children>
-                <UiRectangle Color="#20ffffff" Width="@-4" Height="20" X="2" Y="2" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                <UiLabel Style="Headers" X="8" Y="12" Text="Layers" />
-                <UiButton Style="UiButton" Width="" Text="+ Vector" HorizontalAlignment="Left" VerticalAlignment="Top" X="4" Y="28" Click="{AddVectorLayer()}" />
-                <UiButton Style="UiButton" Text="+ Tiled" HorizontalAlignment="Left" VerticalAlignment="Top" X="72" Y="28" Click="{AddTiledLayer()}" />
-                <UiButton Style="UiButton" Width="24" Text="-" HorizontalAlignment="Right" VerticalAlignment="Top" X="@-4" Y="28" Click="{RemoveLayer()}" />
-                <UiListBox Id="LayersList" Items="{Layers}" ClipChildren="true" VerticalAlignment="Top" Y="56" Height="@-60" Width="@" HorizontalAlignment="Left">
-                    <UiListBox.ItemTemplate>
-                        <UiBorder Height="32" Margin="4,4,4,4" BackgroundColor="255,255,255,32">
-                            <UiBorder.Children>
-                                <UiRectangle Color="#40ff0000" Visible="{{Selected}}" ShowHideTime="100" />
-                                <UiButton Width="@" X="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="@" Click="{SelectLayer(binding)}" Visible="{{NotSelected}}" ShowHideTime="50">
-                                    <UiButton.Drawables>
-                                        <button:SolidBackground ColorPushed="#20ff0000" ColorReleased="#00000000" />
-                                    </UiButton.Drawables>
-                                </UiButton>
-                                <UiLabel Text="{{Name}}" Font="Font" FontSize="8" X="4" Y="C" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                <UiLabel Text="{{Type}}" Font="Font" FontSize="8" X="C" Y="C" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            </UiBorder.Children>
-                        </UiBorder>
-                    </UiListBox.ItemTemplate>
-                </UiListBox>
+    <UiBorder BackgroundColor="#003040" X="4" Y="36" Width="340" Height="220" HorizontalAlignment="Left" VerticalAlignment="Top" Mode="Vertical"
+    Controller="GameEditor.LayersListController,GameEditor">
+      <UiBorder.Children>
+        <UiRectangle Color="#20ffffff" Width="@-4" Height="20" X="2" Y="2" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <UiLabel Style="Headers" X="8" Y="12" Text="Layers" />
+        <UiButton Style="UiButton" Width="" Text="+ Vector" HorizontalAlignment="Left" VerticalAlignment="Top" X="4" Y="28" Click="{AddVectorLayer()}" />
+        <UiButton Style="UiButton" Text="+ Tiled" HorizontalAlignment="Left" VerticalAlignment="Top" X="72" Y="28" Click="{AddTiledLayer()}" />
+        <UiButton Style="UiButtonSymbols" Width="24" Text="r" HorizontalAlignment="Right" VerticalAlignment="Top" X="@-4" Y="28" Click="{RemoveLayer()}" />
+        
+        <UiListBox Id="LayersList" Items="{Layers}" ClipChildren="true" VerticalAlignment="Top" Y="56" Height="@-60" Width="@" HorizontalAlignment="Left">
+          <UiListBox.ItemTemplate>
+            <UiBorder Height="32" Margin="4,4,4,4" BackgroundColor="255,255,255,32">
+              <UiBorder.Children>
+                <UiRectangle Color="#40ff0000" Visible="{{Selected}}" ShowHideTime="0" />
+                <UiButton Width="@" X="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="@" Click="{SelectLayer(binding)}" Visible="{{NotSelected}}" ShowHideTime="0">
+                  <UiButton.Drawables>
+                    <button:SolidBackground ColorPushed="#20ff0000" ColorReleased="#00000000" />
+                  </UiButton.Drawables>
+                </UiButton>
 
-                <UiScrollBar Style="UiScrollBar" Context="LayersList" Margin="0,56,0,4"/>
+                <UiLabel Text="{{Name}}" Font="Font" FontSize="8" X="4" Y="C" Width="@-132" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <UiLabel Text="{{Type}}" Font="Font" FontSize="8" X="@-128" Y="C" Width="64" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-            </UiBorder.Children>
-        </UiBorder>
+                <UiButton Style="LayerArrows" X="@-64" Y="C" Text="6" Click="{MoveLayerDown(binding)}"/>
+                <UiButton Style="LayerArrows" X="@-44" Y="C" Text="5" Click="{MoveLayerUp(binding)}"/>
 
-        <UiRectangle Color="#003040" Width="340" Height="24" X="4" Y="260" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <UiRectangle Color="#20ffffff" Width="336" Height="20" X="6" Y="262" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <UiRectangle Color="#ffa0a0" Width="336" Height="1" X="6" Y="282" HorizontalAlignment="Left" VerticalAlignment="Top" />
+              </UiBorder.Children>
+            </UiBorder>
+          </UiListBox.ItemTemplate>
+        </UiListBox>
 
-        <UiContentSlider Id="PropertiesSlider" X="4" Y="284" Width="340" Height="@-288" HorizontalAlignment="Left" VerticalAlignment="Top" BackgroundColor="#003040" ClipChildren="true" TransitionTime="250">
-        <UiContentSlider.ShowTransitionEffectNext>
-            <effect:Group>
-              <effect:Swype Horizontal="110%" Power="3"/>
+        <UiScrollBar Style="UiScrollBar" Context="LayersList" Margin="0,56,0,4"/>
 
-            </effect:Group>
-          </UiContentSlider.ShowTransitionEffectNext>
+      </UiBorder.Children>
+    </UiBorder>
 
-          <UiContentSlider.ShowTransitionEffectPrev>
-            <effect:Group>
-              <effect:Swype Horizontal="-110%" Power="3"/>
+    <UiRectangle Color="#003040" Width="340" Height="24" X="4" Y="260" HorizontalAlignment="Left" VerticalAlignment="Top" />
+    <UiRectangle Color="#20ffffff" Width="336" Height="20" X="6" Y="262" HorizontalAlignment="Left" VerticalAlignment="Top" />
+    <UiRectangle Color="#ffa0a0" Width="336" Height="1" X="6" Y="282" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
-            </effect:Group>
-          </UiContentSlider.ShowTransitionEffectPrev>
+    <UiContentSlider Id="PropertiesSlider" X="4" Y="284" Width="340" Height="@-288" HorizontalAlignment="Left" VerticalAlignment="Top" BackgroundColor="#003040" ClipChildren="true" TransitionTime="250">
+      <UiContentSlider.ShowTransitionEffectNext>
+        <effect:Group>
+          <effect:Swype Horizontal="110%" Power="3"/>
 
-        <UiContentSlider.Children>
-            <cmd:IncludeView Path="LayerProperties"/>
-            <cmd:IncludeView Path="LayerInsert"/>
-        </UiContentSlider.Children>
-        </UiContentSlider>
+        </effect:Group>
+      </UiContentSlider.ShowTransitionEffectNext>
 
-        <UiIndexSelector Context="PropertiesSlider" Spacing="25%" Width="338" Height="18" X="8" Y="264" HorizontalAlignment="Left" VerticalAlignment="Top" ElementWidth="400%" ContentHorizontalAlignment="Left">
-          <UiButton.Drawables>
-            <button:NinePatchBackground ColorPushed="#ffa0a0" ColorReleased="#ffa0a0" Image="Tab" Checked="true"/>
-            <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" Image="Tab" Checked="false"/>
+      <UiContentSlider.ShowTransitionEffectPrev>
+        <effect:Group>
+          <effect:Swype Horizontal="-110%" Power="3"/>
 
-            <button:Text ColorPushed="#800000" ColorReleased="#800000" Font="Font" FontSize="8" Margin="2" Checked="true"/>
-            <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" Font="Font" FontSize="8" Margin="2" Checked="false"/>
+        </effect:Group>
+      </UiContentSlider.ShowTransitionEffectPrev>
 
-          </UiButton.Drawables>
-        </UiIndexSelector>
+      <UiContentSlider.Children>
+        <cmd:IncludeView Path="LayerProperties"/>
+        <cmd:IncludeView Path="LayerInsert"/>
+      </UiContentSlider.Children>
+    </UiContentSlider>
 
-        <cmd:IncludeView Path="Menu"/>
-        <cmd:IncludeView Path="MessageBox"/>
+    <UiIndexSelector Context="PropertiesSlider" Spacing="25%" Width="338" Height="18" X="8" Y="264" HorizontalAlignment="Left" VerticalAlignment="Top" ElementWidth="400%" ContentHorizontalAlignment="Left">
+      <UiButton.Drawables>
+        <button:NinePatchBackground ColorPushed="#ffa0a0" ColorReleased="#ffa0a0" Image="Tab" Checked="true"/>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" Image="Tab" Checked="false"/>
 
-    </UiBorder.Children>
+        <button:Text ColorPushed="#800000" ColorReleased="#800000" Font="Font" FontSize="8" Margin="2" Checked="true"/>
+        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" Font="Font" FontSize="8" Margin="2" Checked="false"/>
+
+      </UiButton.Drawables>
+    </UiIndexSelector>
+
+    <cmd:IncludeView Path="Menu"/>
+    <cmd:IncludeView Path="MessageBox"/>
+    <cmd:IncludeView Path="ModalDialog"/>
+
+  </UiBorder.Children>
 </UiBorder>

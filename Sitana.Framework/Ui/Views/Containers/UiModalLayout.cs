@@ -47,7 +47,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void OnAdded()
         {
-            TouchPad.Instance.AddListener(GestureType.Down, this);
+            TouchPad.Instance.AddListener(GestureType.Down | GestureType.FreeDrag | GestureType.Tap | GestureType.HoldStart | GestureType.Hold, this);
 
             base.OnAdded();
         }
@@ -72,7 +72,7 @@ namespace Sitana.Framework.Ui.Views
                     }
                 }
 
-                gesture.Handled = true;
+                gesture.SkipRest = true;
             }
         }
 

@@ -21,7 +21,6 @@ namespace Sitana.Framework.Input.TouchPad
         HoldStart = 0x200,
         HoldCancel = 0x400,
         Hold = 0x800,
-        CapturedByOther = 0x1000,
-        All = 0xffff
+        CapturedByOther = 0x1000
     }
 }

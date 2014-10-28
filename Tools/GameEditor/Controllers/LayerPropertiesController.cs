@@ -9,6 +9,8 @@ namespace GameEditor
     {
         DocLayer _layer;
 
+        public SharedString LayerName { get; private set; }
+
         public SharedString LayerWidth { get; private set;}
         public SharedString LayerHeight { get; private set;}
 
@@ -23,6 +25,7 @@ namespace GameEditor
 
         public LayerPropertiesController()
         {
+            LayerName = new SharedString();
             LayerWidth = new SharedString();
             LayerHeight = new SharedString();
             LayerSpeedX = new SharedString();
@@ -55,6 +58,20 @@ namespace GameEditor
             }
         }
 
+        public string OnApplyLayerName(string text)
+        {
+            if (String.IsNullOrWhiteSpace(text))
+            {
+                return _layer.Name.StringValue;
+            }
+
+            _layer.Name.StringValue = text;
+
+
+            Document.Current.SetModified();
+            return text;
+        }
+
         public string OnApplySpeedX(string text)
         {
             int value;
@@ -85,7 +102,7 @@ namespace GameEditor
             }
 
             _layer.Layer.ScrollSpeed.Y = (float)value / 100f;
-
+            Document.Current.SetModified();
             return text;
         }
 
@@ -104,7 +121,7 @@ namespace GameEditor
             }
 
             tiled.Resize(value, tiled.Height);
-
+            Document.Current.SetModified();
             return text;
         }
 
@@ -123,7 +140,7 @@ namespace GameEditor
             }
 
             tiled.Resize(tiled.Width, value);
-
+            Document.Current.SetModified();
             return text;
         }
 
@@ -131,6 +148,7 @@ namespace GameEditor
         {
             Layer layer = _layer.Layer;
 
+            LayerName.Format("{0}", _layer.Name);
             LayerSpeedX.Format("{0}", (int)(layer.ScrollSpeed.X * 100));
             LayerSpeedY.Format("{0}", (int)(layer.ScrollSpeed.Y * 100));
 

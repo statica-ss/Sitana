@@ -63,6 +63,31 @@ namespace Sitana.Framework.Ui.Binding
             }
         }
 
+        public int IndexOf(T element)
+        {
+            lock (this)
+            {
+                return _elements.IndexOf(element);
+            }
+        }
+
+        public void MoveElementToIndex(T element, int index)
+        {
+            lock (this)
+            {
+                _elements.Remove(element);
+                _elements.Insert(index, element);
+            }
+
+            lock (_consumersLock)
+            {
+                for (int idx = 0; idx < _consumers.Count; ++idx)
+                {
+                    _consumers[idx].Recalculate();
+                }
+            }
+        }
+
         public void Remove(T element)
         {
             lock(this)

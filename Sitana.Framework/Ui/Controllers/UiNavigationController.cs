@@ -32,6 +32,11 @@ namespace Sitana.Framework.Ui.Controllers
             }
         }
 
+        public UiNavigationController()
+        {
+            RegisterElementsInParent = false;
+        }
+
         protected override void OnViewAttached()
         {
             if ( !(View is UiPage) && !(View is UiNavigationView))
@@ -42,7 +47,7 @@ namespace Sitana.Framework.Ui.Controllers
 
         public void NavigateTo(string uri)
         {
-            DefinitionFile def = ContentLoader.Current.Load<DefinitionFile>(uri);
+            DefinitionFile def = uri != null ? ContentLoader.Current.Load<DefinitionFile>(uri) : null;
             Navigation.NavigateTo(def);
         }
 

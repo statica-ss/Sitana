@@ -37,8 +37,25 @@
     </UiButton>
   </Style>
 
+  <Style Name="UiButtonSymbols">
+    <UiButton Width="64" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" ShowHideTime="0">
+      <UiButton.Drawables>
+        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" />
+        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Symbols" FontSize="8" Margin="0,0,1,4"/>
+      </UiButton.Drawables>
+    </UiButton>
+  </Style>
+
+  <Style Name="LayerArrows">
+    <UiButton Width="32" Height="18" HorizontalAlignment="Left" VerticalAlignment="Center" ShowHideTime="0">
+      <UiButton.Drawables>
+        <button:Text ColorPushed="#ffffff" ColorReleased="#80ffffff" ColorDisabled="#20ffffff" Font="Symbols" FontSize="8" Margin="0,0,0,4"/>
+      </UiButton.Drawables>
+    </UiButton>
+  </Style>
+
   <Style Name="UiEditBox">
-    <UiButton Width="48" Height="18">
+    <UiEditBox Width="48" Height="18">
       <UiButton.Drawables>
         
         <button:NinePatchBackground ColorPushed="#800000" ColorReleased="#40000000" Image="Button" Checked="false" Margin="-1" Scale="0.5"/>
@@ -48,7 +65,7 @@
         <button:Text ColorPushed="#800000" ColorReleased="#800000" ColorDisabled="#80800000" Font="Font" FontSize="8" Margin="2" Checked="false"/>
         <button:Text ColorPushed="#800000" ColorReleased="#800000" Font="Font" FontSize="8" Margin="2" Checked="true"/>
       </UiButton.Drawables>
-    </UiButton>
+    </UiEditBox>
   </Style>
 
   <Style Name="UiScrollBar">
