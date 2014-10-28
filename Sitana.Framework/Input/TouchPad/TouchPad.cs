@@ -405,6 +405,8 @@ namespace Sitana.Framework.Input.TouchPad
 
                 IGestureListener captureBy = _gesture.PointerCapturedBy;
 
+                _gesture.SkipRest = false;
+
                 for (int idx = 0; idx < _listeners.Count; ++idx)
                 {
                     var listener = _listeners[idx];
@@ -442,7 +444,7 @@ namespace Sitana.Framework.Input.TouchPad
                             return;
                         }
 
-                        if (_gesture.Handled)
+                        if (_gesture.Handled || _gesture.SkipRest)
                         {
                             return;
                         }
@@ -510,6 +512,8 @@ namespace Sitana.Framework.Input.TouchPad
 
         void OnGesture()
         {
+            _gesture.SkipRest = false;
+
             if (_gesture.PointerCapturedBy != null)
             {
                 _gesture.PointerCapturedBy.OnGesture(_gesture);
@@ -530,7 +534,7 @@ namespace Sitana.Framework.Input.TouchPad
                         return;
                     }
 
-                    if ( _gesture.Handled )
+                    if ( _gesture.Handled || _gesture.SkipRest )
                     {
                         return;
                     }

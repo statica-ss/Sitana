@@ -28,7 +28,7 @@
 
             <UiStackPanel Style="Property" Mode="Horizontal" Visible="{ShowTiled}" Padding="10" Spacing="5">
               <UiStackPanel.Children>
-                <UiCheckBox Style="PropertyCheckBox" Text="TILED WIDTH" Width="86" Checked="{TiledWidth}"/>
+                <UiCheckBox Style="PropertyCheckBox" Text="TILED WIDTH" Width="88" Checked="{TiledWidth}"/>
                 <UiCheckBox Style="PropertyCheckBox" Text="TILED HEIGHT" Width="92" Checked="{TiledHeight}"/>
               </UiStackPanel.Children>
             </UiStackPanel>

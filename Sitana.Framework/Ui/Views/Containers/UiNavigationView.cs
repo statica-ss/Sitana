@@ -47,6 +47,12 @@ namespace Sitana.Framework.Ui.Views
 
         internal void NavigateTo(DefinitionFile def)
         {
+            if (def == null)
+            {
+                AddPage(null);
+                return;
+            }
+
             UiPage view = def.CreateInstance(Controller, Binding) as UiPage;
 
             if (view != null)
@@ -101,17 +107,20 @@ namespace Sitana.Framework.Ui.Views
 
                 if (child.HideTransitionEffect == null)
                 {
-                    child.HideTransitionEffect = page.ShowTransitionEffect != null ? page.ShowTransitionEffect.Reverse() : null;
-                    child.HideSpeed = page.ShowSpeed;
+                    child.HideTransitionEffect = (page != null && page.ShowTransitionEffect != null) ? page.ShowTransitionEffect.Reverse() : null;
+                    child.HideSpeed = page != null ? page.ShowSpeed : float.MaxValue;
                 }
             }
 
-            _children.Add(page);
-            page.Bounds = CalculateChildBounds(page);
-            page.Parent = this;
+            if (page != null)
+            {
+                _children.Add(page);
+                page.Bounds = CalculateChildBounds(page);
+                page.Parent = this;
 
-            page.RegisterView();
-            page.ViewAdded();
+                page.RegisterView();
+                page.ViewAdded();
+            }
         }
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
@@ -169,11 +178,14 @@ namespace Sitana.Framework.Ui.Views
 
             string url = DefinitionResolver.GetString(Controller, binding, file["Page"]);
 
-            DefinitionFile pageFile = ContentLoader.Current.Load<DefinitionFile>(url);
+            if (!string.IsNullOrWhiteSpace(url))
+            {
+                DefinitionFile pageFile = ContentLoader.Current.Load<DefinitionFile>(url);
 
-            NavigateTo(pageFile);
-            UiPage page = _children[0] as UiPage;
-            page.InstantShow();
+                NavigateTo(pageFile);
+                UiPage page = _children[0] as UiPage;
+                page.InstantShow();
+            }
         }
     }
 }

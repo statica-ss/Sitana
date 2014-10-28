@@ -16,6 +16,13 @@ namespace Sitana.Framework.Ui.Controllers
 
         public UiController Parent { get; internal set;}
 
+        protected bool RegisterElementsInParent { private get; set; }
+
+        public UiController()
+        {
+            RegisterElementsInParent = true;
+        }
+
         internal void AttachView(UiView view)
         {
             View = view;
@@ -59,7 +66,7 @@ namespace Sitana.Framework.Ui.Controllers
         {
             _views.Add(id, view);
 
-            if ( Parent != null )
+            if (RegisterElementsInParent && Parent != null)
             {
                 Parent.Register(id, view);
             }
@@ -72,7 +79,7 @@ namespace Sitana.Framework.Ui.Controllers
                 _views.Remove(id);
             }
 
-            if ( Parent != null )
+            if ( RegisterElementsInParent && Parent != null )
             {
                 Parent.Unregister(id, view);
             }

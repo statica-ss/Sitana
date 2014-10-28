@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<UiPage Controller="GameEditor.NewFileController,GameEditor"
+    xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
+    xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
+    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework" ShowTime="200" HideTime="200">
+  <UiView.ShowTransitionEffect>
+    <effect:Group>
+      <effect:Swype Vertical="480"/>
+      <effect:Vanish Power="2"/>
+    </effect:Group>
+  </UiView.ShowTransitionEffect>
+  <UiView.HideTransitionEffect>
+    <effect:Group>
+      <effect:Vanish/>
+    </effect:Group>
+  </UiView.HideTransitionEffect>
+  <UiPage.Content>
+    <UiBorder>
+      <UiBorder.Children>
+        <UiBorder Width="480" Height="256" X="C" Y="C" VerticalAlignment="Center" HorizontalAlignment="Center" Color="#006080">
+          <UiBorder.Children>
+
+            <UiRectangle VerticalAlignment="Center" HorizontalAlignment="Center" Color="#003040" Width="@-4" Height="@-4" X="C" Y="C"/>
+
+            <UiListBox Id="FileTemplates" HorizontalAlignment="Center" VerticalAlignment="Center" X="C" Y="C" Width="@-14" Height="@-14" BackgroundColor="#20ffffff" Items="{Templates}" ClipChildren="true" Reverse="true">
+              <UiListBox.ItemTemplate>
+                <UiBorder Height="32" Margin="4,4,4,4" BackgroundColor="255,255,255,32">
+                  <UiBorder.Children>
+                    
+                    <UiLabel Text="{{Name}}" Font="Font" FontSize="8" X="16" Y="C" Width="30%" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <UiLabel Text="{{ShortPath}}" Font="Font" FontSize="8" X="128" Y="C" Width="@" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                    <UiButton Style="UiButton" Text="NEW" HorizontalAlignment="Right" VerticalAlignment="Center" X="@-16" Y="C" Click="{NewFromTemplate(binding)}" />
+
+                  </UiBorder.Children>
+                </UiBorder>
+              </UiListBox.ItemTemplate>
+            </UiListBox>
+
+            <UiScrollBar Style="UiScrollBar" Context="FileTemplates" Margin="0,16,8,16"/>
+
+            <UiRectangle Image="Button" X="C" Y="-8" Width="@" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Color="#006080"/>
+            <UiLabel Text="NEW FILE - CHOOSE TEMPLATE" Font="Font" FontSize="8" X="C" Y="-8" Width="@-8" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            
+          </UiBorder.Children>
+        </UiBorder>
+        
+        <UiButton Style="UiButton" Width="64" Text="REGISTER" HorizontalAlignment="Center" VerticalAlignment="Center" X="C-64" Y="C+128" Click="{Register()}" />
+        <UiButton Style="UiButton" Width="64" Text="CANCEL" HorizontalAlignment="Center" VerticalAlignment="Center" X="C+64" Y="C+128" Click="{Close()}" />
+        
+        </UiBorder.Children>
+    </UiBorder>
+  </UiPage.Content>
+</UiPage>

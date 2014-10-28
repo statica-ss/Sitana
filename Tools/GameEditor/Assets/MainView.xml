@@ -17,7 +17,8 @@
         <UiLabel Style="Headers" X="8" Y="12" Text="Layers" />
         <UiButton Style="UiButton" Width="" Text="+ Vector" HorizontalAlignment="Left" VerticalAlignment="Top" X="4" Y="28" Click="{AddVectorLayer()}" />
         <UiButton Style="UiButton" Text="+ Tiled" HorizontalAlignment="Left" VerticalAlignment="Top" X="72" Y="28" Click="{AddTiledLayer()}" />
-        <UiButton Style="UiButton" Width="24" Text="-" HorizontalAlignment="Right" VerticalAlignment="Top" X="@-4" Y="28" Click="{RemoveLayer()}" />
+        <UiButton Style="UiButtonSymbols" Width="24" Text="r" HorizontalAlignment="Right" VerticalAlignment="Top" X="@-4" Y="28" Click="{RemoveLayer()}" />
+        
         <UiListBox Id="LayersList" Items="{Layers}" ClipChildren="true" VerticalAlignment="Top" Y="56" Height="@-60" Width="@" HorizontalAlignment="Left">
           <UiListBox.ItemTemplate>
             <UiBorder Height="32" Margin="4,4,4,4" BackgroundColor="255,255,255,32">
@@ -83,6 +84,7 @@
 
     <cmd:IncludeView Path="Menu"/>
     <cmd:IncludeView Path="MessageBox"/>
+    <cmd:IncludeView Path="ModalDialog"/>
 
   </UiBorder.Children>
 </UiBorder>

@@ -5,6 +5,7 @@ using Sitana.Framework;
 using System.Resources;
 using System.Reflection;
 using System.Windows.Forms;
+using System.IO;
 
 namespace GameEditor
 {
