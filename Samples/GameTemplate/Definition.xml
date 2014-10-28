@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template>
+    <Properties TileSize="64"/>
+    <Layers DisableAddRemove="false">
+        <TiledLayer Name="Far Background" Width="8" Height="8" HorizontsalSpeed="60" VerticalSpeed="60" TiledWidth="true" TiledHeight="true"/>
+        <TiledLayer Name="Background" Width="256" Height="32" HorizontsalSpeed="80" VerticalSpeed="80"/>
+        <VectorLayer Name="BackgroundDecor" HorizontsalSpeed="80" VerticalSpeed="80"/>
+        <VectorLayer Name="Main"/>
+    </Layers>
+</Template>

@@ -13,7 +13,7 @@ namespace GameEditor
                 return Document.Instance.Layers;
             }
         }
-
+        
         public void AddTiledLayer()
         {
             Document.Current.AddTilesetLayer();
@@ -41,6 +41,35 @@ namespace GameEditor
         public void SelectLayer(DocLayer layer)
         {
             Document.Current.Select(layer);
+        }
+
+        public void SetDocumentModified()
+        {
+            Document.Current.SetModified();
+        }
+
+        public void MoveLayerUp(DocLayer layer)
+        {
+            SelectLayer(layer);
+            int index = Document.Current.Layers.IndexOf(layer);
+
+            if (index > 0)
+            {
+                Document.Current.Layers.MoveElementToIndex(layer, index - 1);
+                SetDocumentModified();
+            }
+        }
+
+        public void MoveLayerDown(DocLayer layer)
+        {
+            SelectLayer(layer);
+            int index = Document.Current.Layers.IndexOf(layer);
+
+            if (index < Document.Current.Layers.Count - 1)
+            {
+                Document.Current.Layers.MoveElementToIndex(layer, index + 1);
+                SetDocumentModified();
+            }
         }
     }
 }

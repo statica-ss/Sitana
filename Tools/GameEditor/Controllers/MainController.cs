@@ -29,6 +29,7 @@ namespace GameEditor
         public static void OnLoadContent(AppMain main)
         {
             FontManager.Instance.AddSpriteFont("Font", "Font", 8);
+            FontManager.Instance.AddSpriteFont("Symbols", "Symbols", 8);
         }
 
         public MainController()

@@ -1,11 +1,6 @@
 ﻿using Sitana.Framework.Content;
-using Sitana.Framework.Diagnostics;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace Sitana.Framework.Xml

@@ -273,16 +273,6 @@ namespace Sitana.Framework.Ui.Views
                 {
                     child.ViewDraw(ref drawParams);
                 }
-
-                if ( child.Bounds.Top > bounds.Bottom )
-                {
-                    break;
-                }
-
-                if ( child.Bounds.Left > bounds.Right )
-                {
-                    break;
-                }
             }
 
             if (_clipChildren)
