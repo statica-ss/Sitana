@@ -5,6 +5,7 @@ using Sitana.Framework;
 using System.Resources;
 using System.Reflection;
 using System.Windows.Forms;
+using System.IO;
 
 namespace GameEditor
 {
@@ -16,7 +17,7 @@ namespace GameEditor
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             using (_appMain = new AppMain())
             {

@@ -21,6 +21,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
             object context = field.Binding ? binding : controller;
 
+            if (field.Name == "*")
+            {
+                return context;
+            }
+
             PropertyInfo info = context.GetType().GetProperty(field.Name);
 
             int[] indices = null;

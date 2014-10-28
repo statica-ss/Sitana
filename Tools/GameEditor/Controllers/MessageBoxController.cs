@@ -22,7 +22,13 @@ namespace GameEditor
 
         void IFocusable.Unfocus(){}
 
-        void IFocusable.OnKey(Keys key){}
+        void IFocusable.OnKey(Keys key)
+        {
+            if (key == Keys.Escape)
+            {
+                OnMessageBoxCancel();
+            }
+        }
 
         void IFocusable.OnCharacter(char character)
         {
@@ -59,8 +65,6 @@ namespace GameEditor
                 OnMessageBoxCancel();
             }
         }
-
-
 
         void IFocusable.SetText(string text){}
 
