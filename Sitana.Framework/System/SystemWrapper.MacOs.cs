@@ -68,7 +68,7 @@ namespace Sitana.Framework
             var result = openPanel.RunModal();
             if (result == 1)
             {
-                return openPanel.Url.AbsoluteString;
+                return PathHelper.CutPath(openPanel.Url.AbsoluteString);
             }
 
             return null;
@@ -83,7 +83,7 @@ namespace Sitana.Framework
             var result = savePanel.RunModal();
             if (result == 1)
             {
-                return savePanel.Url.AbsoluteString;
+                return PathHelper.CutPath(savePanel.Url.AbsoluteString);
             }
 
             return null;

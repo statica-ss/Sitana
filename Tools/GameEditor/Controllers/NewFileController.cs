@@ -63,7 +63,10 @@ namespace GameEditor
                 {
                     RegisteredTemplates.Instance.Register(path);
                 }
-                catch { }
+                catch(Exception ex)
+                { 
+                    Console.WriteLine("Unable to register: {0}", ex.ToString());
+                }
             }
         }
     }

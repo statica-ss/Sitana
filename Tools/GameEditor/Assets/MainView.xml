@@ -83,8 +83,8 @@
     </UiIndexSelector>
 
     <cmd:IncludeView Path="Menu"/>
-    <cmd:IncludeView Path="MessageBox"/>
     <cmd:IncludeView Path="ModalDialog"/>
+    <cmd:IncludeView Path="MessageBox"/>
 
   </UiBorder.Children>
 </UiBorder>

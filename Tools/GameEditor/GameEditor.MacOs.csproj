@@ -63,12 +63,16 @@
       <HintPath>..\..\ThirdParty\Dependences\MonoGame\MacOs\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\ThirdParty\Dependences\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Assets\" />
     <Folder Include="Document\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Templates\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -86,6 +90,13 @@
     <Compile Include="Controllers\LayersListController.cs" />
     <Compile Include="Controllers\MessageBoxController.cs" />
     <Compile Include="Controllers\FileMenuController.cs" />
+    <Compile Include="Templates\CurrentTemplate.cs" />
+    <Compile Include="Templates\LayerDefinition.cs" />
+    <Compile Include="Templates\RegisteredTemplates.cs" />
+    <Compile Include="Templates\TiledLayerDefinition.cs" />
+    <Compile Include="Templates\VectorLayerDefinition.cs" />
+    <Compile Include="Controllers\ModalDialogController.cs" />
+    <Compile Include="Controllers\NewFileController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.MacOs.csproj">
@@ -114,5 +125,11 @@
     <BundleResource Include="Assets\Tab.xml" />
     <BundleResource Include="Assets\LayerProperties.xml" />
     <BundleResource Include="Assets\LayerInsert.xml" />
+    <BundleResource Include="Assets\ModalDialog.xml" />
+    <BundleResource Include="Assets\NewFile.xml" />
+    <BundleResource Include="Assets\MacOs\Symbols.xnb">
+      <Link>Assets\Symbols.xnb</Link>
+    </BundleResource>
+    <BundleResource Include="Assets\SampleTemplate.zip" />
   </ItemGroup>
 </Project>

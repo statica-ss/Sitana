@@ -29,15 +29,13 @@ namespace GameEditor
             {
                 Name="Sample",
                 Path = null,
-                ShortPath = "./Sample.zip"
+                ShortPath = ""
             });
         }
 
         public void Register(string path)
         {
-            path = Path.GetFullPath(path);
-
-            using (Stream stream = new FileStream(path, FileMode.Open))
+            using (Stream stream = File.Open(path, FileMode.Open))
             {
                 ZipFile zf = new ZipFile(stream);
                 ZipEntry entry = zf.GetEntry("Definition.xml");
