@@ -33,7 +33,7 @@ namespace Sitana.Framework
 
         public void Init(Int32 minDaysFromFirstUse, Int32 minAppOpenings, Int32 minDaysToRemind)
         {
-            String version = SystemWrapper.CurrentVersion;
+            String version = Platform.CurrentVersion;
 
             Boolean loaded = true;
 

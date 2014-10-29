@@ -187,7 +187,7 @@
     <Compile Include="Settings\SingletonSettings.cs" />
     <Compile Include="System\Keyboard\KeyboardHandler.cs" />
     <Compile Include="System\Keyboard\MessageHook.cs" />
-    <Compile Include="System\SystemWrapper.cs" />
+    <Compile Include="System\Platform.Windows.cs" />
     <Compile Include="Ui\Controllers\UiController.cs" />
     <Compile Include="Ui\Controllers\UiNavigationController.cs" />
     <Compile Include="Ui\Core\AppMain.cs" />

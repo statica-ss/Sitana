@@ -98,7 +98,7 @@ namespace Sitana.Framework.GamerApi
             lock (_lock)
             {
                 // Open isolated storage.
-                using (var isolatedStorageFile = SystemWrapper.GetUserStoreForApplication())
+                using (var isolatedStorageFile = Platform.GetUserStoreForApplication())
                 {
                     // Open file from storage.
                     using (Stream stream = isolatedStorageFile.OpenFile(path, FileMode.Create))
@@ -124,7 +124,7 @@ namespace Sitana.Framework.GamerApi
             _achievements.Clear();
 
             // Open isolated storage.
-            using (var isolatedStorageFile = SystemWrapper.GetUserStoreForApplication())
+            using (var isolatedStorageFile = Platform.GetUserStoreForApplication())
             {
                 // Open file from storage.
                 using (var stream = isolatedStorageFile.OpenFile(path, FileMode.Open))

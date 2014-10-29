@@ -18,16 +18,6 @@ namespace Sitana.Framework
             return path.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
         }
 
-        public static string CutPath(string path)
-        {
-            if ( path.StartsWith("file:"))
-            {
-                path = '/' + path.Substring(5).TrimStart('/');
-            }
-
-            return path;
-        }
-
         public static String CleanPath(String path)
         {
             String[] elements = path.Split('/', '\\');

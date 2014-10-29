@@ -26,7 +26,7 @@ namespace Sitana.Framework.Settings
             var xmlWriterSettings = new XmlWriterSettings { Indent = true };
 
             // Open isolated storage.
-            using (var isolatedStorageFile = SystemWrapper.GetUserStoreForApplication())
+            using (var isolatedStorageFile = Platform.GetUserStoreForApplication())
             {
                 // Open file from storage.
                 using (Stream stream = isolatedStorageFile.OpenFile(path, FileMode.Create))
@@ -57,7 +57,7 @@ namespace Sitana.Framework.Settings
             try
             {
                 // Open isolated storage.
-                using (var isolatedStorageFile = SystemWrapper.GetUserStoreForApplication())
+                using (var isolatedStorageFile = Platform.GetUserStoreForApplication())
                 {
                     // Open file from storage.
                     using (var stream = isolatedStorageFile.OpenFile(path, FileMode.Open))

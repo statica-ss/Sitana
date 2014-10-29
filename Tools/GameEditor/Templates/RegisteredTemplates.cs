@@ -7,6 +7,7 @@ using Sitana.Framework.Ui.Binding;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using Sitana.Framework.Xml;
+using Sitana.Framework;
 
 namespace GameEditor
 {
@@ -31,6 +32,8 @@ namespace GameEditor
                 Path = null,
                 ShortPath = ""
             });
+
+			LoadTemplatesList();
         }
 
         public void Register(string path)
@@ -58,7 +61,7 @@ namespace GameEditor
                                 string name = cn.Attribute("Name");
                                 string shortPath = path;
 
-                                int maxLength = 48;
+                                int maxLength = 44;
 
                                 if (shortPath.Length > maxLength)
                                 {
@@ -103,5 +106,51 @@ namespace GameEditor
                 }
             }
         }
+
+		public void SaveTemplatesList()
+		{
+			using (var store = Platform.GetUserStoreForApplication())
+			{
+				using (var stream = store.OpenFile("RegisteredTemplates", FileMode.Create))
+				{
+					BinaryWriter writer = new BinaryWriter(stream);
+					writer.Write(Templates.Count - 1);
+
+					for (int idx = 1; idx < Templates.Count; ++idx)
+					{
+						writer.Write(Templates[idx].Path);
+					}
+				}
+			}
+		}
+
+		void LoadTemplatesList()
+		{
+			try
+			{
+				using (var store = Platform.GetUserStoreForApplication())
+				{
+					using (var stream = store.OpenFile("RegisteredTemplates", FileMode.Open))
+					{
+						BinaryReader reader = new BinaryReader(stream);
+
+						int count = reader.ReadInt32();
+
+						while(count>0)
+						{
+							count--;
+							string path = reader.ReadString();
+
+							try
+							{
+								Register(path);
+							}
+							catch{}
+						}
+					}
+				}
+			}
+			catch{}
+		}
     }
 }

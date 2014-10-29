@@ -55,13 +55,14 @@ namespace GameEditor
 
         public void Register()
         {
-            string path = SystemWrapper.OpenFileDialog("Open template");
+            string path = Platform.OpenFileDialog("Open template");
 
             if (path != null)
             {
                 try
                 {
                     RegisteredTemplates.Instance.Register(path);
+					RegisteredTemplates.Instance.SaveTemplatesList();
                 }
                 catch(Exception ex)
                 { 

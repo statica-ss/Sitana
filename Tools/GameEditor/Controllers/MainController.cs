@@ -53,7 +53,7 @@ namespace GameEditor
 
         public void OpenLink(UiButton sender)
         {
-            SystemWrapper.OpenWebsite(sender.Text.StringValue);
+            Platform.OpenWebsite(sender.Text.StringValue);
         }
     }
 }
