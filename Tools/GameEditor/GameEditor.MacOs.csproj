@@ -115,9 +115,6 @@
     <BundleResource Include="Assets\MainView.xml" />
     <BundleResource Include="Assets\AppStyles.xml" />
     <BundleResource Include="Assets\Button.xml" />
-    <BundleResource Include="Assets\MacOs\Font.xnb">
-      <Link>Assets\Font.xnb</Link>
-    </BundleResource>
     <BundleResource Include="Assets\Menu.xml" />
     <BundleResource Include="Assets\MenuStyles.xml" />
     <BundleResource Include="Assets\MessageBox.xml" />
@@ -127,9 +124,16 @@
     <BundleResource Include="Assets\LayerInsert.xml" />
     <BundleResource Include="Assets\ModalDialog.xml" />
     <BundleResource Include="Assets\NewFile.xml" />
-    <BundleResource Include="Assets\MacOs\Symbols.xnb">
-      <Link>Assets\Symbols.xnb</Link>
-    </BundleResource>
     <BundleResource Include="Assets\SampleTemplate.zip" />
+    <BundleResource Include="Assets\MacOs\Font8.xnb">
+      <Link>Assets\Font8.xnb</Link>
+    </BundleResource>
+    <BundleResource Include="Assets\MacOs\Font10.xnb">
+      <Link>Assets\Font10.xnb</Link>
+    </BundleResource>
+    <BundleResource Include="Assets\MacOs\Font12.xnb">
+      <Link>Assets\Font12.xnb</Link>
+    </BundleResource>
+    <BundleResource Include="Assets\EditView.xml" />
   </ItemGroup>
 </Project>

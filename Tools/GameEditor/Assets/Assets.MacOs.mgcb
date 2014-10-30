@@ -13,15 +13,21 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Font.spritefont
+#begin Font8.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
-/build:Font.spritefont
+/build:Font8.spritefont
 
-#begin Symbols.spritefont
+#begin Font10.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
-/build:Symbols.spritefont
+/build:Font10.spritefont
+
+#begin Font12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Font12.spritefont
 
