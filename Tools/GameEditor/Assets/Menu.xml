@@ -36,6 +36,8 @@
         <UiStackPanel Style="MenuStrip">
           <UiStackPanel.Children>
             <UiCheckBox Style="MenuCheckBox" Text="All layers" Checked="{ShowAllLayers}"/>
+            <UiCheckBox Style="MenuCheckBox" Width="56" Text="125%" Checked="{View125}"/>
+            <UiCheckBox Style="MenuCheckBox" Width="56" Text="150%" Checked="{View150}"/>
           </UiStackPanel.Children>
         </UiStackPanel>
       </UiModalLayout.Children>

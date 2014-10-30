@@ -24,8 +24,8 @@
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.VideoImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Font.spritefont">
-      <Name>Font</Name>
+    <Compile Include="Font8.spritefont">
+      <Name>Font8</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
@@ -52,8 +52,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Symbols.spritefont">
-      <Name>Symbols</Name>
+    <Compile Include="Font12.spritefont">
+      <Name>Font12</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Font10.spritefont">
+      <Name>Font10</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>

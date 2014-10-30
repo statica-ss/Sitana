@@ -53,8 +53,8 @@ namespace Sitana.Framework.Ui
 
         public Rectangle ComputeRect(Rectangle rect)
         {
-            rect.X += _left.GetValueOrDefault();
-            rect.Y += _top.GetValueOrDefault();
+            rect.X += Get(_left).GetValueOrDefault();
+            rect.Y += Get(_top).GetValueOrDefault();
             rect.Width -= Width;
             rect.Height -= Height;
 
