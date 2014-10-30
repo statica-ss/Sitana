@@ -229,7 +229,7 @@ namespace Sitana.Framework.Ui.Views
         
         protected virtual void OnPushedChanged()
         {
-            BackgroundColor = IsPushed ? Color.Red : Color.Green;
+            
         }
 
         void SetPushed(bool pushed)
