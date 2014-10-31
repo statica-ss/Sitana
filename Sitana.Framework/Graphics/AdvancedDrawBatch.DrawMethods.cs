@@ -209,15 +209,16 @@ namespace Sitana.Framework.Graphics
                 Texture = texture;
                 PrimitiveType = PrimitiveType.TriangleList;
 
-                Point tsize = new Point((int)((float)size.X / scale), (int)((float)size.Y / scale));
+				Vector2 tsizeTl = new Vector2((float)textureSrc.X / (float)texture.Width, (float)textureSrc.Y / (float)texture.Height);
+				Vector2 tsizeBr = new Vector2((float)(textureSrc.X + (float)size.X / scale) / (float)texture.Width, (float)(textureSrc.Y + (float)size.Y / scale) / (float)texture.Height);
 
-                PushVertex(new Vector2(position.X, position.Y), color, new Point(textureSrc.X, textureSrc.Y));
-                PushVertex(new Vector2(position.X + size.X, position.Y), color, new Point(textureSrc.X + tsize.X, textureSrc.Y));
-                PushVertex(new Vector2(position.X, position.Y + size.Y), color, new Point(textureSrc.X, textureSrc.Y + tsize.Y));
+				PushVertex(new Vector2(position.X, position.Y), color, new Vector2(tsizeTl.X, tsizeTl.Y));
+				PushVertex(new Vector2(position.X + size.X, position.Y), color, new Vector2(tsizeBr.X, tsizeTl.Y));
+				PushVertex(new Vector2(position.X, position.Y + size.Y), color, new Vector2(tsizeTl.X, tsizeBr.Y));
 
-                PushVertex(new Vector2(position.X + size.X, position.Y), color, new Point(textureSrc.X + tsize.X, textureSrc.Y));
-                PushVertex(new Vector2(position.X, position.Y + size.Y), color, new Point(textureSrc.X, textureSrc.Y + tsize.Y));
-                PushVertex(new Vector2(position.X + size.X, position.Y + size.Y), color, new Point(textureSrc.X + tsize.X, textureSrc.Y + tsize.Y));
+				PushVertex(new Vector2(position.X + size.X, position.Y), color, new Vector2(tsizeBr.X, tsizeTl.Y));
+				PushVertex(new Vector2(position.X, position.Y + size.Y), color, new Vector2(tsizeTl.X, tsizeBr.Y));
+				PushVertex(new Vector2(position.X + size.X, position.Y + size.Y), color, new Vector2(tsizeBr.X, tsizeBr.Y));
             }
             else
             {

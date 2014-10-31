@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework.Games;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Ui.Views.Parameters;
+using Sitana.Framework.Input.TouchPad;
+using Sitana.Framework;
 
 namespace GameEditor
 {
@@ -18,18 +20,43 @@ namespace GameEditor
         public new static void Parse(XNode node, DefinitionFile file)
         {
             UiView.Parse(node, file);
+
+			DefinitionParser parser = new DefinitionParser(node);
+
+			file["SelectionColor"] = parser.ParseColor("SelectionColor");
         }
 
         int _currentSize = 1;
-        DocLayer _currentLayer = null;
         Texture2D _currentTileset = null;
         int _divideWidth = 1;
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
-        {
-            base.Init(controller, binding, definition);
+		Rectangle? _selection;
+		int _touchId = 0;
 
-        }
+		ColorWrapper _selectionColor;
+
+		protected override void OnAdded()
+		{
+			TouchPad.Instance.AddListener(GestureType.Down | GestureType.Move | GestureType.Up, this);
+
+			base.OnAdded();
+		}
+
+		protected override void OnRemoved()
+		{
+			base.OnRemoved();
+
+			TouchPad.Instance.RemoveListener(this);
+		}
+
+		protected override void Init(object controller, object binding, DefinitionFile definition)
+		{
+			base.Init(controller, binding, definition);
+
+			DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiListBox));
+
+			_selectionColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["SelectionColor"]);
+		}
 
         void UpdateSize()
         {
@@ -44,6 +71,7 @@ namespace GameEditor
 
                 if ( tileset != _currentTileset )
                 {
+					_selection = null;
                     size = ComputeSize(tileset);
                     _currentTileset = tileset;
                 }
@@ -73,8 +101,6 @@ namespace GameEditor
 
             if ( _currentTileset != null )
             {
-                
-
                 Rectangle sb = ScreenBounds;
 
                 float width = _currentTileset.Width / _divideWidth;
@@ -96,13 +122,28 @@ namespace GameEditor
                     Point target = sb.Location;
                     target.Y += (int)(scale * _currentTileset.Height) * idx;
 
-                    Point source = Point.Zero;
+                    Point source = Point.Zero;	
                     source.X += (int)width * idx;
 
                     parameters.DrawBatch.DrawImage(_currentTileset, target, size, source, scale, Color.White * opacity);
                 }
-
+					
                 parameters.DrawBatch.SamplerState = oldSampler;
+
+				if ( _selection.HasValue )
+				{
+					float tileSize = CurrentTemplate.Instance.TileSize * scale;
+
+					Rectangle selection = sb;
+
+					selection.X += (int)(_selection.Value.X * tileSize);
+					selection.Y += (int)(_selection.Value.Y * tileSize);
+
+					selection.Width = (int)Math.Ceiling((_selection.Value.Width+1)*tileSize);
+					selection.Height = (int)Math.Ceiling((_selection.Value.Height+1)*tileSize);
+
+					parameters.DrawBatch.DrawRectangle(selection, _selectionColor.Value * opacity);
+				}
             }
         }
 
@@ -141,5 +182,96 @@ namespace GameEditor
             base.Update(time);
             UpdateSize();
         }
+
+		protected override void OnGesture(Gesture gesture)
+		{
+			if (_currentTileset == null)
+			{
+				return;
+			}
+
+			switch (gesture.GestureType)
+			{
+			case GestureType.Down:
+
+				if (_touchId ==0 &&  ScreenBounds.Contains(gesture.Origin))
+				{
+					_touchId = gesture.TouchId;
+					_selection = null;
+					Select(gesture);
+				}
+
+				break;
+
+			case GestureType.Move:
+
+				if (_touchId == gesture.TouchId)
+				{
+					Select(gesture);
+				}
+
+				break;
+
+			case GestureType.CapturedByOther:
+			case GestureType.Up:
+				if (_touchId == gesture.TouchId)
+				{
+
+					if (gesture.GestureType == GestureType.Up)
+					{
+
+					}
+
+					_touchId = 0;
+					_selection = null;
+				}
+				break;
+			}
+		}
+
+		void Select(Gesture gesture)
+		{
+			Rectangle sb = ScreenBounds;
+
+			if (!sb.Contains(gesture.Position))
+			{
+				return;
+			}
+				
+			float width = _currentTileset.Width / _divideWidth;
+			float scale = sb.Width / width;
+
+			int oneWidth = (int)(scale * width);
+			int oneHeight = (int)(scale * _currentTileset.Height);
+
+			int maxHeightInTiles = _currentSize / CurrentTemplate.Instance.TileSize;
+
+			float tileSize = CurrentTemplate.Instance.TileSize * scale;
+
+			Point pos1 = new Vector2( (gesture.Origin.X - sb.X) / tileSize, (gesture.Origin.Y - sb.Y) / tileSize).ToPoint();
+			Point pos2 = new Vector2( (gesture.Position.X - sb.X) / tileSize, (gesture.Position.Y - sb.Y) / tileSize).ToPoint();
+
+			pos1.X = Math.Max(0, Math.Min(CurrentTemplate.Instance.TilesetLineWidth - 1, pos1.X));
+			pos2.X = Math.Max(0, Math.Min(CurrentTemplate.Instance.TilesetLineWidth - 1, pos2.X));
+
+			pos1.Y = Math.Max(0, Math.Min(maxHeightInTiles - 1, pos1.Y));
+			pos2.Y = Math.Max(0, Math.Min(maxHeightInTiles - 1, pos2.Y));
+
+			if (pos1.X > pos2.X)
+			{
+				int pos = pos1.X;
+				pos1.X = pos2.X;
+				pos2.X = pos;
+			}
+
+			if (pos1.Y > pos2.Y)
+			{
+				int pos = pos1.Y;
+				pos1.Y = pos2.Y;
+				pos2.Y = pos;
+			}
+
+			_selection = new Rectangle(pos1.X, pos1.Y, pos2.X - pos1.X, pos2.Y - pos1.Y);
+		}
     }
 }

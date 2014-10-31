@@ -11,7 +11,7 @@
       <UiBorder.Children>
         <UiScrollView Id="TilesetView" Mode="None" Margin="0,5,0,32" ClipChildren="true" X="5" Width="320" HorizontalAlignment="Left" ExceedRule="Allow">
           <UiScrollView.Children>
-            <editor:UiTilesetView Y="0" VerticalAlignment="Top" BackgroundColor="0, 90,120"/>
+            <editor:UiTilesetView Y="0" VerticalAlignment="Top" BackgroundColor="0, 90,120" SelectionColor="255,0,0,80"/>
           </UiScrollView.Children>
         </UiScrollView>
 
