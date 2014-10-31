@@ -73,6 +73,7 @@
     <Folder Include="Document\" />
     <Folder Include="Controllers\" />
     <Folder Include="Templates\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -97,6 +98,7 @@
     <Compile Include="Templates\VectorLayerDefinition.cs" />
     <Compile Include="Controllers\ModalDialogController.cs" />
     <Compile Include="Controllers\NewFileController.cs" />
+    <Compile Include="Views\UiTilesetView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.MacOs.csproj">

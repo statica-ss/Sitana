@@ -199,18 +199,25 @@ namespace Sitana.Framework.Graphics
 
         public void DrawImage(Texture2D texture, Point position, Point size, Point textureSrc, Color color)
         {
+            DrawImage(texture, position, size, textureSrc, 1, color);
+        }
+
+        public void DrawImage(Texture2D texture, Point position, Point size, Point textureSrc, float scale, Color color)
+        {
             if (texture != null)
             {
                 Texture = texture;
                 PrimitiveType = PrimitiveType.TriangleList;
 
+                Point tsize = new Point((int)((float)size.X / scale), (int)((float)size.Y / scale));
+
                 PushVertex(new Vector2(position.X, position.Y), color, new Point(textureSrc.X, textureSrc.Y));
-                PushVertex(new Vector2(position.X + size.X, position.Y), color, new Point(textureSrc.X + size.X, textureSrc.Y));
-                PushVertex(new Vector2(position.X, position.Y + size.Y), color, new Point(textureSrc.X, textureSrc.Y+size.Y));
-                
-                PushVertex(new Vector2(position.X + size.X, position.Y), color, new Point(textureSrc.X + size.X, textureSrc.Y));
-                PushVertex(new Vector2(position.X, position.Y + size.Y), color, new Point(textureSrc.X, textureSrc.Y + size.Y));
-                PushVertex(new Vector2(position.X+size.X, position.Y+size.Y), color, new Point(textureSrc.X+size.X, textureSrc.Y+size.Y));
+                PushVertex(new Vector2(position.X + size.X, position.Y), color, new Point(textureSrc.X + tsize.X, textureSrc.Y));
+                PushVertex(new Vector2(position.X, position.Y + size.Y), color, new Point(textureSrc.X, textureSrc.Y + tsize.Y));
+
+                PushVertex(new Vector2(position.X + size.X, position.Y), color, new Point(textureSrc.X + tsize.X, textureSrc.Y));
+                PushVertex(new Vector2(position.X, position.Y + size.Y), color, new Point(textureSrc.X, textureSrc.Y + tsize.Y));
+                PushVertex(new Vector2(position.X + size.X, position.Y + size.Y), color, new Point(textureSrc.X + tsize.X, textureSrc.Y + tsize.Y));
             }
             else
             {

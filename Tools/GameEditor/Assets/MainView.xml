@@ -49,7 +49,7 @@
     <UiRectangle Color="#20ffffff" Width="336" Height="20" X="6" Y="262" HorizontalAlignment="Left" VerticalAlignment="Top" />
     <UiRectangle Color="#ffa0a0" Width="336" Height="1" X="6" Y="282" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
-    <UiContentSlider Id="PropertiesSlider" X="4" Y="284" Width="340" Height="@-288" HorizontalAlignment="Left" VerticalAlignment="Top" BackgroundColor="#003040" ClipChildren="true" TransitionTime="250">
+    <UiContentSlider Controller="GameEditor.LayerPropertiesController,GameEditor" Id="PropertiesSlider" X="4" Y="284" Width="340" Height="@-288" HorizontalAlignment="Left" VerticalAlignment="Top" BackgroundColor="#003040" ClipChildren="true" TransitionTime="250">
       <UiContentSlider.ShowTransitionEffectNext>
         <effect:Group>
           <effect:Swype Horizontal="110%" Power="3"/>

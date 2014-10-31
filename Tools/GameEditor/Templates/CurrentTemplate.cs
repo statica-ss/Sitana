@@ -19,6 +19,11 @@ namespace GameEditor
         List<LayerDefinition> _layers = new List<LayerDefinition>();
         List<Tuple<string, Texture2D>> _tilesets = new List<Tuple<string, Texture2D>>();
 
+        public int TileSize { get; private set; }
+        public int TilesetLineWidth { get; private set; }
+
+        public int UnitSize { get; private set; }
+
         public Tuple<string, Texture2D> Tileset(string name)
         {
             foreach (var ts in _tilesets)
@@ -143,7 +148,13 @@ namespace GameEditor
 
         void ParseProperties(XNode node)
         {
-            Name = node.Attribute("Name");
+            XNodeAttributes attr = new XNodeAttributes(node);
+
+            Name = attr.AsString("Name");
+            TileSize = attr.AsInt32("TileSize", 32);
+            TilesetLineWidth = attr.AsInt32("TilesetLineWidth", 8);
+
+            UnitSize = attr.AsInt32("UnitSize", TileSize);
         }
     }
 }

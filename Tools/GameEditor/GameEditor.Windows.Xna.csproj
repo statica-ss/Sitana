@@ -97,6 +97,7 @@
     <Compile Include="Templates\RegisteredTemplates.cs" />
     <Compile Include="Templates\TiledLayerDefinition.cs" />
     <Compile Include="Templates\VectorLayerDefinition.cs" />
+    <Compile Include="Views\UiTilesetView.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\Menu.xml" />
