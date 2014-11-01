@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Sitana.Framework.Ui.Views.Parameters;
 using Sitana.Framework.Input.TouchPad;
 using Sitana.Framework;
+using Sitana.Framework.Ui.Interfaces;
 
 namespace GameEditor
 {
@@ -33,11 +34,17 @@ namespace GameEditor
 		Rectangle? _selection;
 		int _touchId = 0;
 
+        Point? _origin;
+
 		ColorWrapper _selectionColor;
+
+        IScrolledElement _scrollService;
 
 		protected override void OnAdded()
 		{
 			TouchPad.Instance.AddListener(GestureType.Down | GestureType.Move | GestureType.Up, this);
+
+            _scrollService = Parent as IScrolledElement;
 
 			base.OnAdded();
 		}
@@ -198,7 +205,10 @@ namespace GameEditor
 				{
 					_touchId = gesture.TouchId;
 					_selection = null;
+                    _origin = null;
+
 					Select(gesture);
+                    _origin = _selection.Value.Location;
 				}
 
 				break;
@@ -224,6 +234,7 @@ namespace GameEditor
 
 					_touchId = 0;
 					_selection = null;
+                    _origin = null;
 				}
 				break;
 			}
@@ -231,25 +242,39 @@ namespace GameEditor
 
 		void Select(Gesture gesture)
 		{
-			Rectangle sb = ScreenBounds;
+            if ( _touchId != 0 )
+            {
+                Rectangle psb = Parent.ScreenBounds;
 
-			if (!sb.Contains(gesture.Position))
+                if ( gesture.Position.Y > psb.Bottom )
+                {
+                    _scrollService.ScrollingService.ScrollPositionY += gesture.Position.Y - psb.Bottom;
+                    _scrollService.ScrollingService.Process();
+                }
+                else if ( gesture.Position.Y < psb.Top )
+                {
+                    _scrollService.ScrollingService.ScrollPositionY -= psb.Top - gesture.Position.Y;
+                    _scrollService.ScrollingService.Process();
+                }
+            }
+
+            if (!IsPointInsideView(gesture.Position))
 			{
 				return;
 			}
-				
+			
+            Rectangle sb = ScreenBounds;
+
 			float width = _currentTileset.Width / _divideWidth;
 			float scale = sb.Width / width;
-
-			int oneWidth = (int)(scale * width);
-			int oneHeight = (int)(scale * _currentTileset.Height);
 
 			int maxHeightInTiles = _currentSize / CurrentTemplate.Instance.TileSize;
 
 			float tileSize = CurrentTemplate.Instance.TileSize * scale;
 
-			Point pos1 = new Vector2( (gesture.Origin.X - sb.X) / tileSize, (gesture.Origin.Y - sb.Y) / tileSize).ToPoint();
 			Point pos2 = new Vector2( (gesture.Position.X - sb.X) / tileSize, (gesture.Position.Y - sb.Y) / tileSize).ToPoint();
+
+            Point pos1 = _origin.HasValue ? _origin.Value : pos2;
 
 			pos1.X = Math.Max(0, Math.Min(CurrentTemplate.Instance.TilesetLineWidth - 1, pos1.X));
 			pos2.X = Math.Max(0, Math.Min(CurrentTemplate.Instance.TilesetLineWidth - 1, pos2.X));
