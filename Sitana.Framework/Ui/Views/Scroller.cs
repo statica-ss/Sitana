@@ -82,13 +82,25 @@ namespace Sitana.Framework.Ui.Views
 
 				if (_view.IsPointInsideView(gesture.Position))
 				{
+					float offset = -gesture.Offset.Y * _wheelSpeed;
+
 					if (_wheelScrollsHorizontal)
 					{
-						_service.ScrollPositionX -= gesture.Offset.Y * _wheelSpeed;
+						float maxScroll = _service.ScrolledElement.MaxScrollX - _service.ScrolledElement.ScreenBounds.Width;
+
+						if ( ( offset < 0 && _service.ScrollPositionX > 0) || (offset > 0 && _service.ScrollPositionX < maxScroll))
+						{
+							_service.ScrollPositionX += offset;
+						}
 					}
 					else
 					{
-						_service.ScrollPositionY -= gesture.Offset.Y * _wheelSpeed;
+						float maxScroll = _service.ScrolledElement.MaxScrollY - _service.ScrolledElement.ScreenBounds.Height;
+
+						if ( (offset < 0 && _service.ScrollPositionY > 0) || (offset > 0 && _service.ScrollPositionY < maxScroll))
+						{
+							_service.ScrollPositionY += offset;
+						}
 					}
 				}
 
