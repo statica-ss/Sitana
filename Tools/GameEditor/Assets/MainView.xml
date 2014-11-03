@@ -18,7 +18,7 @@
         <UiButton Style="UiButton" Text="+ Tiled" HorizontalAlignment="Left" VerticalAlignment="Top" X="72" Y="28" Click="{AddTiledLayer()}" />
         <UiButton Style="UiButton" Width="24" Text="-" HorizontalAlignment="Right" VerticalAlignment="Top" X="@-4" Y="28" Click="{RemoveLayer()}" />
         
-        <UiListBox Id="LayersList" Items="{Layers}" ClipChildren="true" VerticalAlignment="Top" Y="56" Height="@-60" Width="@" HorizontalAlignment="Left">
+        <UiListBox Id="LayersList" Items="{Layers}" WheelScrollSpeed="10" ClipChildren="true" VerticalAlignment="Top" Y="56" Height="@-60" Width="@" HorizontalAlignment="Left">
           <UiListBox.ItemTemplate>
             <UiBorder Height="32" Margin="4,4,4,4" BackgroundColor="255,255,255,32">
               <UiBorder.Children>

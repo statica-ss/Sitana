@@ -19,6 +19,7 @@ namespace Sitana.Framework.Ui.Views
 
             var parser = new DefinitionParser(node);
             file["Mode"] = parser.ParseEnum<Scroller.Mode>("Mode");
+			file["WheelScrollSpeed"] = parser.ParseFloat("WheelScrollSpeed");
             file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
 
             foreach (var cn in node.Nodes)
@@ -38,11 +39,12 @@ namespace Sitana.Framework.Ui.Views
         Point _maxScroll = Point.Zero;
         ScrollingService.ExceedRule _rule = ScrollingService.ExceedRule.Allow;
         Scroller.Mode _mode = Scroller.Mode.None;
+		float _wheelSpeed = 0;
 
         protected override void OnAdded()
         {
             _scrollingService = new ScrollingService(this, _rule);
-            _scroller = new Scroller(this, _mode, _scrollingService);
+			_scroller = new Scroller(this, _mode, _scrollingService, _wheelSpeed);
 
             base.OnAdded();
         }
@@ -63,6 +65,7 @@ namespace Sitana.Framework.Ui.Views
 
             _mode = DefinitionResolver.Get<Scroller.Mode>(Controller, Binding, file["Mode"], Scroller.Mode.BothDrag);
             _rule = DefinitionResolver.Get<ScrollingService.ExceedRule>(Controller, Binding, file["ExceedRule"], ScrollingService.ExceedRule.Allow);
+			_wheelSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["WheelScrollSpeed"], 0);
         }
 
         protected override Rectangle CalculateChildBounds(UiView view)

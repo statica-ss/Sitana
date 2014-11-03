@@ -16,7 +16,9 @@ namespace Sitana.Framework.Ui.Views
             None = 0,
             HorizontalDrag = 1,
             VerticalDrag = 2,
-            BothDrag = HorizontalDrag | VerticalDrag
+            BothDrag = HorizontalDrag | VerticalDrag,
+			HorizontalWheel = 4,
+			VerticalWheel = 8
         }
 
         int _touchIdX = 0;
@@ -28,6 +30,15 @@ namespace Sitana.Framework.Ui.Views
         ScrollingService _service;
 
         Vector2 _scrollSpeed = Vector2.Zero;
+
+		bool _wheelScrollsHorizontal = false;
+		float _wheelSpeed = 0;
+
+		public Scroller(UiView view, Mode mode, ScrollingService scrollingService, float wheelSpeed)
+			: this(view, mode, scrollingService)
+		{
+			_wheelSpeed = wheelSpeed;
+		}
 
         public Scroller(UiView view, Mode mode, ScrollingService scrollingService)
         {
@@ -50,6 +61,12 @@ namespace Sitana.Framework.Ui.Views
             {
                 TouchPad.Instance.AddListener(GestureType.CapturedByOther, _view);
             }
+
+			if (mode.HasFlag(Mode.HorizontalWheel) || mode.HasFlag(Mode.VerticalWheel))
+			{
+				TouchPad.Instance.AddListener(GestureType.MouseWheel, _view);
+				_wheelScrollsHorizontal = mode.HasFlag(Mode.HorizontalWheel);
+			}
         }
 
         public void Remove()
@@ -61,6 +78,22 @@ namespace Sitana.Framework.Ui.Views
         {
             switch(gesture.GestureType)
             {
+			case GestureType.MouseWheel:
+
+				if (_view.IsPointInsideView(gesture.Position))
+				{
+					if (_wheelScrollsHorizontal)
+					{
+						_service.ScrollPositionX -= gesture.Offset.Y * _wheelSpeed;
+					}
+					else
+					{
+						_service.ScrollPositionY -= gesture.Offset.Y * _wheelSpeed;
+					}
+				}
+
+				break;
+
             case GestureType.Up:
                 if (_touchIdX == gesture.TouchId)
                 {

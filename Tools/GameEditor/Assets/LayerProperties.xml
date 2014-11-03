@@ -5,7 +5,7 @@
   xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework" 
   Tag="Properties">
   <UiBorder.Children>
-    <UiScrollView Id="PropertiesList" Mode="VerticalDrag" ClipChildren="true" ExceedRule="Allow" Margin="0,5,0,5">
+    <UiScrollView Id="PropertiesList" Mode="VerticalDrag,VerticalWheel" WheelScrollSpeed="10" ClipChildren="true" ExceedRule="Allow" Margin="0,5,0,5">
       <UiScrollView.Children>
         <UiStackPanel Mode="Vertical" Margin="4,0,4,0" Spacing="5" VerticalAlignment="Top">
           <UiStackPanel.Children>
