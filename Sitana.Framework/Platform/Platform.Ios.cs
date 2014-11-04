@@ -16,7 +16,7 @@ using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework
 {
-    public static class SystemWrapper
+    public static class Platform
     {
         internal class CustomMailComposeDelegate : MFMailComposeViewControllerDelegate
         {

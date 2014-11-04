@@ -25,8 +25,6 @@
             <UiButton Style="MenuButton" Text="Open" Click="{Open()}" />
             <UiButton Style="MenuButton" Text="Save" Click="{Save()}" />
             <UiButton Style="MenuButton" Text="Save As..." Width="64" Click="{SaveAs()}" />
-            <UiRectangle Color="#40ffffff" Width="1" VerticalAlignment="Center" Height="60%"/>
-            <UiButton Style="MenuButton" Text="Register Template..." Width="128" Click="{SaveAs()}" />
           </UiStackPanel.Children>
         </UiStackPanel>
       </UiModalLayout.Children>
@@ -38,6 +36,8 @@
         <UiStackPanel Style="MenuStrip">
           <UiStackPanel.Children>
             <UiCheckBox Style="MenuCheckBox" Text="All layers" Checked="{ShowAllLayers}"/>
+            <UiCheckBox Style="MenuCheckBox" Width="56" Text="125%" Checked="{View125}"/>
+            <UiCheckBox Style="MenuCheckBox" Width="56" Text="150%" Checked="{View150}"/>
           </UiStackPanel.Children>
         </UiStackPanel>
       </UiModalLayout.Children>

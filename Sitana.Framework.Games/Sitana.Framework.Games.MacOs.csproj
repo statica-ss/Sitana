@@ -64,4 +64,10 @@
   <ItemGroup>
     <Folder Include="Core\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sitana.Framework\Sitana.Framework.MacOs.csproj">
+      <Project>{9A6B9310-FEB6-4B5E-89B2-613FA31BDD21}</Project>
+      <Name>Sitana.Framework.MacOs</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

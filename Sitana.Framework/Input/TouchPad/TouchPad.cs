@@ -11,9 +11,17 @@ namespace Sitana.Framework.Input.TouchPad
 {
     public partial class TouchPad: Singleton<TouchPad>
     {
-        public delegate void OnTouchDelegate(int id, Vector2 position);
+#if __MACOS__
+        const float MouseWheelScrollFactor = 10000;
+#else
+        const float MouseWheelScrollFactor = 100;
+#endif
 
         const int MouseId = 1;
+
+        public delegate void OnTouchDelegate(int id, Vector2 position);
+
+        
 
         struct ListenerInfo
         {
@@ -37,6 +45,7 @@ namespace Sitana.Framework.Input.TouchPad
 
         public event OnTouchDelegate TouchDown;
 
+		private int _scrollWheelValue = 0;
 
         Dictionary<int, TouchElement> _elements = new Dictionary<int, TouchElement>();
 
@@ -51,6 +60,11 @@ namespace Sitana.Framework.Input.TouchPad
         DateTime _rightClickTime;
 
         LastTap? _lastTap;
+
+		public TouchPad()
+		{
+			_scrollWheelValue = Mouse.GetState().ScrollWheelValue;
+		}
 
         public void AddListener(GestureType gestureType, IGestureListener listener)
         {
@@ -179,30 +193,66 @@ namespace Sitana.Framework.Input.TouchPad
         {
             MouseState state = Mouse.GetState();
 
+			int scrollWheel = state.ScrollWheelValue - _scrollWheelValue;
+			_scrollWheelValue = state.ScrollWheelValue;
+
+			if (scrollWheel != 0)
+			{
+				_gesture.GestureType = GestureType.MouseWheel;
+				_gesture.Origin = state.ToVector2();
+				_gesture.Position = state.ToVector2();
+				_gesture.Handled = false;
+				_gesture.TouchId = MouseId;
+                _gesture.Offset = new Vector2(0, (float)scrollWheel / MouseWheelScrollFactor);
+
+				OnGesture();
+			}
+
             if (active && state.RightButton == ButtonState.Pressed && !_rightClick.HasValue)
             {
                 _rightClick = state.ToVector2();
                 _rightClickTime = DateTime.Now;
+
+				_gesture.GestureType = GestureType.RightButtonDown;
+				_gesture.Origin = _rightClick.Value;
+				_gesture.Position = _rightClick.Value;
+				_gesture.Handled = false;
+				_gesture.TouchId = MouseId;
+				_gesture.Offset = Vector2.Zero;
+
+				OnGesture();
             }
 
             if ( active && state.RightButton == ButtonState.Released && _rightClick.HasValue)
             {
-                Vector2 move = state.ToVector2() - _rightClick.Value;
+				_gesture.GestureType = GestureType.RightButtonUp;
+				_gesture.Origin = _rightClick.Value;
+				_gesture.Position = _rightClick.Value;
+				_gesture.Handled = false;
+				_gesture.TouchId = MouseId;
+				_gesture.Offset = Vector2.Zero;
 
-                if (move.Length() < MinDragSize)
-                {
-                    if ((DateTime.Now - _rightClickTime).TotalMilliseconds < HoldTimeInMs)
-                    {
-                        _gesture.GestureType = RightClickGesture;
-                        _gesture.Origin = _rightClick.Value;
-                        _gesture.Position = _rightClick.Value;
-                        _gesture.Handled = false;
-                        _gesture.TouchId = MouseId;
-                        _gesture.Offset = Vector2.Zero;
+				OnGesture();
 
-                        OnGesture();
-                    }
-                }
+				if (RightClickGesture != GestureType.None)
+				{
+					Vector2 move = state.ToVector2() - _rightClick.Value;
+
+					if (move.Length() < MinDragSize)
+					{
+						if ((DateTime.Now - _rightClickTime).TotalMilliseconds < HoldTimeInMs)
+						{
+							_gesture.GestureType = RightClickGesture;
+							_gesture.Origin = _rightClick.Value;
+							_gesture.Position = _rightClick.Value;
+							_gesture.Handled = false;
+							_gesture.TouchId = MouseId;
+							_gesture.Offset = Vector2.Zero;
+
+							OnGesture();
+						}
+					}
+				}
 
                 _rightClick = null;
             }

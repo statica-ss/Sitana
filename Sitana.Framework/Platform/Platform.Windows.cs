@@ -10,7 +10,7 @@ using Sitana.Framework.Cs;
 
 namespace Sitana.Framework
 {
-    public static class SystemWrapper
+    public static class Platform
     {
         public static IsolatedStorageFile GetUserStoreForApplication()
         {

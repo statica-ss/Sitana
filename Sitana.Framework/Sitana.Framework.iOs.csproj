@@ -63,7 +63,7 @@
     <Folder Include="Media\" />
     <Folder Include="Misc\" />
     <Folder Include="Settings\" />
-    <Folder Include="System\" />
+    <Folder Include="Platform\" />
     <Folder Include="Ui\" />
     <Folder Include="Xml\" />
     <Folder Include="Graphics\Sprites\" />
@@ -72,6 +72,7 @@
     <Folder Include="Ui\Definitions\" />
     <Folder Include="GamerApi\" />
     <Folder Include="Diagnostics\" />
+    <Folder Include="Input\TextInput\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
@@ -89,7 +90,6 @@
     <Compile Include="Graphics\Fonts\Glyph.cs" />
     <Compile Include="Graphics\Fonts\UniversalFont.cs" />
     <Compile Include="Media\MusicController.cs" />
-    <Compile Include="Ui\Controllers\IIndexedElement.cs" />
     <Compile Include="Ui\Core\StylesContainer.cs" />
     <Compile Include="Ui\Core\StylesManager.cs" />
     <Compile Include="Ui\Core\UiUnit.cs" />
@@ -99,7 +99,6 @@
     <Compile Include="Ui\Views\Containers\UiListBox.cs" />
     <Compile Include="Ui\Views\Containers\UiScrollView.cs" />
     <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
-    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonCheckMark.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
     <Compile Include="Ui\TransitionEffects\TransitionEffect.cs" />
@@ -189,7 +188,6 @@
     <Compile Include="Misc\UuidGenerator.cs" />
     <Compile Include="Settings\Serializator.cs" />
     <Compile Include="Settings\SingletonSettings.cs" />
-    <Compile Include="System\SystemWrapper.Ios.cs" />
     <Compile Include="Ui\Controllers\UiController.cs" />
     <Compile Include="Ui\Controllers\UiNavigationController.cs" />
     <Compile Include="Ui\Core\AppMain.cs" />
@@ -221,5 +219,13 @@
     <Compile Include="Ui\Definitions\HorizontalAlignment.cs" />
     <Compile Include="Ui\Definitions\UiHelper.cs" />
     <Compile Include="Ui\Definitions\VerticalAlignment.cs" />
+    <Compile Include="Platform\Platform.Ios.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonImage.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonState.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\DrawButtonInfo.cs" />
+    <Compile Include="Ui\Views\ScrollingService.cs" />
+    <Compile Include="Input\TextInput\IFocusable.cs" />
+    <Compile Include="Input\TextInput\ITextConsumer.cs" />
+    <Compile Include="Input\TextInput\TextInputType.cs" />
   </ItemGroup>
 </Project>

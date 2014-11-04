@@ -26,6 +26,7 @@ namespace Sitana.Framework.Ui.Views
             file["Mode"] = parser.ParseEnum<Mode>("Mode");
             file["Reverse"] = parser.ParseBoolean("Reverse");
             file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
+			file["WheelScrollSpeed"] = parser.ParseFloat("WheelScrollSpeed");
 
             foreach (var cn in node.Nodes)
             {
@@ -94,11 +95,14 @@ namespace Sitana.Framework.Ui.Views
         ScrollingService.ExceedRule _rule = ScrollingService.ExceedRule.Allow;
 
         bool _reverse = false;
+		float _wheelSpeed = 0;
 
         protected override void OnAdded()
         {
+			Scroller.Mode mode = (_vertical ? Scroller.Mode.VerticalDrag | Scroller.Mode.VerticalWheel : Scroller.Mode.HorizontalDrag | Scroller.Mode.HorizontalWheel);
+
             _scrollingService = new ScrollingService(this, _rule);
-            _scroller = new Scroller(this, _vertical ? Scroller.Mode.VerticalDrag : Scroller.Mode.HorizontalDrag, _scrollingService );
+			_scroller = new Scroller(this, mode, _scrollingService, _wheelSpeed );
 
             base.OnAdded();
         }
@@ -138,6 +142,8 @@ namespace Sitana.Framework.Ui.Views
             _rule = DefinitionResolver.Get<ScrollingService.ExceedRule>(Controller, Binding, file["ExceedRule"], ScrollingService.ExceedRule.Allow);
 
             _reverse = DefinitionResolver.Get<bool>(Controller, Binding, file["Reverse"], false);
+
+			_wheelSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["WheelScrollSpeed"], 0);
         }
 
         protected override void Update(float time)

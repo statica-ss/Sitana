@@ -37,19 +37,11 @@
     </UiButton>
   </Style>
 
-  <Style Name="UiButtonSymbols">
-    <UiButton Width="64" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" ShowHideTime="0">
-      <UiButton.Drawables>
-        <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" />
-        <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Symbols" FontSize="8" Margin="0,0,1,4"/>
-      </UiButton.Drawables>
-    </UiButton>
-  </Style>
-
   <Style Name="LayerArrows">
-    <UiButton Width="32" Height="18" HorizontalAlignment="Left" VerticalAlignment="Center" ShowHideTime="0">
+    <UiButton Width="18" Height="18" HorizontalAlignment="Left" VerticalAlignment="Center" ShowHideTime="0">
       <UiButton.Drawables>
-        <button:Text ColorPushed="#ffffff" ColorReleased="#80ffffff" ColorDisabled="#20ffffff" Font="Symbols" FontSize="8" Margin="0,0,0,4"/>
+        <button:NinePatchBackground ColorPushed="#20ffffff" ColorReleased="#40ffffff" ColorDisabled="#10ffffff" Image="Button" />
+        <button:Text ColorPushed="#ffffff" ColorReleased="#80ffffff" ColorDisabled="#20ffffff" Font="Font" FontSize="8"/>
       </UiButton.Drawables>
     </UiButton>
   </Style>
@@ -118,6 +110,10 @@
 
   <Style Name="PropertyValue">
     <UiView X="@-15" Y="C" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+  </Style>
+
+  <Style Name="UiLabel">
+    <UiLabel Font="Font" FontSize="8" TextColor="#ffffff"/>
   </Style>
 
 </core:StylesContainer>

@@ -6,20 +6,19 @@
         xmlns:cmd="namespace:Sitana.Framework.Ui.DefinitionFiles.Commands,Sitana.Framework"
         Width="720" Height="480" MinWidth="720" MinHeight="480" BackgroundColor="#006080">
   <UiBorder.Children>
-    <UiBorder ClipChildren="true" BackgroundColor="#003040" X="348" Y="4" Width="@-352" Height="@-8" HorizontalAlignment="Left" VerticalAlignment="Top">
-      <UiBorder.Children />
-    </UiBorder>
+    
+    <cmd:IncludeView Path="EditView"/>
 
     <UiBorder BackgroundColor="#003040" X="4" Y="36" Width="340" Height="220" HorizontalAlignment="Left" VerticalAlignment="Top" Mode="Vertical"
     Controller="GameEditor.LayersListController,GameEditor">
       <UiBorder.Children>
         <UiRectangle Color="#20ffffff" Width="@-4" Height="20" X="2" Y="2" HorizontalAlignment="Left" VerticalAlignment="Top" />
         <UiLabel Style="Headers" X="8" Y="12" Text="Layers" />
-        <UiButton Style="UiButton" Width="" Text="+ Vector" HorizontalAlignment="Left" VerticalAlignment="Top" X="4" Y="28" Click="{AddVectorLayer()}" />
+        <UiButton Style="UiButton" Text="+ Vector" HorizontalAlignment="Left" VerticalAlignment="Top" X="4" Y="28" Click="{AddVectorLayer()}" />
         <UiButton Style="UiButton" Text="+ Tiled" HorizontalAlignment="Left" VerticalAlignment="Top" X="72" Y="28" Click="{AddTiledLayer()}" />
-        <UiButton Style="UiButtonSymbols" Width="24" Text="r" HorizontalAlignment="Right" VerticalAlignment="Top" X="@-4" Y="28" Click="{RemoveLayer()}" />
+        <UiButton Style="UiButton" Width="24" Text="-" HorizontalAlignment="Right" VerticalAlignment="Top" X="@-4" Y="28" Click="{RemoveLayer()}" />
         
-        <UiListBox Id="LayersList" Items="{Layers}" ClipChildren="true" VerticalAlignment="Top" Y="56" Height="@-60" Width="@" HorizontalAlignment="Left">
+        <UiListBox Id="LayersList" Items="{Layers}" WheelScrollSpeed="10" ClipChildren="true" VerticalAlignment="Top" Y="56" Height="@-60" Width="@" HorizontalAlignment="Left">
           <UiListBox.ItemTemplate>
             <UiBorder Height="32" Margin="4,4,4,4" BackgroundColor="255,255,255,32">
               <UiBorder.Children>
@@ -33,8 +32,8 @@
                 <UiLabel Text="{{Name}}" Font="Font" FontSize="8" X="4" Y="C" Width="@-132" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <UiLabel Text="{{Type}}" Font="Font" FontSize="8" X="@-128" Y="C" Width="64" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-                <UiButton Style="LayerArrows" X="@-64" Y="C" Text="6" Click="{MoveLayerDown(binding)}"/>
-                <UiButton Style="LayerArrows" X="@-44" Y="C" Text="5" Click="{MoveLayerUp(binding)}"/>
+                <UiButton Style="LayerArrows" X="@-64" Y="C" Text="D" Click="{MoveLayerDown(binding)}"/>
+                <UiButton Style="LayerArrows" X="@-44" Y="C" Text="U" Click="{MoveLayerUp(binding)}"/>
 
               </UiBorder.Children>
             </UiBorder>
@@ -50,7 +49,7 @@
     <UiRectangle Color="#20ffffff" Width="336" Height="20" X="6" Y="262" HorizontalAlignment="Left" VerticalAlignment="Top" />
     <UiRectangle Color="#ffa0a0" Width="336" Height="1" X="6" Y="282" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
-    <UiContentSlider Id="PropertiesSlider" X="4" Y="284" Width="340" Height="@-288" HorizontalAlignment="Left" VerticalAlignment="Top" BackgroundColor="#003040" ClipChildren="true" TransitionTime="250">
+    <UiContentSlider Controller="GameEditor.LayerPropertiesController,GameEditor" Id="PropertiesSlider" X="4" Y="284" Width="340" Height="@-288" HorizontalAlignment="Left" VerticalAlignment="Top" BackgroundColor="#003040" ClipChildren="true" TransitionTime="250">
       <UiContentSlider.ShowTransitionEffectNext>
         <effect:Group>
           <effect:Swype Horizontal="110%" Power="3"/>
@@ -81,10 +80,10 @@
 
       </UiButton.Drawables>
     </UiIndexSelector>
-
+    
     <cmd:IncludeView Path="Menu"/>
-    <cmd:IncludeView Path="MessageBox"/>
     <cmd:IncludeView Path="ModalDialog"/>
+    <cmd:IncludeView Path="MessageBox"/>
 
   </UiBorder.Children>
 </UiBorder>

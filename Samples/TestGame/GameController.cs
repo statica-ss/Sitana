@@ -25,7 +25,7 @@ namespace TestGame
         
         public void OpenLink(UiButton button)
         {
-            SystemWrapper.OpenWebsite(button.Text.StringValue);
+            Platform.OpenWebsite(button.Text.StringValue);
         }
     }
 }

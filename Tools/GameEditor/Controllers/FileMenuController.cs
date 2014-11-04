@@ -78,7 +78,7 @@ namespace GameEditor
         {
             UiTask.BeginInvoke(()=>
             {
-                string path = SystemWrapper.OpenFileDialog("Open file");
+                string path = Platform.OpenFileDialog("Open file");
 
                 if (path != null)
                 {
@@ -122,7 +122,7 @@ namespace GameEditor
         {
             if (Document.Instance.FilePath == null)
             {
-                string path = SystemWrapper.SaveFileDialog("Save file");
+                string path = Platform.SaveFileDialog("Save file");
 
                 if (path != null)
                 {
@@ -155,7 +155,7 @@ namespace GameEditor
         {
             UiTask.BeginInvoke(()=>
             {
-                string path = SystemWrapper.SaveFileDialog("Save file");
+                string path = Platform.SaveFileDialog("Save file");
 
                 if (path != null)
                 {

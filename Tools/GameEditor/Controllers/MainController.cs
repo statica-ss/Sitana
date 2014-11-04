@@ -27,6 +27,22 @@ namespace GameEditor
             }
         }
 
+        public SharedValue<bool> View150
+        {
+            get
+            {
+                return EditorSettings.Instance.View150Shared;
+            }
+        }
+
+        public SharedValue<bool> View125
+        {
+            get
+            {
+                return EditorSettings.Instance.View125Shared;
+            }
+        }
+
         public static void OnLoadContent(AppMain main)
         {
             using (Stream stream = ContentLoader.Current.Open("SampleTemplate.zip"))
@@ -36,8 +52,35 @@ namespace GameEditor
 
             Document.Current.New();
 
-            FontManager.Instance.AddSpriteFont("Font", "Font", 8);
-            FontManager.Instance.AddSpriteFont("Symbols", "Symbols", 8);
+            FontManager.Instance.AddSpriteFont("Font", "Font8", 8);
+            FontManager.Instance.AddSpriteFont("Font", "Font10", 10);
+            FontManager.Instance.AddSpriteFont("Font", "Font12", 12);
+
+            MakeBigger(EditorSettings.Instance.View125, EditorSettings.Instance.View150);
+        }
+
+        public static void MakeBigger(bool make125, bool make150)
+        {
+            if (make150)
+            {
+                UiUnit.Unit = 1.5f;
+                UiUnit.FontUnit = 1.5f;
+            }
+            else if (make125)
+            {
+                UiUnit.Unit = 1.25f;
+                UiUnit.FontUnit = 1.25f;
+            }
+            else
+            {
+                UiUnit.Unit = 1;
+                UiUnit.FontUnit = 1;
+            }
+
+            if (AppMain.Current.MainView != null)
+            {
+                AppMain.Current.MainView.RecalculateAll();
+            }
         }
 
         public MainController()
@@ -53,7 +96,7 @@ namespace GameEditor
 
         public void OpenLink(UiButton sender)
         {
-            SystemWrapper.OpenWebsite(sender.Text.StringValue);
+            Platform.OpenWebsite(sender.Text.StringValue);
         }
     }
 }

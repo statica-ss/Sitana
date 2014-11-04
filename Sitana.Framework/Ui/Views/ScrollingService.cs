@@ -37,6 +37,11 @@ namespace Sitana.Framework.Ui.Views
             AppMain.Current.UnregisterUpdatable(this);
         }
 
+        public void Process()
+        {
+            (this as IUpdatable).Update(0);
+        }
+
         void IUpdatable.Update(float time)
         {
             var bounds = ScrolledElement.ScreenBounds;

@@ -199,18 +199,26 @@ namespace Sitana.Framework.Graphics
 
         public void DrawImage(Texture2D texture, Point position, Point size, Point textureSrc, Color color)
         {
+            DrawImage(texture, position, size, textureSrc, 1, color);
+        }
+
+        public void DrawImage(Texture2D texture, Point position, Point size, Point textureSrc, float scale, Color color)
+        {
             if (texture != null)
             {
                 Texture = texture;
                 PrimitiveType = PrimitiveType.TriangleList;
 
-                PushVertex(new Vector2(position.X, position.Y), color, new Point(textureSrc.X, textureSrc.Y));
-                PushVertex(new Vector2(position.X + size.X, position.Y), color, new Point(textureSrc.X + size.X, textureSrc.Y));
-                PushVertex(new Vector2(position.X, position.Y + size.Y), color, new Point(textureSrc.X, textureSrc.Y+size.Y));
-                
-                PushVertex(new Vector2(position.X + size.X, position.Y), color, new Point(textureSrc.X + size.X, textureSrc.Y));
-                PushVertex(new Vector2(position.X, position.Y + size.Y), color, new Point(textureSrc.X, textureSrc.Y + size.Y));
-                PushVertex(new Vector2(position.X+size.X, position.Y+size.Y), color, new Point(textureSrc.X+size.X, textureSrc.Y+size.Y));
+				Vector2 tsizeTl = new Vector2((float)textureSrc.X / (float)texture.Width, (float)textureSrc.Y / (float)texture.Height);
+				Vector2 tsizeBr = new Vector2((float)(textureSrc.X + (float)size.X / scale) / (float)texture.Width, (float)(textureSrc.Y + (float)size.Y / scale) / (float)texture.Height);
+
+				PushVertex(new Vector2(position.X, position.Y), color, new Vector2(tsizeTl.X, tsizeTl.Y));
+				PushVertex(new Vector2(position.X + size.X, position.Y), color, new Vector2(tsizeBr.X, tsizeTl.Y));
+				PushVertex(new Vector2(position.X, position.Y + size.Y), color, new Vector2(tsizeTl.X, tsizeBr.Y));
+
+				PushVertex(new Vector2(position.X + size.X, position.Y), color, new Vector2(tsizeBr.X, tsizeTl.Y));
+				PushVertex(new Vector2(position.X, position.Y + size.Y), color, new Vector2(tsizeTl.X, tsizeBr.Y));
+				PushVertex(new Vector2(position.X + size.X, position.Y + size.Y), color, new Vector2(tsizeBr.X, tsizeBr.Y));
             }
             else
             {
