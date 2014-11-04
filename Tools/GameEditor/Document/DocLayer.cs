@@ -6,12 +6,13 @@ namespace GameEditor
 {
     public class DocLayer
     {
-        public SharedString Name { get; private set;}
-        public string Type { get; private set;}
+		public readonly SharedString Name = new SharedString();
 
-        public SharedValue<bool> Selected { get; private set;}
+		public readonly string Type;
 
-        public SharedValue<bool> NotSelected { get; private set;}
+		public readonly SharedValue<bool> Selected = new SharedValue<bool>();
+
+		public readonly SharedValue<bool> NotSelected = new SharedValue<bool>();
 
         protected Layer _layer = null;
 
@@ -19,10 +20,7 @@ namespace GameEditor
 
         public DocLayer(string type)
         {
-            Name = new SharedString();
             Type = type;
-            Selected = new SharedValue<bool>(false);
-            NotSelected = new SharedValue<bool>(false);
 
             Selected.ValueChanged += (bool newValue) => 
             {

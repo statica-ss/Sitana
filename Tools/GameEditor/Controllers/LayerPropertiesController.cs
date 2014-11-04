@@ -9,33 +9,22 @@ namespace GameEditor
     {
         DocLayer _layer;
 
-        public SharedString LayerName { get; private set; }
+		public readonly SharedString LayerName = new SharedString();
 
-        public SharedString LayerWidth { get; private set;}
-        public SharedString LayerHeight { get; private set;}
+		public readonly SharedString LayerWidth = new SharedString();
+		public readonly SharedString LayerHeight = new SharedString();
 
-        public SharedString LayerSpeedX{ get; private set;}
-        public SharedString LayerSpeedY { get; private set;}
+		public readonly SharedString LayerSpeedX = new SharedString();
+		public readonly SharedString LayerSpeedY = new SharedString();
 
-        public SharedValue<bool> ShowTiled { get; private set;}
-        public SharedValue<bool> ShowVector { get; private set;}
+		public readonly SharedValue<bool> ShowTiled = new SharedValue<bool>();
+		public readonly SharedValue<bool> ShowVector = new SharedValue<bool>();
 
-        public SharedValue<bool> TiledWidth { get; private set;}
-        public SharedValue<bool> TiledHeight { get; private set;}
+		public readonly SharedValue<bool> TiledWidth = new SharedValue<bool>();
+		public readonly SharedValue<bool> TiledHeight = new SharedValue<bool>();
 
         public LayerPropertiesController()
         {
-            LayerName = new SharedString();
-            LayerWidth = new SharedString();
-            LayerHeight = new SharedString();
-            LayerSpeedX = new SharedString();
-            LayerSpeedY = new SharedString();
-            ShowTiled = new SharedValue<bool>();
-            ShowVector = new SharedValue<bool>();
-
-            TiledWidth = new SharedValue<bool>();
-            TiledHeight = new SharedValue<bool>();
-
             TiledWidth.ValueChanged += (newValue) => 
             {
                 TiledLayer tiled = (_layer as DocTiledLayer).Layer;

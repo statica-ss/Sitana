@@ -8,9 +8,9 @@
     <UiBorder.Children>
       <UiStackPanel Mode="Horizontal" Height="16" Spacing="4" HorizontalAlignment="Right" X="@-4" VerticalAlignment="Bottom" Y="@-4">
         <UiStackPanel.Children>
-          <UiLabel Style="UiLabel" Width="128" Height="16" Text="100%" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-          <UiButton Style="UiButton" Width="24" Height="16" Text="-"/>
-          <UiButton Style="UiButton" Width="24" Height="16" Text="+"/>
+          <UiLabel Style="UiLabel" Width="128" Height="16" Text="{ZoomValue}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+          <UiButton Style="UiButton" Width="24" Height="16" Text="-" Click="{ZoomOut()}"/>
+          <UiButton Style="UiButton" Width="24" Height="16" Text="+"  Click="{ZoomIn()}"/>
         </UiStackPanel.Children>
       </UiStackPanel>
 

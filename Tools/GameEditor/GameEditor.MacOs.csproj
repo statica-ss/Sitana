@@ -99,6 +99,7 @@
     <Compile Include="Controllers\ModalDialogController.cs" />
     <Compile Include="Controllers\NewFileController.cs" />
     <Compile Include="Views\UiTilesetView.cs" />
+    <Compile Include="Controllers\EditViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.MacOs.csproj">
