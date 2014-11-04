@@ -40,6 +40,8 @@ namespace GameEditor
 
         IScrolledElement _scrollService;
 
+		float _scrollDirection = 0;
+
 		protected override void OnAdded()
 		{
 			TouchPad.Instance.AddListener(GestureType.Down | GestureType.Move | GestureType.Up, this);
@@ -188,6 +190,12 @@ namespace GameEditor
         {
             base.Update(time);
             UpdateSize();
+
+			if (_touchId != 0 && _scrollDirection != 0)
+			{
+				_scrollService.ScrollingService.ScrollPositionY += time * _scrollDirection * 10;
+				_scrollService.ScrollingService.Process();
+			}
         }
 
 		protected override void OnGesture(Gesture gesture)
@@ -208,7 +216,11 @@ namespace GameEditor
                     _origin = null;
 
 					Select(gesture);
-                    _origin = _selection.Value.Location;
+
+					if (_selection.HasValue)
+					{
+						_origin = _selection.Value.Location;
+					}
 				}
 
 				break;
@@ -242,19 +254,28 @@ namespace GameEditor
 
 		void Select(Gesture gesture)
 		{
+			_scrollDirection = 0;
+
             if ( _touchId != 0 )
             {
                 Rectangle psb = Parent.ScreenBounds;
 
                 if ( gesture.Position.Y > psb.Bottom )
                 {
-                    _scrollService.ScrollingService.ScrollPositionY += gesture.Position.Y - psb.Bottom;
-                    _scrollService.ScrollingService.Process();
+					_scrollDirection = gesture.Position.Y - psb.Bottom;
+					if (_scrollDirection > 32)
+					{
+						_scrollDirection = 32;
+					}
                 }
                 else if ( gesture.Position.Y < psb.Top )
                 {
-                    _scrollService.ScrollingService.ScrollPositionY -= psb.Top - gesture.Position.Y;
-                    _scrollService.ScrollingService.Process();
+					_scrollDirection = gesture.Position.Y - psb.Top;
+
+					if (_scrollDirection < -32)
+					{
+						_scrollDirection = -32;
+					}
                 }
             }
 

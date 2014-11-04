@@ -26,38 +26,60 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return context;
             }
 
+			int[] indices = null;
+
+			if (field.Parameters != null)
+			{
+				indices = new int[field.Parameters.Length];
+
+				for (int idx = 0; idx < indices.Length; ++idx)
+				{
+					indices[idx] = (int)ObtainParameter(invokeParameters, field.Parameters[idx]);
+				}
+			}
+
             PropertyInfo info = context.GetType().GetProperty(field.Name);
 
-            int[] indices = null;
+			if (info != null)
+			{
+				object value = info.GetValue(context, null);
 
-            if (field.Parameters != null)
-            {
-                indices = new int[field.Parameters.Length];
+				if (indices != null)
+				{
+					if (value is Array)
+					{
+						return (value as Array).GetValue(indices);
+					}
 
-                for (int idx = 0; idx < indices.Length; ++idx)
-                {
-                    indices[idx] = (int)ObtainParameter(invokeParameters, field.Parameters[idx]);
-                }
-            }
+					throw new Exception(String.Format("Value is not an array: {0}[{1}]", field.Name, indices.ToString()));
+				} else
+				{
+					return value;
+				}
+			}
+			else
+			{
+				FieldInfo finfo = context.GetType().GetField(field.Name);
 
-            if ( info != null )
-            {
-                object value = info.GetValue(context, null);
+				if (finfo != null)
+				{
+					object value = finfo.GetValue(context);
 
-                if (indices != null)
-                {
-                    if (value is Array)
-                    {
-                        return (value as Array).GetValue(indices);
-                    }
+					if (indices != null)
+					{
+						if (value is Array)
+						{
+							return (value as Array).GetValue(indices);
+						}
 
-                    throw new Exception(String.Format("Value is not an array: {0}[{1}]", field.Name, indices.ToString()));
-                }
-                else
-                {
-                    return value;
-                }
-            }
+						throw new Exception(String.Format("Value is not an array: {0}[{1}]", field.Name, indices.ToString()));
+					} 
+					else
+					{
+						return value;
+					}
+				}
+			}
 
             throw new Exception(String.Format("Cannot find field: {0}{1}", field.Name, indices != null ? '['+indices.ToString()+']' : ""));
         }
