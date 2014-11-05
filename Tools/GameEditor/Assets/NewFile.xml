@@ -3,17 +3,17 @@
     xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
     xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
     xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework" ShowTime="200" HideTime="200">
-  <UiView.ShowTransitionEffect>
+  <UiView.ParentShowTransitionEffect>
     <effect:Group>
       <effect:Swype Vertical="480"/>
       <effect:Vanish Power="2"/>
     </effect:Group>
-  </UiView.ShowTransitionEffect>
-  <UiView.HideTransitionEffect>
+  </UiView.ParentShowTransitionEffect>
+  <UiView.ParentHideTransitionEffect>
     <effect:Group>
       <effect:Vanish/>
     </effect:Group>
-  </UiView.HideTransitionEffect>
+  </UiView.ParentHideTransitionEffect>
   <UiPage.Content>
     <UiBorder>
       <UiBorder.Children>

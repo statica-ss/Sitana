@@ -9,7 +9,6 @@ namespace Sitana.Framework.Ui.Views
     {
         None,
         Hide,
-        Show,
-        Visible
+        Show
     }
 }

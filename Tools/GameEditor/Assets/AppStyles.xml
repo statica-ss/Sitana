@@ -61,7 +61,7 @@
   </Style>
 
   <Style Name="UiScrollBar">
-    <UiScrollBar Mode="Vertical" Width="15" HorizontalAlignment="Right">
+    <UiScrollBar Mode="Vertical" X="@" Width="15" HorizontalAlignment="Right">
       <UiScrollBar.TrackDrawables>
         <button:NinePatchBackground ColorPushed="#60ffffff" ColorReleased="#60ffa0a0" Image="Button" Scale="0.3" Margin="6,0,5,0"/>
       </UiScrollBar.TrackDrawables>
