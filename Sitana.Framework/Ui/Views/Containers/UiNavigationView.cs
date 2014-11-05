@@ -33,7 +33,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 var child = _children[idx] as UiPage;
 
-                if (child.PageStatus == UiPage.Status.Done)
+                if (child.DisplayVisibility == 0 && child.Visible.Value == false )
                 {
                     _children.RemoveAt(idx);
                     child.ViewRemoved();
@@ -125,7 +125,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
         {
-            float opacity = DisplayOpacity * parameters.Opacity;
+            float opacity = parameters.Opacity;
 
             if (opacity == 0)
             {
@@ -147,13 +147,7 @@ namespace Sitana.Framework.Ui.Views
             for (int idx = 0; idx < _children.Count; ++idx)
             {
                 UiPage page = _children[idx] as UiPage;
-
-                UiViewDrawParameters drawParams = parameters;
-                drawParams.Opacity = opacity;
-                drawParams.Transition = page.Transition;
-                drawParams.TransitionRectangle = page.ScreenBounds;
-                drawParams.TransitionModeHide = page.PageStatus == UiPage.Status.Hide;
-                page.ViewDraw(ref drawParams);
+                page.ViewDraw(ref parameters);
             }
 
             if (_clipChildren)

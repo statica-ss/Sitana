@@ -4,8 +4,12 @@
         xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
         xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
         xmlns:cmd="namespace:Sitana.Framework.Ui.DefinitionFiles.Commands,Sitana.Framework"
+        xmlns:editor="namespace:GameEditor.Views,GameEditor"
         ClipChildren="true" BackgroundColor="#003040" X="348" Y="4" Width="@-352" Height="@-8" HorizontalAlignment="Left" VerticalAlignment="Top">
     <UiBorder.Children>
+
+      <editor:UiEditView/>
+      
       <UiStackPanel Mode="Horizontal" Height="16" Spacing="4" HorizontalAlignment="Right" X="@-4" VerticalAlignment="Bottom" Y="@-4">
         <UiStackPanel.Children>
           <UiLabel Style="UiLabel" Width="128" Height="16" Text="{ZoomValue}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
@@ -16,8 +20,8 @@
 
       <UiStackPanel Mode="Vertical" Width="128" HorizontalAlignment="Left" X="4" VerticalAlignment="Bottom" Y="@">
         <UiStackPanel.Children>
-          <UiLabel Style="UiLabel" Height="16" Text="12, 12" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"/>
-          <UiLabel Style="UiLabel" Height="16" Text="34.5, 34.1" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"/>
+          <UiLabel Style="UiLabel" Height="16" Text="{TileCoordinates}" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"/>
+          <UiLabel Style="UiLabel" Height="16" Text="{WorldCoordinates}" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"/>
         </UiStackPanel.Children>
       </UiStackPanel>
       

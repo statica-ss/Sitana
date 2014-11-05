@@ -23,6 +23,9 @@ namespace GameEditor
 		public readonly SharedValue<bool> TiledWidth = new SharedValue<bool>();
 		public readonly SharedValue<bool> TiledHeight = new SharedValue<bool>();
 
+        public readonly SharedValue<bool> Select = new SharedValue<bool>();
+        public readonly SharedValue<bool> Eraser = new SharedValue<bool>();
+
         public LayerPropertiesController()
         {
             TiledWidth.ValueChanged += (newValue) => 
@@ -36,6 +39,22 @@ namespace GameEditor
                 TiledLayer tiled = (_layer as DocTiledLayer).Layer;
                 tiled.TiledHeight = newValue;
             };
+
+            Select.ValueChanged += (val) =>
+                {
+                    if (val)
+                    {
+                        new Tools.Select();
+                    }
+                };
+
+            Eraser.ValueChanged += (val) =>
+            {
+                if (val)
+                {
+                    new Tools.Select();
+                }
+            };
         }
 
         protected override void Update(float time)
@@ -45,6 +64,9 @@ namespace GameEditor
                 _layer = Document.Instance.SelectedLayer;
                 UpdateProperties();
             }
+
+            Select.Value = Tools.Tool.Current is Tools.Select;
+            Eraser.Value = false;
         }
 
         public string OnApplyLayerName(string text)

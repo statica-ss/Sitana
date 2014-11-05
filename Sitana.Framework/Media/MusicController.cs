@@ -55,8 +55,6 @@ namespace Sitana.Framework.Content
             thread.Start();
         }
 
-        
-
         public void OnDeactivate()
         {
 

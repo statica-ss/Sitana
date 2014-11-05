@@ -3,15 +3,15 @@
     xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
     xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
     xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
-    xmlns:editor="namespace:GameEditor,GameEditor"
+    xmlns:editor="namespace:GameEditor.Views,GameEditor"
     Tag="Insert">
   <UiBorder.Children>
 
-    <UiBorder Visible="{ShowTiled}">
+    <UiBorder Visible="{ShowTiled}" ShowHideTime="0">
       <UiBorder.Children>
         <UiScrollView Id="TilesetView" Mode="VerticalWheel" WheelScrollSpeed="10" Margin="0,5,0,32" ClipChildren="true" X="5" Width="320" HorizontalAlignment="Left" ExceedRule="Forbid">
           <UiScrollView.Children>
-            <editor:UiTilesetView Y="0" VerticalAlignment="Top" BackgroundColor="0, 90,120" SelectionColor="255,0,0,80"/>
+            <editor:UiTilesetView Y="0" VerticalAlignment="Top" HorizontalAlignment="Right" BackgroundColor="64,128,160" SelectionColor="255,0,0,80"/>
           </UiScrollView.Children>
         </UiScrollView>
 
@@ -19,8 +19,8 @@
 
         <UiStackPanel Mode="Horizontal" Padding="5" Spacing="4" Y="@-32" VerticalAlignment="Top" Height="32">
           <UiStackPanel.Children>
-            <UiCheckBox Style="UiCheckBox" Text="Select"/>
-            <UiCheckBox Style="UiCheckBox" Text="Eraser"/>
+            <UiCheckBox Style="UiCheckBox" Text="Select" Checked="{Select}"/>
+            <UiCheckBox Style="UiCheckBox" Text="Eraser" Checked="{Eraser}"/>
           </UiStackPanel.Children>
         </UiStackPanel>
 

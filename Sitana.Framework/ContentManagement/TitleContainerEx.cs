@@ -4,6 +4,9 @@
 
 using System;
 using System.IO;
+using Microsoft.Xna.Framework;
+
+
 #if WINRT
 using System.Threading.Tasks;
 #elif IOS
@@ -97,17 +100,7 @@ namespace Sitana.Framework.Content
             return true;
 
 #elif ANDROID
-            try
-            {
-                using(var stream = Game.Activity.Assets.Open(safeName))
-                {
-                    return true;
-                }
-            }
-            catch
-            {
-                return false;
-            }
+			return false;
 #elif IOS
             var absolutePath = Path.Combine(Location, safeName);
             return File.Exists(absolutePath);

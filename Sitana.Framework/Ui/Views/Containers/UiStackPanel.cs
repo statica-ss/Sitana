@@ -138,7 +138,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 var child = _children[idx];
 
-                if (child.DisplayOpacity > 0)
+                if (child.DisplayVisibility > 0)
                 {
                     if ( size > _padding.Compute())
                     {
@@ -286,7 +286,7 @@ namespace Sitana.Framework.Ui.Views
             _tempChildren.Clear();
             for(int idx = 0; idx < _children.Count; ++idx)
             {
-                if ( _children[idx].DisplayOpacity > 0 )
+                if ( _children[idx].DisplayVisibility > 0 )
                 {
                     _tempChildren.Add(_children[idx]);
                 }

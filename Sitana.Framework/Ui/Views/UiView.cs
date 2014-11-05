@@ -95,6 +95,42 @@ namespace Sitana.Framework.Ui.Views
 
                     file["HideTransitionEffect"] = DefinitionFile.LoadFile(cn.Nodes[0]);
                 }
+
+                if (cn.Tag == "UiView.ParentShowTransitionEffect")
+                {
+                    if (cn.Nodes.Count != 1)
+                    {
+                        string error = node.NodeError("UiView.NavigateToTransitionEffect must have exactly 1 child.");
+                        if (DefinitionParser.EnableCheckMode)
+                        {
+                            ConsoleEx.WriteLine(error);
+                        }
+                        else
+                        {
+                            throw new Exception(error);
+                        }
+                    }
+
+                    file["ParentShowTransitionEffect"] = DefinitionFile.LoadFile(cn.Nodes[0]);
+                }
+
+                if (cn.Tag == "UiView.ParentHideTransitionEffect")
+                {
+                    if (cn.Nodes.Count != 1)
+                    {
+                        string error = node.NodeError("UiView.NavigateFromTransitionEffect must have exactly 1 child.");
+                        if (DefinitionParser.EnableCheckMode)
+                        {
+                            ConsoleEx.WriteLine(error);
+                        }
+                        else
+                        {
+                            throw new Exception(error);
+                        }
+                    }
+
+                    file["ParentHideTransitionEffect"] = DefinitionFile.LoadFile(cn.Nodes[0]);
+                }
             }
         }
 
@@ -182,8 +218,8 @@ namespace Sitana.Framework.Ui.Views
         protected Length _minWidth;
         protected Length _minHeight;
 
-        float _showSpeed;
-        float _hideSpeed;
+        protected float _showSpeed;
+        protected float _hideSpeed;
 
         protected Rectangle _bounds = new Rectangle();
 
@@ -193,6 +229,9 @@ namespace Sitana.Framework.Ui.Views
 
         protected TransitionEffect _showTransitionEffect = null;
         protected TransitionEffect _hideTransitionEffect = null;
+
+        internal TransitionEffect _parentShowTransitionEffect = null;
+        internal TransitionEffect _parentHideTransitionEffect = null;
 
         protected bool _enableGestureHandling = false;
 
@@ -248,7 +287,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public float DisplayOpacity { get; protected set; }
+        public virtual float DisplayVisibility { get; protected set; }
 
         private ColorWrapper _backgroundColor = new ColorWrapper(Color.Transparent);
         private InvokeParameters _invokeParameters = new InvokeParameters();
@@ -289,20 +328,55 @@ namespace Sitana.Framework.Ui.Views
         {
             _enableGestureHandling = Visible.Value && Math.Abs(parameters.Transition) < 0.000001;
 
-            TransitionEffect transitionEffect = parameters.TransitionModeHide ? _hideTransitionEffect : _showTransitionEffect;
+            if (DisplayVisibility == 0)
+            {
+                return;
+            }
 
-            if (transitionEffect != null)
+            TransitionEffect transitionEffect = null;
+            TransitionEffect transitionEffectShowHide = null;
+
+            switch (parameters.TransitionMode)
+            {
+                case TransitionMode.Show:
+                    transitionEffect = _parentShowTransitionEffect;
+                    break;
+
+                case TransitionMode.Hide:
+                    transitionEffect = _parentHideTransitionEffect;
+                    break;
+
+                case TransitionMode.None:
+                    transitionEffectShowHide = DisplayVisibility == 1 ? null : (Visible.Value ? _showTransitionEffect : _hideTransitionEffect);
+                    break;
+            }
+
+            if (transitionEffect != null || transitionEffectShowHide != null)
             {
                 UiViewDrawParameters drawParameters = parameters;
 
                 float opacity;
                 Matrix transform;
 
-                transitionEffect.Get(drawParameters.Transition, parameters.TransitionRectangle, ScreenBounds, out transform, out opacity);
+                Matrix targetTransform = Matrix.Identity;
+                float targetOpacity = 1;
 
-                drawParameters.Opacity *= opacity;
+                if (transitionEffect != null)
+                {
+                    transitionEffect.Get(parameters.Transition, parameters.TransitionRectangle, ScreenBounds, out transform, out opacity);
+                    targetOpacity *= opacity;
+                    targetTransform *= transform;
+                }
 
-                drawParameters.DrawBatch.PushTransform(transform);
+                if (transitionEffectShowHide != null)
+                {
+                    transitionEffectShowHide.Get(1 - DisplayVisibility, Parent != null ? Parent.ScreenBounds : ScreenBounds, ScreenBounds, out transform, out opacity);
+                    targetOpacity *= opacity;
+                    targetTransform *= transform;
+                }
+
+                drawParameters.DrawBatch.PushTransform(targetTransform);
+                drawParameters.Opacity *= Opacity * targetOpacity;
 
                 Draw(ref drawParameters);
 
@@ -310,7 +384,9 @@ namespace Sitana.Framework.Ui.Views
             }
             else
             {
-                Draw(ref parameters);
+                UiViewDrawParameters drawParameters = parameters;
+                drawParameters.Opacity *= DisplayVisibility * Opacity;
+                Draw(ref drawParameters);
             }
         }
 
@@ -323,22 +399,22 @@ namespace Sitana.Framework.Ui.Views
                 _controller.UpdateInternal(time);
             }
 
-            float opacity = Visible.Value ? Opacity : 0;
+            float opacity = Visible.Value ? 1 : 0;
 
-            bool visible = DisplayOpacity > 0;
+            bool visible = DisplayVisibility > 0;
 
-            if ( DisplayOpacity < opacity )
+            if (DisplayVisibility < opacity)
             {
-                DisplayOpacity += _showSpeed * time;
-                DisplayOpacity = Math.Min(DisplayOpacity, opacity);
+                DisplayVisibility += _showSpeed * time;
+                DisplayVisibility = Math.Min(DisplayVisibility, opacity);
             }
-            else if ( DisplayOpacity > opacity )
+            else if (DisplayVisibility > opacity)
             {
-                DisplayOpacity -= _hideSpeed * time;
-                DisplayOpacity = Math.Max(DisplayOpacity, opacity);
+                DisplayVisibility -= _hideSpeed * time;
+                DisplayVisibility = Math.Max(DisplayVisibility, opacity);
             }
 
-            if ( visible != DisplayOpacity > 0)
+            if (visible != DisplayVisibility > 0)
             {
                 if ( Parent != null )
                 {
@@ -394,7 +470,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected virtual void Draw(ref UiViewDrawParameters parameters)
         {
-            float opacity = DisplayOpacity * parameters.Opacity;
+            float opacity = parameters.Opacity;
 
             if (opacity == 0)
             {
@@ -469,10 +545,7 @@ namespace Sitana.Framework.Ui.Views
             int opacity = DefinitionResolver.Get<int>(Controller, binding, file["Opacity"], 100);
             Opacity = (float)opacity / 100.0f;
 
-            if (Visible.Value)
-            {
-                DisplayOpacity = Opacity;
-            }
+            DisplayVisibility = Visible.Value ? 1 : 0;
 
             BackgroundColor = DefinitionResolver.GetColor(Controller, binding, file["BackgroundColor"]) ?? Color.Transparent;
 
@@ -515,6 +588,8 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFile showTransitionEffectFile = file["ShowTransitionEffect"] as DefinitionFile;
             DefinitionFile hideTransitionEffectFile = file["HideTransitionEffect"] as DefinitionFile;
+            DefinitionFile parentShowTransitionEffectFile = file["ParentShowTransitionEffect"] as DefinitionFile;
+            DefinitionFile parentHideTransitionEffectFile = file["ParentHideTransitionEffect"] as DefinitionFile;
 
             if (showTransitionEffectFile != null)
             {
@@ -524,6 +599,16 @@ namespace Sitana.Framework.Ui.Views
             if (hideTransitionEffectFile != null)
             {
                 _hideTransitionEffect = hideTransitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+            }
+
+            if (parentShowTransitionEffectFile != null)
+            {
+                _parentShowTransitionEffect = parentShowTransitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+            }
+
+            if (parentHideTransitionEffectFile != null)
+            {
+                _parentHideTransitionEffect = parentHideTransitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
             }
         }
 

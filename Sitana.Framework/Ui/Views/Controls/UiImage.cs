@@ -29,7 +29,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
-            float opacity = DisplayOpacity * parameters.Opacity;
+            float opacity = parameters.Opacity;
 
             if (opacity == 0)
             {

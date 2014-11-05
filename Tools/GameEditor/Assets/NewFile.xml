@@ -3,21 +3,21 @@
     xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
     xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
     xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework" ShowTime="200" HideTime="200">
-  <UiView.ShowTransitionEffect>
+  <UiView.ParentShowTransitionEffect>
     <effect:Group>
       <effect:Swype Vertical="480"/>
       <effect:Vanish Power="2"/>
     </effect:Group>
-  </UiView.ShowTransitionEffect>
-  <UiView.HideTransitionEffect>
+  </UiView.ParentShowTransitionEffect>
+  <UiView.ParentHideTransitionEffect>
     <effect:Group>
       <effect:Vanish/>
     </effect:Group>
-  </UiView.HideTransitionEffect>
+  </UiView.ParentHideTransitionEffect>
   <UiPage.Content>
     <UiBorder>
       <UiBorder.Children>
-        <UiBorder Width="480" Height="256" X="C" Y="C" VerticalAlignment="Center" HorizontalAlignment="Center" Color="#006080">
+        <UiBorder Width="480" Height="256" VerticalAlignment="Center" HorizontalAlignment="Center" Color="#006080">
           <UiBorder.Children>
 
             <UiRectangle VerticalAlignment="Center" HorizontalAlignment="Center" Color="#003040" Width="@-4" Height="@-4" X="C" Y="C"/>
