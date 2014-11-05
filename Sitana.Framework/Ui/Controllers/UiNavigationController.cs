@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Sitana.Framework.Content;
+using Sitana.Framework.Input.GamePad;
+using Microsoft.Xna.Framework.Input;
 
 namespace Sitana.Framework.Ui.Controllers
 {
@@ -59,6 +61,21 @@ namespace Sitana.Framework.Ui.Controllers
         public void NavigateBack(string anchor)
         {
             Navigation.NavigateBack(anchor);
+        }
+
+        protected override void Update(float time)
+        {
+			if ( View.DisplayVisibility == 1 && GamePads.Instance[0].ButtonState(Buttons.Back) == GamePadButtonState.Pressed)
+            {
+                OnBack();
+            }
+
+            base.Update(time);
+        }
+
+        protected virtual void OnBack()
+        {
+            NavigateBack();
         }
     }
 }

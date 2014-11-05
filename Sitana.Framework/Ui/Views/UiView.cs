@@ -237,6 +237,8 @@ namespace Sitana.Framework.Ui.Views
 
         public SharedString Tag { get; private set;}
 
+		bool _updateController = false;
+
         public bool IsPointInsideView(Vector2 point)
         {
             bool ret = ScreenBounds.Contains(point);
@@ -394,7 +396,7 @@ namespace Sitana.Framework.Ui.Views
         {
             _enableGestureHandling = false;
 
-            if (_controller != null)
+			if ( _updateController && _controller != null)
             {
                 _controller.UpdateInternal(time);
             }
@@ -513,6 +515,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 _controller = value;
                 _controller.AttachView(this);
+				_updateController = true;
             }
         }
 

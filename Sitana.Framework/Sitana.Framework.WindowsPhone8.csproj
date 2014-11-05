@@ -65,6 +65,9 @@
     <Compile Include="ContentManagement\ZipContentManager.cs" />
     <Compile Include="ContentManagement\ZipFile.cs" />
     <Compile Include="Graphics\Textures\PartialTexture2D.cs" />
+    <Compile Include="Input\GamePad\GamePadButtonState.cs" />
+    <Compile Include="Input\GamePad\GamePad.cs" />
+    <Compile Include="Input\GamePad\GamePads.cs" />
     <Compile Include="Misc\RemoteConsoleClient.WindowsPhone.cs" />
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
