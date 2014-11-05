@@ -1,10 +1,11 @@
 # Version 1.0
 
-- [ ] Platforms
+- [X] Platforms
   - [X] iOS
   - [X] Windows.XNA
   - [X] Android
   - [X] Windows Phone
+  - [X] Mac OS
 
 - [ ] Content Types
   - [X] 3D Models
