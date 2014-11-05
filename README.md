@@ -8,7 +8,7 @@ Sitana Framework is multiple platform Games (and Apps) framework based on MonoGa
 * MacOS
 * iOS
 * Android
-* Windows Phone 8 (soon)
+* Windows Phone 8
 * Windows (DirectX) (soon)
 
 ## Quick Start
