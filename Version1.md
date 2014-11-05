@@ -45,3 +45,11 @@
   - [X] Font generator
   - [X] Model converter
   - [ ] Platform Editor
+
+- [ ] Samples
+  - [X] Windows.XNA
+  - [X] iOS
+  - [X] Mac OS
+  - [ ] Android
+  - [ ] Windows Phone
+  
