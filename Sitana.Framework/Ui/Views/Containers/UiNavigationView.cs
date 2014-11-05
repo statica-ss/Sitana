@@ -125,7 +125,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
         {
-            float opacity = DisplayOpacity * parameters.Opacity;
+            float opacity = parameters.Opacity;
 
             if (opacity == 0)
             {
@@ -152,7 +152,9 @@ namespace Sitana.Framework.Ui.Views
                 drawParams.Opacity = opacity;
                 drawParams.Transition = page.Transition;
                 drawParams.TransitionRectangle = page.ScreenBounds;
-                drawParams.TransitionModeHide = page.PageStatus == UiPage.Status.Hide;
+                drawParams.TransitionMode = page.PageStatus == UiPage.Status.Visible ? TransitionMode.Visible :
+                    (page.PageStatus == UiPage.Status.Show ? TransitionMode.Show : TransitionMode.Hide);
+
                 page.ViewDraw(ref drawParams);
             }
 

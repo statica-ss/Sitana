@@ -27,6 +27,8 @@ namespace GameEditor
 
         public bool IsModified { get; private set;}
 
+        public event EmptyArgsVoidDelegate LayerSelectionChanged;
+
         public DocLayer SelectedLayer
         {
             get
@@ -144,6 +146,11 @@ namespace GameEditor
             }
 
             layer.Selected.Value = true;
+
+            if (LayerSelectionChanged != null)
+            {
+                LayerSelectionChanged();
+            }
         }
     }
 }

@@ -32,7 +32,7 @@
         <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" ColorDisabled="#80800000" Image="Button" ScaleByUnit="true"/>
         <button:Text ColorPushed="#ffffff" ColorReleased="#ffa0a0" ColorDisabled="#80909090" Font="Font" FontSize="8" HorizontalContentAlignment="Right" Margin="4"/>
         <button:Image Style="ChangeTime" ColorPushed="#40ffffff" ColorReleased="#40000000" Checked="false" Image="CheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4"/>
-        <button:Image Style="ChangeTime" ColorPushed="#ffffff" ColorReleased="#ffc0c0" Checked="true" Image="CheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4"/>
+        <button:Image Style="ChangeTime" ColorPushed="#80ffffff" ColorReleased="#ffc0c0" Checked="true" Image="CheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4"/>
       </UiButton.Drawables>
     </UiCheckBox>
   </Style>

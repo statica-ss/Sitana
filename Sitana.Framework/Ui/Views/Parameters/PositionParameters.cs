@@ -49,6 +49,34 @@ namespace Sitana.Framework.Ui.Views
 
             X = DefinitionResolver.Get<Length>(controller, binding, file["X"], Length.Default);
             Y = DefinitionResolver.Get<Length>(controller, binding, file["Y"], Length.Default);
+
+            if (X.IsAuto)
+            {
+                switch (HorizontalAlignment)
+                {
+                    case Ui.HorizontalAlignment.Center:
+                        X = new Length(0, 0.5);
+                        break;
+
+                    case Ui.HorizontalAlignment.Right:
+                        X = new Length(0, 1);
+                        break;
+                }
+            }
+
+            if (Y.IsAuto)
+            {
+                switch (VerticalAlignment)
+                {
+                    case Ui.VerticalAlignment.Center:
+                        Y = new Length(0, 0.5);
+                        break;
+
+                    case Ui.VerticalAlignment.Bottom:
+                        Y = new Length(0, 1);
+                        break;
+                }
+            }
         }
     }
 }

@@ -16,8 +16,8 @@
 
       <UiStackPanel Mode="Vertical" Width="128" HorizontalAlignment="Left" X="4" VerticalAlignment="Bottom" Y="@">
         <UiStackPanel.Children>
-          <UiLabel Style="UiLabel" Height="16" Text="12, 12" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"/>
-          <UiLabel Style="UiLabel" Height="16" Text="34.5, 34.1" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"/>
+          <UiLabel Style="UiLabel" Height="16" Text="{TileCoordinates}" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"/>
+          <UiLabel Style="UiLabel" Height="16" Text="{WorldCoordinates}" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"/>
         </UiStackPanel.Children>
       </UiStackPanel>
       

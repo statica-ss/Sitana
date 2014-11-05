@@ -35,6 +35,8 @@ namespace GameEditor
 		int _touchId = 0;
 
         Point? _origin;
+        int _tileSize = 32;
+        float _scale = 1;
 
 		ColorWrapper _selectionColor;
 
@@ -74,8 +76,6 @@ namespace GameEditor
 
             if (layer is DocTiledLayer)
             {
-                Visible.Value = true;
-
                 Texture2D tileset = CurrentTemplate.Instance.Tileset((layer.Layer as TiledLayer).Tileset).Item2;
 
                 if ( tileset != _currentTileset )
@@ -87,7 +87,6 @@ namespace GameEditor
             }
             else
             {
-                Visible.Value = false;
                 _currentTileset = null;
                 size = 1;
             }
@@ -101,7 +100,7 @@ namespace GameEditor
 
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
-            float opacity = DisplayOpacity * parameters.Opacity;
+            float opacity = parameters.Opacity;
 
             if (opacity == 0)
             {
@@ -112,16 +111,14 @@ namespace GameEditor
             {
                 Rectangle sb = ScreenBounds;
 
-                float width = _currentTileset.Width / _divideWidth;
+                int width = _currentTileset.Width / _divideWidth;
+                float scale = _scale;
 
-                float scale = sb.Width / width;
-
-                float ww = (int)(scale * width);
-                scale = ww / width;
+                int ww = (int)(scale * width);
 
                 Point size = new Point((int)ww, (int)(_currentTileset.Height * scale));
 
-                parameters.DrawBatch.DrawRectangle(new Rectangle(sb.X, sb.Y, (int)ww, sb.Height), BackgroundColor);
+                parameters.DrawBatch.DrawRectangle(new Rectangle(sb.X, sb.Y, (int)ww, (int)Math.Ceiling(_currentTileset.Height * scale * _divideWidth)), BackgroundColor);
 
                 SamplerState oldSampler = parameters.DrawBatch.SamplerState;
                 parameters.DrawBatch.SamplerState = SamplerState.PointClamp;
@@ -129,7 +126,7 @@ namespace GameEditor
                 for (int idx = 0; idx < _divideWidth; ++idx)
                 {
                     Point target = sb.Location;
-                    target.Y += (int)(scale * _currentTileset.Height) * idx;
+                    target.Y += size.Y * idx;
 
                     Point source = Point.Zero;	
                     source.X += (int)width * idx;
@@ -141,7 +138,7 @@ namespace GameEditor
 
 				if ( _selection.HasValue )
 				{
-					float tileSize = CurrentTemplate.Instance.TileSize * scale;
+                    float tileSize = _tileSize;
 
 					Rectangle selection = sb;
 
@@ -160,10 +157,16 @@ namespace GameEditor
         {
             if (_currentTileset != null)
             {
-                float texWidth = _currentTileset.Width / _divideWidth;
-                float scale = width / texWidth;
+                int tileSize = CurrentTemplate.Instance.TileSize;
+                int texWidth = _currentTileset.Width / _divideWidth;
 
-                var size = new Point(width, (int)(_currentSize * scale + 1));
+                _scale = (float)width / (float)texWidth;
+                _tileSize = (int)(tileSize * _scale);
+                _scale = (float)_tileSize / (float)tileSize;
+
+                width = (int)(texWidth * _scale);
+
+                var size = new Point(width, (int)(_currentSize * _scale + 1));
                 return size;
             }
             return new Point(width, 1);
@@ -182,6 +185,12 @@ namespace GameEditor
             {
                 throw new Exception("Invalid tileset! Cannot divide width properly.");
             }
+
+            float texWidth = (float)tileset.Width / (float)_divideWidth;
+
+            _scale = (float)Bounds.Width / texWidth;
+            _tileSize = (int)(tileSize * _scale);
+            _scale = (float)_tileSize / (float)tileSize;
 
             return tileset.Height * _divideWidth;
         }

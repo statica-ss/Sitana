@@ -248,7 +248,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public float DisplayOpacity { get; protected set; }
+        public float DisplayVisibility { get; protected set; }
 
         private ColorWrapper _backgroundColor = new ColorWrapper(Color.Transparent);
         private InvokeParameters _invokeParameters = new InvokeParameters();
@@ -289,7 +289,31 @@ namespace Sitana.Framework.Ui.Views
         {
             _enableGestureHandling = Visible.Value && Math.Abs(parameters.Transition) < 0.000001;
 
-            TransitionEffect transitionEffect = parameters.TransitionModeHide ? _hideTransitionEffect : _showTransitionEffect;
+            if (DisplayVisibility == 0)
+            {
+                return;
+            }
+
+            TransitionEffect transitionEffect = null;
+            Rectangle transitionRect = parameters.TransitionRectangle;
+            float transition = parameters.Transition;
+
+            switch (parameters.TransitionMode)
+            {
+                case TransitionMode.Show:
+                    transitionEffect = _showTransitionEffect;
+                    break;
+
+                case TransitionMode.Hide:
+                    transitionEffect = _hideTransitionEffect;
+                    break;
+
+                case TransitionMode.None:
+                    transitionEffect = DisplayVisibility == 1 ? null : (Visible.Value ? _showTransitionEffect : _hideTransitionEffect);
+                    transitionRect = Parent != null ? Parent.ScreenBounds : ScreenBounds;
+                    transition = 1 - DisplayVisibility;
+                    break;
+            }
 
             if (transitionEffect != null)
             {
@@ -298,9 +322,9 @@ namespace Sitana.Framework.Ui.Views
                 float opacity;
                 Matrix transform;
 
-                transitionEffect.Get(drawParameters.Transition, parameters.TransitionRectangle, ScreenBounds, out transform, out opacity);
+                transitionEffect.Get(transition, transitionRect, ScreenBounds, out transform, out opacity);
 
-                drawParameters.Opacity *= opacity;
+                drawParameters.Opacity *= opacity * Opacity;
 
                 drawParameters.DrawBatch.PushTransform(transform);
 
@@ -310,7 +334,9 @@ namespace Sitana.Framework.Ui.Views
             }
             else
             {
-                Draw(ref parameters);
+                UiViewDrawParameters drawParameters = parameters;
+                drawParameters.Opacity *= DisplayVisibility * Opacity;
+                Draw(ref drawParameters);
             }
         }
 
@@ -323,22 +349,22 @@ namespace Sitana.Framework.Ui.Views
                 _controller.UpdateInternal(time);
             }
 
-            float opacity = Visible.Value ? Opacity : 0;
+            float opacity = Visible.Value ? 1 : 0;
 
-            bool visible = DisplayOpacity > 0;
+            bool visible = DisplayVisibility > 0;
 
-            if ( DisplayOpacity < opacity )
+            if (DisplayVisibility < opacity)
             {
-                DisplayOpacity += _showSpeed * time;
-                DisplayOpacity = Math.Min(DisplayOpacity, opacity);
+                DisplayVisibility += _showSpeed * time;
+                DisplayVisibility = Math.Min(DisplayVisibility, opacity);
             }
-            else if ( DisplayOpacity > opacity )
+            else if (DisplayVisibility > opacity)
             {
-                DisplayOpacity -= _hideSpeed * time;
-                DisplayOpacity = Math.Max(DisplayOpacity, opacity);
+                DisplayVisibility -= _hideSpeed * time;
+                DisplayVisibility = Math.Max(DisplayVisibility, opacity);
             }
 
-            if ( visible != DisplayOpacity > 0)
+            if (visible != DisplayVisibility > 0)
             {
                 if ( Parent != null )
                 {
@@ -394,7 +420,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected virtual void Draw(ref UiViewDrawParameters parameters)
         {
-            float opacity = DisplayOpacity * parameters.Opacity;
+            float opacity = parameters.Opacity;
 
             if (opacity == 0)
             {
@@ -469,10 +495,7 @@ namespace Sitana.Framework.Ui.Views
             int opacity = DefinitionResolver.Get<int>(Controller, binding, file["Opacity"], 100);
             Opacity = (float)opacity / 100.0f;
 
-            if (Visible.Value)
-            {
-                DisplayOpacity = Opacity;
-            }
+            DisplayVisibility = Visible.Value ? 1 : 0;
 
             BackgroundColor = DefinitionResolver.GetColor(Controller, binding, file["BackgroundColor"]) ?? Color.Transparent;
 

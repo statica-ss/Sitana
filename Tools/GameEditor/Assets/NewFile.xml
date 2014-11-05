@@ -17,7 +17,7 @@
   <UiPage.Content>
     <UiBorder>
       <UiBorder.Children>
-        <UiBorder Width="480" Height="256" X="C" Y="C" VerticalAlignment="Center" HorizontalAlignment="Center" Color="#006080">
+        <UiBorder Width="480" Height="256" VerticalAlignment="Center" HorizontalAlignment="Center" Color="#006080">
           <UiBorder.Children>
 
             <UiRectangle VerticalAlignment="Center" HorizontalAlignment="Center" Color="#003040" Width="@-4" Height="@-4" X="C" Y="C"/>

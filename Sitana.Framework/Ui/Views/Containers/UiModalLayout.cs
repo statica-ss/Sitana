@@ -88,7 +88,7 @@ namespace Sitana.Framework.Ui.Views
 
             if (!Visible.Value) 
             {
-                DisplayOpacity = 0;
+                DisplayVisibility = 0;
             }
 
             InitChildren(Controller, binding, definition);
@@ -101,7 +101,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
         {
-            float opacity = DisplayOpacity * parameters.Opacity;
+            float opacity = parameters.Opacity;
 
             if (opacity == 0)
             {
@@ -118,9 +118,9 @@ namespace Sitana.Framework.Ui.Views
             UiViewDrawParameters drawParams = parameters;
 
             drawParams.Opacity = opacity;
-            drawParams.Transition = 1-DisplayOpacity;
+            drawParams.Transition = 1 - DisplayVisibility;
             drawParams.TransitionRectangle = ScreenBounds;
-            drawParams.TransitionModeHide = !Visible.Value;
+            drawParams.TransitionMode = DisplayVisibility == 1 ? TransitionMode.None : (Visible.Value ? TransitionMode.Show : TransitionMode.Hide);
 
             for (int idx = 0; idx < _children.Count; ++idx)
             {

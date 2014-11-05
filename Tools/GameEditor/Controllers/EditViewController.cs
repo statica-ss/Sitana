@@ -11,11 +11,17 @@ namespace GameEditor
     {
 		public readonly SharedString ZoomValue = new SharedString();
 
+        public readonly SharedString WorldCoordinates = new SharedString();
+        public readonly SharedString TileCoordinates = new SharedString();
+
 		private int _zoom = 100;
 
 		public EditViewController()
 		{
 			UpdateZoomValue();
+
+            LayerSelectionChanged();
+            Document.Current.LayerSelectionChanged += LayerSelectionChanged;
 		}
 
 		public void ZoomOut()
@@ -45,5 +51,20 @@ namespace GameEditor
 			ZoomValue.Format("{0}%", _zoom);
 		}
 
+        void LayerSelectionChanged()
+        {
+            DocLayer layer = Document.Current.SelectedLayer;
+
+            WorldCoordinates.Format("24.5, 25.8");
+            
+            if (layer is DocTiledLayer)
+            {
+                TileCoordinates.Format("12, 15");
+            }
+            else
+            {
+                TileCoordinates.Clear();
+            }
+        }
     }
 }
