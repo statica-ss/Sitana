@@ -3,7 +3,7 @@
 - [ ] Platforms
   - [X] iOS
   - [X] Windows.XNA
-  - [ ] Android
+  - [X] Android
   - [ ] Windows Phone
 
 - [ ] Content Types
