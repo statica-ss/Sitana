@@ -9,8 +9,8 @@
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ebatianos.Essentials</RootNamespace>
-    <AssemblyName>Ebatianos.Essentials</AssemblyName>
+    <RootNamespace>Sitana.Framework</RootNamespace>
+    <AssemblyName>Sitana.Framework</AssemblyName>
     <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
@@ -62,7 +62,85 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ContentTypes\ModelXLoader.cs" />
+    <Compile Include="ContentManagement\ZipContentManager.cs" />
+    <Compile Include="ContentManagement\ZipFile.cs" />
+    <Compile Include="Graphics\Textures\PartialTexture2D.cs" />
+    <Compile Include="Misc\RemoteConsoleClient.WindowsPhone.cs" />
+    <Compile Include="Ui\Binding\IItemsConsumer.cs" />
+    <Compile Include="Ui\Binding\IItemsProvider.cs" />
+    <Compile Include="Ui\Binding\ItemsList.cs" />
+    <Compile Include="Ui\Definitions\Stretch.cs" />
+    <Compile Include="Graphics\Fonts\Font.cs" />
+    <Compile Include="Graphics\Fonts\FontFace.cs" />
+    <Compile Include="Graphics\Fonts\FontLoader.cs" />
+    <Compile Include="Graphics\Fonts\FontManager.cs" />
+    <Compile Include="ContentManagement\TitleContainerEx.cs" />
+    <Compile Include="Graphics\Fonts\Glyph.cs" />
+    <Compile Include="Graphics\Fonts\UniversalFont.cs" />
+    <Compile Include="Media\MusicController.cs" />
+    <Compile Include="Ui\Core\StylesContainer.cs" />
+    <Compile Include="Ui\Core\StylesManager.cs" />
+    <Compile Include="Ui\Core\UiUnit.cs" />
+    <Compile Include="Ui\DefinitionFiles\DefinitionFileWithStyle.cs" />
+    <Compile Include="Ui\TransitionEffects\Rotate.cs" />
+    <Compile Include="Ui\Views\Containers\UiContentSlider.cs" />
+    <Compile Include="Ui\Views\Containers\UiListBox.cs" />
+    <Compile Include="Ui\Views\Containers\UiScrollView.cs" />
+    <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
+    <Compile Include="Ui\TransitionEffects\TransitionEffect.cs" />
+    <Compile Include="Ui\TransitionEffects\Group.cs" />
+    <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
+    <Compile Include="Ui\TransitionEffects\Scale.cs" />
+    <Compile Include="Ui\TransitionEffects\Swype.cs" />
+    <Compile Include="Ui\TransitionEffects\Vanish.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonTransformGroup.cs" />
+    <Compile Include="Ui\Views\Controls\UiCheckBox.cs" />
+    <Compile Include="Ui\Views\Controls\UiImage.cs" />
+    <Compile Include="Ui\Views\Controls\UiIndexSelector.cs" />
+    <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
+    <Compile Include="Ui\Interfaces\IIndexedElement.cs" />
+    <Compile Include="Ui\Interfaces\IScrolledElement.cs" />
+    <Compile Include="Ui\Interfaces\IUpdatable.cs" />
+    <Compile Include="Ui\Views\Scroller.cs" />
+    <Compile Include="Xml\XFile.cs" />
+    <Compile Include="Cs\SharedString.cs" />
+    <Compile Include="Cs\SharedValue.cs" />
+    <Compile Include="Ui\Definitions\Length.cs" />
+    <Compile Include="Ui\Definitions\Margin.cs" />
+    <Compile Include="Definitions\TextAlign.cs" />
+    <Compile Include="Graphics\AdvancedDrawBatch.cs" />
+    <Compile Include="Helpers\StringParser.cs" />
+    <Compile Include="Input\TouchPad\IGestureListener.cs" />
+    <Compile Include="Input\TouchPad\TouchElement.cs" />
+    <Compile Include="Input\TouchPad\TouchPad.cs" />
+    <Compile Include="Input\TouchPad\Gesture.cs" />
+    <Compile Include="Input\TouchPad\GestureType.cs" />
+    <Compile Include="Xml\XNode.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ContentManagement\ContentLoader.cs" />
+    <Compile Include="ContentManagement\LoadResourceInfo.cs" />
+    <Compile Include="Graphics\Sprites\SpritePresenter.cs" />
+    <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
+    <Compile Include="Graphics\Sprites\Sprite.cs" />
+    <Compile Include="Cs\CsToolkit.cs" />
+    <Compile Include="Cs\Deletages.cs" />
+    <Compile Include="Cs\IIndexedContainer.cs" />
+    <Compile Include="Cs\IndexedArray.cs" />
+    <Compile Include="Cs\IndexedList.cs" />
+    <Compile Include="Cs\Singleton.cs" />
+    <Compile Include="Cs\BitConverterLE.cs" />
+    <Compile Include="Definitions\Align.cs" />
+    <Compile Include="Definitions\KeyboardContext.cs" />
+    <Compile Include="Definitions\Orientation.cs" />
+    <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
+    <Compile Include="Definitions\TransitionType.cs" />
+    <Compile Include="GamerApi\AchievementsHandler.cs" />
+    <Compile Include="GamerApi\AchievementsManager.cs" />
+    <Compile Include="GamerApi\AchievementInfoEventArgs.cs" />
+    <Compile Include="GamerApi\Gamer.cs" />
+    <Compile Include="Graphics\Images\NinePatchImage.cs" />
     <Compile Include="Graphics\3D\BasicShaderEffect.cs" />
     <Compile Include="Graphics\3D\IShaderEffect.cs" />
     <Compile Include="Graphics\3D\ModelX\Exporters\EmxExporter.cs" />
@@ -75,151 +153,79 @@
     <Compile Include="Graphics\3D\ModelX\MaterialTextures.cs" />
     <Compile Include="Graphics\3D\ModelX\ModelSubset.cs" />
     <Compile Include="Graphics\3D\ModelX\ModelX.cs" />
-    <Compile Include="ContentGenerators\ContentGenerator.cs" />
-    <Compile Include="ContentGenerators\LoadSpriteAtlas.cs" />
-    <Compile Include="ContentGenerators\SongPlaylistGenerator.cs" />
-    <Compile Include="ContentManagement\ContentLoader.cs" />
-    <Compile Include="ContentManagement\LoadResourceInfo.cs" />
-    <Compile Include="ContentPresenters\BitmapFontPresenter.cs" />
-    <Compile Include="ContentPresenters\ICustomDraw.cs" />
-    <Compile Include="ContentPresenters\IFontPresenter.cs" />
-    <Compile Include="ContentPresenters\RichContentPresenter.cs" />
-    <Compile Include="ContentPresenters\SpriteFontPresenter.cs" />
-    <Compile Include="ContentPresenters\SpritePresenter.cs" />
-    <Compile Include="ContentTypes\BitmapFont.cs" />
-    <Compile Include="ContentTypes\FontLoader.cs" />
-    <Compile Include="ContentTypes\LoadTexture2DFromPng.cs" />
-    <Compile Include="ContentTypes\MotionPicture.cs" />
-    <Compile Include="ContentTypes\MotionPicture\MotionPictureObject.cs" />
-    <Compile Include="ContentTypes\NinePatchImage.cs" />
-    <Compile Include="ContentTypes\Sprite.cs" />
-    <Compile Include="ContentTypes\TextureEx.cs" />
-    <Compile Include="ContentTypes\XmlFile.cs" />
-    <Compile Include="CrashReporter\UnhandledExceptionHandler.Wp8.cs" />
-    <Compile Include="Cs\Containers.cs" />
-    <Compile Include="Cs\CsToolkit.cs" />
-    <Compile Include="Cs\Deletages.cs" />
-    <Compile Include="Cs\Singleton.cs" />
-    <Compile Include="Definitions\Align.cs" />
-    <Compile Include="Definitions\KeyboardContext.cs" />
-    <Compile Include="Definitions\Orientation.cs" />
-    <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
-    <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
-    <Compile Include="Definitions\TransitionType.cs" />
-    <Compile Include="Games\Platform\Physics\IObjFinder.cs" />
     <Compile Include="Graphics\3D\ModelX\ModelXRenderer.cs" />
-    <Compile Include="GuiElements\BackgroundFill.cs" />
-    <Compile Include="GuiElements\DynamicLabel.cs" />
-    <Compile Include="GuiElements\List\ListItem_ButtonBase.cs" />
-    <Compile Include="GuiElements\List\ListItem_MultilineLabel.cs" />
-    <Compile Include="GuiElements\List\ListItem_TextButton.cs" />
-    <Compile Include="GuiElements\RichContentElement.cs" />
-    <Compile Include="GuiElements\ScrollingSelector\DateTimeContext.cs" />
-    <Compile Include="GuiElements\ScrollingSelector\ScrollingSelector.cs" />
-    <Compile Include="GuiElements\ScrollingSelector\ISelectorContext.cs" />
-    <Compile Include="Games\Aabb.cs" />
-    <Compile Include="Games\Platform\Physics\CollisionObject.cs" />
-    <Compile Include="Games\Platform\Physics\CollisionsDictionary.cs" />
-    <Compile Include="Games\Platform\Physics\CollisionSites.cs" />
-    <Compile Include="Games\Platform\Physics\IMapCollisionFeeder.cs" />
-    <Compile Include="Games\Platform\Map\IMapFactory.cs" />
-    <Compile Include="Games\Platform\Physics\IMass.cs" />
-    <Compile Include="Games\Platform\Map\LayerPainter.cs" />
-    <Compile Include="Games\Platform\Map\Map.cs" />
-    <Compile Include="Games\Platform\Physics\MoveableObject.cs" />
-    <Compile Include="Games\Platform\Physics\QuadTree.cs" />
-    <Compile Include="Games\Platform\Physics\Sensor.cs" />
-    <Compile Include="Games\Platform\Map\TilesetMask.cs" />
-    <Compile Include="Games\Platform\Physics\World.cs" />
+    <Compile Include="Graphics\PrimitiveBatch.cs" />
     <Compile Include="Graphics\RenderTargetEx.cs" />
-    <Compile Include="GuiElements\Accordion.cs" />
-    <Compile Include="GuiElements\AccordionGroup.cs" />
-    <Compile Include="GuiElements\Background.cs" />
-    <Compile Include="GuiElements\Button.cs" />
-    <Compile Include="GuiElements\CheckBox.cs" />
-    <Compile Include="GuiElements\ControlsContainer.cs" />
-    <Compile Include="GuiElements\EditBox.cs" />
-    <Compile Include="GuiElements\GestureHandler.cs" />
-    <Compile Include="GuiElements\GuiElement.cs" />
-    <Compile Include="GuiElements\HorizontalPageTurnover.cs" />
-    <Compile Include="GuiElements\Image.cs" />
-    <Compile Include="GuiElements\Label.cs" />
-    <Compile Include="GuiElements\List\ExpandableList.cs" />
-    <Compile Include="GuiElements\List\ListItem.cs" />
-    <Compile Include="GuiElements\List\ListItemData.cs" />
-    <Compile Include="GuiElements\List\LIstItemElement.cs" />
-    <Compile Include="GuiElements\List\ListItemsContainer.cs" />
-    <Compile Include="GuiElements\List\ListItem_Image.cs" />
-    <Compile Include="GuiElements\List\ListItem_Label.cs" />
-    <Compile Include="GuiElements\List\ListItem_SelectionRect.cs" />
-    <Compile Include="GuiElements\List\ListItem_Separator.cs" />
-    <Compile Include="GuiElements\List\ListItem_SlideContainer.cs" />
-    <Compile Include="GuiElements\List\ListItem_Toolbar.cs" />
-    <Compile Include="GuiElements\MotionPlayer.cs" />
-    <Compile Include="GuiElements\MusicPlayer.cs" />
-    <Compile Include="GuiElements\Parameters.cs" />
-    <Compile Include="GuiElements\PositionControls.cs" />
-    <Compile Include="GuiElements\PreloadResource.cs" />
-    <Compile Include="GuiElements\ProgressBar.cs" />
-    <Compile Include="GuiElements\SlideCheckBox.cs" />
-    <Compile Include="GuiElements\Slider.cs" />
-    <Compile Include="GuiElements\StateIcon.cs" />
-    <Compile Include="GuiElements\TextCloud.cs" />
-    <Compile Include="GuiElements\Toolbar.cs" />
-    <Compile Include="GuiElements\VerticalScroller.cs" />
-    <Compile Include="GuiElements\WaitBar.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
-    <Compile Include="Helpers\ParametersColletion.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="Helpers\SpriteOptimizer.cs" />
-    <Compile Include="Input\GestureAdditionalType.cs" />
-    <Compile Include="Input\GestureEventArgs.cs" />
-    <Compile Include="Input\RegisteredGesture.cs" />
-    <Compile Include="Input\InputHandler.cs" />
-    <Compile Include="Input\KeyInfo.cs" />
-    <Compile Include="Input\MouseInputHandler.cs" />
-    <Compile Include="Input\PointerInfo.cs" />
-    <Compile Include="Input\TouchInputHandler.cs" />
-    <Compile Include="Media\MusicControler.cs" />
-    <Compile Include="Media\SongPlaylist.cs" />
     <Compile Include="Media\SoundControler.cs" />
     <Compile Include="Media\SoundEffectContainer.cs" />
     <Compile Include="Misc\AppRater.cs" />
-    <Compile Include="Graphics\PrimitiveBatch.cs" />
     <Compile Include="Misc\ColorsManager.cs" />
     <Compile Include="Misc\ColorWrapper.cs" />
+    <Compile Include="Misc\ConsoleEx.cs" />
     <Compile Include="Misc\DelayedActionInvoker.cs" />
-    <Compile Include="Misc\GameBase.cs" />
     <Compile Include="Misc\InfoBar.cs" />
-    <Compile Include="Misc\PerformanceProfiler.cs" />
     <Compile Include="Misc\StringsManager.cs" />
     <Compile Include="Misc\UiTask.cs" />
     <Compile Include="Misc\UuidGenerator.cs" />
-    <Compile Include="Misc\XmlFileNode.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScreenManagement\AdditionalDraw.cs" />
-    <Compile Include="ScreenManagement\CancelScreenAddException.cs" />
-    <Compile Include="ScreenManagement\Screen.cs" />
-    <Compile Include="ScreenManagement\ScreenBackground.cs" />
-    <Compile Include="ScreenManagement\ScreenManager.cs" />
-    <Compile Include="ScreenManagement\ScreenMessageBox.cs" />
-    <Compile Include="ScreenManagement\ScreenPopup.cs" />
-    <Compile Include="ScreenManagement\ScreenPreloader.cs" />
     <Compile Include="Settings\Serializator.cs" />
     <Compile Include="Settings\SingletonSettings.cs" />
-    <Compile Include="System\SystemWrapper.Wp.cs" />
+    <Compile Include="Ui\Controllers\UiController.cs" />
+    <Compile Include="Ui\Controllers\UiNavigationController.cs" />
+    <Compile Include="Ui\Core\AppMain.cs" />
+    <Compile Include="Ui\DefinitionFiles\DefinitionResolver.cs" />
+    <Compile Include="Ui\DefinitionFiles\DefinitionFile.cs" />
+    <Compile Include="Ui\DefinitionFiles\DefinitionParser.cs" />
+    <Compile Include="Ui\DefinitionFiles\IDefinitionClass.cs" />
+    <Compile Include="Ui\DefinitionFiles\ReflectionTypes.cs" />
+    <Compile Include="Ui\Views\Containers\UiBorder.cs" />
+    <Compile Include="Ui\Views\Containers\UiContainer.cs" />
+    <Compile Include="Ui\Views\Containers\UiNavigationView.cs" />
+    <Compile Include="Ui\Views\Containers\UiPage.cs" />
+    <Compile Include="Ui\Views\Containers\UiSplitterView.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonNinePatchBackground.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonSolidBackground.cs" />
+    <Compile Include="Ui\Views\Controls\StateDrawable.cs" />
+    <Compile Include="Ui\Views\Controls\UiButton.cs" />
+    <Compile Include="Ui\Views\Enums\UiButtonMode.cs" />
+    <Compile Include="Ui\Views\Parameters\PositionParameters.cs" />
+    <Compile Include="Ui\Views\Parameters\UiViewDrawParameters.cs" />
+    <Compile Include="Ui\Views\Controls\UiLabel.cs" />
+    <Compile Include="Ui\Views\UiView.cs" />
+    <Compile Include="Graphics\AdvancedDrawBatch.DrawMethods.cs" />
+    <Compile Include="Graphics\AdvancedDrawBatch.Helpers.cs" />
+    <Compile Include="Ui\Core\AppMain.Mobile.cs" />
+    <Compile Include="Diagnostics\PerformanceProfiler.cs" />
+    <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
+    <Compile Include="Ui\Definitions\HorizontalAlignment.cs" />
+    <Compile Include="Ui\Definitions\UiHelper.cs" />
+    <Compile Include="Ui\Definitions\VerticalAlignment.cs" />
+    <Compile Include="Platform\Platform.WindowsPhone.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonImage.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonState.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\DrawButtonInfo.cs" />
+    <Compile Include="Ui\Views\ScrollingService.cs" />
+    <Compile Include="Input\TextInput\IFocusable.cs" />
+    <Compile Include="Input\TextInput\ITextConsumer.cs" />
+    <Compile Include="Input\TextInput\TextInputType.cs" />
+    <Compile Include="Ui\Views\Enums\TransitionMode.cs" />
+    <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
+    <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
+    <Compile Include="Media\MusicController.Common.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Gamer\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework" Condition=" '$(Platform)' == 'x86' ">
-      <HintPath>_MonoGame\wp8\x86\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\ThirdParty\Dependences\MonoGame\wp8\x86\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework" Condition=" '$(Platform)' == 'ARM' ">
-      <HintPath>_MonoGame\wp8\arm\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\ThirdParty\Dependences\MonoGame\wp8\arm\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
