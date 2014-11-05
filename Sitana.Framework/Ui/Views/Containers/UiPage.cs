@@ -8,6 +8,7 @@ using Sitana.Framework.Xml;
 using Sitana.Framework.Diagnostics;
 using System;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -39,11 +40,6 @@ namespace Sitana.Framework.Ui.Views
                         break;
                 }
             }
-
-            var parser = new DefinitionParser(node);
-
-            file["ShowTime"] = parser.ParseFloat("ShowTime");
-            file["HideTime"] = parser.ParseFloat("HideTime");
         }
 
         public enum Status
@@ -54,11 +50,20 @@ namespace Sitana.Framework.Ui.Views
             Done
         }
 
-        public Status PageStatus { get; private set; }
-        public float Transition { get; internal set; }
-
-        private float _showSpeed = 1;
-        private float _hideSpeed = 1;
+        public Status PageStatus
+        {
+            get
+            {
+                if (Visible.Value)
+                {
+                    return DisplayVisibility < 1 ? Status.Show : Status.Visible;
+                }
+                else
+                {
+                    return DisplayVisibility > 0 ? Status.Hide : Status.Done;
+                }
+            }
+        }
 
         internal TransitionEffect ShowTransitionEffect
         {
@@ -99,58 +104,23 @@ namespace Sitana.Framework.Ui.Views
 
         public UiPage()
         {
-            PageStatus = Status.Show;
-            Transition = 1;
         }
 
         internal void Hide()
         {
-            switch(PageStatus)
-            {
-                case Status.Show:
-                case Status.Visible:
-                    PageStatus = Status.Hide;
-                    break;
-            }
+            Visible.Value = false;
         }
 
         protected override void Init(object controller, object binding, DefinitionFile definition)
         {
             base.Init(controller, binding, definition);
             InitChildren(Controller, binding, definition);
-
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiPage));
-
-            double showTime = DefinitionResolver.Get<double>(Controller, Binding, file["ShowTime"], 500) / 1000.0;
-            double hideTime = DefinitionResolver.Get<double>(Controller, Binding, file["HideTime"], 500) / 1000.0;
-
-            _showSpeed = (float)(showTime > 0 ? 1 / showTime : 10000000);
-            _hideSpeed = (float)(hideTime > 0 ? 1 / hideTime : 10000000);
+            Visible.Value = true;
+            DisplayVisibility = 0;
         }
 
         protected override void Update(float time)
         {
-            switch(PageStatus)
-            {
-                case Status.Show:
-                    Transition -= time * _showSpeed;
-                    if ( Transition <= 0 )
-                    {
-                        Transition = 0;
-                        PageStatus = Status.Visible;
-                    }
-                    break;
-
-                case Status.Hide:
-                    Transition += time * _hideSpeed;
-                    if (Transition >= 1)
-                    {
-                        Transition = 1;
-                        PageStatus = Status.Done;
-                    }
-                    break;
-            }
-
             if (PageStatus != Status.Done)
             {
                 base.Update(time);
@@ -175,10 +145,10 @@ namespace Sitana.Framework.Ui.Views
 
             UiViewDrawParameters drawParams = parameters;
             drawParams.Opacity = opacity;
-            drawParams.Transition = Transition;
+            drawParams.Transition = 1 - DisplayVisibility;
             drawParams.TransitionRectangle = ScreenBounds;
 
-            drawParams.TransitionMode = PageStatus == Status.Visible ? TransitionMode.Visible :
+            drawParams.TransitionMode = PageStatus == Status.Visible ? TransitionMode.None :
                 (PageStatus == Status.Show ? TransitionMode.Show : TransitionMode.Hide);
 
             for (int idx = 0; idx < _children.Count; ++idx)
@@ -194,8 +164,8 @@ namespace Sitana.Framework.Ui.Views
 
         internal void InstantShow()
         {
-            Transition = 0;
-            PageStatus = Status.Visible;
+            DisplayVisibility = 1;
+            Visible.Value = true;
         }
     }
 }

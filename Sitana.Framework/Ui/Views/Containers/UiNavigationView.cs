@@ -147,15 +147,7 @@ namespace Sitana.Framework.Ui.Views
             for (int idx = 0; idx < _children.Count; ++idx)
             {
                 UiPage page = _children[idx] as UiPage;
-
-                UiViewDrawParameters drawParams = parameters;
-                drawParams.Opacity = opacity;
-                drawParams.Transition = page.Transition;
-                drawParams.TransitionRectangle = page.ScreenBounds;
-                drawParams.TransitionMode = page.PageStatus == UiPage.Status.Visible ? TransitionMode.Visible :
-                    (page.PageStatus == UiPage.Status.Show ? TransitionMode.Show : TransitionMode.Hide);
-
-                page.ViewDraw(ref drawParams);
+                page.ViewDraw(ref parameters);
             }
 
             if (_clipChildren)
