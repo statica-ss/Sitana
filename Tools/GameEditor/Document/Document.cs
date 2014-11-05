@@ -47,6 +47,8 @@ namespace GameEditor
 
         public void New()
         {
+            new Tools.Select();
+
             _nextIndex++;
             FileName.Format("New {0}", _nextIndex);
             FilePath = null;

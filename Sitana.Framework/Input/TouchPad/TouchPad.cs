@@ -257,6 +257,15 @@ namespace Sitana.Framework.Input.TouchPad
                 _rightClick = null;
             }
 
+            _gesture.GestureType = GestureType.MouseMove;
+            _gesture.Origin = state.ToVector2();
+            _gesture.Position = state.ToVector2();
+            _gesture.Handled = false;
+            _gesture.TouchId = 0;
+            _gesture.Offset = Vector2.Zero;
+
+            OnGesture();
+
             TouchElement element;
 
             if ( !_elements.TryGetValue(MouseId, out element) )

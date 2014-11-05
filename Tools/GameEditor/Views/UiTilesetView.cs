@@ -14,7 +14,7 @@ using Sitana.Framework.Input.TouchPad;
 using Sitana.Framework;
 using Sitana.Framework.Ui.Interfaces;
 
-namespace GameEditor
+namespace GameEditor.Views
 {
     public class UiTilesetView: UiView
     {
@@ -74,6 +74,8 @@ namespace GameEditor
             int size = _currentSize;
             var layer = Document.Instance.SelectedLayer;
 
+            Texture2D oldTileset = _currentTileset;
+
             if (layer is DocTiledLayer)
             {
                 Texture2D tileset = CurrentTemplate.Instance.Tileset((layer.Layer as TiledLayer).Tileset).Item2;
@@ -89,6 +91,14 @@ namespace GameEditor
             {
                 _currentTileset = null;
                 size = 1;
+            }
+
+            if (_currentTileset != oldTileset)
+            {
+                if (Tools.Tool.Current is Tools.InsertTiles)
+                {
+                    new Tools.Select();
+                }
             }
 
             if (_currentSize != size)
@@ -248,9 +258,9 @@ namespace GameEditor
 				if (_touchId == gesture.TouchId)
 				{
 
-					if (gesture.GestureType == GestureType.Up)
+					if (gesture.GestureType == GestureType.Up && _selection.HasValue )
 					{
-
+                        CreateToolFromSelection();
 					}
 
 					_touchId = 0;
@@ -261,7 +271,31 @@ namespace GameEditor
 			}
 		}
 
-		void Select(Gesture gesture)
+        void CreateToolFromSelection()
+        {
+            ushort[,] selection = new ushort[_selection.Value.Width+1, _selection.Value.Height+1];
+
+            Point begin = _selection.Value.Location;
+
+            int height = _currentTileset.Height / CurrentTemplate.Instance.TileSize;
+            int width = _currentTileset.Width / CurrentTemplate.Instance.TileSize / _divideWidth;
+
+            for (int idxX = 0; idxX <= _selection.Value.Width; ++idxX)
+            {
+                for (int idxY = 0; idxY <= _selection.Value.Height; ++idxY)
+                {
+                    int y = begin.Y + idxY;
+
+                    Point value = new Point(begin.X + idxX + width * (y / height), y % height);
+
+                    selection[idxX, idxY] = (ushort)((value.X & 0xff) | ((value.Y & 0xff) << 8));
+                }
+            }
+
+            new Tools.InsertTiles(_currentTileset, selection, CurrentTemplate.Instance.TileSize);
+        }
+
+        void Select(Gesture gesture)
 		{
 			_scrollDirection = 0;
 

@@ -97,6 +97,10 @@
     <Compile Include="Templates\RegisteredTemplates.cs" />
     <Compile Include="Templates\TiledLayerDefinition.cs" />
     <Compile Include="Templates\VectorLayerDefinition.cs" />
+    <Compile Include="Tools\InsertTiles.cs" />
+    <Compile Include="Tools\Select.cs" />
+    <Compile Include="Tools\Tool.cs" />
+    <Compile Include="Views\UiEditView.cs" />
     <Compile Include="Views\UiTilesetView.cs" />
   </ItemGroup>
   <ItemGroup>

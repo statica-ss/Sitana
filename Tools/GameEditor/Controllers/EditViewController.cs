@@ -14,10 +14,11 @@ namespace GameEditor
         public readonly SharedString WorldCoordinates = new SharedString();
         public readonly SharedString TileCoordinates = new SharedString();
 
-		private int _zoom = 100;
+        public int Zoom { get; private set; }
 
 		public EditViewController()
 		{
+            Zoom = 100;
 			UpdateZoomValue();
 
             LayerSelectionChanged();
@@ -26,29 +27,29 @@ namespace GameEditor
 
 		public void ZoomOut()
 		{
-			_zoom -= _zoom > 200 ? 50 : 25;
+            Zoom -= Zoom > 200 ? 50 : 25;
 
-			if (_zoom < 25)
+            if (Zoom < 25)
 			{
-				_zoom = 25;
+                Zoom = 25;
 			}
 			UpdateZoomValue();
 		}
 
 		public void ZoomIn()
 		{
-			_zoom += _zoom < 200 ? 25 : 50;
+            Zoom += Zoom < 200 ? 25 : 50;
 
-			if (_zoom > 400)
+            if (Zoom > 400)
 			{
-				_zoom = 400;
+                Zoom = 400;
 			}
 			UpdateZoomValue();
 		}
 
 		void UpdateZoomValue()
 		{
-			ZoomValue.Format("{0}%", _zoom);
+            ZoomValue.Format("{0}%", Zoom);
 		}
 
         void LayerSelectionChanged()
