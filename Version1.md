@@ -1,10 +1,11 @@
 # Version 1.0
 
-- [ ] Platforms
+- [X] Platforms
   - [X] iOS
   - [X] Windows.XNA
-  - [ ] Android
-  - [ ] Windows Phone
+  - [X] Android
+  - [X] Windows Phone
+  - [X] Mac OS
 
 - [ ] Content Types
   - [X] 3D Models
@@ -44,3 +45,11 @@
   - [X] Font generator
   - [X] Model converter
   - [ ] Platform Editor
+
+- [ ] Samples
+  - [X] Windows.XNA
+  - [X] iOS
+  - [X] Mac OS
+  - [ ] Android
+  - [ ] Windows Phone
+  
