@@ -4,7 +4,7 @@
   - [X] iOS
   - [X] Windows.XNA
   - [X] Android
-  - [ ] Windows Phone
+  - [X] Windows Phone
 
 - [ ] Content Types
   - [X] 3D Models
