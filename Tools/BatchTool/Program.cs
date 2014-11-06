@@ -41,6 +41,10 @@ namespace BatchTool
                 case "PackTextures":
                     TexturePacker.Pack(node);
                     break;
+
+                case "PackTiles":
+                    TilesetPacker.Pack(node);
+                    break;
             }
         }
     }
