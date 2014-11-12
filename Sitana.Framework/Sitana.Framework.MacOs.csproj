@@ -56,6 +56,7 @@
     <Folder Include="Ui\DefinitionFiles\Commands\" />
     <Folder Include="Ui\Interfaces\" />
     <Folder Include="Input\TextInput\" />
+    <Folder Include="Input\GamePad\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -215,5 +216,9 @@
     <Compile Include="Input\TextInput\TextInputType.cs" />
     <Compile Include="Xml\XNodeAttributes.cs" />
     <Compile Include="Platform\Platform.MacOs.cs" />
+    <Compile Include="Input\GamePad\GamePad.cs" />
+    <Compile Include="Input\GamePad\GamePadButtonState.cs" />
+    <Compile Include="Input\GamePad\GamePads.cs" />
+    <Compile Include="Ui\Views\Enums\TransitionMode.cs" />
   </ItemGroup>
 </Project>

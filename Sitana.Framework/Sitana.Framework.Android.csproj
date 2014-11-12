@@ -200,6 +200,9 @@
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
     <Compile Include="Media\MusicController.Common.cs" />
     <Compile Include="Ui\Core\AppMain.Android.cs" />
+    <Compile Include="Input\GamePad\GamePad.cs" />
+    <Compile Include="Input\GamePad\GamePadButtonState.cs" />
+    <Compile Include="Input\GamePad\GamePads.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -229,6 +232,7 @@
     <Folder Include="GuiElements\ScrollingSelector\" />
     <Folder Include="CrashReporter\" />
     <Folder Include="Graphics\3D\" />
+    <Folder Include="Input\GamePad\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

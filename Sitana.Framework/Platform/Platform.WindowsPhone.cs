@@ -5,6 +5,7 @@
 using System.IO.IsolatedStorage;
 using System.Reflection;
 using System;
+using System.Windows;
 
 namespace Sitana.Framework
 {

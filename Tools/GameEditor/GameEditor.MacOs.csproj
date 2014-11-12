@@ -74,6 +74,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="Templates\" />
     <Folder Include="Views\" />
+    <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -100,6 +101,10 @@
     <Compile Include="Controllers\NewFileController.cs" />
     <Compile Include="Views\UiTilesetView.cs" />
     <Compile Include="Controllers\EditViewController.cs" />
+    <Compile Include="Tools\InsertTiles.cs" />
+    <Compile Include="Tools\Select.cs" />
+    <Compile Include="Tools\Tool.cs" />
+    <Compile Include="Views\UiEditView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.MacOs.csproj">

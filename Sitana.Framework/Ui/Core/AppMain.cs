@@ -15,6 +15,7 @@ using Sitana.Framework.Diagnostics;
 using Sitana.Framework.Ui.Interfaces;
 using System.Collections.Generic;
 using Sitana.Framework.Input;
+using Sitana.Framework.Input.GamePad;
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -150,7 +151,7 @@ namespace Sitana.Framework.Ui.Core
 
 
             TouchPad.Instance.Update(time, IsActive);
-
+            GamePads.Instance.Update();
 
             for(int idx = 0; idx < _updatables.Count; ++idx)
             {
@@ -240,6 +241,22 @@ namespace Sitana.Framework.Ui.Core
                 _currentFocus = null;
                 focus.Unfocus();
             }
+        }
+
+        public void CloseApp()
+        {
+#if __ANDROID__
+			Activity.MoveTaskToBack(true);
+#elif __IOS__
+            throw new NotImplementedException("Cannot exit app on iOS.");
+#else
+            base.Exit();
+#endif
+        }
+
+        public new void Exit()
+        {
+            throw new Exception("Don't call Exit! Call CloseApp instead.");
         }
     }
 }

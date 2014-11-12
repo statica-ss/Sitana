@@ -18,6 +18,12 @@ namespace BatchTool
             Height = 2
         }
 
+        enum BorderType
+        {
+            None,
+            Smear
+        }
+
         public static void Pack(XNode node)
         {
             Console.WriteLine("\nTexturePacker v.1.0.0");
@@ -25,6 +31,7 @@ namespace BatchTool
             int maxWidth;
             int margin;
             CropType crop;
+            BorderType border;
 
             if (!int.TryParse(node.Attribute("MaxWidth"), out maxWidth))
             {
@@ -39,6 +46,11 @@ namespace BatchTool
             if (!Enum.TryParse<CropType>(node.Attribute("Crop"), out crop))
             {
                 crop = CropType.None;
+            }
+
+            if (!Enum.TryParse<BorderType>(node.Attribute("Border"), out border))
+            {
+                border = BorderType.None;
             }
 
             string input = node.Attribute("Input");
@@ -87,12 +99,14 @@ namespace BatchTool
 
                 images.Sort((i1, i2) => i1.Item2.Height - i2.Item2.Height);
 
-                int posX = margin;
-                int posY = margin;
+                int posX = 0;
+                int posY = 0;
 
                 foreach (var img in images)
                 {
-                    Image image = img.Item2;
+                    
+                    Bitmap image = img.Item2 as Bitmap;
+                    
                     string id = img.Item1;
 
                     if (posX + image.Width >= maxWidth)
@@ -101,15 +115,70 @@ namespace BatchTool
                         posY = height;
                     }
 
-                    Rectangle rect = new Rectangle(posX, posY, image.Width, image.Height);
+                    Rectangle rect = new Rectangle(posX + margin, posY + margin, image.Width, image.Height);
                     textures.Add(new Tuple<string, Rectangle>(id, rect));
 
-                    graphics.DrawImage(image, posX, posY, image.Width, image.Height);
+                    if (border == BorderType.Smear)
+                    {
+                        // topleft
+                        Color color = image.GetPixel(0, 0);
+                        graphics.FillRectangle(new SolidBrush(color), new Rectangle(posX, posY, margin, margin));
+
+                        // bottomleft
+                        color = image.GetPixel(0, image.Height-1);
+                        graphics.FillRectangle(new SolidBrush(color), new Rectangle(posX, posY+margin+image.Height, margin, margin));
+
+                        // topright
+                        color = image.GetPixel(image.Width-1, 0);
+                        graphics.FillRectangle(new SolidBrush(color), new Rectangle(posX + margin + image.Width, posY, margin, margin));
+
+                        // bottomleft
+                        color = image.GetPixel(image.Width-1, image.Height - 1);
+                        graphics.FillRectangle(new SolidBrush(color), new Rectangle(posX + margin + image.Width, posY + margin + image.Height, margin, margin));
+
+                        // top element
+                        for (int idx = 0; idx < margin; ++idx)
+                        {
+                            Rectangle src = new Rectangle(0, 0, image.Width, 1);
+                            Rectangle target = new Rectangle(posX + margin, posY + idx, src.Width, src.Height);
+
+                            graphics.DrawImage(image, target, src, GraphicsUnit.Pixel);
+                        }
+
+                        // left element
+                        for (int idx = 0; idx < margin; ++idx)
+                        {
+                            Rectangle src = new Rectangle(0, 0, 1, image.Height);
+                            Rectangle target = new Rectangle(posX + idx, posY + margin, src.Width, src.Height);
+
+                            graphics.DrawImage(image, target, src, GraphicsUnit.Pixel);
+                        }
+
+                        // bottom element
+                        for (int idx = 0; idx < margin; ++idx)
+                        {
+                            Rectangle src = new Rectangle(0, image.Height - 1, image.Width, 1);
+                            Rectangle target = new Rectangle(posX + margin, posY + margin + image.Height + idx, src.Width, src.Height);
+
+                            graphics.DrawImage(image, target, src, GraphicsUnit.Pixel);
+                        }
+
+                        // right element
+                        for (int idx = 0; idx < margin; ++idx)
+                        {
+                            Rectangle src = new Rectangle(image.Width - 1, 0, 1, image.Height);
+                            Rectangle target = new Rectangle(posX + margin + image.Width + idx, posY + margin, src.Width, src.Height);
+                            graphics.DrawImage(image, target, src, GraphicsUnit.Pixel);
+                        }
+                    }
+
+                    graphics.DrawImage(image, posX + margin, posY + margin, image.Width, image.Height);
 
                     width = Math.Max(width, posX + image.Width);
 
-                    posX += image.Width + margin;
-                    height = Math.Max(height, posY + image.Height + margin);
+                    posX += image.Width + margin * 2;
+
+                    height = Math.Max(height, posY + image.Height + margin * 2);
 
                     image.Dispose();
                 }
