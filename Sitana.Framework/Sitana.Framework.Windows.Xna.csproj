@@ -111,6 +111,7 @@
     <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
     <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
+    <Compile Include="Ui\Views\Controls\UiVerticalGradient.cs" />
     <Compile Include="Ui\Views\Enums\TransitionMode.cs" />
     <Compile Include="Ui\Views\Scroller.cs" />
     <Compile Include="Ui\Views\ScrollingService.cs" />

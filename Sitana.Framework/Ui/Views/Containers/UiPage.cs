@@ -48,6 +48,11 @@ namespace Sitana.Framework.Ui.Views
             {
                 return _showTransitionEffect;
             }
+
+            set
+            {
+                _showTransitionEffect = value;
+            }
         }
 
         internal TransitionEffect HideTransitionEffect
@@ -69,10 +74,20 @@ namespace Sitana.Framework.Ui.Views
             {
                 return _showSpeed;
             }
+
+            set
+            {
+                _showSpeed = value;
+            }
         }
 
         internal float HideSpeed
         {
+            get
+            {
+                return _hideSpeed;
+            }
+
             set
             {
                 _hideSpeed = value;
