@@ -55,7 +55,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         {
             base.Init(controller, binding, definition);
 
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(ButtonDrawable));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(TransformGroup));
 
             _reverse = DefinitionResolver.Get<bool>(controller, binding, file["Reverse"], false);
 

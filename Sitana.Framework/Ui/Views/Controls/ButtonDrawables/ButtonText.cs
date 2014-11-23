@@ -37,7 +37,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         {
             base.Init(controller, binding, definition);
 
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(NinePatchBackground));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(Text));
 
             _font = DefinitionResolver.GetString(controller, binding, file["Font"]);
             _fontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"], 0);

@@ -12,6 +12,7 @@ using Sitana.Framework.Diagnostics;
 using System;
 using Sitana.Framework.Ui.Views.ButtonDrawables;
 using Sitana.Framework.Cs;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -24,6 +25,7 @@ namespace Sitana.Framework.Ui.Views
             var parser = new DefinitionParser(node);
 
             file["Text"] = parser.ParseString("Text");
+            file["Icon"] = parser.ParseResource<Texture2D>("Icon");
             file["Click"] = parser.ParseDelegate("Click");
             file["Enabled"] = parser.ParseBoolean("Enabled");
 
@@ -64,6 +66,8 @@ namespace Sitana.Framework.Ui.Views
         protected SharedString _text;
 
         protected Rectangle _checkRect;
+
+        public readonly SharedValue<Texture2D> Icon = new SharedValue<Texture2D>();
 
         public SharedString Text
         {
@@ -247,6 +251,8 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiButton));
 
+            Icon.Value = DefinitionResolver.Get<Texture2D>(Controller, binding, file["Icon"], null);
+
             _text = DefinitionResolver.GetSharedString(Controller, binding, file["Text"]);
 
             if (_text == null)
@@ -292,6 +298,7 @@ namespace Sitana.Framework.Ui.Views
             drawInfo.Target = ScreenBounds;
             drawInfo.Opacity = opacity;
             drawInfo.EllapsedTime = parameters.EllapsedTime;
+            drawInfo.Icon = Icon.Value;
 
             for (int idx = 0; idx < _drawables.Count; ++idx)
             {

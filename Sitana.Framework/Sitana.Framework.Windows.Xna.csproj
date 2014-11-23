@@ -94,6 +94,7 @@
     <Compile Include="Ui\Interfaces\IUpdatable.cs" />
     <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonImage.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonState.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
