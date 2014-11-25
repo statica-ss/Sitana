@@ -5,6 +5,7 @@ using System.Text;
 using Sitana.Framework.Xml;
 using System.IO;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace BatchTool
 {
@@ -24,14 +25,21 @@ namespace BatchTool
         public static void Import(XNode node)
         {
             string input = node.Attribute("Input");
-            string output = Path.Combine(Path.GetDirectoryName(input), Path.GetFileNameWithoutExtension(input)) + ".sft";
+            string output = node.Attribute("Output");
 
             Bitmap bmp = Bitmap.FromFile(input) as Bitmap;
+            Bitmap bmpOut = new Bitmap(bmp.Width, bmp.Height, PixelFormat.Format32bppArgb);
 
             if (bmp.GetPixel(0, 0) != Color.FromArgb(255, 0, 255))
             {
                 Console.WriteLine("Invalid image");
             }
+
+            ImageAttributes ia = new ImageAttributes();
+            ia.SetColorKey(Color.FromArgb(254, 0, 254), Color.FromArgb(255, 1, 255));
+
+            Graphics g = Graphics.FromImage(bmpOut);
+            g.DrawImage(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, ia);
 
             int height = 0;
             int character = 32;
@@ -82,10 +90,11 @@ namespace BatchTool
                 }
             }
 
-            using (Stream stream = new FileStream(output, FileMode.Create))
+            bmpOut.Save(output + ".png", ImageFormat.Png);
+            using (Stream stream = new FileStream(output + ".sft", FileMode.Create))
             {
                 BinaryWriter writer = new BinaryWriter(stream);
-                writer.Write(Path.GetFileNameWithoutExtension(input));
+                writer.Write(Path.GetFileNameWithoutExtension(output));
 
                 writer.Write((short)height);
 
