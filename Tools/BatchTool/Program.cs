@@ -45,6 +45,10 @@ namespace BatchTool
                 case "PackTiles":
                     TilesetPacker.Pack(node);
                     break;
+
+                case "ImportFont":
+                    FontImporter.Import(node);
+                    break;
             }
         }
     }

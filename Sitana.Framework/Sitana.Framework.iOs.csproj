@@ -232,5 +232,7 @@
     <Compile Include="Input\GamePad\GamePadButtonState.cs" />
     <Compile Include="Input\GamePad\GamePads.cs" />
     <Compile Include="Ui\Views\Enums\TransitionMode.cs" />
+    <Compile Include="Ui\Views\Controls\UiVerticalGradient.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs" />
   </ItemGroup>
 </Project>
