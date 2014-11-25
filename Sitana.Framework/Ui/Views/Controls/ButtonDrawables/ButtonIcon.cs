@@ -59,7 +59,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             Color color = ColorFromState * info.Opacity * Opacity;
 
-            Rectangle target = _margin.ComputeRect(info.Target);
+            Rectangle target = info.Target;
             Rectangle source = new Rectangle(0, 0, info.Icon.Width, info.Icon.Height);
 
             Vector2 size = new Vector2(source.Width, source.Height) * scale;
@@ -98,6 +98,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
                     target.Y = info.Target.Bottom - target.Height;
                     break;
             }
+
+            target = _margin.ComputeRect(target);
 
             drawBatch.DrawImage(info.Icon, target, source, color);
         }

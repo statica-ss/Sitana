@@ -36,7 +36,7 @@ namespace Sitana.Framework.Graphics
 
             scale = 1;
 
-            if (UiUnit.EnableFontScaling)
+            if (UiUnit.FontScaling != UiUnit.ScalingMode.None)
             {
                 if (font == null)
                 {
@@ -71,6 +71,11 @@ namespace Sitana.Framework.Graphics
                 }
 
                 scale = (float)size / (float)font.Item2;
+
+                if (UiUnit.FontScaling == UiUnit.ScalingMode.Integer)
+                {
+                    scale = (int)Math.Round(scale);
+                }
             }
             else
             {
