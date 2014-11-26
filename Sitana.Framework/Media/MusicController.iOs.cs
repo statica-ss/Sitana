@@ -47,7 +47,7 @@ namespace Sitana.Framework.Content
 
         public void OnActivate()
         {
-            if (_currentlyPlayedSong != null && !GameHasControl && MediaPlayer.State == MediaState.Playing)
+            if (!GameHasControl && MediaPlayer.State == MediaState.Playing)
             {
                 Stop();
             }

@@ -33,8 +33,6 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         protected VerticalAlignment _vertAlign;
         protected float _scale;
 
-        private FontFace _fontFace;
-
         protected override void Init(UiController controller, object binding, DefinitionFile definition)
         {
             base.Init(controller, binding, definition);
