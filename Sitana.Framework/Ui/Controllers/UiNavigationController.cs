@@ -14,7 +14,7 @@ namespace Sitana.Framework.Ui.Controllers
     {
         UiNavigationView _navigation = null;
 
-        UiNavigationView Navigation
+        protected UiNavigationView Navigation
         {
             get
             {

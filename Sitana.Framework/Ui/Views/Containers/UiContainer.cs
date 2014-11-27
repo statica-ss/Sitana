@@ -59,6 +59,14 @@ namespace Sitana.Framework.Ui.Views
 
         protected List<UiView> _children = new List<UiView>();
 
+        public bool HasChildren
+        {
+            get
+            {
+                return _children.Count > 0;
+            }
+        }
+
         public void Remove(UiView view)
         {
             _children.Remove(view);

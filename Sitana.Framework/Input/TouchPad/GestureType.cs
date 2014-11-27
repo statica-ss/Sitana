@@ -25,6 +25,7 @@ namespace Sitana.Framework.Input.TouchPad
 		RightButtonDown = 0x2000,
 		RightButtonUp = 0x4000,
 		MouseWheel = 0x8000,
-        MouseMove = 0x10000
+        MouseMove = 0x10000,
+        Parent = 0x20000
     }
 }

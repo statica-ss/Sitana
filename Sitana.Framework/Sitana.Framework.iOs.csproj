@@ -233,5 +233,9 @@
     <Compile Include="Ui\Views\Controls\UiVerticalGradient.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs" />
     <Compile Include="Graphics\Sprites\SpriteInstance.cs" />
+    <Compile Include="Graphics\Sprites\SpriteSequence.cs" />
+    <Compile Include="Xml\XNodeAttributes.cs" />
+    <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
+    <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
   </ItemGroup>
 </Project>
