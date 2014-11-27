@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 using System.Text;
 using Microsoft.Xna.Framework;
-using System.Globalization;
-using Sitana.Framework.Ui.DefinitionFiles;
-using Sitana.Framework.Content;
-using System.Reflection;
-using Sitana.Framework.Ui.Controllers;
-using Sitana.Framework.Cs;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Sitana.Framework.Content;
+using Sitana.Framework.Cs;
+using Sitana.Framework.Graphics;
+using Sitana.Framework.Ui.Controllers;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
 {
@@ -275,7 +273,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return (T)definition;
             }
 
-            if (typeof(T) == typeof(NinePatchImage) || typeof(T) == typeof(Texture2D))
+            if (typeof(T) == typeof(NinePatchImage) || typeof(T) == typeof(Texture2D) || typeof(T) == typeof(SoundEffect) || typeof(T) == typeof(PartialTexture2D))
             {
                 if (definition is string)
                 {

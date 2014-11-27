@@ -23,6 +23,7 @@ namespace Sitana.Framework.Content
             set
             {
                 _masterVolume = MediaHelper.LinearToVolume(value);
+                MediaPlayer.Volume = _masterVolume;
             }
         }
 
