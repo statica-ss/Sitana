@@ -137,7 +137,6 @@ namespace Sitana.Framework.Content
 
         private static void RegisterTypes()
         {
-            Sprite.Register();
             NinePatchImage.Register();
             ModelXLoader.Register();
             XFile.Register();
