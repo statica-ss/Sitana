@@ -59,6 +59,8 @@
     <Compile Include="ContentManagement\ZipFile.cs" />
     <Compile Include="Diagnostics\PerformanceProfiler.cs" />
     <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
+    <Compile Include="Graphics\Sprites\Sprite.cs" />
+    <Compile Include="Graphics\Sprites\SpriteInstance.cs" />
     <Compile Include="Graphics\Textures\PartialTexture2D.cs" />
     <Compile Include="Input\TextInput\IFocusable.cs" />
     <Compile Include="Input\TextInput\ITextConsumer.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="Ui\Interfaces\IUpdatable.cs" />
     <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonImage.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonState.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
@@ -111,6 +114,7 @@
     <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
     <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
+    <Compile Include="Ui\Views\Controls\UiVerticalGradient.cs" />
     <Compile Include="Ui\Views\Enums\TransitionMode.cs" />
     <Compile Include="Ui\Views\Scroller.cs" />
     <Compile Include="Ui\Views\ScrollingService.cs" />
@@ -131,10 +135,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContentManagement\ContentLoader.cs" />
     <Compile Include="ContentManagement\LoadResourceInfo.cs" />
-    <Compile Include="Graphics\Sprites\SpritePresenter.cs" />
     <Compile Include="Graphics\Images\LoadTexture2DFromPng.cs" />
     <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
-    <Compile Include="Graphics\Sprites\Sprite.cs" />
     <Compile Include="Cs\CsToolkit.cs" />
     <Compile Include="Cs\Deletages.cs" />
     <Compile Include="Cs\IIndexedContainer.cs" />
@@ -171,7 +173,6 @@
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
-    <Compile Include="Helpers\SpriteOptimizer.cs" />
     <Compile Include="Media\SoundControler.cs" />
     <Compile Include="Media\SoundEffectContainer.cs" />
     <Compile Include="Misc\AppRater.cs" />

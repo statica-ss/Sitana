@@ -45,6 +45,11 @@ namespace Sitana.Framework.Ui.Views
             CallDelegate("Click", 
                 new InvokeParam("sender", this),
                 new InvokeParam("checked", Checked.Value));
+
+            if (_actionSound != null)
+            {
+                _actionSound.Play();
+            }
         }
     }
 }

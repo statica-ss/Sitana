@@ -12,6 +12,8 @@ using Sitana.Framework.Diagnostics;
 using System;
 using Sitana.Framework.Ui.Views.ButtonDrawables;
 using Sitana.Framework.Cs;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -24,8 +26,13 @@ namespace Sitana.Framework.Ui.Views
             var parser = new DefinitionParser(node);
 
             file["Text"] = parser.ParseString("Text");
+            file["Icon"] = parser.ParseResource<Texture2D>("Icon");
             file["Click"] = parser.ParseDelegate("Click");
             file["Enabled"] = parser.ParseBoolean("Enabled");
+
+            file["PushSound"] = parser.ParseResource<SoundEffect>("PushSound");
+            file["ReleaseSound"] = parser.ParseResource<SoundEffect>("ReleaseSound");
+            file["ActionSound"] = parser.ParseResource<SoundEffect>("ActionSound");
 
             foreach (var cn in node.Nodes)
             {
@@ -65,6 +72,12 @@ namespace Sitana.Framework.Ui.Views
 
         protected Rectangle _checkRect;
 
+        public readonly SharedValue<Texture2D> Icon = new SharedValue<Texture2D>();
+
+        private SoundEffect _pushSound;
+        private SoundEffect _releaseSound;
+        protected SoundEffect _actionSound;
+
         public SharedString Text
         {
             get
@@ -93,7 +106,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void OnAdded()
         {
-            SetPushed(false);
+            SetPushed(false, false);
             OnPushedChanged();
 
             TouchPad.Instance.AddListener(GestureType.Down | GestureType.Up | GestureType.Move, this);
@@ -131,7 +144,7 @@ namespace Sitana.Framework.Ui.Views
                     if (_touchId == gesture.TouchId)
                     {
                         _touchId = 0;
-                        SetPushed(false);
+                        SetPushed(false, true);
                     }
                     break;
 
@@ -152,7 +165,7 @@ namespace Sitana.Framework.Ui.Views
                         {
                             _touchId = gesture.TouchId;
 
-                            SetPushed(true);
+                            SetPushed(true, _mode != UiButtonMode.Press);
                             _checkRect = ScreenBounds;
 
                             gesture.Handled = true;
@@ -179,7 +192,7 @@ namespace Sitana.Framework.Ui.Views
                             {
                                 _touches.Add(gesture.TouchId, true);
                             }
-                            SetPushed(true);
+                            SetPushed(true, true);
                         }
                         else
                         {
@@ -187,7 +200,7 @@ namespace Sitana.Framework.Ui.Views
 
                             if (_touches.Count == 0 )
                             {
-                                SetPushed(false);
+                                SetPushed(false, true);
                             }
                         }
                         break;
@@ -196,7 +209,7 @@ namespace Sitana.Framework.Ui.Views
 
                     if (_touchId == gesture.TouchId)
                     {
-                        SetPushed(_checkRect.Contains(gesture.Position));
+                        SetPushed(_checkRect.Contains(gesture.Position), true);
                     }
                     break;
 
@@ -208,7 +221,7 @@ namespace Sitana.Framework.Ui.Views
 
                         if (_touches.Count == 0)
                         {
-                            SetPushed(false);
+                            SetPushed(false, true);
                         }
                         break;
                     }
@@ -221,7 +234,7 @@ namespace Sitana.Framework.Ui.Views
                         }
 
                         _touchId = 0;
-                        SetPushed(false);
+                        SetPushed(false, false);
                     }
                     break;
             }
@@ -232,10 +245,20 @@ namespace Sitana.Framework.Ui.Views
             
         }
 
-        void SetPushed(bool pushed)
+        void SetPushed(bool pushed, bool playSound)
         {
             if ( IsPushed != pushed)
             {
+                if (playSound)
+                {
+                    SoundEffect sound = pushed ? _pushSound : _releaseSound;
+
+                    if (sound != null)
+                    {
+                        sound.Play();
+                    }
+                }
+
                 IsPushed = pushed;
                 OnPushedChanged();
             }
@@ -246,6 +269,8 @@ namespace Sitana.Framework.Ui.Views
             base.Init(controller, binding, definition);
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiButton));
+
+            Icon.Value = DefinitionResolver.Get<Texture2D>(Controller, binding, file["Icon"], null);
 
             _text = DefinitionResolver.GetSharedString(Controller, binding, file["Text"]);
 
@@ -272,6 +297,10 @@ namespace Sitana.Framework.Ui.Views
                     }
                 }
             }
+
+            _pushSound = DefinitionResolver.Get<SoundEffect>(Controller, Binding, file["PushSound"], null);
+            _releaseSound = DefinitionResolver.Get<SoundEffect>(Controller, Binding, file["ReleaseSound"], null);
+            _actionSound = DefinitionResolver.Get<SoundEffect>(Controller, Binding, file["ActionSound"], null);
         }
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
@@ -292,6 +321,7 @@ namespace Sitana.Framework.Ui.Views
             drawInfo.Target = ScreenBounds;
             drawInfo.Opacity = opacity;
             drawInfo.EllapsedTime = parameters.EllapsedTime;
+            drawInfo.Icon = Icon.Value;
 
             for (int idx = 0; idx < _drawables.Count; ++idx)
             {
@@ -303,6 +333,11 @@ namespace Sitana.Framework.Ui.Views
         protected virtual void DoAction()
         {
             CallDelegate("Click", new InvokeParam("sender", this));
+
+            if (_actionSound != null)
+            {
+                _actionSound.Play();
+            }
         }
     }
 }

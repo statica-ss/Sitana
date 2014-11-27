@@ -87,6 +87,7 @@ namespace Sitana.Framework.Graphics
 
             if (_font.SitanaFont != null)
             {
+                PrimitiveType = PrimitiveType.TriangleList;
                 PrimitiveBatchNeeded();
                 _font.SitanaFont.Draw(_primitiveBatch, text, position, color, new Vector2(scale));
             }
@@ -119,6 +120,7 @@ namespace Sitana.Framework.Graphics
 
             if (_font.SitanaFont != null)
             {
+                PrimitiveType = PrimitiveType.TriangleList;
                 PrimitiveBatchNeeded();
                 _font.SitanaFont.Draw(_primitiveBatch, text, position, color, new Vector2(scale));
             }

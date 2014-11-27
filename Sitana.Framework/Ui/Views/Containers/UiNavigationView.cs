@@ -100,10 +100,13 @@ namespace Sitana.Framework.Ui.Views
 
         private void AddPage(UiPage page)
         {
+            UiPage lastVisibleChild = null;
+
             for (int idx = 0; idx < _children.Count; ++idx)
             {
                 var child = _children[idx] as UiPage;
                 child.Hide();
+                lastVisibleChild = child;
 
                 if (child.HideTransitionEffect == null)
                 {
@@ -120,6 +123,12 @@ namespace Sitana.Framework.Ui.Views
 
                 page.RegisterView();
                 page.ViewAdded();
+
+                if (page.ShowTransitionEffect == null)
+                {
+                    page.ShowTransitionEffect = (lastVisibleChild != null && lastVisibleChild.HideTransitionEffect != null) ? lastVisibleChild.HideTransitionEffect.Reverse() : null;
+                    page.ShowSpeed = lastVisibleChild != null ? lastVisibleChild.HideSpeed : float.MaxValue;
+                }
             }
         }
 

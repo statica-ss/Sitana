@@ -36,7 +36,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         {
             base.Init(controller, binding, definition);
 
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(NinePatchBackground));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(Image));
 
             _image = DefinitionResolver.Get<Texture2D>(controller, binding, file["Image"], null);
             _scale = (float)DefinitionResolver.Get<double>(controller, binding, file["Scale"], 1);

@@ -365,8 +365,8 @@ namespace Sitana.Framework.Graphics
 
             if (_texture != null)
             {
-                float width = _texture.Width > 1 ? _texture.Width - 1 : 1;
-                float height = _texture.Height > 1 ? _texture.Height - 1 : 1;
+                float width = _texture.Width > 1 ? _texture.Width : 1;
+                float height = _texture.Height > 1 ? _texture.Height : 1;
 
                 _primitiveBatch.AddVertex(vertex, color, texCoord.ToVector2() / new Vector2(width, height));
             }

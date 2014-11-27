@@ -53,6 +53,14 @@ namespace Sitana.Framework.Ui.Core
             }
         }
 
+        public AdvancedDrawBatch DrawBatch
+        {
+            get
+            {
+                return _drawBatch;
+            }
+        }
+
         public UiContainer MainView { get; private set; }
 
         private DefinitionFile _mainView;

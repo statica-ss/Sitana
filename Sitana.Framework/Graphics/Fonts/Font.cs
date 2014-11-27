@@ -200,7 +200,7 @@ namespace Sitana.Framework.Graphics
         void DrawGlyph(PrimitiveBatch primitiveBatch, Glyph glyph, ref Vector2 position, ref Color color, Vector2 scale)
         {
             Vector2 topLeft = new Vector2(glyph.X, glyph.Y) / new Vector2(FontSheet.Width, FontSheet.Height);
-            Vector2 bottomRight = new Vector2(glyph.X + glyph.Width, glyph.Y + glyph.Height) / new Vector2(FontSheet.Width-1, FontSheet.Height-1);
+            Vector2 bottomRight = new Vector2(glyph.X + glyph.Width, glyph.Y + glyph.Height) / new Vector2(FontSheet.Width, FontSheet.Height);
 
             Vector2 positionBR = new Vector2(position.X + glyph.Width * scale.X, position.Y + glyph.Height * scale.X);
 
