@@ -16,6 +16,14 @@ namespace Sitana.Framework.Graphics
         public event EmptyArgsVoidDelegate AnimationFinished;
         public event EmptyArgsVoidDelegate AnimationReplay;
 
+        public Sprite Sprite
+        {
+            get
+            {
+                return _sprite;
+            }
+        }
+
         public string Sequence
         {
             set
