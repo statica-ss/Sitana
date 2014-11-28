@@ -52,6 +52,8 @@ namespace Sitana.Framework.Graphics
                         throw new InvalidDataException("Sprite must have same size frames.");
                     }
 
+                    frameSize = new Point(width, height);
+
                     sequences.Add(sequence.Name, sequence);
                 }
 

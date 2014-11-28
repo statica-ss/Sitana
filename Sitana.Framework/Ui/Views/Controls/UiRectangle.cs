@@ -57,8 +57,11 @@ namespace Sitana.Framework.Ui.Views
             Color color = _color != null ? _color.Value : Color.White;
 
             float scale = _scaleByUnit ? (float)UiUnit.Unit : 1;
-
-            parameters.DrawBatch.DrawNinePatchRect(_image, ScreenBounds, color * opacity, scale * _scale);
+            
+            if (color.A > 0)
+            {
+                parameters.DrawBatch.DrawNinePatchRect(_image, ScreenBounds, color * opacity, scale * _scale);
+            }
         }
     }
 }
