@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Sitana.Framework.Cs;
+using Microsoft.Xna.Framework;
 
 namespace Sitana.Framework.Graphics
 {
@@ -15,6 +16,14 @@ namespace Sitana.Framework.Graphics
 
         public event EmptyArgsVoidDelegate AnimationFinished;
         public event EmptyArgsVoidDelegate AnimationReplay;
+
+        public Point FrameSize
+        {
+            get
+            {
+                return new Point(FrameImage.Width, FrameImage.Height);
+            }
+        }
 
         public Sprite Sprite
         {
