@@ -11,7 +11,6 @@ namespace Sitana.Framework.Graphics
 {
     public partial class Sprite
     {
-        public Point FrameSize { get; private set; }
         Dictionary<string, Sequence> _sequences = new Dictionary<string, Sequence>();
 
         public static void LoadSprites(string name)
@@ -47,11 +46,6 @@ namespace Sitana.Framework.Graphics
                     int width = sequence.Images[0].Width;
                     int height = sequence.Images[0].Height;
 
-                    if (width != frameSize.X && frameSize.X != 0 || height != frameSize.Y && frameSize.Y != 0)
-                    {
-                        throw new InvalidDataException("Sprite must have same size frames.");
-                    }
-
                     frameSize = new Point(width, height);
 
                     sequences.Add(sequence.Name, sequence);
@@ -59,8 +53,7 @@ namespace Sitana.Framework.Graphics
 
                 var sprite = new Sprite()
                 {
-                    _sequences = sequences,
-                    FrameSize = frameSize
+                    _sequences = sequences
                 };
 
                 ContentLoader.Current.AddContent(spriteName, typeof(Sprite), sprite);
