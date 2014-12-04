@@ -29,7 +29,7 @@ namespace TestApp
 
                 UiUnit.Unit = 1;
                 UiUnit.FontUnit = 1;
-                UiUnit.EnableFontScaling = true;
+                UiUnit.FontScaling = UiUnit.ScalingMode.Floating;
 
                 StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
                 main.LoadView("Ui/MainView");
