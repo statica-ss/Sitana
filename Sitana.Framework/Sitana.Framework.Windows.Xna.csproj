@@ -150,8 +150,7 @@
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
     <Compile Include="Definitions\TransitionType.cs" />
-    <Compile Include="GamerApi\AchievementsHandler.cs" />
-    <Compile Include="GamerApi\AchievementsManager.cs" />
+    <Compile Include="GamerApi\GamerApiPlatform.Windows.cs" />
     <Compile Include="GamerApi\AchievementInfoEventArgs.cs" />
     <Compile Include="GamerApi\Gamer.cs" />
     <Compile Include="Graphics\Images\NinePatchImage.cs" />

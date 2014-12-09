@@ -6,12 +6,20 @@ using System;
 
 namespace Sitana.Framework.GamerApi
 {
-    public abstract class AchievementsHandler
+    public class GamerApiPlatform
     {
         public event EventHandler<AchievementInfoEventArgs> AchievementInfo;
 
-        public abstract void SendAchievement(String id, Int32 completion);
+        public void SendAchievement(string id, int completion)
+        {
+        }
 
-        public abstract void GetAchievementsList();
+        public void GetAchievementsList()
+        {
+        }
+
+        public void SendScore(string id, int score)
+        {
+        }
     }
 }
