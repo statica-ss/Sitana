@@ -694,14 +694,17 @@ namespace Sitana.Framework.Ui.Views
                     OnGesture(gesture);
                 }
             }
-            else if (gesture.PointerCapturedBy == null || gesture.PointerCapturedBy == this)
+            else if (_enableGestureHandling)
             {
-                if ((gesture.GestureType & EnabledGestures) != GestureType.None)
+                if (gesture.PointerCapturedBy == null || gesture.PointerCapturedBy == this)
                 {
-                    GestureType originalType = gesture.GestureType;
-                    gesture.GestureType = gesture.GestureType & EnabledGestures;
-                    OnGesture(gesture);
-                    gesture.GestureType = originalType;
+                    if ((gesture.GestureType & EnabledGestures) != GestureType.None)
+                    {
+                        GestureType originalType = gesture.GestureType;
+                        gesture.GestureType = gesture.GestureType & EnabledGestures;
+                        OnGesture(gesture);
+                        gesture.GestureType = originalType;
+                    }
                 }
             }
         }

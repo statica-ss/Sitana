@@ -283,13 +283,16 @@ namespace Sitana.Framework.Ui.Views
 
         internal override void ViewGesture(Gesture gesture)
         {
-            for (int idx = _children.Count-1; idx >=0 ; --idx)
+            if (_enableGestureHandling)
             {
-                _children[idx].ViewGesture(gesture);
-
-                if ((gesture.Handled || gesture.SkipRest) && (gesture.GestureType != GestureType.CapturedByOther))
+                for (int idx = _children.Count - 1; idx >= 0; --idx)
                 {
-                    break;
+                    _children[idx].ViewGesture(gesture);
+
+                    if ((gesture.Handled || gesture.SkipRest) && (gesture.GestureType != GestureType.CapturedByOther))
+                    {
+                        break;
+                    }
                 }
             }
 

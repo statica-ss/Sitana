@@ -130,6 +130,11 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void OnGesture(Gesture gesture)
         {
+            if (!Enabled)
+            {
+                return;
+            }
+
             Rectangle bounds = ScreenBounds;
 
             switch(gesture.GestureType)
