@@ -9,17 +9,45 @@ namespace Sitana.Framework.GamerApi
 {
 	class GamerPlatform
 	{
-		public event EventHandler<AchievementInfoEventArgs> AchievementInfo;
-
         bool _enabled = false;
 
-        public void Login()
+        public void Login(AchievementInfoDelegate achievementInfo)
         {
             GKLocalPlayer player = GKLocalPlayer.LocalPlayer;
 
             if (!player.Authenticated)
             {
-                player.AuthenticateHandler = Authentication;
+                player.AuthenticateHandler = (UIViewController controller, NSError error) =>
+                {
+                    if (controller != null)
+                    {
+                        UIViewController parent = AppMain.Current.Services.GetService(typeof(UIViewController)) as UIViewController;
+                        parent.PresentViewController(controller, true, null);
+                    }
+                    else
+                    {
+                        if (GKLocalPlayer.LocalPlayer.Authenticated)
+                        {
+                            _enabled = true;
+
+                            GKAchievement.LoadAchievements((GKAchievement[] achievements, NSError error2)=>
+                            {
+                                if (achievements != null && achievements.Length > 0 && achievementInfo != null)
+                                {
+                                    AchievementInfo[] info = new AchievementInfo[achievements.Length];
+
+                                    for (int idx = 0; idx < achievements.Length; ++idx)
+                                    {
+                                        GKAchievement ach = achievements[idx];
+                                        info[idx] = new AchievementInfo(ach.Identifier){Completion = (int)ach.PercentComplete};
+                                    }
+
+                                    achievementInfo(info);
+                                }
+                            });
+                        }
+                    }
+                };
             }
         }
 
@@ -43,35 +71,6 @@ namespace Sitana.Framework.GamerApi
                 gkScore.Value = score;
 
                 GKScore.ReportScores(new GKScore[1]{gkScore}, (error)=>{});
-            }
-        }
-
-        private void Authentication(UIViewController controller, NSError error)
-        {
-            if (controller != null)
-            {
-                UIViewController parent = AppMain.Current.Services.GetService(typeof(UIViewController)) as UIViewController;
-                parent.PresentViewController(controller, true, null);
-            }
-            else
-            {
-                if (GKLocalPlayer.LocalPlayer.Authenticated)
-                {
-                    _enabled = true;
-
-                    GKAchievement.LoadAchievements(AchievementList);
-                }
-            }
-        }
-
-        private void AchievementList(GKAchievement[] achievements, NSError error)
-        {
-            if (achievements != null && AchievementInfo != null)
-            {
-                foreach (var ach in achievements)
-                {
-                    AchievementInfo(this, new AchievementInfoEventArgs(ach.Identifier, ach.Completed ? 100 : (int)ach.PercentComplete));
-                }
             }
         }
 	}

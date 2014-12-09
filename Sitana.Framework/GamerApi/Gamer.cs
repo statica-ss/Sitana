@@ -18,7 +18,7 @@ namespace Sitana.Framework.GamerApi
 
         private object _lock = new object();
 
-        public event EventHandler<AchievementInfoEventArgs> AchievementCompleted;
+        public event AchievementCompletedDelegate AchievementCompleted;
 
         public Gamer()
         {
@@ -28,8 +28,7 @@ namespace Sitana.Framework.GamerApi
         {
             Unserialize();
 
-            _handler.AchievementInfo += OnAchievementInfo;
-            _handler.Login();
+            _handler.Login(OnAchievementsLoaded);
         }
 
         public int AchievementCompletion(string id)
@@ -65,7 +64,7 @@ namespace Sitana.Framework.GamerApi
                 {
                     if (AchievementCompleted != null)
                     {
-                        AchievementCompleted(this, new AchievementInfoEventArgs(id, completion));
+                        AchievementCompleted(new AchievementInfo(id){Completion = completion});
                     }
 
                     _handler.SendAchievement(id, completion);
@@ -119,24 +118,27 @@ namespace Sitana.Framework.GamerApi
         }
 
 
-        private void OnAchievementInfo(object sender, AchievementInfoEventArgs args)
+        private void OnAchievementsLoaded(AchievementInfo[] achievements)
         {
-            int currentCompletion = AchievementCompletion(args.Id);
-
-            if (currentCompletion > args.Completion)
+            foreach (var ach in achievements)
             {
-                _handler.SendAchievement(args.Id, args.Completion);
-            }
+                int currentCompletion = AchievementCompletion(ach.Id);
 
-            if (currentCompletion < args.Completion)
-            {
-                lock (_lock)
+                if (currentCompletion > ach.Completion)
                 {
-                    _achievements[args.Id] = args.Completion;
+                    _handler.SendAchievement(ach.Id, ach.Completion);
                 }
 
-                Serialize();
+                if (currentCompletion < ach.Completion)
+                {
+                    lock (_lock)
+                    {
+                        _achievements[ach.Id] = ach.Completion;
+                    }
+                }
             }
+                
+            Serialize();
         }
 
         private void Serialize()
