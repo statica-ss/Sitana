@@ -370,9 +370,6 @@ namespace Sitana.Framework.Input.TouchPad
 
         void AnalyzeMoveGestures(int id, ref TouchElement element, ref Vector2 move)
         {
-            Vector2 moveHorz = new Vector2(move.X, 0);
-            Vector2 moveVert = new Vector2(0, move.Y);
-
             if ( (element.LockedGesture & (GestureType.HorizontalDrag|GestureType.VerticalDrag|GestureType.Hold|GestureType.HoldStart|GestureType.Down)) == GestureType.None )
             {
                 Vector2 drag = element.Position - element.Origin;
@@ -380,12 +377,10 @@ namespace Sitana.Framework.Input.TouchPad
                 if ( Math.Abs(drag.X) > MinDragSize && Math.Abs(drag.X) > Math.Abs(drag.Y) )
                 {
                     element.LockedGesture |= GestureType.HorizontalDrag;
-                    moveHorz = new Vector2(drag.X, 0);
                 }
                 else if (Math.Abs(drag.Y) > MinDragSize && Math.Abs(drag.Y) > Math.Abs(drag.X))
                 {
                     element.LockedGesture |= GestureType.VerticalDrag;
-                    moveVert = new Vector2(0, drag.Y);
                 }
 
                 if ( drag.Length() > MinDragSize )
