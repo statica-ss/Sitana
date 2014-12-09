@@ -34,6 +34,8 @@ namespace Sitana.Framework.Ui.Views
 		bool _wheelScrollsHorizontal = false;
 		float _wheelSpeed = 0;
 
+        Mode _mode;
+
 		public Scroller(UiView view, Mode mode, ScrollingService scrollingService, float wheelSpeed)
 			: this(view, mode, scrollingService)
 		{
@@ -42,36 +44,28 @@ namespace Sitana.Framework.Ui.Views
 
         public Scroller(UiView view, Mode mode, ScrollingService scrollingService)
         {
+            _mode = mode;
             _view = view;
             _service = scrollingService;
 
             if (mode.HasFlag(Mode.BothDrag))
             {
-                TouchPad.Instance.AddListener(GestureType.FreeDrag | GestureType.Down | GestureType.Up, _view);
+                view.EnabledGestures = (GestureType.FreeDrag | GestureType.Down | GestureType.Up);
             }
             else if (mode.HasFlag(Mode.VerticalDrag))
             {
-                TouchPad.Instance.AddListener(GestureType.VerticalDrag | GestureType.Down | GestureType.Up, _view);
+                view.EnabledGestures = (GestureType.VerticalDrag | GestureType.Down | GestureType.Up);
             }
             else if (mode.HasFlag(Mode.HorizontalDrag))
             {
-                TouchPad.Instance.AddListener(GestureType.HorizontalDrag | GestureType.Down | GestureType.Up, _view);
-            }
-            else
-            {
-                TouchPad.Instance.AddListener(GestureType.CapturedByOther, _view);
+                view.EnabledGestures = (GestureType.HorizontalDrag | GestureType.Down | GestureType.Up);
             }
 
 			if (mode.HasFlag(Mode.HorizontalWheel) || mode.HasFlag(Mode.VerticalWheel))
 			{
-				TouchPad.Instance.AddListener(GestureType.MouseWheel, _view);
+				view.EnabledGestures |= (GestureType.MouseWheel);
 				_wheelScrollsHorizontal = mode.HasFlag(Mode.HorizontalWheel);
 			}
-        }
-
-        public void Remove()
-        {
-            TouchPad.Instance.RemoveListener(_view);
         }
 
         public void OnGesture(Gesture gesture)
@@ -142,12 +136,12 @@ namespace Sitana.Framework.Ui.Views
                 {
                     gesture.Handled = true;
 
-                    if (_touchIdX != 0)
+                    if (_touchIdX != 0 && _mode.HasFlag(Mode.HorizontalDrag))
                     {
                         _service.ScrollPositionX -= gesture.Offset.X;
                     }
 
-                    if (_touchIdY != 0)
+                    if (_touchIdY != 0 && _mode.HasFlag(Mode.VerticalDrag))
                     {
                         _service.ScrollPositionY -= gesture.Offset.Y;
                     }
@@ -156,12 +150,12 @@ namespace Sitana.Framework.Ui.Views
                     {
                         double time = AppMain.Current.TotalGameTime - _lastMoveTime.Value;
 
-                        if (_touchIdX != 0)
+                        if (_touchIdX != 0 && _mode.HasFlag(Mode.HorizontalDrag))
                         {
                             _scrollSpeed.X = (_service.ScrollSpeedX + -gesture.Offset.X / (float)time) / 2;
                         }
 
-                        if (_touchIdY != 0)
+                        if (_touchIdY != 0 && _mode.HasFlag(Mode.VerticalDrag))
                         {
                             _scrollSpeed.Y = (_service.ScrollSpeedY + -gesture.Offset.Y / (float)time) / 2;
                         }

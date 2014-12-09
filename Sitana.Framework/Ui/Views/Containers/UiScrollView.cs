@@ -53,7 +53,6 @@ namespace Sitana.Framework.Ui.Views
         {
             base.OnRemoved();
 
-            _scroller.Remove();
             _scrollingService.Remove();
         }
 

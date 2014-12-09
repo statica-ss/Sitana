@@ -47,14 +47,9 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void OnAdded()
         {
-            TouchPad.Instance.AddListener(GestureType.Down | GestureType.FreeDrag | GestureType.Tap | GestureType.HoldStart | GestureType.Hold, this);
+            EnabledGestures = (GestureType.Down | GestureType.FreeDrag | GestureType.Tap | GestureType.HoldStart | GestureType.Hold);
 
             base.OnAdded();
-        }
-
-        protected override void OnRemoved()
-        {
-            TouchPad.Instance.RemoveListener(this);
         }
 
         protected override void OnGesture(Gesture gesture)

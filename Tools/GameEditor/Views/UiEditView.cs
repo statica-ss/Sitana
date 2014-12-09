@@ -14,7 +14,7 @@ namespace GameEditor.Views
 {
     public class UiEditView: UiView
     {
-        public static void Parse(XNode node, DefinitionFile file)
+        public new static void Parse(XNode node, DefinitionFile file)
         {
             UiView.Parse(node, file);
         }
@@ -23,7 +23,7 @@ namespace GameEditor.Views
 
         protected override void OnAdded()
         {
-            TouchPad.Instance.AddListener(GestureType.Down | GestureType.Up | GestureType.Move | GestureType.MouseMove, this);
+            EnabledGestures = GestureType.Down | GestureType.Up | GestureType.Move | GestureType.MouseMove;
         }
 
         protected override void OnGesture(Gesture gesture)

@@ -135,7 +135,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void OnAdded()
         {
-            TouchPad.Instance.AddListener(GestureType.Parent, this);
+            EnabledGestures = (GestureType.Parent);
         }
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)

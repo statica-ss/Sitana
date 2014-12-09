@@ -19,7 +19,7 @@ using Sitana.Framework.Input.GamePad;
 
 namespace Sitana.Framework.Ui.Core
 {
-    public partial class AppMain: Game
+    public partial class AppMain: Game, IGestureListener
     {
         public delegate void LoadDelegate(AppMain main);
         public delegate bool CloseDelegate(AppMain main);
@@ -82,6 +82,7 @@ namespace Sitana.Framework.Ui.Core
             Graphics.SynchronizeWithVerticalRetrace = true;
 
             MusicController.Instance.Initialize();
+            TouchPad.Instance.AddListener(this);
 
             TotalGameTime = 0;
 
@@ -265,6 +266,11 @@ namespace Sitana.Framework.Ui.Core
         public new void Exit()
         {
             throw new Exception("Don't call Exit! Call CloseApp instead.");
+        }
+
+        void IGestureListener.OnGesture(Gesture gesture)
+        {
+            MainView.ViewGesture(gesture);
         }
     }
 }

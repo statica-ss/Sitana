@@ -19,6 +19,6 @@ namespace Sitana.Framework.Input.TouchPad
 
         public DateTime DownTime;
 
-        public IGestureListener LockedListener;
+        public object LockedListener;
     }
 }

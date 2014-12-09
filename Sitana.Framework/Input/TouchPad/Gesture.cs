@@ -19,13 +19,13 @@ namespace Sitana.Framework.Input.TouchPad
         public bool Handled { get; set; }
         public bool SkipRest { get; set; }
         
-        public IGestureListener PointerCapturedBy { get; internal set; }
+        public object PointerCapturedBy { get; internal set; }
 
-        public void CapturePointer(IGestureListener captureBy)
+        public void CapturePointer(object captureBy)
         {
             if (PointerCapturedBy != null && PointerCapturedBy != captureBy)
             {
-                throw new Exception("Pointer already captured by another listener.");
+                throw new Exception("Pointer already captured by another object.");
             }
 
             PointerCapturedBy = captureBy;

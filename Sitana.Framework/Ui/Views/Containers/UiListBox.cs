@@ -112,7 +112,6 @@ namespace Sitana.Framework.Ui.Views
             base.OnRemoved();
             
             _items.Unsubscribe(this);
-            _scroller.Remove();
             _scrollingService.Remove();
         }
 
