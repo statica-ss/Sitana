@@ -149,8 +149,6 @@
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
     <Compile Include="Definitions\TransitionType.cs" />
-    <Compile Include="GamerApi\AchievementsHandler.cs" />
-    <Compile Include="GamerApi\AchievementsManager.cs" />
     <Compile Include="GamerApi\AchievementInfoEventArgs.cs" />
     <Compile Include="GamerApi\Gamer.cs" />
     <Compile Include="Graphics\Images\NinePatchImage.cs" />
@@ -237,5 +235,6 @@
     <Compile Include="Xml\XNodeAttributes.cs" />
     <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
+    <Compile Include="GamerApi\GamerPlatform.iOs.cs" />
   </ItemGroup>
 </Project>

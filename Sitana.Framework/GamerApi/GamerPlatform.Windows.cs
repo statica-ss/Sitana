@@ -6,9 +6,13 @@ using System;
 
 namespace Sitana.Framework.GamerApi
 {
-    public class GamerApiPlatform
+    class GamerPlatform
     {
         public event EventHandler<AchievementInfoEventArgs> AchievementInfo;
+
+        public void EnsureLoggedIn()
+        {
+        }
 
         public void SendAchievement(string id, int completion)
         {
@@ -16,6 +20,7 @@ namespace Sitana.Framework.GamerApi
 
         public void GetAchievementsList()
         {
+
         }
 
         public void SendScore(string id, int score)

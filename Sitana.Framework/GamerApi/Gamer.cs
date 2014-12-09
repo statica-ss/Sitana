@@ -12,7 +12,7 @@ namespace Sitana.Framework.GamerApi
 {
     public class Gamer: Singleton<Gamer>
     {
-        private GamerApiPlatform _handler = new GamerApiPlatform();
+        private GamerPlatform _handler = new GamerPlatform();
         private Dictionary<string, int> _achievements = new Dictionary<string, int>();
         private Dictionary<string, List<int>> _localScores = new Dictionary<string, List<int>>();
 
@@ -22,7 +22,7 @@ namespace Sitana.Framework.GamerApi
 
         public Gamer()
         {
-            EnsureLoggedIn();
+            _handler.EnsureLoggedIn();
 
             _handler.AchievementInfo += OnAchievementInfo;
             _handler.GetAchievementsList();
@@ -120,11 +120,6 @@ namespace Sitana.Framework.GamerApi
         private void OnAchievementInfo(object sender, AchievementInfoEventArgs args)
         {
             ReportAchievement(args.Id, args.Completion);
-        }
-
-        internal void EnsureLoggedIn()
-        {
-
         }
 
         private void Serialize()

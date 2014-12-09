@@ -102,8 +102,6 @@ namespace Sitana.Framework.Content
 
 #if RESOURCE_MANAGER_AVALIABLE
 
-        private System.Resources.ResourceManager _resourceManager = null;
-
         public static void Init(IServiceProvider serviceProvider, Assembly assembly, string root)
         {
             ContentManager manager = new ResourcesContentManager(serviceProvider, assembly, root);
