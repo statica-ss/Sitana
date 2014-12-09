@@ -22,12 +22,14 @@ namespace Sitana.Framework.GamerApi
 
         public Gamer()
         {
-            _handler.EnsureLoggedIn();
+        }
+
+        public void Enable()
+        {
+            Unserialize();
 
             _handler.AchievementInfo += OnAchievementInfo;
-            _handler.GetAchievementsList();
-
-            Unserialize();
+            _handler.Login();
         }
 
         public int AchievementCompletion(string id)
@@ -119,7 +121,22 @@ namespace Sitana.Framework.GamerApi
 
         private void OnAchievementInfo(object sender, AchievementInfoEventArgs args)
         {
-            ReportAchievement(args.Id, args.Completion);
+            int currentCompletion = AchievementCompletion(args.Id);
+
+            if (currentCompletion > args.Completion)
+            {
+                _handler.SendAchievement(args.Id, args.Completion);
+            }
+
+            if (currentCompletion < args.Completion)
+            {
+                lock (_lock)
+                {
+                    _achievements[args.Id] = args.Completion;
+                }
+
+                Serialize();
+            }
         }
 
         private void Serialize()
@@ -172,38 +189,42 @@ namespace Sitana.Framework.GamerApi
             // Open isolated storage.
             using (var isolatedStorageFile = Platform.GetUserStoreForApplication())
             {
-                // Open file from storage.
-                using (var stream = isolatedStorageFile.OpenFile(path, FileMode.Open))
+                try
                 {
-                    using (BinaryReader reader = new BinaryReader(stream))
+                    // Open file from storage.
+                    using (var stream = isolatedStorageFile.OpenFile(path, FileMode.Open))
                     {
-                        int count = reader.ReadInt32();
-
-                        for (int idx = 0; idx < count; ++idx)
+                        using (BinaryReader reader = new BinaryReader(stream))
                         {
-                            string id = reader.ReadString();
-                            int completion = reader.ReadInt32();
+                            int count = reader.ReadInt32();
 
-                            _achievements[id] = completion;
-                        }
-
-                        count = reader.ReadInt32();
-
-                        for (int idx = 0; idx < count; ++idx)
-                        {
-                            string id = reader.ReadString();
-
-                            List<int> list = new List<int>();
-                            _localScores.Add(id, list);
-
-                            int count2 = reader.ReadInt32();
-                            for (int idx2 = 0; idx2 < count2; ++idx2)
+                            for (int idx = 0; idx < count; ++idx)
                             {
-                                list.Add(reader.ReadInt32());
+                                string id = reader.ReadString();
+                                int completion = reader.ReadInt32();
+
+                                _achievements[id] = completion;
+                            }
+
+                            count = reader.ReadInt32();
+
+                            for (int idx = 0; idx < count; ++idx)
+                            {
+                                string id = reader.ReadString();
+
+                                List<int> list = new List<int>();
+                                _localScores.Add(id, list);
+
+                                int count2 = reader.ReadInt32();
+                                for (int idx2 = 0; idx2 < count2; ++idx2)
+                                {
+                                    list.Add(reader.ReadInt32());
+                                }
                             }
                         }
                     }
                 }
+                catch { }
             }
         }
     }

@@ -178,7 +178,6 @@
     <Compile Include="Misc\ColorWrapper.cs" />
     <Compile Include="Misc\ConsoleEx.cs" />
     <Compile Include="Misc\DelayedActionInvoker.cs" />
-    <Compile Include="Misc\InfoBar.cs" />
     <Compile Include="Misc\RemoteConsoleClient.cs" />
     <Compile Include="Misc\StringsManager.cs" />
     <Compile Include="Misc\UiTask.cs" />
