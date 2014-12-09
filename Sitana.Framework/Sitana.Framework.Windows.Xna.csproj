@@ -59,6 +59,7 @@
     <Compile Include="ContentManagement\ZipFile.cs" />
     <Compile Include="Diagnostics\PerformanceProfiler.cs" />
     <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
+    <Compile Include="GamerApi\AchievementInfo.cs" />
     <Compile Include="Graphics\Sprites\Sprite.cs" />
     <Compile Include="Graphics\Sprites\SpriteInstance.cs" />
     <Compile Include="Graphics\Sprites\SpriteSequence.cs" />
@@ -151,7 +152,6 @@
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
     <Compile Include="Definitions\TransitionType.cs" />
     <Compile Include="GamerApi\GamerPlatform.Windows.cs" />
-    <Compile Include="GamerApi\AchievementInfoEventArgs.cs" />
     <Compile Include="GamerApi\Gamer.cs" />
     <Compile Include="Graphics\Images\NinePatchImage.cs" />
     <Compile Include="Graphics\3D\BasicShaderEffect.cs" />

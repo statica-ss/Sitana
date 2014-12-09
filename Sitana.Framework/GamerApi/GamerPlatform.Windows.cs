@@ -8,9 +8,7 @@ namespace Sitana.Framework.GamerApi
 {
     class GamerPlatform
     {
-        public event EventHandler<AchievementInfoEventArgs> AchievementInfo;
-
-        public void EnsureLoggedIn()
+        public void Login(AchievementInfoDelegate achievements)
         {
         }
 
