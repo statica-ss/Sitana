@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Xml;
+using Sitana.Framework.Input.TouchPad;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -58,6 +59,14 @@ namespace Sitana.Framework.Ui.Views
         }
 
         protected List<UiView> _children = new List<UiView>();
+
+        public bool HasChildren
+        {
+            get
+            {
+                return _children.Count > 0;
+            }
+        }
 
         public void Remove(UiView view)
         {
@@ -269,6 +278,27 @@ namespace Sitana.Framework.Ui.Views
                         Add(child);
                     }
                 }
+            }
+        }
+
+        internal override void ViewGesture(Gesture gesture)
+        {
+            if (_enableGestureHandling)
+            {
+                for (int idx = _children.Count - 1; idx >= 0; --idx)
+                {
+                    _children[idx].ViewGesture(gesture);
+
+                    if ((gesture.Handled || gesture.SkipRest) && (gesture.GestureType != GestureType.CapturedByOther))
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (!gesture.Handled && !gesture.SkipRest || gesture.GestureType == GestureType.CapturedByOther)
+            {
+                base.ViewGesture(gesture);
             }
         }
     }

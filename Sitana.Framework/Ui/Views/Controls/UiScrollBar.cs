@@ -60,12 +60,7 @@ namespace Sitana.Framework.Ui.Views
             base.OnAdded();
 
             GestureType drag = _vertical ? GestureType.VerticalDrag : GestureType.HorizontalDrag;
-            TouchPad.Instance.AddListener(GestureType.Down | GestureType.Up | GestureType.Move | drag, this);
-        }
-
-        protected override void OnRemoved()
-        {
-            TouchPad.Instance.RemoveListener(this);
+            EnabledGestures = (GestureType.Down | GestureType.Up | GestureType.Move | drag);
         }
 
         protected override void Draw(ref UiViewDrawParameters parameters)

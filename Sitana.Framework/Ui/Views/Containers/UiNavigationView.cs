@@ -9,6 +9,7 @@ using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Content;
+using Sitana.Framework.Input.TouchPad;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -130,6 +131,11 @@ namespace Sitana.Framework.Ui.Views
                     page.ShowSpeed = lastVisibleChild != null ? lastVisibleChild.HideSpeed : float.MaxValue;
                 }
             }
+        }
+
+        protected override void OnAdded()
+        {
+            EnabledGestures = (GestureType.Parent);
         }
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)

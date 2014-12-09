@@ -64,5 +64,13 @@ namespace Sitana.Framework.Content
 
             return fonts;
         }
+
+        public FontFace Font
+        {
+            get
+            {
+                return _fonts.First().Value;
+            }
+        }
     }
 }

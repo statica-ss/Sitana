@@ -24,7 +24,7 @@ namespace Sitana.Framework.Ui.Views
     /// MinSize
     /// Opacity
     /// </summary>
-    public abstract class UiView : IDefinitionClass, IGestureListener
+    public abstract class UiView : IDefinitionClass
     {
         public static void Parse(XNode node, DefinitionFile file)
         {
@@ -194,6 +194,8 @@ namespace Sitana.Framework.Ui.Views
         }
 
         public SharedValue<bool> Visible { get; protected set;}
+
+        public GestureType EnabledGestures = GestureType.None;
 
         public virtual Point MinSize
         {
@@ -683,24 +685,27 @@ namespace Sitana.Framework.Ui.Views
             return size;
         }
 
-        void IGestureListener.OnGesture(Gesture gesture)
+        internal virtual void ViewGesture(Gesture gesture)
         {
-            if (_enableGestureHandling)
+            if (gesture.GestureType == GestureType.CapturedByOther)
             {
-                OnGesture(gesture);
-            }
-        }
-
-        IGestureListener IGestureListener.Parent
-        {
-            get
-            {
-                if ( Parent != null )
+                if (gesture.PointerCapturedBy != this)
                 {
-                    return Parent;
+                    OnGesture(gesture);
                 }
-
-                return null;
+            }
+            else if (_enableGestureHandling)
+            {
+                if (gesture.PointerCapturedBy == null || gesture.PointerCapturedBy == this)
+                {
+                    if ((gesture.GestureType & EnabledGestures) != GestureType.None)
+                    {
+                        GestureType originalType = gesture.GestureType;
+                        gesture.GestureType = gesture.GestureType & EnabledGestures;
+                        OnGesture(gesture);
+                        gesture.GestureType = originalType;
+                    }
+                }
             }
         }
 

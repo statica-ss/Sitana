@@ -15,7 +15,7 @@ namespace GameEditor
         public static FileMenuController Current {get; private set;}
 
         public bool CanClose
-        { 
+        {
             get
             {
                 return !Document.Current.IsModified;
@@ -184,7 +184,7 @@ namespace GameEditor
                 ()=>
             {
                 Document.Current.CancelModified();
-                AppMain.Current.Exit();
+                AppMain.Current.CloseApp();
             },
                 ()=>
             {

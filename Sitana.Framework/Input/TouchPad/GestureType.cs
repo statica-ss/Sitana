@@ -22,9 +22,10 @@ namespace Sitana.Framework.Input.TouchPad
         HoldCancel = 0x400,
         Hold = 0x800,
         CapturedByOther = 0x1000,
-		RightButtonDown = 0x2000,
-		RightButtonUp = 0x4000,
-		MouseWheel = 0x8000,
-        MouseMove = 0x10000
+        RightButtonDown = 0x2000,
+        RightButtonUp = 0x4000,
+        MouseWheel = 0x8000,
+        MouseMove = 0x10000,
+        Parent = 0x20000
     }
 }

@@ -46,18 +46,11 @@ namespace GameEditor.Views
 
 		protected override void OnAdded()
 		{
-			TouchPad.Instance.AddListener(GestureType.Down | GestureType.Move | GestureType.Up, this);
+			EnabledGestures = GestureType.Down | GestureType.Move | GestureType.Up;
 
             _scrollService = Parent as IScrolledElement;
 
 			base.OnAdded();
-		}
-
-		protected override void OnRemoved()
-		{
-			base.OnRemoved();
-
-			TouchPad.Instance.RemoveListener(this);
 		}
 
 		protected override void Init(object controller, object binding, DefinitionFile definition)

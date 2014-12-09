@@ -109,12 +109,7 @@ namespace Sitana.Framework.Ui.Views
             SetPushed(false, false);
             OnPushedChanged();
 
-            TouchPad.Instance.AddListener(GestureType.Down | GestureType.Up | GestureType.Move, this);
-        }
-
-        protected override void OnRemoved()
-        {
-            TouchPad.Instance.RemoveListener(this);
+            EnabledGestures = (GestureType.Down | GestureType.Up | GestureType.Move);
         }
 
         protected override void Update(float time)
@@ -135,6 +130,11 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void OnGesture(Gesture gesture)
         {
+            if (!Enabled)
+            {
+                return;
+            }
+
             Rectangle bounds = ScreenBounds;
 
             switch(gesture.GestureType)

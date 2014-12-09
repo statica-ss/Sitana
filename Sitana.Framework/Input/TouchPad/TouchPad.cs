@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Sitana.Framework.Ui.Core;
+using Sitana.Framework.Ui.Views;
 
 namespace Sitana.Framework.Input.TouchPad
 {
@@ -20,15 +22,6 @@ namespace Sitana.Framework.Input.TouchPad
         const int MouseId = 1;
 
         public delegate void OnTouchDelegate(int id, Vector2 position);
-
-        
-
-        struct ListenerInfo
-        {
-            public GestureType GestureType;
-            public IGestureListener Listener;
-            public IGestureListener Parent;
-        }
 
         struct LastTap
         {
@@ -49,10 +42,6 @@ namespace Sitana.Framework.Input.TouchPad
 
         Dictionary<int, TouchElement> _elements = new Dictionary<int, TouchElement>();
 
-        List<ListenerInfo> _listeners = new List<ListenerInfo>();
-
-        Dictionary<IGestureListener, bool> _listenersMap = new Dictionary<IGestureListener, bool>();
-
         Gesture _gesture = new Gesture();
         Gesture _gesturePointerCapturedBy = new Gesture();
 
@@ -61,71 +50,21 @@ namespace Sitana.Framework.Input.TouchPad
 
         LastTap? _lastTap;
 
+        List<IGestureListener> _listeners = new List<IGestureListener>();
+
 		public TouchPad()
 		{
 			_scrollWheelValue = Mouse.GetState().ScrollWheelValue;
 		}
 
-        public void AddListener(GestureType gestureType, IGestureListener listener)
+        public void AddListener(IGestureListener listener)
         {
-            if (_listenersMap.ContainsKey(listener))
-            {
-                int index = _listeners.FindIndex(el => el.Listener == listener);
-
-                var element = _listeners[index];
-                element.GestureType |= gestureType;
-
-                _listeners[index] = element;
-            }
-            else
-            {
-                IGestureListener parent;
-                int index = FindIndex(listener, out parent);
-
-                _listeners.Insert(index, new ListenerInfo() { GestureType = gestureType, Listener = listener, Parent = parent });
-                _listenersMap.Add(listener, true);
-            }
-        }
-
-        int FindIndex(IGestureListener listener, out IGestureListener listenerParent)
-        {
-            int index = 0;
-            IGestureListener parent = null;
-
-            parent = listener.Parent;
-
-            while(parent != null && !_listenersMap.ContainsKey(parent))
-            {
-                parent = parent.Parent;
-            }
-
-            if ( parent != null )
-            {
-                int first = _listeners.FindIndex((el) => el.Listener == parent || el.Parent == parent);
-
-                if ( first >= 0 )
-                {
-                    index = first;
-                }
-            }
-
-            listenerParent = parent;
-            return index;
+            _listeners.Add(listener);
         }
 
         public void RemoveListener(IGestureListener listener)
         {
-            if (_listenersMap.ContainsKey(listener))
-            {
-                _listenersMap.Remove(listener);
-
-                int index = _listeners.FindIndex(el => el.Listener == listener);
-
-                if (index >= 0)
-                {
-                    _listeners.RemoveAt(index);
-                }
-            }
+            _listeners.Remove(listener);
         }
 
         internal void Update(float time, bool active)
@@ -461,54 +400,11 @@ namespace Sitana.Framework.Input.TouchPad
                 _gesture.TouchId = id;
                 _gesture.Position = element.Position;
                 _gesture.Origin = element.Origin;
-
-                IGestureListener captureBy = _gesture.PointerCapturedBy;
-
                 _gesture.SkipRest = false;
+                _gesture.Offset = move;
+                _gesture.GestureType = element.LockedGesture;
 
-                for (int idx = 0; idx < _listeners.Count; ++idx)
-                {
-                    var listener = _listeners[idx];
-
-                    if (_gesture.PointerCapturedBy != null && _gesture.PointerCapturedBy != listener.Listener)
-                        continue;
-
-                    if ((listener.GestureType & element.LockedGesture) != GestureType.None)
-                    {
-                        _gesture.GestureType = element.LockedGesture & listener.GestureType;
-
-                        switch (_gesture.GestureType)
-                        {
-                            case GestureType.HorizontalDrag:
-                                _gesture.Offset = moveHorz;
-                                break;
-
-                            case GestureType.VerticalDrag:
-                                _gesture.Offset = moveVert;
-                                break;
-
-                            case GestureType.FreeDrag:
-                                _gesture.Offset = move;
-                                break;
-
-                            default:
-                                throw new InvalidOperationException("Element cannot listen to FreeDrag gesture and Horizontal or Vertical drag at one time.");
-                        }
-
-                        listener.Listener.OnGesture(_gesture);
-
-                        if (_gesture.PointerCapturedBy != captureBy)
-                        {
-                            SendCapturedGesture(_gesture.TouchId, _gesture.PointerCapturedBy);
-                            return;
-                        }
-
-                        if (_gesture.Handled || _gesture.SkipRest)
-                        {
-                            return;
-                        }
-                    }
-                }
+                OnGesture();
             }
             else
             {
@@ -553,50 +449,31 @@ namespace Sitana.Framework.Input.TouchPad
             }
         }
 
-        void SendCapturedGesture(int touchId, IGestureListener capture)
-        {
-            _gesturePointerCapturedBy.GestureType = GestureType.CapturedByOther;
-            _gesturePointerCapturedBy.TouchId = touchId;
-
-            for (int idx2 = 0; idx2 < _listeners.Count; ++idx2)
-            {
-                var listener = _listeners[idx2];
-
-                if (listener.Listener != capture)
-                {
-                    listener.Listener.OnGesture(_gesturePointerCapturedBy);
-                }
-            }
-        }
-
         void OnGesture()
         {
             _gesture.SkipRest = false;
+            _gesture.Handled = false;
+            _gesture.PointerCapturedBy = null;
 
-            if (_gesture.PointerCapturedBy != null)
+            for (int idx = 0; idx < _listeners.Count; ++idx)
             {
-                _gesture.PointerCapturedBy.OnGesture(_gesture);
-                return;
+                _listeners[idx].OnGesture(_gesture);
+
+                if (_gesture.Handled || _gesture.SkipRest)
+                {
+                    break;
+                }
             }
 
-            for(int idx = 0; idx < _listeners.Count; ++idx )
+            if (_gesture.PointerCapturedBy != null && _gesture.GestureType != GestureType.CapturedByOther)
             {
-                var listener = _listeners[idx];
+                _gesture.SkipRest = false;
+                _gesture.Handled = false;
+                _gesture.GestureType = GestureType.CapturedByOther;
 
-                if ( listener.GestureType.HasFlag(_gesture.GestureType) )
+                for (int idx = 0; idx < _listeners.Count; ++idx)
                 {
-                    listener.Listener.OnGesture(_gesture);
-
-                    if (_gesture.PointerCapturedBy != null)
-                    {
-                        SendCapturedGesture(_gesture.TouchId, _gesture.PointerCapturedBy);
-                        return;
-                    }
-
-                    if ( _gesture.Handled || _gesture.SkipRest )
-                    {
-                        return;
-                    }
+                    _listeners[idx].OnGesture(_gesture);
                 }
             }
         }
