@@ -25,6 +25,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
             file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
             file["Scale"] = parser.ParseFloat("Scale");
+            file["Stretch"] = parser.ParseEnum<Stretch>("Stretch");
         }
 
         protected string _font;
@@ -32,6 +33,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         protected HorizontalAlignment _horzAlign;
         protected VerticalAlignment _vertAlign;
         protected float _scale;
+        protected Stretch _stretch;
 
         protected override void Init(UiController controller, object binding, DefinitionFile definition)
         {
@@ -41,6 +43,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             _horzAlign = DefinitionResolver.Get<HorizontalAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalAlignment.Center);
             _vertAlign = DefinitionResolver.Get<VerticalAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalAlignment.Center);
+            _stretch = DefinitionResolver.Get<Stretch>(controller, binding, file["Stretch"], Stretch.None);
             _scale = (float)DefinitionResolver.Get<double>(controller, binding, file["Scale"], 1);
         }
 
@@ -55,12 +58,32 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             float scale = (float)UiUnit.Unit * _scale;
 
-            Color color = ColorFromState * info.Opacity * Opacity;
+            float scaleX = scale;
+            float scaleY = scale;
 
             Rectangle target = info.Target;
-            Rectangle source = new Rectangle(0, 0, info.Icon.Width, info.Icon.Height);
+            Texture2D image = info.Icon;
 
-            Vector2 size = new Vector2(source.Width, source.Height) * scale;
+            switch (_stretch)
+            {
+                case Stretch.Uniform:
+                    scaleX = scaleY = Math.Min((float)target.Width / (float)image.Width, (float)target.Height / (float)image.Height);
+                    break;
+
+                case Stretch.UniformToFill:
+                    scaleX = scaleY = Math.Max((float)target.Width / (float)image.Width, (float)target.Height / (float)image.Height);
+                    break;
+
+                case Stretch.Fill:
+                    scaleX = (float)target.Width / (float)image.Width;
+                    scaleY = (float)target.Height / (float)image.Height;
+                    break;
+            }
+
+            Color color = ColorFromState * info.Opacity * Opacity;
+
+            Rectangle source = new Rectangle(0, 0, info.Icon.Width, info.Icon.Height);
+            Vector2 size = new Vector2(source.Width * scaleX, source.Height * scaleY);
 
             target.Width = (int)size.X;
             target.Height = (int)size.Y;

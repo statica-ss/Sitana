@@ -56,6 +56,12 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             {
                 float scale = (float)UiUnit.Unit * _scale;
 
+                if (scale == 0)
+                {
+                    scale = Math.Min((float)info.Target.Width / (float)image.Width, (float)info.Target.Height / (float)image.Height);
+                    scale = Math.Min(1, scale);
+                }
+
                 Rectangle textureSrc = new Rectangle(0, 0, image.Width, image.Height);
 
                 int width = (int)(scale * image.Width);
