@@ -304,7 +304,7 @@ namespace Sitana.Framework.Ui.Views
             _spacing = DefinitionResolver.Get<Length>(Controller, Binding, file["Spacing"], Length.Zero);
             _padding = DefinitionResolver.Get<Length>(Controller, Binding, file["Padding"], Length.Zero);
 
-            InitChildren(Controller, binding, definition);
+            InitChildren(Controller, Binding, definition);
 
             if ( StackMode == Mode.Vertical )
             {

@@ -30,7 +30,7 @@ namespace Sitana.Framework.Ui.Views
         protected override void Init(object controller, object binding, DefinitionFile definition)
         {
             base.Init(controller, binding, definition);
-            InitChildren(Controller, binding, definition);
+            InitChildren(Controller, Binding, definition);
         }
 
         protected override Rectangle CalculateChildBounds(UiView view)

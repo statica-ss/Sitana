@@ -106,7 +106,7 @@ namespace Sitana.Framework.Ui.Views
         protected override void Init(object controller, object binding, DefinitionFile definition)
         {
             base.Init(controller, binding, definition);
-            InitChildren(Controller, binding, definition);
+            InitChildren(Controller, Binding, definition);
             Visible.Value = true;
             DisplayVisibility = 0;
         }

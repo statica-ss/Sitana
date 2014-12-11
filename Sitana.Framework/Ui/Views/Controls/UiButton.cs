@@ -270,9 +270,9 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiButton));
 
-            Icon.Value = DefinitionResolver.Get<Texture2D>(Controller, binding, file["Icon"], null);
+            Icon.Value = DefinitionResolver.Get<Texture2D>(Controller, Binding, file["Icon"], null);
 
-            _text = DefinitionResolver.GetSharedString(Controller, binding, file["Text"]);
+            _text = DefinitionResolver.GetSharedString(Controller, Binding, file["Text"]);
 
             if (_text == null)
             {
@@ -283,13 +283,13 @@ namespace Sitana.Framework.Ui.Views
 
             List<DefinitionFile> drawableFiles = file["Drawables"] as List<DefinitionFile>;
 
-            Enabled = DefinitionResolver.Get<bool>(Controller, binding, file["Enabled"], true);
+            Enabled = DefinitionResolver.Get<bool>(Controller, Binding, file["Enabled"], true);
 
             if ( drawableFiles != null )
             {
                 foreach (var def in drawableFiles)
                 {
-                    ButtonDrawable drawable = def.CreateInstance(Controller, binding) as ButtonDrawable;
+                    ButtonDrawable drawable = def.CreateInstance(Controller, Binding) as ButtonDrawable;
 
                     if (drawable != null)
                     {

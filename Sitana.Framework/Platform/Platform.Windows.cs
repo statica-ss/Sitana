@@ -58,9 +58,11 @@ namespace Sitana.Framework
         {
         }
 
-        public static string OpenFileDialog(string title)
+        public static string OpenFileDialog(string title, string filter)
         {
             System.Windows.Forms.OpenFileDialog dlg = new System.Windows.Forms.OpenFileDialog();
+
+            dlg.Filter = filter;
 
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -70,9 +72,12 @@ namespace Sitana.Framework
             return null;
         }
 
-        public static string SaveFileDialog(string title)
+        public static string SaveFileDialog(string title, string filter, string defaultExt)
         {
             System.Windows.Forms.SaveFileDialog dlg = new System.Windows.Forms.SaveFileDialog();
+
+            dlg.Filter = filter;
+            dlg.DefaultExt = defaultExt;
 
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {

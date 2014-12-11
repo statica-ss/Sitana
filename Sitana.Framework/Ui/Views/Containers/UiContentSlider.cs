@@ -215,12 +215,12 @@ namespace Sitana.Framework.Ui.Views
         {
             base.Init(controller, binding, definition);
 
-            InitChildren(Controller, binding, definition);
+            InitChildren(Controller, Binding, definition);
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiNavigationView));
 
-            _selectedIndex = DefinitionResolver.Get<int>(Controller, binding, file["SelectedIndex"], 0);
-            _cycle = DefinitionResolver.Get<bool>(Controller, binding, file["Cycle"], false);
+            _selectedIndex = DefinitionResolver.Get<int>(Controller, Binding, file["SelectedIndex"], 0);
+            _cycle = DefinitionResolver.Get<bool>(Controller, Binding, file["Cycle"], false);
 
             double speed = DefinitionResolver.Get<double>(Controller, Binding, file["TransitionTime"], 500) / 1000.0;
             _transitionSpeed = (float)(speed > 0 ? 1 / speed : 10000000);
@@ -229,28 +229,28 @@ namespace Sitana.Framework.Ui.Views
 
             if (transitionEffectFile != null)
             {
-                _transitionEffectShowNext = transitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+                _transitionEffectShowNext = transitionEffectFile.CreateInstance(Controller, Binding) as TransitionEffect;
             }
 
             transitionEffectFile = file["HideTransitionEffectNext"] as DefinitionFile;
 
             if (transitionEffectFile != null)
             {
-                _transitionEffectHideNext = transitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+                _transitionEffectHideNext = transitionEffectFile.CreateInstance(Controller, Binding) as TransitionEffect;
             }
 
             transitionEffectFile = file["ShowTransitionEffectPrev"] as DefinitionFile;
 
             if (transitionEffectFile != null)
             {
-                _transitionEffectShowPrev = transitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+                _transitionEffectShowPrev = transitionEffectFile.CreateInstance(Controller, Binding) as TransitionEffect;
             }
 
             transitionEffectFile = file["HideTransitionEffectPrev"] as DefinitionFile;
 
             if (transitionEffectFile != null)
             {
-                _transitionEffectHidePrev = transitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+                _transitionEffectHidePrev = transitionEffectFile.CreateInstance(Controller, Binding) as TransitionEffect;
             }
 
             transitionEffectFile = file["ShowTransitionEffect"] as DefinitionFile;
@@ -259,12 +259,12 @@ namespace Sitana.Framework.Ui.Views
             {
                 if ( _transitionEffectShowPrev == null )
                 {
-                    _transitionEffectShowPrev = transitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+                    _transitionEffectShowPrev = transitionEffectFile.CreateInstance(Controller, Binding) as TransitionEffect;
                 }
 
                 if ( _transitionEffectShowNext == null )
                 {
-                    _transitionEffectShowNext = transitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+                    _transitionEffectShowNext = transitionEffectFile.CreateInstance(Controller, Binding) as TransitionEffect;
                 }
             }
 
@@ -274,12 +274,12 @@ namespace Sitana.Framework.Ui.Views
             {
                 if ( _transitionEffectHidePrev == null )
                 {
-                    _transitionEffectHidePrev = transitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+                    _transitionEffectHidePrev = transitionEffectFile.CreateInstance(Controller, Binding) as TransitionEffect;
                 }
 
                 if ( _transitionEffectHideNext == null )
                 {
-                    _transitionEffectHideNext = transitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+                    _transitionEffectHideNext = transitionEffectFile.CreateInstance(Controller, Binding) as TransitionEffect;
                 }
             }
 

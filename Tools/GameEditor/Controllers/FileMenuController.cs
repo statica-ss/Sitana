@@ -78,7 +78,7 @@ namespace GameEditor
         {
             UiTask.BeginInvoke(()=>
             {
-                string path = Platform.OpenFileDialog("Open file");
+                string path = Platform.OpenFileDialog("Open file", "Map file (*.smf)|*.smf|All files|*.*");
 
                 if (path != null)
                 {
@@ -122,7 +122,7 @@ namespace GameEditor
         {
             if (Document.Instance.FilePath == null)
             {
-                string path = Platform.SaveFileDialog("Save file");
+                string path = Platform.SaveFileDialog("Save file", "Map file (*.smf)|*.smf|All files|*.*", ".smf");
 
                 if (path != null)
                 {
@@ -155,7 +155,7 @@ namespace GameEditor
         {
             UiTask.BeginInvoke(()=>
             {
-                string path = Platform.SaveFileDialog("Save file");
+                string path = Platform.SaveFileDialog("Save file", "Map file (*.smf)|*.smf|All files|*.*", ".smf");
 
                 if (path != null)
                 {

@@ -96,9 +96,9 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiLabel));
 
-            _image = DefinitionResolver.GetShared<Texture2D>(Controller, binding, file["Image"], null);
-            _stretch = DefinitionResolver.Get<Stretch>(Controller, binding, file["Stretch"], Stretch.Uniform);
-            _color = DefinitionResolver.GetColorWrapper(Controller, binding, file["Color"]);
+            _image = DefinitionResolver.GetShared<Texture2D>(Controller, Binding, file["Image"], null);
+            _stretch = DefinitionResolver.Get<Stretch>(Controller, Binding, file["Stretch"], Stretch.Uniform);
+            _color = DefinitionResolver.GetColorWrapper(Controller, Binding, file["Color"]);
         }
     }
 }

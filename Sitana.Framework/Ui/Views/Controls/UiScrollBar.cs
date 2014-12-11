@@ -121,7 +121,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 foreach (var def in drawableFiles)
                 {
-                    ButtonDrawable drawable = def.CreateInstance(Controller, binding) as ButtonDrawable;
+                    ButtonDrawable drawable = def.CreateInstance(Controller, Binding) as ButtonDrawable;
 
                     if (drawable != null)
                     {
@@ -136,7 +136,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 foreach (var def in drawableFiles)
                 {
-                    ButtonDrawable drawable = def.CreateInstance(Controller, binding) as ButtonDrawable;
+                    ButtonDrawable drawable = def.CreateInstance(Controller, Binding) as ButtonDrawable;
 
                     if (drawable != null)
                     {
