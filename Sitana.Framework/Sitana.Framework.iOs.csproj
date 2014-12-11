@@ -235,5 +235,6 @@
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
     <Compile Include="GamerApi\GamerPlatform.iOs.cs" />
     <Compile Include="GamerApi\AchievementInfo.cs" />
+    <Compile Include="Ui\Views\Controls\UiSlider.cs" />
   </ItemGroup>
 </Project>
