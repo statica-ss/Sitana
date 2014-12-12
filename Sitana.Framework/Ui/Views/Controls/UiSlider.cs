@@ -252,8 +252,6 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiSlider));
 
-            string id = DefinitionResolver.GetString(Controller, Binding, file["Context"]);
-
             _vertical = DefinitionResolver.Get<Mode>(Controller, Binding, file["Mode"], Mode.Horizontal) == Mode.Vertical;
 
             _maxValue = DefinitionResolver.GetShared<int>(Controller, Binding, file["MaxValue"], 100);
