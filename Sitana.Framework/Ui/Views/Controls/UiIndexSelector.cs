@@ -32,8 +32,8 @@ namespace Sitana.Framework.Ui.Views
             file["ElementHeight"] = parser.ParseLength("ElementHeight");
             file["Mode"] = parser.ParseEnum<Mode>("Mode");
 
-            file["ContentHorizontalAlignment"] = parser.ParseEnum<HorizontalAlignment>("ContentHorizontalAlignment");
-            file["ContentVerticalAlignment"] = parser.ParseEnum<VerticalAlignment>("ContentVerticalAlignment");
+            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
+            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
         }
 
         enum Mode
@@ -212,8 +212,8 @@ namespace Sitana.Framework.Ui.Views
             _elementWidth = DefinitionResolver.Get<Length>(Controller, Binding, file["ElementWidth"], Length.Stretch);
             _elementHeight = DefinitionResolver.Get<Length>(Controller, Binding, file["ElementHeight"], Length.Stretch);
 
-            _contentHorizontalAlignment = DefinitionResolver.Get<HorizontalAlignment>(Controller, Binding, file["ContentHorizontalAlignment"], HorizontalAlignment.Center);
-            _contentVerticalAlignment = DefinitionResolver.Get<VerticalAlignment>(Controller, Binding, file["ContentVerticalAlignment"], VerticalAlignment.Center);
+            _contentHorizontalAlignment = DefinitionResolver.Get<HorizontalAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalAlignment.Center);
+            _contentVerticalAlignment = DefinitionResolver.Get<VerticalAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalAlignment.Center);
         }
 
         protected override void OnGesture(Gesture gesture)

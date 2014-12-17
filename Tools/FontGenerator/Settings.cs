@@ -20,8 +20,9 @@ namespace FontGenerator
         public string MinChar;
         public string MaxChar;
         public bool RoundBorder;
+        public string Serie;
 
-        public void Init()
+        protected override void Init()
         {
             if (!Loaded)
             {
@@ -36,6 +37,7 @@ namespace FontGenerator
                 MaxChar = "127";
                 AdditionalCharacters = "©";
                 RoundBorder = true;
+                Serie = "10";
             }
         }
     }
