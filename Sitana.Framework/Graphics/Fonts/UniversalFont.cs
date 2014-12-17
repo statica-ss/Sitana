@@ -21,14 +21,14 @@ namespace Sitana.Framework.Graphics
             SpriteFont = null;
         }
 
-        public Vector2 MeasureString(StringBuilder text)
+        public Vector2 MeasureString(StringBuilder text, float spacing=0)
         {
-            return SitanaFont != null ? SitanaFont.MeasureString(text) : SpriteFont.MeasureString(text);
+            return SitanaFont != null ? SitanaFont.MeasureString(text, spacing) : SpriteFont.MeasureString(text);
         }
 
-        public Vector2 MeasureString(string text)
+        public Vector2 MeasureString(string text, float spacing = 0)
         {
-            return SitanaFont != null ? SitanaFont.MeasureString(text) : SpriteFont.MeasureString(text);
+            return SitanaFont != null ? SitanaFont.MeasureString(text, spacing) : SpriteFont.MeasureString(text);
         }
     }
 }

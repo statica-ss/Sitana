@@ -51,8 +51,9 @@ namespace FontGenerator
 
             int top;
             int left;
+            int right;
 
-            image = CropCharacter(image, 0, out left, out top);
+            image = CropCharacter(image, 0, out left, out top, out right);
 
             int emptyCut = left / 2;
 
@@ -147,7 +148,10 @@ namespace FontGenerator
             int left = 0;
             int top = 0;
 
-            bitmap = CropCharacter(bitmap, emptyCut, out left, out top);
+            int bmWidth = bitmap.Width;
+            int right = bitmap.Width;
+
+            bitmap = CropCharacter(bitmap, emptyCut, out left, out top, out right);
 
             glyph = new SitanaGlyph();
             glyph.Character = character;
@@ -155,15 +159,21 @@ namespace FontGenerator
             glyph.Height = (short)bitmap.Height;
             glyph.Top = (short)top;
 
-            float firstWidth = _globalGraphics.MeasureString(text, _font).Width;
+            StringFormat format = StringFormat.GenericTypographic;
+
+            float firstWidth = _globalGraphics.MeasureString(text, _font, 10000, format).Width;
 
             foreach (var ch in list)
             {
-                float secondWidth = _globalGraphics.MeasureString(ch.ToString(), _font).Width;
-                float bothWidth = _globalGraphics.MeasureString(String.Format("{0}{1}", ch, character), _font).Width;
+                float secondWidth = _globalGraphics.MeasureString(ch.ToString(), _font, 10000, format).Width;
+                float bothWidth = _globalGraphics.MeasureString(String.Format("{0}{1}", ch, character), _font, 10000, format).Width;
 
-                float diff = bothWidth - (secondWidth + firstWidth) + left;
-                glyph.AddKerning(ch, (short)(diff * 10));
+                float diff = (float)Math.Ceiling(bothWidth - (secondWidth + firstWidth) + bitmap.Height / 10);
+
+                if (ch != 32)
+                {
+                    glyph.AddKerning(ch, (short)(diff * 10));
+                }
             }
         }
 
@@ -205,10 +215,10 @@ namespace FontGenerator
             return image;
         }
 
-        Bitmap CropCharacter(Bitmap bitmap, int emptyCut, out int cropLeft, out int cropTop)
+        Bitmap CropCharacter(Bitmap bitmap, int emptyCut, out int cropLeft, out int cropTop, out int cropRight)
         {
             cropLeft = 0;
-            Int32 cropRight = bitmap.Width - 1;
+            cropRight = bitmap.Width - 1;
 
             // Remove unused space from the left.
             while ((cropLeft < cropRight) && (BitmapIsEmpty(bitmap, cropLeft, true)))

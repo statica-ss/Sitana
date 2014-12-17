@@ -99,31 +99,31 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        internal void Draw(PrimitiveBatch primitiveBatch, StringBuilder text, Vector2 position, Color color, Vector2 scale)
+        internal void Draw(PrimitiveBatch primitiveBatch, StringBuilder text, Vector2 position, Color color, float spacing, Vector2 scale)
         {
             StringProvider provider = new StringProvider(text);
-            DrawInternal(primitiveBatch, provider, position, color, scale);
+            DrawInternal(primitiveBatch, provider, position, color, spacing, scale);
         }
 
-        internal void Draw(PrimitiveBatch primitiveBatch, string text, Vector2 position, Color color, Vector2 scale)
+        internal void Draw(PrimitiveBatch primitiveBatch, string text, Vector2 position, Color color, float spacing, Vector2 scale)
         {
             StringProvider provider = new StringProvider(text);
-            DrawInternal(primitiveBatch, provider, position, color, scale);
+            DrawInternal(primitiveBatch, provider, position, color, spacing, scale);
         }
 
-        public Vector2 MeasureString(StringBuilder text)
+        public Vector2 MeasureString(StringBuilder text, float spacing)
         {
             StringProvider provider = new StringProvider(text);
-            return MeasureInternal(provider);
+            return MeasureInternal(provider, spacing);
         }
 
-        public Vector2 MeasureString(string text)
+        public Vector2 MeasureString(string text, float spacing)
         {
             StringProvider provider = new StringProvider(text);
-            return MeasureInternal(provider);
+            return MeasureInternal(provider, spacing);
         }
 
-        Vector2 MeasureInternal(StringProvider text)
+        Vector2 MeasureInternal(StringProvider text, float spacing)
         {
             int count = text.Length;
             char previousChar = '\0';
@@ -132,9 +132,12 @@ namespace Sitana.Framework.Graphics
 
             Vector2 size = Vector2.Zero;
 
+            spacing = (float)Height * spacing;
+
             for (int idx = 0; idx < count; ++idx)
             {
-                Glyph glyph = Find(text[idx]);
+                char character = text[idx];
+                Glyph glyph = Find(character);
 
                 if (glyph != null)
                 {
@@ -142,7 +145,10 @@ namespace Sitana.Framework.Graphics
                     {
                         float kerning = (float)glyph.Kerning(previousChar) / 10f;
                         position.X += kerning;
+                        position.X += spacing;
                     }
+
+                    previousChar = character;
 
                     position.X += glyph.Width;
 
@@ -153,13 +159,14 @@ namespace Sitana.Framework.Graphics
                 {
                     position.X = 0;
                     position.Y += Height;
+                    previousChar = '\0';
                 }
             }
 
             return size;
         }
 
-        void DrawInternal(PrimitiveBatch primitiveBatch, StringProvider text, Vector2 targetPosition, Color color, Vector2 scale)
+        void DrawInternal(PrimitiveBatch primitiveBatch, StringProvider text, Vector2 targetPosition, Color color, float spacing, Vector2 scale)
         {
             if ( primitiveBatch.PrimitiveType != PrimitiveType.TriangleList )
             {
@@ -169,11 +176,14 @@ namespace Sitana.Framework.Graphics
             int count = text.Length;
             char previousChar = '\0';
 
+            spacing = (float)Height * spacing * scale.X;
+
             Vector2 position = targetPosition;
 
             for (int idx = 0; idx < count; ++idx)
             {
-                Glyph glyph = Find(text[idx]);
+                char character = text[idx];
+                Glyph glyph = Find(character);
 
                 if (glyph != null)
                 {
@@ -181,7 +191,10 @@ namespace Sitana.Framework.Graphics
                     {
                         float kerning = (float)glyph.Kerning(previousChar) / 10f;
                         position.X += kerning * scale.X;
+                        position.X += spacing;
                     }
+
+                    previousChar = character;
 
                     Vector2 pos = new Vector2(position.X, position.Y + scale.Y * (glyph.Top - CapLine));
 
@@ -193,6 +206,7 @@ namespace Sitana.Framework.Graphics
                 {
                     position.X = targetPosition.X;
                     position.Y += Height * scale.Y;
+                    previousChar = '\0';
                 }
             }
         }

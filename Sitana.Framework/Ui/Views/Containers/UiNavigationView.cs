@@ -94,6 +94,11 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        internal void ClearNavigation()
+        {
+            _history.Clear();
+        }
+
         protected override Rectangle CalculateChildBounds(UiView view)
         {
             return new Rectangle(0, 0, Bounds.Width, Bounds.Height);

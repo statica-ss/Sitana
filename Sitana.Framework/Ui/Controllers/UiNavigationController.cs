@@ -63,6 +63,11 @@ namespace Sitana.Framework.Ui.Controllers
             Navigation.NavigateBack(anchor);
         }
 
+        protected void ClearNavigation()
+        {
+            Navigation.ClearNavigation();
+        }
+
         protected override void Update(float time)
         {
 			if ( View.DisplayVisibility == 1 && GamePads.Instance[0].ButtonState(Buttons.Back) == GamePadButtonState.Pressed)

@@ -43,7 +43,6 @@ namespace Sitana.Framework.Input.TouchPad
         Dictionary<int, TouchElement> _elements = new Dictionary<int, TouchElement>();
 
         Gesture _gesture = new Gesture();
-        Gesture _gesturePointerCapturedBy = new Gesture();
 
         Vector2? _rightClick;
         DateTime _rightClickTime;

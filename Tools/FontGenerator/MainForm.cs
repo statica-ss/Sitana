@@ -27,8 +27,6 @@ namespace FontGenerator
             foreach (FontFamily font in fonts.Families)
                 FontFace.Items.Add(font.Name);
 
-            Settings.Instance.Init();
-
             FontFace.Text = Settings.Instance.Face;
             FontSize.Text = Settings.Instance.Size.ToString();
             FontStyle.SelectedIndex = Settings.Instance.Style;
@@ -41,6 +39,8 @@ namespace FontGenerator
 
             MinChar.Text = Settings.Instance.MinChar;
             MaxChar.Text = Settings.Instance.MaxChar;
+
+            SizeSerie.Text = Settings.Instance.Serie;
 
             AdditionalCharacters.Text = Settings.Instance.AdditionalCharacters;
 
@@ -136,7 +136,9 @@ namespace FontGenerator
             }
 
             Bitmap bitmap;
-            var font = Generate(_previewCharacters, preview.Width - 10, out bitmap);
+            int size = int.Parse(FontSize.Text);
+
+            var font = Generate(_previewCharacters, preview.Width - 10, size, out bitmap);
 
             if (preview.Image != null)
             {
@@ -206,45 +208,54 @@ namespace FontGenerator
 
             Settings.Instance.RoundBorder = BorderRound.Checked;
 
+            Settings.Instance.Serie = SizeSerie.Text;
+
             Settings.Instance.Serialize();
         }
 
-        private SitanaFont Generate(List<char> characters, int width, out Bitmap bitmap)
+        private SitanaFont Generate(List<char> characters, int width, int size, out Bitmap bitmap)
         {
-            SaveSettings();
-
-            SitanaFont sitanaFont;
-
-            FontStyle style = (FontStyle)Enum.Parse(typeof(FontStyle), FontStyle.Text);
-            int size = int.Parse(FontSize.Text);
-            
-            using (Font font = new Font(new FontFamily(FontFace.Text), size, style, GraphicsUnit.Point))
+            try
             {
-                using (Brush brush = new SolidBrush(FillColor.BackColor))
+                SaveSettings();
+
+                SitanaFont sitanaFont;
+
+                FontStyle style = (FontStyle)Enum.Parse(typeof(FontStyle), FontStyle.Text);
+
+                using (Font font = new Font(new FontFamily(FontFace.Text), size, style, GraphicsUnit.Point))
                 {
-                    Pen pen = null;
-
-                    if ( BorderOpacity.Value > 0 && BorderSize.Value > 0)
+                    using (Brush brush = new SolidBrush(FillColor.BackColor))
                     {
-                        float border = (float)BorderSize.Value * (float)size / 100f;
-                        int alpha = (int)((double)BorderOpacity.Value * 255.0);
+                        Pen pen = null;
 
-                        pen = new Pen(Color.FromArgb(alpha, BorderColor.BackColor), border);
+                        if (BorderOpacity.Value > 0 && BorderSize.Value > 0)
+                        {
+                            float border = (float)BorderSize.Value * (float)size / 100f;
+                            int alpha = (int)((double)BorderOpacity.Value * 255.0);
 
-                        if ( BorderRound.Checked )
-                        {
-                            pen.LineJoin = System.Drawing.Drawing2D.LineJoin.Round;
+                            pen = new Pen(Color.FromArgb(alpha, BorderColor.BackColor), border);
+
+                            if (BorderRound.Checked)
+                            {
+                                pen.LineJoin = System.Drawing.Drawing2D.LineJoin.Round;
+                            }
+                            else
+                            {
+                                pen.LineJoin = System.Drawing.Drawing2D.LineJoin.Miter;
+                            }
                         }
-                        else
-                        {
-                            pen.LineJoin = System.Drawing.Drawing2D.LineJoin.Miter;
-                        }
+
+                        new SitanaFontGenerator(font, pen, brush).Generate(characters, width, out sitanaFont, out bitmap);
+
+                        return sitanaFont;
                     }
-
-                    new SitanaFontGenerator(font, pen, brush).Generate(characters, width, out sitanaFont, out bitmap);
-
-                    return sitanaFont;
                 }
+            }
+            catch
+            {
+                bitmap = null;
+                return null;
             }
         }
 
@@ -280,7 +291,10 @@ namespace FontGenerator
                 }
 
                 Bitmap bitmap;
-                SitanaFont font = Generate(list, 2048, out bitmap);
+
+                int size = int.Parse(FontSize.Text);
+
+                SitanaFont font = Generate(list, 2048, size, out bitmap);
 
                 string directory = Path.GetDirectoryName(fileSelector.FileName);
                 string fileNoExt = Path.GetFileNameWithoutExtension(fileSelector.FileName);
@@ -299,6 +313,75 @@ namespace FontGenerator
                 }
 
                 bitmap.Save(fileSelector.FileName, ImageFormat.Png);
+            }
+        }
+
+        private void GenerateSerieBtn_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog fileSelector = new SaveFileDialog();
+
+            fileSelector.Title = "Export Font";
+            fileSelector.DefaultExt = "png";
+            fileSelector.Filter = "Image files (*.png)|*.png|All files (*.*)|*.*";
+
+            if (fileSelector.ShowDialog() == DialogResult.OK)
+            {
+                String[] strings = SizeSerie.Text.Split(',');
+                List<int> sizes = new List<int>();
+
+                foreach (var str in strings)
+                {
+                    int size;
+                    if (int.TryParse(str, out size))
+                    {
+                        sizes.Add(size);
+                    }
+                }
+
+                List<char> list = new List<char>();
+
+                int minChar;
+                int maxChar;
+
+                ParseInt(MinChar.Text, out minChar);
+                ParseInt(MaxChar.Text, out maxChar);
+
+                for (int idx = minChar; idx <= maxChar; ++idx)
+                {
+                    list.Add((char)idx);
+                }
+
+                foreach (var ch in AdditionalCharacters.Text)
+                {
+                    if (!list.Contains(ch))
+                    {
+                        list.Add(ch);
+                    }
+                }
+
+                foreach (var size in sizes)
+                {
+                    Bitmap bitmap;
+                    SitanaFont font = Generate(list, 2048, size, out bitmap);
+
+                    string directory = Path.GetDirectoryName(fileSelector.FileName);
+                    string fileNoExt = Path.GetFileNameWithoutExtension(fileSelector.FileName);
+                    string infoFile = fileNoExt + size.ToString();
+
+                    infoFile = Path.Combine(directory, infoFile);
+
+                    font.FontSheetPath = String.Empty;
+
+                    using (Stream stream = new FileStream(infoFile + ".sft", FileMode.Create))
+                    {
+                        using (BinaryWriter writer = new BinaryWriter(stream))
+                        {
+                            font.Save(writer);
+                        }
+                    }
+
+                    bitmap.Save(infoFile + ".png", ImageFormat.Png);
+                }
             }
         }
 
