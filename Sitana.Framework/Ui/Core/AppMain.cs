@@ -76,6 +76,8 @@ namespace Sitana.Framework.Ui.Core
 
             InactiveSleepTime = TimeSpan.FromMilliseconds(100);
 
+            IsFixedTimeStep = false;
+
             _graphics = new GraphicsDeviceManager(this);
 
             Graphics.IsFullScreen = true;
