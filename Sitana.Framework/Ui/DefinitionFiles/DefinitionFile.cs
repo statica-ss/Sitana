@@ -91,17 +91,20 @@ namespace Sitana.Framework.Ui.DefinitionFiles
         {
             Type type = GetType(node);
 
-            DefinitionFile file = null;
             MethodInfo method = type.GetMethod("Parse", ParseMethodTypes);
+
+            DefinitionFile file = null;
 
             if (method != null)
             {
-                file = new DefinitionFile(type, node.Owner.Name);
-                object retValue = method.Invoke(null, new object[] { node, file });
-
-                if ( retValue is DefinitionFile )
+                if (method.ReturnType == typeof(DefinitionFile))
                 {
-                    file = retValue as DefinitionFile;
+                    file = (DefinitionFile)method.Invoke(null, new object[] { node, null });
+                }
+                else
+                {
+                    file = new DefinitionFile(type, node.Owner.Name);
+                    method.Invoke(null, new object[] { node, file });
                 }
 
                 file["Style"] = node.Attribute("Style");
