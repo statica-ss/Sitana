@@ -24,6 +24,14 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return context;
             }
 
+            string name = field.Name;
+
+            if (name.StartsWith(":"))
+            {
+                name = name.Substring(1);
+                controller = controller.Parent;
+            }
+
 			int[] indices = null;
 
 			if (field.Parameters != null)
@@ -36,7 +44,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 				}
 			}
 
-            PropertyInfo info = context.GetType().GetProperty(field.Name);
+            PropertyInfo info = context.GetType().GetProperty(name);
 
 			if (info != null)
 			{
@@ -49,7 +57,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 						return (value as Array).GetValue(indices);
 					}
 
-					throw new Exception(String.Format("Value is not an array: {0}[{1}]", field.Name, indices.ToString()));
+					throw new Exception(String.Format("Value is not an array: {0}[{1}]", name, indices.ToString()));
 				} else
 				{
 					return value;
@@ -57,7 +65,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 			}
 			else
 			{
-				FieldInfo finfo = context.GetType().GetField(field.Name);
+                FieldInfo finfo = context.GetType().GetField(name);
 
 				if (finfo != null)
 				{
@@ -70,7 +78,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 							return (value as Array).GetValue(indices);
 						}
 
-						throw new Exception(String.Format("Value is not an array: {0}[{1}]", field.Name, indices.ToString()));
+						throw new Exception(String.Format("Value is not an array: {0}[{1}]", name, indices.ToString()));
 					} 
 					else
 					{
@@ -86,11 +94,18 @@ namespace Sitana.Framework.Ui.DefinitionFiles
         {
             MethodName method = (MethodName)definition;
 
+            string name = method.Name;
+
+            if (name.StartsWith(":"))
+            {
+                name = name.Substring(1);
+                controller = controller.Parent;
+            }
+
             object context = method.Binding ? binding : controller;
 
             object[] parameters = new object[method.Parameters.Length];
 
-            
             for (int idx = 0; idx < parameters.Length; ++idx)
             {
                 parameters[idx] = ObtainParameter(invokeParameters, method.Parameters[idx]);
@@ -102,7 +117,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             {
                 foreach (var info in infos)
                 {
-                    if (info.Name == method.Name)
+                    if (info.Name == name)
                     {
                         ParameterInfo[] methodParams = info.GetParameters();
 
@@ -114,7 +129,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 }
             }
 
-            throw new Exception(String.Format("Cannot find method: {0}({1})", method.Name, parameters.ToString()));
+            throw new Exception(String.Format("Cannot find method: {0}({1})", name, parameters.ToString()));
         }
 
         public static T InvokeMethod<T>(UiController controller, object binding, object definition, InvokeParameters invokeParameters)

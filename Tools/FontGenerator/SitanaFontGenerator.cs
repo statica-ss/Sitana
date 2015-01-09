@@ -17,14 +17,16 @@ namespace FontGenerator
         Pen _pen;
         Brush _brush;
         Font _font;
+        bool _kerning;
 
-        public SitanaFontGenerator(Font font, Pen pen, Brush brush)
+        public SitanaFontGenerator(Font font, Pen pen, Brush brush, bool kerning)
         {
             _globalGraphics = Graphics.FromImage(new Bitmap(1, 1, PixelFormat.Format32bppArgb));
 
             _font = font;
             _brush = brush;
             _pen = pen;
+            _kerning = kerning;
         }
 
         public void Generate(List<char> list, int width, out SitanaFont font, out Bitmap outBitmap)
@@ -163,16 +165,19 @@ namespace FontGenerator
 
             float firstWidth = _globalGraphics.MeasureString(text, _font, 10000, format).Width;
 
-            foreach (var ch in list)
+            if (_kerning)
             {
-                float secondWidth = _globalGraphics.MeasureString(ch.ToString(), _font, 10000, format).Width;
-                float bothWidth = _globalGraphics.MeasureString(String.Format("{0}{1}", ch, character), _font, 10000, format).Width;
-
-                float diff = (float)Math.Ceiling(bothWidth - (secondWidth + firstWidth) + bitmap.Height / 10);
-
-                if (ch != 32)
+                foreach (var ch in list)
                 {
-                    glyph.AddKerning(ch, (short)(diff * 10));
+                    float secondWidth = _globalGraphics.MeasureString(ch.ToString(), _font, 10000, format).Width;
+                    float bothWidth = _globalGraphics.MeasureString(String.Format("{0}{1}", ch, character), _font, 10000, format).Width;
+
+                    float diff = (float)Math.Ceiling(bothWidth - (secondWidth + firstWidth) + bitmap.Height / 10);
+
+                    if (ch != 32)
+                    {
+                        glyph.AddKerning(ch, (short)(diff * 10));
+                    }
                 }
             }
         }

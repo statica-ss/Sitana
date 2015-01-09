@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace Sitana.Framework.Ui.Views
 {
-    public class UiModalLayout : UiContainer
+    public class UiModalLayout : UiBorder
     {
         public new static void Parse(XNode node, DefinitionFile file)
         {
@@ -19,20 +19,6 @@ namespace Sitana.Framework.Ui.Views
                 switch ( cn.Tag )
                 {
                 case "UiModalLayout.Children":
-
-                    if (cn.Nodes.Count != 1)
-                    {
-                        string error = node.NodeError("UiModalLayout must have exactly 1 child.");
-                        if (DefinitionParser.EnableCheckMode)
-                        {
-                            ConsoleEx.WriteLine(error);
-                        }
-                        else
-                        {
-                            throw new Exception(error);
-                        }
-                    }
-
                     ParseChildren(cn, file);
                     break;
                 }
@@ -77,7 +63,7 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiView));
 
-            _touchOutsideToHide = DefinitionResolver.Get<bool>(Controller, Binding, file["TouchOutsideToHide"], true);
+            _touchOutsideToHide = DefinitionResolver.Get<bool>(Controller, Binding, file["TouchOutsideToHide"], false);
 
             Visible = DefinitionResolver.GetShared<bool>(Controller, binding, file["Visible"], false);
 
@@ -85,13 +71,6 @@ namespace Sitana.Framework.Ui.Views
             {
                 DisplayVisibility = 0;
             }
-
-            InitChildren(Controller, binding, definition);
-        }
-
-        protected override Rectangle CalculateChildBounds(UiView view)
-        {
-            return new Rectangle(0, 0, Bounds.Width, Bounds.Height);
         }
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)

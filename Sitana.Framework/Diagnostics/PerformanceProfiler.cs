@@ -142,14 +142,14 @@ namespace Sitana.Framework.Diagnostics
             #endif
         }
 
-        public int Initialize(int targetFps, int minFps, int height)
+        public int Initialize(int targetFps, int minFps)
         {
             _targetFrameTime = 1f / (Single)targetFps;
             _minFrameTime = 1f / (Single)minFps;
 
-            int size = height / 2;
+            int height = 0;
 
-            _display = new SevenSegmentDisplay(size, out _height);
+            _display = new SevenSegmentDisplay(0, out _height);
 
             _height = _height + Math.Max(2, _height / 5);
 

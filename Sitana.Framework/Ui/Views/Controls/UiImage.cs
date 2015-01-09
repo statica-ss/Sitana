@@ -92,6 +92,11 @@ namespace Sitana.Framework.Ui.Views
             _image = DefinitionResolver.Get<Texture2D>(Controller, binding, file["Image"], null);
             _stretch = DefinitionResolver.Get<Stretch>(Controller, binding, file["Stretch"], Stretch.Uniform);
             _color = DefinitionResolver.GetColorWrapper(Controller, binding, file["Color"]);
+
+            if (_color == null)
+            {
+                _color = new ColorWrapper(Color.White);
+            }
         }
     }
 }

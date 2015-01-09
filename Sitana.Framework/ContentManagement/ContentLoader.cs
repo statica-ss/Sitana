@@ -17,10 +17,10 @@ using System;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Graphics;
+using System.Reflection;
 
 #if SHARP_ZIP_LIB
 using ICSharpCode.SharpZipLib.Zip;
-using System.Reflection;
 #else
 using Sitana.Framework.DummyZipLib;
 #endif
