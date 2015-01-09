@@ -33,6 +33,8 @@ namespace Sitana.Framework.Ui.Views
             file["Id"] = node.Attribute("Id");
             file["Controller"] = Type.GetType(node.Attribute("Controller"));
 
+            file["Binding"] = parser.ParseDelegate("Binding");
+
             file["Visible"] = parser.ParseBoolean("Visible");
             file["BackgroundColor"] = parser.ParseColor("BackgroundColor");
 
@@ -542,7 +544,27 @@ namespace Sitana.Framework.Ui.Views
 
             Binding = binding;
 
+            object bindParameter = file["Binding"];
+
+            if (bindParameter != null)
+            {
+                Object bind = DefinitionResolver.GetValueFromMethodOrField(Controller, binding, bindParameter);
+
+                if (bind != null)
+                {
+                    Binding = bind;
+                }
+            }
+
+            
+
             Id = (string)file["Id"];
+
+            if (Id == "ttt")
+            {
+                Console.WriteLine();
+            }
+
             Visible = DefinitionResolver.GetShared<bool>(Controller, binding, file["Visible"], true);
 
             Tag = DefinitionResolver.GetSharedString(Controller, Binding, file["Tag"]);

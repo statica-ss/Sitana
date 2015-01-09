@@ -34,8 +34,12 @@ namespace Microsoft.Xna.Framework.Input
                         Keys key = GetKey(m.wparam);
                         OnKey(key);
                     }
-                    
-                    _TranslateMessage(ref m);
+
+                    if (form.CanFocus)
+                    {
+                        _TranslateMessage(ref m);
+                    }
+
                     break;
 
                 case Wm.Char:

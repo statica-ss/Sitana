@@ -187,11 +187,11 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiSplitterView));
 
-            SplitMode = DefinitionResolver.Get<Mode>(Controller, binding, file["Mode"], Mode.Vertical);
-            _splitterPosition = (float)DefinitionResolver.Get<int>(Controller, binding, file["Position"], 50) / 100.0f;
-            _splitterSize = DefinitionResolver.Get<Length>(Controller, binding, file["SplitterSize"], Length.Default).Compute(100);
+            SplitMode = DefinitionResolver.Get<Mode>(Controller, Binding, file["Mode"], Mode.Vertical);
+            _splitterPosition = (float)DefinitionResolver.Get<int>(Controller, Binding, file["Position"], 50) / 100.0f;
+            _splitterSize = DefinitionResolver.Get<Length>(Controller, Binding, file["SplitterSize"], Length.Default).Compute(100);
 
-            InitChildren(Controller, binding, definition);
+            InitChildren(Controller, Binding, definition);
         }
     }
 }

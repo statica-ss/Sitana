@@ -252,7 +252,7 @@ namespace Sitana.Framework.Ui.Views
 
             var file = new DefinitionFileWithStyle(definition, typeof(UiContainer));
 
-            _clipChildren = DefinitionResolver.Get<bool>(Controller, binding, file["ClipChildren"], false);
+            _clipChildren = DefinitionResolver.Get<bool>(Controller, Binding, file["ClipChildren"], false);
         }
 
         protected void InitChildren(UiController controller, object binding, DefinitionFile definition)

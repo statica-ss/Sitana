@@ -55,7 +55,7 @@ namespace GameEditor
 
         public void Register()
         {
-            string path = Platform.OpenFileDialog("Open template");
+            string path = Platform.OpenFileDialog("Open template", "Zip files (*.zip)|*.zip|All files|*.*");
 
             if (path != null)
             {

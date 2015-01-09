@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Microsoft.Xna.Framework.Input
 {
@@ -63,10 +64,15 @@ namespace Microsoft.Xna.Framework.Input
         [DllImport( "user32.dll", EntryPoint = "TranslateMessage" )]
         protected extern static bool _TranslateMessage( ref Message m );
 
+        [DllImport("user32.dll", EntryPoint = "DefWindowProc")]
+        protected extern static bool _DefWindowProc(IntPtr window, int code, IntPtr wparam, IntPtr lparam);
+
         #endregion
 
         MessageHookProc proc;
         IntPtr hookfunc;
+
+        protected Form form;
 
         public MessageHook( IntPtr window )
         {
@@ -78,6 +84,8 @@ namespace Microsoft.Xna.Framework.Input
                 throw new Win32Exception();
             }
             hookfunc = hr;
+
+            form = (Form)Form.FromHandle(window);
         }
 
         int __MessageHookProc( int code, IntPtr wparam, ref Message m )
