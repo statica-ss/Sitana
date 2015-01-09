@@ -105,6 +105,11 @@ namespace Sitana.Framework.Graphics
 
                 DefaultKerning = most;
             }
+
+            if (DefaultKerning == short.MinValue)
+            {
+                DefaultKerning = 0;
+            }
         }
     }
 }

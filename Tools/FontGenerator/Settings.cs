@@ -21,6 +21,7 @@ namespace FontGenerator
         public string MaxChar;
         public bool RoundBorder;
         public string Serie;
+        public bool Kerning;
 
         protected override void Init()
         {
@@ -38,6 +39,7 @@ namespace FontGenerator
                 AdditionalCharacters = "©";
                 RoundBorder = true;
                 Serie = "10";
+                Kerning = false;
             }
         }
     }

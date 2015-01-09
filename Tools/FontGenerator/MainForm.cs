@@ -37,6 +37,8 @@ namespace FontGenerator
             BorderSize.Value = Settings.Instance.BorderSize;
             BorderOpacity.Value = (Decimal)((double)Settings.Instance.BorderOpacity / 100.0);
 
+            Kerning.Checked = Settings.Instance.Kerning;
+
             MinChar.Text = Settings.Instance.MinChar;
             MaxChar.Text = Settings.Instance.MaxChar;
 
@@ -200,6 +202,7 @@ namespace FontGenerator
             Settings.Instance.BorderSize = (int)BorderSize.Value;
             Settings.Instance.BorderOpacity = (int)(BorderOpacity.Value * 100);
 
+            Settings.Instance.Kerning = Kerning.Checked;
 
             Settings.Instance.MinChar = MinChar.Text;
             Settings.Instance.MaxChar = MaxChar.Text;
@@ -222,6 +225,8 @@ namespace FontGenerator
                 SitanaFont sitanaFont;
 
                 FontStyle style = (FontStyle)Enum.Parse(typeof(FontStyle), FontStyle.Text);
+
+                bool kerning = Kerning.Checked;
 
                 using (Font font = new Font(new FontFamily(FontFace.Text), size, style, GraphicsUnit.Point))
                 {
@@ -246,7 +251,7 @@ namespace FontGenerator
                             }
                         }
 
-                        new SitanaFontGenerator(font, pen, brush).Generate(characters, width, out sitanaFont, out bitmap);
+                        new SitanaFontGenerator(font, pen, brush, kerning).Generate(characters, width, out sitanaFont, out bitmap);
 
                         return sitanaFont;
                     }
