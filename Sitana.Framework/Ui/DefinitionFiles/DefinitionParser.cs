@@ -385,7 +385,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return null;
         }
 
-        public object ParseFloat(string id)
+        public object ParseDouble(string id)
         {
             string name = Value(id);
             object method = ParseMethodOrField(name);

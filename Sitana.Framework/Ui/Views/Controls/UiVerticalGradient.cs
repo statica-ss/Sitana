@@ -23,7 +23,7 @@ namespace Sitana.Framework.Ui.Views
 
             file["Image"] = parser.ParseResource<NinePatchImage>("Image");
             file["ScaleByUnit"] = parser.ParseBoolean("ScaleByUnit");
-            file["Scale"] = parser.ParseFloat("Scale");
+            file["Scale"] = parser.ParseDouble("Scale");
             file["TopColor"] = parser.ParseColor("TopColor");
             file["BottomColor"] = parser.ParseColor("BottomColor");
         }

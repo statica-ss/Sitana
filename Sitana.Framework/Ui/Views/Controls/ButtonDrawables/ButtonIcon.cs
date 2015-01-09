@@ -24,7 +24,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
             file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
-            file["Scale"] = parser.ParseFloat("Scale");
+            file["Scale"] = parser.ParseDouble("Scale");
             file["Stretch"] = parser.ParseEnum<Stretch>("Stretch");
         }
 

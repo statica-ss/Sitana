@@ -16,7 +16,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         {
             var parser = new DefinitionParser(node);
 
-            file["ChangeTime"] = parser.ParseFloat("ChangeTime");
+            file["ChangeTime"] = parser.ParseDouble("ChangeTime");
             file["ColorPushed"] = parser.ParseColor("ColorPushed");
             file["ColorReleased"] = parser.ParseColor("ColorReleased");
             file["ColorDisabled"] = parser.ParseColor("ColorDisabled");

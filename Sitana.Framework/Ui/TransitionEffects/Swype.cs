@@ -18,7 +18,7 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
             file["Horizontal"] = parser.ParseLength("Horizontal");
             file["Vertical"] = parser.ParseLength("Vertical");
 
-            file["Power"] = parser.ParseFloat("Power");
+            file["Power"] = parser.ParseDouble("Power");
         }
 
         Length _horizontal;

@@ -102,8 +102,8 @@ namespace Sitana.Framework.Ui.Views
                 if (sizeInPixels.Y < 0)
                 {
                     sizeInPixels = CalculateSizeInPixels();
-                    size.Y = (int)Math.Ceiling(sizeInPixels.Y);
                 }
+                size.Y = (int)Math.Ceiling(sizeInPixels.Y);
             }
 
             return size;

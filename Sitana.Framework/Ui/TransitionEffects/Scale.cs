@@ -15,10 +15,10 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
         {
             var parser = new DefinitionParser(node);
 
-            file["Horizontal"] = parser.ParseFloat("Horizontal");
-            file["Vertical"] = parser.ParseFloat("Vertical");
+            file["Horizontal"] = parser.ParseDouble("Horizontal");
+            file["Vertical"] = parser.ParseDouble("Vertical");
 
-            file["Power"] = parser.ParseFloat("Power");
+            file["Power"] = parser.ParseDouble("Power");
 
             file["Origin"] = parser.ParseEnum<Origin>("Origin");
         }

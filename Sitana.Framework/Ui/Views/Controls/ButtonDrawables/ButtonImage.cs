@@ -21,7 +21,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             var parser = new DefinitionParser(node);
 
             file["Image"] = parser.ParseResource<Texture2D>("Image");
-            file["Scale"] = parser.ParseFloat("Scale");
+            file["Scale"] = parser.ParseDouble("Scale");
             file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
             file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
         }

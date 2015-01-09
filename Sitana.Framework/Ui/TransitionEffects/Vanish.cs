@@ -14,7 +14,7 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
         public static void Parse(XNode node, DefinitionFile file)
         {
             var parser = new DefinitionParser(node);
-            file["Power"] = parser.ParseFloat("Power");
+            file["Power"] = parser.ParseDouble("Power");
         }
 
         double _power = 1;

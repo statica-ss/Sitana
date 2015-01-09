@@ -13,8 +13,8 @@ namespace Sitana.Framework.Ui
     public struct Length
     {
         public readonly static Length Default = new Length(true);
-        public readonly static Length Stretch = new Length(0, 1);
-        public readonly static Length Zero = new Length(0);
+        public readonly static Length Stretch = new Length(0,1);
+        public readonly static Length Zero = new Length();
 
         double _length;
         double _percent;
@@ -46,19 +46,11 @@ namespace Sitana.Framework.Ui
             _pixels = 0;
         }
 
-        public Length(double length, double percent, int pixels = 0)
+        public Length(double length = 0, double percent = 0, int pixels = 0)
         {
             _auto = false;
             _length = length;
             _percent = percent;
-            _pixels = pixels;
-        }
-
-        public Length(int length, int pixels = 0)
-        {
-            _auto = false;
-            _length = length;
-            _percent = 0;
             _pixels = pixels;
         }
 
