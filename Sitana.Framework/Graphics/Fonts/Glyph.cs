@@ -33,6 +33,7 @@ namespace Sitana.Framework.Graphics
 
         public void AddKerning(char character, short value)
         {
+            _kerning.Remove(character);
             _kerning.Add(character, value);
         }
 
@@ -103,6 +104,11 @@ namespace Sitana.Framework.Graphics
                 }
 
                 DefaultKerning = most;
+            }
+
+            if (DefaultKerning == short.MinValue)
+            {
+                DefaultKerning = 0;
             }
         }
     }

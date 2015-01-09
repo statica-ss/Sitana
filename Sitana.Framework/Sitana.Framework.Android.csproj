@@ -103,7 +103,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContentManagement\ContentLoader.cs" />
     <Compile Include="ContentManagement\LoadResourceInfo.cs" />
-    <Compile Include="Graphics\Sprites\SpritePresenter.cs" />
     <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
     <Compile Include="Graphics\Sprites\Sprite.cs" />
     <Compile Include="Cs\CsToolkit.cs" />
@@ -142,7 +141,6 @@
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
-    <Compile Include="Helpers\SpriteOptimizer.cs" />
     <Compile Include="Media\SoundControler.cs" />
     <Compile Include="Media\SoundEffectContainer.cs" />
     <Compile Include="Misc\AppRater.cs" />
@@ -203,6 +201,11 @@
     <Compile Include="Input\GamePad\GamePad.cs" />
     <Compile Include="Input\GamePad\GamePadButtonState.cs" />
     <Compile Include="Input\GamePad\GamePads.cs" />
+    <Compile Include="Graphics\Sprites\SpriteInstance.cs" />
+    <Compile Include="Graphics\Sprites\SpriteSequence.cs" />
+    <Compile Include="Ui\Views\Controls\UiVerticalGradient.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs" />
+    <Compile Include="Xml\XNodeAttributes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -212,15 +215,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="ContentGenerators\" />
     <Folder Include="ContentManagement\" />
-    <Folder Include="ContentPresenters\" />
-    <Folder Include="ContentTypes\" />
     <Folder Include="Cs\" />
     <Folder Include="Definitions\" />
     <Folder Include="Gamer\" />
     <Folder Include="Games\" />
-    <Folder Include="GuiElements\" />
     <Folder Include="Helpers\" />
     <Folder Include="Input\" />
     <Folder Include="Media\" />
@@ -229,8 +228,6 @@
     <Folder Include="Settings\" />
     <Folder Include="System\" />
     <Folder Include="Graphics\" />
-    <Folder Include="GuiElements\ScrollingSelector\" />
-    <Folder Include="CrashReporter\" />
     <Folder Include="Graphics\3D\" />
     <Folder Include="Input\GamePad\" />
   </ItemGroup>

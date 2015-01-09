@@ -19,7 +19,7 @@ namespace Sitana.Framework.Ui.Views
             file["Checked"] = parser.ParseBoolean("Checked");
         }
 
-        private SharedValue<bool> Checked;
+        public SharedValue<bool> Checked { get; private set; }
 
         public override ButtonState ButtonState
         {

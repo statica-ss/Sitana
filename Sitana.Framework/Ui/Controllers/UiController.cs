@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Diagnostics;
 
 namespace Sitana.Framework.Ui.Controllers
 {
@@ -64,6 +65,8 @@ namespace Sitana.Framework.Ui.Controllers
 
         internal void Register(string id, UiView view)
         {
+            Debug.Assert(!_views.ContainsKey(id), "Cannot duplicate view ids!");
+
             _views.Add(id, view);
 
             if (RegisterElementsInParent && Parent != null)
@@ -102,6 +105,11 @@ namespace Sitana.Framework.Ui.Controllers
         public void HideElement(string id)
         {
             Find(id).Visible.Value = false;
+        }
+
+        public void OpenWebsite(string url)
+        {
+            Platform.OpenWebsite(url);
         }
     }
 }

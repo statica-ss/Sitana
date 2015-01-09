@@ -13,6 +13,7 @@ using System;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Xml;
+using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -27,6 +28,7 @@ namespace Sitana.Framework.Ui.Views
             file["Text"] = parser.ParseString("Text");
             file["Font"] = parser.ValueOrNull("Font");
             file["FontSize"] = parser.ParseInt("FontSize");
+            file["FontSpacing"] = parser.ParseInt("FontSpacing");
 
             file["TextColor"] = parser.ParseColor("TextColor");
             file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
@@ -51,10 +53,12 @@ namespace Sitana.Framework.Ui.Views
         }
         
         public int FontSize {get;set;}
+        public int FontSpacing {get; set;}
 
         string _fontName;
 
         FontFace _fontFace = null;
+
 
         public TextAlign TextAlign {get;set;}
 
@@ -78,7 +82,57 @@ namespace Sitana.Framework.Ui.Views
             float scale;
             UniversalFont font = _fontFace.Find(FontSize, out scale);
             
-            parameters.DrawBatch.DrawText(font, Text, ScreenBounds, TextAlign, TextColor.Value * opacity, scale);
+            parameters.DrawBatch.DrawText(font, Text, ScreenBounds, TextAlign, TextColor.Value * opacity, (float)FontSpacing / 1000.0f, scale);
+        }
+
+        public override Point ComputeSize(int width, int height)
+        {
+            Point size = base.ComputeSize(width, height);
+
+            Vector2 sizeInPixels = new Vector2(-1,-1);
+
+            if (PositionParameters.Width.IsAuto)
+            {
+                sizeInPixels = CalculateSizeInPixels();
+                size.X = (int)Math.Ceiling(sizeInPixels.X);
+            }
+
+            if (PositionParameters.Height.IsAuto)
+            {
+                if (sizeInPixels.Y < 0)
+                {
+                    sizeInPixels = CalculateSizeInPixels();
+                    size.Y = (int)Math.Ceiling(sizeInPixels.Y);
+                }
+            }
+
+            return size;
+        }
+
+        private Vector2 CalculateSizeInPixels()
+        {
+            if (_fontFace == null)
+            {
+                _fontFace = FontManager.Instance.FindFont(FontName);
+            }
+
+            float scale;
+            UniversalFont font = _fontFace.Find(FontSize, out scale);
+
+            Vector2 size;
+
+            lock (Text)
+            {
+                size = font.MeasureString(Text.StringBuilder, (float)FontSpacing / 1000.0f);
+            }
+
+            return size * scale;
+        }
+
+        public Point CalculateSize()
+        {
+            Vector2 size = CalculateSizeInPixels();
+            return (size / (float)UiUnit.Unit).ToPoint();
         }
 
         protected override void Init(object controller, object binding, DefinitionFile definition)
@@ -89,6 +143,7 @@ namespace Sitana.Framework.Ui.Views
 
             FontName = file["Font"] as string;
             FontSize = DefinitionResolver.Get<int>(Controller, Binding, file["FontSize"], 0);
+            FontSpacing = DefinitionResolver.Get<int>(Controller, Binding, file["FontSpacing"], 0);
 
             Text = DefinitionResolver.GetSharedString(Controller, Binding, file["Text"]);
             TextColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? new ColorWrapper(Color.White);

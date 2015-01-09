@@ -23,12 +23,14 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             file["Font"] = parser.Value("Font");
             file["FontSize"] = parser.ParseInt("FontSize");
+            file["FontSpacing"] = parser.ParseInt("FontSpacing");
             file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
             file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
         }
 
         protected string _font;
         protected int _fontSize;
+        protected int _fontSpacing;
         protected TextAlign _textAlign;
 
         private FontFace _fontFace;
@@ -41,6 +43,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             _font = DefinitionResolver.GetString(controller, binding, file["Font"]);
             _fontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"], 0);
+            _fontSpacing = DefinitionResolver.Get<int>(controller, binding, file["FontSpacing"], 0);
 
             HorizontalAlignment horzAlign = DefinitionResolver.Get<HorizontalAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalAlignment.Center);
             VerticalAlignment vertAlign = DefinitionResolver.Get<VerticalAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalAlignment.Center);
@@ -66,7 +69,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             Rectangle target = _margin.ComputeRect(info.Target);
 
-            drawBatch.DrawText(font, str, target, _textAlign, color, scale);
+            drawBatch.DrawText(font, str, target, _textAlign, color, (float)_fontSpacing / 1000.0f, scale);
         }
     }
 }

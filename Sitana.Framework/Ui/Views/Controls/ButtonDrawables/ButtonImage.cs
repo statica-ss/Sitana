@@ -22,8 +22,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             file["Image"] = parser.ParseResource<Texture2D>("Image");
             file["Scale"] = parser.ParseFloat("Scale");
-            file["HorizontalAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalAlignment");
-            file["VerticalAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalAlignment");
+            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
+            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
         }
 
         protected Texture2D _image = null;
@@ -40,8 +40,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             _image = DefinitionResolver.Get<Texture2D>(controller, binding, file["Image"], null);
             _scale = (float)DefinitionResolver.Get<double>(controller, binding, file["Scale"], 1);
-            _horizontalAlignment = DefinitionResolver.Get<HorizontalAlignment>(controller, binding, file["HorizontalAlignment"], HorizontalAlignment.Center);
-            _verticalAlignment = DefinitionResolver.Get<VerticalAlignment>(controller, binding, file["VerticalAlignment"], VerticalAlignment.Center);
+            _horizontalAlignment = DefinitionResolver.Get<HorizontalAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalAlignment.Center);
+            _verticalAlignment = DefinitionResolver.Get<VerticalAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalAlignment.Center);
         }
 
         public override void Draw(AdvancedDrawBatch drawBatch, DrawButtonInfo info)

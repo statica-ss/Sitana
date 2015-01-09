@@ -445,6 +445,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
             double length = 0;
             double percent = 0;
+            int pixels = 0;
 
             foreach (var val in vals)
             {
@@ -470,13 +471,19 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
                     percent += double.Parse(newVal, CultureInfo.InvariantCulture) / 100.0;
                 }
+                else if (val.EndsWith("px"))
+                {
+                    string newVal = val.TrimEnd('p','x');
+
+                    pixels += int.Parse(newVal);
+                }
                 else if(!val.IsNullOrWhiteSpace())
                 {
                     length += double.Parse(val, CultureInfo.InvariantCulture);
                 }
             }
 
-            return new Length(length, percent);
+            return new Length(length, percent, pixels);
         }
     }
 }

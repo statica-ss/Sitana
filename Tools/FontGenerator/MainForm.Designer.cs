@@ -54,6 +54,9 @@
             this.BorderSize = new System.Windows.Forms.NumericUpDown();
             this.BorderRound = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
+            this.SizeSerie = new System.Windows.Forms.TextBox();
+            this.GenerateSerieBtn = new System.Windows.Forms.Button();
+            this.Kerning = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.preview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BorderOpacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BorderSize)).BeginInit();
@@ -90,7 +93,7 @@
             "Bold, Italic"});
             this.FontStyle.Location = new System.Drawing.Point(200, 30);
             this.FontStyle.Name = "FontStyle";
-            this.FontStyle.Size = new System.Drawing.Size(63, 215);
+            this.FontStyle.Size = new System.Drawing.Size(63, 111);
             this.FontStyle.TabIndex = 3;
             this.FontStyle.Text = "Regular";
             this.FontStyle.SelectedIndexChanged += new System.EventHandler(this.fontStyle_SelectedIndexChanged);
@@ -344,12 +347,43 @@
             this.label12.TabIndex = 26;
             this.label12.Text = "B. join";
             // 
+            // SizeSerie
+            // 
+            this.SizeSerie.Location = new System.Drawing.Point(16, 551);
+            this.SizeSerie.Name = "SizeSerie";
+            this.SizeSerie.Size = new System.Drawing.Size(196, 22);
+            this.SizeSerie.TabIndex = 27;
+            // 
+            // GenerateSerieBtn
+            // 
+            this.GenerateSerieBtn.Location = new System.Drawing.Point(219, 551);
+            this.GenerateSerieBtn.Name = "GenerateSerieBtn";
+            this.GenerateSerieBtn.Size = new System.Drawing.Size(109, 23);
+            this.GenerateSerieBtn.TabIndex = 28;
+            this.GenerateSerieBtn.Text = "Generate Serie";
+            this.GenerateSerieBtn.UseVisualStyleBackColor = true;
+            this.GenerateSerieBtn.Click += new System.EventHandler(this.GenerateSerieBtn_Click);
+            // 
+            // Kerning
+            // 
+            this.Kerning.AutoSize = true;
+            this.Kerning.Font = new System.Drawing.Font("Segoe UI", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.Kerning.Location = new System.Drawing.Point(200, 147);
+            this.Kerning.Name = "Kerning";
+            this.Kerning.Size = new System.Drawing.Size(54, 16);
+            this.Kerning.TabIndex = 29;
+            this.Kerning.Text = "Kerning";
+            this.Kerning.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(343, 558);
+            this.ClientSize = new System.Drawing.Size(343, 585);
+            this.Controls.Add(this.Kerning);
+            this.Controls.Add(this.GenerateSerieBtn);
+            this.Controls.Add(this.SizeSerie);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.BorderRound);
             this.Controls.Add(this.BorderSize);
@@ -418,6 +452,9 @@
       private System.Windows.Forms.NumericUpDown BorderSize;
       private System.Windows.Forms.CheckBox BorderRound;
       private System.Windows.Forms.Label label12;
+      private System.Windows.Forms.TextBox SizeSerie;
+      private System.Windows.Forms.Button GenerateSerieBtn;
+      private System.Windows.Forms.CheckBox Kerning;
    }
 }
 

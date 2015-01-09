@@ -145,7 +145,7 @@ namespace Sitana.Framework.Ui.Views
                         size += _spacing.Compute();
                     }
 
-                    size += _vertical ? child.Bounds.Height : child.Bounds.Width;
+                    size += _vertical ? child.Bounds.Height + child.Margin.Height : child.Bounds.Width + child.Margin.Width;
                 }
             }
 
