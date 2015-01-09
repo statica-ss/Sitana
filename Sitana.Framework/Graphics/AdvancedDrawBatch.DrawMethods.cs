@@ -250,5 +250,14 @@ namespace Sitana.Framework.Graphics
                 DrawRectangle(target, color);
             }
         }
+
+        public void DrawImage(Texture2D texture, Vector2 position, Rectangle? source, Color color, float rotation, Vector2 origin, float scale)
+        {
+            if (texture != null)
+            {
+                SpriteBatchIsNeeded();
+                _spriteBatch.Draw(texture, position, source, color, rotation, origin, scale, SpriteEffects.None, 0);
+            }
+        }
     }
 }

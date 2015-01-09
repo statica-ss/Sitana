@@ -8,6 +8,7 @@ using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Cs;
+using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -22,12 +23,27 @@ namespace Sitana.Framework.Ui.Views
             file["Image"] = parser.ParseResource<Texture2D>("Image");
             file["Stretch"] = parser.ParseEnum<Stretch>("Stretch");
             file["Color"] = parser.ParseColor("Color");
+            file["RotationSpeed"] = parser.ParseDouble("RotationSpeed");
+            file["ScaleByUnit"] = parser.ParseBoolean("ScaleByUnit");
+            file["Scale"] = parser.ParseDouble("Scale");
         }
 
         SharedValue<Texture2D> _image = null;
 
         Stretch _stretch = Stretch.Uniform;
         ColorWrapper _color = null;
+        float _rotationSpeed = 0;
+        float _rotation = 0;
+        bool _scaleByUnit = false;
+        float _scale = 1;
+
+        float Scale
+        {
+            get
+            {
+                return _scale * (_scaleByUnit ? (float)UiUnit.Unit : 1);
+            }
+        }
 
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
@@ -43,6 +59,8 @@ namespace Sitana.Framework.Ui.Views
             Rectangle target = ScreenBounds;
             Rectangle source = Rectangle.Empty;
 
+            float scale = Scale;
+
             lock (_image)
             {
                 Texture2D image = _image.Value;
@@ -51,22 +69,25 @@ namespace Sitana.Framework.Ui.Views
                 {
                     source = new Rectangle(0, 0, image.Width, image.Height);
 
-                    double scaleX = 1;
-                    double scaleY = 1;
+                    double scaleX = scale;
+                    double scaleY = scale;
 
                     switch (_stretch)
                     {
                         case Stretch.Uniform:
                             scaleX = scaleY = Math.Min((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height);
+                            scale = (float)scaleX;
                             break;
 
                         case Stretch.UniformToFill:
                             scaleX = scaleY = Math.Max((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height);
+                            scale = (float)scaleX;
                             break;
 
                         case Stretch.Fill:
                             scaleX = (double)target.Width / (double)image.Width;
                             scaleY = (double)target.Height / (double)image.Height;
+                            scale = (float)Math.Min(scaleX, scaleY);
                             break;
                     }
 
@@ -86,7 +107,16 @@ namespace Sitana.Framework.Ui.Views
                     source = new Rectangle(pos.X - srcWidth / 2, pos.Y - srcHeight / 2, srcWidth, srcHeight);
                 }
 
-                parameters.DrawBatch.DrawImage(image, target, source, _color.Value * opacity);
+                Color color = _color != null ? _color.Value * opacity : Color.White;
+
+                if (_rotationSpeed == 0)
+                {
+                    parameters.DrawBatch.DrawImage(image, target, source, color);
+                }
+                else
+                {
+                    parameters.DrawBatch.DrawImage(image, target.Center.ToVector2(), null, color, _rotation, new Vector2(image.Width / 2, image.Height / 2), scale);
+                }
             }
         }
 
@@ -99,6 +129,66 @@ namespace Sitana.Framework.Ui.Views
             _image = DefinitionResolver.GetShared<Texture2D>(Controller, Binding, file["Image"], null);
             _stretch = DefinitionResolver.Get<Stretch>(Controller, Binding, file["Stretch"], Stretch.Uniform);
             _color = DefinitionResolver.GetColorWrapper(Controller, Binding, file["Color"]);
+            _rotationSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["RotationSpeed"], 0);
+            _scaleByUnit = DefinitionResolver.Get<bool>(Controller, Binding, file["ScaleByUnit"], true);
+            _scale = (float)DefinitionResolver.Get<double>(Controller, Binding, file["Scale"], 1);
+        }
+
+        public override Point ComputeSize(int width, int height)
+        {
+            Point size = base.ComputeSize(width, height);
+
+            Vector2 sizeInPixels = new Vector2(-1, -1);
+
+            if (PositionParameters.Width.IsAuto)
+            {
+                sizeInPixels = CalculateSizeInPixels();
+                size.X = (int)Math.Ceiling(sizeInPixels.X);
+            }
+
+            if (PositionParameters.Height.IsAuto)
+            {
+                if (sizeInPixels.Y < 0)
+                {
+                    sizeInPixels = CalculateSizeInPixels();
+                }
+                size.Y = (int)Math.Ceiling(sizeInPixels.Y);
+            }
+
+            return size;
+        }
+
+        private Vector2 CalculateSizeInPixels()
+        {
+            lock (_image)
+            {
+                if (_image.Value != null)
+                {
+                    Texture2D image = _image.Value;
+                    return new Vector2(image.Width, image.Height) * Scale;
+                }
+            }
+            return Vector2.One;
+        }
+
+        protected override void Update(float time)
+        {
+            base.Update(time);
+
+            if (_rotationSpeed != 0)
+            {
+                _rotation += MathHelper.TwoPi * time * _rotationSpeed;
+
+                if (_rotation > MathHelper.TwoPi)
+                {
+                    _rotation -= MathHelper.TwoPi;
+                }
+
+                if (_rotation < 0)
+                {
+                    _rotation += MathHelper.TwoPi;
+                }
+            }
         }
     }
 }

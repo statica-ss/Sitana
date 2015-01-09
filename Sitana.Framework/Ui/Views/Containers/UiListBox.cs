@@ -26,7 +26,7 @@ namespace Sitana.Framework.Ui.Views
             file["Mode"] = parser.ParseEnum<Mode>("Mode");
             file["Reverse"] = parser.ParseBoolean("Reverse");
             file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
-			file["WheelScrollSpeed"] = parser.ParseFloat("WheelScrollSpeed");
+			file["WheelScrollSpeed"] = parser.ParseDouble("WheelScrollSpeed");
 
             foreach (var cn in node.Nodes)
             {

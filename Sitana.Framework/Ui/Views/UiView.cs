@@ -51,10 +51,10 @@ namespace Sitana.Framework.Ui.Views
             file["MinWidth"] = parser.ParseLength("MinWidth", false);
             file["MinHeight"] = parser.ParseLength("MinHeight", false);
 
-            file["ShowHideTime"] = parser.ParseFloat("ShowHideTime");
+            file["ShowHideTime"] = parser.ParseDouble("ShowHideTime");
 
-            file["HideTime"] = parser.ParseFloat("HideTime");
-            file["ShowTime"] = parser.ParseFloat("ShowTime");
+            file["HideTime"] = parser.ParseDouble("HideTime");
+            file["ShowTime"] = parser.ParseDouble("ShowTime");
 
             file["Tag"] = parser.ParseString("Tag");
 

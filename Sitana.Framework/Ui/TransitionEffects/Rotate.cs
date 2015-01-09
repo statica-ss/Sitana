@@ -15,8 +15,8 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
         {
             var parser = new DefinitionParser(node);
 
-            file["Power"] = parser.ParseFloat("Power");
-            file["Angle"] = parser.ParseFloat("Angle");
+            file["Power"] = parser.ParseDouble("Power");
+            file["Angle"] = parser.ParseDouble("Angle");
 
             file["Origin"] = parser.ParseEnum<Origin>("Origin");
         }

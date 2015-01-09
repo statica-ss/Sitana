@@ -19,7 +19,7 @@ namespace Sitana.Framework.Ui.Views
 
             var parser = new DefinitionParser(node);
             file["Mode"] = parser.ParseEnum<Scroller.Mode>("Mode");
-			file["WheelScrollSpeed"] = parser.ParseFloat("WheelScrollSpeed");
+			file["WheelScrollSpeed"] = parser.ParseDouble("WheelScrollSpeed");
             file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
 
             foreach (var cn in node.Nodes)

@@ -22,7 +22,7 @@ namespace Sitana.Framework.Ui.Views
             DefinitionParser parser = new DefinitionParser(node);
 
             file["SelectedIndex"] = parser.ParseInt("SelectedIndex");
-            file["TransitionTime"] = parser.ParseFloat("TransitionTime");
+            file["TransitionTime"] = parser.ParseDouble("TransitionTime");
             file["Cycle"] = parser.ParseBoolean("Cycle");
 
             foreach (var cn in node.Nodes)
