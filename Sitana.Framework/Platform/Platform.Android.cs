@@ -15,6 +15,8 @@ namespace Sitana.Framework
 {
     public static class Platform
     {
+        public const int ImmersiveModeFlags = 4102;
+
         public static String AppId { private get; set; }
 
         public static Boolean CloseApp()

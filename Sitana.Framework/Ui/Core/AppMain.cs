@@ -65,7 +65,15 @@ namespace Sitana.Framework.Ui.Core
 
         private DefinitionFile _mainView;
 
-        public AppMain()
+
+        // Move this to proper partial class!
+        #if ANDROID
+        private
+        #else
+        public
+        #endif
+
+        AppMain()
         {
             if (Current != null)
             {

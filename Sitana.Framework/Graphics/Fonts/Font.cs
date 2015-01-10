@@ -143,7 +143,6 @@ namespace Sitana.Framework.Graphics
                 {
                     if (previousChar != '\0')
                     {
-                        
                         float kerning = (float)glyph.Kerning(previousChar) / 10f;
                         position.X += kerning;
                         position.X += spacing;

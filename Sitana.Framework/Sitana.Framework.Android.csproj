@@ -117,9 +117,6 @@
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
     <Compile Include="Definitions\TransitionType.cs" />
-    <Compile Include="GamerApi\AchievementsHandler.cs" />
-    <Compile Include="GamerApi\AchievementsManager.cs" />
-    <Compile Include="GamerApi\AchievementInfoEventArgs.cs" />
     <Compile Include="GamerApi\Gamer.cs" />
     <Compile Include="Graphics\Images\NinePatchImage.cs" />
     <Compile Include="Graphics\3D\BasicShaderEffect.cs" />
@@ -206,6 +203,8 @@
     <Compile Include="Ui\Views\Controls\UiVerticalGradient.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs" />
     <Compile Include="Xml\XNodeAttributes.cs" />
+    <Compile Include="GamerApi\AchievementInfo.cs" />
+    <Compile Include="GamerApi\GamerPlatform.Android.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
