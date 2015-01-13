@@ -14,16 +14,6 @@ namespace Sitana.Framework.Ui.Views
         {
             UiContainer.Parse(node, file);
 
-            foreach(var cn in node.Nodes)
-            {
-                switch ( cn.Tag )
-                {
-                case "UiModalLayout.Children":
-                    ParseChildren(cn, file);
-                    break;
-                }
-            }
-
             DefinitionParser parser = new DefinitionParser(node);
 
             file["TouchOutsideToHide"] = parser.ParseBoolean("TouchOutsideToHide");

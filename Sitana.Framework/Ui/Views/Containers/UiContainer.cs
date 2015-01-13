@@ -21,16 +21,15 @@ namespace Sitana.Framework.Ui.Views
 
             var parser = new DefinitionParser(node);
             file["ClipChildren"] = parser.ParseBoolean("ClipChildren");
-        }
 
-        protected static void ParseChildren(XNode node, DefinitionFile file)
-        {
             List<DefinitionFile> list = new List<DefinitionFile>();
 
-            for ( int idx = 0; idx < node.Nodes.Count; ++idx )
+            foreach (var cn in node.Nodes)
             {
-                var childNode = node.Nodes[idx];
-                list.Add(DefinitionFile.LoadFile(childNode));
+                if (!cn.Tag.Contains("."))
+                {
+                    list.Add(DefinitionFile.LoadFile(cn));
+                }
             }
 
             file["Children"] = list;
@@ -137,9 +136,20 @@ namespace Sitana.Framework.Ui.Views
 
             set
             {
+                bool shouldRecalculate = false;
+
+                if (_bounds.Width != value.Width || _bounds.Height != value.Height)
+                {
+                    shouldRecalculate = true;
+                }
+
                 _bounds = value;
                 _enableGestureHandling = false;
-                RecalcLayout();
+
+                if (shouldRecalculate)
+                {
+                    RecalcLayout();
+                }
             }
         }
 

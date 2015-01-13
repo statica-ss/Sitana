@@ -37,10 +37,6 @@ namespace Sitana.Framework.Ui.Views
                     case "UiContentSlider.HideTransitionEffectPrev":
                         ParseTransitionEffect(cn, file);
                         break;
-
-                    case "UiContentSlider.Children":
-                        ParseChildren(cn, file);
-                        break;
                 }
             }
         }

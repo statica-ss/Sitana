@@ -30,30 +30,6 @@ namespace Sitana.Framework.Ui.Views
             file["Mode"] = parser.ParseEnum<Mode>("Mode");
             file["Position"] = parser.ParseInt("Position");
             file["SplitterSize"] = parser.ParseLength("SplitterSize");
-
-            foreach (var cn in node.Nodes)
-            {
-                switch (cn.Tag)
-                {
-                    case "UiSplitterView.Children":
-
-                        if ( cn.Nodes.Count != 2 )
-                        {
-                            string error = node.NodeError("UiSplitterView must have exactly 2 children.");
-                            if (DefinitionParser.EnableCheckMode)
-                            {
-                                ConsoleEx.WriteLine(error);
-                            }
-                            else
-                            {
-                                throw new Exception(error);
-                            }
-                        }
-
-                        ParseChildren(cn, file);
-                        break;
-                }
-            }
         }
 
         public enum Mode

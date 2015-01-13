@@ -21,16 +21,6 @@ namespace Sitana.Framework.Ui.Views
             file["Mode"] = parser.ParseEnum<Scroller.Mode>("Mode");
 			file["WheelScrollSpeed"] = parser.ParseDouble("WheelScrollSpeed");
             file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
-
-            foreach (var cn in node.Nodes)
-            {
-                switch (cn.Tag)
-                {
-                    case "UiScrollView.Children":
-                        ParseChildren(cn, file);
-                        break;
-                }
-            }
         }
 
         Scroller _scroller = null;

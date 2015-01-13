@@ -52,6 +52,8 @@ namespace Sitana.Framework.Ui.Views
         private HorizontalAlignment _contentHorizontalAlignment;
         private VerticalAlignment _contentVerticalAlignment;
 
+        private string _context;
+
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
             float opacity = parameters.Opacity;
@@ -202,9 +204,9 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiLabel));
 
-            string id = DefinitionResolver.GetString(Controller, Binding, file["Context"]);
+            _context = DefinitionResolver.GetString(Controller, Binding, file["Context"]);
 
-            _element = Controller.Find(id) as IIndexedElement;
+            _element = Controller.Find(_context) as IIndexedElement;
 
             _spacing = DefinitionResolver.Get<Length>(Controller, Binding, file["Spacing"], Length.Zero);
             _vertical = DefinitionResolver.Get<Mode>(Controller, Binding, file["Mode"], Mode.Horizontal) == Mode.Vertical;
@@ -214,6 +216,16 @@ namespace Sitana.Framework.Ui.Views
 
             _contentHorizontalAlignment = DefinitionResolver.Get<HorizontalAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalAlignment.Center);
             _contentVerticalAlignment = DefinitionResolver.Get<VerticalAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalAlignment.Center);
+        }
+
+        protected override void Update(float time)
+        {
+            base.Update(time);
+
+            if (_element == null)
+            {
+                _element = Controller.Find(_context) as IIndexedElement;
+            }
         }
 
         protected override void OnGesture(Gesture gesture)

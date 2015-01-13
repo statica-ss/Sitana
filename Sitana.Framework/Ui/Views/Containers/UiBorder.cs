@@ -15,16 +15,6 @@ namespace Sitana.Framework.Ui.Views
         public new static void Parse(XNode node, DefinitionFile file)
         {
             UiContainer.Parse(node, file);
-
-            foreach (var cn in node.Nodes)
-            {
-                switch(cn.Tag)
-                {
-                case "UiBorder.Children":
-                    ParseChildren(cn, file);
-                    break;
-                }
-            }
         }
 
         protected override void Init(object controller, object binding, DefinitionFile definition)

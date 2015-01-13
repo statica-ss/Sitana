@@ -330,7 +330,7 @@ namespace Sitana.Framework.Ui.Views
             PositionParameters = null;
         }
 
-        internal void ViewDraw(ref UiViewDrawParameters parameters)
+        public void ViewDraw(ref UiViewDrawParameters parameters)
         {
             _enableGestureHandling = Visible.Value && Math.Abs(parameters.Transition) < 0.000001;
 
