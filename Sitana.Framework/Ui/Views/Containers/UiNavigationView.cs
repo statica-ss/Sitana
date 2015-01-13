@@ -15,6 +15,8 @@ namespace Sitana.Framework.Ui.Views
 {
     public class UiNavigationView: UiContainer
     {
+        public delegate void OnPageAddedDelegate(UiPage page);
+
         public new static void Parse(XNode node, DefinitionFile file)
         {
             UiContainer.Parse(node, file);
@@ -23,6 +25,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["Page"] = parser.ParseString("Page");
         }
+
+        public event OnPageAddedDelegate OnPageAdded;
 
         List<DefinitionFile> _history = new List<DefinitionFile>();
 
@@ -118,6 +122,12 @@ namespace Sitana.Framework.Ui.Views
                 {
                     child.HideTransitionEffect = (page != null && page.ShowTransitionEffect != null) ? page.ShowTransitionEffect.Reverse() : null;
                     child.HideSpeed = page != null ? page.ShowSpeed : float.MaxValue;
+
+                    if (child.HideTransitionEffect == null)
+                    {
+                        child.HideTransitionEffect = child.ShowTransitionEffect != null ? child.ShowTransitionEffect.Reverse() : null;
+                        child.HideSpeed = child.ShowSpeed;
+                    }
                 }
             }
 
@@ -134,6 +144,11 @@ namespace Sitana.Framework.Ui.Views
                 {
                     page.ShowTransitionEffect = (lastVisibleChild != null && lastVisibleChild.HideTransitionEffect != null) ? lastVisibleChild.HideTransitionEffect.Reverse() : null;
                     page.ShowSpeed = lastVisibleChild != null ? lastVisibleChild.HideSpeed : float.MaxValue;
+                }
+
+                if (OnPageAdded != null)
+                {
+                    OnPageAdded(page);
                 }
             }
         }

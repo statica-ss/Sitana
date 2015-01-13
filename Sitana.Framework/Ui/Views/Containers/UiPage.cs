@@ -17,32 +17,9 @@ namespace Sitana.Framework.Ui.Views
         public new static void Parse(XNode node, DefinitionFile file)
         {
             UiContainer.Parse(node, file);
+        }
 
-            foreach (var cn in node.Nodes)
-            {
-                switch (cn.Tag)
-                {
-                    case "UiPage.Content":
-                        if (cn.Nodes.Count != 1)
-                        {
-                            string error = node.NodeError("UiPage must have exactly 1 child.");
-                            if (DefinitionParser.EnableCheckMode)
-                            {
-                                ConsoleEx.WriteLine(error);
-                            }
-                            else
-                            {
-                                throw new Exception(error);
-                            }
-                        }
-
-                        ParseChildren(cn, file);
-                        break;
-                }
-            }
-        }  
-
-        internal TransitionEffect ShowTransitionEffect
+        public TransitionEffect ShowTransitionEffect
         {
             get
             {
@@ -55,7 +32,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        internal TransitionEffect HideTransitionEffect
+        public TransitionEffect HideTransitionEffect
         {
             get
             {
@@ -68,7 +45,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        internal float ShowSpeed
+        public float ShowSpeed
         {
             get
             {
@@ -81,7 +58,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        internal float HideSpeed
+        public float HideSpeed
         {
             get
             {
@@ -111,7 +88,7 @@ namespace Sitana.Framework.Ui.Views
             DisplayVisibility = 0;
         }
 
-        protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
+        protected override void Draw(ref UiViewDrawParameters parameters)
         {
             float opacity = parameters.Opacity;
 

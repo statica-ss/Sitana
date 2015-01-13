@@ -19,16 +19,6 @@ namespace Sitana.Framework.Ui.Views
             file["Mode"] = parser.ParseEnum<Mode>("Mode");
             file["Spacing"] = parser.ParseLength("Spacing", false);
             file["Padding"] = parser.ParseLength("Padding", false);
-
-            foreach (var cn in node.Nodes)
-            {
-                switch (cn.Tag)
-                {
-                    case "UiStackPanel.Children":
-                        ParseChildren(cn, file);
-                        break;
-                }
-            }
         }
 
         public enum Mode
