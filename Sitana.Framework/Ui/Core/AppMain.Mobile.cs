@@ -13,7 +13,7 @@ namespace Sitana.Framework.Ui.Core
 
         }
         
-        void OnSize(int width, int height)
+        protected virtual void OnSize(int width, int height)
         {
             var rect = new Rectangle(0, 0, width, height);
             PerformanceProfiler.Instance.ComputeContentRect(ref rect);

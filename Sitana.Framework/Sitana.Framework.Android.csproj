@@ -6,14 +6,14 @@
     <ProjectGuid>{86B814AE-3058-4BDD-BFCB-65EDCA0D5D19}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>Ebatianos.Essentials</RootNamespace>
+    <RootNamespace>Sitana.Framework</RootNamespace>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <AssemblyName>Sitana.Framework</AssemblyName>
-    <TargetFrameworkVersion>v2.3</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -176,7 +176,6 @@
     <Compile Include="Ui\Views\UiView.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.DrawMethods.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.Helpers.cs" />
-    <Compile Include="Ui\Core\AppMain.Mobile.cs" />
     <Compile Include="Diagnostics\PerformanceProfiler.cs" />
     <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
     <Compile Include="Ui\Definitions\HorizontalAlignment.cs" />
@@ -205,6 +204,8 @@
     <Compile Include="Xml\XNodeAttributes.cs" />
     <Compile Include="GamerApi\AchievementInfo.cs" />
     <Compile Include="GamerApi\GamerPlatform.Android.cs" />
+    <Compile Include="Ui\Core\AppMain.Mobile.cs" />
+    <Compile Include="Ui\Core\AppMain_ImmersiveFullscreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

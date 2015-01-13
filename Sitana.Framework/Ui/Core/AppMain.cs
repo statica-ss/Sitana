@@ -262,6 +262,14 @@ namespace Sitana.Framework.Ui.Core
             }
         }
 
+		protected void CallResized(int width, int height)
+		{
+			if (Resized != null)
+			{
+				Resized(width, height);
+			}
+		}
+
         public void CloseApp()
         {
 #if __ANDROID__
