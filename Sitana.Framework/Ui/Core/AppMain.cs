@@ -65,7 +65,15 @@ namespace Sitana.Framework.Ui.Core
 
         private DefinitionFile _mainView;
 
-        public AppMain()
+
+        // Move this to proper partial class!
+        #if ANDROID
+        private
+        #else
+        public
+        #endif
+
+        AppMain()
         {
             if (Current != null)
             {
@@ -253,6 +261,14 @@ namespace Sitana.Framework.Ui.Core
                 focus.Unfocus();
             }
         }
+
+		protected void CallResized(int width, int height)
+		{
+			if (Resized != null)
+			{
+				Resized(width, height);
+			}
+		}
 
         public void CloseApp()
         {

@@ -161,18 +161,33 @@ namespace FontGenerator
             glyph.Height = (short)bitmap.Height;
             glyph.Top = (short)top;
 
-            StringFormat format = StringFormat.GenericTypographic;
+            StringFormat format = StringFormat.GenericDefault;
 
-            float firstWidth = _globalGraphics.MeasureString(text, _font, 10000, format).Width;
+            //float firstWidth = _globalGraphics.MeasureString(text, _font, 10000, format).Width;
+
+            GraphicsPath path = new GraphicsPath(FillMode.Winding);
+            path.AddString(text, _font.FontFamily, (Int32)_font.Style, _font.Size, Point.Empty, StringFormat.GenericDefault);
+
+            float firstWidth = path.GetBounds().Width;
 
             if (_kerning)
             {
                 foreach (var ch in list)
                 {
-                    float secondWidth = _globalGraphics.MeasureString(ch.ToString(), _font, 10000, format).Width;
-                    float bothWidth = _globalGraphics.MeasureString(String.Format("{0}{1}", ch, character), _font, 10000, format).Width;
+                    path.Reset();
+                    path.AddString(ch.ToString(), _font.FontFamily, (Int32)_font.Style, _font.Size, Point.Empty, StringFormat.GenericDefault);
 
-                    float diff = (float)Math.Ceiling(bothWidth - (secondWidth + firstWidth) + bitmap.Height / 10);
+                    float secondWidth = path.GetBounds().Width;
+
+                    path.Reset();
+                    path.AddString(String.Format("{0}{1}", ch, character), _font.FontFamily, (Int32)_font.Style, _font.Size, Point.Empty, StringFormat.GenericDefault);
+
+                    float bothWidth = path.GetBounds().Width;
+
+                    //float secondWidth = _globalGraphics.MeasureString(ch.ToString(), _font, 10000, format).Width;
+                    //float bothWidth = _globalGraphics.MeasureString(String.Format("{0}{1}", ch, character), _font, 10000, format).Width;
+
+                    float diff = (float)Math.Ceiling(bothWidth - (secondWidth + firstWidth)) - _font.Height / 20;
 
                     if (ch != 32)
                     {
