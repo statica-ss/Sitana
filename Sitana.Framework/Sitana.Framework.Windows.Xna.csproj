@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonMark">
+      <HintPath>..\ThirdParty\Dependences\CommonMark\CommonMark.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.GamerServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
@@ -66,6 +69,7 @@
     <Compile Include="Input\TextInput\TextInput.Dektop.cs" />
     <Compile Include="Input\TextInput\TextInputType.cs" />
     <Compile Include="Input\TouchPad\IGestureListener.cs" />
+    <Compile Include="Text\HtmlSpecialChars.cs" />
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
     <Compile Include="Ui\Binding\ItemsList.cs" />
@@ -86,6 +90,13 @@
     <Compile Include="Ui\DefinitionFiles\DefinitionFileWithStyle.cs" />
     <Compile Include="Ui\Definitions\UiHelper.cs" />
     <Compile Include="Ui\Definitions\VerticalAlignment.cs" />
+    <Compile Include="Ui\RichText\Entity.cs" />
+    <Compile Include="Ui\RichText\FontEnums.cs" />
+    <Compile Include="Ui\RichText\FontInfo.cs" />
+    <Compile Include="Ui\RichText\IRichProcessor.cs" />
+    <Compile Include="Ui\RichText\Line.cs" />
+    <Compile Include="Ui\RichText\MarkdownProcessor.cs" />
+    <Compile Include="Ui\RichText\TagProperties.cs" />
     <Compile Include="Ui\TransitionEffects\None.cs" />
     <Compile Include="Ui\TransitionEffects\Rotate.cs" />
     <Compile Include="Ui\Views\Containers\UiContentSlider.cs" />
@@ -112,6 +123,7 @@
     <Compile Include="Ui\Views\Controls\UiEditBox.cs" />
     <Compile Include="Ui\Views\Controls\UiImage.cs" />
     <Compile Include="Ui\Views\Controls\UiIndexSelector.cs" />
+    <Compile Include="Ui\Views\Controls\UiRichView.cs" />
     <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
     <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />

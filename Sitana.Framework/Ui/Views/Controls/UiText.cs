@@ -24,8 +24,6 @@ namespace Sitana.Framework.Ui.Views
                 Indent = indent;
             }
 
-
-
             public readonly string Line;
             public readonly float Spacing;
             public readonly int Indent;
@@ -74,19 +72,6 @@ namespace Sitana.Framework.Ui.Views
         public int FontSpacing { get; set; }
         public int FontSize { get; set; }
         public TextAlign TextAlign { get; set; }
-
-
-        public override Rectangle Bounds
-        {
-            get
-            {
-                return base.Bounds;
-            }
-            set
-            {
-                base.Bounds = value;
-            }
-        }
 
         public bool Justify
         {
