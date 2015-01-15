@@ -202,6 +202,10 @@ namespace Sitana.Framework.Ui.Views
                                 {
                                     line = line.Insert(index, link.Merge(" ", 1, link.Length - 1));
                                 }
+                                else
+                                {
+                                    line = line.Insert(index, link[0]);
+                                }
                             }
 
                             int lengthAfter = line.Length;
@@ -459,8 +463,20 @@ namespace Sitana.Framework.Ui.Views
 
             Rectangle target = ScreenBounds;
             int height = (int)(font.Height * LineHeight * scale / 100);
-            int hh = 0;
             int startX = target.X;
+
+            int fullHeight = height * _lines.Count;
+
+            switch (TextAlign & Framework.TextAlign.Vert)
+            {
+                case Framework.TextAlign.Middle:
+                    target.Y = target.Center.Y - fullHeight / 2;
+                    break;
+
+                case Framework.TextAlign.Bottom:
+                    target.Y = target.Bottom - fullHeight;
+                    break;
+            }
 
             int indent = _indent.Compute(Bounds.Width);
 
@@ -476,7 +492,6 @@ namespace Sitana.Framework.Ui.Views
                 parameters.DrawBatch.DrawText(font, line, target, TextAlign & TextAlign.Horz, TextColor.Value * opacity, spacing, 0, scale);
 
                 target.Y += height;
-                hh += height;
             }
         }
 

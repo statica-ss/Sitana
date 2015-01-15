@@ -206,6 +206,7 @@
     <Compile Include="GamerApi\GamerPlatform.Android.cs" />
     <Compile Include="Ui\Core\AppMain.Mobile.cs" />
     <Compile Include="Ui\Core\AppMain_ImmersiveFullscreen.cs" />
+    <Compile Include="Ui\Views\Controls\UiText.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
