@@ -29,6 +29,7 @@ namespace Sitana.Framework.Ui.Views
             file["Font"] = parser.ValueOrNull("Font");
             file["FontSize"] = parser.ParseInt("FontSize");
             file["FontSpacing"] = parser.ParseInt("FontSpacing");
+            file["LineHeight"] = parser.ParseInt("LineHeight");
 
             file["TextColor"] = parser.ParseColor("TextColor");
             file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
@@ -54,12 +55,11 @@ namespace Sitana.Framework.Ui.Views
         
         public int FontSize {get;set;}
         public int FontSpacing {get; set;}
+        public int LineHeight { get; set; }
 
         string _fontName;
 
         FontFace _fontFace = null;
-
-
         public TextAlign TextAlign {get;set;}
 
         protected override void Draw(ref UiViewDrawParameters parameters)
@@ -81,8 +81,8 @@ namespace Sitana.Framework.Ui.Views
 
             float scale;
             UniversalFont font = _fontFace.Find(FontSize, out scale);
-            
-            parameters.DrawBatch.DrawText(font, Text, ScreenBounds, TextAlign, TextColor.Value * opacity, (float)FontSpacing / 1000.0f, scale);
+
+            parameters.DrawBatch.DrawText(font, Text, ScreenBounds, TextAlign, TextColor.Value * opacity, (float)FontSpacing / 1000.0f, (float)LineHeight / 100.0f, scale);
         }
 
         public override Point ComputeSize(int width, int height)
@@ -123,7 +123,7 @@ namespace Sitana.Framework.Ui.Views
 
             lock (Text)
             {
-                size = font.MeasureString(Text.StringBuilder, (float)FontSpacing / 1000.0f);
+                size = font.MeasureString(Text.StringBuilder, (float)FontSpacing / 1000.0f, (float)LineHeight / 100.0f);
             }
 
             return size * scale;
@@ -144,6 +144,7 @@ namespace Sitana.Framework.Ui.Views
             FontName = file["Font"] as string;
             FontSize = DefinitionResolver.Get<int>(Controller, Binding, file["FontSize"], 0);
             FontSpacing = DefinitionResolver.Get<int>(Controller, Binding, file["FontSpacing"], 0);
+            LineHeight = DefinitionResolver.Get<int>(Controller, Binding, file["LineHeight"], 100);
 
             Text = DefinitionResolver.GetSharedString(Controller, Binding, file["Text"]);
             TextColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
