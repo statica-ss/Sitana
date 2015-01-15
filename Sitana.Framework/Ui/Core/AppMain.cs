@@ -16,6 +16,7 @@ using Sitana.Framework.Ui.Interfaces;
 using System.Collections.Generic;
 using Sitana.Framework.Input;
 using Sitana.Framework.Input.GamePad;
+using Sitana.Framework.Cs;
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -31,9 +32,11 @@ namespace Sitana.Framework.Ui.Core
 
         private AdvancedDrawBatch _drawBatch;
 
-        public event LoadDelegate OnLoadContent;
-        public event LoadDelegate OnLoadedView;
+        public event LoadDelegate ContentLoading;
+        public event LoadDelegate ViewLoaded;
         public event ResizedDelegate Resized;
+        public event EmptyArgsVoidDelegate AppActivated;
+        public event EmptyArgsVoidDelegate AppDeactivated;
 
         public CloseDelegate CanClose { get; set;}
 
@@ -184,9 +187,9 @@ namespace Sitana.Framework.Ui.Core
         {
             _drawBatch = new AdvancedDrawBatch(GraphicsDevice);
 
-            if (OnLoadContent != null)
+            if (ContentLoading != null)
             {
-                OnLoadContent(this);
+                ContentLoading(this);
             }
 
             IDefinitionClass obj = _mainView.CreateInstance(null, null);
@@ -198,9 +201,9 @@ namespace Sitana.Framework.Ui.Core
             MainView.RegisterView();
             MainView.ViewAdded();
 
-            if ( OnLoadedView != null )
+            if ( ViewLoaded != null )
             {
-                OnLoadedView(this);
+                ViewLoaded(this);
             }
 
             MainView.Bounds = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
@@ -212,6 +215,11 @@ namespace Sitana.Framework.Ui.Core
             {
                 MainView.ViewActivated();
             }
+
+            if (AppActivated != null)
+            {
+                AppActivated();
+            }
         }
 
         protected override void OnDeactivated(object sender, EventArgs args)
@@ -219,6 +227,11 @@ namespace Sitana.Framework.Ui.Core
             if (MainView != null)
             {
                 MainView.ViewDeactivated();
+            }
+
+            if (AppDeactivated != null)
+            {
+                AppDeactivated();
             }
         }
 
