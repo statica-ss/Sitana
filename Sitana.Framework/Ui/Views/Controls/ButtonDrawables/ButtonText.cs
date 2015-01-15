@@ -69,7 +69,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             Rectangle target = _margin.ComputeRect(info.Target);
 
-            drawBatch.DrawText(font, str, target, _textAlign, color, (float)_fontSpacing / 1000.0f, scale);
+            drawBatch.DrawText(font, str, target, _textAlign, color, (float)_fontSpacing / 1000.0f, 0, scale);
         }
     }
 }

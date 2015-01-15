@@ -86,6 +86,7 @@
     <Compile Include="Ui\DefinitionFiles\DefinitionFileWithStyle.cs" />
     <Compile Include="Ui\Definitions\UiHelper.cs" />
     <Compile Include="Ui\Definitions\VerticalAlignment.cs" />
+    <Compile Include="Ui\TransitionEffects\None.cs" />
     <Compile Include="Ui\TransitionEffects\Rotate.cs" />
     <Compile Include="Ui\Views\Containers\UiContentSlider.cs" />
     <Compile Include="Ui\Views\Containers\UiListBox.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
     <Compile Include="Ui\Views\Controls\UiSlider.cs" />
     <Compile Include="Ui\Views\Controls\UiSpritePresenter.cs" />
+    <Compile Include="Ui\Views\Controls\UiText.cs" />
     <Compile Include="Ui\Views\Controls\UiVerticalGradient.cs" />
     <Compile Include="Ui\Views\Enums\TransitionMode.cs" />
     <Compile Include="Ui\Views\Scroller.cs" />

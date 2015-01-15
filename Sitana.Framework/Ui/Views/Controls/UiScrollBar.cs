@@ -238,6 +238,11 @@ namespace Sitana.Framework.Ui.Views
                     int maxScroll = _element.MaxScrollY;
                     int size = _element.ScreenBounds.Height;
 
+                    if (maxScroll == 0)
+                    {
+                        return screenBounds;
+                    }
+
                     int thumbSize = (int)Math.Ceiling( (float)Bounds.Height * (float)size / (float)maxScroll);
                     int position = Bounds.Height * (int)_element.ScrollingService.ScrollPositionY / maxScroll;
 
@@ -256,6 +261,11 @@ namespace Sitana.Framework.Ui.Views
                 {
                     int maxScroll = _element.MaxScrollX;
                     int size = _element.ScreenBounds.Width;
+
+                    if (maxScroll == 0)
+                    {
+                        return screenBounds;
+                    }
 
                     int thumbSize = (int)Math.Ceiling( (float)Bounds.Width * (float)size / (float)maxScroll);
                     int position = (Bounds.Width - thumbSize) * (int)_element.ScrollingService.ScrollPositionX / maxScroll;

@@ -99,31 +99,31 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        internal void Draw(PrimitiveBatch primitiveBatch, StringBuilder text, Vector2 position, Color color, float spacing, Vector2 scale)
+        internal void Draw(PrimitiveBatch primitiveBatch, StringBuilder text, Vector2 position, Color color, float spacing, float lineHeight, Vector2 scale)
         {
             StringProvider provider = new StringProvider(text);
-            DrawInternal(primitiveBatch, provider, position, color, spacing, scale);
+            DrawInternal(primitiveBatch, provider, position, color, spacing, lineHeight, scale);
         }
 
-        internal void Draw(PrimitiveBatch primitiveBatch, string text, Vector2 position, Color color, float spacing, Vector2 scale)
+        internal void Draw(PrimitiveBatch primitiveBatch, string text, Vector2 position, Color color, float spacing, float lineHeight, Vector2 scale)
         {
             StringProvider provider = new StringProvider(text);
-            DrawInternal(primitiveBatch, provider, position, color, spacing, scale);
+            DrawInternal(primitiveBatch, provider, position, color, spacing, lineHeight, scale);
         }
 
-        public Vector2 MeasureString(StringBuilder text, float spacing)
+        public Vector2 MeasureString(StringBuilder text, float spacing, float lineHeight)
         {
             StringProvider provider = new StringProvider(text);
-            return MeasureInternal(provider, spacing);
+            return MeasureInternal(provider, spacing, lineHeight);
         }
 
-        public Vector2 MeasureString(string text, float spacing)
+        public Vector2 MeasureString(string text, float spacing, float lineHeight)
         {
             StringProvider provider = new StringProvider(text);
-            return MeasureInternal(provider, spacing);
+            return MeasureInternal(provider, spacing, lineHeight);
         }
 
-        Vector2 MeasureInternal(StringProvider text, float spacing)
+        Vector2 MeasureInternal(StringProvider text, float spacing, float lineHeight)
         {
             int count = text.Length;
             char previousChar = '\0';
@@ -158,7 +158,7 @@ namespace Sitana.Framework.Graphics
                 else if (text[idx] == '\n')
                 {
                     position.X = 0;
-                    position.Y += Height;
+                    position.Y += Height * lineHeight;
                     previousChar = '\0';
                 }
             }
@@ -166,7 +166,7 @@ namespace Sitana.Framework.Graphics
             return size;
         }
 
-        void DrawInternal(PrimitiveBatch primitiveBatch, StringProvider text, Vector2 targetPosition, Color color, float spacing, Vector2 scale)
+        void DrawInternal(PrimitiveBatch primitiveBatch, StringProvider text, Vector2 targetPosition, Color color, float spacing, float lineHeight, Vector2 scale)
         {
             if ( primitiveBatch.PrimitiveType != PrimitiveType.TriangleList )
             {
@@ -206,7 +206,7 @@ namespace Sitana.Framework.Graphics
                 else if (text[idx] == '\n')
                 {
                     position.X = targetPosition.X;
-                    position.Y += Height * scale.Y;
+                    position.Y += lineHeight * Height * scale.Y;
                     previousChar = '\0';
                 }
             }
@@ -230,6 +230,11 @@ namespace Sitana.Framework.Graphics
 
         Glyph Find(char character)
         {
+            if (character == 0xa0)
+            {
+                character = ' ';
+            }
+
             Glyph glyph;
             _glyphs.TryGetValue(character, out glyph);
 

@@ -70,10 +70,10 @@ namespace Sitana.Framework.Graphics
 
         public void DrawText(UniversalFont font, StringBuilder text, Rectangle target, TextAlign align, Color color)
         {
-            DrawText(font, text, target, align, color, 0, 1);
+            DrawText(font, text, target, align, color, 0, 0, 1);
         }
 
-        public void DrawText(UniversalFont font, StringBuilder text, Rectangle target, TextAlign align, Color color, float spacing, float scale)
+        public void DrawText(UniversalFont font, StringBuilder text, Rectangle target, TextAlign align, Color color, float spacing, float lineHeight, float scale)
         {
             if (font == null || text == null)
             {
@@ -82,7 +82,7 @@ namespace Sitana.Framework.Graphics
 
             Font = font;
 
-            Vector2 size = _font.MeasureString(text, spacing) * scale;
+            Vector2 size = _font.MeasureString(text, spacing, lineHeight) * scale;
             Vector2 position = TextPosition(ref target, align, size);
 
             if (_font.SitanaFont != null)
@@ -90,7 +90,7 @@ namespace Sitana.Framework.Graphics
                 PrimitiveType = PrimitiveType.TriangleList;
 
                 PrimitiveBatchNeeded();
-                _font.SitanaFont.Draw(_primitiveBatch, text, position, color, spacing, new Vector2(scale));
+                _font.SitanaFont.Draw(_primitiveBatch, text, position, color, spacing, lineHeight, new Vector2(scale));
             }
             else
             {
@@ -104,10 +104,10 @@ namespace Sitana.Framework.Graphics
 
         public void DrawText(UniversalFont font, string text, Rectangle target, TextAlign align, Color color)
         {
-            DrawText(font, text, target, align, color, 0, 1);
+            DrawText(font, text, target, align, color, 0, 0, 1);
         }
 
-        public void DrawText(UniversalFont font, string text, Rectangle target, TextAlign align, Color color, float spacing, float scale)
+        public void DrawText(UniversalFont font, string text, Rectangle target, TextAlign align, Color color, float spacing, float lineHeight, float scale)
         {
             if (font == null || text == null)
             {
@@ -116,7 +116,7 @@ namespace Sitana.Framework.Graphics
 
             Font = font;
 
-            Vector2 size = _font.MeasureString(text, spacing) * scale;
+            Vector2 size = _font.MeasureString(text, spacing, lineHeight) * scale;
             Vector2 position = TextPosition(ref target, align, size);
 
             if (_font.SitanaFont != null)
@@ -124,7 +124,7 @@ namespace Sitana.Framework.Graphics
                 PrimitiveType = PrimitiveType.TriangleList;
 
                 PrimitiveBatchNeeded();
-                _font.SitanaFont.Draw(_primitiveBatch, text, position, color, spacing, new Vector2(scale));
+                _font.SitanaFont.Draw(_primitiveBatch, text, position, color, spacing, lineHeight, new Vector2(scale));
             }
             else
             {
@@ -138,14 +138,14 @@ namespace Sitana.Framework.Graphics
 
         public void DrawText(UniversalFont font, SharedString text, Rectangle target, TextAlign align, Color color)
         {
-            DrawText(font, text, target, align, color, 0, 1);
+            DrawText(font, text, target, align, color, 0, 0, 1);
         }
 
-        public void DrawText(UniversalFont font, SharedString text, Rectangle target, TextAlign align, Color color, float spacing, float scale)
+        public void DrawText(UniversalFont font, SharedString text, Rectangle target, TextAlign align, Color color, float spacing, float lineHeight, float scale)
         {
             lock (text)
             {
-                DrawText(font, text.StringBuilder, target, align, color, spacing, scale);
+                DrawText(font, text.StringBuilder, target, align, color, spacing, lineHeight, scale);
             }
         }
 
@@ -157,27 +157,27 @@ namespace Sitana.Framework.Graphics
 
         public void DrawText(UniversalFont font, string text, Point position, TextAlign align, Color color)
         {
-            DrawText(font, text, position, align, color, 0, 1);
+            DrawText(font, text, position, align, color, 0, 0, 1);
         }
 
-        public void DrawText(UniversalFont font, string text, Point position, TextAlign align, Color color, float spacing, float scale)
+        public void DrawText(UniversalFont font, string text, Point position, TextAlign align, Color color, float spacing, float lineHeight, float scale)
         {
             Rectangle target = new Rectangle(position.X, position.Y, 0, 0);
-            DrawText(font, text, target, align, color, spacing, scale);
+            DrawText(font, text, target, align, color, spacing, lineHeight, scale);
         }
 
         public void DrawText(UniversalFont font, SharedString text, Point position, TextAlign align, Color color)
         {
-            DrawText(font, text, position, align, color, 0, 1);
+            DrawText(font, text, position, align, color, 0, 0, 1);
         }
 
-        public void DrawText(UniversalFont font, SharedString text, Point position, TextAlign align, Color color, float spacing, float scale)
+        public void DrawText(UniversalFont font, SharedString text, Point position, TextAlign align, Color color, float spacing, float lineHeight, float scale)
         {
             Rectangle target = new Rectangle(position.X, position.Y, 0, 0);
 
             lock (text)
             {
-                DrawText(font, text.StringBuilder, target, align, color, spacing, scale);
+                DrawText(font, text.StringBuilder, target, align, color, spacing, lineHeight, scale);
             }
         }
 
