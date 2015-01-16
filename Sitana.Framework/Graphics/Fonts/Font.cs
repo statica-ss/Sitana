@@ -228,7 +228,7 @@ namespace Sitana.Framework.Graphics
             primitiveBatch.AddVertex(new Vector2(positionBR.X, positionBR.Y), color, new Vector2(bottomRight.X, bottomRight.Y));
         }
 
-        Glyph Find(char character)
+        public Glyph Find(char character)
         {
             if (character == 0xa0)
             {

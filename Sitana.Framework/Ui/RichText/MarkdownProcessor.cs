@@ -10,16 +10,18 @@ namespace Sitana.Framework.Ui.RichText
 {
     public class MarkdownProcessor: IRichProcessor
     {
-        private List<Line> _lines;
+        private List<Line> _lines = new List<Line>();
 
-        void IRichProcessor.Process(List<Line> lines, string text)
+        List<Line> IRichProcessor.Lines
         {
-            if (_lines != null)
+            get
             {
-                throw new Exception("Processing already in progress...");
+                return _lines;
             }
+        }
 
-            _lines = lines;
+        void IRichProcessor.Process(string text)
+        {
             _lines.Clear();
 
             var reader = new StringReader(text);
@@ -32,7 +34,6 @@ namespace Sitana.Framework.Ui.RichText
             Process(document, ref props, ref line);
 
             Console.WriteLine();
-            _lines = null;
         }
 
         private void Process(Block block, ref TagProperties tagProperties, ref Line currentLine)
@@ -47,27 +48,45 @@ namespace Sitana.Framework.Ui.RichText
 
                     case BlockTag.Paragraph:
 
-                        currentLine = AddLine();
-                        ProcessInlines(block.InlineContent, ref tagProperties, ref currentLine);
+                        if (!tagProperties.IsTight)
+                        {
+                            currentLine = AddLine();
+                        }
 
+                        ProcessInlines(block.InlineContent, ref tagProperties, ref currentLine);
                         break;
 
                     case BlockTag.BlockQuote:
-                        ProcessInlines(block.InlineContent, ref tagProperties, ref currentLine);
+                        {
+                            TagProperties newProps = tagProperties;
+                            newProps.IsTight = false;
+                            ProcessInlines(block.InlineContent, ref newProps, ref currentLine);
+                        }
                         break;
 
                     case BlockTag.ListItem:
                         {
-                            TagProperties newProps = tagProperties;
-                            Process(block.FirstChild, ref tagProperties, ref currentLine);
-                            tagProperties.ListIndex++;
+                            currentLine = AddLine();
+                            currentLine.Add(new Entity(tagProperties.ListIndex > 0 ? EntityType.ListNumber : EntityType.ListBullet, ref tagProperties, null));
+
+                            {
+                                TagProperties newProps = tagProperties;
+                                newProps.IsTight = true;
+                                Process(block.FirstChild, ref newProps, ref currentLine);
+                            }
+
+                            if (tagProperties.ListIndex > 0)
+                            {
+                                tagProperties.ListIndex++;
+                            }
                         }
                         break;
 
                     case BlockTag.List:
                         {
                             TagProperties newProps = tagProperties;
-                            newProps.ListIndex = 1;
+                            newProps.IsTight = block.ListData.IsTight;
+                            newProps.ListIndex = block.ListData.ListType == ListType.Ordered ? 1 : -1;
                             Process(block.FirstChild, ref newProps, ref currentLine);
                         }
                         break;
@@ -96,6 +115,11 @@ namespace Sitana.Framework.Ui.RichText
                         break;
 
                     case BlockTag.HorizontalRuler:
+
+                        currentLine = AddLine();
+                        currentLine.Add(new Entity(EntityType.HorizontalLine, ref tagProperties, null));
+                        currentLine = AddLine();
+
                         break;
 
                     case BlockTag.ReferenceDefinition:
@@ -116,7 +140,21 @@ namespace Sitana.Framework.Ui.RichText
                 switch (inline.Tag)
                 {
                     case InlineTag.String:
-                        currentLine.AddString(ref tagProperties, inline.LiteralContent);
+
+                        if (currentLine.Entities.Count > 0)
+                        {
+                            Entity? merged = Entity.MergeString(currentLine.Entities.Last(), ref tagProperties, inline.LiteralContent);
+
+                            if (merged.HasValue)
+                            {
+                                currentLine.Entities.RemoveAt(currentLine.Entities.Count - 1);
+                                currentLine.Add(merged.Value);
+                                break;
+                            }
+                        }
+                        
+
+                        currentLine.Add(new Entity(EntityType.String, ref tagProperties, inline.LiteralContent));
                         break;
 
                     case InlineTag.LineBreak:
@@ -125,10 +163,15 @@ namespace Sitana.Framework.Ui.RichText
 
                     case InlineTag.SoftBreak:
                         currentLine = AddLine();
+
+                        if (tagProperties.ListIndex != 0)
+                        {
+                            currentLine.Add(new Entity(EntityType.ListIndent, ref tagProperties, null));
+                        }
+
                         break;
 
                     case InlineTag.Code:
-
                         Console.WriteLine(inline.LiteralContent);
                         break;
 
@@ -146,6 +189,9 @@ namespace Sitana.Framework.Ui.RichText
                         break;
 
                     case InlineTag.Image:
+                        {
+                            currentLine.Add(new Entity(EntityType.Image, ref tagProperties, inline.TargetUrl));
+                        }
                         break;
 
                     case InlineTag.Strong:

@@ -14,6 +14,8 @@ namespace Sitana.Framework.Ui.RichText
         public SizeType FontSize;
         public FontType FontType;
 
-        public static TagProperties Default = new TagProperties() { Url = null, IndentLevel = 0, ListIndex = 0, FontSize = SizeType.p, FontType = FontType.p };
+        public bool IsTight;
+
+        public static TagProperties Default = new TagProperties() { Url = null, IndentLevel = 0, ListIndex = 0, FontSize = SizeType.p, FontType = FontType.p, IsTight=false };
     }
 }

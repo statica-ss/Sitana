@@ -7,19 +7,11 @@ namespace Sitana.Framework.Ui.RichText
 {
     public struct Line
     {
-        public void AddString(ref TagProperties props, string text)
+        public void Add(Entity entity)
         {
-            Entities.Add(new Entity()
-            {
-                Font = props.FontType,
-                Size = props.FontSize,
-                Text = text,
-                Url = props.Url
-            });
+            Entities.Add(entity);
         }
 
         public List<Entity> Entities;
-        public int SpaceSize;
-        public int LineHeight;
     }
 }

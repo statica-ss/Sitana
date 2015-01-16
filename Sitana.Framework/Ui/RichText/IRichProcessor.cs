@@ -7,6 +7,7 @@ namespace Sitana.Framework.Ui.RichText
 {
     public interface IRichProcessor
     {
-        void Process(List<Line> lines, string text);
+        void Process(string text);
+        List<Line> Lines { get; }
     }
 }
