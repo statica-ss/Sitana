@@ -272,13 +272,15 @@ namespace Sitana.Framework.Ui.Views
                 entityRect.Y -= margin;
                 entityRect.Height = line.Height + margin * 2;
 
+                int lineOffset = OffsetFromWidthAndAlign(line.Width);
+
                 for (int entIdx = 0; entIdx < line.Entities.Count; ++entIdx)
                 {
                     RichViewEntity entity = line.Entities[entIdx];
 
                     if (!string.IsNullOrWhiteSpace(entity.Url))
                     {
-                        entityRect.X = entity.Offset + startX - margin;
+                        entityRect.X = entity.Offset + startX - margin + lineOffset;
                         entityRect.Width = entity.Width + margin * 2;
 
                         if (entityRect.Contains(point))
@@ -573,10 +575,14 @@ namespace Sitana.Framework.Ui.Views
 
             foreach (var line in _lines)
             {
+                int lineWidth = 0;
                 foreach (var entity in line.Entities)
                 {
                     entity.Width = ComputeWidth(entity);
+                    lineWidth += entity.Width;
                 }
+
+                line.Width = lineWidth;
             }
         }
 
@@ -763,6 +769,20 @@ namespace Sitana.Framework.Ui.Views
             richEntity.FontSpacing = spacing;
         }
 
+        private int OffsetFromWidthAndAlign(int width)
+        {
+            switch (_textAlign & TextAlign.Horz)
+            {
+                case TextAlign.Right:
+                    return Bounds.Width - width;
+
+                case TextAlign.Center:
+                    return (Bounds.Width - width)/2;
+            }
+
+            return 0;
+        }
+
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
             float opacity = parameters.Opacity;
@@ -803,6 +823,8 @@ namespace Sitana.Framework.Ui.Views
 
                     _lastVisibleLine = idx;
 
+                    int lineOffset = OffsetFromWidthAndAlign(line.Width);
+
                     for (int ent = 0; ent < line.Entities.Count; ++ent)
                     {
                         RichViewEntity entity = line.Entities[ent];
@@ -811,7 +833,7 @@ namespace Sitana.Framework.Ui.Views
                         float scale = entity.FontScale;
                         UniversalFont font = entity.Font;
 
-                        target.X = startX + entity.Offset;
+                        target.X = startX + entity.Offset + lineOffset;
 
                         switch (entity.Type)
                         {
