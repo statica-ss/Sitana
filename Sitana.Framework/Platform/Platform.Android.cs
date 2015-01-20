@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework;
 using System.Reflection;
 using System;
 using Sitana.Framework.Ui.Core;
+using Android.Content;
+using Android.App;
 
 namespace Sitana.Framework
 {
@@ -31,7 +33,8 @@ namespace Sitana.Framework
 
         public static void OpenWebsite(String url)
         {
-            
+			Intent intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse(url));
+			AppMain.Activity.StartActivity(intent);
         }
 
         public static void OpenMail(String name, String address, String subject, String text, Action onCompleted)

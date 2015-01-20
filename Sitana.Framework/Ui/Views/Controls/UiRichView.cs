@@ -13,11 +13,11 @@ using System.IO;
 using CommonMark.Syntax;
 using Sitana.Framework.Ui.RichText;
 using Sitana.Framework;
-using Sitana.Framework.Ui.Views.RichView;
 using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework.Ui.Core;
 using Sitana.Framework.Ui.Views.Parameters;
 using Sitana.Framework.Input.TouchPad;
+using Sitana.Framework.Ui.Views.RichView;
 
 
 namespace Sitana.Framework.Ui.Views
