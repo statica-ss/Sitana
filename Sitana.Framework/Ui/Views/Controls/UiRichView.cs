@@ -17,6 +17,7 @@ using Sitana.Framework.Ui.Views.RichView;
 using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework.Ui.Core;
 using Sitana.Framework.Ui.Views.Parameters;
+using Sitana.Framework.Input.TouchPad;
 
 
 namespace Sitana.Framework.Ui.Views
@@ -62,6 +63,7 @@ namespace Sitana.Framework.Ui.Views
 
             file["TextColor"] = parser.ParseColor("TextColor");
             file["LinkColor"] = parser.ParseColor("LinkColor");
+            file["ActiveLinkColor"] = parser.ParseColor("ActiveLinkColor");
             file["HorizontalRulerColor"] = parser.ParseColor("HorizontalRulerColor");
 
             file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
@@ -69,6 +71,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["BulletText"] = parser.ParseString("BulletText");
             file["HorizontalRulerHeight"] = parser.ParseLength("HorizontalRulerHeight");
+
+            file["ClickMargin"] = parser.ParseLength("ClickMargin");
         }
 
         float _lineHeight;
@@ -84,6 +88,7 @@ namespace Sitana.Framework.Ui.Views
         string _text;
         ColorWrapper _colorNormal;
         ColorWrapper _colorClickable;
+        ColorWrapper _colorClickableActive;
         ColorWrapper _colorRuler;
 
         IRichProcessor _richProcessor;
@@ -95,6 +100,13 @@ namespace Sitana.Framework.Ui.Views
         Length _horizontalRulerHeight;
 
         string _bulletText = string.Empty;
+
+        RichViewEntity _selected = null;
+
+        int _firstVisibleLine = -1;
+        int _lastVisibleLine = -1;
+
+        Length _clickMargin;
 
         public string Text
         {
@@ -194,12 +206,92 @@ namespace Sitana.Framework.Ui.Views
 
             _colorNormal = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
             _colorClickable = DefinitionResolver.GetColorWrapper(Controller, Binding, file["LinkColor"]) ?? new ColorWrapper(Color.White);
+            _colorClickableActive = DefinitionResolver.GetColorWrapper(Controller, Binding, file["ActiveLinkColor"]) ?? _colorClickable;
             _colorRuler = DefinitionResolver.GetColorWrapper(Controller, Binding, file["HorizontalRulerColor"]) ?? new ColorWrapper(Color.White);
 
             HorizontalAlignment horzAlign = DefinitionResolver.Get<HorizontalAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalAlignment.Left);
             VerticalAlignment vertAlign = DefinitionResolver.Get<VerticalAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalAlignment.Top);
 
             _textAlign = UiHelper.TextAlignFromAlignment(horzAlign, vertAlign);
+
+            _clickMargin = DefinitionResolver.Get<Length>(Controller, Binding, file["ClickMargin"], Length.Zero);
+
+            EnabledGestures = (GestureType.Down | GestureType.Up | GestureType.Move | GestureType.Tap);
+        }
+
+        protected override void OnGesture(Gesture gesture)
+        {
+            RichViewEntity entity = EntityFromPoint(gesture.Position.ToPoint());
+
+            switch (gesture.GestureType)
+            {
+                case GestureType.CapturedByOther:
+                    _selected = null;
+                    break;
+
+                case GestureType.Down:
+                    _selected = entity;
+                    break;
+
+                case GestureType.Move:
+
+                    if (_selected != entity)
+                    {
+                        _selected = null;
+                    }
+                    break;
+
+                case GestureType.Up:
+                    ProcessUrl(_selected);
+                    _selected = null;
+                    break;
+
+                case GestureType.Tap:
+                    ProcessUrl(_selected);
+                    _selected = null;
+                    break;
+            }
+        }
+
+        private RichViewEntity EntityFromPoint(Point point)
+        {
+            int margin = _clickMargin.Compute(Bounds.Width);
+
+            Rectangle entityRect = ScreenBounds;
+            int startX = entityRect.X;
+
+            for (int idx = 0; idx < _firstVisibleLine; ++idx)
+            {
+                entityRect.Y += _lines[idx].Height;
+            }
+
+            for (int idx = _firstVisibleLine; idx <= _lastVisibleLine; ++idx)
+            {
+                RichViewLine line = _lines[idx];
+
+                entityRect.Y -= margin;
+                entityRect.Height = line.Height + margin * 2;
+
+                for (int entIdx = 0; entIdx < line.Entities.Count; ++entIdx)
+                {
+                    RichViewEntity entity = line.Entities[entIdx];
+
+                    if (!string.IsNullOrWhiteSpace(entity.Url))
+                    {
+                        entityRect.X = entity.Offset + startX - margin;
+                        entityRect.Width = entity.Width + margin * 2;
+
+                        if (entityRect.Contains(point))
+                        {
+                            return entity;
+                        }
+                    }
+                }
+
+                entityRect.Y += line.Height + margin;
+            }
+
+            return null;
         }
 
         protected override void Update(float time)
@@ -478,6 +570,14 @@ namespace Sitana.Framework.Ui.Views
                     }
                 }
             }
+
+            foreach (var line in _lines)
+            {
+                foreach (var entity in line.Entities)
+                {
+                    entity.Width = ComputeWidth(entity);
+                }
+            }
         }
 
         int ComputeWidth(RichViewEntity entity)
@@ -598,8 +698,7 @@ namespace Sitana.Framework.Ui.Views
                         richLine.Entities.Add(new RichViewEntity()
                             {
                                 Type = EntityType.ListIndent,
-                                Url = richEntity.Url,
-                                TextColor = richEntity.TextColor
+                                Url = richEntity.Url
                             });
                     }
                     richLine.Entities.Add(richEntity);
@@ -613,7 +712,6 @@ namespace Sitana.Framework.Ui.Views
 
             richEntity.Url = entity.Url;
             richEntity.Type = entity.Type;
-            richEntity.TextColor = String.IsNullOrWhiteSpace(entity.Url) ? _colorNormal : _colorClickable;
 
             switch (entity.Type)
             {
@@ -679,45 +777,83 @@ namespace Sitana.Framework.Ui.Views
             Rectangle target = ScreenBounds;
             int startX = target.X;
 
+            int startY = target.Y;
+            int endY = target.Bottom;
+
+            int top = parameters.DrawBatch.ClipRect.Top;
+            int bottom = parameters.DrawBatch.ClipRect.Bottom;
+
+            _firstVisibleLine = -1;
+
             for (int idx = 0; idx < _lines.Count; ++idx)
             {
                 RichViewLine line = _lines[idx];
 
-                for (int ent = 0; ent < line.Entities.Count; ++ent)
+                if (target.Y > bottom)
                 {
-                    RichViewEntity entity = line.Entities[ent];
+                    break;
+                }
 
-                    float spacing = entity.FontSpacing;
-                    float scale = entity.FontScale;
-                    UniversalFont font = entity.Font;
-
-                    target.X = startX + entity.Offset;
-
-                    switch (entity.Type)
+                if (target.Y + line.Height >= top)
+                {
+                    if (_firstVisibleLine < 0)
                     {
-                        case EntityType.HorizontalLine:
-                            {
-                                Rectangle rect = new Rectangle(target.X, target.Y, Bounds.Width, _horizontalRulerHeight.Compute(0));
-                                parameters.DrawBatch.DrawRectangle(rect, _colorRuler.Value * opacity);
-                            }
-                            break;
+                        _firstVisibleLine = idx;
+                    }
 
-                        case EntityType.String:
-                            {
-                                parameters.DrawBatch.DrawText(font, entity.Text, target, TextAlign.Left, entity.TextColor.Value * opacity, spacing, 0, scale);
-                            }
-                            break;
+                    _lastVisibleLine = idx;
 
-                        case EntityType.Image:
-                            {
-                                Point size = new Point((int)(entity.Image.Width * UiUnit.Unit), (int)(entity.Image.Height * UiUnit.Unit));
-                                parameters.DrawBatch.DrawImage(entity.Image, target.Location, size, Point.Zero, (float)UiUnit.Unit, Color.White * opacity);
-                            }
-                            break;
+                    for (int ent = 0; ent < line.Entities.Count; ++ent)
+                    {
+                        RichViewEntity entity = line.Entities[ent];
+
+                        float spacing = entity.FontSpacing;
+                        float scale = entity.FontScale;
+                        UniversalFont font = entity.Font;
+
+                        target.X = startX + entity.Offset;
+
+                        switch (entity.Type)
+                        {
+                            case EntityType.HorizontalLine:
+                                {
+                                    Rectangle rect = new Rectangle(target.X, target.Y, Bounds.Width, _horizontalRulerHeight.Compute(0));
+                                    parameters.DrawBatch.DrawRectangle(rect, _colorRuler.Value * opacity);
+                                }
+                                break;
+
+                            case EntityType.String:
+                                {
+                                    Color textColor = _colorNormal.Value;
+
+                                    if (entity.Url != null)
+                                    {
+                                        textColor = _selected == entity ? _colorClickableActive.Value : _colorClickable.Value;
+                                    }
+
+                                    parameters.DrawBatch.DrawText(font, entity.Text, target, TextAlign.Left, textColor * opacity, spacing, 0, scale);
+                                }
+                                break;
+
+                            case EntityType.Image:
+                                {
+                                    Point size = new Point((int)(entity.Image.Width * UiUnit.Unit), (int)(entity.Image.Height * UiUnit.Unit));
+                                    parameters.DrawBatch.DrawImage(entity.Image, target.Location, size, Point.Zero, (float)UiUnit.Unit, Color.White * opacity);
+                                }
+                                break;
+                        }
                     }
                 }
 
                 target.Y += line.Height;
+            }
+        }
+
+        void ProcessUrl(RichViewEntity entity)
+        {
+            if (entity != null && !String.IsNullOrWhiteSpace(entity.Url))
+            {
+                Platform.OpenWebsite(entity.Url);
             }
         }
     }

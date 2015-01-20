@@ -18,7 +18,7 @@ namespace Sitana.Framework.Ui.Views.RichView
         public float FontScale = 1;
         public float FontSpacing = 0;
 
-        public ColorWrapper TextColor = null;
+        public int Width = 0;
 
         public RichViewEntity Clone()
         {
@@ -32,7 +32,7 @@ namespace Sitana.Framework.Ui.Views.RichView
                 Font = Font,
                 FontScale = FontScale,
                 FontSpacing = FontSpacing,
-                TextColor = TextColor
+                Width = Width
             };
         }
     }
