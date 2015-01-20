@@ -190,6 +190,19 @@ namespace Sitana.Framework.Graphics
             }
         }
 
+        public Rectangle ClipRect
+        {
+            get
+            {
+                if (ScissorRectangle.HasValue)
+                {
+                    return ScissorRectangle.Value;
+                }
+
+                return GraphicsDevice.Viewport.Bounds;
+            }
+        }
+
         public void Reset()
         {
             _scissors.Clear();

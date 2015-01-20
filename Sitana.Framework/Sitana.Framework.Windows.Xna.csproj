@@ -69,6 +69,7 @@
     <Compile Include="Input\TextInput\TextInput.Dektop.cs" />
     <Compile Include="Input\TextInput\TextInputType.cs" />
     <Compile Include="Input\TouchPad\IGestureListener.cs" />
+    <Compile Include="Text\HtmlSpecialChars.cs" />
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
     <Compile Include="Ui\Binding\ItemsList.cs" />
@@ -89,6 +90,14 @@
     <Compile Include="Ui\DefinitionFiles\DefinitionFileWithStyle.cs" />
     <Compile Include="Ui\Definitions\UiHelper.cs" />
     <Compile Include="Ui\Definitions\VerticalAlignment.cs" />
+    <Compile Include="Ui\RichText\Entity.cs" />
+    <Compile Include="Ui\RichText\EntityType.cs" />
+    <Compile Include="Ui\RichText\FontEnums.cs" />
+    <Compile Include="Ui\RichText\FontInfo.cs" />
+    <Compile Include="Ui\RichText\IRichProcessor.cs" />
+    <Compile Include="Ui\RichText\Line.cs" />
+    <Compile Include="Ui\RichText\MarkdownProcessor.cs" />
+    <Compile Include="Ui\RichText\TagProperties.cs" />
     <Compile Include="Ui\TransitionEffects\None.cs" />
     <Compile Include="Ui\TransitionEffects\Rotate.cs" />
     <Compile Include="Ui\Views\Containers\UiContentSlider.cs" />
@@ -111,10 +120,13 @@
     <Compile Include="Ui\TransitionEffects\Vanish.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonTransformGroup.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\DrawButtonInfo.cs" />
+    <Compile Include="Ui\Views\Controls\RichView\RichViewEntity.cs" />
+    <Compile Include="Ui\Views\Controls\RichView\RichViewLine.cs" />
     <Compile Include="Ui\Views\Controls\UiCheckBox.cs" />
     <Compile Include="Ui\Views\Controls\UiEditBox.cs" />
     <Compile Include="Ui\Views\Controls\UiImage.cs" />
     <Compile Include="Ui\Views\Controls\UiIndexSelector.cs" />
+    <Compile Include="Ui\Views\Controls\UiRichView.cs" />
     <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
     <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
