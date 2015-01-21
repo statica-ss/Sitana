@@ -71,7 +71,7 @@ namespace Sitana.Framework.Ui.Core
 
         // Move this to proper partial class!
         #if ANDROID
-        private
+        protected
         #else
         public
         #endif

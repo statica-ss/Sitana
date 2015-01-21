@@ -46,6 +46,9 @@
     <Reference Include="CommonMark">
       <HintPath>..\ThirdParty\Dependences\CommonMark\CommonMark.dll</HintPath>
     </Reference>
+    <Reference Include="GooglePlayServicesLib">
+      <HintPath>..\ThirdParty\Dependences\GooglePlayServices\GooglePlayServicesLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
@@ -206,7 +209,6 @@
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs" />
     <Compile Include="Xml\XNodeAttributes.cs" />
     <Compile Include="GamerApi\AchievementInfo.cs" />
-    <Compile Include="GamerApi\GamerPlatform.Android.cs" />
     <Compile Include="Ui\Core\AppMain.Mobile.cs" />
     <Compile Include="Ui\Core\AppMain_ImmersiveFullscreen.cs" />
     <Compile Include="Ui\Views\Controls\UiText.cs" />
@@ -222,6 +224,8 @@
     <Compile Include="Text\HtmlSpecialChars.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewEntity.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewLine.cs" />
+    <Compile Include="GamerApi\GameHelper.Android.cs" />
+    <Compile Include="GamerApi\GamerPlatform.Android.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
