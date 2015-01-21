@@ -129,7 +129,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContentManagement\ContentLoader.cs" />
     <Compile Include="ContentManagement\LoadResourceInfo.cs" />
-    <Compile Include="Graphics\Images\LoadTexture2DFromPng.cs" />
     <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
     <Compile Include="Graphics\Sprites\Sprite.cs" />
     <Compile Include="Cs\CsToolkit.cs" />
