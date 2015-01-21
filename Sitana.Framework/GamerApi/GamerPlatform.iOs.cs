@@ -1,9 +1,9 @@
 ﻿using System;
-using MonoTouch.GameKit;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
 using Sitana.Framework.Ui.Core;
 using System.Threading.Tasks;
+using GameKit;
+using UIKit;
+using Foundation;
 
 namespace Sitana.Framework.GamerApi
 {

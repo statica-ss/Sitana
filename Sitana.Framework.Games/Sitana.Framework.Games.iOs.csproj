@@ -3,12 +3,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{44726E03-7033-491D-B39B-F2815C8663AE}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{CC9FF0FD-F41B-478C-A1B8-D2900E857DD2}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Sitana.Framework.Games.iOs</RootNamespace>
+    <RootNamespace>Sitana.Framework.Games</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>Sitana.Framework.Games.iOs</AssemblyName>
+    <AssemblyName>Sitana.Framework.Games</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,23 +23,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\_Bin\iOs</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="monotouch" />
-    <Reference Include="FarseerPhysics.iOS">
-      <HintPath>..\ThirdParty\Dependences\Farseer\FarseerPhysics.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoGame.Framework">
-      <HintPath>..\ThirdParty\Dependences\MonoGame\iOs\MonoGame.Framework.dll</HintPath>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Layer.cs" />
@@ -47,14 +35,16 @@
     <Compile Include="Core\TiledLayer.cs" />
     <Compile Include="Core\VectorLayer.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Sitana.Framework\Sitana.Framework.iOs.csproj">
-      <Project>{E2DF6AB0-B3BA-49E1-92DD-081731255053}</Project>
-      <Name>Sitana.Framework.iOs</Name>
-    </ProjectReference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\ThirdParty\Dependences\MonoGame\iOs\MonoGame.Framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\" />
+    <ProjectReference Include="..\Sitana.Framework\Sitana.Framework.iOs.csproj">
+      <Project>{8035627E-934F-4AEB-B2E5-69CD5A08204B}</Project>
+      <Name>Sitana.Framework.iOs</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

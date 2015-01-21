@@ -157,7 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.iOs.csproj">
-      <Project>{E2DF6AB0-B3BA-49E1-92DD-081731255053}</Project>
+      <Project>{8035627E-934F-4AEB-B2E5-69CD5A08204B}</Project>
       <Name>Sitana.Framework.iOs</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sitana.Framework.Games\Sitana.Framework.Games.iOs.csproj">

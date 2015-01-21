@@ -43,6 +43,9 @@
     <Reference Include="MonoGame.Framework">
       <HintPath>..\ThirdParty\Dependences\MonoGame\android\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="CommonMark">
+      <HintPath>..\ThirdParty\Dependences\CommonMark\CommonMark.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
@@ -207,6 +210,18 @@
     <Compile Include="Ui\Core\AppMain.Mobile.cs" />
     <Compile Include="Ui\Core\AppMain_ImmersiveFullscreen.cs" />
     <Compile Include="Ui\Views\Controls\UiText.cs" />
+    <Compile Include="Ui\RichText\Entity.cs" />
+    <Compile Include="Ui\RichText\EntityType.cs" />
+    <Compile Include="Ui\RichText\FontEnums.cs" />
+    <Compile Include="Ui\RichText\FontInfo.cs" />
+    <Compile Include="Ui\RichText\IRichProcessor.cs" />
+    <Compile Include="Ui\RichText\Line.cs" />
+    <Compile Include="Ui\RichText\MarkdownProcessor.cs" />
+    <Compile Include="Ui\RichText\TagProperties.cs" />
+    <Compile Include="Ui\Views\Controls\UiRichView.cs" />
+    <Compile Include="Text\HtmlSpecialChars.cs" />
+    <Compile Include="Ui\Views\Controls\RichView\RichViewEntity.cs" />
+    <Compile Include="Ui\Views\Controls\RichView\RichViewLine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -231,6 +246,9 @@
     <Folder Include="Graphics\" />
     <Folder Include="Graphics\3D\" />
     <Folder Include="Input\GamePad\" />
+    <Folder Include="Ui\RichText\" />
+    <Folder Include="Text\" />
+    <Folder Include="Ui\Views\Controls\RichView\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

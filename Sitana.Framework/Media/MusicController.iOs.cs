@@ -10,9 +10,9 @@
  */
 using System;
 using Microsoft.Xna.Framework.Media;
-using MonoTouch.AudioToolbox;
-using MonoTouch.AVFoundation;
-using MonoTouch.Foundation;
+
+using AVFoundation;
+using Foundation;
 
 namespace Sitana.Framework.Content
 {
@@ -47,7 +47,7 @@ namespace Sitana.Framework.Content
 
         public void OnActivate()
         {
-            if (!GameHasControl && MediaPlayer.State == MediaState.Playing)
+			if (!GameHasControl && Microsoft.Xna.Framework.Media.MediaPlayer.State == MediaState.Playing)
             {
                 Stop();
             }
