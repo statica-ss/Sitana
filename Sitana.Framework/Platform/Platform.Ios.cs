@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO.IsolatedStorage;
-using MonoTouch.UIKit;
-using MonoTouch.MessageUI;
-using MonoTouch.Foundation;
 using Microsoft.Xna.Framework;
 using System.Reflection;
 using System;
 using Sitana.Framework.Ui.Core;
+using MessageUI;
+using Foundation;
+using UIKit;
 
 namespace Sitana.Framework
 {
@@ -31,7 +31,7 @@ namespace Sitana.Framework
             public override void Finished(MFMailComposeViewController controller,
                                         MFMailComposeResult result, NSError error)
             {
-                controller.DismissViewController(true, new NSAction(DoCompletedAction));
+                controller.DismissViewController(true, DoCompletedAction);
             }
 
             public void DoCompletedAction()
@@ -59,7 +59,7 @@ namespace Sitana.Framework
 
         public static void OpenWebsite(String url)
         {
-            UIApplication.SharedApplication.OpenUrl(new MonoTouch.Foundation.NSUrl(url));
+            UIApplication.SharedApplication.OpenUrl(new Foundation.NSUrl(url));
         }
 
         public static void OpenMail(String name, String address, String subject, String text, Action onCompleted)
@@ -78,7 +78,7 @@ namespace Sitana.Framework
         public static void OpenRatingPage()
         {
             String url = String.Format("itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id={0}", AppId);
-            UIApplication.SharedApplication.OpenUrl(new MonoTouch.Foundation.NSUrl(url));
+            UIApplication.SharedApplication.OpenUrl(new Foundation.NSUrl(url));
         }
 
         public static String CurrentVersion

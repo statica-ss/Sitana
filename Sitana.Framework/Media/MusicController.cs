@@ -23,7 +23,7 @@ namespace Sitana.Framework.Content
             set
             {
                 _masterVolume = MediaHelper.LinearToVolume(value);
-                MediaPlayer.Volume = _masterVolume;
+				Microsoft.Xna.Framework.Media.MediaPlayer.Volume = _masterVolume;
             }
         }
 
@@ -57,7 +57,7 @@ namespace Sitana.Framework.Content
             {
                 if (GameHasControl)
                 {
-                    MediaPlayer.Stop();
+					Microsoft.Xna.Framework.Media.MediaPlayer.Stop();
                 }
             }
             catch (Exception ex)
@@ -70,8 +70,8 @@ namespace Sitana.Framework.Content
         {
             if (GameHasControl)
             {
-                MediaPlayer.IsRepeating = true;
-                MediaPlayer.Play(song);
+				Microsoft.Xna.Framework.Media.MediaPlayer.IsRepeating = true;
+				Microsoft.Xna.Framework.Media.MediaPlayer.Play(song);
             }
         }
     }
