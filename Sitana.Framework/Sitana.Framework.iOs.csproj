@@ -48,7 +48,6 @@
     <Folder Include="ContentManagement\" />
     <Folder Include="Cs\" />
     <Folder Include="Definitions\" />
-    <Folder Include="Games\" />
     <Folder Include="Graphics\" />
     <Folder Include="Helpers\" />
     <Folder Include="Input\" />
@@ -62,7 +61,6 @@
     <Folder Include="Graphics\Fonts\" />
     <Folder Include="Graphics\Images\" />
     <Folder Include="Ui\Definitions\" />
-    <Folder Include="GamerApi\" />
     <Folder Include="Diagnostics\" />
     <Folder Include="Input\TextInput\" />
     <Folder Include="Input\GamePad\" />
@@ -143,7 +141,6 @@
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
     <Compile Include="Definitions\TransitionType.cs" />
-    <Compile Include="GamerApi\Gamer.cs" />
     <Compile Include="Graphics\Images\NinePatchImage.cs" />
     <Compile Include="Graphics\3D\BasicShaderEffect.cs" />
     <Compile Include="Graphics\3D\IShaderEffect.cs" />
@@ -227,8 +224,6 @@
     <Compile Include="Xml\XNodeAttributes.cs" />
     <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
-    <Compile Include="GamerApi\GamerPlatform.iOs.cs" />
-    <Compile Include="GamerApi\AchievementInfo.cs" />
     <Compile Include="Ui\Views\Controls\UiSlider.cs" />
     <Compile Include="Ui\RichText\Entity.cs" />
     <Compile Include="Ui\RichText\EntityType.cs" />
