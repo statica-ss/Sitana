@@ -3,7 +3,7 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
-using GooglePlay.Services.Helpers;
+//using GooglePlay.Services.Helpers;
 
 namespace Sitana.Framework.GamerApi
 {

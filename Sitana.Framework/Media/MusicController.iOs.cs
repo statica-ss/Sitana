@@ -49,7 +49,12 @@ namespace Sitana.Framework.Content
         {
 			if (!GameHasControl && Microsoft.Xna.Framework.Media.MediaPlayer.State == MediaState.Playing)
             {
-                Stop();
+                Microsoft.Xna.Framework.Media.MediaPlayer.Stop();
+            }
+
+            if(GameHasControl)
+            {
+                Enabled = Enabled;
             }
         }
     }

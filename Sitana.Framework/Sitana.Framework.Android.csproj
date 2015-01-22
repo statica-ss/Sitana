@@ -224,7 +224,6 @@
     <Compile Include="Text\HtmlSpecialChars.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewEntity.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewLine.cs" />
-    <Compile Include="GamerApi\GameHelper.Android.cs" />
     <Compile Include="GamerApi\GamerPlatform.Android.cs" />
   </ItemGroup>
   <ItemGroup>
