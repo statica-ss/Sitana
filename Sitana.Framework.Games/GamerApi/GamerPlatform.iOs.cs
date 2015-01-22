@@ -11,7 +11,7 @@ namespace Sitana.Framework.GamerApi
 	{
         bool _enabled = false;
 
-        public void Login(AchievementInfoDelegate achievementInfo)
+        public void Login(AchievementInfoDelegate achievementInfo, LeaderboardDelegate leaderboardInfo)
         {
             GKLocalPlayer player = GKLocalPlayer.LocalPlayer;
 
@@ -29,6 +29,30 @@ namespace Sitana.Framework.GamerApi
                         if (GKLocalPlayer.LocalPlayer.Authenticated)
                         {
                             _enabled = true;
+
+                            GKLeaderboard.LoadLeaderboards((GKLeaderboard[] leaderboards, NSError error3)=>
+                            {
+                                if (leaderboards != null && leaderboards.Length > 0 && leaderboardInfo != null)
+                                {
+                                    LeaderboardInfo[] info = new LeaderboardInfo[leaderboards.Length];
+
+                                    for (int idx = 0; idx < leaderboards.Length; ++idx)
+                                    {
+                                        GKLeaderboard lb = leaderboards[idx];
+
+                                        int score = 0;
+
+                                        if(lb.LocalPlayerScore!=null)
+                                        {
+                                            score = (int)lb.LocalPlayerScore.Value;
+                                        }
+
+                                        info[idx] = new LeaderboardInfo(lb.Identifier){Score = score};
+                                    }
+
+                                    leaderboardInfo(info);
+                                }
+                            });
 
                             GKAchievement.LoadAchievements((GKAchievement[] achievements, NSError error2)=>
                             {

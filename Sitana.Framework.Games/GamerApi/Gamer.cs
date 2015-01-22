@@ -14,7 +14,6 @@ namespace Sitana.Framework.GamerApi
     public class Gamer: Singleton<Gamer>
     {
         private GamerPlatform _handler = new GamerPlatform();
-        private Dictionary<string, List<int>> _localScores = new Dictionary<string, List<int>>();
 
         private Dictionary<string, Achievement> _achievementInfos = new Dictionary<string, Achievement>();
         private Dictionary<string, Leaderboard> _leaderboardInfos = new Dictionary<string, Leaderboard>();
@@ -69,29 +68,48 @@ namespace Sitana.Framework.GamerApi
 
         public void Enable()
         {
-            Unserialize();
-            _handler.Login(OnAchievementsLoaded);
+            //Unserialize();
+            _handler.Login(OnAchievementsLoaded, OnLeaderboardsLoaded);
         }
 
         public int AchievementCompletion(string name)
         {
             lock (_lock)
             {
-                Achievement achievement = FromName(name);
+                Achievement achievement = AchievementFromName(name);
                 return achievement != null ? achievement.Completion : 0;
             }
         }
 
         public string NameToId(string name)
         {
-            Achievement achievement;
-            _achievementInfos.TryGetValue(name, out achievement);
+            Leaderboard leaderboard = LeaderboardFromName(name);
 
-            return achievement != null ? achievement.Id : null;
+            if(leaderboard != null)
+            {
+                return leaderboard.Id;
+            }
+
+            Achievement achievement = AchievementFromName(name);
+
+            if(achievement != null)
+            {
+                return achievement.Id;
+            }
+
+            return null;
         }
 
         public string IdToName(string id)
         {
+            foreach(var leaderboard in _leaderboardInfos)
+            {
+                if ( leaderboard.Value.Id == id)
+                {
+                    return leaderboard.Key;
+                }
+            }
+
             foreach(var achievement in _achievementInfos)
             {
                 if ( achievement.Value.Id == id)
@@ -103,7 +121,7 @@ namespace Sitana.Framework.GamerApi
             return null;
         }
 
-        Achievement FromName(string name)
+        Achievement AchievementFromName(string name)
         {
             lock(_lock)
             {
@@ -113,9 +131,19 @@ namespace Sitana.Framework.GamerApi
             }
         }
 
+        Leaderboard LeaderboardFromName(string name)
+        {
+            lock(_lock)
+            {
+                Leaderboard leaderboard;
+                _leaderboardInfos.TryGetValue(name, out leaderboard);
+                return leaderboard;
+            }
+        }
+
         public bool ReportAchievement(string name, int completion)
         {
-            Achievement achievement = FromName(name);
+            Achievement achievement = AchievementFromName(name);
             string id = achievement.Id;
 
             if ( id == null )
@@ -137,28 +165,24 @@ namespace Sitana.Framework.GamerApi
             {
                 if (AchievementCompleted != null)
                 {
-                    AchievementCompleted(new AchievementInfo(id){Completion = completion});
+                    AchievementCompleted(achievement);
                 }
 
-                _handler.SendAchievement(name, completion);
+                _handler.SendAchievement(id, completion);
                 Serialize();
             }
 
             return isChanged;
         }
 
-        public void LocalScores(string leaderboard, List<int> list)
+        public int LocalScore(string name)
         {
-            list.Clear();
-
-            lock (_lock)
+            Leaderboard leaderboard = LeaderboardFromName(name);
+            if(leaderboard != null)
             {
-                List<int> local = null;
-                if (_localScores.TryGetValue(leaderboard, out list))
-                {
-                    list.AddRange(local);
-                }
+                return leaderboard.Score;
             }
+            return 0;
         }
 
         public void LocalAchievements(List<Achievement> list)
@@ -181,53 +205,73 @@ namespace Sitana.Framework.GamerApi
 
         public void ReportScore(string leaderboardName, int score)
         {
-            lock (_lock)
-            {
-                List<int> list = null;
-                if (!_localScores.TryGetValue(leaderboardName, out list))
-                {
-                    list = new List<int>();
-                    _localScores[leaderboardName] = list;
-                }
-
-                list.Add(score);
-            }
-
             Leaderboard leaderboard;
             _leaderboardInfos.TryGetValue(leaderboardName, out leaderboard);
 
             if (leaderboard != null)
             {
+                if (leaderboard.Score < score)
+                {
+                    leaderboard.Score = score;
+                    Serialize();
+                }
+
                 _handler.SendScore(leaderboard.Id, score);
             }
         }
 
+        private void OnLeaderboardsLoaded(LeaderboardInfo[] leaderboards)
+        {
+            foreach (var lb in leaderboards)
+            {
+                string name = IdToName(lb.Id);
+
+                if (name != null)
+                {
+                    Leaderboard leaderboard = LeaderboardFromName(name);
+
+                    if (leaderboard != null)
+                    {
+                        int currentScore = leaderboard.Score;
+
+                        if (currentScore > lb.Score)
+                        {
+                            _handler.SendScore(lb.Id, currentScore);
+                        }
+
+                        if (currentScore < lb.Score)
+                        {
+                            leaderboard.Score = lb.Score;
+                        }
+                    }
+                }
+            }
+
+            Serialize();
+        }
 
         private void OnAchievementsLoaded(AchievementInfo[] achievements)
         {
             foreach (var ach in achievements)
             {
-                int currentCompletion = AchievementCompletion(ach.Id);
+                string name = IdToName(ach.Id);
 
-                if (currentCompletion > ach.Completion)
+                if (name != null)
                 {
-                    _handler.SendAchievement(ach.Id, ach.Completion);
-                }
+                    Achievement achievement = AchievementFromName(name);
 
-                if (currentCompletion < ach.Completion)
-                {
-                    lock (_lock)
+                    if (achievement != null)
                     {
-                        string name = IdToName(ach.Id);
+                        int currentCompletion = achievement.Completion;
 
-                        if (name != null)
+                        if (currentCompletion > ach.Completion)
                         {
-                            Achievement achievement = FromName(name);
+                            _handler.SendAchievement(ach.Id, currentCompletion);
+                        }
 
-                            if (achievement != null)
-                            {
-                                achievement.Completion = ach.Completion;
-                            }
+                        if (currentCompletion < ach.Completion)
+                        {
+                            achievement.Completion = ach.Completion;
                         }
                     }
                 }
@@ -258,18 +302,12 @@ namespace Sitana.Framework.GamerApi
                                 writer.Write(ach.Value.Completion);
                             }
 
-                            writer.Write(_localScores.Count);
-                            foreach (var loc in _localScores)
+                            writer.Write(_leaderboardInfos.Count);
+
+                            foreach (var lb in _leaderboardInfos)
                             {
-                                writer.Write(loc.Key);
-
-                                List<int> list = loc.Value;
-                                writer.Write(list.Count);
-
-                                foreach (var val in list)
-                                {
-                                    writer.Write(val);
-                                }
+                                writer.Write(lb.Key);
+                                writer.Write(lb.Value.Score);
                             }
                         }
                     }
@@ -280,8 +318,6 @@ namespace Sitana.Framework.GamerApi
         private void Unserialize()
         {
             string path = Serializator.PathFromType(typeof(Gamer));
-
-            _localScores.Clear();
 
             // Open isolated storage.
             using (var isolatedStorageFile = Platform.GetUserStoreForApplication())
@@ -300,8 +336,7 @@ namespace Sitana.Framework.GamerApi
                                 string name = reader.ReadString();
                                 int completion = reader.ReadInt32();
 
-                                Achievement achievement = FromName(name);
-
+                                Achievement achievement = AchievementFromName(name);
 
                                 if ( achievement != null)
                                 {
@@ -315,13 +350,12 @@ namespace Sitana.Framework.GamerApi
                             {
                                 string id = reader.ReadString();
 
-                                List<int> list = new List<int>();
-                                _localScores.Add(id, list);
+                                Leaderboard leaderboard;
+                                _leaderboardInfos.TryGetValue(id, out leaderboard);
 
-                                int count2 = reader.ReadInt32();
-                                for (int idx2 = 0; idx2 < count2; ++idx2)
+                                if(leaderboard != null)
                                 {
-                                    list.Add(reader.ReadInt32());
+                                    leaderboard.Score = reader.ReadInt32();
                                 }
                             }
                         }

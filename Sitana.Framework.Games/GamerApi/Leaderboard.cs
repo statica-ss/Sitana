@@ -7,6 +7,7 @@ namespace Sitana.Framework.GamerApi
     public class Leaderboard
     {
         public readonly string Id;
+        public int Score { get; internal set;}
 
         private Dictionary<string, string> _title = new Dictionary<string, string>();
 

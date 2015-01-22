@@ -18,7 +18,7 @@
 //
 using System;
 
-namespace Sitana.Framework
+namespace Sitana.Framework.GamerApi
 {
     public class AchievementInfo
     {
@@ -31,7 +31,20 @@ namespace Sitana.Framework
         }
     }
 
+    public class LeaderboardInfo
+    {
+        public readonly string Id;
+        public int Score = 0;
+
+        public LeaderboardInfo(string id)
+        {
+            Id = id;
+        }
+    }
+
     public delegate void AchievementInfoDelegate(AchievementInfo[] achievements);
-    public delegate void AchievementCompletedDelegate(AchievementInfo achievement);
+    public delegate void LeaderboardDelegate(LeaderboardInfo[] leaderboard);
+
+    public delegate void AchievementCompletedDelegate(Achievement achievement);
 }
 
