@@ -34,12 +34,18 @@
     <Compile Include="Core\Map.cs" />
     <Compile Include="Core\TiledLayer.cs" />
     <Compile Include="Core\VectorLayer.cs" />
+    <Compile Include="GamerApi\AchievementInfo.cs" />
+    <Compile Include="GamerApi\Gamer.cs" />
+    <Compile Include="GamerApi\GamerPlatform.iOs.cs" />
+    <Compile Include="GamerApi\Achievement.cs" />
+    <Compile Include="GamerApi\Leaderboard.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\ThirdParty\Dependences\MonoGame\iOs\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sitana.Framework\Sitana.Framework.iOs.csproj">

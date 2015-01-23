@@ -73,6 +73,7 @@ namespace Sitana.Framework.Ui.Views
             file["HorizontalRulerHeight"] = parser.ParseLength("HorizontalRulerHeight");
 
             file["ClickMargin"] = parser.ParseLength("ClickMargin");
+            file["UrlClick"] = parser.ParseDelegate("UrlClick");
         }
 
         float _lineHeight;
@@ -215,6 +216,8 @@ namespace Sitana.Framework.Ui.Views
             _textAlign = UiHelper.TextAlignFromAlignment(horzAlign, vertAlign);
 
             _clickMargin = DefinitionResolver.Get<Length>(Controller, Binding, file["ClickMargin"], Length.Zero);
+
+            RegisterDelegate("UrlClick", file["UrlClick"]);
 
             EnabledGestures = (GestureType.Down | GestureType.Up | GestureType.Move | GestureType.Tap);
         }
@@ -875,7 +878,12 @@ namespace Sitana.Framework.Ui.Views
         {
             if (entity != null && !String.IsNullOrWhiteSpace(entity.Url))
             {
-                Platform.OpenWebsite(entity.Url);
+                object processed = CallDelegate("UrlClick", new InvokeParam("sender", this), new InvokeParam("url", entity.Url));
+
+                if ( !processed.Equals(true))
+                {
+                    Platform.OpenWebsite(entity.Url);
+                }
             }
         }
     }

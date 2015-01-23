@@ -30,9 +30,17 @@ namespace Sitana.Framework.Ui.Views
 
         List<DefinitionFile> _history = new List<DefinitionFile>();
 
+        bool _skipUpdate = false;
+
         protected override void Update(float time)
         {
             base.Update(time);
+
+            if ( _skipUpdate )
+            {
+                _skipUpdate = false;
+                return;
+            }
 
             for (int idx = 0; idx < _children.Count;)
             {
@@ -150,6 +158,8 @@ namespace Sitana.Framework.Ui.Views
                 {
                     OnPageAdded(page);
                 }
+
+                _skipUpdate = true;
             }
         }
 

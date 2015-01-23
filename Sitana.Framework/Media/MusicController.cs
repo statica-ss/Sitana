@@ -12,18 +12,55 @@ namespace Sitana.Framework.Content
     public partial class MusicController: Singleton<MusicController>
     {
         private Single _masterVolume = 1;
+        private bool _enabled = true;
+
+        private Song _song;
 
         public Single MasterVolume
         {
             get
             {
-                return MediaHelper.VolumeToLinear(_masterVolume);
+                return _masterVolume;//MediaHelper.VolumeToLinear(_masterVolume);
             }
 
             set
             {
-                _masterVolume = MediaHelper.LinearToVolume(value);
-				Microsoft.Xna.Framework.Media.MediaPlayer.Volume = _masterVolume;
+                _masterVolume = value;//MediaHelper.LinearToVolume(value);
+                Microsoft.Xna.Framework.Media.MediaPlayer.Volume = _masterVolume;
+            }
+        }
+
+        public bool Enabled
+        {
+            get
+            {
+                return _enabled;
+            }
+
+            set
+            {
+                _enabled = value;
+                if ( _song != null )
+                {
+                    if (GameHasControl)
+                    {
+                        if (_enabled)
+                        {
+                            if (Microsoft.Xna.Framework.Media.MediaPlayer.State == MediaState.Stopped)
+                            {
+                                Microsoft.Xna.Framework.Media.MediaPlayer.Play(_song);
+                            }
+                            else if (Microsoft.Xna.Framework.Media.MediaPlayer.State == MediaState.Paused)
+                            {
+                                Microsoft.Xna.Framework.Media.MediaPlayer.Resume();
+                            }
+                        }
+                        else
+                        {
+                            Microsoft.Xna.Framework.Media.MediaPlayer.Pause();
+                        }
+                    }
+                }
             }
         }
 
@@ -43,6 +80,8 @@ namespace Sitana.Framework.Content
             try
             {
                 Song song = ContentLoader.Current.Load<Song>(path);
+
+                _song = song;
                 Play(song);
             }
             catch (Exception ex)
@@ -68,9 +107,10 @@ namespace Sitana.Framework.Content
 
         private void Play(Song song)
         {
-            if (GameHasControl)
+            Microsoft.Xna.Framework.Media.MediaPlayer.IsRepeating = true;
+
+            if (GameHasControl && Enabled)
             {
-				Microsoft.Xna.Framework.Media.MediaPlayer.IsRepeating = true;
 				Microsoft.Xna.Framework.Media.MediaPlayer.Play(song);
             }
         }

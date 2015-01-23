@@ -23,7 +23,7 @@ namespace Sitana.Framework.Ui.Core
 		double _checkTime = 1;
 		Activity _activity;
 
-		public AppMain_ImmersiveFullscreen(Activity activity): base(activity)
+		public AppMain_ImmersiveFullscreen(Activity activity): this(activity, true)
 		{
 			_activity = activity;
 
@@ -37,6 +37,31 @@ namespace Sitana.Framework.Ui.Core
 
 			_activity.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)Platform.ImmersiveModeFlags;
 			_activity.Window.DecorView.RequestLayout();
+		}
+
+		public AppMain_ImmersiveFullscreen(Activity activity, bool addToLayout): base()
+		{
+			_activity = activity;
+
+			Display display = activity.WindowManager.DefaultDisplay;
+
+			global::Android.Graphics.Point outSize = new global::Android.Graphics.Point();
+			display.GetRealSize(outSize);
+
+			_width = outSize.X;
+			_height = outSize.Y;
+
+			_activity.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)Platform.ImmersiveModeFlags;
+			_activity.Window.DecorView.RequestLayout();
+
+			Graphics.PreferredBackBufferWidth = activity.Window.DecorView.Width;
+			Graphics.PreferredBackBufferHeight = activity.Window.DecorView.Height;
+
+			if (addToLayout)
+			{
+				View view = (View)Services.GetService(typeof(View));
+				_activity.SetContentView(view);
+			}
 		}
 
 		protected override void OnSize(int width, int height)
