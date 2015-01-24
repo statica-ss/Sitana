@@ -154,7 +154,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        private PrimitiveType PrimitiveType
+        public PrimitiveType PrimitiveType
         {
             get
             {
@@ -200,6 +200,14 @@ namespace Sitana.Framework.Graphics
                 }
 
                 return GraphicsDevice.Viewport.Bounds;
+            }
+        }
+
+        public PrimitiveBatch PrimitiveBatch
+        {
+            get
+            {
+                return _primitiveBatch;
             }
         }
 
@@ -327,7 +335,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        void PrimitiveBatchNeeded()
+        public void PrimitiveBatchNeeded()
         {
             if (_spriteBatchStarted)
             {

@@ -73,6 +73,36 @@ namespace Sitana.Framework.Graphics
             DrawText(font, text, target, align, color, 0, 0, 1);
         }
 
+        public void DrawText(UniversalFont font, StringBuilder text, Rectangle target, TextAlign align, Color[] colors, float opacity)
+        {
+            DrawText(font, text, target, align, colors, opacity, 0, 0, 1);
+        }
+
+        public void DrawText(UniversalFont font, StringBuilder text, Rectangle target, TextAlign align, Color[] colors, float opacity, float spacing, float lineHeight, float scale)
+        {
+            if (font == null || text == null)
+            {
+                return;
+            }
+
+            Font = font;
+
+            Vector2 size = _font.MeasureString(text, spacing, lineHeight) * scale;
+            Vector2 position = TextPosition(ref target, align, size);
+
+            if (_font.SitanaFont != null)
+            {
+                PrimitiveType = PrimitiveType.TriangleList;
+
+                PrimitiveBatchNeeded();
+                _font.SitanaFont.Draw(_primitiveBatch, text, position, colors, opacity, spacing, lineHeight, new Vector2(scale));
+            }
+            else
+            {
+                throw new Exception("Only Sitana Font supports colored text.");
+            }
+        }
+
         public void DrawText(UniversalFont font, StringBuilder text, Rectangle target, TextAlign align, Color color, float spacing, float lineHeight, float scale)
         {
             if (font == null || text == null)

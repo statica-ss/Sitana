@@ -53,6 +53,7 @@ namespace Sitana.Framework.Graphics
         public Texture2D FontSheet { get; internal set; }
 
         private Dictionary<char, Glyph> _glyphs = new Dictionary<char, Glyph>();
+        private Color[] _colors = new Color[1];
 
         public void AddGlyph(Glyph glyph)
         {
@@ -99,16 +100,24 @@ namespace Sitana.Framework.Graphics
             }
         }
 
+        internal void Draw(PrimitiveBatch primitiveBatch, StringBuilder text, Vector2 position, Color[] colors, float opacity, float spacing, float lineHeight, Vector2 scale)
+        {
+            StringProvider provider = new StringProvider(text);
+            DrawInternal(primitiveBatch, provider, position, colors, opacity, spacing, lineHeight, scale);
+        }
+
         internal void Draw(PrimitiveBatch primitiveBatch, StringBuilder text, Vector2 position, Color color, float spacing, float lineHeight, Vector2 scale)
         {
             StringProvider provider = new StringProvider(text);
-            DrawInternal(primitiveBatch, provider, position, color, spacing, lineHeight, scale);
+            _colors[0] = color;
+            DrawInternal(primitiveBatch, provider, position, _colors, 1, spacing, lineHeight, scale);
         }
 
         internal void Draw(PrimitiveBatch primitiveBatch, string text, Vector2 position, Color color, float spacing, float lineHeight, Vector2 scale)
         {
             StringProvider provider = new StringProvider(text);
-            DrawInternal(primitiveBatch, provider, position, color, spacing, lineHeight, scale);
+            _colors[0] = color;
+            DrawInternal(primitiveBatch, provider, position, _colors, 1, spacing, lineHeight, scale);
         }
 
         public Vector2 MeasureString(StringBuilder text, float spacing, float lineHeight)
@@ -166,7 +175,7 @@ namespace Sitana.Framework.Graphics
             return size;
         }
 
-        void DrawInternal(PrimitiveBatch primitiveBatch, StringProvider text, Vector2 targetPosition, Color color, float spacing, float lineHeight, Vector2 scale)
+        void DrawInternal(PrimitiveBatch primitiveBatch, StringProvider text, Vector2 targetPosition, Color[] colors, float opacity, float spacing, float lineHeight, Vector2 scale)
         {
             if ( primitiveBatch.PrimitiveType != PrimitiveType.TriangleList )
             {
@@ -179,6 +188,8 @@ namespace Sitana.Framework.Graphics
             spacing = (float)Height * spacing * scale.X;
 
             Vector2 position = targetPosition;
+
+            Color color;
 
             for (int idx = 0; idx < count; ++idx)
             {
@@ -198,6 +209,8 @@ namespace Sitana.Framework.Graphics
                     previousChar = character;
 
                     Vector2 pos = new Vector2(position.X, position.Y + scale.Y * (glyph.Top - CapLine));
+
+                    color = colors[idx % colors.Length] * opacity;
 
                     DrawGlyph(primitiveBatch, glyph, ref pos, ref color, scale);
 

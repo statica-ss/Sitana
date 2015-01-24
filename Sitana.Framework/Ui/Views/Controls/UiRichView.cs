@@ -880,7 +880,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 object processed = CallDelegate("UrlClick", new InvokeParam("sender", this), new InvokeParam("url", entity.Url));
 
-                if ( !processed.Equals(true))
+                if ( processed == null || !processed.Equals(true))
                 {
                     Platform.OpenWebsite(entity.Url);
                 }
