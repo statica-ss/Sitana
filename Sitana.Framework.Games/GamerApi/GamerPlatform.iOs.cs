@@ -11,6 +11,14 @@ namespace Sitana.Framework.GamerApi
 	{
         bool _enabled = false;
 
+		public void OnActivated(AchievementInfoDelegate achievementInfo, LeaderboardDelegate leaderboardInfo)
+		{
+			if (_enabled)
+			{
+				Login(achievementInfo, leaderboardInfo);
+			}
+		}
+
         public void Login(AchievementInfoDelegate achievementInfo, LeaderboardDelegate leaderboardInfo)
         {
             GKLocalPlayer player = GKLocalPlayer.LocalPlayer;

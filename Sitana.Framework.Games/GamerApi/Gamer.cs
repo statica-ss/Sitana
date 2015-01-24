@@ -66,9 +66,14 @@ namespace Sitana.Framework.GamerApi
             }
         }
 
+		public void OnActivated()
+		{
+			_handler.OnActivated(OnAchievementsLoaded, OnLeaderboardsLoaded);
+		}
+
         public void Enable()
         {
-            //Unserialize();
+            Unserialize();
             _handler.Login(OnAchievementsLoaded, OnLeaderboardsLoaded);
         }
 
@@ -203,7 +208,7 @@ namespace Sitana.Framework.GamerApi
             }
         }
 
-        public void ReportScore(string leaderboardName, int score)
+		public void ReportScore(string leaderboardName, int score, bool? report = null)
         {
             Leaderboard leaderboard;
             _leaderboardInfos.TryGetValue(leaderboardName, out leaderboard);
@@ -213,10 +218,22 @@ namespace Sitana.Framework.GamerApi
                 if (leaderboard.Score < score)
                 {
                     leaderboard.Score = score;
-                    Serialize();
+
+					if (!report.HasValue)
+					{
+						report = true;
+					}
+
+					if (report.HasValue && report.Value == true)
+					{
+						Serialize();
+					}
                 }
 
-                _handler.SendScore(leaderboard.Id, score);
+				if (report.HasValue && report.Value == true)
+				{
+					_handler.SendScore(leaderboard.Id, score);
+				}
             }
         }
 
