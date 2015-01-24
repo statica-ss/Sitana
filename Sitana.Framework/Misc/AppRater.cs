@@ -16,26 +16,25 @@ namespace Sitana.Framework
         {
             public DateTime FirstUse;
             public DateTime LastTimeAsked;
-            public Int32 NumberOfAppOpenings;
-            public String LastOpenedVersion;
-            public Boolean RemindLater;
-            public Boolean DontRemindUntilNextVersion;
-            public Boolean FirstTime;
-            public Boolean AppAlreadyRated;
+            public int NumberOfAppOpenings;
+            public string LastOpenedVersion;
+            public bool RemindLater;
+			public bool DontRemindUntilNextVersion;
+			public bool FirstTime;
+			public bool AppAlreadyRated;
         }
 
-        private Int32 _minDaysFromFirstUse;
-        private Int32 _minAppOpenings;
-        private Int32 _minDaysToRemind;
-        private Action _onShouldRateAction;
+        private int _minDaysFromFirstUse;
+        private int _minAppOpenings;
+        private int _minDaysToRemind;
 
         private AppRaterData _data;
 
-        public void Init(Int32 minDaysFromFirstUse, Int32 minAppOpenings, Int32 minDaysToRemind)
+        public void Init(int minDaysFromFirstUse, int minAppOpenings, int minDaysToRemind)
         {
-            String version = Platform.CurrentVersion;
+			string version = Platform.CurrentVersion;
 
-            Boolean loaded = true;
+            bool loaded = true;
 
             _data = Serializator.Deserialize<AppRaterData>(Serializator.PathFromType(typeof(AppRaterData)));
 
@@ -61,11 +60,6 @@ namespace Sitana.Framework
                 _data.DontRemindUntilNextVersion = false;
                 Serialize();
             }
-        }
-
-        public void BindAction(Action action)
-        {
-            _onShouldRateAction = action;
         }
 
         public void OnAppActivated()
@@ -110,15 +104,7 @@ namespace Sitana.Framework
             Serializator.Serialize(Serializator.PathFromType(typeof(AppRaterData)), _data);
         }
 
-        public void CheckShowRatingRequest()
-        {
-            if (CanShowRatingRequest && _onShouldRateAction != null)
-            {
-                _onShouldRateAction.Invoke();
-            }
-        }
-
-        public Boolean IsAppRated
+		public bool IsAppRated
         {
             get
             {
@@ -129,7 +115,7 @@ namespace Sitana.Framework
         /// <summary>
         /// 
         /// </summary>
-        public Boolean CanShowRatingRequest
+        public bool CanShowRatingRequest
         {
             get
             {
