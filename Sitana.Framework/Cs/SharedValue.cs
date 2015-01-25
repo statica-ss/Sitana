@@ -40,12 +40,15 @@ namespace Sitana.Framework.Cs
 
             set
             {
+                bool changed = false;
+
                 lock(_sharedLock)
                 {
+                    changed = !object.Equals(_value, value);
                     _value = value;
                 }
 
-                if (ValueChanged != null)
+                if (changed && ValueChanged != null)
                 {
                     ValueChanged(value);
                 }

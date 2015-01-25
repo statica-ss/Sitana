@@ -66,6 +66,16 @@ namespace Sitana.Framework.GamerApi
             }
         }
 
+        public void OpenAchievements()
+        {
+            _handler.OpenAchievements();
+        }
+
+        public void OpenLeaderboards()
+        {
+            _handler.OpenLeaderboards();
+        }
+
 		public void OnActivated()
 		{
 			_handler.OnActivated(OnAchievementsLoaded, OnLeaderboardsLoaded);
