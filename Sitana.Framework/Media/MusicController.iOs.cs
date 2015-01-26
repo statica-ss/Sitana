@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.Media;
 using AVFoundation;
 using Foundation;
 
-namespace Sitana.Framework.Content
+namespace Sitana.Framework.Media
 {
     public partial class MusicController
     {

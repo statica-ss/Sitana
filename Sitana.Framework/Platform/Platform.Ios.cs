@@ -82,34 +82,6 @@ namespace Sitana.Framework
             UIApplication.SharedApplication.OpenUrl(new Foundation.NSUrl(url));
         }
 
-        public static void OpenAchievements()
-        {
-            UIViewController controller = AppMain.Current.Services.GetService(typeof(UIViewController)) as UIViewController;
-
-            GKAchievementViewController achievementViewController = new GKAchievementViewController ();
-            achievementViewController.DidFinish += 
-                (object sender, EventArgs e) => 
-                {
-                    achievementViewController.DismissViewController(true, null);
-                };
-
-            controller.PresentViewController(achievementViewController, true, null);
-        }
-
-        public static void OpenLeaderboards()
-        {
-            UIViewController controller = AppMain.Current.Services.GetService(typeof(UIViewController)) as UIViewController;
-
-            GKLeaderboardViewController leaderboardViewController = new GKLeaderboardViewController ();
-            leaderboardViewController.DidFinish += 
-                (object sender, EventArgs e) => 
-            {
-                leaderboardViewController.DismissViewController(true, null);
-            };
-
-            controller.PresentViewController(leaderboardViewController, true, null);
-        }
-
         public static String CurrentVersion
         {
             get

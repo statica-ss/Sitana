@@ -123,7 +123,6 @@
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
     <Compile Include="Definitions\TransitionType.cs" />
-    <Compile Include="GamerApi\Gamer.cs" />
     <Compile Include="Graphics\Images\NinePatchImage.cs" />
     <Compile Include="Graphics\3D\BasicShaderEffect.cs" />
     <Compile Include="Graphics\3D\IShaderEffect.cs" />
@@ -144,14 +143,11 @@
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
-    <Compile Include="Media\SoundControler.cs" />
-    <Compile Include="Media\SoundEffectContainer.cs" />
     <Compile Include="Misc\AppRater.cs" />
     <Compile Include="Misc\ColorsManager.cs" />
     <Compile Include="Misc\ColorWrapper.cs" />
     <Compile Include="Misc\ConsoleEx.cs" />
     <Compile Include="Misc\DelayedActionInvoker.cs" />
-    <Compile Include="Misc\InfoBar.cs" />
     <Compile Include="Misc\RemoteConsoleClient.cs" />
     <Compile Include="Misc\StringsManager.cs" />
     <Compile Include="Misc\UiTask.cs" />
@@ -208,7 +204,6 @@
     <Compile Include="Ui\Views\Controls\UiVerticalGradient.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs" />
     <Compile Include="Xml\XNodeAttributes.cs" />
-    <Compile Include="GamerApi\AchievementInfo.cs" />
     <Compile Include="Ui\Core\AppMain.Mobile.cs" />
     <Compile Include="Ui\Core\AppMain_ImmersiveFullscreen.cs" />
     <Compile Include="Ui\Views\Controls\UiText.cs" />
@@ -224,21 +219,16 @@
     <Compile Include="Text\HtmlSpecialChars.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewEntity.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewLine.cs" />
-    <Compile Include="GamerApi\GamerPlatform.Android.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AboutResources.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values\Strings.xml" />
+    <Compile Include="Ui\Views\Controls\UiColoredLabel.cs" />
+    <Compile Include="Ui\Views\Controls\UiSlider.cs" />
+    <Compile Include="Ui\Views\Controls\UiSpritePresenter.cs" />
+    <Compile Include="Media\SoundEffectBuffer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ContentManagement\" />
     <Folder Include="Cs\" />
     <Folder Include="Definitions\" />
-    <Folder Include="Gamer\" />
-    <Folder Include="Games\" />
     <Folder Include="Helpers\" />
     <Folder Include="Input\" />
     <Folder Include="Media\" />

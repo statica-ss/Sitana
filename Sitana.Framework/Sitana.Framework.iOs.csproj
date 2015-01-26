@@ -161,8 +161,6 @@
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
-    <Compile Include="Media\SoundControler.cs" />
-    <Compile Include="Media\SoundEffectContainer.cs" />
     <Compile Include="Misc\AppRater.cs" />
     <Compile Include="Misc\ColorsManager.cs" />
     <Compile Include="Misc\ColorWrapper.cs" />
@@ -240,6 +238,7 @@
     <Compile Include="Ui\Views\Controls\UiText.cs" />
     <Compile Include="Text\HtmlSpecialChars.cs" />
     <Compile Include="Ui\TransitionEffects\None.cs" />
+    <Compile Include="Media\SoundEffectBuffer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
