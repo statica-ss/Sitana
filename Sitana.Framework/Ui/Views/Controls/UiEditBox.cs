@@ -130,7 +130,7 @@ namespace Sitana.Framework.Ui.Views
             RegisterDelegate("TextCancel", file["TextCancel"]);
         }
 
-        protected override void DoAction()
+        public void Focus()
         {
             if (!_focused)
             {
@@ -140,6 +140,11 @@ namespace Sitana.Framework.Ui.Views
                 _applied = false;
                 AppMain.Current.SetFocus(_textInput);
             }
+        }
+
+        protected override void DoAction()
+        {
+            Focus();
         }
 
         void OnTouchDown(int id, Vector2 pos)

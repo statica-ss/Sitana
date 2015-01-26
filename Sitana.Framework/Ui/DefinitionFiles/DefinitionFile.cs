@@ -39,6 +39,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
         public DefinitionFile(Type type, string anchor)
         {
+			if (type == null)
+			{
+				throw new Exception("Type is null!");
+			}
+
             Anchor = anchor;
             Class = type;
         }
@@ -74,43 +79,55 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             string ns = node.Namespace;
             string cl = node.Tag;
 
+			string name = "";
+
             if ( ns.StartsWith("namespace:"))
             {
                 string[] vals = ns.Substring(10).Split(',');
-                string name = String.Format("{0}.{1},{2}", vals[0], cl, vals[1]);
+                name = String.Format("{0}.{1},{2}", vals[0], cl, vals[1]);
 
                 return Type.GetType(name);
             }
 
-            return null;
+			throw new Exception(string.Format("Cannot find type: {0}", name));
         }
 
         static Type[] ParseMethodTypes = new Type[] { typeof(XNode), typeof(DefinitionFile) };
 
         public static DefinitionFile LoadFile(XNode node)
         {
-            Type type = GetType(node);
+			try
+			{
+	            Type type = GetType(node);
 
-            MethodInfo method = type.GetMethod("Parse", ParseMethodTypes);
+				Console.WriteLine("Loading file: {0} ({1}).", node.Owner.Name, node.LineNumber);
 
-            DefinitionFile file = null;
+	            MethodInfo method = type.GetMethod("Parse", ParseMethodTypes);
 
-            if (method != null)
-            {
-                if (method.ReturnType == typeof(DefinitionFile))
-                {
-                    file = (DefinitionFile)method.Invoke(null, new object[] { node, null });
-                }
-                else
-                {
-                    file = new DefinitionFile(type, node.Owner.Name);
-                    method.Invoke(null, new object[] { node, file });
-                }
+	            DefinitionFile file = null;
 
-                file["Style"] = node.Attribute("Style");
-            }
+	            if (method != null)
+	            {
+	                if (method.ReturnType == typeof(DefinitionFile))
+	                {
+	                    file = (DefinitionFile)method.Invoke(null, new object[] { node, null });
+	                }
+	                else
+	                {
+	                    file = new DefinitionFile(type, node.Owner.Name);
+	                    method.Invoke(null, new object[] { node, file });
+	                }
 
-            return file;
+	                file["Style"] = node.Attribute("Style");
+	            }
+
+	            return file;
+			}
+			catch(Exception ex)
+			{
+				ConsoleEx.WriteLine(ConsoleEx.Error, "Error: {0}.", ex.ToString());
+				throw ex;
+			}
         }
 
         public static DefinitionFile CreateFile(Type type, XNode attributesNode)

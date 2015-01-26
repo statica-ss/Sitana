@@ -239,6 +239,7 @@
     <Compile Include="Text\HtmlSpecialChars.cs" />
     <Compile Include="Ui\TransitionEffects\None.cs" />
     <Compile Include="Media\SoundEffectBuffer.cs" />
+    <Compile Include="Ui\Views\Controls\UiColoredLabel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

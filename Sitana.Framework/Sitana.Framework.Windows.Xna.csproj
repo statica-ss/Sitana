@@ -68,6 +68,7 @@
     <Compile Include="Input\TextInput\TextInput.Dektop.cs" />
     <Compile Include="Input\TextInput\TextInputType.cs" />
     <Compile Include="Input\TouchPad\IGestureListener.cs" />
+    <Compile Include="Media\SoundEffectBuffer.cs" />
     <Compile Include="Text\HtmlSpecialChars.cs" />
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
@@ -187,14 +188,11 @@
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
-    <Compile Include="Media\SoundControler.cs" />
-    <Compile Include="Media\SoundEffectContainer.cs" />
     <Compile Include="Misc\AppRater.cs" />
     <Compile Include="Misc\ColorsManager.cs" />
     <Compile Include="Misc\ColorWrapper.cs" />
     <Compile Include="Misc\ConsoleEx.cs" />
     <Compile Include="Misc\DelayedActionInvoker.cs" />
-    <Compile Include="Misc\InfoBar.cs" />
     <Compile Include="Misc\RemoteConsoleClient.cs" />
     <Compile Include="Misc\StringsManager.cs" />
     <Compile Include="Misc\UiTask.cs" />

@@ -19,7 +19,6 @@ using Sitana.Framework.Ui.Views.Parameters;
 using Sitana.Framework.Input.TouchPad;
 using Sitana.Framework.Ui.Views.RichView;
 
-
 namespace Sitana.Framework.Ui.Views
 {
     public class UiRichView : UiView

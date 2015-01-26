@@ -332,7 +332,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected virtual void DoAction()
         {
-            CallDelegate("Click", new InvokeParam("sender", this));
+            CallDelegate("Click");
 
             if (_actionSound != null)
             {
