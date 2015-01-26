@@ -800,7 +800,6 @@ namespace Sitana.Framework.Ui.Views
             Rectangle target = ScreenBounds;
             int startX = target.X;
 
-            int startY = target.Y;
             int endY = target.Bottom;
 
             int top = parameters.DrawBatch.ClipRect.Top;
