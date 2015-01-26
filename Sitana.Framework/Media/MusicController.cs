@@ -6,8 +6,9 @@ using Microsoft.Xna.Framework.Media;
 using System;
 using System.Threading;
 using Sitana.Framework.Cs;
+using Sitana.Framework.Content;
 
-namespace Sitana.Framework.Content
+namespace Sitana.Framework.Media
 {
     public partial class MusicController: Singleton<MusicController>
     {

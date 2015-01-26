@@ -11,6 +11,14 @@ namespace Sitana.Framework.GamerApi
 	{
         bool _enabled = false;
 
+		public void OnActivated(AchievementInfoDelegate achievementInfo, LeaderboardDelegate leaderboardInfo)
+		{
+			if (_enabled)
+			{
+				Login(achievementInfo, leaderboardInfo);
+			}
+		}
+
         public void Login(AchievementInfoDelegate achievementInfo, LeaderboardDelegate leaderboardInfo)
         {
             GKLocalPlayer player = GKLocalPlayer.LocalPlayer;
@@ -96,6 +104,34 @@ namespace Sitana.Framework.GamerApi
 
                 GKScore.ReportScores(new GKScore[1]{gkScore}, (error)=>{});
             }
+        }
+
+        public void OpenAchievements()
+        {
+            UIViewController controller = AppMain.Current.Services.GetService(typeof(UIViewController)) as UIViewController;
+
+            GKAchievementViewController achievementViewController = new GKAchievementViewController ();
+            achievementViewController.DidFinish += 
+                (object sender, EventArgs e) => 
+            {
+                achievementViewController.DismissViewController(true, null);
+            };
+
+            controller.PresentViewController(achievementViewController, true, null);
+        }
+
+        public void OpenLeaderboards()
+        {
+            UIViewController controller = AppMain.Current.Services.GetService(typeof(UIViewController)) as UIViewController;
+
+            GKLeaderboardViewController leaderboardViewController = new GKLeaderboardViewController ();
+            leaderboardViewController.DidFinish += 
+                (object sender, EventArgs e) => 
+            {
+                leaderboardViewController.DismissViewController(true, null);
+            };
+
+            controller.PresentViewController(leaderboardViewController, true, null);
         }
 	}
 }

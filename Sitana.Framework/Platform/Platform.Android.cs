@@ -12,6 +12,7 @@ using System;
 using Sitana.Framework.Ui.Core;
 using Android.Content;
 using Android.App;
+using Android.Content.PM;
 
 namespace Sitana.Framework
 {
@@ -44,15 +45,37 @@ namespace Sitana.Framework
 
         public static void OpenRatingPage()
         {
-            
+            Context context = AppMain.Activity;
+            Android.Net.Uri uri = Android.Net.Uri.Parse("market://details?id=" + context.PackageName);
+
+            Intent goToMarket = new Intent(Intent.ActionView, uri);
+
+            try 
+            {
+                context.StartActivity(goToMarket);
+            } 
+            catch (ActivityNotFoundException) 
+            {
+                uri = Android.Net.Uri.Parse("http://play.google.com/store/apps/details?id=" + context.PackageName);
+
+                goToMarket = new Intent(Intent.ActionView, uri);
+                context.StartActivity(goToMarket);
+            }
         }
 
         public static String CurrentVersion
         {
             get
             {
-                Version version = Assembly.GetEntryAssembly().GetName().Version;
-                return version.ToString();
+                try
+                {
+                    PackageInfo pInfo = AppMain.Activity.PackageManager.GetPackageInfo(AppMain.Activity.PackageName, (PackageInfoFlags)0);
+                    return pInfo.VersionName;
+                }
+                catch
+                {
+                    return string.Empty;
+                }
             }
         }
 

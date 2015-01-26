@@ -109,6 +109,8 @@ namespace Sitana.Framework.Ui.Views
 
         Length _clickMargin;
 
+        int _height = 0;
+
         public string Text
         {
             get
@@ -576,6 +578,8 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
+            _height = 0;
+
             foreach (var line in _lines)
             {
                 int lineWidth = 0;
@@ -586,6 +590,7 @@ namespace Sitana.Framework.Ui.Views
                 }
 
                 line.Width = lineWidth;
+                _height += line.Height;
             }
         }
 
@@ -798,9 +803,23 @@ namespace Sitana.Framework.Ui.Views
             base.Draw(ref parameters);
 
             Rectangle target = ScreenBounds;
+
+            if( _height < target.Height )
+            {
+                switch(_textAlign & TextAlign.Vert)
+                {
+                case TextAlign.Middle:
+                    target.Y = target.Center.Y - _height / 2;
+                    break;
+
+                case TextAlign.Bottom:
+                    target.Y = target.Bottom - _height;
+                    break;
+                }
+            }
+
             int startX = target.X;
 
-            int startY = target.Y;
             int endY = target.Bottom;
 
             int top = parameters.DrawBatch.ClipRect.Top;
