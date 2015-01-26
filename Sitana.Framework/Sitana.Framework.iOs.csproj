@@ -237,6 +237,7 @@
     <Compile Include="Ui\Views\Controls\UiSpritePresenter.cs" />
     <Compile Include="Ui\Views\Controls\UiText.cs" />
     <Compile Include="Text\HtmlSpecialChars.cs" />
+    <Compile Include="Ui\TransitionEffects\None.cs" />
     <Compile Include="Media\SoundEffectBuffer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

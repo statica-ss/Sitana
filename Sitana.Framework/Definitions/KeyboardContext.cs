@@ -13,6 +13,8 @@ namespace Sitana.Framework
         FirstLetterUppercase,
         Uppercase,
         Number,
-        Email
+        Email,
+		Password,
+		MultilineText
     }
 }
