@@ -94,7 +94,15 @@ namespace Sitana.Framework.GamerApi
         {
             if (_enabled)
             {
-				_helper.IncrementAchievement(id, completion);
+				if (completion == Achievement.Completed)
+				{
+					_helper.UnlockAchievement(id);
+				} 
+				else
+				{
+					_helper.IncrementAchievement(id, completion);
+				}
+
             }
         }
 
@@ -137,7 +145,15 @@ namespace Sitana.Framework.GamerApi
 					var item = ar.Achievements.Get(idx);
 					var ach = item.JavaCast<IAchievement>();
 
-					achievements[idx] = new AchievementInfo(ach.AchievementId){ Completion = (ach.CurrentSteps * 100 / ach.TotalSteps) };
+
+					if (ach.Type == Android.Gms.Games.Achievement.Achievement.TypeIncremental)
+					{
+						achievements[idx] = new AchievementInfo(ach.AchievementId){ Completion = (ach.CurrentSteps * 100 / ach.TotalSteps) };
+					}
+					else
+					{
+						achievements[idx] = new AchievementInfo(ach.AchievementId){ Completion = ach.State == Android.Gms.Games.Achievement.Achievement.StateUnlocked ? Achievement.Completed : 0 };
+					}
 				}
 
 				_achievementInfoDelegate(achievements);

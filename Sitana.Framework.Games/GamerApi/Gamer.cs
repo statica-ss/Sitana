@@ -13,6 +13,8 @@ namespace Sitana.Framework.GamerApi
 {
     public class Gamer: Singleton<Gamer>
     {
+
+
         private GamerPlatform _handler;
 
         private Dictionary<string, Achievement> _achievementInfos = new Dictionary<string, Achievement>();
@@ -200,6 +202,11 @@ namespace Sitana.Framework.GamerApi
                 return leaderboard;
             }
         }
+
+		public bool ReportAchievement(string name)
+		{
+			return ReportAchievement(name, Achievement.Completed);
+		}
 
         public bool ReportAchievement(string name, int completion)
         {
