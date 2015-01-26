@@ -46,5 +46,12 @@ namespace Sitana.Framework.GamerApi
     public delegate void LeaderboardDelegate(LeaderboardInfo[] leaderboard);
 
     public delegate void AchievementCompletedDelegate(Achievement achievement);
+
+	public delegate void GamerErrorDelegate(GamerError error);
+
+	public enum GamerError
+	{
+		ErrorSignIn
+	}
 }
 

@@ -13,7 +13,7 @@ namespace Sitana.Framework.GamerApi
 {
     public class Gamer: Singleton<Gamer>
     {
-        private GamerPlatform _handler = new GamerPlatform();
+        private GamerPlatform _handler;
 
         private Dictionary<string, Achievement> _achievementInfos = new Dictionary<string, Achievement>();
         private Dictionary<string, Leaderboard> _leaderboardInfos = new Dictionary<string, Leaderboard>();
@@ -21,14 +21,28 @@ namespace Sitana.Framework.GamerApi
         private object _lock = new object();
 
         public event AchievementCompletedDelegate AchievementCompleted;
+		public event GamerErrorDelegate Error;
 
-#if __ANDROID__
-        private string _appId = "";
-#endif
+		internal GamerPlatform Handler
+		{
+			get
+			{
+				return _handler;
+			}
+		}
 
         public Gamer()
         {
+			_handler = new GamerPlatform(OnError);
         }
+
+		void OnError(GamerError error)
+		{
+			if (Error != null)
+			{
+				Error(error);
+			}
+		}
 
         public void Import(XFile file)
         {
@@ -43,12 +57,6 @@ namespace Sitana.Framework.GamerApi
             {
                 switch(cn.Tag)
                 {
-#if __ANDROID__
-                case "App":
-                    _appId = cn.Attribute("Id");
-                    break;
-#endif
-
                 case "Achievement":
                     {
                         var achievement = new Achievement(cn);
@@ -65,6 +73,42 @@ namespace Sitana.Framework.GamerApi
                 }
             }
         }
+
+		public string[] Leaderboards
+		{
+			get
+			{
+				string[] ids = new string[_leaderboardInfos.Count];
+
+				int idx = 0;
+				foreach (var lb in _leaderboardInfos)
+				{
+					ids[idx] = lb.Value.Id;
+					++idx;
+				}
+
+				return ids;
+			}
+		}
+
+
+		public bool ShowSignInButton
+		{
+			get
+			{
+				return _handler.ShowSignInButton;
+			}
+		}
+
+		public void Login()
+		{
+			_handler.Login();
+		}
+
+		public void Logout()
+		{
+			_handler.Logout();
+		}
 
         public void OpenAchievements()
         {
@@ -84,7 +128,8 @@ namespace Sitana.Framework.GamerApi
         public void Enable()
         {
             Unserialize();
-            _handler.Login(OnAchievementsLoaded, OnLeaderboardsLoaded);
+
+			_handler.Enable(OnAchievementsLoaded, OnLeaderboardsLoaded);
         }
 
         public int AchievementCompletion(string name)
