@@ -81,15 +81,8 @@ namespace Sitana.Framework.GamerApi
                     LeaderboardInfo[] leaderboardInfo = new LeaderboardInfo[1];
 
                     string id = scores.Leaderboard.LeaderboardId;
-                    int count = scores.Scores.Count;
     
                     leaderboardInfo[0] = new LeaderboardInfo(id){ Score = 0 };
-
-                    for (int idx = 0; idx < count; idx++)
-                    {
-                        var score = scores.Scores.Get(idx).JavaCast<ILeaderboardScore>();
-                    }
-
                     _leaderboardDelegate(leaderboardInfo);
                 }
             }
@@ -114,7 +107,7 @@ namespace Sitana.Framework.GamerApi
 		{
 			get
 			{
-                return (_client == null || !_client.IsConnected) && !_signingIn && !_resolving;
+				return !GamerPlatformSettings.Instance.ShouldBeSignedIn && !_signingIn && !_resolving;
 			}
 		}
             
@@ -143,6 +136,7 @@ namespace Sitana.Framework.GamerApi
 		void OnSignedIn()
 		{
             _enabled = true;
+
             LoadAchievements(_achievementsCallback);
 
             foreach(var lb in Gamer.Instance.Leaderboards)
@@ -320,8 +314,12 @@ namespace Sitana.Framework.GamerApi
         public void OnConnected(Android.OS.Bundle connectionHint)
         {
             GamerPlatformSettings.Instance.ShouldBeSignedIn = true;
-            _resolving = false;
+			GamerPlatformSettings.Instance.PlayerId = GamesClass.GetCurrentAccountName(_client);
+			GamerPlatformSettings.Instance.Serialize();
+
+			_resolving = false;
             _signingIn = false;
+
 
             OnSignedIn();
         }
@@ -329,6 +327,7 @@ namespace Sitana.Framework.GamerApi
         public void OnConnectionSuspended (int resultCode)
         {
             GamerPlatformSettings.Instance.ShouldBeSignedIn = true;
+			GamerPlatformSettings.Instance.Serialize();
 
             _resolving = false;
             _signingIn = false;
@@ -352,6 +351,8 @@ namespace Sitana.Framework.GamerApi
             }
 
             GamerPlatformSettings.Instance.ShouldBeSignedIn = true;
+			GamerPlatformSettings.Instance.Serialize();
+
             _resolving = false;
             _signingIn = false;
 
@@ -373,19 +374,6 @@ namespace Sitana.Framework.GamerApi
                 }
             }
         }
-
-//			ILeaderboardsLoadScoresResult scores = result.JavaCast<ILeaderboardsLoadScoresResult>();
-//			if (scores != null)
-//			{
-//				string id = scores.Leaderboard.LeaderboardId;
-//				int count = scores.Scores.Count;
-//
-//				for (int i = 0; i < count; i++)
-//				{
-//					var score = scores.Scores.Get(i).JavaCast<ILeaderboardScore>();
-//				}
-//			}
-		//}
 	}
 }
 
