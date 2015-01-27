@@ -53,12 +53,20 @@
     <Compile Include="Core\Layer.cs" />
     <Compile Include="Core\TiledLayer.cs" />
     <Compile Include="Core\VectorLayer.cs" />
+    <Compile Include="GamerApi\AchievementInfo.cs" />
+    <Compile Include="GamerApi\Gamer.cs" />
+    <Compile Include="GamerApi\Achievement.cs" />
+    <Compile Include="GamerApi\Leaderboard.cs" />
+    <Compile Include="GamerApi\IGamerPlatform.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sitana.Framework\Sitana.Framework.Windows.Xna.csproj">
       <Project>{68D03401-FD88-48C5-9821-0C3A07F89C34}</Project>
       <Name>Sitana.Framework.Windows.Xna</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GamerApi\GamerPlatform.None.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

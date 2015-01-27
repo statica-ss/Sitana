@@ -30,6 +30,10 @@ namespace Sitana.Framework
             }
         }
 
+        public static void OpenRatingPage()
+        {
+        }
+
         public static void OpenMail(string name, string address, string subject, string text, EmptyArgsVoidDelegate completed)
         {
             name = Uri.EscapeDataString(name);
