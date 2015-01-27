@@ -51,7 +51,9 @@ namespace Sitana.Framework.GamerApi
 
 	public enum GamerError
 	{
-		ErrorSignIn
+        ErrorConnectionSuspended,
+		ErrorSignIn,
+        ErrorResolve
 	}
 }
 

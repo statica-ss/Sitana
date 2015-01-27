@@ -13,9 +13,7 @@ namespace Sitana.Framework.GamerApi
 {
     public class Gamer: Singleton<Gamer>
     {
-
-
-        private GamerPlatform _handler;
+        private IGamerPlatform _platform;
 
         private Dictionary<string, Achievement> _achievementInfos = new Dictionary<string, Achievement>();
         private Dictionary<string, Leaderboard> _leaderboardInfos = new Dictionary<string, Leaderboard>();
@@ -23,26 +21,12 @@ namespace Sitana.Framework.GamerApi
         private object _lock = new object();
 
         public event AchievementCompletedDelegate AchievementCompleted;
-		public event GamerErrorDelegate Error;
 
-		internal GamerPlatform Handler
+		internal IGamerPlatform GamerPlatform
 		{
 			get
 			{
-				return _handler;
-			}
-		}
-
-        public Gamer()
-        {
-			_handler = new GamerPlatform(OnError);
-        }
-
-		void OnError(GamerError error)
-		{
-			if (Error != null)
-			{
-				Error(error);
+				return _platform;
 			}
 		}
 
@@ -98,40 +82,41 @@ namespace Sitana.Framework.GamerApi
 		{
 			get
 			{
-				return _handler.ShowSignInButton;
+				return _platform.ShowSignInButton;
 			}
 		}
 
 		public void Login()
 		{
-			_handler.Login();
+			_platform.Login();
 		}
 
 		public void Logout()
 		{
-			_handler.Logout();
+			_platform.Logout();
 		}
 
         public void OpenAchievements()
         {
-            _handler.OpenAchievements();
+            _platform.OpenAchievements();
         }
 
         public void OpenLeaderboards()
         {
-            _handler.OpenLeaderboards();
+            _platform.OpenLeaderboards();
         }
 
 		public void OnActivated()
 		{
-			_handler.OnActivated(OnAchievementsLoaded, OnLeaderboardsLoaded);
+			_platform.OnActivated();
 		}
 
-        public void Enable()
+        public void Enable(IGamerPlatform platform)
         {
             Unserialize();
 
-			_handler.Enable(OnAchievementsLoaded, OnLeaderboardsLoaded);
+            _platform = platform;
+			_platform.Enable(OnAchievementsLoaded, OnLeaderboardsLoaded);
         }
 
         public int AchievementCompletion(string name)
@@ -235,7 +220,7 @@ namespace Sitana.Framework.GamerApi
                     AchievementCompleted(achievement);
                 }
 
-                _handler.SendAchievement(id, completion);
+                _platform.SendAchievement(id, completion);
                 Serialize();
             }
 
@@ -294,7 +279,7 @@ namespace Sitana.Framework.GamerApi
 
 				if (report.HasValue && report.Value == true)
 				{
-					_handler.SendScore(leaderboard.Id, score);
+					_platform.SendScore(leaderboard.Id, score);
 				}
             }
         }
@@ -315,7 +300,7 @@ namespace Sitana.Framework.GamerApi
 
                         if (currentScore > lb.Score)
                         {
-                            _handler.SendScore(lb.Id, currentScore);
+                            _platform.SendScore(lb.Id, currentScore);
                         }
 
                         if (currentScore < lb.Score)
@@ -345,7 +330,7 @@ namespace Sitana.Framework.GamerApi
 
                         if (currentCompletion > ach.Completion)
                         {
-                            _handler.SendAchievement(ach.Id, currentCompletion);
+                            _platform.SendAchievement(ach.Id, currentCompletion);
                         }
 
                         if (currentCompletion < ach.Completion)

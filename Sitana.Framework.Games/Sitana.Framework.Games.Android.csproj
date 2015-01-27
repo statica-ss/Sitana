@@ -57,9 +57,9 @@
     <Compile Include="GamerApi\Gamer.cs" />
     <Compile Include="GamerApi\Achievement.cs" />
     <Compile Include="GamerApi\Leaderboard.cs" />
-    <Compile Include="GamerApi\GamerPlatform.GoogleServices.Android.cs" />
-    <Compile Include="GamerApi\GameHelper.Android.cs" />
-    <Compile Include="GamerApi\GamerActivity.cs" />
+    <Compile Include="GamerApi\GamerPlatform.Android.GooglePlayServices.cs" />
+    <Compile Include="GamerApi\IGamerPlatform.cs" />
+    <Compile Include="GamerApi\GooglePlayServicesActivity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
