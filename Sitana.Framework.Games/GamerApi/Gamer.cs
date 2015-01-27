@@ -13,7 +13,7 @@ namespace Sitana.Framework.GamerApi
 {
     public class Gamer: Singleton<Gamer>
     {
-        private GamerPlatform _handler = new GamerPlatform();
+        private IGamerPlatform _platform;
 
         private Dictionary<string, Achievement> _achievementInfos = new Dictionary<string, Achievement>();
         private Dictionary<string, Leaderboard> _leaderboardInfos = new Dictionary<string, Leaderboard>();
@@ -22,13 +22,13 @@ namespace Sitana.Framework.GamerApi
 
         public event AchievementCompletedDelegate AchievementCompleted;
 
-#if __ANDROID__
-        private string _appId = "";
-#endif
-
-        public Gamer()
-        {
-        }
+		internal IGamerPlatform GamerPlatform
+		{
+			get
+			{
+				return _platform;
+			}
+		}
 
         public void Import(XFile file)
         {
@@ -43,12 +43,6 @@ namespace Sitana.Framework.GamerApi
             {
                 switch(cn.Tag)
                 {
-#if __ANDROID__
-                case "App":
-                    _appId = cn.Attribute("Id");
-                    break;
-#endif
-
                 case "Achievement":
                     {
                         var achievement = new Achievement(cn);
@@ -66,25 +60,63 @@ namespace Sitana.Framework.GamerApi
             }
         }
 
+		public string[] Leaderboards
+		{
+			get
+			{
+				string[] ids = new string[_leaderboardInfos.Count];
+
+				int idx = 0;
+				foreach (var lb in _leaderboardInfos)
+				{
+					ids[idx] = lb.Value.Id;
+					++idx;
+				}
+
+				return ids;
+			}
+		}
+
+
+		public bool ShowSignInButton
+		{
+			get
+			{
+				return _platform.ShowSignInButton;
+			}
+		}
+
+		public void Login()
+		{
+			_platform.Login();
+		}
+
+		public void Logout()
+		{
+			_platform.Logout();
+		}
+
         public void OpenAchievements()
         {
-            _handler.OpenAchievements();
+            _platform.OpenAchievements();
         }
 
         public void OpenLeaderboards()
         {
-            _handler.OpenLeaderboards();
+            _platform.OpenLeaderboards();
         }
 
 		public void OnActivated()
 		{
-			_handler.OnActivated(OnAchievementsLoaded, OnLeaderboardsLoaded);
+			_platform.OnActivated();
 		}
 
-        public void Enable()
+        public void Enable(IGamerPlatform platform)
         {
             Unserialize();
-            _handler.Login(OnAchievementsLoaded, OnLeaderboardsLoaded);
+
+            _platform = platform;
+			_platform.Enable(OnAchievementsLoaded, OnLeaderboardsLoaded);
         }
 
         public int AchievementCompletion(string name)
@@ -156,6 +188,11 @@ namespace Sitana.Framework.GamerApi
             }
         }
 
+		public bool ReportAchievement(string name)
+		{
+			return ReportAchievement(name, Achievement.Completed);
+		}
+
         public bool ReportAchievement(string name, int completion)
         {
             Achievement achievement = AchievementFromName(name);
@@ -183,7 +220,7 @@ namespace Sitana.Framework.GamerApi
                     AchievementCompleted(achievement);
                 }
 
-                _handler.SendAchievement(id, completion);
+                _platform.SendAchievement(id, completion);
                 Serialize();
             }
 
@@ -242,7 +279,7 @@ namespace Sitana.Framework.GamerApi
 
 				if (report.HasValue && report.Value == true)
 				{
-					_handler.SendScore(leaderboard.Id, score);
+					_platform.SendScore(leaderboard.Id, score);
 				}
             }
         }
@@ -263,7 +300,7 @@ namespace Sitana.Framework.GamerApi
 
                         if (currentScore > lb.Score)
                         {
-                            _handler.SendScore(lb.Id, currentScore);
+                            _platform.SendScore(lb.Id, currentScore);
                         }
 
                         if (currentScore < lb.Score)
@@ -293,7 +330,7 @@ namespace Sitana.Framework.GamerApi
 
                         if (currentCompletion > ach.Completion)
                         {
-                            _handler.SendAchievement(ach.Id, currentCompletion);
+                            _platform.SendAchievement(ach.Id, currentCompletion);
                         }
 
                         if (currentCompletion < ach.Completion)

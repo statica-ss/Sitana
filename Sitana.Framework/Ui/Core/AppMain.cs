@@ -71,37 +71,38 @@ namespace Sitana.Framework.Ui.Core
 
 
         // Move this to proper partial class!
-        #if ANDROID
-        protected
-        #else
-        public
-        #endif
-
-        AppMain()
+        #if !ANDROID
+        public AppMain()
         {
-            if (Current != null)
-            {
-                throw new Exception("There can be only one AppMain instance.");
-            }
-
-            Current = this;
-
-            InactiveSleepTime = TimeSpan.FromMilliseconds(100);
-
-            IsFixedTimeStep = false;
-
-            _graphics = new GraphicsDeviceManager(this);
-
-            Graphics.IsFullScreen = true;
-            Graphics.SynchronizeWithVerticalRetrace = true;
-
-            MusicController.Instance.Initialize();
-            TouchPad.Instance.AddListener(this);
-
-            TotalGameTime = 0;
-
-            PlatformInit();
+			Init();
         }
+		#endif
+
+		protected void Init()
+		{
+			if (Current != null)
+			{
+				throw new Exception("There can be only one AppMain instance.");
+			}
+
+			Current = this;
+
+			InactiveSleepTime = TimeSpan.FromMilliseconds(100);
+
+			IsFixedTimeStep = false;
+
+			_graphics = new GraphicsDeviceManager(this);
+
+			Graphics.IsFullScreen = true;
+			Graphics.SynchronizeWithVerticalRetrace = true;
+
+			MusicController.Instance.Initialize();
+			TouchPad.Instance.AddListener(this);
+
+			TotalGameTime = 0;
+
+			PlatformInit();
+		}
 
         protected override void Dispose(bool disposing)
         {

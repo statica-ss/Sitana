@@ -44,11 +44,17 @@ namespace Sitana.Framework
             }
         }
 
-        public static String AppId { private get; set; }
+		private static string _appId;
 
-        public static UIApplication App { private get; set; }
+		private static UIApplication _app;
 
-        public static Boolean CloseApp()
+		public static void Init(UIApplication app, string appId)
+		{
+			_app = app;
+			_appId = appId;
+		}
+
+        public static bool CloseApp()
         {
 			return true;
         }
@@ -58,12 +64,12 @@ namespace Sitana.Framework
             return IsolatedStorageFile.GetUserStoreForApplication();
         }
 
-        public static void OpenWebsite(String url)
+        public static void OpenWebsite(string url)
         {
             UIApplication.SharedApplication.OpenUrl(new Foundation.NSUrl(url));
         }
 
-        public static void OpenMail(String name, String address, String subject, String text, Action onCompleted)
+        public static void OpenMail(string name, string address, string subject, string text, Action onCompleted)
         {
             MFMailComposeViewController mail = new MFMailComposeViewController();
 
@@ -78,22 +84,23 @@ namespace Sitana.Framework
 
         public static void OpenRatingPage()
         {
-            String url = String.Format("itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id={0}", AppId);
+			string url = string.Format("itms-apps://itunes.apple.com/app/id{0}", _appId);
             UIApplication.SharedApplication.OpenUrl(new Foundation.NSUrl(url));
         }
 
-        public static String CurrentVersion
+        public static string CurrentVersion
         {
             get
             {
-                Version version = Assembly.GetEntryAssembly().GetName().Version;
-                return version.ToString();
+				NSObject obj = NSBundle.MainBundle.ObjectForInfoDictionary("CFBundleShortVersionString");
+
+				return (obj as NSString).ToString();
             }
         }
 
-        public static void DisableLock(Boolean disable)
+        public static void DisableLock(bool disable)
         {
-            App.IdleTimerDisabled = disable;
+            _app.IdleTimerDisabled = disable;
         }
 
 		public static float PixelsToPoints(float pixels)
