@@ -6,6 +6,8 @@ namespace Sitana.Framework.GamerApi
 {
     public class Achievement
     {
+		public const int Completed = int.MaxValue;
+
         public readonly string Id;
         public readonly bool Hidden;
 

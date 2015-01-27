@@ -36,9 +36,10 @@
     <Compile Include="Core\VectorLayer.cs" />
     <Compile Include="GamerApi\AchievementInfo.cs" />
     <Compile Include="GamerApi\Gamer.cs" />
-    <Compile Include="GamerApi\GamerPlatform.iOs.cs" />
     <Compile Include="GamerApi\Achievement.cs" />
     <Compile Include="GamerApi\Leaderboard.cs" />
+    <Compile Include="GamerApi\IGamerPlatform.cs" />
+    <Compile Include="GamerApi\GamerPlatform.iOs.GameCenter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

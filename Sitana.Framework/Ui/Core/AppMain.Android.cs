@@ -6,20 +6,37 @@ using Android.Views;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Diagnostics;
 using System;
+using Android.Widget;
 
 
 namespace Sitana.Framework.Ui.Core
 {
 	public partial class AppMain
 	{
+		public View RootView { get; private set; }
 
-        public AppMain(Activity activity): this()
+        public AppMain()
 		{
-			View view = (View)Services.GetService(typeof(View));
-			activity.SetContentView(view);
+			Init();
+			AddView();
 
-            Graphics.PreferredBackBufferWidth = activity.Window.DecorView.Width;
-            Graphics.PreferredBackBufferHeight = activity.Window.DecorView.Height;
+			Graphics.PreferredBackBufferWidth = Activity.Window.DecorView.Width;
+			Graphics.PreferredBackBufferHeight = Activity.Window.DecorView.Height;
+		}
+
+		protected AppMain(bool dummy)
+		{
+		}
+
+		protected void AddView()
+		{
+			//RootView = new RelativeLayout(Activity);
+
+			View view = (View)Services.GetService(typeof(View));
+			RootView = view;
+			//((RelativeLayout)RootView).AddView(view);
+
+			Activity.SetContentView(RootView);
 		}
 	}
 }
