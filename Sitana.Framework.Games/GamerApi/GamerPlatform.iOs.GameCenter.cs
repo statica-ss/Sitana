@@ -7,19 +7,37 @@ using Foundation;
 
 namespace Sitana.Framework.GamerApi
 {
-	class GamerPlatform
+    public class GamerPlatform_GameCenter: IGamerPlatform
 	{
         bool _enabled = false;
 
-		public void OnActivated(AchievementInfoDelegate achievementInfo, LeaderboardDelegate leaderboardInfo)
+        AchievementInfoDelegate _achievementInfo;
+        LeaderboardDelegate _leaderboardInfo;
+
+        public bool ShowSignInButton
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public void Enable(AchievementInfoDelegate achievementInfo, LeaderboardDelegate leaderboardInfo)
+        {
+            _achievementInfo = achievementInfo;
+            _leaderboardInfo = leaderboardInfo;
+            Login();
+        }
+
+		public void OnActivated()
 		{
 			if (_enabled)
 			{
-				Login(achievementInfo, leaderboardInfo);
+				Login();
 			}
 		}
 
-        public void Login(AchievementInfoDelegate achievementInfo, LeaderboardDelegate leaderboardInfo)
+        public void Login()
         {
             GKLocalPlayer player = GKLocalPlayer.LocalPlayer;
 
@@ -40,7 +58,7 @@ namespace Sitana.Framework.GamerApi
 
                             GKLeaderboard.LoadLeaderboards((GKLeaderboard[] leaderboards, NSError error3)=>
                             {
-                                if (leaderboards != null && leaderboards.Length > 0 && leaderboardInfo != null)
+                                if (leaderboards != null && leaderboards.Length > 0 && _leaderboardInfo != null)
                                 {
                                     LeaderboardInfo[] info = new LeaderboardInfo[leaderboards.Length];
 
@@ -58,29 +76,35 @@ namespace Sitana.Framework.GamerApi
                                         info[idx] = new LeaderboardInfo(lb.Identifier){Score = score};
                                     }
 
-                                    leaderboardInfo(info);
+                                    _leaderboardInfo(info);
                                 }
                             });
 
                             GKAchievement.LoadAchievements((GKAchievement[] achievements, NSError error2)=>
                             {
-                                if (achievements != null && achievements.Length > 0 && achievementInfo != null)
+                                if (achievements != null && achievements.Length > 0 && _achievementInfo != null)
                                 {
                                     AchievementInfo[] info = new AchievementInfo[achievements.Length];
 
                                     for (int idx = 0; idx < achievements.Length; ++idx)
                                     {
                                         GKAchievement ach = achievements[idx];
-                                        info[idx] = new AchievementInfo(ach.Identifier){Completion = (int)ach.PercentComplete};
+
+                                        info[idx] = new AchievementInfo(ach.Identifier){Completion = ach.Completed ? Achievement.Completed : (int)ach.PercentComplete};
                                     }
 
-                                    achievementInfo(info);
+                                    _achievementInfo(info);
                                 }
                             });
                         }
                     }
                 };
             }
+        }
+
+        public void Logout()
+        {
+
         }
 
         public void SendAchievement(string id, int completion)
