@@ -119,7 +119,6 @@
     <Compile Include="Cs\Singleton.cs" />
     <Compile Include="Cs\BitConverterLE.cs" />
     <Compile Include="Definitions\Align.cs" />
-    <Compile Include="Definitions\KeyboardContext.cs" />
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
     <Compile Include="Definitions\TransitionType.cs" />
