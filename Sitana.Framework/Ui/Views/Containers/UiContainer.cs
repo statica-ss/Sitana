@@ -32,7 +32,10 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
-            file["Children"] = list;
+            if (list.Count > 0)
+            {
+                file["Children"] = list;
+            }
         }
 
         protected bool _clipChildren = false;

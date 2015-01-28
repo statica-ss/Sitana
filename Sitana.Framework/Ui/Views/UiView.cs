@@ -31,7 +31,20 @@ namespace Sitana.Framework.Ui.Views
             var parser = new DefinitionParser(node);
 
             file["Id"] = node.Attribute("Id");
-            file["Controller"] = Type.GetType(node.Attribute("Controller"));
+
+			string controller = node.Attribute("Controller");
+			Type controllerType = null;
+
+			if (!string.IsNullOrEmpty(controller))
+			{
+				controllerType = Type.GetType(controller);
+				if (controllerType == null)
+				{
+					throw new Exception(string.Format("Cannot find controller type: {0}.", controller));
+				}
+			}
+
+			file["Controller"] = controllerType;
 
             file["Binding"] = parser.ParseDelegate("Binding");
 
@@ -668,6 +681,7 @@ namespace Sitana.Framework.Ui.Views
             }
 
             _invokeParameters.Set(new InvokeParam("binding", Binding));
+			_invokeParameters.Set(new InvokeParam("sender", this));
 
             object definition;
 

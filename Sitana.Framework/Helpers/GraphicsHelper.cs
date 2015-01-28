@@ -24,6 +24,11 @@ namespace Sitana.Framework
             return new Point(texture.Width, texture.Height);
         }
 
+		public static Point TextureSize(Texture2D texture, double scale)
+		{
+			return new Point((int)(texture.Width * scale), (int)(texture.Height * scale));
+		}
+
         /// <summary>
         /// Draws a line on screen.
         /// </summary>

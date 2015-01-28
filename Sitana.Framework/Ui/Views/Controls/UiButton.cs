@@ -55,7 +55,7 @@ namespace Sitana.Framework.Ui.Views
 
         public bool IsPushed {get; private set;}
 
-        public bool Enabled { get; set; }
+        public SharedValue<bool> Enabled { get; set; }
 
         float _delayTime = 0.5f;
         float _waitForAction = 0;
@@ -95,13 +95,12 @@ namespace Sitana.Framework.Ui.Views
         {
             get
             {
-                return Enabled ? (IsPushed ? ButtonState.Pushed : ButtonState.None) : ButtonState.Disabled;
+                return Enabled.Value ? (IsPushed ? ButtonState.Pushed : ButtonState.None) : ButtonState.Disabled;
             }
         }
 
         public UiButton()
         {
-            Enabled = true;
         }
 
         protected override void OnAdded()
@@ -130,7 +129,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void OnGesture(Gesture gesture)
         {
-            if (!Enabled)
+            if (!Enabled.Value)
             {
                 return;
             }
@@ -283,7 +282,7 @@ namespace Sitana.Framework.Ui.Views
 
             List<DefinitionFile> drawableFiles = file["Drawables"] as List<DefinitionFile>;
 
-            Enabled = DefinitionResolver.Get<bool>(Controller, Binding, file["Enabled"], true);
+            Enabled = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Enabled"], true);
 
             if ( drawableFiles != null )
             {
@@ -332,7 +331,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected virtual void DoAction()
         {
-            CallDelegate("Click", new InvokeParam("sender", this));
+            CallDelegate("Click");
 
             if (_actionSound != null)
             {

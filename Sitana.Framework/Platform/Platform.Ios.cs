@@ -102,5 +102,11 @@ namespace Sitana.Framework
         {
             _app.IdleTimerDisabled = disable;
         }
+
+		public static float PixelsToPoints(float pixels)
+		{
+			float scale = (float)UIScreen.MainScreen.Scale;
+			return pixels / scale;
+		}
     }
 }
