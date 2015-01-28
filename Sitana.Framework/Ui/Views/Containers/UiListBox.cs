@@ -97,6 +97,14 @@ namespace Sitana.Framework.Ui.Views
         bool _reverse = false;
 		float _wheelSpeed = 0;
 
+        public ScrollingService ScrollingService
+        {
+            get
+            {
+                return _scrollingService;
+            }
+        }
+
         protected override void OnAdded()
         {
 			Scroller.Mode mode = (_vertical ? Scroller.Mode.VerticalDrag | Scroller.Mode.VerticalWheel : Scroller.Mode.HorizontalDrag | Scroller.Mode.HorizontalWheel);
@@ -147,7 +155,17 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void Update(float time)
         {
-            base.Update(time);
+            Rectangle listBounds = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
+
+            for (int idx = 0; idx < _children.Count; ++idx)
+            {
+                var child = _children[idx];
+
+                if (listBounds.Intersects(child.Bounds))
+                {
+                    child.ViewUpdate(time);
+                }
+            }
 
             bool recalculate = false;
 
@@ -263,7 +281,12 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
-            base.Draw(ref parameters);
+            Color backgroundColor = BackgroundColor * opacity;
+
+            if (backgroundColor.A > 0)
+            {
+                parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
+            }
 
             UiViewDrawParameters drawParams = parameters;
             drawParams.Opacity = opacity;

@@ -75,18 +75,18 @@ namespace Sitana.Framework.Ui.Views
                     switch (_stretch)
                     {
                         case Stretch.Uniform:
-                            scaleX = scaleY = Math.Min((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height);
+                            scaleX = scaleY = Math.Min((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height) * Scale;
                             scale = (float)scaleX;
                             break;
 
                         case Stretch.UniformToFill:
-                            scaleX = scaleY = Math.Max((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height);
+                            scaleX = scaleY = Math.Max((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height) * Scale;
                             scale = (float)scaleX;
                             break;
 
                         case Stretch.Fill:
-                            scaleX = (double)target.Width / (double)image.Width;
-                            scaleY = (double)target.Height / (double)image.Height;
+                            scaleX = Scale * (double)target.Width / (double)image.Width;
+                            scaleY = Scale * (double)target.Height / (double)image.Height;
                             scale = (float)Math.Min(scaleX, scaleY);
                             break;
                     }
@@ -128,7 +128,7 @@ namespace Sitana.Framework.Ui.Views
 
             _image = DefinitionResolver.GetShared<Texture2D>(Controller, Binding, file["Image"], null);
             _stretch = DefinitionResolver.Get<Stretch>(Controller, Binding, file["Stretch"], Stretch.Uniform);
-            _color = DefinitionResolver.GetColorWrapper(Controller, Binding, file["Color"]);
+            _color = DefinitionResolver.GetColorWrapper(Controller, Binding, file["Color"]) ?? new ColorWrapper();
             _rotationSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["RotationSpeed"], 0);
             _scaleByUnit = DefinitionResolver.Get<bool>(Controller, Binding, file["ScaleByUnit"], true);
             _scale = (float)DefinitionResolver.Get<double>(Controller, Binding, file["Scale"], 1);

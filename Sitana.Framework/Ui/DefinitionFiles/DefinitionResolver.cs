@@ -261,16 +261,28 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return new SharedValue<T>((T)definition);
             }
 
-            object value = GetValueFromMethodOrField(controller, binding, definition);
-
-            if (value is T)
+            if (typeof(T) == typeof(NinePatchImage) || typeof(T) == typeof(Texture2D) || typeof(T) == typeof(SoundEffect) || typeof(T) == typeof(PartialTexture2D))
             {
-                return new SharedValue<T>((T)value);
+                if (definition is string)
+                {
+                    return new SharedValue<T>(
+                        ContentLoader.Current.Load<T>(definition as string));
+                }
             }
 
-            if (value is SharedValue<T>)
+            if (definition is MethodName || definition is FieldName)
             {
-                return (SharedValue<T>)value;
+                object value = GetValueFromMethodOrField(controller, binding, definition);
+
+                if (value is T)
+                {
+                    return new SharedValue<T>((T)value);
+                }
+
+                if (value is SharedValue<T>)
+                {
+                    return (SharedValue<T>)value;
+                }
             }
 
             throw new Exception("Unable to get shared value for type.");

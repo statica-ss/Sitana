@@ -130,6 +130,11 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        public virtual void RecalcLayout(UiView view)
+        {
+            view.Bounds = CalculateChildBounds(view);
+        }
+
         public override Rectangle Bounds
         {
             get
@@ -296,7 +301,7 @@ namespace Sitana.Framework.Ui.Views
 
         internal override void ViewGesture(Gesture gesture)
         {
-            if (_enableGestureHandling)
+            if (_enableGestureHandling || gesture.GestureType == GestureType.CapturedByOther)
             {
                 for (int idx = _children.Count - 1; idx >= 0; --idx)
                 {
@@ -309,7 +314,7 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
-            if (!gesture.Handled && !gesture.SkipRest || gesture.GestureType == GestureType.CapturedByOther)
+            if ((!gesture.Handled && !gesture.SkipRest) || gesture.GestureType == GestureType.CapturedByOther)
             {
                 base.ViewGesture(gesture);
             }
