@@ -28,7 +28,7 @@ namespace Sitana.Framework.Ui.Views
             DefinitionParser parser = new DefinitionParser(node);
 
             file["Mode"] = parser.ParseEnum<Mode>("Mode");
-            file["Position"] = parser.ParseInt("Position");
+            file["Position"] = parser.ParseLength("Position");
             file["SplitterSize"] = parser.ParseLength("SplitterSize");
         }
 
@@ -38,11 +38,11 @@ namespace Sitana.Framework.Ui.Views
             Vertical
         }
 
-        float _splitterPosition = 0.5f;
+        Length _splitterPosition;
         bool _verticalSplit = false;
         int _splitterSize = 4;
 
-        public float SplitterPosition
+        public Length SplitterPosition
         {
             get
             {
@@ -92,7 +92,7 @@ namespace Sitana.Framework.Ui.Views
             }
 
             int index = _children.IndexOf(view);
-            int divide = _verticalSplit ? (int)(_splitterPosition * (float)height) : (int)(_splitterPosition * (float)width);
+            int divide = _verticalSplit ? _splitterPosition.Compute(height) : _splitterPosition.Compute(width);
 
             PositionParameters parameters = _children[index].PositionParameters;
 
@@ -142,17 +142,16 @@ namespace Sitana.Framework.Ui.Views
             int minSizeX = 0;
             int minSizeY = 0;
 
-            if (_verticalSplit)
-            {
-                minSizeX = Math.Max(_children[0].MinSize.X, _children[1].MinSize.X);
-
-                minSizeY = Math.Max((int)(_children[0].MinSize.Y / _splitterPosition), (int)(_children[1].MinSize.Y / (1 - _splitterPosition)));
-            }
-            else
-            {
-                minSizeX = Math.Max((int)(_children[0].MinSize.X / _splitterPosition), (int)(_children[1].MinSize.X / (1 - _splitterPosition)));
-                minSizeY = Math.Max(_children[0].MinSize.Y, _children[1].MinSize.Y);
-            }
+            //if (_verticalSplit)
+            //{
+            //    minSizeX = Math.Max(_children[0].MinSize.X, _children[1].MinSize.X);
+            //    minSizeY = Math.Max((int)(_children[0].MinSize.Y / _splitterPosition), (int)(_children[1].MinSize.Y / (1 - _splitterPosition)));
+            //}
+            //else
+            //{
+            //    minSizeX = Math.Max((int)(_children[0].MinSize.X / _splitterPosition), (int)(_children[1].MinSize.X / (1 - _splitterPosition)));
+            //    minSizeY = Math.Max(_children[0].MinSize.Y, _children[1].MinSize.Y);
+            //}
 
             _minSizeFromChildren = new Point(minSizeX, minSizeY);
         }
@@ -164,7 +163,7 @@ namespace Sitana.Framework.Ui.Views
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiSplitterView));
 
             SplitMode = DefinitionResolver.Get<Mode>(Controller, Binding, file["Mode"], Mode.Vertical);
-            _splitterPosition = (float)DefinitionResolver.Get<int>(Controller, Binding, file["Position"], 50) / 100.0f;
+            _splitterPosition = DefinitionResolver.Get<Length>(Controller, Binding, file["Position"], new Length(0, 0.5));
             _splitterSize = DefinitionResolver.Get<Length>(Controller, Binding, file["SplitterSize"], Length.Default).Compute(100);
 
             InitChildren(Controller, Binding, definition);

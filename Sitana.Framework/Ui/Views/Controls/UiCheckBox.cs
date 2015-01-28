@@ -38,6 +38,11 @@ namespace Sitana.Framework.Ui.Views
             Checked = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Checked"], false);
         }
 
+        protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
+        {
+            base.Draw(ref parameters);
+        }
+
         protected override void DoAction()
         {
             Checked.Value = !Checked.Value;
