@@ -258,7 +258,7 @@ namespace Sitana.Framework.GamerApi
 
         public void SendAchievement(string id, int completion)
         {
-            if (_client.IsConnected)
+			if (_client!=null && _client.IsConnected)
             {
 				if (completion == Achievement.Completed)
 				{
@@ -273,7 +273,7 @@ namespace Sitana.Framework.GamerApi
 
         public void SendScore(string id, int score)
         {
-            if (_client.IsConnected)
+			if (_client!=null && _client.IsConnected)
             {
                 GamesClass.Leaderboards.SubmitScore(_client, id, score);
             }
@@ -281,16 +281,16 @@ namespace Sitana.Framework.GamerApi
 
         public void OpenAchievements()
         {
-            if (_enabled)
+			if (_enabled && _client != null)
 			{
                 var intent = GamesClass.Achievements.GetAchievementsIntent(_client);
-                AppMain.Activity.StartActivityForResult (intent, RequestAchievements);
+                AppMain.Activity.StartActivityForResult(intent, RequestAchievements);
 			}
         }
 
         public void OpenLeaderboards()
         {
-            if (_enabled)
+			if (_enabled && _client != null)
 			{
                 var intent = GamesClass.Leaderboards.GetAllLeaderboardsIntent(_client);
                 AppMain.Activity.StartActivityForResult(intent, RequestAllLeaderboards);

@@ -33,7 +33,7 @@ namespace Sitana.Framework.Ui.Core
 			_width = outSize.X;
 			_height = outSize.Y;
 
-			Activity.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)Platform.ImmersiveModeFlags;
+			Activity.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)(SystemUiFlags.ImmersiveSticky|SystemUiFlags.LayoutFullscreen|SystemUiFlags.HideNavigation);
 			Activity.Window.DecorView.RequestLayout();
 
 			Graphics.PreferredBackBufferWidth = _width;
@@ -81,7 +81,7 @@ namespace Sitana.Framework.Ui.Core
 			{
 				if (!IsSizeOk(Activity.Window.DecorView.Width,Activity.Window.DecorView.Height))
 				{
-					Activity.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)Platform.ImmersiveModeFlags;
+					Activity.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)(SystemUiFlags.ImmersiveSticky|SystemUiFlags.LayoutFullscreen|SystemUiFlags.HideNavigation);
 					Activity.Window.DecorView.RequestLayout();
 				}
 
