@@ -21,17 +21,9 @@ namespace Sitana.Framework.Ui.Views
 
             var parser = new DefinitionParser(node);
 
-            file["Image"] = parser.ParseResource<NinePatchImage>("Image");
-            file["ScaleByUnit"] = parser.ParseBoolean("ScaleByUnit");
-            file["Scale"] = parser.ParseDouble("Scale");
             file["TopColor"] = parser.ParseColor("TopColor");
             file["BottomColor"] = parser.ParseColor("BottomColor");
         }
-
-        protected NinePatchImage _image = null;
-
-        protected bool _scaleByUnit = false;
-        protected float _scale = 1;
 
         protected ColorWrapper _topColor = null;
         protected ColorWrapper _bottomColor = null;
@@ -40,11 +32,8 @@ namespace Sitana.Framework.Ui.Views
         {
             base.Init(controller, binding, definition);
 
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiRectangle));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiVerticalGradient));
 
-            _image = DefinitionResolver.Get<NinePatchImage>(Controller, Binding, file["Image"], null);
-            _scaleByUnit = DefinitionResolver.Get<bool>(Controller, Binding, file["ScaleByUnit"], false);
-            _scale = (float)DefinitionResolver.Get<double>(Controller, Binding, file["Scale"], 1);
             _topColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TopColor"]);
             _bottomColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["BottomColor"]);
         }

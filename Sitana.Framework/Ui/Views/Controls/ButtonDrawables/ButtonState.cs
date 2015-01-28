@@ -9,7 +9,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         Disabled = 0x2,
         Pushed = 0x1,
         Mask = 0xf,
-        Checked = 0x10
+        Checked = 0x10,
+        Special = 0x20
     }
 }
 

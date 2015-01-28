@@ -22,10 +22,12 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["ColorDisabled"] = parser.ParseColor("ColorDisabled");
             file["Margin"] = parser.ParseMargin("Margin");
 
-            file["Checked"]= parser.ParseBoolean("Checked");
+            file["Checked"] = parser.ParseBoolean("Checked");
+            file["Special"] = parser.ParseBoolean("Special");
         }
 
         protected float CheckedState = float.NaN;
+        protected float SpecialState = float.NaN;
         protected float DisabledState = float.NaN;
         protected float PushedState = float.NaN;
 
@@ -33,7 +35,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         protected ColorWrapper _colorReleased;
         protected ColorWrapper _colorDisabled;
 
-        protected bool? _checked;
+        protected bool? _specialState;
+        protected bool? _checkedState;
 
         protected Margin _margin;
 
@@ -43,11 +46,19 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         {
             get
             {
-                if (_checked.HasValue)
+                float opacity = 1;
+
+                if (_specialState.HasValue)
                 {
-                    return _checked.Value ? CheckedState : 1 - CheckedState;
+                    opacity *= _specialState.Value ? SpecialState : 1 - SpecialState;
                 }
-                return 1;
+
+                if (_checkedState.HasValue)
+                {
+                    opacity *= _checkedState.Value ? CheckedState : 1 - CheckedState;
+                }
+
+                return opacity;
             }
         }
 
@@ -58,10 +69,12 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
         protected void Update(float time, ButtonState state)
         {
+            float special = ((state & ButtonState.Special) == ButtonState.Special) ? 1 : 0;
             float check = ((state & ButtonState.Checked) == ButtonState.Checked) ? 1 : 0;
             float disable = ((state & ButtonState.Disabled) == ButtonState.Disabled) ? 1 : 0;
             float push = ((state & ButtonState.Pushed) == ButtonState.Pushed) ? 1 : 0;
 
+            ComputeState(ref SpecialState, special, time);
             ComputeState(ref CheckedState, check, time);
             ComputeState(ref DisabledState, disable, time);
             ComputeState(ref PushedState, push, time);
@@ -96,13 +109,22 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             _margin = DefinitionResolver.Get<Margin>(controller, binding, file["Margin"], Margin.None);
 
-            if ( file["Checked"] != null )
+            if (file["Special"] != null)
             {
-                _checked = DefinitionResolver.Get<bool>(controller, binding, file["Checked"], false);
+                _specialState = DefinitionResolver.Get<bool>(controller, binding, file["Special"], false);
             }
             else
             {
-                _checked = null;
+                _specialState = null;
+            }
+
+            if (file["Checked"] != null)
+            {
+                _checkedState = DefinitionResolver.Get<bool>(controller, binding, file["Checked"], false);
+            }
+            else
+            {
+                _checkedState = null;
             }
         }
 

@@ -74,10 +74,7 @@ namespace Sitana.Framework.Input
         {
             switch(_inputType)
             {
-            case TextInputType.AlphaNumeric:
-                return char.IsLetterOrDigit(ch);
-
-            case TextInputType.Numeric:
+            case TextInputType.Number:
                 return char.IsDigit(ch);
             }
 

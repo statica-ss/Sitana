@@ -137,7 +137,6 @@
     <Compile Include="Cs\Singleton.cs" />
     <Compile Include="Cs\BitConverterLE.cs" />
     <Compile Include="Definitions\Align.cs" />
-    <Compile Include="Definitions\KeyboardContext.cs" />
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
     <Compile Include="Definitions\TransitionType.cs" />
@@ -239,6 +238,13 @@
     <Compile Include="Text\HtmlSpecialChars.cs" />
     <Compile Include="Ui\TransitionEffects\None.cs" />
     <Compile Include="Media\SoundEffectBuffer.cs" />
+    <Compile Include="Ui\Views\Controls\UiColoredLabel.cs" />
+    <Compile Include="Ui\Views\Controls\UiEditBoxBase.cs" />
+    <Compile Include="Input\TextInput\NativeInput.cs" />
+    <Compile Include="Input\TextInput\NativeInput.iOs.cs" />
+    <Compile Include="Ui\Views\Controls\UiEditBox.Mobile.cs" />
+    <Compile Include="Ui\Views\Controls\UiHorizontalGradient.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\EditState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

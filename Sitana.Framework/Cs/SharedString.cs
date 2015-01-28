@@ -32,7 +32,10 @@ namespace Sitana.Framework.Cs
         {
             get
             {
-                return _stringBuilder[index];
+                lock (this)
+                {
+                    return _stringBuilder[index];
+                }
             }
         }
 
@@ -41,7 +44,10 @@ namespace Sitana.Framework.Cs
         {
             get
             {
-                return _stringBuilder.Length;
+                lock (this)
+                {
+                    return _stringBuilder.Length;
+                }
             }
         }
 
