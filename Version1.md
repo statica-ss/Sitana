@@ -35,9 +35,9 @@
     - [X] UiImage
     - [X] UiLabel
     - [X] UiListBox
-    - [ ] UiTextBox
+    - [ ] UiEditBox
     - [X] UiRectangle
-    - [ ] UiSlider
+    - [X] UiSlider
     - [X] UiIndexSelector
     - [X] UiScrollBar
     
