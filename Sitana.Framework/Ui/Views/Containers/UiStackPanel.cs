@@ -286,9 +286,12 @@ namespace Sitana.Framework.Ui.Views
             base.RecalcLayout();
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiStackPanel));
 
@@ -309,6 +312,8 @@ namespace Sitana.Framework.Ui.Views
                 PositionParameters.Margin._left = null;
                 PositionParameters.Margin._right = null;
             }
+
+            return true;
         }
     }
 }

@@ -149,8 +149,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
         public IDefinitionClass CreateInstance(UiController controller, object context)
         {
             IDefinitionClass obj = (IDefinitionClass)Activator.CreateInstance(Class);
-            obj.Init(controller, context, this);
-            return obj;
+            if (obj.Init(controller, context, this))
+            {
+                return obj;
+            }
+            return null;
         }
 
         public bool HasKey(string name)

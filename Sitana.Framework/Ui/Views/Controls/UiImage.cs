@@ -120,9 +120,12 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiLabel));
 
@@ -132,6 +135,8 @@ namespace Sitana.Framework.Ui.Views
             _rotationSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["RotationSpeed"], 0);
             _scaleByUnit = DefinitionResolver.Get<bool>(Controller, Binding, file["ScaleByUnit"], true);
             _scale = (float)DefinitionResolver.Get<double>(Controller, Binding, file["Scale"], 1);
+
+            return true;
         }
 
         public override Point ComputeSize(int width, int height)

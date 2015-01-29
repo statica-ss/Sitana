@@ -207,9 +207,12 @@ namespace Sitana.Framework.Ui.Views
             return null;
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             InitChildren(Controller, Binding, definition);
 
@@ -297,6 +300,8 @@ namespace Sitana.Framework.Ui.Views
 
             _current = _children[_selectedIndex];
             _previous = null;
+
+            return true;
         }
 
         public void ShowNext()
@@ -351,6 +356,26 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        public UiView SelectedChild
+        {
+            get
+            {
+                return _children[_selectedIndex];
+            }
+
+            set
+            {
+                for (int idx = 0; idx < _children.Count; ++idx)
+                {
+                    if (_children[idx] == value)
+                    {
+                        SelectedIndex = idx;
+                        break;
+                    }
+                }
+            }
+        }
+
         public int SelectedIndex
         {
             get
@@ -362,9 +387,18 @@ namespace Sitana.Framework.Ui.Views
             {
                 if (value != _selectedIndex)
                 {
-                    _previous = _children[_selectedIndex];
+                    if (_selectedIndex < _children.Count)
+                    {
+                        _previous = _children[_selectedIndex];
+                        _transition = 1;
+                    }
+                    else
+                    {
+                        _previous = null;
+                        _transition = 0;
+                    }
+
                     _current = _children[value];
-                    _transition = 1;
 
                     _next = value > _selectedIndex;
                     _selectedIndex = value;

@@ -156,9 +156,12 @@ namespace Sitana.Framework.Ui.Views
             _minSizeFromChildren = new Point(minSizeX, minSizeY);
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiSplitterView));
 
@@ -167,6 +170,8 @@ namespace Sitana.Framework.Ui.Views
             _splitterSize = DefinitionResolver.Get<Length>(Controller, Binding, file["SplitterSize"], Length.Default).Compute(100);
 
             InitChildren(Controller, Binding, definition);
+
+            return true;
         }
     }
 }

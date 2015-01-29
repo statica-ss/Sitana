@@ -17,9 +17,10 @@ namespace Sitana.Framework.Ui.Views
 
         public abstract TransitionEffect Reverse();
 
-        void IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
+        bool IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
         {
             Init(controller, binding, file);
+            return true;
         }
 
         protected virtual void Init(UiController controller, object binding, DefinitionFile definition)

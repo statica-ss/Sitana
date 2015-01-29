@@ -264,13 +264,17 @@ namespace Sitana.Framework.Ui.Views
             return null;
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             var file = new DefinitionFileWithStyle(definition, typeof(UiContainer));
 
             _clipChildren = DefinitionResolver.Get<bool>(Controller, Binding, file["ClipChildren"], false);
+            return true;
         }
 
         protected void InitChildren(UiController controller, object binding, DefinitionFile definition)

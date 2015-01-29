@@ -146,8 +146,19 @@ namespace Sitana.Framework.Graphics
 
             Font = font;
 
-            Vector2 size = _font.MeasureString(text, spacing, lineHeight) * scale;
-            Vector2 position = TextPosition(ref target, align, size);
+            Vector2 position;
+            Vector2 size;
+
+            if(align != TextAlign.None )
+            {
+                size = _font.MeasureString(text, spacing, lineHeight) * scale;
+                position = TextPosition(ref target, align, size);
+            }
+            else
+            {
+                size = Vector2.Zero;
+                position = target.Location.ToVector2();
+            }
 
             if (_font.SitanaFont != null)
             {
@@ -158,7 +169,13 @@ namespace Sitana.Framework.Graphics
             }
             else
             {
-                Vector2 origin = TextOrigin(align, size);
+                Vector2 origin = Vector2.Zero;
+
+                if (align != TextAlign.None)
+                {
+                    origin = TextOrigin(align, size);
+                }
+
                 position.X += origin.X * scale;
 
                 SpriteBatchIsNeeded();

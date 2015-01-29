@@ -133,9 +133,12 @@ namespace Sitana.Framework.Ui.Views
             return view.Bounds;
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiListBox));
 
@@ -151,6 +154,8 @@ namespace Sitana.Framework.Ui.Views
             _reverse = DefinitionResolver.Get<bool>(Controller, Binding, file["Reverse"], false);
 
 			_wheelSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["WheelScrollSpeed"], 0);
+
+            return true;
         }
 
         protected override void Update(float time)

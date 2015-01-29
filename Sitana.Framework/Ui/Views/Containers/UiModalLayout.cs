@@ -47,9 +47,12 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiView));
 
@@ -61,6 +64,8 @@ namespace Sitana.Framework.Ui.Views
             {
                 DisplayVisibility = 0;
             }
+
+            return true;
         }
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)

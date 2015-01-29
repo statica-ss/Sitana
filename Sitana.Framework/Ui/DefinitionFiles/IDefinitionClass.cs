@@ -8,6 +8,6 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 {
     public interface IDefinitionClass
     {
-        void Init(UiController controller, object binding, DefinitionFile file);
+        bool Init(UiController controller, object binding, DefinitionFile file);
     }
 }

@@ -209,9 +209,12 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiNavigationView));
 
@@ -225,6 +228,8 @@ namespace Sitana.Framework.Ui.Views
                 UiPage page = _children[0] as UiPage;
                 page.InstantShow();
             }
+
+            return true;
         }
     }
 }

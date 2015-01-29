@@ -83,15 +83,20 @@ namespace Sitana.Framework.Ui.Views
         
         private string _original = null;
 
-        protected override void Init(object controller, object binding, Sitana.Framework.Ui.DefinitionFiles.DefinitionFile definition)
+        protected override bool Init(object controller, object binding, Sitana.Framework.Ui.DefinitionFiles.DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiEditBox));
 
             _textInput = new TextInput(this, _inputType);
 
             _lostFocusCancels = DefinitionResolver.Get<bool>(Controller, Binding, file["CancelOnLostFocus"], false);
+
+            return true;
         }
 
         protected override void OnAdded()

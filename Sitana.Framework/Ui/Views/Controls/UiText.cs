@@ -407,9 +407,12 @@ namespace Sitana.Framework.Ui.Views
             return size;
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiText));
 
@@ -428,6 +431,8 @@ namespace Sitana.Framework.Ui.Views
             VerticalAlignment vertAlign = DefinitionResolver.Get<VerticalAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalAlignment.Top);
 
             TextAlign = UiHelper.TextAlignFromAlignment(horzAlign, vertAlign);
+
+            return true;
         }
 
         protected override void Draw(ref UiViewDrawParameters parameters)

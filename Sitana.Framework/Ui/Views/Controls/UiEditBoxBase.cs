@@ -47,9 +47,12 @@ namespace Sitana.Framework.Ui.Views
         SharedString _password;
         protected TextInputType _inputType;
 
-        protected override void Init(object controller, object binding, Sitana.Framework.Ui.DefinitionFiles.DefinitionFile definition)
+        protected override bool Init(object controller, object binding, Sitana.Framework.Ui.DefinitionFiles.DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiEditBoxBase));
 
@@ -69,6 +72,8 @@ namespace Sitana.Framework.Ui.Views
 
 			RegisterDelegate("LostFocus", file["LostFocus"]);
 			RegisterDelegate("Return", file["Return"]);
+
+            return true;
         }
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
