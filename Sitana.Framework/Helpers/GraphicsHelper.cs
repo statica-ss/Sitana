@@ -71,6 +71,16 @@ namespace Sitana.Framework
             return new Vector2((Single)desiredSize.X / (Single)texture.Width, (Single)desiredSize.Y / (Single)texture.Height);
         }
 
+        public static Color MultiplyColors(Color c1, Color c2)
+        {
+            return new Color(
+                ((int)c1.R * (int)c2.R / 255),
+                ((int)c1.G * (int)c2.G / 255),
+                ((int)c1.B * (int)c2.B / 255),
+                ((int)c1.A * (int)c2.A / 255));
+        }
+        
+
         public static Color MixColors(Color c1, Color c2, Single c2Mix)
         {
             Vector4 v1 = c1.ToVector4();

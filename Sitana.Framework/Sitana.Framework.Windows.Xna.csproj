@@ -137,6 +137,7 @@
     <Compile Include="Ui\Views\Controls\UiText.cs" />
     <Compile Include="Ui\Views\Controls\UiVerticalGradient.cs" />
     <Compile Include="Ui\Views\Enums\TransitionMode.cs" />
+    <Compile Include="Ui\Views\IBackgroundDrawable.cs" />
     <Compile Include="Ui\Views\Scroller.cs" />
     <Compile Include="Ui\Views\ScrollingService.cs" />
     <Compile Include="Xml\XFile.cs" />

@@ -177,12 +177,7 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
-            Color backgroundColor = BackgroundColor * opacity;
-
-            if (backgroundColor.A > 0)
-            {
-                parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
-            }
+            DrawBackground(ref parameters);
 
             if (_clipChildren)
             {

@@ -75,6 +75,24 @@ namespace Sitana.Framework.Ui.Views
 
             foreach (var cn in node.Nodes)
             {
+                if (cn.Tag == "UiView.BackgroundDrawable")
+                {
+                    if (cn.Nodes.Count != 1)
+                    {
+                        string error = node.NodeError("UiView.BackgroundDrawable must have exactly 1 child.");
+                        if (DefinitionParser.EnableCheckMode)
+                        {
+                            ConsoleEx.WriteLine(error);
+                        }
+                        else
+                        {
+                            throw new Exception(error);
+                        }
+                    }
+
+                    file["BackgroundDrawable"] = DefinitionFile.LoadFile(cn.Nodes[0]);
+                }
+
                 if (cn.Tag == "UiView.ShowTransitionEffect")
                 {
                     if (cn.Nodes.Count != 1)
@@ -231,6 +249,8 @@ namespace Sitana.Framework.Ui.Views
         public Margin Margin { get { return PositionParameters.Margin; } set { PositionParameters.Margin = value; } }
 
         private UiController _controller = null;
+
+        public IBackgroundDrawable BackgroundDrawable { get; set; }
 
         protected Length _minWidth;
         protected Length _minHeight;
@@ -487,7 +507,7 @@ namespace Sitana.Framework.Ui.Views
             OnRemoved();
         }
 
-        protected virtual void Draw(ref UiViewDrawParameters parameters)
+        protected void DrawBackground(ref UiViewDrawParameters parameters)
         {
             float opacity = parameters.Opacity;
 
@@ -500,8 +520,20 @@ namespace Sitana.Framework.Ui.Views
 
             if (backgroundColor.A > 0)
             {
-                parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
+                if (BackgroundDrawable != null)
+                {
+                    BackgroundDrawable.Draw(parameters.DrawBatch, ScreenBounds, backgroundColor);
+                }
+                else
+                {
+                    parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
+                }
             }
+        }
+
+        protected virtual void Draw(ref UiViewDrawParameters parameters)
+        {
+            DrawBackground(ref parameters);
         }
 
         protected virtual void Update(float time)
@@ -569,8 +601,6 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
-            
-
             Id = (string)file["Id"];
 
             if (Id == "ttt")
@@ -624,6 +654,13 @@ namespace Sitana.Framework.Ui.Views
             _hideSpeed = _hideSpeed > 0 ? 1 / _hideSpeed : 10000;
 
             CreatePositionParameters(Controller, binding, definition);
+
+            DefinitionFile backgroundDrawable = file["BackgroundDrawable"] as DefinitionFile;
+
+            if (backgroundDrawable != null)
+            {
+                BackgroundDrawable = backgroundDrawable.CreateInstance(Controller, binding) as IBackgroundDrawable;
+            }
 
             DefinitionFile showTransitionEffectFile = file["ShowTransitionEffect"] as DefinitionFile;
             DefinitionFile hideTransitionEffectFile = file["HideTransitionEffect"] as DefinitionFile;
