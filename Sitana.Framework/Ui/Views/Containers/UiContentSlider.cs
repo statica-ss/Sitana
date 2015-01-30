@@ -77,6 +77,23 @@ namespace Sitana.Framework.Ui.Views
 
         bool _next = false;
 
+        public override void Remove(UiView view)
+        {
+            base.Remove(view);
+
+            if (view == _current)
+            {
+                if (_children.Count > 0)
+                {
+                    _current = _children[Math.Min(_children.Count - 1, _selectedIndex)];
+                }
+                else
+                {
+                    _current = null;
+                }
+            }
+        }
+
         protected override void Update(float time)
         {
             base.Update(time);

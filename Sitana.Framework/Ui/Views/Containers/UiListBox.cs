@@ -314,6 +314,16 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        public override void RecalcLayout()
+        {
+            base.RecalcLayout();
+
+            lock (_recalcLock)
+            {
+                _recalculate = true;
+            }
+        }
+
         Rectangle CalculateItemBounds(UiView view)
         {
             Point size = view.ComputeSize(Bounds.Width, Bounds.Height);

@@ -22,16 +22,16 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             var parser = new DefinitionParser(node);
 
-            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
-            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
+            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
+            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
             file["Scale"] = parser.ParseDouble("Scale");
             file["Stretch"] = parser.ParseEnum<Stretch>("Stretch");
         }
 
         protected string _font;
         protected int _fontSize;
-        protected HorizontalAlignment _horzAlign;
-        protected VerticalAlignment _vertAlign;
+        protected HorizontalContentAlignment _horzAlign;
+        protected VerticalContentAlignment _vertAlign;
         protected float _scale;
         protected Stretch _stretch;
 
@@ -41,8 +41,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(Icon));
 
-            _horzAlign = DefinitionResolver.Get<HorizontalAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalAlignment.Center);
-            _vertAlign = DefinitionResolver.Get<VerticalAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalAlignment.Center);
+            _horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Center);
+            _vertAlign = DefinitionResolver.Get<VerticalContentAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalContentAlignment.Center);
             _stretch = DefinitionResolver.Get<Stretch>(controller, binding, file["Stretch"], Stretch.None);
             _scale = (float)DefinitionResolver.Get<double>(controller, binding, file["Scale"], 1);
         }
@@ -94,32 +94,32 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             switch (_horzAlign)
             {
-                case HorizontalAlignment.Center:
-                case HorizontalAlignment.Stretch:
+                case HorizontalContentAlignment.Center:
+                case HorizontalContentAlignment.Auto:
                     target.X = bounds.Center.X - target.Width / 2;
                     break;
 
-                case HorizontalAlignment.Left:
+                case HorizontalContentAlignment.Left:
                     target.X = bounds.X;
                     break;
 
-                case HorizontalAlignment.Right:
+                case HorizontalContentAlignment.Right:
                     target.X = bounds.Right - target.Width;
                     break;
             }
 
             switch (_vertAlign)
             {
-                case VerticalAlignment.Center:
-                case VerticalAlignment.Stretch:
+                case VerticalContentAlignment.Center:
+                case VerticalContentAlignment.Auto:
                     target.Y = bounds.Center.Y - target.Height / 2;
                     break;
 
-                case VerticalAlignment.Top:
+                case VerticalContentAlignment.Top:
                     target.Y = bounds.Y;
                     break;
 
-                case VerticalAlignment.Bottom:
+                case VerticalContentAlignment.Bottom:
                     target.Y = bounds.Bottom - target.Height;
                     break;
             }

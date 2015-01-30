@@ -122,6 +122,12 @@ namespace Sitana.Framework.Ui.Views
 
         public override Point ComputeSize(int width, int height)
         {
+            if (_recalculateLayout)
+            {
+                RecalcLayout();
+                _recalculateLayout = false;
+            }
+
             Point value = base.ComputeSize(width, height);
 
             int size = _padding.Compute();

@@ -70,9 +70,10 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public void Remove(UiView view)
+        public virtual void Remove(UiView view)
         {
             _children.Remove(view);
+            
             view.ViewRemoved();
             OnChildrenModified();
         }

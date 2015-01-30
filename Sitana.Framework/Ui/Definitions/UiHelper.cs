@@ -4,49 +4,77 @@ namespace Sitana.Framework.Ui
 {
     public static class UiHelper
     {
-        public static TextAlign TextAlignFromAlignment(HorizontalAlignment horz, VerticalAlignment vert)
+        public static TextAlign TextAlignFromContentAlignment(HorizontalContentAlignment horz, VerticalContentAlignment vert)
         {
             TextAlign align = TextAlign.None;
 
-            switch(horz)
+            switch (horz)
             {
-            case HorizontalAlignment.Left:
-                align |= TextAlign.Left;
-                break;
+                case HorizontalContentAlignment.Left:
+                    align |= TextAlign.Left;
+                    break;
 
-            case HorizontalAlignment.Center:
-                align |= TextAlign.Center;
-                break;
+                case HorizontalContentAlignment.Center:
+                    align |= TextAlign.Center;
+                    break;
 
-            case HorizontalAlignment.Right:
-                align |= TextAlign.Right;
-                break;
+                case HorizontalContentAlignment.Right:
+                    align |= TextAlign.Right;
+                    break;
 
-            case HorizontalAlignment.Stretch:
-                align |= TextAlign.Center;
-                break;
+                case HorizontalContentAlignment.Auto:
+                    align |= TextAlign.Center;
+                    break;
             }
 
-            switch(vert)
+            switch (vert)
             {
-            case VerticalAlignment.Top:
-                align |= TextAlign.Top;
-                break;
+                case VerticalContentAlignment.Top:
+                    align |= TextAlign.Top;
+                    break;
 
-            case VerticalAlignment.Center:
-                align |= TextAlign.Middle;
-                break;
+                case VerticalContentAlignment.Center:
+                    align |= TextAlign.Middle;
+                    break;
 
-            case VerticalAlignment.Bottom:
-                align |= TextAlign.Bottom;
-                break;
+                case VerticalContentAlignment.Bottom:
+                    align |= TextAlign.Bottom;
+                    break;
 
-            case VerticalAlignment.Stretch:
-                align |= TextAlign.Middle;
-                break;
+                case VerticalContentAlignment.Auto:
+                    align |= TextAlign.Middle;
+                    break;
             }
 
             return align;
+        }
+
+        public static VerticalContentAlignment ContentAlignFromAlignment(VerticalAlignment align)
+        {
+            switch (align)
+            {
+                case VerticalAlignment.Top:
+                    return VerticalContentAlignment.Top;
+
+                case VerticalAlignment.Bottom:
+                    return VerticalContentAlignment.Bottom;
+            }
+
+            return VerticalContentAlignment.Center;
+        }
+
+        public static HorizontalContentAlignment ContentAlignFromAlignment(HorizontalAlignment align)
+        {
+            switch (align)
+            {
+                case HorizontalAlignment.Left:
+                    return HorizontalContentAlignment.Left;
+
+                case HorizontalAlignment.Right:
+                    return HorizontalContentAlignment.Right;
+            }
+
+            return HorizontalContentAlignment.Center;
         }
     }
 }

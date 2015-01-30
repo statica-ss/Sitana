@@ -73,6 +73,8 @@
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
     <Compile Include="Ui\Binding\ItemsList.cs" />
+    <Compile Include="Ui\Definitions\VerticalContentAlignment.cs" />
+    <Compile Include="Ui\Definitions\HorizontalContentAlignment.cs" />
     <Compile Include="Ui\Definitions\HorizontalAlignment.cs" />
     <Compile Include="Ui\Definitions\Stretch.cs" />
     <Compile Include="Graphics\Fonts\Font.cs" />
