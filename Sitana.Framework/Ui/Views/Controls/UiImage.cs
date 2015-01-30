@@ -75,12 +75,12 @@ namespace Sitana.Framework.Ui.Views
                     switch (_stretch)
                     {
                         case Stretch.Uniform:
-                            scaleX = scaleY = Math.Min((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height) * Scale;
+                            scaleX = scaleY = Math.Min((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height);
                             scale = (float)scaleX;
                             break;
 
                         case Stretch.UniformToFill:
-                            scaleX = scaleY = Math.Max((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height) * Scale;
+                            scaleX = scaleY = Math.Max((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height);
                             scale = (float)scaleX;
                             break;
 
@@ -97,7 +97,6 @@ namespace Sitana.Framework.Ui.Views
                     int height = (int)(Math.Ceiling(image.Height * scaleY));
 
                     Rectangle targetRect = new Rectangle(pos.X - width / 2 - width % 2, pos.Y - height / 2 - height % 2, width, height);
-
                     target = GraphicsHelper.IntersectRectangle(targetRect, target);
 
                     int srcWidth = (int)((double)target.Width / scaleX);
