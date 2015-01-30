@@ -13,7 +13,7 @@ namespace Sitana.Framework.Ui.Core
 {
 	public partial class AppMain
 	{
-		public View RootView { get; private set; }
+		public RelativeLayout RootView { get; private set; }
 
         public AppMain()
 		{
@@ -30,11 +30,10 @@ namespace Sitana.Framework.Ui.Core
 
 		protected void AddView()
 		{
-			//RootView = new RelativeLayout(Activity);
+			RootView = new RelativeLayout(Activity);
 
 			View view = (View)Services.GetService(typeof(View));
-			RootView = view;
-			//((RelativeLayout)RootView).AddView(view);
+			RootView.AddView(view);
 
 			Activity.SetContentView(RootView);
 		}

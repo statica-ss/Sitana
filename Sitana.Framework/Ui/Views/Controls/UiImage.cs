@@ -75,12 +75,12 @@ namespace Sitana.Framework.Ui.Views
                     switch (_stretch)
                     {
                         case Stretch.Uniform:
-                            scaleX = scaleY = Math.Min((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height);
+                            scaleX = scaleY = Math.Min((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height) * _scale;
                             scale = (float)scaleX;
                             break;
 
                         case Stretch.UniformToFill:
-                            scaleX = scaleY = Math.Max((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height);
+                            scaleX = scaleY = Math.Max((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height) * _scale;
                             scale = (float)scaleX;
                             break;
 

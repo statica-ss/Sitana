@@ -616,7 +616,7 @@ namespace Sitana.Framework.Ui.Views
 
             DisplayVisibility = Visible.Value ? 1 : 0;
 
-            BackgroundColor = DefinitionResolver.GetColor(Controller, binding, file["BackgroundColor"]) ?? Color.Transparent;
+            
 
             RegisterDelegate("ViewRemoved", file["ViewRemoved"]);
             RegisterDelegate("ViewAdded", file["ViewAdded"]);
@@ -657,10 +657,19 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFile backgroundDrawable = file["BackgroundDrawable"] as DefinitionFile;
 
+            Color defaultBackgroundColor = Color.Transparent;
+
             if (backgroundDrawable != null)
             {
                 BackgroundDrawable = backgroundDrawable.CreateInstance(Controller, binding) as IBackgroundDrawable;
+
+                if (BackgroundDrawable != null)
+                {
+                    defaultBackgroundColor = Color.White;
+                }
             }
+
+            BackgroundColor = DefinitionResolver.GetColor(Controller, binding, file["BackgroundColor"]) ?? defaultBackgroundColor;
 
             DefinitionFile showTransitionEffectFile = file["ShowTransitionEffect"] as DefinitionFile;
             DefinitionFile hideTransitionEffectFile = file["HideTransitionEffect"] as DefinitionFile;

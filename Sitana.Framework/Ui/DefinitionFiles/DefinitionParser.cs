@@ -10,6 +10,7 @@ using Sitana.Framework.Diagnostics;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
 using Microsoft.Xna.Framework.Graphics;
+using Sitana.Framework.Helpers;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
 {
@@ -184,46 +185,23 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return null;
             }
 
-            int r, g, b, a;
+            Color? color = null;
 
-            if (name.StartsWith("#"))
+            if (name[0] == ':')
             {
-                if (name.Length == 7 || name.Length == 9)
+                color = ColorsManager.Instance[name].Value;
+
+                if (color.HasValue)
                 {
-                    int color;
-                    if (int.TryParse(name.Replace("#", ""), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out color))
-                    {
-                        a = (color >> 24) & 0xff;
-                        r = (color >> 16) & 0xff;
-                        g = (color >> 8) & 0xff;
-                        b = color & 0xff;
-
-                        if (name.Length == 7)
-                        {
-                            a = 255;
-                        }
-
-                        return Color.FromNonPremultiplied(r, g, b, a);
-                    }
+                    return color.Value;
                 }
             }
 
-            string[] vals = name.Replace(" ", "").Split(',');
+            color = ColorParser.Parse(name);
 
-            if (vals.Length == 3)
+            if (color.HasValue)
             {
-                if (Int32.TryParse(vals[0], out r) && Int32.TryParse(vals[1], out g) && Int32.TryParse(vals[2], out b))
-                {
-                    return new Color(r, g, b);
-                }
-            }
-
-            if (vals.Length == 4)
-            {
-                if (Int32.TryParse(vals[0], out r) && Int32.TryParse(vals[1], out g) && Int32.TryParse(vals[2], out b) && Int32.TryParse(vals[3], out a))
-                {
-                    return Color.FromNonPremultiplied(r, g, b, a);
-                }
+                return color.Value;
             }
 
             Exception ex = Error(id, "Invalid format. Color formats are: '#aarrggbb' '#rrggbb' 'r,g,b' 'r,g,b,a'.");

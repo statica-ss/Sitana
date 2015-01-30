@@ -136,14 +136,19 @@ namespace Sitana.Framework.Ui.Views
 			}
 		}
 
-		protected override void Init(object controller, object binding, Sitana.Framework.Ui.DefinitionFiles.DefinitionFile definition)
+		protected override bool Init(object controller, object binding, Sitana.Framework.Ui.DefinitionFiles.DefinitionFile definition)
 		{
-			base.Init(controller, binding, definition);
+			if (!base.Init(controller, binding, definition))
+			{
+				return false;
+			}
 
 			DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiEditBox));
 
 			_fontSize = DefinitionResolver.Get<int>(Controller, Binding, file["NativeInputFontSize"], 20);
 			_nativeInputMargin = DefinitionResolver.Get<Margin>(Controller, Binding, file["NativeInputMargin"], Margin.None);
+
+			return true;
 		}
 
 		private void CreateInput()

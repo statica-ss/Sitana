@@ -100,6 +100,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 			{
 	            Type type = GetType(node);
 
+				if(type == null)
+				{
+					Console.WriteLine("Unknown type: {0}", node.Tag);
+				}
+
 				Console.WriteLine("Loading file: {0} ({1}).", node.Owner.Name, node.LineNumber);
 
 	            MethodInfo method = type.GetMethod("Parse", ParseMethodTypes);
