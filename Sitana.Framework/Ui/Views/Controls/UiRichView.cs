@@ -65,8 +65,8 @@ namespace Sitana.Framework.Ui.Views
             file["ActiveLinkColor"] = parser.ParseColor("ActiveLinkColor");
             file["HorizontalRulerColor"] = parser.ParseColor("HorizontalRulerColor");
 
-            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
-            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
+            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
+            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
 
             file["BulletText"] = parser.ParseString("BulletText");
             file["HorizontalRulerHeight"] = parser.ParseLength("HorizontalRulerHeight");
@@ -129,9 +129,12 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiText));
 
@@ -211,16 +214,18 @@ namespace Sitana.Framework.Ui.Views
             _colorClickableActive = DefinitionResolver.GetColorWrapper(Controller, Binding, file["ActiveLinkColor"]) ?? _colorClickable;
             _colorRuler = DefinitionResolver.GetColorWrapper(Controller, Binding, file["HorizontalRulerColor"]) ?? new ColorWrapper(Color.White);
 
-            HorizontalAlignment horzAlign = DefinitionResolver.Get<HorizontalAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalAlignment.Left);
-            VerticalAlignment vertAlign = DefinitionResolver.Get<VerticalAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalAlignment.Top);
+            HorizontalContentAlignment horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Left);
+            VerticalContentAlignment vertAlign = DefinitionResolver.Get<VerticalContentAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalContentAlignment.Top);
 
-            _textAlign = UiHelper.TextAlignFromAlignment(horzAlign, vertAlign);
+            _textAlign = UiHelper.TextAlignFromContentAlignment(horzAlign, vertAlign);
 
             _clickMargin = DefinitionResolver.Get<Length>(Controller, Binding, file["ClickMargin"], Length.Zero);
 
             RegisterDelegate("UrlClick", file["UrlClick"]);
 
             EnabledGestures = (GestureType.Down | GestureType.Up | GestureType.Move | GestureType.Tap);
+
+            return true;
         }
 
         protected override void OnGesture(Gesture gesture)

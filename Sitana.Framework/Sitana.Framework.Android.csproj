@@ -222,6 +222,14 @@
     <Compile Include="Ui\Views\Controls\UiSlider.cs" />
     <Compile Include="Ui\Views\Controls\UiSpritePresenter.cs" />
     <Compile Include="Media\SoundEffectBuffer.cs" />
+    <Compile Include="Ui\Views\IBackgroundDrawable.cs" />
+    <Compile Include="Ui\Views\Controls\UiEditBox.Mobile.cs" />
+    <Compile Include="Input\TextInput\NativeInput.cs" />
+    <Compile Include="Input\TextInput\NativeInput.Android.cs" />
+    <Compile Include="Input\TextInput\EditTextEx.cs" />
+    <Compile Include="Ui\Views\Controls\UiEditBoxBase.cs" />
+    <Compile Include="Ui\TransitionEffects\None.cs" />
+    <Compile Include="Ui\Views\Controls\UiHorizontalGradient.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

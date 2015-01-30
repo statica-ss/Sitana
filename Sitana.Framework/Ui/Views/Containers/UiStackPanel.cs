@@ -19,6 +19,7 @@ namespace Sitana.Framework.Ui.Views
             file["Mode"] = parser.ParseEnum<Mode>("Mode");
             file["Spacing"] = parser.ParseLength("Spacing", false);
             file["Padding"] = parser.ParseLength("Padding", false);
+            file["NotifyParentOnResize"] = parser.ParseBoolean("NotifyParentOnResize");
         }
 
         public enum Mode
@@ -30,6 +31,7 @@ namespace Sitana.Framework.Ui.Views
         bool _vertical = false;
         bool _updateBounds = true;
         bool _recalculateLayout = true;
+        bool _notifyParentOnResize = true;
 
         Length _spacing;
         Length _padding;
@@ -93,7 +95,7 @@ namespace Sitana.Framework.Ui.Views
 
         void UpdateBounds()
         {
-            if (Parent != null)
+            if (_notifyParentOnResize && Parent != null)
             {
                 Parent.RecalcLayout();
             }
@@ -120,6 +122,12 @@ namespace Sitana.Framework.Ui.Views
 
         public override Point ComputeSize(int width, int height)
         {
+            if (_recalculateLayout)
+            {
+                RecalcLayout();
+                _recalculateLayout = false;
+            }
+
             Point value = base.ComputeSize(width, height);
 
             int size = _padding.Compute();
@@ -284,15 +292,19 @@ namespace Sitana.Framework.Ui.Views
             base.RecalcLayout();
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiStackPanel));
 
             StackMode = DefinitionResolver.Get<Mode>(Controller, Binding, file["Mode"], Mode.Vertical);
             _spacing = DefinitionResolver.Get<Length>(Controller, Binding, file["Spacing"], Length.Zero);
             _padding = DefinitionResolver.Get<Length>(Controller, Binding, file["Padding"], Length.Zero);
+            _notifyParentOnResize = DefinitionResolver.Get<bool>(Controller, Binding, file["NotifyParentOnResize"], true);
 
             InitChildren(Controller, Binding, definition);
 
@@ -306,6 +318,8 @@ namespace Sitana.Framework.Ui.Views
                 PositionParameters.Margin._left = null;
                 PositionParameters.Margin._right = null;
             }
+
+            return true;
         }
     }
 }

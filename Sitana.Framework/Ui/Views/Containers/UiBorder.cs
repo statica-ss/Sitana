@@ -17,10 +17,14 @@ namespace Sitana.Framework.Ui.Views
             UiContainer.Parse(node, file);
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
             InitChildren(Controller, Binding, definition);
+            return true;
         }
 
         protected override Rectangle CalculateChildBounds(UiView view)

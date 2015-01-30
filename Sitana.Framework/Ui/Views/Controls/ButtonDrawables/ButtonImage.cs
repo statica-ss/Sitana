@@ -22,15 +22,15 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             file["Image"] = parser.ParseResource<Texture2D>("Image");
             file["Scale"] = parser.ParseDouble("Scale");
-            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
-            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
+            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
+            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
         }
 
         protected Texture2D _image = null;
         protected float _scale = 1;
 
-        protected HorizontalAlignment _horizontalAlignment;
-        protected VerticalAlignment _verticalAlignment;
+        protected HorizontalContentAlignment _horizontalAlignment;
+        protected VerticalContentAlignment _verticalAlignment;
 
         protected override void Init(UiController controller, object binding, DefinitionFile definition)
         {
@@ -40,8 +40,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             _image = DefinitionResolver.Get<Texture2D>(controller, binding, file["Image"], null);
             _scale = (float)DefinitionResolver.Get<double>(controller, binding, file["Scale"], 1);
-            _horizontalAlignment = DefinitionResolver.Get<HorizontalAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalAlignment.Center);
-            _verticalAlignment = DefinitionResolver.Get<VerticalAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalAlignment.Center);
+            _horizontalAlignment = DefinitionResolver.Get<HorizontalContentAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Center);
+            _verticalAlignment = DefinitionResolver.Get<VerticalContentAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalContentAlignment.Center);
         }
 
         public override void Draw(AdvancedDrawBatch drawBatch, DrawButtonInfo info)
@@ -71,22 +71,22 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
                 switch ( _horizontalAlignment )
                 {
-                case HorizontalAlignment.Center:
+                case HorizontalContentAlignment.Center:
                     target.X = target.Center.X - width / 2;
                     break;
 
-                case HorizontalAlignment.Right:
+                case HorizontalContentAlignment.Right:
                     target.X = target.Right - width;
                     break;
                 }
 
                 switch ( _verticalAlignment)
                 {
-                case VerticalAlignment.Center:
+                case VerticalContentAlignment.Center:
                     target.Y = target.Center.Y - height / 2;
                     break;
 
-                case VerticalAlignment.Bottom:
+                case VerticalContentAlignment.Bottom:
                     target.Y = target.Bottom - height;
                     break;
                 }

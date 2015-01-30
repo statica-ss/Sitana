@@ -39,6 +39,8 @@ namespace Sitana.Framework.Graphics
 
         Matrix _transform = Matrix.Identity;
 
+        public Texture2D OnePixelWhiteTexture { get; set; }
+
         private Matrix Transform
         {
             get

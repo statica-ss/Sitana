@@ -45,8 +45,8 @@ namespace Sitana.Framework.Ui.Views
             file["Justify"] = parser.ParseBoolean("Justify");
 
             file["TextColor"] = parser.ParseColor("TextColor");
-            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
-            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
+            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
+            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
         }
 
         public ColorWrapper TextColor { get; private set; }
@@ -407,9 +407,12 @@ namespace Sitana.Framework.Ui.Views
             return size;
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiText));
 
@@ -424,10 +427,12 @@ namespace Sitana.Framework.Ui.Views
             Text = DefinitionResolver.GetString(Controller, Binding, file["Text"]);
             TextColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
 
-            HorizontalAlignment horzAlign = DefinitionResolver.Get<HorizontalAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalAlignment.Left);
-            VerticalAlignment vertAlign = DefinitionResolver.Get<VerticalAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalAlignment.Top);
+            HorizontalContentAlignment horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Left);
+            VerticalContentAlignment vertAlign = DefinitionResolver.Get<VerticalContentAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalContentAlignment.Top);
 
-            TextAlign = UiHelper.TextAlignFromAlignment(horzAlign, vertAlign);
+            TextAlign = UiHelper.TextAlignFromContentAlignment(horzAlign, vertAlign);
+
+            return true;
         }
 
         protected override void Draw(ref UiViewDrawParameters parameters)

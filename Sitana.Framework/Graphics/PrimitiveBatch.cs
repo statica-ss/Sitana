@@ -276,6 +276,47 @@ namespace Sitana.Framework.Graphics
             _positionInBuffer++;
         }
 
+        public void AddVertex(float x, float y, ref Color color, float tx, float ty)
+        {
+            if (!_hasBegun)
+            {
+                throw new InvalidOperationException
+                    ("Begin must be called before AddVertex can be called.");
+            }
+
+            if (!_basicEffect.TextureEnabled)
+            {
+                throw new InvalidOperationException
+                    ("Texture is not enabled. Use AddVertex without texture coordinates");
+            }
+
+            // are we starting a new primitive? if so, and there will not be enough room
+            // for a whole primitive, flush.
+            Boolean newPrimitive = false;
+
+            if (_numRestVertsPerPrimitive != 0)
+            {
+                newPrimitive = (_positionInBuffer >= _numRestVertsPerPrimitive + _numVertsPerPrimitive);
+            }
+            else
+            {
+                newPrimitive = ((_positionInBuffer % _numVertsPerPrimitive) == 0);
+            }
+
+            if (newPrimitive && (_positionInBuffer + _numVertsPerPrimitive) >= _vertices.Length)
+            {
+                Flush();
+            }
+
+            // once we know there's enough room, set the vertex in the buffer,
+            // and increase position.
+            _verticesTexture[_positionInBuffer].Position = new Vector3(x, y, 0);
+            _verticesTexture[_positionInBuffer].Color = color;
+            _verticesTexture[_positionInBuffer].TextureCoordinate = new Vector2(tx,ty);
+
+            _positionInBuffer++;
+        }
+
         // End is called once all the primitives have been drawn using AddVertex.
         // it will call Flush to actually submit the draw call to the graphics card, and
         // then tell the basic effect to end.

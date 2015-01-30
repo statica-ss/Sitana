@@ -75,18 +75,18 @@ namespace Sitana.Framework.Ui.Views
                     switch (_stretch)
                     {
                         case Stretch.Uniform:
-                            scaleX = scaleY = Math.Min((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height);
+                            scaleX = scaleY = Math.Min((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height) * _scale;
                             scale = (float)scaleX;
                             break;
 
                         case Stretch.UniformToFill:
-                            scaleX = scaleY = Math.Max((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height);
+                            scaleX = scaleY = Math.Max((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height) * _scale;
                             scale = (float)scaleX;
                             break;
 
                         case Stretch.Fill:
-                            scaleX = (double)target.Width / (double)image.Width;
-                            scaleY = (double)target.Height / (double)image.Height;
+                            scaleX = Scale * (double)target.Width / (double)image.Width;
+                            scaleY = Scale * (double)target.Height / (double)image.Height;
                             scale = (float)Math.Min(scaleX, scaleY);
                             break;
                     }
@@ -97,7 +97,6 @@ namespace Sitana.Framework.Ui.Views
                     int height = (int)(Math.Ceiling(image.Height * scaleY));
 
                     Rectangle targetRect = new Rectangle(pos.X - width / 2 - width % 2, pos.Y - height / 2 - height % 2, width, height);
-
                     target = GraphicsHelper.IntersectRectangle(targetRect, target);
 
                     int srcWidth = (int)((double)target.Width / scaleX);
@@ -120,18 +119,23 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiLabel));
 
             _image = DefinitionResolver.GetShared<Texture2D>(Controller, Binding, file["Image"], null);
             _stretch = DefinitionResolver.Get<Stretch>(Controller, Binding, file["Stretch"], Stretch.Uniform);
-            _color = DefinitionResolver.GetColorWrapper(Controller, Binding, file["Color"]);
+            _color = DefinitionResolver.GetColorWrapper(Controller, Binding, file["Color"]) ?? new ColorWrapper();
             _rotationSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["RotationSpeed"], 0);
             _scaleByUnit = DefinitionResolver.Get<bool>(Controller, Binding, file["ScaleByUnit"], true);
             _scale = (float)DefinitionResolver.Get<double>(Controller, Binding, file["Scale"], 1);
+
+            return true;
         }
 
         public override Point ComputeSize(int width, int height)

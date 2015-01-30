@@ -244,7 +244,7 @@
     <Compile Include="Input\TextInput\NativeInput.iOs.cs" />
     <Compile Include="Ui\Views\Controls\UiEditBox.Mobile.cs" />
     <Compile Include="Ui\Views\Controls\UiHorizontalGradient.cs" />
-    <Compile Include="Ui\Views\Controls\ButtonDrawables\EditState.cs" />
+    <Compile Include="Ui\Views\IBackgroundDrawable.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

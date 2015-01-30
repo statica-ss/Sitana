@@ -10,6 +10,7 @@ namespace Sitana.Framework.Ui.Views
         public enum ExceedRule
         {
             Allow,
+            AllowWhenScroll,
             Forbid
         }
 
@@ -89,7 +90,9 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
-            if (_mode == ExceedRule.Allow)
+            bool scroll = maxScrollX-bounds.Width >= 0 || maxScrollY-bounds.Height >= 0;
+
+            if (_mode == ExceedRule.Allow || (_mode == ExceedRule.AllowWhenScroll && scroll))
             {
                 ScrollPositionX = ComputeScroll(time, ScrollPositionX, maxScrollX, bounds.Width);
                 ScrollPositionY = ComputeScroll(time, ScrollPositionY, maxScrollY, bounds.Height);

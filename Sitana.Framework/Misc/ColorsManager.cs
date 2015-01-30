@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.IO;
+using Sitana.Framework.Cs;
+using Sitana.Framework.Helpers;
+using Sitana.Framework.Content;
 
 namespace Sitana.Framework
 {
-    public class ColorsManager
+    public class ColorsManager: Singleton<ColorsManager>
     {
-        private Dictionary<String, Color> _dictionary = new Dictionary<String, Color>();
+        private Dictionary<string, Color> _dictionary = new Dictionary<string, Color>();
 
-        public Color? this[String id]
+        public Color? this[string id]
         {
             get
             {
@@ -36,7 +39,15 @@ namespace Sitana.Framework
             _dictionary.Clear();
         }
 
-        public Boolean Append(Stream stream)
+        public bool Append(string path)
+        {
+            using (Stream stream = ContentLoader.Current.Open(path))
+            {
+                return Append(stream);
+            }
+        }
+
+        public bool Append(Stream stream)
         {
             try
             {
@@ -44,10 +55,10 @@ namespace Sitana.Framework
                 StreamReader streamReader = new StreamReader(stream, Encoding.UTF8);
 
                 // Read whole file as text.
-                String text = streamReader.ReadToEnd();
+                string text = streamReader.ReadToEnd();
 
                 // Split into lines.
-                String[] lines = text.Split("\n".ToCharArray());
+                string[] lines = text.Split("\n".ToCharArray());
 
                 // Iterate through lines.
                 foreach (var line in lines)
@@ -58,10 +69,10 @@ namespace Sitana.Framework
                     }
 
                     // Split texts in line.
-                    String[] texts = line.Split("^ \t\r".ToCharArray());
+                    string[] texts = line.Split("^ \t\r".ToCharArray());
 
-                    String key = null;  // Key string.
-                    String value = null;  // Localized string.
+                    string key = null;  // Key string.
+                    string value = null;  // Localized string.
 
                     // Iterate thru all phrases and assign first the key and then value.
                     foreach (var phrase in texts)
@@ -87,7 +98,7 @@ namespace Sitana.Framework
                     // If line contains key and value, add them to dictionary.
                     if (key != null && value != null)
                     {
-                        value.Replace(" ", String.Empty);
+                        value.Replace(" ", string.Empty);
 
                         Color? color = null;
 
@@ -97,7 +108,7 @@ namespace Sitana.Framework
                         }
                         else
                         {
-                            color = ParseColor(value, true);
+                            color = ColorParser.Parse(value);
                         }
 
                         if (color.HasValue)
@@ -120,30 +131,6 @@ namespace Sitana.Framework
             }
 
             return true;
-        }
-
-        private Color? ParseColor(String value, Boolean premultiplied)
-        {
-            String[] rgb = value.Split(',');
-
-            if (rgb.Length == 3)
-            {
-                return new Color(Int32.Parse(rgb[0]), Int32.Parse(rgb[1]), Int32.Parse(rgb[2]));
-            }
-
-            if (rgb.Length == 4)
-            {
-                if (premultiplied)
-                {
-                    return new Color(Int32.Parse(rgb[1]), Int32.Parse(rgb[2]), Int32.Parse(rgb[3])) * ((Single)Int32.Parse(rgb[0]) / 255.0f);
-                }
-                else
-                {
-                    return new Color(Int32.Parse(rgb[1]), Int32.Parse(rgb[2]), Int32.Parse(rgb[3]), Int32.Parse(rgb[0]));
-                }
-            }
-
-            return null;
         }
     }
 }

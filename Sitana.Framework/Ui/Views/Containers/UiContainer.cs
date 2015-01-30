@@ -70,9 +70,10 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public void Remove(UiView view)
+        public virtual void Remove(UiView view)
         {
             _children.Remove(view);
+            
             view.ViewRemoved();
             OnChildrenModified();
         }
@@ -130,6 +131,11 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        public virtual void RecalcLayout(UiView view)
+        {
+            view.Bounds = CalculateChildBounds(view);
+        }
+
         public override Rectangle Bounds
         {
             get
@@ -175,12 +181,7 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
-            Color backgroundColor = BackgroundColor * opacity;
-
-            if (backgroundColor.A > 0)
-            {
-                parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
-            }
+            DrawBackground(ref parameters);
 
             UiViewDrawParameters drawParams = parameters;
             drawParams.Opacity = opacity;
@@ -259,13 +260,17 @@ namespace Sitana.Framework.Ui.Views
             return null;
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             var file = new DefinitionFileWithStyle(definition, typeof(UiContainer));
 
             _clipChildren = DefinitionResolver.Get<bool>(Controller, Binding, file["ClipChildren"], false);
+            return true;
         }
 
         protected void InitChildren(UiController controller, object binding, DefinitionFile definition)
@@ -296,7 +301,7 @@ namespace Sitana.Framework.Ui.Views
 
         internal override void ViewGesture(Gesture gesture)
         {
-            if (_enableGestureHandling)
+            if (_enableGestureHandling || gesture.GestureType == GestureType.CapturedByOther)
             {
                 for (int idx = _children.Count - 1; idx >= 0; --idx)
                 {
@@ -309,7 +314,7 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
-            if (!gesture.Handled && !gesture.SkipRest || gesture.GestureType == GestureType.CapturedByOther)
+            if ((!gesture.Handled && !gesture.SkipRest) || gesture.GestureType == GestureType.CapturedByOther)
             {
                 base.ViewGesture(gesture);
             }

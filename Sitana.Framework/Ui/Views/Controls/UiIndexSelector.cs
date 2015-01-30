@@ -32,8 +32,8 @@ namespace Sitana.Framework.Ui.Views
             file["ElementHeight"] = parser.ParseLength("ElementHeight");
             file["Mode"] = parser.ParseEnum<Mode>("Mode");
 
-            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
-            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
+            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
+            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
         }
 
         enum Mode
@@ -49,8 +49,8 @@ namespace Sitana.Framework.Ui.Views
 
         private bool _vertical = false;
 
-        private HorizontalAlignment _contentHorizontalAlignment;
-        private VerticalAlignment _contentVerticalAlignment;
+        private HorizontalContentAlignment _contentHorizontalAlignment;
+        private VerticalContentAlignment _contentVerticalAlignment;
 
         private string _context;
 
@@ -87,7 +87,7 @@ namespace Sitana.Framework.Ui.Views
                     drawInfo.ButtonState |= ButtonState.Pushed;
                 }
 
-                if ( idx == selected )
+                if (idx == selected)
                 {
                     drawInfo.ButtonState |= ButtonState.Checked;
                 }
@@ -123,73 +123,73 @@ namespace Sitana.Framework.Ui.Views
             int width = _elementWidth.Compute(sizeContext);
             int height = _elementHeight.Compute(sizeContext);
 
-            int posX=0;
+            int posX = 0;
             int posY = 0;
 
             if (_vertical)
             {
-                switch(_contentHorizontalAlignment)
+                switch (_contentHorizontalAlignment)
                 {
-                case HorizontalAlignment.Left:
-                case HorizontalAlignment.Stretch:
-                    posX = rect.Center.X;
-                    break;
+                    case HorizontalContentAlignment.Left:
+                    case HorizontalContentAlignment.Auto:
+                        posX = rect.Center.X;
+                        break;
 
-                case HorizontalAlignment.Center:
-                    posX = rect.Center.X - width / 2;
-                    break;
+                    case HorizontalContentAlignment.Center:
+                        posX = rect.Center.X - width / 2;
+                        break;
 
-                case HorizontalAlignment.Right:
-                    posX = rect.Right - width;
-                    break;
+                    case HorizontalContentAlignment.Right:
+                        posX = rect.Right - width;
+                        break;
                 }
 
-                switch(_contentVerticalAlignment)
+                switch (_contentVerticalAlignment)
                 {
-                case VerticalAlignment.Top:
-                case VerticalAlignment.Stretch:
-                    posY = rect.Y;
-                    break;
+                    case VerticalContentAlignment.Top:
+                    case VerticalContentAlignment.Auto:
+                        posY = rect.Y;
+                        break;
 
-                case VerticalAlignment.Center:
-                    posY = rect.Center.Y - (height * count + spacing * (count - 1)) / 2;
-                    break;
+                    case VerticalContentAlignment.Center:
+                        posY = rect.Center.Y - (height * count + spacing * (count - 1)) / 2;
+                        break;
 
-                case VerticalAlignment.Bottom:
-                    posY = rect.Bottom - (height * count + spacing * (count - 1));
-                    break;
+                    case VerticalContentAlignment.Bottom:
+                        posY = rect.Bottom - (height * count + spacing * (count - 1));
+                        break;
                 }
             }
             else
             {
-                switch(_contentHorizontalAlignment)
+                switch (_contentHorizontalAlignment)
                 {
-                case HorizontalAlignment.Left:
-                case HorizontalAlignment.Stretch:
-                    posX = rect.X;
-                    break;
-                case HorizontalAlignment.Center:
-                    posX = rect.Center.X - (width * count + spacing * (count - 1)) / 2;
-                    break;
-                case HorizontalAlignment.Right:
-                    posX = rect.Right - (width * count + spacing * (count - 1));
-                    break;
+                    case HorizontalContentAlignment.Left:
+                    case HorizontalContentAlignment.Auto:
+                        posX = rect.X;
+                        break;
+                    case HorizontalContentAlignment.Center:
+                        posX = rect.Center.X - (width * count + spacing * (count - 1)) / 2;
+                        break;
+                    case HorizontalContentAlignment.Right:
+                        posX = rect.Right - (width * count + spacing * (count - 1));
+                        break;
                 }
 
-                switch(_contentVerticalAlignment)
+                switch (_contentVerticalAlignment)
                 {
-                case VerticalAlignment.Top:
-                case VerticalAlignment.Stretch:
-                    posY = rect.Y;
-                    break;
+                    case VerticalContentAlignment.Top:
+                    case VerticalContentAlignment.Auto:
+                        posY = rect.Y;
+                        break;
 
-                case VerticalAlignment.Center:
-                    posY = rect.Center.Y - height / 2;
-                    break;
+                    case VerticalContentAlignment.Center:
+                        posY = rect.Center.Y - height / 2;
+                        break;
 
-                case VerticalAlignment.Bottom:
-                    posY = rect.Bottom - height;
-                    break;
+                    case VerticalContentAlignment.Bottom:
+                        posY = rect.Bottom - height;
+                        break;
                 }
             }
 
@@ -198,9 +198,12 @@ namespace Sitana.Framework.Ui.Views
             return rect;
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiLabel));
 
@@ -214,8 +217,10 @@ namespace Sitana.Framework.Ui.Views
             _elementWidth = DefinitionResolver.Get<Length>(Controller, Binding, file["ElementWidth"], Length.Stretch);
             _elementHeight = DefinitionResolver.Get<Length>(Controller, Binding, file["ElementHeight"], Length.Stretch);
 
-            _contentHorizontalAlignment = DefinitionResolver.Get<HorizontalAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalAlignment.Center);
-            _contentVerticalAlignment = DefinitionResolver.Get<VerticalAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalAlignment.Center);
+            _contentHorizontalAlignment = DefinitionResolver.Get<HorizontalContentAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Center);
+            _contentVerticalAlignment = DefinitionResolver.Get<VerticalContentAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalContentAlignment.Center);
+
+            return true;
         }
 
         protected override void Update(float time)
@@ -236,7 +241,7 @@ namespace Sitana.Framework.Ui.Views
 
             if (IsPushed && _touchId == gesture.TouchId)
             {
-                int spacing = _spacing.Compute(_vertical?Bounds.Width : Bounds.Height);
+                int spacing = _spacing.Compute(_vertical ? Bounds.Width : Bounds.Height);
                 int count = _element.Count;
 
                 Rectangle rect = GetFirstRect();

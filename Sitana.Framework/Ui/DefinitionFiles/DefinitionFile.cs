@@ -100,6 +100,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 			{
 	            Type type = GetType(node);
 
+				if(type == null)
+				{
+					Console.WriteLine("Unknown type: {0}", node.Tag);
+				}
+
 				Console.WriteLine("Loading file: {0} ({1}).", node.Owner.Name, node.LineNumber);
 
 	            MethodInfo method = type.GetMethod("Parse", ParseMethodTypes);
@@ -149,8 +154,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
         public IDefinitionClass CreateInstance(UiController controller, object context)
         {
             IDefinitionClass obj = (IDefinitionClass)Activator.CreateInstance(Class);
-            obj.Init(controller, context, this);
-            return obj;
+            if (obj.Init(controller, context, this))
+            {
+                return obj;
+            }
+            return null;
         }
 
         public bool HasKey(string name)

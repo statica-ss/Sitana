@@ -51,7 +51,7 @@ namespace Sitana.Framework.Ui.Views
             file["Visible"] = parser.ParseBoolean("Visible");
             file["BackgroundColor"] = parser.ParseColor("BackgroundColor");
 
-            file["Opacity"] = parser.ParseInt("Opacity");
+            file["Opacity"] = parser.ParseDouble("Opacity");
 
             file["ViewRemoved"] = parser.ParseDelegate("ViewRemoved");
             file["ViewAdded"] = parser.ParseDelegate("ViewAdded");
@@ -75,6 +75,24 @@ namespace Sitana.Framework.Ui.Views
 
             foreach (var cn in node.Nodes)
             {
+                if (cn.Tag == "UiView.BackgroundDrawable")
+                {
+                    if (cn.Nodes.Count != 1)
+                    {
+                        string error = node.NodeError("UiView.BackgroundDrawable must have exactly 1 child.");
+                        if (DefinitionParser.EnableCheckMode)
+                        {
+                            ConsoleEx.WriteLine(error);
+                        }
+                        else
+                        {
+                            throw new Exception(error);
+                        }
+                    }
+
+                    file["BackgroundDrawable"] = DefinitionFile.LoadFile(cn.Nodes[0]);
+                }
+
                 if (cn.Tag == "UiView.ShowTransitionEffect")
                 {
                     if (cn.Nodes.Count != 1)
@@ -224,13 +242,15 @@ namespace Sitana.Framework.Ui.Views
 
         Dictionary<string, object> _delegates = new Dictionary<string, object>();
 
-        public float Opacity { get; set; }
+        public SharedValue<double> Opacity { get; set; }
         
         UiContainer _parent = null;
 
         public Margin Margin { get { return PositionParameters.Margin; } set { PositionParameters.Margin = value; } }
 
         private UiController _controller = null;
+
+        public IBackgroundDrawable BackgroundDrawable { get; set; }
 
         protected Length _minWidth;
         protected Length _minHeight;
@@ -395,7 +415,7 @@ namespace Sitana.Framework.Ui.Views
                 }
 
                 drawParameters.DrawBatch.PushTransform(targetTransform);
-                drawParameters.Opacity *= Opacity * targetOpacity;
+                drawParameters.Opacity *= (float)Opacity.Value * targetOpacity;
 
                 Draw(ref drawParameters);
 
@@ -404,7 +424,7 @@ namespace Sitana.Framework.Ui.Views
             else
             {
                 UiViewDrawParameters drawParameters = parameters;
-                drawParameters.Opacity *= DisplayVisibility * Opacity;
+                drawParameters.Opacity *= DisplayVisibility * (float)Opacity.Value;
                 Draw(ref drawParameters);
             }
         }
@@ -487,7 +507,7 @@ namespace Sitana.Framework.Ui.Views
             OnRemoved();
         }
 
-        protected virtual void Draw(ref UiViewDrawParameters parameters)
+        protected void DrawBackground(ref UiViewDrawParameters parameters)
         {
             float opacity = parameters.Opacity;
 
@@ -500,8 +520,20 @@ namespace Sitana.Framework.Ui.Views
 
             if (backgroundColor.A > 0)
             {
-                parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
+                if (BackgroundDrawable != null)
+                {
+                    BackgroundDrawable.Draw(parameters.DrawBatch, ScreenBounds, backgroundColor);
+                }
+                else
+                {
+                    parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
+                }
             }
+        }
+
+        protected virtual void Draw(ref UiViewDrawParameters parameters)
+        {
+            DrawBackground(ref parameters);
         }
 
         protected virtual void Update(float time)
@@ -536,7 +568,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected virtual void Init(object controller, object binding, DefinitionFile definition)
+        protected virtual bool Init(object controller, object binding, DefinitionFile definition)
         {
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiView));
 
@@ -569,8 +601,6 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
-            
-
             Id = (string)file["Id"];
 
             if (Id == "ttt")
@@ -582,12 +612,11 @@ namespace Sitana.Framework.Ui.Views
 
             Tag = DefinitionResolver.GetSharedString(Controller, Binding, file["Tag"]);
 
-            int opacity = DefinitionResolver.Get<int>(Controller, binding, file["Opacity"], 100);
-            Opacity = (float)opacity / 100.0f;
+            Opacity = DefinitionResolver.GetShared<double>(Controller, binding, file["Opacity"], 1);
 
             DisplayVisibility = Visible.Value ? 1 : 0;
 
-            BackgroundColor = DefinitionResolver.GetColor(Controller, binding, file["BackgroundColor"]) ?? Color.Transparent;
+            
 
             RegisterDelegate("ViewRemoved", file["ViewRemoved"]);
             RegisterDelegate("ViewAdded", file["ViewAdded"]);
@@ -626,6 +655,22 @@ namespace Sitana.Framework.Ui.Views
 
             CreatePositionParameters(Controller, binding, definition);
 
+            DefinitionFile backgroundDrawable = file["BackgroundDrawable"] as DefinitionFile;
+
+            Color defaultBackgroundColor = Color.Transparent;
+
+            if (backgroundDrawable != null)
+            {
+                BackgroundDrawable = backgroundDrawable.CreateInstance(Controller, binding) as IBackgroundDrawable;
+
+                if (BackgroundDrawable != null)
+                {
+                    defaultBackgroundColor = Color.White;
+                }
+            }
+
+            BackgroundColor = DefinitionResolver.GetColor(Controller, binding, file["BackgroundColor"]) ?? defaultBackgroundColor;
+
             DefinitionFile showTransitionEffectFile = file["ShowTransitionEffect"] as DefinitionFile;
             DefinitionFile hideTransitionEffectFile = file["HideTransitionEffect"] as DefinitionFile;
             DefinitionFile parentShowTransitionEffectFile = file["ParentShowTransitionEffect"] as DefinitionFile;
@@ -650,6 +695,8 @@ namespace Sitana.Framework.Ui.Views
             {
                 _parentHideTransitionEffect = parentHideTransitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
             }
+
+            return true;
         }
 
         void CreatePositionParameters(UiController controller, object binding, DefinitionFile file)
@@ -658,9 +705,9 @@ namespace Sitana.Framework.Ui.Views
             PositionParameters.Init(controller, binding, file);
         }
 
-        void IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
+        bool IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
         {
-            Init(controller, binding, file);
+            return Init(controller, binding, file);
         }
 
         protected void RegisterDelegate(string id, object definition)

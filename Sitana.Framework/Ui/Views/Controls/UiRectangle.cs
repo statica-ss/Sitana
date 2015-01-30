@@ -33,9 +33,12 @@ namespace Sitana.Framework.Ui.Views
 
         protected ColorWrapper _color = null;
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiRectangle));
 
@@ -43,6 +46,8 @@ namespace Sitana.Framework.Ui.Views
             _scaleByUnit = DefinitionResolver.Get<bool>(Controller, Binding, file["ScaleByUnit"], false);
             _scale = (float)DefinitionResolver.Get<double>(Controller, Binding, file["Scale"], 1);
             _color = DefinitionResolver.GetColorWrapper(Controller, Binding, file["Color"]);
+
+            return true;
         }
 
         protected override void Draw(ref UiViewDrawParameters parameters)

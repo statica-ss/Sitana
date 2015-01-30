@@ -67,14 +67,19 @@ namespace Sitana.Framework.Ui.Views
             _spriteInstance.Animate(time);
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiLabel));
 
             _spriteInstance = DefinitionResolver.Get<Sprite>(Controller, Binding, file["Sprite"], null).CreateInstance();
             _spriteInstance.Sequence = DefinitionResolver.GetString(Controller, Binding, file["Sequence"]);
+
+            return true;
         }
     }
 }

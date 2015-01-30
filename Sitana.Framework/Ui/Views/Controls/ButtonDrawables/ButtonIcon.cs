@@ -22,16 +22,16 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             var parser = new DefinitionParser(node);
 
-            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
-            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
+            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
+            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
             file["Scale"] = parser.ParseDouble("Scale");
             file["Stretch"] = parser.ParseEnum<Stretch>("Stretch");
         }
 
         protected string _font;
         protected int _fontSize;
-        protected HorizontalAlignment _horzAlign;
-        protected VerticalAlignment _vertAlign;
+        protected HorizontalContentAlignment _horzAlign;
+        protected VerticalContentAlignment _vertAlign;
         protected float _scale;
         protected Stretch _stretch;
 
@@ -41,8 +41,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(Icon));
 
-            _horzAlign = DefinitionResolver.Get<HorizontalAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalAlignment.Center);
-            _vertAlign = DefinitionResolver.Get<VerticalAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalAlignment.Center);
+            _horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Center);
+            _vertAlign = DefinitionResolver.Get<VerticalContentAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalContentAlignment.Center);
             _stretch = DefinitionResolver.Get<Stretch>(controller, binding, file["Stretch"], Stretch.None);
             _scale = (float)DefinitionResolver.Get<double>(controller, binding, file["Scale"], 1);
         }
@@ -63,6 +63,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             Rectangle target = info.Target;
             Texture2D image = info.Icon;
+            
+            Rectangle bounds = _margin.ComputeRect(target);
 
             switch (_stretch)
             {
@@ -85,42 +87,44 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             Rectangle source = new Rectangle(0, 0, info.Icon.Width, info.Icon.Height);
             Vector2 size = new Vector2(source.Width * scaleX, source.Height * scaleY);
 
+            
+
             target.Width = (int)size.X;
             target.Height = (int)size.Y;
 
             switch (_horzAlign)
             {
-                case HorizontalAlignment.Center:
-                case HorizontalAlignment.Stretch:
-                    target.X = info.Target.Center.X - target.Width / 2;
+                case HorizontalContentAlignment.Center:
+                case HorizontalContentAlignment.Auto:
+                    target.X = bounds.Center.X - target.Width / 2;
                     break;
 
-                case HorizontalAlignment.Left:
-                    target.X = info.Target.X;
+                case HorizontalContentAlignment.Left:
+                    target.X = bounds.X;
                     break;
 
-                case HorizontalAlignment.Right:
-                    target.X = info.Target.Right - target.Width;
+                case HorizontalContentAlignment.Right:
+                    target.X = bounds.Right - target.Width;
                     break;
             }
 
             switch (_vertAlign)
             {
-                case VerticalAlignment.Center:
-                case VerticalAlignment.Stretch:
-                    target.Y = info.Target.Center.Y - target.Height / 2;
+                case VerticalContentAlignment.Center:
+                case VerticalContentAlignment.Auto:
+                    target.Y = bounds.Center.Y - target.Height / 2;
                     break;
 
-                case VerticalAlignment.Top:
-                    target.Y = info.Target.Y;
+                case VerticalContentAlignment.Top:
+                    target.Y = bounds.Y;
                     break;
 
-                case VerticalAlignment.Bottom:
-                    target.Y = info.Target.Bottom - target.Height;
+                case VerticalContentAlignment.Bottom:
+                    target.Y = bounds.Bottom - target.Height;
                     break;
             }
 
-            target = _margin.ComputeRect(target);
+            
 
             drawBatch.DrawImage(info.Icon, target, source, color);
         }

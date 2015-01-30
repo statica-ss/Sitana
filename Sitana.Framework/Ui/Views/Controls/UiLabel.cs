@@ -32,8 +32,8 @@ namespace Sitana.Framework.Ui.Views
             file["LineHeight"] = parser.ParseInt("LineHeight");
 
             file["TextColor"] = parser.ParseColor("TextColor");
-            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalAlignment>("HorizontalContentAlignment");
-            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalAlignment>("VerticalContentAlignment");
+            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
+            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
         }
 
         public SharedString Text { get; private set; }
@@ -133,9 +133,12 @@ namespace Sitana.Framework.Ui.Views
             return (size / (float)UiUnit.Unit).ToPoint();
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiLabel));
 
@@ -145,12 +148,30 @@ namespace Sitana.Framework.Ui.Views
             LineHeight = DefinitionResolver.Get<int>(Controller, Binding, file["LineHeight"], 100);
 
             Text = DefinitionResolver.GetSharedString(Controller, Binding, file["Text"]);
+
+            if (Text == null)
+            {
+                return false;
+            }
+
             TextColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
 
-            HorizontalAlignment horzAlign = DefinitionResolver.Get<HorizontalAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalAlignment.Center);
-            VerticalAlignment vertAlign = DefinitionResolver.Get<VerticalAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalAlignment.Center);
+            HorizontalContentAlignment horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Center);
+            VerticalContentAlignment vertAlign = DefinitionResolver.Get<VerticalContentAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalContentAlignment.Center);
 
-            TextAlign = UiHelper.TextAlignFromAlignment(horzAlign, vertAlign);
+            if (horzAlign == HorizontalContentAlignment.Auto)
+            {
+                horzAlign = UiHelper.ContentAlignFromAlignment(PositionParameters.HorizontalAlignment);
+            }
+
+            if (vertAlign == VerticalContentAlignment.Auto)
+            {
+                vertAlign = UiHelper.ContentAlignFromAlignment(PositionParameters.VerticalAlignment);
+            }
+
+            TextAlign = UiHelper.TextAlignFromContentAlignment(horzAlign, vertAlign);
+
+            return true;
         }
     }
 }

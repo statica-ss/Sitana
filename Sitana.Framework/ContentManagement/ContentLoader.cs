@@ -77,8 +77,6 @@ namespace Sitana.Framework.Content
         /// </summary>
         private ContentManager _contentManager = null;
 
-        public Texture2D OnePixelWhiteTexture { get; internal set; }
-
         public Int32 TextureRescaleFactor { get; private set; }
 
         private List<Tuple<string, string>> _specialFolders = new List<Tuple<string, string>>();

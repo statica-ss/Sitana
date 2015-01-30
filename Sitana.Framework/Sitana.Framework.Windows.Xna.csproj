@@ -63,6 +63,7 @@
     <Compile Include="Graphics\Sprites\SpriteInstance.cs" />
     <Compile Include="Graphics\Sprites\SpriteSequence.cs" />
     <Compile Include="Graphics\Textures\PartialTexture2D.cs" />
+    <Compile Include="Helpers\ColorParser.cs" />
     <Compile Include="Input\TextInput\IFocusable.cs" />
     <Compile Include="Input\TextInput\ITextConsumer.cs" />
     <Compile Include="Input\TextInput\TextInput.Dektop.cs" />
@@ -72,6 +73,8 @@
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
     <Compile Include="Ui\Binding\ItemsList.cs" />
+    <Compile Include="Ui\Definitions\VerticalContentAlignment.cs" />
+    <Compile Include="Ui\Definitions\HorizontalContentAlignment.cs" />
     <Compile Include="Ui\Definitions\HorizontalAlignment.cs" />
     <Compile Include="Ui\Definitions\Stretch.cs" />
     <Compile Include="Graphics\Fonts\Font.cs" />
@@ -119,7 +122,6 @@
     <Compile Include="Ui\TransitionEffects\Vanish.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonTransformGroup.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\DrawButtonInfo.cs" />
-    <Compile Include="Ui\Views\Controls\ButtonDrawables\EditState.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewEntity.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewLine.cs" />
     <Compile Include="Ui\Views\Controls\UiCheckBox.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="Ui\Views\Controls\UiText.cs" />
     <Compile Include="Ui\Views\Controls\UiVerticalGradient.cs" />
     <Compile Include="Ui\Views\Enums\TransitionMode.cs" />
+    <Compile Include="Ui\Views\IBackgroundDrawable.cs" />
     <Compile Include="Ui\Views\Scroller.cs" />
     <Compile Include="Ui\Views\ScrollingService.cs" />
     <Compile Include="Xml\XFile.cs" />

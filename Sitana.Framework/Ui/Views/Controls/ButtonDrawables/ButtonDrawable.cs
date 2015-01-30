@@ -62,9 +62,10 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             }
         }
 
-        void IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
+        bool IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
         {
             Init(controller, binding, file);
+            return true;
         }
 
         protected void Update(float time, ButtonState state)

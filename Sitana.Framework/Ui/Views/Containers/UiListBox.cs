@@ -97,6 +97,14 @@ namespace Sitana.Framework.Ui.Views
         bool _reverse = false;
 		float _wheelSpeed = 0;
 
+        public ScrollingService ScrollingService
+        {
+            get
+            {
+                return _scrollingService;
+            }
+        }
+
         protected override void OnAdded()
         {
 			Scroller.Mode mode = (_vertical ? Scroller.Mode.VerticalDrag | Scroller.Mode.VerticalWheel : Scroller.Mode.HorizontalDrag | Scroller.Mode.HorizontalWheel);
@@ -125,9 +133,12 @@ namespace Sitana.Framework.Ui.Views
             return view.Bounds;
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiListBox));
 
@@ -143,11 +154,23 @@ namespace Sitana.Framework.Ui.Views
             _reverse = DefinitionResolver.Get<bool>(Controller, Binding, file["Reverse"], false);
 
 			_wheelSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["WheelScrollSpeed"], 0);
+
+            return true;
         }
 
         protected override void Update(float time)
         {
-            base.Update(time);
+            Rectangle listBounds = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
+
+            for (int idx = 0; idx < _children.Count; ++idx)
+            {
+                var child = _children[idx];
+
+                if (listBounds.Intersects(child.Bounds))
+                {
+                    child.ViewUpdate(time);
+                }
+            }
 
             bool recalculate = false;
 
@@ -263,7 +286,7 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
-            base.Draw(ref parameters);
+            DrawBackground(ref parameters);
 
             UiViewDrawParameters drawParams = parameters;
             drawParams.Opacity = opacity;
@@ -288,6 +311,16 @@ namespace Sitana.Framework.Ui.Views
             if (_clipChildren)
             {
                 parameters.DrawBatch.PopClip();
+            }
+        }
+
+        public override void RecalcLayout()
+        {
+            base.RecalcLayout();
+
+            lock (_recalcLock)
+            {
+                _recalculate = true;
             }
         }
 

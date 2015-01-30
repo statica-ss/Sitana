@@ -28,6 +28,7 @@ namespace Sitana.Framework.Ui.Views
             file["Text"] = parser.ParseString("Text");
             file["Icon"] = parser.ParseResource<Texture2D>("Icon");
             file["Click"] = parser.ParseDelegate("Click");
+            file["Hold"] = parser.ParseDelegate("Hold");
             file["Enabled"] = parser.ParseBoolean("Enabled");
 
             file["PushSound"] = parser.ParseResource<SoundEffect>("PushSound");
@@ -78,6 +79,10 @@ namespace Sitana.Framework.Ui.Views
         private SoundEffect _releaseSound;
         protected SoundEffect _actionSound;
 
+        private float _holdTime = 0;
+
+        private bool _processHold = false;
+
         public SharedString Text
         {
             get
@@ -114,6 +119,19 @@ namespace Sitana.Framework.Ui.Views
         protected override void Update(float time)
         {
             base.Update(time);
+
+            if (_holdTime > 0)
+            {
+                _holdTime -= time;
+
+                if (_holdTime <= 0)
+                {
+                    CallDelegate("Hold");
+                    _touchId = 0;
+                    _holdTime = 0;
+                    SetPushed(false, false);
+                }
+            }
 
             if( _waitForAction > 0 )
             {
@@ -163,6 +181,11 @@ namespace Sitana.Framework.Ui.Views
                         if (_touchId == 0)
                         {
                             _touchId = gesture.TouchId;
+
+                            if (_processHold)
+                            {
+                                _holdTime = (float)TouchPad.Instance.HoldTimeInMs / 1000.0f;
+                            }
 
                             SetPushed(true, _mode != UiButtonMode.Press);
                             _checkRect = ScreenBounds;
@@ -261,11 +284,19 @@ namespace Sitana.Framework.Ui.Views
                 IsPushed = pushed;
                 OnPushedChanged();
             }
+
+            if (!pushed)
+            {
+                _holdTime = 0;
+            }
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiButton));
 
@@ -276,6 +307,12 @@ namespace Sitana.Framework.Ui.Views
             if (_text == null)
             {
                 _text = new SharedString();
+            }
+
+            if (file["Hold"] != null)
+            {
+                RegisterDelegate("Hold", file["Hold"]);
+                _processHold = true;
             }
 
             RegisterDelegate("Click", file["Click"]);
@@ -300,6 +337,8 @@ namespace Sitana.Framework.Ui.Views
             _pushSound = DefinitionResolver.Get<SoundEffect>(Controller, Binding, file["PushSound"], null);
             _releaseSound = DefinitionResolver.Get<SoundEffect>(Controller, Binding, file["ReleaseSound"], null);
             _actionSound = DefinitionResolver.Get<SoundEffect>(Controller, Binding, file["ActionSound"], null);
+
+            return true;
         }
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)

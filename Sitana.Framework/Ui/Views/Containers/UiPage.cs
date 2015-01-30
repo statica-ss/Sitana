@@ -86,14 +86,20 @@ namespace Sitana.Framework.Ui.Views
             Visible.Value = false;
         }
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
+
             InitChildren(Controller, Binding, definition);
             Visible.Value = true;
             DisplayVisibility = 0;
 
 			RegisterDelegate("PageShown", definition["PageShown"]);
+
+            return true;
         }
 
         protected override void Draw(ref UiViewDrawParameters parameters)
@@ -105,12 +111,7 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
-            Color backgroundColor = BackgroundColor * opacity;
-
-            if (backgroundColor.A > 0)
-            {
-                parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
-            }
+            DrawBackground(ref parameters);
 
             UiViewDrawParameters drawParams = parameters;
             drawParams.Opacity = opacity;

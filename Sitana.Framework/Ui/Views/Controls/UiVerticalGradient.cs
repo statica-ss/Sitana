@@ -28,14 +28,19 @@ namespace Sitana.Framework.Ui.Views
         protected ColorWrapper _topColor = null;
         protected ColorWrapper _bottomColor = null;
 
-        protected override void Init(object controller, object binding, DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
-            base.Init(controller, binding, definition);
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiVerticalGradient));
 
             _topColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TopColor"]);
             _bottomColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["BottomColor"]);
+
+            return true;
         }
 
         protected override void Draw(ref UiViewDrawParameters parameters)

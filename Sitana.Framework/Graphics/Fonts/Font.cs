@@ -53,11 +53,22 @@ namespace Sitana.Framework.Graphics
         public Texture2D FontSheet { get; internal set; }
 
         private Dictionary<char, Glyph> _glyphs = new Dictionary<char, Glyph>();
+        private Glyph[] _glyphsIndexed = new Glyph[96];
+
         private Color[] _colors = new Color[1];
 
         public void AddGlyph(Glyph glyph)
         {
-            _glyphs.Add(glyph.Character, glyph);
+            int index = (int)glyph.Character - 32;
+
+            if (index < 96 && index >= 0)
+            {
+                _glyphsIndexed[index] = glyph;
+            }
+            else
+            {
+                _glyphs.Add(glyph.Character, glyph);
+            }
         }
 
         public void Save(BinaryWriter writer)
@@ -69,7 +80,24 @@ namespace Sitana.Framework.Graphics
             writer.Write(CapLine);
             writer.Write(BaseLine);
 
-            writer.Write(_glyphs.Count);
+            int glyphsIndexedCount = 0;
+            foreach (var glyph in _glyphsIndexed)
+            {
+                if (glyph != null)
+                {
+                    glyphsIndexedCount++;
+                }
+            }
+
+            writer.Write(_glyphs.Count + glyphsIndexedCount);
+
+            foreach (var glyph in _glyphsIndexed)
+            {
+                if (glyph != null)
+                {
+                    glyph.Save(writer);
+                }
+            }
 
             foreach(var glyphPair in _glyphs)
             {
@@ -94,7 +122,7 @@ namespace Sitana.Framework.Graphics
                 Glyph glyph = new Glyph();
                 glyph.Load(reader);
 
-                _glyphs.Add(glyph.Character, glyph);
+                AddGlyph(glyph);
 
                 count--;
             }
@@ -227,22 +255,33 @@ namespace Sitana.Framework.Graphics
 
         void DrawGlyph(PrimitiveBatch primitiveBatch, Glyph glyph, ref Vector2 position, ref Color color, Vector2 scale)
         {
-            Vector2 topLeft = new Vector2(glyph.X, glyph.Y) / new Vector2(FontSheet.Width, FontSheet.Height);
-            Vector2 bottomRight = new Vector2(glyph.X + glyph.Width, glyph.Y + glyph.Height) / new Vector2(FontSheet.Width, FontSheet.Height);
+            float topLeftX = glyph.X / (float)FontSheet.Width;
+            float topLeftY = glyph.Y / (float)FontSheet.Height;
 
-            Vector2 positionBR = new Vector2(position.X + glyph.Width * scale.X, position.Y + glyph.Height * scale.X);
+            float bottomRightX = (float)(glyph.X + glyph.Width) / (float)FontSheet.Width;
+            float bottomRightY = (float)(glyph.Y + glyph.Height) / (float)FontSheet.Height;
 
-            primitiveBatch.AddVertex(new Vector2(position.X, position.Y), color, new Vector2(topLeft.X, topLeft.Y));
-            primitiveBatch.AddVertex(new Vector2(position.X, positionBR.Y), color, new Vector2(topLeft.X, bottomRight.Y));
-            primitiveBatch.AddVertex(new Vector2(positionBR.X, position.Y), color, new Vector2(bottomRight.X, topLeft.Y));
+            float positionBrX = position.X + glyph.Width * scale.X;
+            float positionBrY = position.Y + glyph.Height * scale.X;
 
-            primitiveBatch.AddVertex(new Vector2(position.X, positionBR.Y), color, new Vector2(topLeft.X, bottomRight.Y));
-            primitiveBatch.AddVertex(new Vector2(positionBR.X, position.Y), color, new Vector2(bottomRight.X, topLeft.Y));
-            primitiveBatch.AddVertex(new Vector2(positionBR.X, positionBR.Y), color, new Vector2(bottomRight.X, bottomRight.Y));
+            primitiveBatch.AddVertex(position.X, position.Y, ref color, topLeftX, topLeftY);
+            primitiveBatch.AddVertex(position.X, positionBrY, ref color, topLeftX, bottomRightY);
+            primitiveBatch.AddVertex(positionBrX, position.Y, ref color, bottomRightX, topLeftY);
+
+            primitiveBatch.AddVertex(position.X, positionBrY, ref color, topLeftX, bottomRightY);
+            primitiveBatch.AddVertex(positionBrX, position.Y, ref color, bottomRightX, topLeftY);
+            primitiveBatch.AddVertex(positionBrX, positionBrY, ref color, bottomRightX, bottomRightY);
         }
 
         public Glyph Find(char character)
         {
+            int index = (int)character - 32;
+
+            if (index < 96 && index >=0)
+            {
+                return _glyphsIndexed[index];
+            }
+
             if (character == 0xa0)
             {
                 character = ' ';

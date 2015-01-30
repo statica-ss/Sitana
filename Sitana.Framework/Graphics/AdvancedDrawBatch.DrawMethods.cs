@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using Sitana.Framework.Content;
 using Sitana.Framework.Cs;
+using Sitana.Framework;
 
 namespace Sitana.Framework.Graphics
 {
@@ -146,8 +147,19 @@ namespace Sitana.Framework.Graphics
 
             Font = font;
 
-            Vector2 size = _font.MeasureString(text, spacing, lineHeight) * scale;
-            Vector2 position = TextPosition(ref target, align, size);
+            Vector2 position;
+            Vector2 size;
+
+            if(align != TextAlign.None )
+            {
+                size = _font.MeasureString(text, spacing, lineHeight) * scale;
+                position = TextPosition(ref target, align, size);
+            }
+            else
+            {
+                size = Vector2.Zero;
+                position = target.Location.ToVector2();
+            }
 
             if (_font.SitanaFont != null)
             {
@@ -158,7 +170,13 @@ namespace Sitana.Framework.Graphics
             }
             else
             {
-                Vector2 origin = TextOrigin(align, size);
+                Vector2 origin = Vector2.Zero;
+
+                if (align != TextAlign.None)
+                {
+                    origin = TextOrigin(align, size);
+                }
+
                 position.X += origin.X * scale;
 
                 SpriteBatchIsNeeded();
@@ -287,6 +305,20 @@ namespace Sitana.Framework.Graphics
             {
                 SpriteBatchIsNeeded();
                 _spriteBatch.Draw(texture, position, source, color, rotation, origin, scale, SpriteEffects.None, 0);
+            }
+        }
+
+        public void DrawTextureLine(Point point1, Point point2, Color color, float width)
+        {
+            float angle = (float)Math.Atan2(point2.Y - point1.Y, point2.X - point1.X);
+
+            Vector2 vec = new Vector2(point2.X - point1.X, point2.Y - point1.Y);
+            float length = vec.Length();
+
+            if (OnePixelWhiteTexture != null)
+            {
+                SpriteBatchIsNeeded();
+                _spriteBatch.Draw(OnePixelWhiteTexture, point1.ToVector2(), null, color, angle, Vector2.Zero, new Vector2(length, width), SpriteEffects.None, 0);
             }
         }
     }
