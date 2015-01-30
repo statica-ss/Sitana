@@ -63,6 +63,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             Rectangle target = info.Target;
             Texture2D image = info.Icon;
+            
+            Rectangle bounds = _margin.ComputeRect(target);
 
             switch (_stretch)
             {
@@ -85,6 +87,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             Rectangle source = new Rectangle(0, 0, info.Icon.Width, info.Icon.Height);
             Vector2 size = new Vector2(source.Width * scaleX, source.Height * scaleY);
 
+            
+
             target.Width = (int)size.X;
             target.Height = (int)size.Y;
 
@@ -92,15 +96,15 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             {
                 case HorizontalAlignment.Center:
                 case HorizontalAlignment.Stretch:
-                    target.X = info.Target.Center.X - target.Width / 2;
+                    target.X = bounds.Center.X - target.Width / 2;
                     break;
 
                 case HorizontalAlignment.Left:
-                    target.X = info.Target.X;
+                    target.X = bounds.X;
                     break;
 
                 case HorizontalAlignment.Right:
-                    target.X = info.Target.Right - target.Width;
+                    target.X = bounds.Right - target.Width;
                     break;
             }
 
@@ -108,19 +112,19 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             {
                 case VerticalAlignment.Center:
                 case VerticalAlignment.Stretch:
-                    target.Y = info.Target.Center.Y - target.Height / 2;
+                    target.Y = bounds.Center.Y - target.Height / 2;
                     break;
 
                 case VerticalAlignment.Top:
-                    target.Y = info.Target.Y;
+                    target.Y = bounds.Y;
                     break;
 
                 case VerticalAlignment.Bottom:
-                    target.Y = info.Target.Bottom - target.Height;
+                    target.Y = bounds.Bottom - target.Height;
                     break;
             }
 
-            target = _margin.ComputeRect(target);
+            
 
             drawBatch.DrawImage(info.Icon, target, source, color);
         }

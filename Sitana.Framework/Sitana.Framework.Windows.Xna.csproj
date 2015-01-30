@@ -119,7 +119,6 @@
     <Compile Include="Ui\TransitionEffects\Vanish.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonTransformGroup.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\DrawButtonInfo.cs" />
-    <Compile Include="Ui\Views\Controls\ButtonDrawables\EditState.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewEntity.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewLine.cs" />
     <Compile Include="Ui\Views\Controls\UiCheckBox.cs" />
