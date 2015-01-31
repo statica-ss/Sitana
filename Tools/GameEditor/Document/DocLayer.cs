@@ -12,8 +12,6 @@ namespace GameEditor
 
 		public readonly SharedValue<bool> Selected = new SharedValue<bool>();
 
-		public readonly SharedValue<bool> NotSelected = new SharedValue<bool>();
-
         protected Layer _layer = null;
 
         public Layer Layer {get{return _layer;}}
@@ -21,11 +19,6 @@ namespace GameEditor
         public DocLayer(string type)
         {
             Type = type;
-
-            Selected.ValueChanged += (bool newValue) => 
-            {
-                NotSelected.Value = !newValue;
-            };
         }
     }
 }

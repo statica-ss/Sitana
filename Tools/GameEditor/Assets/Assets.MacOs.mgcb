@@ -1,7 +1,7 @@
 
 #----------------------------- Global Properties ----------------------------#
 
-/outputDir:MacOs
+/outputDir:Built/MacOs
 /intermediateDir:obj
 /platform:MacOSX
 /config:
@@ -12,22 +12,4 @@
 
 
 #---------------------------------- Content ---------------------------------#
-
-#begin Font8.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:Font8.spritefont
-
-#begin Font10.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:Font10.spritefont
-
-#begin Font12.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:Font12.spritefont
 

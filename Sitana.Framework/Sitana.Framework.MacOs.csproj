@@ -25,6 +25,7 @@
     <EnablePackageSigning>false</EnablePackageSigning>
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -38,6 +39,7 @@
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
     <DefineConstants>__MACOS__</DefineConstants>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -49,6 +51,9 @@
     <Reference Include="MonoGame.Framework">
       <HintPath>..\ThirdParty\Dependences\MonoGame\MacOs\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="CommonMark">
+      <HintPath>..\ThirdParty\Dependences\CommonMark\CommonMark.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ContentManagement\" />
@@ -57,6 +62,7 @@
     <Folder Include="Ui\Interfaces\" />
     <Folder Include="Input\TextInput\" />
     <Folder Include="Input\GamePad\" />
+    <Folder Include="Text\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -65,10 +71,6 @@
     <Compile Include="Diagnostics\PerformanceProfiler.cs" />
     <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
     <Compile Include="Graphics\Textures\PartialTexture2D.cs" />
-    <Compile Include="Ui\Binding\IItemsConsumer.cs" />
-    <Compile Include="Ui\Binding\IItemsProvider.cs" />
-    <Compile Include="Ui\Binding\ItemsList.cs" />
-    <Compile Include="Ui\Definitions\Stretch.cs" />
     <Compile Include="Graphics\Fonts\Font.cs" />
     <Compile Include="Graphics\Fonts\FontFace.cs" />
     <Compile Include="Graphics\Fonts\FontLoader.cs" />
@@ -78,28 +80,6 @@
     <Compile Include="Graphics\Fonts\UniversalFont.cs" />
     <Compile Include="Media\MusicController.Common.cs" />
     <Compile Include="Media\MusicController.cs" />
-    <Compile Include="Ui\Core\StylesContainer.cs" />
-    <Compile Include="Ui\Core\StylesManager.cs" />
-    <Compile Include="Ui\Core\UiUnit.cs" />
-    <Compile Include="Ui\DefinitionFiles\DefinitionFileWithStyle.cs" />
-    <Compile Include="Ui\TransitionEffects\Rotate.cs" />
-    <Compile Include="Ui\Views\Containers\UiContentSlider.cs" />
-    <Compile Include="Ui\Views\Containers\UiListBox.cs" />
-    <Compile Include="Ui\Views\Containers\UiScrollView.cs" />
-    <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
-    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
-    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
-    <Compile Include="Ui\TransitionEffects\TransitionEffect.cs" />
-    <Compile Include="Ui\TransitionEffects\Group.cs" />
-    <Compile Include="Ui\TransitionEffects\Scale.cs" />
-    <Compile Include="Ui\TransitionEffects\Swype.cs" />
-    <Compile Include="Ui\TransitionEffects\Vanish.cs" />
-    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonTransformGroup.cs" />
-    <Compile Include="Ui\Views\Controls\UiCheckBox.cs" />
-    <Compile Include="Ui\Views\Controls\UiImage.cs" />
-    <Compile Include="Ui\Views\Controls\UiIndexSelector.cs" />
-    <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
-    <Compile Include="Ui\Views\Scroller.cs" />
     <Compile Include="Xml\XFile.cs" />
     <Compile Include="Cs\SharedString.cs" />
     <Compile Include="Cs\SharedValue.cs" />
@@ -116,7 +96,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContentManagement\ContentLoader.cs" />
     <Compile Include="ContentManagement\LoadResourceInfo.cs" />
-    <Compile Include="Graphics\Sprites\SpritePresenter.cs" />
     <Compile Include="Graphics\Images\LoadTexture2DFromPng.cs" />
     <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
     <Compile Include="Graphics\Sprites\Sprite.cs" />
@@ -128,13 +107,8 @@
     <Compile Include="Cs\Singleton.cs" />
     <Compile Include="Cs\BitConverterLE.cs" />
     <Compile Include="Definitions\Align.cs" />
-    <Compile Include="Definitions\KeyboardContext.cs" />
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
-    <Compile Include="GamerApi\AchievementsHandler.cs" />
-    <Compile Include="GamerApi\AchievementsManager.cs" />
-    <Compile Include="GamerApi\AchievementInfoEventArgs.cs" />
-    <Compile Include="GamerApi\Gamer.cs" />
     <Compile Include="Graphics\Images\NinePatchImage.cs" />
     <Compile Include="Graphics\3D\BasicShaderEffect.cs" />
     <Compile Include="Graphics\3D\IShaderEffect.cs" />
@@ -155,21 +129,92 @@
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
-    <Compile Include="Helpers\SpriteOptimizer.cs" />
-    <Compile Include="Media\SoundControler.cs" />
-    <Compile Include="Media\SoundEffectContainer.cs" />
     <Compile Include="Misc\AppRater.cs" />
     <Compile Include="Misc\ColorsManager.cs" />
     <Compile Include="Misc\ColorWrapper.cs" />
     <Compile Include="Misc\ConsoleEx.cs" />
     <Compile Include="Misc\DelayedActionInvoker.cs" />
-    <Compile Include="Misc\InfoBar.cs" />
     <Compile Include="Misc\RemoteConsoleClient.cs" />
     <Compile Include="Misc\StringsManager.cs" />
     <Compile Include="Misc\UiTask.cs" />
     <Compile Include="Misc\UuidGenerator.cs" />
     <Compile Include="Settings\Serializator.cs" />
     <Compile Include="Settings\SingletonSettings.cs" />
+    <Compile Include="Graphics\AdvancedDrawBatch.DrawMethods.cs" />
+    <Compile Include="Graphics\AdvancedDrawBatch.Helpers.cs" />
+    <Compile Include="Input\TextInput\TextInput.Dektop.cs" />
+    <Compile Include="Input\TextInput\IFocusable.cs" />
+    <Compile Include="Input\TextInput\ITextConsumer.cs" />
+    <Compile Include="Input\TextInput\TextInputType.cs" />
+    <Compile Include="Xml\XNodeAttributes.cs" />
+    <Compile Include="Platform\Platform.MacOs.cs" />
+    <Compile Include="Input\GamePad\GamePad.cs" />
+    <Compile Include="Input\GamePad\GamePadButtonState.cs" />
+    <Compile Include="Input\GamePad\GamePads.cs" />
+    <Compile Include="Ui\Binding\IItemsConsumer.cs" />
+    <Compile Include="Ui\Binding\IItemsProvider.cs" />
+    <Compile Include="Ui\Binding\ItemsList.cs" />
+    <Compile Include="Ui\Definitions\VerticalContentAlignment.cs" />
+    <Compile Include="Ui\Definitions\HorizontalContentAlignment.cs" />
+    <Compile Include="Ui\Definitions\HorizontalAlignment.cs" />
+    <Compile Include="Ui\Definitions\Stretch.cs" />
+    <Compile Include="Ui\Core\StylesContainer.cs" />
+    <Compile Include="Ui\Core\StylesManager.cs" />
+    <Compile Include="Ui\Core\UiUnit.cs" />
+    <Compile Include="Ui\DefinitionFiles\DefinitionFileWithStyle.cs" />
+    <Compile Include="Ui\Definitions\UiHelper.cs" />
+    <Compile Include="Ui\Definitions\VerticalAlignment.cs" />
+    <Compile Include="Ui\RichText\Entity.cs" />
+    <Compile Include="Ui\RichText\EntityType.cs" />
+    <Compile Include="Ui\RichText\FontEnums.cs" />
+    <Compile Include="Ui\RichText\FontInfo.cs" />
+    <Compile Include="Ui\RichText\IRichProcessor.cs" />
+    <Compile Include="Ui\RichText\Line.cs" />
+    <Compile Include="Ui\RichText\MarkdownProcessor.cs" />
+    <Compile Include="Ui\RichText\TagProperties.cs" />
+    <Compile Include="Ui\TransitionEffects\None.cs" />
+    <Compile Include="Ui\TransitionEffects\Rotate.cs" />
+    <Compile Include="Ui\Views\Containers\UiContentSlider.cs" />
+    <Compile Include="Ui\Views\Containers\UiListBox.cs" />
+    <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
+    <Compile Include="Ui\Views\Containers\UiScrollView.cs" />
+    <Compile Include="Ui\Interfaces\IIndexedElement.cs" />
+    <Compile Include="Ui\Interfaces\IScrolledElement.cs" />
+    <Compile Include="Ui\Interfaces\IUpdatable.cs" />
+    <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonImage.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonState.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonText.cs" />
+    <Compile Include="Ui\TransitionEffects\TransitionEffect.cs" />
+    <Compile Include="Ui\TransitionEffects\Group.cs" />
+    <Compile Include="Ui\TransitionEffects\Scale.cs" />
+    <Compile Include="Ui\TransitionEffects\Swype.cs" />
+    <Compile Include="Ui\TransitionEffects\Vanish.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonTransformGroup.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\DrawButtonInfo.cs" />
+    <Compile Include="Ui\Views\Controls\RichView\RichViewEntity.cs" />
+    <Compile Include="Ui\Views\Controls\RichView\RichViewLine.cs" />
+    <Compile Include="Ui\Views\Controls\UiCheckBox.cs" />
+    <Compile Include="Ui\Views\Controls\UiColoredLabel.cs" />
+    <Compile Include="Ui\Views\Controls\UiEditBoxBase.cs" />
+    <Compile Include="Ui\Views\Controls\UiHorizontalGradient.cs" />
+    <Compile Include="Ui\Views\Controls\UiImage.cs" />
+    <Compile Include="Ui\Views\Controls\UiIndexSelector.cs" />
+    <Compile Include="Ui\Views\Controls\UiEditBox.Windows.cs" />
+    <Compile Include="Ui\Views\Controls\UiRichView.cs" />
+    <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
+    <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
+    <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
+    <Compile Include="Ui\Views\Controls\UiSlider.cs" />
+    <Compile Include="Ui\Views\Controls\UiSpritePresenter.cs" />
+    <Compile Include="Ui\Views\Controls\UiText.cs" />
+    <Compile Include="Ui\Views\Controls\UiVerticalGradient.cs" />
+    <Compile Include="Ui\Views\Enums\TransitionMode.cs" />
+    <Compile Include="Ui\Views\IBackgroundDrawable.cs" />
+    <Compile Include="Ui\Views\Scroller.cs" />
+    <Compile Include="Ui\Views\ScrollingService.cs" />
     <Compile Include="Ui\Controllers\UiController.cs" />
     <Compile Include="Ui\Controllers\UiNavigationController.cs" />
     <Compile Include="Ui\Core\AppMain.cs" />
@@ -192,33 +237,13 @@
     <Compile Include="Ui\Views\Parameters\UiViewDrawParameters.cs" />
     <Compile Include="Ui\Views\Controls\UiLabel.cs" />
     <Compile Include="Ui\Views\UiView.cs" />
-    <Compile Include="Graphics\AdvancedDrawBatch.DrawMethods.cs" />
-    <Compile Include="Graphics\AdvancedDrawBatch.Helpers.cs" />
-    <Compile Include="Ui\Core\AppMain.MacOs.cs" />
-    <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
-    <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
-    <Compile Include="Ui\Definitions\HorizontalAlignment.cs" />
-    <Compile Include="Ui\Definitions\VerticalAlignment.cs" />
-    <Compile Include="Ui\Definitions\UiHelper.cs" />
+    <Compile Include="Helpers\ColorParser.cs" />
     <Compile Include="Helpers\StringParser.cs" />
-    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonImage.cs" />
-    <Compile Include="Ui\Interfaces\IIndexedElement.cs" />
-    <Compile Include="Ui\Interfaces\IScrolledElement.cs" />
-    <Compile Include="Ui\Interfaces\IUpdatable.cs" />
-    <Compile Include="Ui\Views\ScrollingService.cs" />
-    <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
-    <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonState.cs" />
-    <Compile Include="Ui\Views\Controls\ButtonDrawables\DrawButtonInfo.cs" />
-    <Compile Include="Ui\Views\Controls\UiEditBox.cs" />
-    <Compile Include="Input\TextInput\TextInput.Dektop.cs" />
-    <Compile Include="Input\TextInput\IFocusable.cs" />
-    <Compile Include="Input\TextInput\ITextConsumer.cs" />
-    <Compile Include="Input\TextInput\TextInputType.cs" />
-    <Compile Include="Xml\XNodeAttributes.cs" />
-    <Compile Include="Platform\Platform.MacOs.cs" />
-    <Compile Include="Input\GamePad\GamePad.cs" />
-    <Compile Include="Input\GamePad\GamePadButtonState.cs" />
-    <Compile Include="Input\GamePad\GamePads.cs" />
-    <Compile Include="Ui\Views\Enums\TransitionMode.cs" />
+    <Compile Include="Media\SoundEffectBuffer.cs" />
+    <Compile Include="Definitions\TransitionType.cs" />
+    <Compile Include="Text\HtmlSpecialChars.cs" />
+    <Compile Include="Graphics\Sprites\SpriteInstance.cs" />
+    <Compile Include="Graphics\Sprites\SpriteSequence.cs" />
+    <Compile Include="Ui\Core\AppMain.MacOs.cs" />
   </ItemGroup>
 </Project>

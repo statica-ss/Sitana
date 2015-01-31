@@ -32,9 +32,11 @@ namespace GameEditor
 
             ContentLoader.Init(_appMain.Services, "Assets");
 
-            StylesManager.Instance.LoadStyles("AppStyles", true);
+            ColorsManager.Instance.Append("Styles/Colors.txt");
 
-            _appMain.LoadView("MainView");
+            StylesManager.Instance.LoadStyles("Styles/AppStyles", true);
+
+            _appMain.LoadView("Views/MainView");
 
             _appMain.Window.AllowUserResizing = true;
 
@@ -57,9 +59,9 @@ namespace GameEditor
             }
 
             _appMain.IsMouseVisible = true;
-            _appMain.OnLoadContent += MainController.OnLoadContent;
+            _appMain.ContentLoading += MainController.OnLoadContent;
 
-            _appMain.OnLoadedView += (a) =>
+            _appMain.ViewLoaded += (a) =>
             {
                 if (EditorSettings.Instance.WindowWidth == 0 || EditorSettings.Instance.WindowHeight == 0)
                 {

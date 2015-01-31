@@ -27,54 +27,54 @@ namespace GameEditor
             }
         }
 
-        public SharedValue<bool> View150
+        public SharedValue<bool> BigView
         {
             get
             {
-                return EditorSettings.Instance.View150Shared;
+                return EditorSettings.Instance.ViewBigShared;
             }
         }
 
-        public SharedValue<bool> View125
+        public SharedValue<bool> SmallView
         {
             get
             {
-                return EditorSettings.Instance.View125Shared;
+                return EditorSettings.Instance.ViewSmallShared;
             }
         }
 
         public static void OnLoadContent(AppMain main)
         {
-            using (Stream stream = ContentLoader.Current.Open("SampleTemplate.zip"))
+            using (Stream stream = ContentLoader.Current.Open("Templates/SampleTemplate.zip"))
             {
                 CurrentTemplate.Instance.Load(stream);
             }
 
             Document.Current.New();
 
-            FontManager.Instance.AddSpriteFont("Font", "Font8", 8);
-            FontManager.Instance.AddSpriteFont("Font", "Font10", 10);
-            FontManager.Instance.AddSpriteFont("Font", "Font12", 12);
+            UiUnit.FontScaling = UiUnit.ScalingMode.Floating;
 
-            MakeBigger(EditorSettings.Instance.View125, EditorSettings.Instance.View150);
+            FontManager.Instance.AddSitanaFont("Font", "Fonts/Font", 16,20,24,28,32);
+            ChangeViewScaling(EditorSettings.Instance.SmallView, EditorSettings.Instance.BigView);
         }
 
-        public static void MakeBigger(bool make125, bool make150)
+        public static void ChangeViewScaling(bool smallView, bool bigView)
         {
-            if (make150)
+            if (bigView)
             {
-                UiUnit.Unit = 1.5f;
-                UiUnit.FontUnit = 1.5f;
+                UiUnit.Unit = 1.4f;
+                UiUnit.FontUnit = 1.4f * 1.5f;
             }
-            else if (make125)
+            else if (smallView)
             {
-                UiUnit.Unit = 1.25f;
-                UiUnit.FontUnit = 1.25f;
+                UiUnit.Unit = 1;
+                UiUnit.FontUnit = 1 * 1.5f;
+
             }
             else
             {
-                UiUnit.Unit = 1;
-                UiUnit.FontUnit = 1;
+                UiUnit.Unit = 1.15f;
+                UiUnit.FontUnit = 1.15f * 1.5f;
             }
 
             if (AppMain.Current.MainView != null)

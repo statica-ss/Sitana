@@ -59,7 +59,7 @@ namespace Sitana.Framework
             }
         }
 
-        public static string OpenFileDialog(string promt)
+        public static string OpenFileDialog(string promt, string filters)
         {
             var openPanel = new NSOpenPanel();
             openPanel.ReleasedWhenClosed = true;
@@ -81,7 +81,7 @@ namespace Sitana.Framework
             return null;
         }
 
-        public static string SaveFileDialog(string promt)
+        public static string SaveFileDialog(string promt, string filters, string defaultExt)
         {
             var savePanel = new NSSavePanel();
             savePanel.ReleasedWhenClosed = true;

@@ -231,11 +231,11 @@
     <Compile Include="Ui\Views\UiView.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.DrawMethods.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.Helpers.cs" />
-    <Compile Include="Ui\Core\AppMain.Windows.Xna.cs" />
     <Compile Include="Xml\XNodeAttributes.cs" />
     <Compile Include="Input\GamePad\GamePad.cs" />
     <Compile Include="Input\GamePad\GamePadButtonState.cs" />
     <Compile Include="Input\GamePad\GamePads.cs" />
+    <Compile Include="Ui\Core\AppMain.Windows.Xna.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -11,10 +11,10 @@ namespace GameEditor
         public readonly SharedValue<bool> ShowAllLayersShared = new SharedValue<bool>();
 
         [System.Xml.Serialization.XmlIgnoreAttribute]
-        public readonly SharedValue<bool> View150Shared = new SharedValue<bool>();
+        public readonly SharedValue<bool> ViewBigShared = new SharedValue<bool>();
 
         [System.Xml.Serialization.XmlIgnoreAttribute]
-        public readonly SharedValue<bool> View125Shared = new SharedValue<bool>();
+        public readonly SharedValue<bool> ViewSmallShared = new SharedValue<bool>();
 
         public int WindowWidth = 0;
         public int WindowHeight = 0;
@@ -34,29 +34,29 @@ namespace GameEditor
             }
         }
 
-        public bool View125
+        public bool SmallView
         {
             get
             {
-                return View125Shared.Value;
+                return ViewSmallShared.Value;
             }
 
             set
             {
-                View125Shared.Value = value;
+                ViewSmallShared.Value = value;
             }
         }
 
-        public bool View150
+        public bool BigView
         {
             get
             {
-                return View150Shared.Value;
+                return ViewBigShared.Value;
             }
 
             set
             {
-                View150Shared.Value = value;
+                ViewBigShared.Value = value;
             }
         }
 
@@ -65,8 +65,8 @@ namespace GameEditor
             if (!Loaded)
             {
                 ShowAllLayers = true;
-                View150 = false;
-                View125 = false;
+                BigView = false;
+                SmallView = false;
             }
 
             ShowAllLayersShared.ValueChanged += (v)=>
@@ -74,26 +74,26 @@ namespace GameEditor
                 Serialize();
             };
 
-            View150Shared.ValueChanged += (v) =>
+            ViewBigShared.ValueChanged += (v) =>
             {
                 if (v)
                 {
-                    View125Shared.Value = false;
+                    ViewSmallShared.Value = false;
                 }
 
-                MainController.MakeBigger(View125, View150);
+                MainController.ChangeViewScaling(SmallView, BigView);
 
                 Serialize();
             };
 
-            View125Shared.ValueChanged += (v) =>
+            ViewSmallShared.ValueChanged += (v) =>
             {
                 if (v)
                 {
-                    View150Shared.Value = false;
+                    ViewBigShared.Value = false;
                 }
 
-                MainController.MakeBigger(View125, View150);
+                MainController.ChangeViewScaling(SmallView, BigView);
 
                 Serialize();
             };

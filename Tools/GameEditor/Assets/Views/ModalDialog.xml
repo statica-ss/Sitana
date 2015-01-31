@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UiModalLayout
+    xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
+    xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
+    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
+    Id="DialogModalDialog" BackgroundColor="#80000000" ShowTime="200" HideTime="200" TouchOutsideToHide="false">
+    <UiNavigationView Id="ModalDialogNavigator" Controller="GameEditor.ModalDialogController,GameEditor"/>
+</UiModalLayout>

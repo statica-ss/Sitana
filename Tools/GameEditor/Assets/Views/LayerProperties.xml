@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<UiBorder
+  xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
+  xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework" 
+  xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework" 
+  Tag="Properties">
+  
+    <UiScrollView Id="PropertiesList" Mode="VerticalDrag,VerticalWheel" WheelScrollSpeed="10" ClipChildren="true" ExceedRule="Allow" Margin="0,5,0,5">
+        <UiStackPanel Mode="Vertical" Margin="4,0,4,0" Spacing="5" VerticalAlignment="Top">
+
+            <UiBorder Style="Property">
+              
+                <UiLabel Style="PropertyName" Text="LAYER NAME" />
+                <UiEditBox Style="UiEditBox,PropertyValue" InputType="NormalText" Width="128" CancelOnLostFocus="true" TextApply="{OnApplyLayerName(text)}" Text="{LayerName}"/>
+            </UiBorder>
+
+            <UiBorder Style="Property" Visible="{ShowTiled}">
+              
+                <UiLabel Style="PropertyName" Text="WIDTH" />
+                <UiEditBox Style="UiEditBox,PropertyValue" InputType="Number" CancelOnLostFocus="true" TextApply="{OnApplyWidth(text)}" Text="{LayerWidth}"/>
+            </UiBorder>
+            <UiBorder Style="Property" Visible="{ShowTiled}">
+              
+                <UiLabel Style="PropertyName" Text="HEIGHT" />
+                <UiEditBox Style="UiEditBox,PropertyValue" InputType="Number" CancelOnLostFocus="true" TextApply="{OnApplyHeight(text)}" Text="{LayerHeight}"/>
+            </UiBorder>
+
+            <UiStackPanel Style="Property" Mode="Horizontal" Visible="{ShowTiled}" Padding="10" Spacing="5">
+                <UiCheckBox Style="PropertyCheckBox" Text="TILED WIDTH" Checked="{TiledWidth}"/>
+                <UiCheckBox Style="PropertyCheckBox" Text="TILED HEIGHT" Checked="{TiledHeight}"/>
+            </UiStackPanel>
+
+            <UiBorder Style="Property">
+              
+                <UiLabel Style="PropertyName" Text="HORIZONTAL SPEED" />
+                <UiEditBox Style="UiEditBox,PropertyValue" InputType="Number" CancelOnLostFocus="true" TextApply="{OnApplySpeedX(text)}" Text="{LayerSpeedX}"/>
+            </UiBorder>
+            <UiBorder Style="Property">
+              
+                <UiLabel Style="PropertyName" Text="VERTICAL SPEED" />
+                <UiEditBox Style="UiEditBox,PropertyValue" InputType="Number" CancelOnLostFocus="true" TextApply="{OnApplySpeedY(text)}" Text="{LayerSpeedY}"/>
+            </UiBorder>
+                
+        </UiStackPanel>
+    </UiScrollView>
+
+    <UiScrollBar Style="UiScrollBar" Context="PropertiesList" Margin="0,5,0,5"/>
+
+</UiBorder>

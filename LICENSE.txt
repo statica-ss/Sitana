@@ -1,5 +1,5 @@
 Microsoft Public License (Ms-PL)
-Sitana - Copyright © 2014 The Sitana Team
+Sitana - Copyright © 2014-2015 The Sitana Team
 
 All rights reserved.
 
