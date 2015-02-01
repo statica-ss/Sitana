@@ -68,6 +68,11 @@ namespace Sitana.Framework.Input
             {
                 SetText(text);
             }
+            else
+            {
+                _consumer.SelectionStart = text.Length;
+                _consumer.SelectionEnd = text.Length;
+            }
         }
 
         bool CanAddCharacter(char ch)

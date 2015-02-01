@@ -158,6 +158,8 @@ namespace Sitana.Framework.Ui.Core
 
             TotalGameTime = gameTime.TotalGameTime.TotalSeconds;
 
+            //Accelerators.Instance.Process(_currentFocus == null);
+
             UiTask.Process();
             DelayedActionInvoker.Instance.Update(time);
 

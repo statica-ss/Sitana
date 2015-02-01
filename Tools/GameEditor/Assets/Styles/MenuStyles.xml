@@ -9,7 +9,7 @@
         <UiButton Width="40" Height="22" Y="C" HorizontalAlignment="Left" VerticalAlignment="Center">
           <UiButton.Drawables>
                 <button:NinePatchBackground ColorPushed=":MenuButtonBackgroundPushed" ColorReleased=":MenuButtonBackgroundNormal" Image="Ui/Button"/>
-                <button:Text ColorPushed=":MenuButtonTextColorPushed" ColorReleased=":MenuButtonTextColorNormal" Font="Font" FontSpacing="25" FontSize="8" Margin="2" />
+                <button:Text ColorPushed=":MenuButtonTextPushed" ColorReleased=":MenuButtonTextNormal" Font="Font" FontSpacing="25" FontSize="8" Margin="2" />
           </UiButton.Drawables>
         </UiButton>
     </Style>
@@ -30,9 +30,9 @@
     <UiCheckBox Width="80" Height="18" HorizontalAlignment="Right" VerticalAlignment="Top">
       <UiButton.Drawables>
         <button:NinePatchBackground ColorPushed=":MenuButtonBackgroundPushed" ColorReleased=":MenuButtonBackgroundNormal" Image="Ui/Button" ScaleByUnit="true"/>
-        <button:Text ColorPushed=":MenuButtonTextColorPushed" ColorReleased=":MenuButtonTextColorNormal" Font="Font" FontSize="8" HorizontalContentAlignment="Left" Margin="20,4,4,4"/>
+        <button:Text ColorPushed=":MenuButtonTextPushed" ColorReleased=":MenuButtonTextNormal" Font="Font" FontSize="8" HorizontalContentAlignment="Left" Margin="20,4,4,4"/>
         <button:Image Style="ChangeTime" ColorPushed="#40ffffff" ColorReleased="#40000000" Checked="false" Image="Ui/CheckBox" HorizontalContentAlignment="Left" Margin="4,4,4,4"/>
-        <button:Image Style="ChangeTime" ColorPushed=":MenuButtonTextColorPushed" ColorReleased=":MenuButtonTextColorNormal" Checked="true" Image="Ui/CheckBox" HorizontalContentAlignment="Left" Margin="4,4,4,4"/>
+        <button:Image Style="ChangeTime" ColorPushed=":MenuButtonTextPushed" ColorReleased=":MenuButtonTextNormal" Checked="true" Image="Ui/CheckBox" HorizontalContentAlignment="Left" Margin="4,4,4,4"/>
       </UiButton.Drawables>
     </UiCheckBox>
   </Style>

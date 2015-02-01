@@ -68,8 +68,8 @@
         <button:NinePatchBackground ColorPushed=":ButtonBackgroundChecked" ColorReleased=":ButtonBackgroundChecked" Image="Ui/Tab" Checked="true"/>
         <button:NinePatchBackground ColorPushed=":ButtonBackgroundPushed" ColorReleased=":ButtonBackgroundNormal" Image="Ui/Tab" Checked="false"/>
 
-        <button:Text ColorPushed=":ButtonTextColorChecked" ColorReleased=":ButtonTextColorChecked" Font="Font" FontSize="8" Margin="2" Checked="true"/>
-        <button:Text ColorPushed=":ButtonTextColorPushed" ColorReleased=":ButtonTextColorNormal" Font="Font" FontSize="8" Margin="2" Checked="false"/>
+        <button:Text ColorPushed=":ButtonTextChecked" ColorReleased=":ButtonTextChecked" Font="Font" FontSize="8" Margin="2" Checked="true"/>
+        <button:Text ColorPushed=":ButtonTextPushed" ColorReleased=":ButtonTextNormal" Font="Font" FontSize="8" Margin="2" Checked="false"/>
 
       </UiButton.Drawables>
     </UiIndexSelector>

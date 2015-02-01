@@ -27,8 +27,8 @@
     <UiModalLayout Id="ViewMenu" Style="MenuStripLayout">
         <UiStackPanel Style="MenuStrip">
             <UiCheckBox Style="MenuCheckBox" Text="All layers" Checked="{ShowAllLayers}"/>
-            <UiCheckBox Style="MenuCheckBox" Width="60" Text="Small" Checked="{SmallView}"/>
-            <UiCheckBox Style="MenuCheckBox" Width="60" Text="Big" Checked="{BigView}"/>g
+            <UiCheckBox Style="MenuCheckBox" Width="60" Text="120%" Checked="{View120}"/>
+            <UiCheckBox Style="MenuCheckBox" Width="60" Text="140%" Checked="{View140}"/>g
         </UiStackPanel>
     </UiModalLayout>
         

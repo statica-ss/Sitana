@@ -353,6 +353,7 @@ namespace Sitana.Framework.Ui.Views
             var batch = parameters.DrawBatch;
 
             var drawInfo = new DrawButtonInfo();
+
             drawInfo.Text = _text;
             drawInfo.ButtonState = ButtonState;
 

@@ -10,6 +10,8 @@ using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Ui.Binding;
 using System.IO;
+using Sitana.Framework.Input;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameEditor
 {
@@ -27,19 +29,19 @@ namespace GameEditor
             }
         }
 
-        public SharedValue<bool> BigView
+        public SharedValue<bool> View140
         {
             get
             {
-                return EditorSettings.Instance.ViewBigShared;
+                return EditorSettings.Instance.View140Shared;
             }
         }
 
-        public SharedValue<bool> SmallView
+        public SharedValue<bool> View120
         {
             get
             {
-                return EditorSettings.Instance.ViewSmallShared;
+                return EditorSettings.Instance.View120Shared;
             }
         }
 
@@ -55,26 +57,26 @@ namespace GameEditor
             UiUnit.FontScaling = UiUnit.ScalingMode.Floating;
 
             FontManager.Instance.AddSitanaFont("Font", "Fonts/Font", 16,20,24,28,32);
-            ChangeViewScaling(EditorSettings.Instance.SmallView, EditorSettings.Instance.BigView);
+            ChangeViewScaling(EditorSettings.Instance.View120, EditorSettings.Instance.View140);
         }
 
-        public static void ChangeViewScaling(bool smallView, bool bigView)
+        public static void ChangeViewScaling(bool view120, bool view140)
         {
-            if (bigView)
+            if (view140)
             {
-                UiUnit.Unit = 1.4f;
-                UiUnit.FontUnit = 1.4f * 1.5f;
+                UiUnit.Unit = 1.4;
+                UiUnit.FontUnit = 1.4 * 1.5;
             }
-            else if (smallView)
+            else if (view120)
             {
-                UiUnit.Unit = 1;
-                UiUnit.FontUnit = 1 * 1.5f;
+                UiUnit.Unit = 1.2;
+                UiUnit.FontUnit = 1.2 * 1.5;
 
             }
             else
             {
-                UiUnit.Unit = 1.15f;
-                UiUnit.FontUnit = 1.15f * 1.5f;
+                UiUnit.Unit = 1;
+                UiUnit.FontUnit = 1 * 1.5;
             }
 
             if (AppMain.Current.MainView != null)
