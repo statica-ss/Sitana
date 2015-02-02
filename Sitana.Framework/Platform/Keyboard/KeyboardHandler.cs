@@ -12,6 +12,9 @@ namespace Microsoft.Xna.Framework.Input
         public event OnCharacterDelegate OnCharacter;
         public event OnKeyDownDelegate OnKey;
 
+        long _wmCharLastTick = 0;
+        long _wmKeyDownLastTick = 0;
+
         public KeyboardHandler(IntPtr window)
             : base(window)
         {
@@ -28,35 +31,53 @@ namespace Microsoft.Xna.Framework.Input
             switch (m.msg)
             {
                 case Wm.KeyDown:
-
-                    if (OnKey != null)
                     {
-                        Keys key = GetKey(m.wparam);
-                        OnKey(key);
-                    }
+                        long tick = DateTime.Now.Ticks;
 
-                    if (form.CanFocus)
-                    {
-                        _TranslateMessage(ref m);
+                        if (tick > _wmKeyDownLastTick + 100000)
+                        {
+
+                            if (OnKey != null)
+                            {
+                                Keys key = GetKey(m.wparam);
+                                OnKey(key);
+                            }
+
+                            if (form.CanFocus)
+                            {
+                                _TranslateMessage(ref m);
+                            }
+                        }
+                        _wmKeyDownLastTick = tick;
                     }
 
                     break;
 
                 case Wm.Char:
-                    char c = (char)m.wparam;
-
-                    if (c < (char)0x20
-                        && c != '\n'
-                        && c != '\r'
-                        //&& c != '\t'//tab //uncomment to accept tab
-                        && c != '\b')//backspace
-                        break;
-
-                    if (OnCharacter != null)
                     {
-                        OnCharacter(c);
+                        long tick = DateTime.Now.Ticks;
+
+                        if (tick > _wmCharLastTick + 100000)
+                        {
+                            char c = (char)m.wparam;
+
+                            if (c < (char)0x20
+                                && c != '\n'
+                                && c != '\r'
+                                //&& c != '\t'//tab //uncomment to accept tab
+                                && c != '\b')//backspace
+                                break;
+
+                            if (OnCharacter != null)
+                            {
+                                OnCharacter(c);
+                            }
+                            _wmCharLastTick = tick;
+                        }
                     }
                     break;
+
+                    
             }
         }
     }

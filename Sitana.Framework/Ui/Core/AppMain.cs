@@ -152,6 +152,8 @@ namespace Sitana.Framework.Ui.Core
 
         protected override void Update(GameTime gameTime)
         {
+            PlatformUpdate(gameTime);
+
             float time = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             PerformanceProfiler.Instance.Update(gameTime.ElapsedGameTime);
