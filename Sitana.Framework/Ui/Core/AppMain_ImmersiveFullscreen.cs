@@ -33,60 +33,13 @@ namespace Sitana.Framework.Ui.Core
 			_width = outSize.X;
 			_height = outSize.Y;
 
-			Activity.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)(SystemUiFlags.ImmersiveSticky|SystemUiFlags.LayoutFullscreen|SystemUiFlags.HideNavigation);
+            Activity.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)(SystemUiFlags.ImmersiveSticky|SystemUiFlags.LayoutFullscreen|SystemUiFlags.LayoutHideNavigation|SystemUiFlags.Fullscreen);
 			Activity.Window.DecorView.RequestLayout();
 
 			Graphics.PreferredBackBufferWidth = _width;
 			Graphics.PreferredBackBufferHeight = _height;
 
 			AddView();
-		}
-
-		protected override void OnSize(int width, int height)
-		{
-			if (width > height)
-			{
-				width = Math.Max(_width, _height);
-				height = Math.Min(_width, _height);
-			} 
-			else
-			{
-				width = Math.Min(_width, _height);
-				height = Math.Max(_width, _height);
-			}
-
-			var rect = new Rectangle(0, 0, width, height);
-
-			PerformanceProfiler.Instance.ComputeContentRect(ref rect);
-
-			MainView.Bounds = rect;
-
-			CallResized(rect.Width, rect.Height);
-
-		}
-
-		private bool IsSizeOk(int width, int height)
-		{
-			return (width == _width && height == _height) ||
-				   (height == _width && width == _height);
-		}
-
-		protected override void Update(GameTime gameTime)
-		{
-			base.Update(gameTime);
-
-			_checkTime -= gameTime.ElapsedGameTime.TotalSeconds;
-
-			if (_checkTime >= 0)
-			{
-				if (!IsSizeOk(Activity.Window.DecorView.Width,Activity.Window.DecorView.Height))
-				{
-					Activity.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)(SystemUiFlags.ImmersiveSticky|SystemUiFlags.LayoutFullscreen|SystemUiFlags.HideNavigation);
-					Activity.Window.DecorView.RequestLayout();
-				}
-
-				_checkTime = 1;
-			}
 		}
 	}
 }

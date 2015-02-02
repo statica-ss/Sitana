@@ -37,7 +37,7 @@ namespace GameEditor
 
         public void New()
         {
-            ModalDialog.Show("NewFile");
+            ModalDialog.Show("Views/NewFile");
             HideElement("FileMenu");
         }
 
@@ -201,7 +201,7 @@ namespace GameEditor
         {
             if (template == null)
             {
-                using (Stream stream = ContentLoader.Current.Open("SampleTemplate.zip"))
+                using (Stream stream = ContentLoader.Current.Open("Templates/SampleTemplate.zip"))
                 {
                     CurrentTemplate.Instance.Load(stream);
                 }

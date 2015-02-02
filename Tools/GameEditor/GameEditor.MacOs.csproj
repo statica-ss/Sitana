@@ -25,6 +25,7 @@
     <EnablePackageSigning>false</EnablePackageSigning>
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -37,6 +38,7 @@
     <EnablePackageSigning>false</EnablePackageSigning>
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -53,19 +55,19 @@
     <CodeSigningKey>3rd Party Mac Developer Application</CodeSigningKey>
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>true</EnablePackageSigning>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="MonoMac" />
-    <Reference Include="System.Xml" />
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\ThirdParty\Dependences\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\..\ThirdParty\Dependences\MonoGame\MacOs\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -75,6 +77,12 @@
     <Folder Include="Templates\" />
     <Folder Include="Views\" />
     <Folder Include="Tools\" />
+    <Folder Include="Assets\Fonts\" />
+    <Folder Include="Assets\Controllers\" />
+    <Folder Include="Assets\Styles\" />
+    <Folder Include="Assets\Templates\" />
+    <Folder Include="Assets\Ui\" />
+    <Folder Include="Assets\Views\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -118,30 +126,32 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Icon.icns" />
-    <BundleResource Include="Assets\CheckBox.png" />
-    <BundleResource Include="Assets\Button.png" />
-    <BundleResource Include="Assets\MainView.xml" />
-    <BundleResource Include="Assets\AppStyles.xml" />
-    <BundleResource Include="Assets\Button.xml" />
-    <BundleResource Include="Assets\Menu.xml" />
-    <BundleResource Include="Assets\MenuStyles.xml" />
-    <BundleResource Include="Assets\MessageBox.xml" />
-    <BundleResource Include="Assets\Tab.png" />
-    <BundleResource Include="Assets\Tab.xml" />
-    <BundleResource Include="Assets\LayerProperties.xml" />
-    <BundleResource Include="Assets\LayerInsert.xml" />
-    <BundleResource Include="Assets\ModalDialog.xml" />
-    <BundleResource Include="Assets\NewFile.xml" />
-    <BundleResource Include="Assets\SampleTemplate.zip" />
-    <BundleResource Include="Assets\MacOs\Font8.xnb">
-      <Link>Assets\Font8.xnb</Link>
-    </BundleResource>
-    <BundleResource Include="Assets\MacOs\Font10.xnb">
-      <Link>Assets\Font10.xnb</Link>
-    </BundleResource>
-    <BundleResource Include="Assets\MacOs\Font12.xnb">
-      <Link>Assets\Font12.xnb</Link>
-    </BundleResource>
-    <BundleResource Include="Assets\EditView.xml" />
+    <BundleResource Include="Assets\Fonts\Font16.png" />
+    <BundleResource Include="Assets\Fonts\Font20.png" />
+    <BundleResource Include="Assets\Fonts\Font24.png" />
+    <BundleResource Include="Assets\Fonts\Font28.png" />
+    <BundleResource Include="Assets\Fonts\Font32.png" />
+    <BundleResource Include="Assets\Fonts\Font16.sft" />
+    <BundleResource Include="Assets\Fonts\Font20.sft" />
+    <BundleResource Include="Assets\Fonts\Font24.sft" />
+    <BundleResource Include="Assets\Fonts\Font28.sft" />
+    <BundleResource Include="Assets\Fonts\Font32.sft" />
+    <BundleResource Include="Assets\Styles\AppStyles.xml" />
+    <BundleResource Include="Assets\Templates\SampleTemplate.zip" />
+    <BundleResource Include="Assets\Ui\Button.png" />
+    <BundleResource Include="Assets\Ui\CheckBox.png" />
+    <BundleResource Include="Assets\Ui\Tab.png" />
+    <BundleResource Include="Assets\Ui\Button.xml" />
+    <BundleResource Include="Assets\Ui\Tab.xml" />
+    <BundleResource Include="Assets\Views\EditView.xml" />
+    <BundleResource Include="Assets\Views\LayerInsert.xml" />
+    <BundleResource Include="Assets\Views\LayerProperties.xml" />
+    <BundleResource Include="Assets\Views\MainView.xml" />
+    <BundleResource Include="Assets\Views\Menu.xml" />
+    <BundleResource Include="Assets\Views\MessageBox.xml" />
+    <BundleResource Include="Assets\Views\ModalDialog.xml" />
+    <BundleResource Include="Assets\Views\NewFile.xml" />
+    <BundleResource Include="Assets\Styles\MenuStyles.xml" />
+    <BundleResource Include="Assets\Styles\Colors.txt" />
   </ItemGroup>
 </Project>

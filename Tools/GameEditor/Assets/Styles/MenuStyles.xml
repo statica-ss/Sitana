@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<core:StylesContainer
+    xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
+    xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
+    xmlns:core="namespace:Sitana.Framework.Ui.Core,Sitana.Framework"
+    xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework">
+
+    <Style Name="MenuButton">
+        <UiButton Width="40" Height="22" Y="C" HorizontalAlignment="Left" VerticalAlignment="Center">
+          <UiButton.Drawables>
+                <button:NinePatchBackground ColorPushed=":MenuButtonBackgroundPushed" ColorReleased=":MenuButtonBackgroundNormal" Image="Ui/Button"/>
+                <button:Text ColorPushed=":MenuButtonTextColorPushed" ColorReleased=":MenuButtonTextColorNormal" Font="Font" FontSpacing="25" FontSize="8" Margin="2" />
+          </UiButton.Drawables>
+        </UiButton>
+    </Style>
+
+   <Style Name="Headers">
+        <UiLabel Font="Font" FontSize="8" TextColor="#a0ffffff" HorizontalAlignment="Left" VerticalAlignment="Center" Y="C" HorizontalContentAlignment="Left"/>
+   </Style>
+
+   <Style Name="MenuLabel">
+        <UiLabel Font="Font" FontSize="8" TextColor="#a0ffffff" HorizontalAlignment="Left" VerticalAlignment="Center" Y="C" Height="@" HorizontalContentAlignment="Left"/>
+   </Style>
+
+   <Style Name="MenuStripLayout">
+    <UiModalLayout X="0" Y="0" Height="28" VerticalAlignment="Top" ShowTime="200" HideTime="200" TouchOutsideToHide="true"/>
+  </Style>
+
+  <Style Name="MenuCheckBox">
+    <UiCheckBox Width="80" Height="18" HorizontalAlignment="Right" VerticalAlignment="Top">
+      <UiButton.Drawables>
+        <button:NinePatchBackground ColorPushed=":MenuButtonBackgroundPushed" ColorReleased=":MenuButtonBackgroundNormal" Image="Ui/Button" ScaleByUnit="true"/>
+        <button:Text ColorPushed=":MenuButtonTextColorPushed" ColorReleased=":MenuButtonTextColorNormal" Font="Font" FontSize="8" HorizontalContentAlignment="Left" Margin="20,4,4,4"/>
+        <button:Image Style="ChangeTime" ColorPushed="#40ffffff" ColorReleased="#40000000" Checked="false" Image="Ui/CheckBox" HorizontalContentAlignment="Left" Margin="4,4,4,4"/>
+        <button:Image Style="ChangeTime" ColorPushed=":MenuButtonTextColorPushed" ColorReleased=":MenuButtonTextColorNormal" Checked="true" Image="Ui/CheckBox" HorizontalContentAlignment="Left" Margin="4,4,4,4"/>
+      </UiButton.Drawables>
+    </UiCheckBox>
+  </Style>
+
+  <Style Name="MenuStrip" >
+    <UiStackPanel Mode="Horizontal" Padding="4" Spacing="4" BackgroundColor=":MainBackground" Height="28" Y="4" X="0" VerticalAlignment="Top">
+      <UiView.ShowTransitionEffect>
+        <effect:Group>
+          <effect:Swype Horizontal="C" Power="2"/>
+          <effect:Rotate Angle="30"/>
+        </effect:Group>
+      </UiView.ShowTransitionEffect>
+      <UiView.HideTransitionEffect>
+        <effect:Group>
+          <effect:Swype Horizontal="-C" Power="2"/>
+          <effect:Rotate Angle="30"/>
+        </effect:Group>
+      </UiView.HideTransitionEffect>
+    </UiStackPanel>
+  </Style>
+
+  </core:StylesContainer>
