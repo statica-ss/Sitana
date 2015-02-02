@@ -71,6 +71,22 @@ namespace Sitana.Framework.Ui.Binding
             }
         }
 
+        public void Sort(Comparison<T> comparer)
+        {
+            lock (this)
+            {
+                _elements.Sort(comparer);
+            }
+
+            lock (_consumersLock)
+            {
+                for (int idx = 0; idx < _consumers.Count; ++idx)
+                {
+                    _consumers[idx].Recalculate();
+                }
+            }
+        }
+
         public void MoveElementToIndex(T element, int index)
         {
             lock (this)
