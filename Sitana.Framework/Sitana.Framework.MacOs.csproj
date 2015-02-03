@@ -63,6 +63,7 @@
     <Folder Include="Input\TextInput\" />
     <Folder Include="Input\GamePad\" />
     <Folder Include="Text\" />
+    <Folder Include="Input\Accelerators\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -245,5 +246,8 @@
     <Compile Include="Graphics\Sprites\SpriteInstance.cs" />
     <Compile Include="Graphics\Sprites\SpriteSequence.cs" />
     <Compile Include="Ui\Core\AppMain.MacOs.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\EditText.cs" />
+    <Compile Include="Input\Accelerators\Accelerators.cs" />
+    <Compile Include="Input\Accelerators\KeyModifiers.cs" />
   </ItemGroup>
 </Project>

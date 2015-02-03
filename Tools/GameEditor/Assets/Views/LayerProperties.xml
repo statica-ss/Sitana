@@ -16,31 +16,34 @@
 
             <UiBorder Style="Property" Visible="{ShowTiled}">
               
-                <UiLabel Style="PropertyName" Text="WIDTH" />
+                <UiLabel Style="PropertyName" Text="WIDTH (TILES)" />
                 <UiEditBox Style="UiEditBox,PropertyValue" InputType="Number" CancelOnLostFocus="true" TextApply="{OnApplyWidth(text)}" Text="{LayerWidth}"/>
             </UiBorder>
             <UiBorder Style="Property" Visible="{ShowTiled}">
               
-                <UiLabel Style="PropertyName" Text="HEIGHT" />
+                <UiLabel Style="PropertyName" Text="HEIGHT (TILES)" />
                 <UiEditBox Style="UiEditBox,PropertyValue" InputType="Number" CancelOnLostFocus="true" TextApply="{OnApplyHeight(text)}" Text="{LayerHeight}"/>
             </UiBorder>
 
-            <UiStackPanel Style="Property" Mode="Horizontal" Visible="{ShowTiled}" Padding="10" Spacing="5">
-                <UiCheckBox Style="PropertyCheckBox" Text="TILED WIDTH" Checked="{TiledWidth}"/>
-                <UiCheckBox Style="PropertyCheckBox" Text="TILED HEIGHT" Checked="{TiledHeight}"/>
-            </UiStackPanel>
+            <UiBorder Style="Property">
+              
+                <UiLabel Style="PropertyName" Text="HORIZONTAL SPEED (%)" />
+                <UiEditBox Style="UiEditBox,PropertyValue" InputType="Number" CancelOnLostFocus="true" TextApply="{OnApplySpeedX(text)}" Text="{LayerSpeedX}"/>
+            </UiBorder>
 
             <UiBorder Style="Property">
               
-                <UiLabel Style="PropertyName" Text="HORIZONTAL SPEED" />
-                <UiEditBox Style="UiEditBox,PropertyValue" InputType="Number" CancelOnLostFocus="true" TextApply="{OnApplySpeedX(text)}" Text="{LayerSpeedX}"/>
-            </UiBorder>
-            <UiBorder Style="Property">
-              
-                <UiLabel Style="PropertyName" Text="VERTICAL SPEED" />
+                <UiLabel Style="PropertyName" Text="VERTICAL SPEED (%)" />
                 <UiEditBox Style="UiEditBox,PropertyValue" InputType="Number" CancelOnLostFocus="true" TextApply="{OnApplySpeedY(text)}" Text="{LayerSpeedY}"/>
             </UiBorder>
                 
+            <UiBorder Style="Property" Visible="{ShowTiled}">
+                <UiStackPanel Mode="Horizontal" Padding="10" Spacing="5" HorizontalAlignment="Center">
+                    <UiCheckBox Style="PropertyCheckBox" Text="TILED WIDTH" Checked="{TiledWidth}"/>
+                    <UiCheckBox Style="PropertyCheckBox" Text="TILED HEIGHT" Checked="{TiledHeight}"/>
+                </UiStackPanel>
+            </UiBorder>
+
         </UiStackPanel>
     </UiScrollView>
 

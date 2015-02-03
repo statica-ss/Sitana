@@ -21,6 +21,9 @@ using Sitana.Framework.Ui.Views;
 using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Diagnostics;
+using Sitana.Framework.Input;
+using Microsoft.Xna.Framework.Input;
+
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -58,21 +61,26 @@ namespace Sitana.Framework.Ui.Core
 
             Window.TextInput += (sender, e) => 
             {
+                char ch = e.Character;
+
+                if ( ch == 127 )
+                {
+                    ch = '\b';
+                }
+
+                if ( ch == '\r' )
+                {
+                    ch = '\n';
+                }
+
                 if(_currentFocus != null)
                 {
-                    char ch = e.Character;
-
-                    if ( ch == 127 )
-                    {
-                        ch = '\b';
-                    }
-
-                    if ( ch == '\r' )
-                    {
-                        ch = '\n';
-                    }
-
                     _currentFocus.OnCharacter(ch);
+                }
+                else
+                {
+
+                    Accelerators.Instance.Process(ch);
                 }
             };
         }

@@ -33,7 +33,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         protected int _fontSpacing;
         protected TextAlign _textAlign;
 
-        private FontFace _fontFace;
+        private FontFace _fontFace = null;
 
         protected override void Init(UiController controller, object binding, DefinitionFile definition)
         {
@@ -70,6 +70,11 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             Rectangle target = _margin.ComputeRect(info.Target);
 
             drawBatch.DrawText(font, str, target, _textAlign, color, (float)_fontSpacing / 1000.0f, 0, scale);
+        }
+
+        public override object OnAction(DrawButtonInfo info, params object[] parameters)
+        {
+            return null;
         }
     }
 }

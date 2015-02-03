@@ -9,6 +9,7 @@ using Sitana.Framework.Ui.Core;
 using Sitana.Framework.Input;
 using Sitana.Framework.Input.TouchPad;
 using Microsoft.Xna.Framework;
+using Sitana.Framework.Ui.Views.ButtonDrawables;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -21,12 +22,14 @@ namespace Sitana.Framework.Ui.Views
 
         TextInput _textInput;
         bool _applied = false;
+        int _carretPosition = 0;
 
         string ITextConsumer.OnTextChanged(string newText)
         {
             newText = OnTextChanged(newText);
 
             Text.Format("{0}", newText);
+
             return newText;
         }
 
@@ -68,7 +71,7 @@ namespace Sitana.Framework.Ui.Views
         {
             set
             {
-                //_carretPosition = value;
+                _carretPosition = value;
             }
         }
 
@@ -76,7 +79,7 @@ namespace Sitana.Framework.Ui.Views
         {
             set
             {
-                // _carretPosition = value;
+                 _carretPosition = value;
             }
         }
 
@@ -119,15 +122,47 @@ namespace Sitana.Framework.Ui.Views
                 _original = Text.StringValue;
                 _textInput.SetText(_original);
                 _applied = false;
+                _carretPosition = Text.Length;
+
                 AppMain.Current.SetFocus(_textInput);
             }
+        
         }
 
         void OnTouchDown(int id, Vector2 pos)
         {
-            if (_focused && !IsPointInsideView(pos))
+            if (_focused )
             {
-                AppMain.Current.ReleaseFocus(_textInput);
+                if(!IsPointInsideView(pos))
+                {
+                    AppMain.Current.ReleaseFocus(_textInput);
+                }
+                else
+                {
+                    var drawInfo = new DrawButtonInfo();
+
+                    drawInfo.Text = _text;
+                    drawInfo.ButtonState = ButtonState;
+
+                    drawInfo.Target = ScreenBounds;
+                    drawInfo.Opacity = 0;
+                    drawInfo.EllapsedTime = 0;
+                    drawInfo.Icon = Icon.Value;
+                    drawInfo.Additional = 0;
+
+                    int clickPosition = (int)pos.X;
+
+                    for (int idx = 0; idx < _drawables.Count; ++idx)
+                    {
+                        var drawable = _drawables[idx];
+                        object ret = drawable.OnAction(drawInfo, clickPosition);
+
+                        if(ret != null)
+                        {
+                            _carretPosition = (int)ret;
+                        }
+                    }
+                }
             }
         }
 
@@ -160,6 +195,35 @@ namespace Sitana.Framework.Ui.Views
                         Text.StringValue = newText;
                     }
                 }
+            }
+        }
+
+        protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
+        {
+            float opacity = parameters.Opacity;
+
+            if (opacity == 0)
+            {
+                return;
+            }
+
+            var batch = parameters.DrawBatch;
+
+            var drawInfo = new DrawButtonInfo();
+
+            drawInfo.Text = _text;
+            drawInfo.ButtonState = ButtonState;
+
+            drawInfo.Target = ScreenBounds;
+            drawInfo.Opacity = opacity;
+            drawInfo.EllapsedTime = parameters.EllapsedTime;
+            drawInfo.Icon = Icon.Value;
+            drawInfo.Additional = _carretPosition;
+
+            for (int idx = 0; idx < _drawables.Count; ++idx)
+            {
+                var drawable = _drawables[idx];
+                drawable.Draw(batch, drawInfo);
             }
         }
 

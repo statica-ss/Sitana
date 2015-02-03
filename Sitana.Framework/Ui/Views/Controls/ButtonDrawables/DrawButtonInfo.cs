@@ -13,6 +13,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         public Texture2D Icon;
         public float Opacity;
         public float EllapsedTime;
+        public object Additional;
     }
 }
 

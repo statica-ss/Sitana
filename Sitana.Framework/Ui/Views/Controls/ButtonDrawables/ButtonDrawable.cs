@@ -148,5 +148,10 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
                 return color;
             }
         }
+
+        public override object OnAction(DrawButtonInfo info, params object[] parameters)
+        {
+            return null;
+        }
     }
 }

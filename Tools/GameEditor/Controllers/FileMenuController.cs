@@ -5,6 +5,8 @@ using Sitana.Framework.Ui.Core;
 using Sitana.Framework.Cs;
 using System.IO;
 using Sitana.Framework.Content;
+using Sitana.Framework.Input;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameEditor
 {
@@ -33,6 +35,19 @@ namespace GameEditor
         public FileMenuController()
         {
             Current = this;
+
+            #if WINDOWS
+            Accelerators.Instance.Register(KeyModifiers.Ctrl, Keys.O, Open);
+            Accelerators.Instance.Register(KeyModifiers.Ctrl, Keys.S, Save);
+            Accelerators.Instance.Register(KeyModifiers.Ctrl, Keys.N, New);
+            #else
+            Accelerators.Instance.Register((char)15, Open);
+            //Accelerators.Instance.Register('O', Open);
+            Accelerators.Instance.Register('s', Save);
+            Accelerators.Instance.Register('S', Save);
+            Accelerators.Instance.Register('n', New);
+            Accelerators.Instance.Register('N', New);
+            #endif
         }
 
         public void New()

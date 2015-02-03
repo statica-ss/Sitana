@@ -236,6 +236,8 @@
     <Compile Include="Input\GamePad\GamePadButtonState.cs" />
     <Compile Include="Input\GamePad\GamePads.cs" />
     <Compile Include="Ui\Core\AppMain.Windows.Xna.cs" />
+    <Compile Include="Input\Accelerators\Accelerators.cs" />
+    <Compile Include="Input\Accelerators\KeyModifiers.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

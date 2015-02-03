@@ -15,6 +15,7 @@
 *.resources
 *.txt
 *.cachefile
+*.xnb
 
 #OS junk files
 [Tt]humbs.db
