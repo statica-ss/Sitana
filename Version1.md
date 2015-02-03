@@ -6,6 +6,7 @@
   - [X] Android
   - [X] Windows Phone
   - [X] Mac OS
+  - [X] Windows (DirectX)
 
 - [ ] Content Types
   - [X] 3D Models
@@ -27,7 +28,7 @@
       - [X] Transition Effects
     - [X] UiScrollView
     - [X] UiSplitterView
-    - [ ] UiAccordion
+    - [ ] UiCollapsingContainer
     - [ ] UiRadioGroup
   - [ ] Controls
     - [X] UiButton
@@ -35,7 +36,7 @@
     - [X] UiImage
     - [X] UiLabel
     - [X] UiListBox
-    - [ ] UiEditBox
+    - [X] UiEditBox
     - [X] UiRectangle
     - [X] UiSlider
     - [X] UiIndexSelector
@@ -44,10 +45,11 @@
 - [ ] Tools
   - [X] Font generator
   - [X] Model converter
-  - [ ] Platform Editor
+  - [ ] Game Editor
 
 - [ ] Samples
   - [X] Windows.XNA
+  - [ ] Windows (DirectX)
   - [X] iOS
   - [X] Mac OS
   - [ ] Android
