@@ -11,7 +11,7 @@ using Sitana.Framework.Cs;
 using System.Threading;
 using Sitana.Framework.Ui.Binding;
 
-namespace TestApp
+namespace SampleApp
 {
     public class MainController : UiController
     {   
@@ -62,7 +62,7 @@ namespace TestApp
 
         public static void OnLoadContent(AppMain main)
         {
-            FontManager.Instance.AddSpriteFont("TestFont", "Fonts/Font", new int[]{8,12,16,20,24});
+            FontManager.Instance.AddSpriteFont("Font", "Fonts/Font", new int[] { 8, 12, 16, 20, 24 });
         }
     }
 }

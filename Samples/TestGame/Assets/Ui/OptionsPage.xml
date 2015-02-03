@@ -1,14 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<UiPage Controller="TestGame.OptionsPage,TestGame"
+<UiPage Controller="SampleGame.OptionsPage,SampleGame"
     xmlns="namespace:Sitana.Framework.Ui.Views,Sitana.Framework"
     xmlns:button="namespace:Sitana.Framework.Ui.Views.ButtonDrawables,Sitana.Framework"
     xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
     Style="Transition">
   <!-- Change style to see different transition effects-->
-  <UiPage.Content>
     <UiBorder>
-      <UiBorder.Children>
-        <UiLabel Text="OPTIONS" Font="TestFont" FontSize="18" X="C" Y="20" VerticalContentAlignment="Top" HorizontalAlignment="Center" VerticalAlignment="Top" Width="@" Height="@"/>
+        <UiLabel Text="OPTIONS" Font="Font" FontSize="18" X="C" Y="20" VerticalContentAlignment="Top" HorizontalAlignment="Center" VerticalAlignment="Top" Width="@" Height="@"/>
 
         <UiButton Style="DefaultButton" Text="Test" X="C" Y="C+40" HorizontalAlignment="Center" VerticalAlignment="Top" Click="{Next()}"/>
         <UiButton Style="DefaultButtonSystem" Text="back" X="C" Y="C+110" Click="{NavigateBack()}"/>
@@ -27,10 +25,7 @@
               <effect:Vanish Power="2"/>
             </effect:Group>
           </UiContentSlider.ShowTransitionEffectPrev>
-
-          <UiContentSlider.Children>
             <UiStackPanel Mode="Horizontal" Spacing="10" Padding="10">
-              <UiStackPanel.Children>
                 <UiRectangle Color="#ff0000" Width="39"/>
                 <UiRectangle Color="#ff8000" Width="39"/>
                 <UiRectangle Color="#ffff00" Width="39"/>
@@ -39,41 +34,32 @@
                 <UiRectangle Color="#0000ff" Width="39"/>
                 <UiRectangle Color="#8000ff" Width="39"/>
                 <UiRectangle Color="#ff00ff" Width="39"/>
-              </UiStackPanel.Children>
             </UiStackPanel>
 
             <UiStackPanel Mode="Vertical" Spacing="10" Padding="10">
-              <UiStackPanel.Children>
                 <UiRectangle Color="#ff8000" Height="25"/>
                 <UiRectangle Color="#00ff00" Height="25"/>
                 <UiRectangle Color="#0000ff" Height="25"/>
                 <UiRectangle Color="#ff00ff" Height="25"/>
-              </UiStackPanel.Children>
             </UiStackPanel>
 
             <UiStackPanel Mode="Horizontal" Spacing="10" Padding="10">
-              <UiStackPanel.Children>
                 <UiRectangle Color="#ff0000" Width="120"/>
                 <UiRectangle Color="#00ff00" Width="120"/>
                 <UiRectangle Color="#0000ff" Width="120"/>
-              </UiStackPanel.Children>
             </UiStackPanel>
-            
-          </UiContentSlider.Children>
           
         </UiContentSlider>
 
         <UiIndexSelector Context="TestSlider" Spacing="25%" Width="380" Height="16" X="C" Y="C-8" HorizontalAlignment="Center" VerticalAlignment="Center" ElementWidth="150%">
           <UiButton.Drawables>
             <button:NinePatchBackground ColorPushed="#40ffffff" ColorReleased="#80ffffff" Image="Ui/Button" ScaleByUnit="true" Scale="0.2"/>
-            <button:Text ColorPushed="#ffffff" ColorReleased="#ffffff" Font="TestFont" FontSize="12"/>
+            <button:Text ColorPushed="#ffffff" ColorReleased="#ffffff" Font="Font" FontSize="12"/>
           </UiButton.Drawables>
         </UiIndexSelector>
         
         <UiButton Style="TransparentWhiteButton" Text="next" Y="C-8" X="C+190" HorizontalAlignment="Right" VerticalAlignment="Center" Click="{Next()}"/>
         <UiButton Style="TransparentWhiteButton" Text="prev" Y="C-8" X="C-190" HorizontalAlignment="Left" VerticalAlignment="Center" Click="{Prev()}"/>
         
-      </UiBorder.Children>
     </UiBorder>
-  </UiPage.Content> 
 </UiPage>

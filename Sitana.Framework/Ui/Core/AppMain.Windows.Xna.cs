@@ -30,6 +30,10 @@ namespace Sitana.Framework.Ui.Core
     {
         KeyboardHandler _keyboardHandler;
 
+        void PlatformUpdate(GameTime gameTime)
+        {
+        }
+
         public void ResizeToView()
         {
             if (!Graphics.IsFullScreen)

@@ -27,7 +27,7 @@ namespace Sitana.Framework.Content
             foreach (int size in sizes)
             {
                 string fontPath = String.Format("{0}{1}", path, size);
-                AddSpriteFont(name, fontPath, size);
+                AddSpriteFontInternal(name, fontPath, size);
             }
         }
 

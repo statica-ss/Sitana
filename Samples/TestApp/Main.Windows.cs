@@ -13,7 +13,7 @@ using Sitana.Framework.Ui.Views.ButtonDrawables;
 using System.Threading;
 using Sitana.Framework.Diagnostics;
 
-namespace TestApp
+namespace SampleApp
 {
     public static class Program
     {
@@ -25,7 +25,7 @@ namespace TestApp
         {
             using (var main = new AppMain())
             {
-                ContentLoader.Init(main.Services, "TestApp");
+                ContentLoader.Init(main.Services, "SampleApp");
 
                 UiUnit.Unit = 1;
                 UiUnit.FontUnit = 1;
@@ -40,8 +40,8 @@ namespace TestApp
                 main.Graphics.IsFullScreen = false;
 
                 main.IsMouseVisible = true;
-                main.OnLoadContent += MainController.OnLoadContent;
-                main.OnLoadedView += (a) => a.ResizeToView();
+                main.ContentLoading += MainController.OnLoadContent;
+                main.ViewLoaded += (a) => a.ResizeToView();
 
                 main.Run();
             }

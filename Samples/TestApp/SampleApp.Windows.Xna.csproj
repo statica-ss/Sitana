@@ -7,10 +7,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestApp</RootNamespace>
-    <AssemblyName>TestApp</AssemblyName>
+    <RootNamespace>SampleApp</RootNamespace>
+    <AssemblyName>SampleApp</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
     <XnaProfile>Reach</XnaProfile>
@@ -51,7 +52,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\_Bin\Windows.Xna\</OutputPath>
+    <OutputPath>..\..\_Bin\Windows.Xna\</OutputPath>
     <DefineConstants>TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -82,9 +83,9 @@
       <Project>{68D03401-FD88-48C5-9821-0C3A07F89C34}</Project>
       <Name>Sitana.Framework.Windows.Xna</Name>
     </ProjectReference>
-    <ProjectReference Include="Assets\TestApp.Assets.Windows.Xna.contentproj">
+    <ProjectReference Include="Assets\SampleApp.Assets.Windows.Xna.contentproj">
       <Project>{E40D2C4B-A75A-4EE9-A558-71F346036DC1}</Project>
-      <Name>TestApp.Assets.Windows.Xna %28TestApp%29</Name>
+      <Name>SampleApp.Assets.Windows.Xna %28TestApp%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>

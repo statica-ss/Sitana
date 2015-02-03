@@ -7,8 +7,8 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestGame</RootNamespace>
-    <AssemblyName>TestGame</AssemblyName>
+    <RootNamespace>SampleGame</RootNamespace>
+    <AssemblyName>SampleGame</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -52,7 +52,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\_Bin\Windows.Xna\</OutputPath>
+    <OutputPath>..\..\_Bin\Windows.Xna\</OutputPath>
     <DefineConstants>TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -122,9 +122,9 @@
       <Project>{68D03401-FD88-48C5-9821-0C3A07F89C34}</Project>
       <Name>Sitana.Framework.Windows.Xna</Name>
     </ProjectReference>
-    <ProjectReference Include="Assets\TestGame.Assets.Windows.Xna.contentproj">
+    <ProjectReference Include="Assets\SampleGame.Assets.Windows.Xna.contentproj">
       <Project>{2766F0AF-5142-46FC-8646-AFE89F28A70A}</Project>
-      <Name>TestGame.Assets.Windows.Xna %28TestGame%29</Name>
+      <Name>SampleGame.Assets.Windows.Xna %28TestGame%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>

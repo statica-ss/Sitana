@@ -10,7 +10,7 @@ using Sitana.Framework.Cs;
 using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace TestGame
+namespace SampleGame
 {
     public class GameController : UiController
     {
@@ -20,7 +20,7 @@ namespace TestGame
         
         public static void OnLoadContent(AppMain main)
         {
-            FontManager.Instance.AddSitanaFont("TestFont", "Fonts/Font", new int[]{8,10,12,14,16,20,24,28,32,38,44,50,58});
+            FontManager.Instance.AddSitanaFont("Font", "Fonts/Font", new int[]{10,14,18,22,28,32,38,44,50,58});
         }
         
         public void OpenLink(UiButton button)
