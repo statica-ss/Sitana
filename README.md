@@ -1,6 +1,6 @@
 # Sitana
 
-Sitana Framework is multiple platform Games (and Apps) framework based on MonoGame/XNA.
+Sitana Framework is multiple platform Games & Apps framework based on MonoGame/XNA.
 
 ## Supported Platforms
 
