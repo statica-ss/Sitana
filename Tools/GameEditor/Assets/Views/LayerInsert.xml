@@ -17,6 +17,6 @@
             <UiCheckBox Style="UiCheckBox" Text="Select" Checked="{Select}"/>
             <UiCheckBox Style="UiCheckBox" Text="Eraser" Checked="{Eraser}"/>
         </UiStackPanel>
-          
+      
     </UiBorder>
 </UiBorder>

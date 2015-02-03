@@ -31,7 +31,16 @@
 :AccentSelected                 #40800000
 :AccentPushed                   #20800000
 
-:ElementBackground              #10ffffff
+:EditBoxFrameNormal				:MenuButtonBackgroundNormal
+:EditBoxFramePushed				:MenuButtonBackgroundPushed
+
+:EditBoxFrameChecked			:EditBoxFramePushed
+
+:EditBoxTextNormal				:ContentBackground
+:EditBoxTextPushed				#000000
+:EditBoxTextChecked				:EditBoxTextPushed
+
+:ElementBackground              #272f35
 
 :PopupHeaderBackground          :MenuButtonBackgroundNormal
 :PopupHeaderText                :MenuButtonTextNormal

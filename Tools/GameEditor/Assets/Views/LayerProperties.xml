@@ -31,7 +31,6 @@
             </UiBorder>
 
             <UiBorder Style="Property">
-              
                 <UiLabel Style="PropertyName" Text="VERTICAL SPEED (%)" />
                 <UiEditBox Style="UiEditBox,PropertyValue" InputType="Number" CancelOnLostFocus="true" TextApply="{OnApplySpeedY(text)}" Text="{LayerSpeedY}"/>
             </UiBorder>

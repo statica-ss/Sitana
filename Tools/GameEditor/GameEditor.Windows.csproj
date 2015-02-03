@@ -106,7 +106,9 @@
     <EmbeddedResource Include="Assets\Views\Menu.xml" />
     <EmbeddedResource Include="Assets\Views\MessageBox.xml" />
     <EmbeddedResource Include="Assets\Views\LayerInsert.xml" />
-    <EmbeddedResource Include="Assets\Views\LayerProperties.xml" />
+    <EmbeddedResource Include="Assets\Views\LayerProperties.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Assets\Views\ModalDialog.xml" />
     <EmbeddedResource Include="Assets\Views\NewFile.xml" />
     <EmbeddedResource Include="Assets\Views\EditView.xml" />
@@ -123,7 +125,9 @@
     <EmbeddedResource Include="Assets\Fonts\Font28.png" />
     <EmbeddedResource Include="Assets\Fonts\Font32.png" />
     <Content Include="Icon.ico" />
-    <EmbeddedResource Include="Assets\Styles\AppStyles.xml" />
+    <EmbeddedResource Include="Assets\Styles\AppStyles.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Assets\Ui\Button.xml" />
   </ItemGroup>
   <ItemGroup>

@@ -37,12 +37,10 @@
     <Style Name="UiEditBox">
         <UiEditBox Width="48" Height="18">
             <UiButton.Drawables>
-                <button:NinePatchBackground ColorPushed="#800000" ColorReleased="#40000000" Image="Ui/Button" Checked="false" Margin="-1" Scale="0.5" />
-                <button:NinePatchBackground ColorPushed="#ffffff" ColorReleased="#80ffffff" ColorDisabled="#40ffffff" Image="Ui/Button" Checked="false" Scale="0.5" />
-                <button:NinePatchBackground ColorPushed="#800000" ColorReleased="#800000" Image="Ui/Button" Checked="true" Margin="-2" Scale="0.5" />
+                <button:NinePatchBackground ColorPushed="#ffffff" ColorReleased="#80ffffff" ColorDisabled="#20ffffff" Image="Ui/Button" Checked="false" Scale="0.5" />
                 <button:NinePatchBackground ColorPushed="#ffffff" ColorReleased="#ffffff" Image="Ui/Button" Checked="true" Scale="0.5" />
-                <button:Text ColorPushed="#800000" ColorReleased="#800000" ColorDisabled="#80800000" Font="Font" FontSize="8" Margin="2" Checked="false"/>
-                <button:EditText ColorPushed="#800000" ColorReleased="#800000" Font="Font" FontSize="8" Margin="2" Checked="true"/>
+                <button:Text ColorPushed=":EditBoxTextPushed" ColorReleased=":EditBoxTextNormal" ColorDisabled="#80000000" Font="Font" FontSize="8" Margin="2" Checked="false"/>
+                <button:EditText ColorPushed=":EditBoxTextChecked" ColorReleased=":EditBoxTextChecked" Font="Font" FontSize="8" Margin="2" Checked="true"/>
             </UiButton.Drawables>
         </UiEditBox>
     </Style>
@@ -81,7 +79,7 @@
         </UiCheckBox>
     </Style>
     <Style Name="Property">
-        <UiView Height="24" VerticalAlignment="Center" BackgroundColor=":ElementBackground" ShowHideTime="0"S/>
+        <UiView Height="24" VerticalAlignment="Center" BackgroundColor=":ElementBackground" ShowHideTime="0"/>
     </Style>
     <Style Name="PropertyName">
         <UiLabel Margin="15,0,0,0" HorizontalContentAlignment="Left" Font="Font" FontSize="8" TextColor="#ffffff" />
