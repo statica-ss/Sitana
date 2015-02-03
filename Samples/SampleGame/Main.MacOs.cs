@@ -5,7 +5,7 @@ using Sitana.Framework.Ui.Core;
 using Sitana.Framework.Content;
 using Sitana.Framework;
 
-namespace TestApp
+namespace SampleGame
 {
     static class Program
     {
@@ -26,16 +26,14 @@ namespace TestApp
 
         public override void FinishedLaunching(MonoMac.Foundation.NSObject notification)
         {
+            UiUnit.FontScaling = UiUnit.ScalingMode.Floating;
+
             _appMain = new AppMain();
 
             _appMain.Window.Window.CollectionBehavior = NSWindowCollectionBehavior.FullScreenPrimary;
             _appMain.Window.Window.DidResize += Window_DidResize;
 
             ContentLoader.Init(_appMain.Services, "Assets");
-
-            UiUnit.Unit = 1;
-            UiUnit.FontUnit = 1;
-            UiUnit.EnableFontScaling = true;
 
             StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
             _appMain.LoadView("Ui/MainView");
@@ -45,7 +43,7 @@ namespace TestApp
             _appMain.Graphics.IsFullScreen = false;
 
             _appMain.IsMouseVisible = true;
-            _appMain.OnLoadContent += MainController.OnLoadContent;
+            _appMain.ContentLoading += GameController.OnLoadContent;
 
             _appMain.Run();
         }
@@ -53,16 +51,16 @@ namespace TestApp
         void Window_DidResize(object sender, EventArgs e)
         {
             UiTask.BeginInvoke(() =>
-                {
-                    double unit = Math.Min((double)AppMain.Current.GraphicsDevice.Viewport.Width / 640.0,
-                        (double)AppMain.Current.GraphicsDevice.Viewport.Height / 480.0);
+            {
+                double unit = Math.Min((double)AppMain.Current.GraphicsDevice.Viewport.Width / 640.0,
+                    (double)AppMain.Current.GraphicsDevice.Viewport.Height / 480.0);
 
-                    unit = Math.Min(1, unit);
+                unit = Math.Round(unit, 1);
 
-                    UiUnit.FontUnit = UiUnit.Unit = unit;
+                UiUnit.FontUnit = UiUnit.Unit = unit;
 
-                    _appMain.SizeChanged();
-                });
+                _appMain.SizeChanged();
+            });
         }
 
         public override bool ApplicationShouldTerminateAfterLastWindowClosed(NSApplication sender)

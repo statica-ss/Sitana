@@ -47,6 +47,11 @@ namespace Sitana.Framework.Ui.Core
             }
         }
 
+        void PlatformUpdate(GameTime gameTime)
+        {
+
+        }
+
         void PlatformInit()
         {
             Window.Window.WindowShouldClose = (a) =>

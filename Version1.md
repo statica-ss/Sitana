@@ -8,7 +8,7 @@
   - [X] Mac OS
   - [X] Windows (DirectX)
 
-- [ ] Content Types
+- [X] Content Types
   - [X] 3D Models
   - [X] Sprites
   - [X] BitmapFont
@@ -30,7 +30,7 @@
     - [X] UiSplitterView
     - [ ] UiCollapsingContainer
     - [ ] UiRadioGroup
-  - [ ] Controls
+  - [X] Controls
     - [X] UiButton
     - [X] UiCheckBox
     - [X] UiImage
@@ -49,8 +49,8 @@
 
 - [ ] Samples
   - [X] Windows.XNA
-  - [ ] Windows (DirectX)
-  - [X] iOS
+  - [X] Windows (DirectX)
+  - [ ] iOS
   - [X] Mac OS
   - [ ] Android
   - [ ] Windows Phone

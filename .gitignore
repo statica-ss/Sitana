@@ -13,7 +13,6 @@
 *.exe.config
 *.exe.manifest
 *.resources
-*.txt
 *.cachefile
 *.xnb
 

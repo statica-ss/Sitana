@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>TestApp.MacOs</RootNamespace>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
-    <AssemblyName>TestApp</AssemblyName>
+    <AssemblyName>SampleApp</AssemblyName>
     <SuppressXamMacUpsell>True</SuppressXamMacUpsell>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -23,14 +23,14 @@
     <UseSGen>false</UseSGen>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <EnablePackageSigning>false</EnablePackageSigning>
-    <CodeSigningKey>Mac Developer</CodeSigningKey>
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\_Bin\MacOs</OutputPath>
+    <OutputPath>..\..\_Bin\MacOs\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -39,6 +39,7 @@
     <EnablePackageSigning>false</EnablePackageSigning>
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -55,6 +56,7 @@
     <CodeSigningKey>3rd Party Mac Developer Application</CodeSigningKey>
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>true</EnablePackageSigning>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -78,24 +80,34 @@
     <BundleResource Include="MacOs\Info.plist">
       <Link>Info.plist</Link>
     </BundleResource>
-    <BundleResource Include="Assets\Ui\Button.png" />
-    <BundleResource Include="Assets\Ui\Logo.png" />
-    <BundleResource Include="Assets\Ui\AppStyles.xml" />
-    <BundleResource Include="Assets\Ui\Button.xml" />
-    <BundleResource Include="Assets\Ui\MainView.xml" />
-    <BundleResource Include="Assets\Built\MacOs\Fonts\Font12.xnb">
+    <BundleResource Include="..\SampleApp.Assets\Ui\Button.png">
+      <Link>Assets\Ui\Button.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleApp.Assets\Ui\Logo.png">
+      <Link>Assets\Ui\Logo.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleApp.Assets\Ui\AppStyles.xml">
+      <Link>Assets\Ui\AppStyles.xml</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleApp.Assets\Ui\Button.xml">
+      <Link>Assets\Ui\Button.xml</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleApp.Assets\Ui\MainView.xml">
+      <Link>Assets\Ui\MainView.xml</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleApp.Assets\Built\MacOs\Fonts\Font12.xnb">
       <Link>Assets\Fonts\Font12.xnb</Link>
     </BundleResource>
-    <BundleResource Include="Assets\Built\MacOs\Fonts\Font16.xnb">
+    <BundleResource Include="..\SampleApp.Assets\Built\MacOs\Fonts\Font16.xnb">
       <Link>Assets\Fonts\Font16.xnb</Link>
     </BundleResource>
-    <BundleResource Include="Assets\Built\MacOs\Fonts\Font20.xnb">
+    <BundleResource Include="..\SampleApp.Assets\Built\MacOs\Fonts\Font20.xnb">
       <Link>Assets\Fonts\Font20.xnb</Link>
     </BundleResource>
-    <BundleResource Include="Assets\Built\MacOs\Fonts\Font24.xnb">
+    <BundleResource Include="..\SampleApp.Assets\Built\MacOs\Fonts\Font24.xnb">
       <Link>Assets\Fonts\Font24.xnb</Link>
     </BundleResource>
-    <BundleResource Include="Assets\Built\MacOs\Fonts\Font8.xnb">
+    <BundleResource Include="..\SampleApp.Assets\Built\MacOs\Fonts\Font8.xnb">
       <Link>Assets\Fonts\Font8.xnb</Link>
     </BundleResource>
   </ItemGroup>
@@ -105,7 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
-    <Folder Include="Assets\Ui\" />
     <Folder Include="Assets\Fonts\" />
+    <Folder Include="Assets\Ui\" />
   </ItemGroup>
 </Project>
