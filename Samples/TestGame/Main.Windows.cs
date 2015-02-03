@@ -13,7 +13,7 @@ using Sitana.Framework.Ui.Views.ButtonDrawables;
 using System.Threading;
 using Sitana.Framework.Diagnostics;
 
-namespace TestGame
+namespace SampleGame
 {
     public static class Program
     {
@@ -33,7 +33,7 @@ namespace TestGame
         static void Init(AppMain main)
         {
             UiUnit.FontScaling = UiUnit.ScalingMode.Floating;
-            ContentLoader.Init(main.Services, "TestGame");
+            ContentLoader.Init(main.Services, "SampleGame");
 
             StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
             main.LoadView("Ui/MainView");
@@ -45,8 +45,8 @@ namespace TestGame
             main.Window.AllowUserResizing = true;
             main.Window.ClientSizeChanged += Window_ClientSizeChanged;
 
-            main.OnLoadContent += GameController.OnLoadContent;
-            main.OnLoadedView += (s)=>s.ResizeToView();
+            main.ContentLoading += GameController.OnLoadContent;
+            main.ViewLoaded += (s)=>s.ResizeToView();
         }
 
         static void Window_ClientSizeChanged(object sender, EventArgs e)

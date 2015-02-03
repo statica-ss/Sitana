@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>
-    <ContentRootDirectory>TestGame</ContentRootDirectory>
+    <ContentRootDirectory>SampleGame</ContentRootDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -34,24 +34,16 @@
       <Name>Font10</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Fonts\Font12.sft">
-      <Name>Font12</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Fonts\Font14.sft">
       <Name>Font14</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Fonts\Font16.sft">
-      <Name>Font16</Name>
+    <None Include="Fonts\Font18.sft">
+      <Name>Font18</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Fonts\Font20.sft">
-      <Name>Font20</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Fonts\Font24.sft">
-      <Name>Font24</Name>
+    <None Include="Fonts\Font22.sft">
+      <Name>Font22</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Fonts\Font28.sft">
@@ -76,10 +68,6 @@
     </None>
     <None Include="Fonts\Font58.sft">
       <Name>Font58</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Fonts\Font8.sft">
-      <Name>Font8</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Ui\AppStyles.xml">
@@ -144,28 +132,18 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Fonts\Font12.png">
-      <Name>Font12</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Fonts\Font14.png">
       <Name>Font14</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Fonts\Font16.png">
-      <Name>Font16</Name>
+    <Compile Include="Fonts\Font18.png">
+      <Name>Font18</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Fonts\Font20.png">
-      <Name>Font20</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Fonts\Font24.png">
-      <Name>Font24</Name>
+    <Compile Include="Fonts\Font22.png">
+      <Name>Font22</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -184,20 +162,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Fonts\Font8.png">
-      <Name>Font8</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Fonts\Font44.png">
       <Name>Font44</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Fonts\Font50.png">
       <Name>Font50</Name>
       <Importer>TextureImporter</Importer>

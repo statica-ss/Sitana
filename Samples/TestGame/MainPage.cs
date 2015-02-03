@@ -6,7 +6,7 @@ using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.Binding;
 using Sitana.Framework.Cs;
 
-namespace TestGame
+namespace SampleGame
 {
     public class MainPage : UiNavigationController
     {

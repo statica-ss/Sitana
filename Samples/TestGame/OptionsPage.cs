@@ -5,7 +5,7 @@ using System.Text;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.Views;
 
-namespace TestGame
+namespace SampleGame
 {
     public class OptionsPage: UiNavigationController
     {
