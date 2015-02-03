@@ -27,7 +27,7 @@ namespace GameEditor
 
                 ColorsManager.Instance.Append("Styles/Colors.txt");
                 StylesManager.Instance.LoadStyles("Styles/AppStyles", true);
-                _appMain.LoadView("Ui/MainView");
+                _appMain.LoadView("Views/MainView");
 
                 _appMain.Window.AllowUserResizing = true;
 
