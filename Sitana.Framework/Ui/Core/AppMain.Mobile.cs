@@ -24,5 +24,9 @@ namespace Sitana.Framework.Ui.Core
                 Resized(rect.Width, rect.Height);
             }
         }
+
+		protected void PlatformUpdate(GameTime gameTime)
+		{
+		}
     }
 }

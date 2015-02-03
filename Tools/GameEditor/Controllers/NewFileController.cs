@@ -17,6 +17,8 @@ namespace GameEditor
 
         void IFocusable.Unfocus() { }
 
+        int IFocusable.Bottom { get { return 0; } }
+
         void IFocusable.OnKey(Keys key)
         {
             if (key == Keys.Escape)

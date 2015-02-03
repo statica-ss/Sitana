@@ -35,6 +35,9 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Farseer.Physics.Windows">
+      <HintPath>..\ThirdParty\Dependences\Farseer\Farseer.Physics.Windows.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ThirdParty\Dependences\MonoGame\Windows\MonoGame.Framework.dll</HintPath>

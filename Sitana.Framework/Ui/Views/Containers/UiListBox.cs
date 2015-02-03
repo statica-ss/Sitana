@@ -386,6 +386,32 @@ namespace Sitana.Framework.Ui.Views
             return childRect;
         }
 
+        public Rectangle BoundsOf(object item)
+        {
+            UiView view;
+            if(_bindingToElement.TryGetValue(item, out view))
+            {
+                return view.ScreenBounds;
+            }
+
+            throw new Exception("List doesn't contain requested element!");
+        }
+
+        public T FirstVisible<T>() where T: class
+        {
+            Rectangle bounds = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
+
+            for(int idx = 0; idx < _children.Count; ++idx)
+            {
+                if(_children[idx].Bounds.Intersects(bounds))
+                {
+                    return _children[idx].Binding as T;
+                }
+            }
+
+            return null;
+        }
+
         void IItemsConsumer.Recalculate()
         {
             lock (_recalcLock)

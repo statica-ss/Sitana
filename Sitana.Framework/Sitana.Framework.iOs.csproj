@@ -245,6 +245,10 @@
     <Compile Include="Ui\Views\Controls\UiEditBox.Mobile.cs" />
     <Compile Include="Ui\Views\Controls\UiHorizontalGradient.cs" />
     <Compile Include="Ui\Views\IBackgroundDrawable.cs" />
+    <Compile Include="Helpers\ColorParser.cs" />
+    <Compile Include="Ui\Definitions\HorizontalContentAlignment.cs" />
+    <Compile Include="Ui\Definitions\VerticalContentAlignment.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\EditText.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

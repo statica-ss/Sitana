@@ -108,5 +108,10 @@ namespace Sitana.Framework
 			float scale = (float)UIScreen.MainScreen.Scale;
 			return pixels / scale;
 		}
+
+		public static int KeyboardHeight(bool landscape)
+		{
+			return 0;
+		}
     }
 }

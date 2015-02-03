@@ -1,14 +1,27 @@
-// SITANA - Copyright (C) The Sitana Team.
-// This file is subject to the terms and conditions defined in
-// file 'LICENSE.txt', which is part of this source code package.
+/// This file is a part of the EBATIANOS.ESSENTIALS class library.
+/// (c)2013-2014 EBATIANO'S a.k.a. Sebastian Sejud. All rights reserved.
+///
+/// THIS SOURCE FILE IS THE PROPERTY OF EBATIANO'S A.K.A. SEBASTIAN SEJUD 
+/// AND IS NOT TO BE RE-DISTRIBUTED BY ANY MEANS WHATSOEVER WITHOUT 
+/// THE EXPRESSED WRITTEN CONSENT OF EBATIANO'S A.K.A. SEBASTIAN SEJUD.
+///
+/// THIS SOURCE CODE CAN ONLY BE USED UNDER THE TERMS AND CONDITIONS OUTLINED
+/// IN THE EBATIANOS.ESSENTIALS LICENSE AGREEMENT. 
+/// EBATIANO'S A.K.A. SEBASTIAN SEJUD GRANTS TO YOU (ONE SOFTWARE DEVELOPER) 
+/// THE LIMITED RIGHT TO USE THIS SOFTWARE ON A SINGLE COMPUTER.
+///
+/// CONTACT INFORMATION:
+/// contact@ebatianos.com
+/// www.ebatianos.com/essentials-library
+/// 
+///---------------------------------------------------------------------------
 
+using System;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using Sitana.Framework.Content;
 
-namespace Sitana.Framework.Graphics
+namespace Sitana.Framework.Content
 {
     /// <summary>
     /// Loader for texture from png file instead of xnb.
@@ -29,7 +42,7 @@ namespace Sitana.Framework.Graphics
         /// <param name="name">name of resource</param>
         /// <param name="contentLoader">content loader to load additional resources and files</param>
         /// <returns></returns>
-        public static Object Load(String name)
+        public static Object Load(string name)
         {
             try
             {
@@ -42,7 +55,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        public static Texture2D FromName(String name)
+        public static Texture2D FromName(string name)
         {
             IGraphicsDeviceService deviceService = ContentLoader.Current.GetService<IGraphicsDeviceService>();
             GraphicsDevice device = deviceService.GraphicsDevice;
@@ -50,40 +63,23 @@ namespace Sitana.Framework.Graphics
             // Open png file.
             using (Stream stream = ContentLoader.Current.Open(name + ".png"))
             {
-                return FromStream(device, stream);
+                // Load texture from png stream.
+                Texture2D texture = Texture2D.FromStream(device, stream);
+
+                // If texture wasn't loades throw an exception.
+                if (texture == null)
+                {
+                    throw new TypeLoadException();
+                }
+
+                SpriteBatch spriteBatch = new SpriteBatch(device);
+                spriteBatch.Begin();
+                spriteBatch.Draw(texture, Vector2.Zero, Color.White);
+                spriteBatch.End();
+
+                // Return loaded texture.
+                return texture;
             }
-        }
-
-        public static Texture2D FromStream(GraphicsDevice device, Stream stream)
-        {
-            Texture2D texture = Texture2D.FromStream(device, stream);
-#if !WINDOWSMG
-            PremultiplyAlpha(texture);
-#endif
-            return texture;
-        }
-
-        /// <summary>
-        /// Converts non-premultiplied texture to premultiplied
-        /// </summary>
-        /// <param name="texture"></param>
-        private static void PremultiplyAlpha(Texture2D texture)
-        {
-            // Create buffer for texture colors.
-            Color[] pixels = new Color[texture.Width * texture.Height];
-
-            // Get texture colors.
-            texture.GetData(pixels);
-
-            // Iterate thru colors and multiply color by alpha.
-            for (Int32 idx = 0; idx < pixels.Length; idx++)
-            {
-                Color color = pixels[idx];
-                pixels[idx] = new Color(color.R, color.G, color.B) * (color.A / 255f);
-            }
-
-            // Set new data to texture.
-            texture.SetData(pixels);
         }
     }
 }

@@ -1,0 +1,39 @@
+:Transparent					0,0,0,0
+
+:MainBackground #202830
+:ContentBackground #182028
+
+:ButtonBackgroundNormal         #404850
+:ButtonBackgroundPushed         #606870
+:ButtonBackgroundDisabled       #646668
+
+:ButtonBackgroundChecked        #400000
+
+:ButtonTextNormal               #ffffff
+:ButtonTextPushed               #e8f0ff
+
+:ButtonTextChecked              #fff8e0
+
+:MenuButtonBackgroundNormal     #400000
+:MenuButtonBackgroundPushed     #801010
+
+:MenuButtonBackgroundChecked    #ffa0a0
+
+:MenuButtonTextNormal           #fff8e0
+:MenuButtonTextPushed           #ffffff
+
+:ScrollbarThumbNormal			#400000
+:ScrollbarThumbPushed			#801010
+
+:ScrollbarTrackNormal			#60ffffff
+:ScrollbarTrackPushed			#60ffffff
+
+:AccentSelected                 #40800000
+:AccentPushed                   #20800000
+
+:ElementBackground              #10ffffff
+
+:PopupHeaderBackground          :MenuButtonBackgroundNormal
+:PopupHeaderText                :MenuButtonTextNormal
+
+:HeaderBackground				#20ffffff

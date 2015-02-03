@@ -331,6 +331,8 @@ namespace Sitana.Framework.Ui.Views
         private ColorWrapper _backgroundColor = new ColorWrapper(Color.Transparent);
         private InvokeParameters _invokeParameters = new InvokeParameters();
 
+        internal int OffsetBoundsVertical = 0;
+
         public virtual Color BackgroundColor
         {
             get
@@ -353,6 +355,10 @@ namespace Sitana.Framework.Ui.Views
                     return new Rectangle(Parent.ScreenBounds.X + Bounds.X, Parent.ScreenBounds.Y + Bounds.Y, Bounds.Width, Bounds.Height);
                 }
 
+                if (OffsetBoundsVertical != 0)
+                {
+                    return new Rectangle(Bounds.X, Bounds.Y + OffsetBoundsVertical, Bounds.Width, Bounds.Height);
+                }
                 return Bounds;
             }
         }

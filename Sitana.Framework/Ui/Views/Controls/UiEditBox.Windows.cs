@@ -49,14 +49,19 @@ namespace Sitana.Framework.Ui.Views
             {
                 OnApply();
             }
+
+            AppMain.Current.ReleaseFocus(_textInput);
         }
 
         public void Apply()
         {
             _original = Text.StringValue;
+
             OnApply();
 
             AppMain.Current.ReleaseFocus(_textInput);
+
+            CallDelegate("Return");
         }
 
         public void Cancel()

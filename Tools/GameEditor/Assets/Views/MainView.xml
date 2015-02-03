@@ -10,7 +10,7 @@
 
     <UiBorder BackgroundColor=":ContentBackground" X="4" Y="36" Width="340" Height="220" HorizontalAlignment="Left" VerticalAlignment="Top" Mode="Vertical"
     Controller="GameEditor.LayersListController,GameEditor">
-        <UiRectangle Color="#20ffffff" Width="@-4" Height="20" X="2" Y="2" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <UiRectangle Color=":HeaderBackground" Width="@-4" Height="20" X="2" Y="2" HorizontalAlignment="Left" VerticalAlignment="Top" />
         <UiLabel Style="Headers" X="8" Y="12" Text="Layers" />
         <UiButton Style="UiButton" Text="+ Vector" HorizontalAlignment="Left" VerticalAlignment="Top" X="4" Y="28" Click="{AddVectorLayer()}" />
         <UiButton Style="UiButton" Text="+ Tiled" HorizontalAlignment="Left" VerticalAlignment="Top" X="72" Y="28" Click="{AddTiledLayer()}" />
@@ -41,8 +41,7 @@
     </UiBorder>
 
     <UiRectangle Color=":ContentBackground" Width="340" Height="24" X="4" Y="260" HorizontalAlignment="Left" VerticalAlignment="Top" />
-    <UiRectangle Color="#20ffffff" Width="336" Height="20" X="6" Y="262" HorizontalAlignment="Left" VerticalAlignment="Top" />
-    <UiRectangle Color=":ButtonBackgroundChecked" Width="336" Height="1" X="6" Y="282" HorizontalAlignment="Left" VerticalAlignment="Top" />
+    <UiRectangle Color=":HeaderBackground" Width="336" Height="20" X="6" Y="262" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
     <UiContentSlider Controller="GameEditor.LayerPropertiesController,GameEditor" Id="PropertiesSlider" X="4" Y="284" Width="340" Height="@-288" HorizontalAlignment="Left" VerticalAlignment="Top" BackgroundColor=":ContentBackground" ClipChildren="true" TransitionTime="250">
       <UiContentSlider.ShowTransitionEffectNext>
@@ -63,17 +62,19 @@
         <cmd:IncludeView Path="Views/LayerInsert"/>
     </UiContentSlider>
 
-    <UiIndexSelector Context="PropertiesSlider" Spacing="25%" Width="338" Height="18" X="8" Y="264" HorizontalAlignment="Left" VerticalAlignment="Top" ElementWidth="400%" HorizontalContentAlignment="Left">
+    <UiIndexSelector Context="PropertiesSlider" Spacing="25%" Width="338" Height="19" X="8" Y="264" HorizontalAlignment="Left" VerticalAlignment="Top" ElementWidth="400%" HorizontalContentAlignment="Left">
       <UiButton.Drawables>
         <button:NinePatchBackground ColorPushed=":ButtonBackgroundChecked" ColorReleased=":ButtonBackgroundChecked" Image="Ui/Tab" Checked="true"/>
-        <button:NinePatchBackground ColorPushed=":ButtonBackgroundPushed" ColorReleased=":ButtonBackgroundNormal" Image="Ui/Tab" Checked="false"/>
+        <button:NinePatchBackground ColorPushed=":ButtonBackgroundPushed" ColorReleased=":Transparent" Image="Ui/Tab" Checked="false"/>
 
         <button:Text ColorPushed=":ButtonTextChecked" ColorReleased=":ButtonTextChecked" Font="Font" FontSize="8" Margin="2" Checked="true"/>
         <button:Text ColorPushed=":ButtonTextPushed" ColorReleased=":ButtonTextNormal" Font="Font" FontSize="8" Margin="2" Checked="false"/>
 
       </UiButton.Drawables>
     </UiIndexSelector>
-    
+
+    <UiRectangle Color=":ButtonBackgroundChecked" Width="336" Height="1" X="6" Y="282" HorizontalAlignment="Left" VerticalAlignment="Top" />
+  
     <cmd:IncludeView Path="Views/Menu"/>
     <cmd:IncludeView Path="Views/ModalDialog"/>
     <cmd:IncludeView Path="Views/MessageBox"/>

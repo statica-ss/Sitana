@@ -16,16 +16,6 @@
         </UiCheckBox>
     </Style>
 
-    <Style Name="TabButton">
-        <UiButton Width="64" Height="18" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-2,0,0">
-            <UiButton.Drawables>
-                <button:NinePatchBackground ColorPushed="#ffffff" ColorReleased="#ffa0a0" Image="Ui/Tab" Checked="true" />
-                <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" Image="Ui/Tab" Checked="false" />
-                <button:Text ColorPushed=":ButtonTextPushed" ColorReleased=":ButtonTextNormal" Font="Font" FontSize="8" Margin="2"/>
-            </UiButton.Drawables>
-        </UiButton>
-    </Style>
-
     <Style Name="UiButton">
         <UiButton Width="64" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" ShowHideTime="0">
             <UiButton.Drawables>
@@ -60,20 +50,20 @@
     <Style Name="UiScrollBar">
         <UiScrollBar Mode="Vertical" X="@" Width="15" HorizontalAlignment="Right">
             <UiScrollBar.TrackDrawables>
-                <button:NinePatchBackground ColorPushed="#60ffffff" ColorReleased="#60ffa0a0" Image="Ui/Button" Scale="0.3" Margin="6,0,5,0" />
+                <button:NinePatchBackground ColorPushed=":ScrollbarTrackPushed" ColorReleased=":ScrollbarTrackNormal" Image="Ui/Button" Scale="0.3" Margin="6,0,5,0" />
             </UiScrollBar.TrackDrawables>
             <UiScrollBar.ThumbDrawables>
-                <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" Image="Ui/Button" Scale="0.5" Margin="4,0,3,0" />
+                <button:NinePatchBackground ColorPushed=":ScrollbarThumbPushed" ColorReleased=":ScrollbarThumbNormal" Image="Ui/Button" Scale="0.5" Margin="4,0,3,0" />
             </UiScrollBar.ThumbDrawables>
         </UiScrollBar>
     </Style>
     <Style Name="UiCheckBox">
         <UiCheckBox Width="72" Height="20" HorizontalAlignment="Right" VerticalAlignment="Center">
             <UiButton.Drawables>
-                <button:NinePatchBackground ColorPushed="#ffa0a0" ColorReleased="#ffa0a0" Image="Ui/Button" Checked="true" />
-                <button:NinePatchBackground ColorPushed="#a04040" ColorReleased="#800000" Image="Ui/Button" Checked="false" />
-                <button:Text ColorPushed="#800000" ColorReleased="#800000" Font="Font" FontSize="8" Margin="2" Checked="true" />
-                <button:Text ColorPushed="#a0ffffff" ColorReleased="#ffa0a0" Font="Font" FontSize="8" Margin="2" Checked="false" />
+              <button:NinePatchBackground ColorPushed=":ButtonBackgroundChecked" ColorReleased=":ButtonBackgroundChecked" Image="Ui/Button" Checked="true"/>
+              <button:NinePatchBackground ColorPushed=":ButtonBackgroundPushed" ColorReleased=":ButtonBackgroundNormal" Image="Ui/Button" Checked="false"/>
+              <button:Text ColorPushed=":ButtonTextChecked" ColorReleased=":ButtonTextChecked" Font="Font" FontSize="8" Margin="2" Checked="true"/>
+              <button:Text ColorPushed=":ButtonTextPushed" ColorReleased=":ButtonTextNormal" Font="Font" FontSize="8" Margin="2" Checked="false"/>
             </UiButton.Drawables>
         </UiCheckBox>
     </Style>
@@ -91,7 +81,7 @@
         </UiCheckBox>
     </Style>
     <Style Name="Property">
-        <UiView Height="24" VerticalAlignment="Center" BackgroundColor="#10ffffff" ShowHideTime="0" />
+        <UiView Height="24" VerticalAlignment="Center" BackgroundColor=":ElementBackground" ShowHideTime="0"S/>
     </Style>
     <Style Name="PropertyName">
         <UiLabel Margin="15,0,0,0" HorizontalContentAlignment="Left" Font="Font" FontSize="8" TextColor="#ffffff" />

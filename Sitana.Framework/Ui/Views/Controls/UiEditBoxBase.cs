@@ -47,7 +47,7 @@ namespace Sitana.Framework.Ui.Views
         SharedString _password;
         protected TextInputType _inputType;
 
-        protected override bool Init(object controller, object binding, Sitana.Framework.Ui.DefinitionFiles.DefinitionFile definition)
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
             if (!base.Init(controller, binding, definition))
             {

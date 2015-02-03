@@ -25,6 +25,8 @@ namespace GameEditor
 
                 ContentLoader.Init(_appMain.Services, Assembly.GetExecutingAssembly(), "GameEditor.Assets");
 
+                LoadTexture2DFromPng.Register();
+
                 ColorsManager.Instance.Append("Styles/Colors.txt");
                 StylesManager.Instance.LoadStyles("Styles/AppStyles", true);
                 _appMain.LoadView("Views/MainView");

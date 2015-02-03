@@ -30,6 +30,8 @@ namespace GameEditor
             }
         }
 
+        int IFocusable.Bottom { get { return 0; } }
+
         void IFocusable.OnCharacter(char character)
         {
             if (_yesNoVisible)
