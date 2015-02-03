@@ -86,13 +86,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.Windows.Xna.csproj">
-      <Project>{68d03401-fd88-48c5-9821-0c3a07f89c34}</Project>
-      <Name>Sitana.Framework.Windows.Xna</Name>
-    </ProjectReference>
+    <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Icon.ico" />
+    <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.Windows.csproj">
+      <Project>{f527c2fc-292b-4ab0-aae7-aff2b5cce086}</Project>
+      <Name>Sitana.Framework.Windows</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

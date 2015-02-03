@@ -197,7 +197,7 @@ namespace ModelConverter
                     {
                         using (Stream stream = new FileStream(fileName, FileMode.Open))
                         {
-                            Texture2D texture = LoadTexture2DFromPng.FromStream(_preview.GraphicsDevice, stream);
+                            Texture2D texture = Texture2D.FromStream(_preview.GraphicsDevice, stream);
                             material.Textures = new MaterialTextures(texture);
                         }
                     }
@@ -210,7 +210,7 @@ namespace ModelConverter
                         {
                             using (Stream stream = new FileStream(fileName, FileMode.Open))
                             {
-                                Texture2D texture = LoadTexture2DFromPng.FromStream(_preview.GraphicsDevice, stream);
+                                Texture2D texture = Texture2D.FromStream(_preview.GraphicsDevice, stream);
                                 material.Textures = new MaterialTextures(texture);
                             }
                         }
