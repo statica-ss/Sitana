@@ -5,7 +5,7 @@ using Sitana.Framework.Ui.Core;
 using Sitana.Framework.Content;
 using Sitana.Framework;
 
-namespace TestApp
+namespace SampleApp
 {
     static class Program
     {
@@ -33,10 +33,6 @@ namespace TestApp
 
             ContentLoader.Init(_appMain.Services, "Assets");
 
-            UiUnit.Unit = 1;
-            UiUnit.FontUnit = 1;
-            UiUnit.EnableFontScaling = true;
-
             StylesManager.Instance.LoadStyles("Ui/AppStyles", true);
             _appMain.LoadView("Ui/MainView");
 
@@ -45,7 +41,7 @@ namespace TestApp
             _appMain.Graphics.IsFullScreen = false;
 
             _appMain.IsMouseVisible = true;
-            _appMain.OnLoadContent += MainController.OnLoadContent;
+            _appMain.ContentLoading += MainController.OnLoadContent;
 
             _appMain.Run();
         }
