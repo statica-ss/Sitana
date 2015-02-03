@@ -151,10 +151,9 @@ namespace GameEditor
             XNodeAttributes attr = new XNodeAttributes(node);
 
             Name = attr.AsString("Name");
-            TileSize = attr.AsInt32("TileSize", 32);
             TilesetLineWidth = attr.AsInt32("TilesetLineWidth", 8);
 
-            UnitSize = attr.AsInt32("UnitSize", TileSize);
+            TileSize = UnitSize = attr.AsInt32("UnitSize", TileSize);
         }
     }
 }

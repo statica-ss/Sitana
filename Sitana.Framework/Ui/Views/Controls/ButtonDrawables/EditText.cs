@@ -24,13 +24,13 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
         public override void Draw(AdvancedDrawBatch drawBatch, DrawButtonInfo info)
         {
-            int carretPosition = (int)info.Additional;
+			int carretPosition = info.Additional != null ? (int)info.Additional : -1;
 
             Update(info.EllapsedTime, info.ButtonState);
 
             if( info.ButtonState.HasFlag(ButtonState.Checked) && carretPosition>=0)
             {
-                _flash += info.EllapsedTime * 1.5;
+                _flash += info.EllapsedTime * 2;
                 _flash %= 2;
             }
             else

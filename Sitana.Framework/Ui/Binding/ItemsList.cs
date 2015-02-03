@@ -29,6 +29,14 @@ namespace Sitana.Framework.Ui.Binding
             }
         }
 
+        public bool Contains(T element)
+        {
+            lock (this)
+            {
+                return _elements.Contains(element);
+            }
+        }
+
         public void Add(T element)
         {
             int index = 0;

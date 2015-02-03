@@ -25,6 +25,8 @@ namespace Sitana.Framework.Input
             _consumer.SelectionEnd = text.Length;
         }
 
+        public int Bottom { get { return 0; } }
+
         public void Unfocus()
         {
             _consumer.OnLostFocus();
@@ -32,7 +34,12 @@ namespace Sitana.Framework.Input
 
         public void OnKey(Keys key)
         {
-
+            switch(key)
+            {
+                case Keys.Escape:
+                    _consumer.Cancel();
+                    break;
+            }
         }
 
         public void OnCharacter(char character)

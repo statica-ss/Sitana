@@ -177,6 +177,19 @@ namespace Sitana.Framework.Ui.Core
                 _lastSize = newSize;
             }
 
+            if(_currentFocus != null)
+            {
+                int offset = newSize.Y - Platform.KeyboardHeight(newSize.X > newSize.Y);
+
+                offset -= _currentFocus.Bottom;
+                offset = Math.Min(0, offset);
+
+                MainView.OffsetBoundsVertical = offset;
+            }
+            else
+            {
+                MainView.OffsetBoundsVertical = 0;
+            }
 
             TouchPad.Instance.Update(time, IsActive);
             GamePads.Instance.Update();

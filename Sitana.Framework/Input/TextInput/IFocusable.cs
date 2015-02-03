@@ -11,6 +11,8 @@ namespace Sitana.Framework.Input
         void OnCharacter(char character);
 
         void SetText(string text);
+
+        int Bottom { get; }
     }
 }
 

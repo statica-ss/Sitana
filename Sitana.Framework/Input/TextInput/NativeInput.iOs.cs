@@ -111,7 +111,7 @@ namespace Sitana.Framework.Input
                 _textView.KeyboardType = UIKeyboardType.Default;
                 _textView.AutocorrectionType = UITextAutocorrectionType.Yes;
 
-				_textView.Font = UIFont.FromName("Helvetica", Platform.PixelsToPoints(textSize) * 12f / 15f);
+				_textView.Font = UIFont.FromName("Helvetica", textSize);
                 SetText(text);
 
                 _textView.Ended += HandleEnded;
@@ -128,7 +128,7 @@ namespace Sitana.Framework.Input
 				_textField.SecureTextEntry = keyboardContext == TextInputType.Password;
                 _textField.ClearsOnBeginEditing = false;
 
-                _textField.Font = UIFont.FromName("Helvetica", Platform.PixelsToPoints(textSize) * 12f / 15f);
+                _textField.Font = UIFont.FromName("Helvetica", textSize);
 
                 switch (align & Align.Horz)
                 {

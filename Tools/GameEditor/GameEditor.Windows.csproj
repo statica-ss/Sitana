@@ -106,7 +106,9 @@
     <EmbeddedResource Include="Assets\Views\Menu.xml" />
     <EmbeddedResource Include="Assets\Views\MessageBox.xml" />
     <EmbeddedResource Include="Assets\Views\LayerInsert.xml" />
-    <EmbeddedResource Include="Assets\Views\LayerProperties.xml" />
+    <EmbeddedResource Include="Assets\Views\LayerProperties.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Assets\Views\ModalDialog.xml" />
     <EmbeddedResource Include="Assets\Views\NewFile.xml" />
     <EmbeddedResource Include="Assets\Views\EditView.xml" />
@@ -114,8 +116,18 @@
     <EmbeddedResource Include="Assets\Styles\Colors.txt" />
     <EmbeddedResource Include="Assets\Styles\MenuStyles.xml" />
     <EmbeddedResource Include="Assets\Views\MainView.xml" />
+    <EmbeddedResource Include="Assets\Ui\Button.png" />
+    <EmbeddedResource Include="Assets\Ui\CheckBox.png" />
+    <EmbeddedResource Include="Assets\Ui\Tab.png" />
+    <EmbeddedResource Include="Assets\Fonts\Font16.png" />
+    <EmbeddedResource Include="Assets\Fonts\Font20.png" />
+    <EmbeddedResource Include="Assets\Fonts\Font24.png" />
+    <EmbeddedResource Include="Assets\Fonts\Font28.png" />
+    <EmbeddedResource Include="Assets\Fonts\Font32.png" />
     <Content Include="Icon.ico" />
-    <EmbeddedResource Include="Assets\Styles\AppStyles.xml" />
+    <EmbeddedResource Include="Assets\Styles\AppStyles.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Assets\Ui\Button.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -156,21 +168,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Ui\Button.xnb" />
-    <EmbeddedResource Include="Assets\Ui\CheckBox.xnb" />
-    <EmbeddedResource Include="Assets\Ui\Tab.xnb" />
     <EmbeddedResource Include="Assets\Fonts\Font16.sft" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Fonts\Font16.xnb" />
     <EmbeddedResource Include="Assets\Fonts\Font20.sft" />
-    <EmbeddedResource Include="Assets\Fonts\Font20.xnb" />
     <EmbeddedResource Include="Assets\Fonts\Font24.sft" />
-    <EmbeddedResource Include="Assets\Fonts\Font24.xnb" />
     <EmbeddedResource Include="Assets\Fonts\Font28.sft" />
-    <EmbeddedResource Include="Assets\Fonts\Font28.xnb" />
     <EmbeddedResource Include="Assets\Fonts\Font32.sft" />
-    <EmbeddedResource Include="Assets\Fonts\Font32.xnb" />
     <EmbeddedResource Include="Assets\Templates\SampleTemplate.zip" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

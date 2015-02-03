@@ -190,7 +190,7 @@ namespace Sitana.Framework.Graphics
                     position.X += glyph.Width;
 
                     size.X = Math.Max(size.X, position.X);
-                    size.Y = position.Y + BaseLine;
+                    size.Y = position.Y + BaseLine - CapLine;
                 }
                 else if (text[idx] == '\n')
                 {

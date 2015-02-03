@@ -9,7 +9,6 @@
         <UiStackPanel Mode="Vertical" Margin="4,0,4,0" Spacing="5" VerticalAlignment="Top">
 
             <UiBorder Style="Property">
-              
                 <UiLabel Style="PropertyName" Text="LAYER NAME" />
                 <UiEditBox Style="UiEditBox,PropertyValue" InputType="NormalText" Width="128" CancelOnLostFocus="true" TextApply="{OnApplyLayerName(text)}" Text="{LayerName}"/>
             </UiBorder>
@@ -32,7 +31,6 @@
             </UiBorder>
 
             <UiBorder Style="Property">
-              
                 <UiLabel Style="PropertyName" Text="VERTICAL SPEED (%)" />
                 <UiEditBox Style="UiEditBox,PropertyValue" InputType="Number" CancelOnLostFocus="true" TextApply="{OnApplySpeedY(text)}" Text="{LayerSpeedY}"/>
             </UiBorder>
