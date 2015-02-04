@@ -5,6 +5,8 @@ using System.Text;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Microsoft.Xna.Framework;
+using Sitana.Framework.Cs;
+using Sitana.Framework.Ui.Views.Parameters;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -20,6 +22,9 @@ namespace Sitana.Framework.Ui.Views
             file["Spacing"] = parser.ParseLength("Spacing", false);
             file["Padding"] = parser.ParseLength("Padding", false);
             file["NotifyParentOnResize"] = parser.ParseBoolean("NotifyParentOnResize");
+
+            file["ExpandTime"] = parser.ParseInt("ExpandTime");
+            file["Expanded"] = parser.ParseBoolean("Expanded");
         }
 
         public enum Mode
@@ -32,6 +37,11 @@ namespace Sitana.Framework.Ui.Views
         bool _updateBounds = true;
         bool _recalculateLayout = true;
         bool _notifyParentOnResize = true;
+
+        double _expandSpeed;
+        double _expandedValue;
+
+        SharedValue<bool> _expanded;
 
         Length _spacing;
         Length _padding;
@@ -76,6 +86,43 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
+        {
+            float opacity = parameters.Opacity;
+
+            if (opacity == 0)
+            {
+                return;
+            }
+
+            DrawBackground(ref parameters);
+
+            UiViewDrawParameters drawParams = parameters;
+            drawParams.Opacity = opacity;
+
+            if (_clipChildren || _expandedValue < 1)
+            {
+                parameters.DrawBatch.PushClip(ScreenBounds);
+            }
+
+            Rectangle bound = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
+
+            for (int idx = 0; idx < _children.Count; ++idx)
+            {
+                var child = _children[idx];
+
+                if (child.Bounds.Intersects(bound))
+                {
+                    child.ViewDraw(ref drawParams);
+                }
+            }
+
+            if (_clipChildren || _expandedValue < 1)
+            {
+                parameters.DrawBatch.PopClip();
+            }
+        }
+
         protected override void Update(float time)
         {
             if (_updateBounds)
@@ -91,6 +138,28 @@ namespace Sitana.Framework.Ui.Views
             }
 
             base.Update(time);
+
+            double desiredValue = _expanded.Value ? 1 : 0;
+            bool update = false;
+
+            if (_expandedValue < desiredValue)
+            {
+                _expandedValue += time * _expandSpeed;
+                _expandedValue = Math.Min(1, _expandedValue);
+
+                update = true;
+            }
+            else if (_expandedValue > desiredValue)
+            {
+                _expandedValue -= time * _expandSpeed;
+                _expandedValue = Math.Max(0, _expandedValue);
+                update = true;
+            }
+
+            if (update)
+            {
+                Parent.RecalcLayout();
+            }
         }
 
         void UpdateBounds()
@@ -120,7 +189,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public override Point ComputeSize(int width, int height)
+        public Point ComputeSizeInternal(int width, int height)
         {
             if (_recalculateLayout)
             {
@@ -306,6 +375,20 @@ namespace Sitana.Framework.Ui.Views
             _padding = DefinitionResolver.Get<Length>(Controller, Binding, file["Padding"], Length.Zero);
             _notifyParentOnResize = DefinitionResolver.Get<bool>(Controller, Binding, file["NotifyParentOnResize"], true);
 
+            _expanded = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Expanded"], true);
+
+            _expandSpeed = DefinitionResolver.Get<int>(Controller, Binding, file["ExpandTime"], 0);
+            _expandedValue = _expanded.Value ? 1 : 0;
+
+            if (_expandSpeed > 0)
+            {
+                _expandSpeed = 1000 / _expandSpeed;
+            }
+            else
+            {
+                _expandSpeed = 10000;
+            }
+
             InitChildren(Controller, Binding, definition);
 
             if ( StackMode == Mode.Vertical )
@@ -320,6 +403,23 @@ namespace Sitana.Framework.Ui.Views
             }
 
             return true;
+        }
+
+        public override Point ComputeSize(int width, int height)
+        {
+            Point size = Point.Zero;
+            Point exSize = ComputeSizeInternal(width, height);
+
+            if(_vertical)
+            {
+                size.X = exSize.X;
+            }
+            else
+            {
+                size.Y = exSize.Y;
+            }
+
+            return new Point((int)(size.X * (1 - _expandedValue) + exSize.X * _expandedValue), (int)(size.Y * (1 - _expandedValue) + exSize.Y * _expandedValue));
         }
     }
 }

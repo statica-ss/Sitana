@@ -249,6 +249,7 @@
     <Compile Include="Ui\Definitions\HorizontalContentAlignment.cs" />
     <Compile Include="Ui\Definitions\VerticalContentAlignment.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\EditText.cs" />
+    <Compile Include="Ui\Views\Containers\UiExpandingBorder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

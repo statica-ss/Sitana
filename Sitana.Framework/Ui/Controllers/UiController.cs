@@ -99,12 +99,12 @@ namespace Sitana.Framework.Ui.Controllers
 
         public void ShowElement(string id)
         {
-            Find(id).Visible.Value = true;
+            Find(id).Visible = true;
         }
 
         public void HideElement(string id)
         {
-            Find(id).Visible.Value = false;
+            Find(id).Visible = false;
         }
 
         public void OpenWebsite(string url)

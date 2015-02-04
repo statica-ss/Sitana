@@ -17,6 +17,7 @@ namespace Sitana.Framework.Ui.Views
             DefinitionParser parser = new DefinitionParser(node);
 
             file["TouchOutsideToHide"] = parser.ParseBoolean("TouchOutsideToHide");
+            file["ClickOutside"] = parser.ParseDelegate("ClickOutside");
         }
 
         bool _touchOutsideToHide;
@@ -30,18 +31,21 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void OnGesture(Gesture gesture)
         {
-            if ( Visible.Value )
+            if ( Visible )
             {
-                if (_touchOutsideToHide) 
-                {
-                    if (gesture.GestureType == GestureType.Down) 
+                
+                    if (gesture.GestureType == GestureType.Tap) 
                     {
                         if (!ScreenBounds.Contains(gesture.Position.ToPoint()))
                         {
-                            Visible.Value = false;
+                            if (_touchOutsideToHide)
+                            {
+                                Visible = false;
+                            }
+
+                            CallDelegate("ClickOutside");
                         }
                     }
-                }
 
                 gesture.SkipRest = true;
             }
@@ -58,9 +62,11 @@ namespace Sitana.Framework.Ui.Views
 
             _touchOutsideToHide = DefinitionResolver.Get<bool>(Controller, Binding, file["TouchOutsideToHide"], false);
 
-            Visible = DefinitionResolver.GetShared<bool>(Controller, binding, file["Visible"], false);
+            _visiblityFlag = DefinitionResolver.GetShared<bool>(Controller, binding, file["Visible"], false);
 
-            if (!Visible.Value) 
+            RegisterDelegate("ClickOutside", file["ClickOutside"]);
+
+            if (!Visible) 
             {
                 DisplayVisibility = 0;
             }
@@ -84,7 +90,7 @@ namespace Sitana.Framework.Ui.Views
             drawParams.Opacity = opacity;
             drawParams.Transition = 1 - DisplayVisibility;
             drawParams.TransitionRectangle = ScreenBounds;
-            drawParams.TransitionMode = DisplayVisibility == 1 ? TransitionMode.None : (Visible.Value ? TransitionMode.Show : TransitionMode.Hide);
+            drawParams.TransitionMode = DisplayVisibility == 1 ? TransitionMode.None : (Visible ? TransitionMode.Show : TransitionMode.Hide);
 
             for (int idx = 0; idx < _children.Count; ++idx)
             {

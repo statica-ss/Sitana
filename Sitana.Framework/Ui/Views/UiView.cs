@@ -49,6 +49,8 @@ namespace Sitana.Framework.Ui.Views
             file["Binding"] = parser.ParseDelegate("Binding");
 
             file["Visible"] = parser.ParseBoolean("Visible");
+            file["Hidden"] = parser.ParseBoolean("Hidden");
+
             file["BackgroundColor"] = parser.ParseColor("BackgroundColor");
 
             file["Opacity"] = parser.ParseDouble("Opacity");
@@ -226,7 +228,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public SharedValue<bool> Visible { get; protected set;}
+        protected SharedValue<bool> _visiblityFlag { private get; set;}
 
         public GestureType EnabledGestures = GestureType.None;
 
@@ -275,6 +277,7 @@ namespace Sitana.Framework.Ui.Views
         public SharedString Tag { get; private set;}
 
 		bool _updateController = false;
+        bool _visibleIsHidden = false;
 
         public bool IsPointInsideView(Vector2 point)
         {
@@ -333,6 +336,19 @@ namespace Sitana.Framework.Ui.Views
 
         internal int OffsetBoundsVertical = 0;
 
+        public bool Visible
+        {
+            get
+            {
+                return _visibleIsHidden ? !_visiblityFlag.Value : _visiblityFlag.Value;
+            }
+
+            set
+            {
+                _visiblityFlag.Value = _visibleIsHidden ? !value : value;
+            }
+        }
+
         public virtual Color BackgroundColor
         {
             get
@@ -371,8 +387,7 @@ namespace Sitana.Framework.Ui.Views
 
         public void ViewDraw(ref UiViewDrawParameters parameters)
         {
-            _enableGestureHandling = Visible.Value && Math.Abs(parameters.Transition) < 0.000001;
-
+            _enableGestureHandling = Visible && Math.Abs(parameters.Transition) < 0.000001;
             if (DisplayVisibility == 0)
             {
                 return;
@@ -392,7 +407,7 @@ namespace Sitana.Framework.Ui.Views
                     break;
 
                 case TransitionMode.None:
-                    transitionEffectShowHide = DisplayVisibility == 1 ? null : (Visible.Value ? _showTransitionEffect : _hideTransitionEffect);
+                    transitionEffectShowHide = DisplayVisibility == 1 ? null : (Visible ? _showTransitionEffect : _hideTransitionEffect);
                     break;
             }
 
@@ -431,6 +446,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 UiViewDrawParameters drawParameters = parameters;
                 drawParameters.Opacity *= DisplayVisibility * (float)Opacity.Value;
+
                 Draw(ref drawParameters);
             }
         }
@@ -444,7 +460,7 @@ namespace Sitana.Framework.Ui.Views
                 _controller.UpdateInternal(time);
             }
 
-            float opacity = Visible.Value ? 1 : 0;
+            float opacity = Visible ? 1 : 0;
 
             bool visible = DisplayVisibility > 0;
 
@@ -614,14 +630,21 @@ namespace Sitana.Framework.Ui.Views
                 Console.WriteLine();
             }
 
-            Visible = DefinitionResolver.GetShared<bool>(Controller, binding, file["Visible"], true);
+            if (file["Hidden"] != null && file["Visible"] == null)
+            {
+                _visiblityFlag = DefinitionResolver.GetShared<bool>(Controller, binding, file["Hidden"], false);
+                _visibleIsHidden = true;
+            }
+            else
+            {
+                _visiblityFlag = DefinitionResolver.GetShared<bool>(Controller, binding, file["Visible"], true);
+            }
 
             Tag = DefinitionResolver.GetSharedString(Controller, Binding, file["Tag"]);
 
             Opacity = DefinitionResolver.GetShared<double>(Controller, binding, file["Opacity"], 1);
 
-            DisplayVisibility = Visible.Value ? 1 : 0;
-
+            DisplayVisibility = Visible ? 1 : 0;
             
 
             RegisterDelegate("ViewRemoved", file["ViewRemoved"]);
@@ -644,7 +667,7 @@ namespace Sitana.Framework.Ui.Views
 
             _showSpeed /= 1000.0f;
 
-            _showSpeed = _showSpeed > 0 ? 1 / _showSpeed : 10000;
+            _showSpeed = _showSpeed > 0 ? 1 / _showSpeed : float.MaxValue;
 
             _hideSpeed = (float) Math.Max(
                 DefinitionResolver.Get<double>(Controller, binding, file["ShowHideTime"], -1),
@@ -657,7 +680,7 @@ namespace Sitana.Framework.Ui.Views
 
             _hideSpeed /= 1000.0f;
 
-            _hideSpeed = _hideSpeed > 0 ? 1 / _hideSpeed : 10000;
+            _hideSpeed = _hideSpeed > 0 ? 1 / _hideSpeed : float.MaxValue;
 
             CreatePositionParameters(Controller, binding, definition);
 
