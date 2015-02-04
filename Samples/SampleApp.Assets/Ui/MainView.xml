@@ -25,7 +25,7 @@
             <UiBorder Height="64" Margin="10,10,10,10" BackgroundColor="255,255,255,32">
               
                 <UiButton Style="DefaultButton" Text="{{Name}}" Width="C" Height="@-20" X="10" Y="C" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <UiLabel Text="{{Age}}" Font="Font" FontSize="16" X="@-10" Y="C" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                <UiLabel Text="{{Age}}" Font="Font" FontSize="16" X="@-10" Y="C" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
               
             </UiBorder>
           </UiListBox.ItemTemplate>

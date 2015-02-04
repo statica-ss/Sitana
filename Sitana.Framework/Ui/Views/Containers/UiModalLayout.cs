@@ -17,6 +17,7 @@ namespace Sitana.Framework.Ui.Views
             DefinitionParser parser = new DefinitionParser(node);
 
             file["TouchOutsideToHide"] = parser.ParseBoolean("TouchOutsideToHide");
+            file["ClickOutside"] = parser.ParseDelegate("ClickOutside");
         }
 
         bool _touchOutsideToHide;
@@ -32,16 +33,19 @@ namespace Sitana.Framework.Ui.Views
         {
             if ( Visible.Value )
             {
-                if (_touchOutsideToHide) 
-                {
-                    if (gesture.GestureType == GestureType.Down) 
+                
+                    if (gesture.GestureType == GestureType.Tap) 
                     {
                         if (!ScreenBounds.Contains(gesture.Position.ToPoint()))
                         {
-                            Visible.Value = false;
+                            if (_touchOutsideToHide)
+                            {
+                                Visible.Value = false;
+                            }
+
+                            CallDelegate("ClickOutside");
                         }
                     }
-                }
 
                 gesture.SkipRest = true;
             }
@@ -59,6 +63,8 @@ namespace Sitana.Framework.Ui.Views
             _touchOutsideToHide = DefinitionResolver.Get<bool>(Controller, Binding, file["TouchOutsideToHide"], false);
 
             Visible = DefinitionResolver.GetShared<bool>(Controller, binding, file["Visible"], false);
+
+            RegisterDelegate("ClickOutside", file["ClickOutside"]);
 
             if (!Visible.Value) 
             {

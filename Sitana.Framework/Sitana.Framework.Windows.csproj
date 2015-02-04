@@ -107,6 +107,7 @@
     <Compile Include="Ui\TransitionEffects\None.cs" />
     <Compile Include="Ui\TransitionEffects\Rotate.cs" />
     <Compile Include="Ui\Views\Containers\UiContentSlider.cs" />
+    <Compile Include="Ui\Views\Containers\UiExpandingBorder.cs" />
     <Compile Include="Ui\Views\Containers\UiListBox.cs" />
     <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
     <Compile Include="Ui\Views\Containers\UiScrollView.cs" />

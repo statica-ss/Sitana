@@ -372,7 +372,6 @@ namespace Sitana.Framework.Ui.Views
         public void ViewDraw(ref UiViewDrawParameters parameters)
         {
             _enableGestureHandling = Visible.Value && Math.Abs(parameters.Transition) < 0.000001;
-
             if (DisplayVisibility == 0)
             {
                 return;
@@ -431,6 +430,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 UiViewDrawParameters drawParameters = parameters;
                 drawParameters.Opacity *= DisplayVisibility * (float)Opacity.Value;
+
                 Draw(ref drawParameters);
             }
         }
@@ -621,7 +621,6 @@ namespace Sitana.Framework.Ui.Views
             Opacity = DefinitionResolver.GetShared<double>(Controller, binding, file["Opacity"], 1);
 
             DisplayVisibility = Visible.Value ? 1 : 0;
-
             
 
             RegisterDelegate("ViewRemoved", file["ViewRemoved"]);

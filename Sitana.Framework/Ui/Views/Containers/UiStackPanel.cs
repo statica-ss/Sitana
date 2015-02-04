@@ -136,7 +136,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 var child = _children[idx];
 
-                if (child.DisplayVisibility > 0)
+                if (child.DisplayVisibility > 0.01)
                 {
                     if ( size > _padding.Compute())
                     {
