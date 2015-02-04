@@ -83,7 +83,7 @@ namespace Sitana.Framework.Ui.Views
 
         internal void Hide()
         {
-            Visible.Value = false;
+            Visible = false;
         }
 
         protected override bool Init(object controller, object binding, DefinitionFile definition)
@@ -94,7 +94,7 @@ namespace Sitana.Framework.Ui.Views
             }
 
             InitChildren(Controller, Binding, definition);
-            Visible.Value = true;
+            Visible = true;
             DisplayVisibility = 0;
 
 			RegisterDelegate("PageShown", definition["PageShown"]);
@@ -118,7 +118,7 @@ namespace Sitana.Framework.Ui.Views
             drawParams.Transition = 1 - DisplayVisibility;
             drawParams.TransitionRectangle = ScreenBounds;
 
-            drawParams.TransitionMode = DisplayVisibility == 1 ? TransitionMode.None : (Visible.Value ? TransitionMode.Show : TransitionMode.Hide);
+            drawParams.TransitionMode = DisplayVisibility == 1 ? TransitionMode.None : (Visible ? TransitionMode.Show : TransitionMode.Hide);
 
 			if (DisplayVisibility == 1 && !_alreadyFullyVisible)
 			{
@@ -141,7 +141,7 @@ namespace Sitana.Framework.Ui.Views
         internal void InstantShow()
         {
             DisplayVisibility = 1;
-            Visible.Value = true;
+            Visible = true;
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 var child = _children[idx] as UiPage;
 
-                if (child.DisplayVisibility == 0 && child.Visible.Value == false )
+                if (child.DisplayVisibility == 0 && child.Visible == false )
                 {
                     _children.RemoveAt(idx);
                     child.ViewRemoved();
