@@ -20,7 +20,7 @@
     <UiButton Width="64" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" ShowHideTime="0">
       <UiButton.Drawables>
         <button:NinePatchBackground ColorPushed=":ButtonBackgroundPushed" ColorReleased=":ButtonBackgroundNormal" ColorDisabled=":ButtonBackgroundDisabled" Image="Ui/Button"/>
-        <button:Text ColorPushed=":ButtonTextPushed" ColorReleased=":ButtonTextNormal" ColorDisabled="#80909090" Font="Font" FontSpacing="25" FontSize="8" Margin="2" />
+        <button:Text ColorPushed=":ButtonTextPushed" ColorReleased=":ButtonTextNormal" ColorDisabled="#80909090" Font="Font" FontSpacing="25" FontSize="8" Margin="2,2,2,3" />
       </UiButton.Drawables>
     </UiButton>
   </Style>
@@ -39,8 +39,8 @@
       <UiButton.Drawables>
         <button:NinePatchBackground ColorPushed="#ffffff" ColorReleased="#80ffffff" ColorDisabled="#20ffffff" Image="Ui/Button" Checked="false" Scale="0.5" />
         <button:NinePatchBackground ColorPushed="#ffffff" ColorReleased="#ffffff" Image="Ui/Button" Checked="true" Scale="0.5" />
-        <button:Text ColorPushed=":EditBoxTextPushed" ColorReleased=":EditBoxTextNormal" ColorDisabled="#80000000" Font="Font" FontSize="8" Margin="2" Checked="false"/>
-        <button:EditText ColorPushed=":EditBoxTextChecked" ColorReleased=":EditBoxTextChecked" Font="Font" FontSize="8" Margin="2" Checked="true"/>
+        <button:Text ColorPushed=":EditBoxTextPushed" ColorReleased=":EditBoxTextNormal" ColorDisabled="#80000000" Font="Font" FontSize="8" Margin="2,2,2,3" Checked="false"/>
+        <button:EditText ColorPushed=":EditBoxTextChecked" ColorReleased=":EditBoxTextChecked" Font="Font" FontSize="8" Margin="2,2,2,3" Checked="true"/>
       </UiButton.Drawables>
     </UiEditBox>
   </Style>

@@ -5,19 +5,22 @@
         xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
         xmlns:cmd="namespace:Sitana.Framework.Ui.DefinitionFiles.Commands,Sitana.Framework"
         xmlns:editor="namespace:GameEditor.Views,GameEditor"
-        ClipChildren="true" BackgroundColor=":ContentBackground" X="348" Y="4" Width="@-352" Height="@-8" HorizontalAlignment="Left" VerticalAlignment="Top" ViewAdded="{OnViewAdded()}">
+        X="348" Y="4" Width="@-352" Height="@-8" HorizontalAlignment="Left" VerticalAlignment="Top" ViewAdded="{OnViewAdded()}">
 
-  <editor:UiEditView Id="EditView" Zoom="{Zoom}"/>
+  <editor:UiEditView Id="EditView" Zoom="{Zoom}" BackgroundColor=":ContentBackground" Margin="0,0,22,22"/>
 
-  <UiScrollBar Style="UiScrollBar" Context="EditView" Margin="0,8,0,32"/>
-  <UiScrollBar Style="UiScrollBarHorz" Context="EditView" Margin="8,0,96,0"/>
+  <UiScrollBar Style="UiScrollBar" Context="EditView" Margin="0,8,0,32" AlwaysVisible="true"/>
+  <UiScrollBar Style="UiScrollBarHorz" Context="EditView" Margin="116,0,96,0" AlwaysVisible="true"/>
 
-  <UiStackPanel Mode="Horizontal" Height="16" Spacing="4" HorizontalAlignment="Right" X="@-4" VerticalAlignment="Bottom" Y="@-4">
-    <UiLabel Style="UiLabel" Width="128" Height="16" Text="{ZoomValue}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+  <UiStackPanel Mode="Horizontal" Height="16" Spacing="4" HorizontalAlignment="Right" X="@-4" VerticalAlignment="Bottom" Y="@-1">
+    <UiLabel Style="UiLabel" Width="128" Text="{ZoomValue}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
     <UiButton Style="UiButton" Width="24" Height="16" Text="-" Click="{ZoomOut()}"/>
     <UiButton Style="UiButton" Width="24" Height="16" Text="+"  Click="{ZoomIn()}"/>
   </UiStackPanel>
 
-  <UiLabel Style="UiLabel" Text="{WorldCoordinates}" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="8,0,0,25"/>
+  <UiBorder Width="112" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+    <UiRectangle Image="Ui/Button" ScaleByUnit="true" Color="#20ffffff"/>
+    <UiLabel Style="UiLabel" Text="{WorldCoordinates}" HorizontalContentAlignment="Center" Margin="0,0,0,1"/>
+  </UiBorder>
 
 </UiBorder>

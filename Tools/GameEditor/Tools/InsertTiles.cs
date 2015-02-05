@@ -32,7 +32,6 @@ namespace GameEditor.Tools
         public override void Draw(AdvancedDrawBatch batch, Point startPosition, Vector2 position, float scale)
         {
             int size = UnitToPixels(scale);
-
             int unitSize = UnitToPixels(1);
 
             Rectangle target = new Rectangle(0, 0, size, size);

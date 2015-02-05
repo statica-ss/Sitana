@@ -52,7 +52,7 @@ namespace GameEditor
             {
                 if (val)
                 {
-                    new Tools.Select();
+                    new Tools.EraseTile();
                 }
             };
         }
@@ -66,7 +66,7 @@ namespace GameEditor
             }
 
             Select.Value = Tools.Tool.Current is Tools.Select;
-            Eraser.Value = false;
+            Eraser.Value = Tools.Tool.Current is Tools.EraseTile;
         }
 
         public string OnApplyLayerName(string text)

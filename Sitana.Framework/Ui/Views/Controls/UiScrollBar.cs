@@ -76,7 +76,6 @@ namespace Sitana.Framework.Ui.Views
 
             if (thumb != screen || _alwaysVisible)
             {
-
                 var batch = parameters.DrawBatch;
 
                 var drawInfo = new DrawButtonInfo();
@@ -93,12 +92,15 @@ namespace Sitana.Framework.Ui.Views
                     drawable.Draw(batch, drawInfo);
                 }
 
-                drawInfo.Target = thumb;
-
-                for (int idx = 0; idx < _thumbDrawables.Count; ++idx)
+                if (thumb != screen)
                 {
-                    var drawable = _thumbDrawables[idx];
-                    drawable.Draw(batch, drawInfo);
+                    drawInfo.Target = thumb;
+
+                    for (int idx = 0; idx < _thumbDrawables.Count; ++idx)
+                    {
+                        var drawable = _thumbDrawables[idx];
+                        drawable.Draw(batch, drawInfo);
+                    }
                 }
             }
         }

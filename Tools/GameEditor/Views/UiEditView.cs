@@ -140,6 +140,8 @@ namespace GameEditor.Views
 
             AdvancedDrawBatch batch = parameters.DrawBatch;
 
+            batch.PushClip(bounds);
+
             Color color = Color.White * 0.25f;
 
             int size = (int)Math.Ceiling(UiUnit.Unit * 3);
@@ -163,6 +165,8 @@ namespace GameEditor.Views
 
                 Tools.Tool.Current.Draw(parameters.DrawBatch, pos, MousePosition.Value, zoom);
             }
+
+            batch.PopClip();
         }
 
         protected override void Update(float time)
