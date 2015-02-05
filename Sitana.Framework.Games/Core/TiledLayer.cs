@@ -5,6 +5,8 @@ namespace Sitana.Framework.Games
 {
     public class TiledLayer: Layer
     {
+        public const ushort Empty = 0xffff;
+
         public string Tileset { get; set;}
 
         public ushort[,] Content { get; private set;}
@@ -18,6 +20,7 @@ namespace Sitana.Framework.Games
         public TiledLayer()
         {
             Content = new ushort[1, 1];
+            Content[0, 0] = Empty;
             Tileset = string.Empty;
             Width = 1;
             Height = 1;
@@ -43,8 +46,20 @@ namespace Sitana.Framework.Games
                     {
                         newContent[idxX, idxY] = Content[idxX, idxY];
                     }
+
+                    for (int idxY = copyHeight; idxY < newSizeY; ++idxY)
+                    {
+                        newContent[idxX, idxY] = Empty;
+                    }
                 }
 
+                for (int idxX = copyWidth; idxX < newSizeX; ++idxX )
+                {
+                    for (int idxY = 0; idxY < newSizeY; ++idxY )
+                    {
+                        newContent[idxX, idxY] = Empty;
+                    }
+                }
                 Content = newContent;
             }
 

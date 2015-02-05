@@ -186,6 +186,7 @@ namespace Sitana.Framework.Ui.Views
 
                 if (_touchId == gesture.TouchId)
                 {
+                    gesture.Handled = true;
                     UpdatePosition(gesture.Origin, gesture.Position);
                 }
                 break;

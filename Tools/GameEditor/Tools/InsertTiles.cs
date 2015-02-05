@@ -7,6 +7,7 @@ using Sitana.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GameEditor.Views;
+using Sitana.Framework.Games;
 
 namespace GameEditor.Tools
 {
@@ -14,6 +15,8 @@ namespace GameEditor.Tools
     {
         readonly Texture2D _tileset;
         readonly ushort[,] _tiles;
+
+        Rectangle _invalidRect = Rectangle.Empty;
 
         public InsertTiles(Texture2D tileset, ushort[,] tiles)
         {
@@ -61,6 +64,63 @@ namespace GameEditor.Tools
             }
 
             batch.SamplerState = oldSamplerState;
+        }
+
+        public override void OnDown(Vector2 position)
+        {
+            PaintTiles(position);
+        }
+
+        public override void OnMove(Vector2 position)
+        {
+            PaintTiles(position);
+        }
+
+        public override void OnUp()
+        {
+            _invalidRect = Rectangle.Empty;
+        }
+
+        void PaintTiles(Vector2 position)
+        {
+            TiledLayer layer = Document.Current.SelectedLayer.Layer as TiledLayer;
+
+            if (layer != null)
+            {
+                int startX = (int)position.X;
+                int startY = (int)position.Y;
+
+                int endX = startX + _tiles.GetLength(0);
+                int endY = startY + _tiles.GetLength(1);
+
+                Rectangle rect = Rectangle.Empty;
+
+                rect.X = startX;
+                rect.Y = startY;
+
+                rect.Width = endX - startX;
+                rect.Height = endY - startY;
+
+                if(_invalidRect.Intersects(rect))
+                {
+                    return;
+                }
+
+                _invalidRect = rect;
+
+                endX = Math.Min(endX, layer.Width);
+                endY = Math.Min(endY, layer.Height);
+
+                for (int idxX = startX; idxX < endX; ++idxX)
+                {
+                    for (int idxY = startY; idxY < endY; ++idxY)
+                    {
+                        ushort tile = _tiles[idxX-startX, idxY-startY];
+
+                        layer.Content[idxX, idxY] = tile;
+                    }
+                }
+            }
         }
     }
 }

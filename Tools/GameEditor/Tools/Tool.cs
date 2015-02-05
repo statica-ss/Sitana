@@ -34,5 +34,20 @@ namespace GameEditor.Tools
         public virtual void Draw(AdvancedDrawBatch batch, Point startPosition, Vector2 position, float scale)
         {
         }
+
+        public virtual void OnDown(Vector2 position)
+        {
+
+        }
+
+        public virtual void OnMove(Vector2 position)
+        {
+
+        }
+
+        public virtual void OnUp()
+        {
+
+        }
     }
 }

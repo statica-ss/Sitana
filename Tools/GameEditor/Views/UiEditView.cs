@@ -13,6 +13,8 @@ using Sitana.Framework.Ui.Interfaces;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Graphics;
 using Sitana.Framework.Ui.Core;
+using Sitana.Framework.Games;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEditor.Views
 {
@@ -62,6 +64,20 @@ namespace GameEditor.Views
             _scrollingService = new ScrollingService(this, ScrollingService.ExceedRule.Forbid);
         }
 
+        Vector2 PositionFromGesture(Gesture gesture)
+        {
+            Rectangle bounds = ScreenBounds;
+
+            float zoom = (float)_zoom.Value / 100f;
+
+            Point pos = gesture.Position.ToPoint();
+
+            pos.X -= bounds.X;
+            pos.Y -= bounds.Y;
+
+            return Tools.Tool.PositionToUnit(pos, CurrentPosition, zoom);
+        }
+
         protected override void OnGesture(Gesture gesture)
         {
             Rectangle bounds = ScreenBounds;
@@ -72,18 +88,36 @@ namespace GameEditor.Views
 
                     if (IsPointInsideView(gesture.Position))
                     {
-                        float zoom = (float)_zoom.Value / 100f;
-
-                        Point pos = gesture.Position.ToPoint();
-                        pos.X -= bounds.X;
-                        pos.Y -= bounds.Y;
-                        
-                        MousePosition = Tools.Tool.PositionToUnit(pos, CurrentPosition, zoom);
+                        MousePosition = PositionFromGesture(gesture);
                     }
                     else
                     {
                         MousePosition = null;
                     }
+                    break;
+
+                case GestureType.Move:
+                    if (IsPointInsideView(gesture.Position))
+                    {
+                        MousePosition = PositionFromGesture(gesture);
+                        Tools.Tool.Current.OnMove(MousePosition.Value);
+                    }
+                    break;
+
+                case GestureType.Down:
+                    if (IsPointInsideView(gesture.Position))
+                    {
+                        MousePosition = PositionFromGesture(gesture);
+                        Tools.Tool.Current.OnDown(MousePosition.Value);
+                    }
+                    else
+                    {
+                        MousePosition = null;
+                    }
+                    break;
+
+                case GestureType.Up:
+                    Tools.Tool.Current.OnUp();
                     break;
             }
         }
@@ -119,6 +153,8 @@ namespace GameEditor.Views
                 }
             }
 
+            DrawCurrentLayer(ref parameters);
+
             if (MousePosition.HasValue)
             {
                 Point pos = CurrentPosition;
@@ -138,6 +174,72 @@ namespace GameEditor.Views
 
             _maxScroll.X = Math.Max(0, (int)(Document.Current.SelectedLayer.Width * unitSize));
             _maxScroll.Y = Math.Max(0, (int)(Document.Current.SelectedLayer.Height * unitSize));
+        }
+
+        void DrawCurrentLayer(ref UiViewDrawParameters parameters)
+        {
+            if(Document.Current.SelectedLayer is DocTiledLayer)
+            {
+                TiledLayer layer = Document.Current.SelectedLayer.Layer as TiledLayer;
+                DrawTiles(ref parameters, layer);
+            }
+        }
+
+        void DrawTiles(ref UiViewDrawParameters parameters, TiledLayer layer)
+        {
+            Rectangle bounds = ScreenBounds;
+
+            AdvancedDrawBatch batch = parameters.DrawBatch;
+
+            SamplerState oldSamplerState = batch.SamplerState;
+            batch.SamplerState = SamplerState.PointClamp;
+
+            int width = layer.Width;
+            int height = layer.Height;
+
+            float zoom = (float)_zoom.Value / 100f;
+            int unitSize = Tools.Tool.UnitToPixels(zoom);
+
+            int tileSize = Tools.Tool.UnitToPixels(1);
+
+            Rectangle target = new Rectangle(bounds.X-CurrentPosition.X, bounds.Y-CurrentPosition.Y, unitSize, unitSize);
+            Rectangle source = new Rectangle(0, 0, tileSize - 1, tileSize - 1);
+
+            Texture2D tileset = CurrentTemplate.Instance.Tileset(layer.Tileset).Item2;
+
+            int startY = target.Y;
+
+            ushort[,] tiles = layer.Content;
+
+            for(int idxX = 0; idxX < width; ++idxX)
+            {
+                target.Y = startY;
+
+                if (target.Right >= bounds.X && target.X <= bounds.Right)
+                {
+                    for (int idxY = 0; idxY < height; ++idxY)
+                    {
+                        if (target.Bottom >= bounds.Y && target.Y <= bounds.Bottom)
+                        {
+                            ushort tile = tiles[idxX, idxY];
+
+                            if (tile != 0xffff)
+                            {
+                                source.X = (tile & 0xff) * tileSize;
+                                source.Y = ((tile >> 8) & 0xff) * tileSize;
+
+                                batch.DrawImage(tileset, target, source, Color.White * 0.5f);
+                            }
+                        }
+
+                        target.Y += unitSize;
+                    }
+                }
+
+                target.X += unitSize;
+            }
+
+            batch.SamplerState = oldSamplerState;
         }
 
         Rectangle IScrolledElement.ScreenBounds { get { return ScreenBounds; } }
