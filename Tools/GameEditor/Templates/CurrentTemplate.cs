@@ -14,6 +14,7 @@ namespace GameEditor
 {
     public class CurrentTemplate : Singleton<CurrentTemplate>
     {
+        public string Guid { get; private set; }
         public string Name { get; private set; }
 
         List<LayerDefinition> _layers = new List<LayerDefinition>();
@@ -151,9 +152,12 @@ namespace GameEditor
             XNodeAttributes attr = new XNodeAttributes(node);
 
             Name = attr.AsString("Name");
+            Guid = attr.AsString("Guid");
             TilesetLineWidth = attr.AsInt32("TilesetLineWidth", 8);
 
             TileSize = UnitSize = attr.AsInt32("UnitSize", TileSize);
         }
+
+
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Games;
+using System.IO;
 
 namespace GameEditor
 {
-    public class DocLayer
+    public abstract class DocLayer
     {
 		public readonly SharedString Name = new SharedString();
 
@@ -16,9 +17,24 @@ namespace GameEditor
 
         public Layer Layer {get{return _layer;}}
 
-        public DocLayer(string type)
+        public abstract int Width {get;}
+        public abstract int Height {get;}
+
+        protected DocLayer(string type)
         {
             Type = type;
+        }
+
+        public void Serialize(BinaryWriter writer)
+        {
+            Layer.Name = Name.StringValue;
+            Layer.Serialize(writer);
+        }
+
+        public void Deserialize(BinaryReader reader)
+        {
+            Layer.Deserialize(reader);
+            Name.StringValue = Layer.Name;
         }
     }
 }

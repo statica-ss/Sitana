@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Sitana.Framework.Games
 {
@@ -50,6 +51,52 @@ namespace Sitana.Framework.Games
             Width = width;
             Height = height;
         }
+
+        public override void Serialize(BinaryWriter writer)
+        {
+            base.Serialize(writer);
+
+            writer.Write(Tileset);
+
+            writer.Write(TiledWidth);
+            writer.Write(TiledHeight);
+
+            writer.Write(Width);
+            writer.Write(Height);
+
+            for(int idxX = 0; idxX < Width; ++idxX)
+            {
+                for (int idxY = 0; idxY < Height; ++idxY)
+                {
+                    writer.Write(Content[idxX, idxY]);
+                }
+            }
+        }
+
+        public override void Deserialize(BinaryReader reader)
+        {
+            base.Deserialize(reader);
+
+            Tileset = reader.ReadString();
+
+            TiledWidth = reader.ReadBoolean();
+            TiledHeight = reader.ReadBoolean();
+
+            int width = reader.ReadInt32();
+            int height = reader.ReadInt32();
+
+            Resize(width, height);
+
+            for (int idxX = 0; idxX < width; ++idxX)
+            {
+                for (int idxY = 0; idxY < height; ++idxY)
+                {
+                    Content[idxX, idxY] = reader.ReadUInt16();
+                }
+            }
+        }
+
+        
     }
 }
 

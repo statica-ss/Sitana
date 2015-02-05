@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Cs;
+using Sitana.Framework;
+using GameEditor.Views;
+using Microsoft.Xna.Framework;
+using System.Globalization;
 
 namespace GameEditor
 {
@@ -12,9 +16,10 @@ namespace GameEditor
 		public readonly SharedString ZoomValue = new SharedString();
 
         public readonly SharedString WorldCoordinates = new SharedString();
-        public readonly SharedString TileCoordinates = new SharedString();
 
         public int Zoom { get; private set; }
+
+        UiEditView _editView = null;
 
 		public EditViewController()
 		{
@@ -52,20 +57,32 @@ namespace GameEditor
             ZoomValue.Format("{0}%", Zoom);
 		}
 
-        void LayerSelectionChanged()
+        public void OnViewAdded()
         {
-            DocLayer layer = Document.Current.SelectedLayer;
+            _editView = Find<UiEditView>("EditView");
+        }
 
-            WorldCoordinates.Format("24.5, 25.8");
-            
-            if (layer is DocTiledLayer)
+        protected override void Update(float time)
+        {
+            base.Update(time);
+
+            Point? mousePos = _editView.MousePosition;
+
+            if(mousePos.HasValue)
             {
-                TileCoordinates.Format("12, 15");
+                Vector2 pos = Tools.Tool.PositionToUnit(mousePos.Value, _editView.CurrentPosition, (float)Zoom / 100f);
+
+                WorldCoordinates.Format(CultureInfo.InvariantCulture, "{0:n2}, {1:n2}", pos.X, pos.Y);
             }
             else
             {
-                TileCoordinates.Clear();
+                WorldCoordinates.Clear();
             }
+        }
+
+        void LayerSelectionChanged()
+        {
+            WorldCoordinates.Clear();
         }
     }
 }

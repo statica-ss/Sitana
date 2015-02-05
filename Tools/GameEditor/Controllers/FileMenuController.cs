@@ -209,7 +209,7 @@ namespace GameEditor
 
         void Open(string path)
         {
-
+            Document.Current.Open(path);
         }
 
         bool ChangeTemplate(string template)

@@ -5,19 +5,19 @@
         xmlns:effect="namespace:Sitana.Framework.Ui.Views.TransitionEffects,Sitana.Framework"
         xmlns:cmd="namespace:Sitana.Framework.Ui.DefinitionFiles.Commands,Sitana.Framework"
         xmlns:editor="namespace:GameEditor.Views,GameEditor"
-        ClipChildren="true" BackgroundColor=":ContentBackground" X="348" Y="4" Width="@-352" Height="@-8" HorizontalAlignment="Left" VerticalAlignment="Top">
+        ClipChildren="true" BackgroundColor=":ContentBackground" X="348" Y="4" Width="@-352" Height="@-8" HorizontalAlignment="Left" VerticalAlignment="Top" ViewAdded="{OnViewAdded()}">
 
-      <editor:UiEditView/>
-      
-      <UiStackPanel Mode="Horizontal" Height="16" Spacing="4" HorizontalAlignment="Right" X="@-4" VerticalAlignment="Bottom" Y="@-4">
-          <UiLabel Style="UiLabel" Width="128" Height="16" Text="{ZoomValue}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-          <UiButton Style="UiButton" Width="24" Height="16" Text="-" Click="{ZoomOut()}"/>
-          <UiButton Style="UiButton" Width="24" Height="16" Text="+"  Click="{ZoomIn()}"/>
-      </UiStackPanel>
+  <editor:UiEditView Id="EditView"/>
 
-      <UiStackPanel Mode="Vertical" Width="128" HorizontalAlignment="Left" X="4" Spacing="4" VerticalAlignment="Bottom" Y="@-12">
-          <UiLabel Style="UiLabel" Text="{TileCoordinates}" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"/>
-          <UiLabel Style="UiLabel" Text="{WorldCoordinates}" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"/>
-      </UiStackPanel>
+  <UiScrollBar Style="UiScrollBar" Context="EditView" Margin="0,8,0,32"/>
+  <UiScrollBar Style="UiScrollBarHorz" Context="EditView" Margin="8,0,96,0"/>
+
+  <UiStackPanel Mode="Horizontal" Height="16" Spacing="4" HorizontalAlignment="Right" X="@-4" VerticalAlignment="Bottom" Y="@-4">
+    <UiLabel Style="UiLabel" Width="128" Height="16" Text="{ZoomValue}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+    <UiButton Style="UiButton" Width="24" Height="16" Text="-" Click="{ZoomOut()}"/>
+    <UiButton Style="UiButton" Width="24" Height="16" Text="+"  Click="{ZoomIn()}"/>
+  </UiStackPanel>
+
+  <UiLabel Style="UiLabel" Text="{WorldCoordinates}" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="8,0,0,25"/>
 
 </UiBorder>

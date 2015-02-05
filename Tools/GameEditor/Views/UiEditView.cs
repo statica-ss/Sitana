@@ -9,21 +9,35 @@ using Sitana.Framework.Ui.Views.Parameters;
 using Sitana.Framework;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Ui.Interfaces;
 
 namespace GameEditor.Views
 {
-    public class UiEditView: UiView
+    public class UiEditView : UiView, IScrolledElement
     {
         public new static void Parse(XNode node, DefinitionFile file)
         {
             UiView.Parse(node, file);
         }
 
-        Point? _mousePosition;
+        internal Point? MousePosition { get; private set; }
+        
+        ScrollingService _scrollingService;
+
+        Point _maxScroll = new Point(10000,10000);
+
+        internal Point CurrentPosition
+        {
+            get
+            {
+                return new Point((int)_scrollingService.ScrollPositionX, (int)_scrollingService.ScrollPositionY);
+            }
+        }
 
         protected override void OnAdded()
         {
             EnabledGestures = GestureType.Down | GestureType.Up | GestureType.Move | GestureType.MouseMove;
+            _scrollingService = new ScrollingService(this, ScrollingService.ExceedRule.Forbid);
         }
 
         protected override void OnGesture(Gesture gesture)
@@ -34,11 +48,14 @@ namespace GameEditor.Views
 
                     if (IsPointInsideView(gesture.Position))
                     {
-                        _mousePosition = gesture.Position.ToPoint();
+                        float zoom = (Controller as EditViewController).Zoom / 100.0f;
+                        int unitSize = Tools.Tool.UnitToPixels(zoom);
+
+                        MousePosition = gesture.Position.ToPoint();
                     }
                     else
                     {
-                        _mousePosition = null;
+                        MousePosition = null;
                     }
                     break;
             }
@@ -46,11 +63,29 @@ namespace GameEditor.Views
 
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
-            if (_mousePosition.HasValue)
+            if (MousePosition.HasValue)
             {
                 float zoom = (Controller as EditViewController).Zoom / 100.0f;
-                Tools.Tool.Current.Draw(parameters.DrawBatch, _mousePosition.Value, zoom);
+                Tools.Tool.Current.Draw(parameters.DrawBatch, MousePosition.Value, zoom);
             }
         }
+
+        protected override void Update(float time)
+        {
+            base.Update(time);
+
+            float zoom = (Controller as EditViewController).Zoom / 100.0f;
+            int unitSize = Tools.Tool.UnitToPixels(zoom);
+
+            _maxScroll.X = Math.Max(0, (int)(Document.Current.SelectedLayer.Width * unitSize) - 0);
+            _maxScroll.Y = Math.Max(0, (int)(Document.Current.SelectedLayer.Height * unitSize) - 0);
+        }
+
+        Rectangle IScrolledElement.ScreenBounds { get { return ScreenBounds; } }
+
+        int IScrolledElement.MaxScrollX { get { return _maxScroll.X; } }
+        int IScrolledElement.MaxScrollY { get { return _maxScroll.Y; } }
+
+        ScrollingService IScrolledElement.ScrollingService { get { return _scrollingService; } }
     }
 }

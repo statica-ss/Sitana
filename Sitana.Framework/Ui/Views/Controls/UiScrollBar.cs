@@ -174,7 +174,6 @@ namespace Sitana.Framework.Ui.Views
                 {
                     if (_touchId == 0)
                     {
-
                         _touchId = gesture.TouchId;
 
                         gesture.Handled = true;
@@ -211,7 +210,7 @@ namespace Sitana.Framework.Ui.Views
 
         void UpdatePosition(Vector2 origin, Vector2 position)
         {
-            float maxScroll = _element.MaxScrollY;
+            float maxScroll = _vertical ? _element.MaxScrollY : _element.MaxScrollX;
             float size = _vertical ? Bounds.Height : Bounds.Width;
 
             float unit = maxScroll / size;
@@ -273,7 +272,7 @@ namespace Sitana.Framework.Ui.Views
                     }
 
                     int thumbSize = (int)Math.Ceiling( (float)Bounds.Width * (float)size / (float)maxScroll);
-                    int position = (Bounds.Width - thumbSize) * (int)_element.ScrollingService.ScrollPositionX / maxScroll;
+                    int position = Bounds.Width * (int)_element.ScrollingService.ScrollPositionX / maxScroll;
 
                     var rect = GraphicsHelper.IntersectRectangle(ScreenBounds, 
                         new Rectangle(screenBounds.X + position, screenBounds.Y, thumbSize, screenBounds.Height));
