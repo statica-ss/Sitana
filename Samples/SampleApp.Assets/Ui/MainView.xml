@@ -7,7 +7,6 @@
   
     
     <UiBorder ClipChildren="true" BackgroundColor="#003040" X="C" Y="4" Width="@-8" Height="@-32" HorizontalAlignment="Center" VerticalAlignment="Top">
-      
 
         <UiListBox Items="{Items}" Width="@-20" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" X="10" Y="10" Mode="Horizontal" BackgroundColor="255,255,255,32" ClipChildren="True">
           <UiListBox.ItemTemplate>

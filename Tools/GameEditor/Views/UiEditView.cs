@@ -10,6 +10,9 @@ using Sitana.Framework;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Interfaces;
+using Sitana.Framework.Cs;
+using Sitana.Framework.Graphics;
+using Sitana.Framework.Ui.Core;
 
 namespace GameEditor.Views
 {
@@ -18,13 +21,18 @@ namespace GameEditor.Views
         public new static void Parse(XNode node, DefinitionFile file)
         {
             UiView.Parse(node, file);
+
+            var parser = new DefinitionParser(node);
+            file["Zoom"] = parser.ParseInt("Zoom");
         }
 
-        internal Point? MousePosition { get; private set; }
+        internal Vector2? MousePosition { get; private set; }
         
         ScrollingService _scrollingService;
 
-        Point _maxScroll = new Point(10000,10000);
+        Point _maxScroll = Point.Zero;
+
+        SharedValue<int> _zoom;
 
         internal Point CurrentPosition
         {
@@ -32,6 +40,20 @@ namespace GameEditor.Views
             {
                 return new Point((int)_scrollingService.ScrollPositionX, (int)_scrollingService.ScrollPositionY);
             }
+        
+        }
+
+        protected override bool Init(object controller, object binding, DefinitionFile definition)
+        {
+            if(!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
+
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiView));
+            _zoom = DefinitionResolver.GetShared<int>(Controller, Binding, file["Zoom"], 1);
+
+            return true;
         }
 
         protected override void OnAdded()
@@ -42,16 +64,21 @@ namespace GameEditor.Views
 
         protected override void OnGesture(Gesture gesture)
         {
+            Rectangle bounds = ScreenBounds;
+            
             switch (gesture.GestureType)
             {
                 case GestureType.MouseMove:
 
                     if (IsPointInsideView(gesture.Position))
                     {
-                        float zoom = (Controller as EditViewController).Zoom / 100.0f;
-                        int unitSize = Tools.Tool.UnitToPixels(zoom);
+                        float zoom = (float)_zoom.Value / 100f;
 
-                        MousePosition = gesture.Position.ToPoint();
+                        Point pos = gesture.Position.ToPoint();
+                        pos.X -= bounds.X;
+                        pos.Y -= bounds.Y;
+                        
+                        MousePosition = Tools.Tool.PositionToUnit(pos, CurrentPosition, zoom);
                     }
                     else
                     {
@@ -63,10 +90,42 @@ namespace GameEditor.Views
 
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
+            float zoom = (float)_zoom.Value / 100f;
+            int unitSize = Tools.Tool.UnitToPixels(zoom);
+
+            int startX = CurrentPosition.X / unitSize;
+            int startY = CurrentPosition.Y / unitSize;
+
+            Rectangle bounds = ScreenBounds;
+
+            startX = startX * unitSize - CurrentPosition.X + bounds.X;
+            startY = startY * unitSize - CurrentPosition.Y + bounds.Y + 1;
+
+            int right = bounds.Right;
+            int bottom = bounds.Bottom;
+
+            AdvancedDrawBatch batch = parameters.DrawBatch;
+
+            Color color = Color.White * 0.25f;
+
+            int size = (int)Math.Ceiling(UiUnit.Unit * 3);
+
+            for (int x = startX; x < right; x+=unitSize )
+            {
+                for (int y = startY; y < bottom; y+=unitSize )
+                {
+                    batch.DrawLine(new Point(x - size, y), new Point(x + size - 1, y), color);
+                    batch.DrawLine(new Point(x, y - size), new Point(x, y + size - 1), color);
+                }
+            }
+
             if (MousePosition.HasValue)
             {
-                float zoom = (Controller as EditViewController).Zoom / 100.0f;
-                Tools.Tool.Current.Draw(parameters.DrawBatch, MousePosition.Value, zoom);
+                Point pos = CurrentPosition;
+                pos.X -= bounds.X;
+                pos.Y -= bounds.Y;
+
+                Tools.Tool.Current.Draw(parameters.DrawBatch, pos, MousePosition.Value, zoom);
             }
         }
 
@@ -74,11 +133,11 @@ namespace GameEditor.Views
         {
             base.Update(time);
 
-            float zoom = (Controller as EditViewController).Zoom / 100.0f;
+            float zoom = (float)_zoom.Value / 100f;
             int unitSize = Tools.Tool.UnitToPixels(zoom);
 
-            _maxScroll.X = Math.Max(0, (int)(Document.Current.SelectedLayer.Width * unitSize) - 0);
-            _maxScroll.Y = Math.Max(0, (int)(Document.Current.SelectedLayer.Height * unitSize) - 0);
+            _maxScroll.X = Math.Max(0, (int)(Document.Current.SelectedLayer.Width * unitSize));
+            _maxScroll.Y = Math.Max(0, (int)(Document.Current.SelectedLayer.Height * unitSize));
         }
 
         Rectangle IScrolledElement.ScreenBounds { get { return ScreenBounds; } }

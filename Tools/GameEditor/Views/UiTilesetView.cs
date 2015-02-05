@@ -290,7 +290,7 @@ namespace GameEditor.Views
                 }
             }
 
-            new Tools.InsertTiles(_currentTileset, selection, CurrentTemplate.Instance.TileSize);
+            new Tools.InsertTiles(_currentTileset, selection);
         }
 
         void Select(Gesture gesture)

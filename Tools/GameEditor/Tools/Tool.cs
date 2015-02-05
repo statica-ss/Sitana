@@ -31,7 +31,7 @@ namespace GameEditor.Tools
             Current = this;
         }
 
-        public virtual void Draw(AdvancedDrawBatch batch, Point position, float scale)
+        public virtual void Draw(AdvancedDrawBatch batch, Point startPosition, Vector2 position, float scale)
         {
         }
     }

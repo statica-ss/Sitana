@@ -17,44 +17,42 @@ namespace GameEditor
 
         public readonly SharedString WorldCoordinates = new SharedString();
 
-        public int Zoom { get; private set; }
+        public readonly SharedValue<int> Zoom = new SharedValue<int>(100);
 
         UiEditView _editView = null;
 
 		public EditViewController()
 		{
-            Zoom = 100;
-			UpdateZoomValue();
-
             LayerSelectionChanged();
             Document.Current.LayerSelectionChanged += LayerSelectionChanged;
+
+            UpdateZoomValue(100);
+            Zoom.ValueChanged += UpdateZoomValue;
 		}
 
 		public void ZoomOut()
 		{
-            Zoom -= Zoom > 200 ? 50 : 25;
+            Zoom.Value -= Zoom.Value > 200 ? 50 : 25;
 
-            if (Zoom < 25)
+            if (Zoom.Value < 25)
 			{
-                Zoom = 25;
+                Zoom.Value = 25;
 			}
-			UpdateZoomValue();
 		}
 
 		public void ZoomIn()
 		{
-            Zoom += Zoom < 200 ? 25 : 50;
+            Zoom.Value += Zoom.Value < 200 ? 25 : 50;
 
-            if (Zoom > 400)
+            if (Zoom.Value > 400)
 			{
-                Zoom = 400;
+                Zoom.Value = 400;
 			}
-			UpdateZoomValue();
 		}
 
-		void UpdateZoomValue()
+		void UpdateZoomValue(int zoom)
 		{
-            ZoomValue.Format("{0}%", Zoom);
+            ZoomValue.Format("{0}%", zoom);
 		}
 
         public void OnViewAdded()
@@ -66,13 +64,11 @@ namespace GameEditor
         {
             base.Update(time);
 
-            Point? mousePos = _editView.MousePosition;
+            Vector2? mousePos = _editView.MousePosition;
 
             if(mousePos.HasValue)
             {
-                Vector2 pos = Tools.Tool.PositionToUnit(mousePos.Value, _editView.CurrentPosition, (float)Zoom / 100f);
-
-                WorldCoordinates.Format(CultureInfo.InvariantCulture, "{0:n2}, {1:n2}", pos.X, pos.Y);
+                WorldCoordinates.Format(CultureInfo.InvariantCulture, "{0:n2}, {1:n2}", mousePos.Value.X, mousePos.Value.Y);
             }
             else
             {

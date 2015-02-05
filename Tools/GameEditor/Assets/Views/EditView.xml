@@ -7,7 +7,7 @@
         xmlns:editor="namespace:GameEditor.Views,GameEditor"
         ClipChildren="true" BackgroundColor=":ContentBackground" X="348" Y="4" Width="@-352" Height="@-8" HorizontalAlignment="Left" VerticalAlignment="Top" ViewAdded="{OnViewAdded()}">
 
-  <editor:UiEditView Id="EditView"/>
+  <editor:UiEditView Id="EditView" Zoom="{Zoom}"/>
 
   <UiScrollBar Style="UiScrollBar" Context="EditView" Margin="0,8,0,32"/>
   <UiScrollBar Style="UiScrollBarHorz" Context="EditView" Margin="8,0,96,0"/>

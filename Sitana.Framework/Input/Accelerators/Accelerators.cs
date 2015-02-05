@@ -69,14 +69,25 @@ namespace Sitana.Framework.Input
             return modifier;
         }
 
-        internal void Process(char character)
+        internal void Process(Keys key)
         {
-            KeyboardState state = _oldKeyState;
+            KeyboardState state = Keyboard.GetState();
             KeyModifiers modifier = Modifiers(ref state);
 
             for (int idx = 0; idx < _accelerators.Count; ++idx)
             {
+                if (_accelerators[idx].Modifiers == modifier && _accelerators[idx].Key == key)
+                {
+                    _accelerators[idx].Action();
+                    break;
+                }
+            }
+        }
 
+        internal void Process(char character)
+        {
+            for (int idx = 0; idx < _accelerators.Count; ++idx)
+            {
                 if(_accelerators[idx].Character == character)
                 {
                     _accelerators[idx].Action();
