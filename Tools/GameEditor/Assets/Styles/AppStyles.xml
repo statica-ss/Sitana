@@ -48,10 +48,10 @@
   <Style Name="UiScrollBar">
     <UiScrollBar Mode="Vertical" X="@" Width="15" HorizontalAlignment="Right">
       <UiScrollBar.TrackDrawables>
-        <button:NinePatchBackground ColorPushed=":ScrollbarTrackPushed" ColorReleased=":ScrollbarTrackNormal" Image="Ui/Button" Scale="0.3" Margin="6,0,5,0" />
+        <button:NinePatchBackground ColorPushed=":ScrollbarTrackPushed" ColorReleased=":ScrollbarTrackNormal" ColorDisabled=":ScrollbarTrackDisabled" Image="Ui/Button" Scale="0.3" Margin="6,0,5,0" />
       </UiScrollBar.TrackDrawables>
       <UiScrollBar.ThumbDrawables>
-        <button:NinePatchBackground ColorPushed=":ScrollbarThumbPushed" ColorReleased=":ScrollbarThumbNormal" Image="Ui/Button" Scale="0.5" Margin="4,0,3,0" />
+        <button:NinePatchBackground ColorPushed=":ScrollbarThumbPushed" ColorReleased=":ScrollbarThumbNormal" ColorDisabled=":Transparent" Image="Ui/Button" Scale="0.5" Margin="4,0,3,0" />
       </UiScrollBar.ThumbDrawables>
     </UiScrollBar>
   </Style>
@@ -59,10 +59,10 @@
   <Style Name="UiScrollBarHorz">
     <UiScrollBar Mode="Horizontal" Y="@" Height="15" VerticalAlignment="Bottom">
       <UiScrollBar.TrackDrawables>
-        <button:NinePatchBackground ColorPushed=":ScrollbarTrackPushed" ColorReleased=":ScrollbarTrackNormal" Image="Ui/Button" Scale="0.3" Margin="0,6,0,5" />
+        <button:NinePatchBackground ColorPushed=":ScrollbarTrackPushed" ColorReleased=":ScrollbarTrackNormal" ColorDisabled=":ScrollbarTrackDisabled" Image="Ui/Button" Scale="0.3" Margin="0,6,0,5" />
       </UiScrollBar.TrackDrawables>
       <UiScrollBar.ThumbDrawables>
-        <button:NinePatchBackground ColorPushed=":ScrollbarThumbPushed" ColorReleased=":ScrollbarThumbNormal" Image="Ui/Button" Scale="0.5" Margin="0,4,0,3" />
+        <button:NinePatchBackground ColorPushed=":ScrollbarThumbPushed" ColorReleased=":ScrollbarThumbNormal" ColorDisabled=":Transparent" Image="Ui/Button" Scale="0.5" Margin="0,4,0,3" />
       </UiScrollBar.ThumbDrawables>
     </UiScrollBar>
   </Style>

@@ -82,6 +82,11 @@ namespace Sitana.Framework.Ui.Views
                 drawInfo.Text = null;
                 drawInfo.ButtonState = _touchId != 0 ? ButtonState.Pushed : ButtonState.None;
 
+                if(thumb == screen)
+                {
+                    drawInfo.ButtonState = ButtonState.Disabled;
+                }
+
                 drawInfo.Target = screen;
                 drawInfo.Opacity = opacity;
                 drawInfo.EllapsedTime = parameters.EllapsedTime;
@@ -91,16 +96,13 @@ namespace Sitana.Framework.Ui.Views
                     var drawable = _trackDrawables[idx];
                     drawable.Draw(batch, drawInfo);
                 }
+                
+                drawInfo.Target = thumb;
 
-                if (thumb != screen)
+                for (int idx = 0; idx < _thumbDrawables.Count; ++idx)
                 {
-                    drawInfo.Target = thumb;
-
-                    for (int idx = 0; idx < _thumbDrawables.Count; ++idx)
-                    {
-                        var drawable = _thumbDrawables[idx];
-                        drawable.Draw(batch, drawInfo);
-                    }
+                    var drawable = _thumbDrawables[idx];
+                    drawable.Draw(batch, drawInfo);
                 }
             }
         }

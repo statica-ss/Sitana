@@ -135,16 +135,16 @@ namespace GameEditor.Views
             startX = startX * unitSize - CurrentPosition.X + bounds.X;
             startY = startY * unitSize - CurrentPosition.Y + bounds.Y + 1;
 
-            int right = bounds.Right;
-            int bottom = bounds.Bottom;
+            int size = (int)Math.Ceiling(UiUnit.Unit * 3);
+
+            int right = bounds.Right + size;
+            int bottom = bounds.Bottom + size;
 
             AdvancedDrawBatch batch = parameters.DrawBatch;
 
             batch.PushClip(bounds);
 
             Color color = Color.White * 0.25f;
-
-            int size = (int)Math.Ceiling(UiUnit.Unit * 3);
 
             for (int x = startX; x < right; x+=unitSize )
             {
@@ -242,6 +242,11 @@ namespace GameEditor.Views
 
                 target.X += unitSize;
             }
+
+            Color color = Color.White * 0.25f;
+
+            batch.DrawLine(new Point(target.X, bounds.Top), new Point(target.X, target.Y), color);
+            batch.DrawLine(new Point(bounds.Left, target.Y), new Point(target.X, target.Y), color);
 
             batch.SamplerState = oldSamplerState;
         }

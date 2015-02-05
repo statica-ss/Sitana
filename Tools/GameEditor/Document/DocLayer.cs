@@ -17,8 +17,25 @@ namespace GameEditor
 
         public Layer Layer {get{return _layer;}}
 
+        public bool PropertiesDirty
+        {
+            get
+            {
+                bool dirty = _propertiesDirty;
+                _propertiesDirty = false;
+                return dirty;
+            }
+        }
+
+        bool _propertiesDirty = false;
+
         public abstract int Width {get;}
         public abstract int Height {get;}
+
+        public void InvalidateProperties()
+        {
+            _propertiesDirty = true;
+        }
 
         protected DocLayer(string type)
         {

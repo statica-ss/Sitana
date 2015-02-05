@@ -92,6 +92,15 @@ namespace GameEditor.Tools
                 int endX = startX + _tiles.GetLength(0);
                 int endY = startY + _tiles.GetLength(1);
 
+                endX = Math.Min(1024,endX);
+                endY = Math.Min(1024,endY);
+
+                if(endX > layer.Width || endY > layer.Height)
+                {
+                    layer.Resize( Math.Max(endX, layer.Width), Math.Max(endY, layer.Height));
+                    Document.Current.SelectedLayer.InvalidateProperties();
+                }
+
                 Rectangle rect = Rectangle.Empty;
 
                 rect.X = startX;

@@ -59,7 +59,7 @@ namespace GameEditor
 
         protected override void Update(float time)
         {
-            if ( Document.Instance.SelectedLayer != _layer )
+            if ( Document.Instance.SelectedLayer != _layer || _layer.PropertiesDirty)
             {
                 _layer = Document.Instance.SelectedLayer;
                 UpdateProperties();
