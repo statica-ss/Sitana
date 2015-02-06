@@ -7,7 +7,10 @@ namespace GameEditor
     {
         public new TiledLayer Layer{get{return _layer as TiledLayer;}}
 
-        public DocTiledLayer(string name): base("Tiled")
+        public override int Width { get { return Layer.Width; } }
+        public override int Height { get { return Layer.Height; } }
+
+        public DocTiledLayer(string name): base("Tiles")
         {
             Name.StringValue = name;
             _layer = new TiledLayer();

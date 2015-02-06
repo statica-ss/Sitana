@@ -20,7 +20,7 @@ namespace GameEditor
 
         public void Show(string path)
         {
-            Find("DialogModalDialog").Visible.Value = true;
+            Find("DialogModalDialog").Visible = true;
             NavigateTo(path);
         }
     }

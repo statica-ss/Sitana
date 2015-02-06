@@ -32,7 +32,7 @@ namespace GameEditor
                 _appMain.LoadView("Views/MainView");
 
                 _appMain.Window.AllowUserResizing = true;
-
+                _appMain.InactiveSleepTime = TimeSpan.FromMilliseconds(100);
                 _appMain.Graphics.IsFullScreen = false;
                 _appMain.CanClose = (a) =>
                     {
