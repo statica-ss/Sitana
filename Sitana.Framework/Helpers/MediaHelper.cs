@@ -14,9 +14,9 @@ namespace Sitana.Framework.Content
         /// </summary>
         /// <param name="volume">Volume value from 0 to 1.</param>
         /// <returns></returns>
-        public static Single VolumeToLinear(Single volume)
+        public static float VolumeToLinear(float volume)
         {
-            return (Single)(Math.Pow(volume, 1 / _defaultExponent) + 0.001);
+            return (float)(Math.Pow(volume, 1 / _defaultExponent) + 0.001);
         }
 
         /// <summary>
@@ -24,9 +24,9 @@ namespace Sitana.Framework.Content
         /// </summary>
         /// <param name="linear">Linear value from 0 to 1.</param>
         /// <returns></returns>
-        public static Single LinearToVolume(Single linear)
+        public static float LinearToVolume(float linear)
         {
-            return (Single)(Math.Pow(linear, _defaultExponent));
+            return (float)(Math.Pow(linear, _defaultExponent));
         }
     }
 }

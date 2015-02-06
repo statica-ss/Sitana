@@ -66,7 +66,7 @@ namespace Sitana.Framework.Cs
 
             builder.AppendFormat("{0}.{1}(", method.DeclaringType.Name, method.Name);
 
-            for (Int32 idx = 0; idx < parameters.Length; ++idx)
+            for (int idx = 0; idx < parameters.Length; ++idx)
             {
                 if ( idx > 0 )
                 {

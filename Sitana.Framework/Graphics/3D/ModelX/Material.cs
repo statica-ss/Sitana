@@ -15,20 +15,20 @@ namespace Sitana.Framework.Graphics.Model
         public Vector3 Ambient;
         public Vector3 Specular;
         public Vector3 Emissive;
-        public Single SpecularExponent;
+        public float SpecularExponent;
 
-        public Single Opacity;
+        public float Opacity;
 
         public MaterialTextures Textures { set; get;}
 
         public Material(String texture): this(texture, Vector3.One) { }
         public Material(String texture, Vector3 diffuse) : this(texture, diffuse, Vector3.One) { }
         public Material(String texture, Vector3 diffuse, Vector3 ambient) : this(texture, diffuse, ambient, Vector3.One, 0) { }
-        public Material(String texture, Vector3 diffuse, Vector3 ambient, Vector3 specular, Single specularExponent) : this(texture, diffuse, ambient, specular, specularExponent, Vector3.Zero) { }
+        public Material(String texture, Vector3 diffuse, Vector3 ambient, Vector3 specular, float specularExponent) : this(texture, diffuse, ambient, specular, specularExponent, Vector3.Zero) { }
 
-        public Material(String texture, Vector3 diffuse, Vector3 ambient, Vector3 specular, Single specularExponent, Vector3 emissive): this(texture, diffuse, ambient, specular, specularExponent, emissive, 1){}
+        public Material(String texture, Vector3 diffuse, Vector3 ambient, Vector3 specular, float specularExponent, Vector3 emissive): this(texture, diffuse, ambient, specular, specularExponent, emissive, 1){}
 
-        public Material(String texture, Vector3 diffuse, Vector3 ambient, Vector3 specular, Single specularExponent, Vector3 emissive, Single opacity)
+        public Material(String texture, Vector3 diffuse, Vector3 ambient, Vector3 specular, float specularExponent, Vector3 emissive, float opacity)
         {
             Texture = texture;
 
@@ -82,8 +82,8 @@ namespace Sitana.Framework.Graphics.Model
             Vector3 ambient = DeserializeColor(reader);
             Vector3 specular = DeserializeColor(reader);
             Vector3 emmisive = DeserializeColor(reader);
-            Single specularExponent = reader.ReadSingle();
-            Single opacity = reader.ReadSingle();
+            float specularExponent = reader.ReadSingle();
+            float opacity = reader.ReadSingle();
 
             return new Material(texture, diffuse, ambient, specular, specularExponent, emmisive, opacity);
         }

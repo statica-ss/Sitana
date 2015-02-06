@@ -11,7 +11,7 @@ namespace Sitana.Framework.Graphics.Model
     public class ModelSubset
     {
         public readonly Int16[] Indices;
-        public readonly Int32   Material;
+        public readonly int   Material;
 
         IndexBuffer _indexBuffer = null;
 
@@ -47,7 +47,7 @@ namespace Sitana.Framework.Graphics.Model
             }
         }
 
-        public ModelSubset(Int32 material, Int16[] indices)
+        public ModelSubset(int material, Int16[] indices)
         {
             Indices = indices;
             Material = material;
@@ -66,11 +66,11 @@ namespace Sitana.Framework.Graphics.Model
 
         public static ModelSubset Deserialize(BinaryReader reader)
         {
-            Int32 material = reader.ReadInt32();
+            int material = reader.ReadInt32();
 
             Int16[] indices = new Int16[reader.ReadInt32()];
 
-            for (Int32 idx = 0; idx < indices.Length; ++idx)
+            for (int idx = 0; idx < indices.Length; ++idx)
             {
                 indices[idx] = reader.ReadInt16();
             }

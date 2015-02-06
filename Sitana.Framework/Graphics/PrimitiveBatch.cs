@@ -13,7 +13,7 @@ namespace Sitana.Framework.Graphics
         // this constant controls how large the vertices buffer is. Larger buffers will
         // require flushing less often, which can increase performance. However, having
         // buffer that is unnecessarily large will waste memory.
-        const Int32 DefaultBufferSize = 500;
+        const int DefaultBufferSize = 500;
 
         public PrimitiveType PrimitiveType
         {
@@ -37,7 +37,7 @@ namespace Sitana.Framework.Graphics
         // Keeps track of how many vertices have been added. this value increases until
         // we run out of space in the buffer, at which time Flush is automatically
         // called.
-        Int32 _positionInBuffer = 0;
+        int _positionInBuffer = 0;
 
         // A basic effect, which contains the shaders that we will use to draw our
         // primitives.
@@ -53,11 +53,11 @@ namespace Sitana.Framework.Graphics
         // How many verts does each of these primitives take up? points are 1,
         // lines are 2, and triangles are 3.
         // Strips are always 1.
-        Int32 _numVertsPerPrimitive;
+        int _numVertsPerPrimitive;
 
         // How many additional vertices is needed to draw primitive. For line strip it's 1,
         // for triangle strip it's 2.
-        Int32 _numRestVertsPerPrimitive;
+        int _numRestVertsPerPrimitive;
 
         // HasBegun is flipped to true once Begin is called, and is used to make
         // sure users don't call End before Begin is called.
@@ -357,7 +357,7 @@ namespace Sitana.Framework.Graphics
             }
 
             // how many primitives will we draw?
-            Int32 primitiveCount = _positionInBuffer / _numVertsPerPrimitive - _numRestVertsPerPrimitive;
+            int primitiveCount = _positionInBuffer / _numVertsPerPrimitive - _numRestVertsPerPrimitive;
 
             if (primitiveCount <= 0)
             {
@@ -370,7 +370,7 @@ namespace Sitana.Framework.Graphics
                 _device.DrawUserPrimitives<VertexPositionColorTexture>(_primitiveType, _verticesTexture, 0, primitiveCount);
 
                 // Copy rest of vertices for next primitives.
-                for (Int32 idx = 0; idx < _numRestVertsPerPrimitive; ++idx)
+                for (int idx = 0; idx < _numRestVertsPerPrimitive; ++idx)
                 {
                     _verticesTexture[idx] = _verticesTexture[_positionInBuffer - _numRestVertsPerPrimitive + idx];
                 }
@@ -381,7 +381,7 @@ namespace Sitana.Framework.Graphics
                 _device.DrawUserPrimitives<VertexPositionColor>(_primitiveType, _vertices, 0, primitiveCount);
 
                 // Copy rest of vertices for next primitives.
-                for (Int32 idx = 0; idx < _numRestVertsPerPrimitive; ++idx)
+                for (int idx = 0; idx < _numRestVertsPerPrimitive; ++idx)
                 {
                     _vertices[idx] = _vertices[_positionInBuffer - _numRestVertsPerPrimitive + idx];
                 }

@@ -44,7 +44,7 @@ namespace Sitana.Framework.Ui.Views
 
         public SharedString Hint {get;set;}
 
-        SharedString _password;
+        protected SharedString _password;
         protected TextInputType _inputType;
 
         protected override bool Init(object controller, object binding, DefinitionFile definition)
@@ -99,7 +99,7 @@ namespace Sitana.Framework.Ui.Views
                     _password.Clear();
                     for (int idx = 0; idx < _text.Length; ++idx)
                     {
-                        _password.AppendFormat("{0}", (char)0xb7);
+						_password.Append("●");
                     }
                 }
             }

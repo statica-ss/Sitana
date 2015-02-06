@@ -38,27 +38,41 @@ namespace GameEditor.Tools
 
             position = position.TrimToIntValues() * size;
 
-            position.X -= startPosition.X;
-            position.Y -= startPosition.Y;
-
             SamplerState oldSamplerState = batch.SamplerState;
             batch.SamplerState = SamplerState.PointClamp;
 
-            for (int idxX = 0; idxX < _tiles.GetLength(0); ++idxX)
+            TiledLayer layer = Document.Current.SelectedLayer.Layer as TiledLayer;
+
+            if (layer != null)
             {
-                target.X = (int)(idxX * size + position.X);
+                int maxX = _tiles.GetLength(0);
+                int maxY = _tiles.GetLength(1);
 
-                for (int idxY = 0; idxY < _tiles.GetLength(1); ++idxY)
+                int targetX = (int)(position.X / size);
+                int targetY = (int)(position.Y / size);
+
+                maxX = Math.Min(layer.Width - targetX, maxX);
+                maxY = Math.Min(layer.Height - targetY, maxY);
+
+                position.X -= startPosition.X;
+                position.Y -= startPosition.Y;
+
+                for (int idxX = 0; idxX < maxX; ++idxX)
                 {
-                    target.Y = (int)(idxY * size + position.Y);
+                    target.X = (int)(idxX * size + position.X);
 
-                    ushort tile = _tiles[idxX, idxY];
+                    for (int idxY = 0; idxY < maxY; ++idxY)
+                    {
+                        target.Y = (int)(idxY * size + position.Y);
 
-                    Point src = new Point(tile&0xff, (tile>>8)&0xff);
+                        ushort tile = _tiles[idxX, idxY];
 
-                    Rectangle source = new Rectangle(src.X * unitSize, src.Y * unitSize, unitSize - 1, unitSize - 1);
+                        Point src = new Point(tile & 0xff, (tile >> 8) & 0xff);
 
-                    batch.DrawImage(_tileset, target, source, Color.White * 0.5f);
+                        Rectangle source = new Rectangle(src.X * unitSize, src.Y * unitSize, unitSize - 1, unitSize - 1);
+
+                        batch.DrawImage(_tileset, target, source, Color.White * 0.5f);
+                    }
                 }
             }
 
@@ -95,11 +109,11 @@ namespace GameEditor.Tools
                 endX = Math.Min(1024,endX);
                 endY = Math.Min(1024,endY);
 
-                if(endX > layer.Width || endY > layer.Height)
-                {
-                    layer.Resize( Math.Max(endX, layer.Width), Math.Max(endY, layer.Height));
-                    Document.Current.SelectedLayer.InvalidateProperties();
-                }
+                //if(endX > layer.Width || endY > layer.Height)
+                //{
+                //    layer.Resize( Math.Max(endX, layer.Width), Math.Max(endY, layer.Height));
+                //    Document.Current.SelectedLayer.InvalidateProperties();
+                //}
 
                 Rectangle rect = Rectangle.Empty;
 

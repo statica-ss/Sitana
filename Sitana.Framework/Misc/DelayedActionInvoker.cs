@@ -7,18 +7,18 @@ namespace Sitana.Framework
     {
         private struct DelayedAction
         {
-            public Single Time;
-            public Action<Single> Action;
+            public float Time;
+            public Action<float> Action;
         }
 
-        private volatile Single _currentTime = 0;
+        private volatile float _currentTime = 0;
         
         private Object _lock = new Object();
 
         private List<DelayedAction> _delayedActions = new List<DelayedAction>();
         private List<DelayedAction> _workingActions = new List<DelayedAction>();
 
-        public Single CurrentTime
+        public float CurrentTime
         {
             get
             {
@@ -26,7 +26,7 @@ namespace Sitana.Framework
             }
         }
 
-        public void AddAction(Single delay, Action<Single> action)
+        public void AddAction(float delay, Action<float> action)
         {
             lock (_lock)
             {
@@ -38,13 +38,13 @@ namespace Sitana.Framework
             }
         }
 
-        public void Update(Single time)
+        public void Update(float time)
         {
             _currentTime += time;
             _workingActions.Clear();
             lock (_lock)
             {
-                for (Int32 idx = _delayedActions.Count - 1; idx >= 0; --idx)
+                for (int idx = _delayedActions.Count - 1; idx >= 0; --idx)
                 {
                     var action = _delayedActions[idx];
                     if (action.Time < _currentTime)
@@ -54,7 +54,7 @@ namespace Sitana.Framework
                     }
                 }
             }
-            for (Int32 idx = 0; idx < _workingActions.Count; ++idx)
+            for (int idx = 0; idx < _workingActions.Count; ++idx)
             {
                 var action = _workingActions[idx];
                 action.Action.Invoke(_currentTime);

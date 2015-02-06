@@ -57,7 +57,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        Single IShaderEffect.Alpha
+        float IShaderEffect.Alpha
         {
             set
             {
@@ -65,7 +65,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        Single IShaderEffect.SpecularPower
+        float IShaderEffect.SpecularPower
         {
             set
             {
@@ -129,7 +129,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        void IShaderEffect.Apply(Int32 pass)
+        void IShaderEffect.Apply(int pass)
         {
             _effect.CurrentTechnique.Passes[pass].Apply();
         }

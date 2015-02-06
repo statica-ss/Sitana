@@ -162,7 +162,7 @@ namespace Sitana.Framework.Xml
         {
             get
             {
-                for (Int32 idx = 0; idx < Nodes.Count; ++idx)
+                for (int idx = 0; idx < Nodes.Count; ++idx)
                 {
                     if (Nodes[idx].Tag == nodeName)
                     {

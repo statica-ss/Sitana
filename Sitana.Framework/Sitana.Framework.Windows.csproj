@@ -59,6 +59,7 @@
     <Compile Include="ContentManagement\ResourcesContentManager.cs" />
     <Compile Include="ContentManagement\ZipContentManager.cs" />
     <Compile Include="ContentManagement\ZipFile.cs" />
+    <Compile Include="Cs\Containers.cs" />
     <Compile Include="Diagnostics\PerformanceProfiler.cs" />
     <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
     <Compile Include="Graphics\Sprites\Sprite.cs" />

@@ -15,12 +15,17 @@ namespace Sitana.Framework.Settings
     /// </summary>
     public static class Serializator
     {
+        public static void Serialize(String fileName, Object obj)
+        {
+            Serialize(null, fileName, obj);
+        }
+
         /// <summary>
         /// Serializes object to isolated storage file.
         /// </summary>
-        /// <param name="path">Path to isolated storage file.</param>
+        /// <param name="fileName">file name.</param>
         /// <param name="obj">Object to serialize.</param>
-        public static void Serialize(string path, object obj)
+        public static void Serialize(String subDirectory, String fileName, Object obj)
         {
             // Write to the Isolated Storage
             var xmlWriterSettings = new XmlWriterSettings { Indent = true };
@@ -28,8 +33,10 @@ namespace Sitana.Framework.Settings
             // Open isolated storage.
             using (var isolatedStorageFile = Platform.GetUserStoreForApplication())
             {
+                Prepare(isolatedStorageFile, subDirectory, ref fileName);
+
                 // Open file from storage.
-                using (Stream stream = isolatedStorageFile.OpenFile(path, FileMode.Create))
+                using(Stream stream = isolatedStorageFile.OpenFile(fileName, FileMode.Create))
                 {
                     // Create serializer for type.
                     var serializer = new XmlSerializer(obj.GetType());
@@ -44,13 +51,18 @@ namespace Sitana.Framework.Settings
             }
         }
 
+        public static T Deserialize<T>(String fileName)
+        {
+            return Deserialize<T>(null, fileName);
+        }
+
         /// <summary>
         /// Deserializes object from isolated storage file.
         /// </summary>
         /// <typeparam name="T">Type of object.</typeparam>
-        /// <param name="path">Path to isolated storage file.</param>
+        /// <param name="fileName">Path to isolated storage file.</param>
         /// <returns></returns>
-        public static T Deserialize<T>(string path)
+        public static T Deserialize<T>(String subDirectory, String fileName)
         {
             T obj = default(T);
 
@@ -59,14 +71,19 @@ namespace Sitana.Framework.Settings
                 // Open isolated storage.
                 using (var isolatedStorageFile = Platform.GetUserStoreForApplication())
                 {
-                    // Open file from storage.
-                    using (var stream = isolatedStorageFile.OpenFile(path, FileMode.Open))
-                    {
-                        // Create serializer for type.
-                        var serializer = new XmlSerializer(typeof(T));
+                    Prepare(isolatedStorageFile, subDirectory, ref fileName);
 
-                        // Deserialize object.
-                        obj = (T)serializer.Deserialize(stream);
+                    if(isolatedStorageFile.FileExists(fileName))
+                    {
+                        // Open file from storage.
+                        using(var stream = isolatedStorageFile.OpenFile(fileName, FileMode.Open))
+                        {
+                            // Create serializer for type.
+                            var serializer = new XmlSerializer(typeof(T));
+
+                            // Deserialize object.
+                            obj = (T)serializer.Deserialize(stream);
+                        }
                     }
                 }
             }
@@ -77,9 +94,30 @@ namespace Sitana.Framework.Settings
             return obj;
         }
 
-        public static string PathFromType(Type type)
+        public static bool FileExist(String path)
+        {
+            using (var isolatedStorageFile = Platform.GetUserStoreForApplication())
+            {
+                return isolatedStorageFile.FileExists(path);
+            }
+        }
+
+        public static String PathFromType(Type type)
         {
             return type.Name + "__(" + type.Namespace + ").xml";
+        }
+
+        static void Prepare(IsolatedStorageFile  isolatedStorageFile, String subDirectory, ref String fileName)
+        {
+            if(!string.IsNullOrWhiteSpace(subDirectory))
+            {
+                if(!isolatedStorageFile.DirectoryExists(subDirectory))
+                {
+                    isolatedStorageFile.CreateDirectory(subDirectory);
+                }
+
+                fileName = Path.Combine(subDirectory, fileName);
+            }
         }
     }
 }
