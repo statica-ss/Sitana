@@ -42,7 +42,7 @@ namespace Sitana.Framework.Diagnostics
 
             public void End()
             {
-                Single time = (Single)(NSDate.Now.SecondsSinceReferenceDate - _begin);
+                float time = (float)(NSDate.Now.SecondsSinceReferenceDate - _begin);
                 AddTime(time);
             }
 
@@ -144,8 +144,8 @@ namespace Sitana.Framework.Diagnostics
 
         public int Initialize(int targetFps, int minFps)
         {
-            _targetFrameTime = 1f / (Single)targetFps;
-            _minFrameTime = 1f / (Single)minFps;
+            _targetFrameTime = 1f / (float)targetFps;
+            _minFrameTime = 1f / (float)minFps;
 
             int height = 0;
 
@@ -281,7 +281,7 @@ namespace Sitana.Framework.Diagnostics
             _display.Draw(batch, _stringBuilder, color);
 
             _stringBuilder.Clear();
-            _stringBuilder.AppendFormat("{0,-2} ", (Int32)_fps);
+            _stringBuilder.AppendFormat("{0,-2} ", (int)_fps);
             color = _fps < (1 / _minFrameTime) ? errorColor : normalColor;
             _display.Draw(batch, _stringBuilder, color);
 

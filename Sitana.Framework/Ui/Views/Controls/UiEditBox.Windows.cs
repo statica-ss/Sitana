@@ -214,9 +214,25 @@ namespace Sitana.Framework.Ui.Views
 
             var batch = parameters.DrawBatch;
 
+            bool hint = _text.Length == 0;
+            bool password = _inputType == TextInputType.Password;
+
+            if (password)
+            {
+                if (_password.Length != _text.Length)
+                {
+                    _password.Clear();
+                    for (int idx = 0; idx < _text.Length; ++idx)
+                    {
+                        _password.Append("●");
+                    }
+                }
+            }
+
             var drawInfo = new DrawButtonInfo();
 
-            drawInfo.Text = _text;
+            drawInfo.Text = hint ? Hint : (password ? _password : _text);
+            
             drawInfo.ButtonState = ButtonState;
 
             drawInfo.Target = ScreenBounds;
@@ -224,6 +240,11 @@ namespace Sitana.Framework.Ui.Views
             drawInfo.EllapsedTime = parameters.EllapsedTime;
             drawInfo.Icon = Icon.Value;
             drawInfo.Additional = _carretPosition;
+
+            if (hint)
+            {
+                drawInfo.ButtonState |= ButtonDrawables.ButtonState.Special;
+            }
 
             for (int idx = 0; idx < _drawables.Count; ++idx)
             {

@@ -11,7 +11,7 @@ namespace Sitana.Framework.Graphics
 {
     static class ModelXRenderer
     {
-        public static void Render(ModelX model, IShaderEffect effect, Vector3 ambientColor, Int32 materialsSet)
+        public static void Render(ModelX model, IShaderEffect effect, Vector3 ambientColor, int materialsSet)
         {
             GraphicsDevice device = model.VertexBuffer.GraphicsDevice;
 
@@ -19,9 +19,9 @@ namespace Sitana.Framework.Graphics
 
             device.SetVertexBuffer(model.VertexBuffer);
 
-            for (Int32 steps = 0; steps < 2; ++steps)
+            for (int steps = 0; steps < 2; ++steps)
             {
-                for (Int32 idx = 0; idx < model.Subsets.Length; ++idx)
+                for (int idx = 0; idx < model.Subsets.Length; ++idx)
                 {
                     var subset = model.Subsets[idx];
 
@@ -63,11 +63,11 @@ namespace Sitana.Framework.Graphics
 
                     effect.Apply(0);
 
-                    Int32 startIndex = 0;
+                    int startIndex = 0;
 
                     while (startIndex < subset.Indices.Length)
                     {
-                        Int32 primitiveCount = Math.Min((subset.Indices.Length - startIndex) / 3, 30000);
+                        int primitiveCount = Math.Min((subset.Indices.Length - startIndex) / 3, 30000);
 
                         device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, model.Vertices.Length, startIndex, primitiveCount);
                         startIndex += primitiveCount * 3;

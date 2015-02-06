@@ -38,12 +38,12 @@ namespace Sitana.Framework.Graphics.Model.Importers
 
             StreamReader reader = new StreamReader(stream);
 
-            Int32 numVertices = 0;
-            Int32 vertexIndex = 0;
+            int numVertices = 0;
+            int vertexIndex = 0;
 
-            Int32 numFaces = 0;
+            int numFaces = 0;
 
-            Int32 vertexDeclarationIndex = 0;
+            int vertexDeclarationIndex = 0;
 
             Boolean checkVertexDeclaration = false;
 
@@ -117,7 +117,7 @@ namespace Sitana.Framework.Graphics.Model.Importers
                 {
                     if (parts[1] == "vertex")
                     {
-                        numVertices = Int32.Parse(parts[2]);
+                        numVertices = int.Parse(parts[2]);
                         vertices = new VertexPositionNormalTexture[numVertices];
                         checkVertexDeclaration = true;
                     }
@@ -129,7 +129,7 @@ namespace Sitana.Framework.Graphics.Model.Importers
                             throw new InvalidDataException("Invalid vertex declaration. Supported is: x,y,z,nx,ny,nz,s,t");
                         }
 
-                        numFaces = Int32.Parse(parts[2]);
+                        numFaces = int.Parse(parts[2]);
                     }
                 }
 
@@ -151,9 +151,9 @@ namespace Sitana.Framework.Graphics.Model.Importers
             return new ModelX(new List<Material[]>(){new Material[1]{material}}, subsets, vertices);
         }
 
-        Single ParseSingle(String text)
+        float ParseSingle(String text)
         {
-            return Single.Parse(text, CultureInfo.InvariantCulture);
+            return float.Parse(text, CultureInfo.InvariantCulture);
         }
     }
 }

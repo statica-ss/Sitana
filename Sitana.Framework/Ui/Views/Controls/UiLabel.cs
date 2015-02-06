@@ -156,8 +156,8 @@ namespace Sitana.Framework.Ui.Views
 
             TextColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
 
-            HorizontalContentAlignment horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Center);
-            VerticalContentAlignment vertAlign = DefinitionResolver.Get<VerticalContentAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalContentAlignment.Center);
+            HorizontalContentAlignment horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Auto);
+            VerticalContentAlignment vertAlign = DefinitionResolver.Get<VerticalContentAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalContentAlignment.Auto);
 
             if (horzAlign == HorizontalContentAlignment.Auto)
             {

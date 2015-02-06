@@ -13,8 +13,8 @@ namespace Sitana.Framework.Graphics
         GraphicsDevice _device;
         RenderTarget2D _target;
 
-        Int32 _width;
-        Int32 _height;
+        int _width;
+        int _height;
 
         Viewport _oldViewport;
 
@@ -28,7 +28,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        public Int32 Width
+        public int Width
         {
             get
             {
@@ -36,7 +36,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        public Int32 Height
+        public int Height
         {
             get
             {
@@ -44,7 +44,7 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        public RenderTargetEx(GraphicsDevice device, Int32 width, Int32 height)
+        public RenderTargetEx(GraphicsDevice device, int width, int height)
         {
             _device = device;
             _width = width;

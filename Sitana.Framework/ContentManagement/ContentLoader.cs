@@ -77,7 +77,7 @@ namespace Sitana.Framework.Content
         /// </summary>
         private ContentManager _contentManager = null;
 
-        public Int32 TextureRescaleFactor { get; private set; }
+        public int TextureRescaleFactor { get; private set; }
 
         private List<Tuple<string, string>> _specialFolders = new List<Tuple<string, string>>();
 
@@ -142,7 +142,7 @@ namespace Sitana.Framework.Content
             Current.TextureRescaleFactor = 0;
         }
 
-        public void SetTextureRescaleFactor(Int32 factor)
+        public void SetTextureRescaleFactor(int factor)
         {
             TextureRescaleFactor = factor;
         }

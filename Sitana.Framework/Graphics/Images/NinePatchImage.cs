@@ -12,8 +12,8 @@ namespace Sitana.Framework.Content
 
         private Rectangle[] _rectangles;
 
-        public Int32 Width { get; private set; }
-        public Int32 Height { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
 
         private Boolean _drawOnlyInside = false;
 
@@ -68,8 +68,8 @@ namespace Sitana.Framework.Content
 
                 Rectangle[] rects = new Rectangle[9];
 
-                Int32 width = source.Width;
-                Int32 height = source.Height;
+                int width = source.Width;
+                int height = source.Height;
 
                 rects[0] = new Rectangle(0, 0, scale.X, scale.Y);
                 rects[1] = new Rectangle(scale.X, 0, scale.Width, scale.Y);
@@ -83,7 +83,7 @@ namespace Sitana.Framework.Content
                 rects[7] = new Rectangle(scale.X, scale.Bottom, scale.Width, height - scale.Bottom);
                 rects[8] = new Rectangle(scale.Right, scale.Bottom, width - scale.Right, height - scale.Bottom);
 
-                for (Int32 idx = 0; idx < 9; ++idx)
+                for (int idx = 0; idx < 9; ++idx)
                 {
                     rects[idx].X += source.X;
                     rects[idx].Y += source.Y;
@@ -104,8 +104,8 @@ namespace Sitana.Framework.Content
 
                 Rectangle source = new Rectangle(0, 0, texture.Width, texture.Height);
 
-                Int32 leftRight = (source.Width+1) / 2 - 1;
-                Int32 topBottom = (source.Height+1) / 2 - 1;
+                int leftRight = (source.Width+1) / 2 - 1;
+                int topBottom = (source.Height+1) / 2 - 1;
 
                 if (source.Width < 3)
                 {
@@ -147,8 +147,8 @@ namespace Sitana.Framework.Content
             if (_drawOnlyInside)
             {
                 Vector2 p4 = new Vector2(destinationRect.X, destinationRect.Y);
-                Vector2 s4 = new Vector2((Single)destinationRect.Width / (Single)_rectangles[4].Width,
-                                         (Single)destinationRect.Height / (Single)_rectangles[4].Height);
+                Vector2 s4 = new Vector2((float)destinationRect.Width / (float)_rectangles[4].Width,
+                                         (float)destinationRect.Height / (float)_rectangles[4].Height);
 
                 spriteBatch.Draw(_texture, p4, _rectangles[4], color, 0, Vector2.Zero, s4, SpriteEffects.None, 0);
 
@@ -156,22 +156,22 @@ namespace Sitana.Framework.Content
             }
             else
             {
-                Int32 top = (Int32)(scale.Y * _rectangles[0].Height);
-                Int32 bottom = (Int32)(scale.Y * _rectangles[6].Height);
-                Int32 left = (Int32)(scale.X * _rectangles[0].Width);
-                Int32 right = (Int32)(scale.X * _rectangles[2].Width);
+                int top = (int)(scale.Y * _rectangles[0].Height);
+                int bottom = (int)(scale.Y * _rectangles[6].Height);
+                int left = (int)(scale.X * _rectangles[0].Width);
+                int right = (int)(scale.X * _rectangles[2].Width);
 
-                Int32 width = destinationRect.Width - left - right;
-                Int32 height = destinationRect.Height - top - bottom;
+                int width = destinationRect.Width - left - right;
+                int height = destinationRect.Height - top - bottom;
 
-                Single scaleLeft = (Single)left / (Single)_rectangles[0].Width;
-                Single scaleRight = (Single)right / (Single)_rectangles[2].Width;
+                float scaleLeft = (float)left / (float)_rectangles[0].Width;
+                float scaleRight = (float)right / (float)_rectangles[2].Width;
 
-                Single scaleTop = (Single)top / (Single)_rectangles[0].Height;
-                Single scaleBottom = (Single)bottom / (Single)_rectangles[6].Height;
+                float scaleTop = (float)top / (float)_rectangles[0].Height;
+                float scaleBottom = (float)bottom / (float)_rectangles[6].Height;
 
-                Single scaleWidth = (Single)width / (Single)_rectangles[4].Width;
-                Single scaleHeight = (Single)height / (Single)_rectangles[4].Height;
+                float scaleWidth = (float)width / (float)_rectangles[4].Width;
+                float scaleHeight = (float)height / (float)_rectangles[4].Height;
 
                 Vector2 p0 = new Vector2(destinationRect.X, destinationRect.Y);
                 Vector2 s0 = new Vector2(scaleLeft, scaleTop);

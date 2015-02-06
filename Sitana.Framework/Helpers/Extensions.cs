@@ -52,7 +52,7 @@ namespace Sitana.Framework
 
             String output = lines[0];
 
-            for (Int32 idx = 1; idx < lines.Count; ++idx)
+            for (int idx = 1; idx < lines.Count; ++idx)
             {
                 output += separator;
                 output += lines[idx];
@@ -75,7 +75,7 @@ namespace Sitana.Framework
 
             String output = lines[start];
 
-            for (Int32 idx = start + 1; idx < start + count; ++idx)
+            for (int idx = start + 1; idx < start + count; ++idx)
             {
                 output += separator;
                 output += lines[idx];

@@ -98,7 +98,7 @@ namespace Sitana.Framework.Ui.Views
 
         public void RecalculateAll()
         {
-            for (Int32 idx = 0; idx < _children.Count; ++idx)
+            for (int idx = 0; idx < _children.Count; ++idx)
             {
                 var child = _children[idx] as UiContainer;
 
@@ -116,7 +116,7 @@ namespace Sitana.Framework.Ui.Views
         {
             _added = true;
 
-            for (Int32 idx = 0; idx < _children.Count; ++idx)
+            for (int idx = 0; idx < _children.Count; ++idx)
             {
                 _children[idx].ViewAdded();
             }
@@ -124,7 +124,7 @@ namespace Sitana.Framework.Ui.Views
 
         public virtual void RecalcLayout()
         {
-            for (Int32 idx = 0; idx < _children.Count; ++idx)
+            for (int idx = 0; idx < _children.Count; ++idx)
             {
                 var child = _children[idx];
                 child.Bounds = CalculateChildBounds(child);
@@ -229,7 +229,7 @@ namespace Sitana.Framework.Ui.Views
 
         public UiView ViewFromPoint(Point point)
         {
-            for (Int32 idx = 0; idx < _children.Count; ++idx)
+            for (int idx = 0; idx < _children.Count; ++idx)
             {
                 var child = _children[idx];
 
@@ -249,7 +249,7 @@ namespace Sitana.Framework.Ui.Views
 
         public UiView ViewFromId(string id)
         {
-            for (Int32 idx = 0; idx < _children.Count; ++idx)
+            for (int idx = 0; idx < _children.Count; ++idx)
             {
                 if ( _children[idx].Id == id)
                 {

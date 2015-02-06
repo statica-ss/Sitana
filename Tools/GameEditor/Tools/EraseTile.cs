@@ -27,7 +27,10 @@ namespace GameEditor.Tools
                 int startX = (int)position.X;
                 int startY = (int)position.Y;
 
-                layer.Content[startX, startY] = TiledLayer.Empty;
+                if (startX < layer.Width && startY < layer.Height)
+                {
+                    layer.Content[startX, startY] = TiledLayer.Empty;
+                }
             }
         }
 
