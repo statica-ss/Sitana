@@ -31,7 +31,7 @@ namespace Sitana.Framework.Graphics.Model.Importers
 
         private ModelX Load(Stream stream, OpenFileDelegate openFileDelegate)
         {
-            Dictionary<VertexPositionNormalTexture, Int32> vertexToIndex = new Dictionary<VertexPositionNormalTexture,Int32>();
+            Dictionary<VertexPositionNormalTexture, int> vertexToIndex = new Dictionary<VertexPositionNormalTexture,int>();
             List<ModelSubset> subsets = new List<ModelSubset>();
             List<VertexPositionNormalTexture> vertices = new List<VertexPositionNormalTexture>();
 
@@ -45,7 +45,7 @@ namespace Sitana.Framework.Graphics.Model.Importers
 
             List<Tuple<String, Material>> materials = new List<Tuple<String, Material>>();
 
-            Int32 subsetMaterial = -1;
+            int subsetMaterial = -1;
             List<String> temp = new List<String>();
 
             while (!reader.EndOfStream)
@@ -76,7 +76,7 @@ namespace Sitana.Framework.Graphics.Model.Importers
                         {
                             String name = parts[1];
 
-                            for (Int32 idx = 2; idx < parts.Length; ++idx)
+                            for (int idx = 2; idx < parts.Length; ++idx)
                             {
                                 name += " " + parts[idx];
                             }
@@ -142,7 +142,7 @@ namespace Sitana.Framework.Graphics.Model.Importers
         {
             Material[] mats = new Material[materials.Count];
 
-            for(Int32 idx = 0; idx < materials.Count;++idx)
+            for(int idx = 0; idx < materials.Count;++idx)
             {
                 mats[idx] = materials[idx].Item2;
             }
@@ -150,9 +150,9 @@ namespace Sitana.Framework.Graphics.Model.Importers
             return mats;
         }
 
-        private static Int32 FindMaterial(String name, List<Tuple<String, Material>> materials)
+        private static int FindMaterial(String name, List<Tuple<String, Material>> materials)
         {
-            for ( Int32 idx = 0; idx < materials.Count; ++idx )
+            for ( int idx = 0; idx < materials.Count; ++idx )
             {
                 if ( materials[idx].Item1 == name)
                 {
@@ -173,9 +173,9 @@ namespace Sitana.Framework.Graphics.Model.Importers
             Color diffuse = Color.White;
             Color ambient = Color.White;
             Color specular = Color.White;
-            Single specularExponent = 1;
+            float specularExponent = 1;
 
-            Single opacity = 1;
+            float opacity = 1;
 
             List<String> temp = new List<String>();
 
@@ -220,11 +220,11 @@ namespace Sitana.Framework.Graphics.Model.Importers
                         break;
 
                     case "Ns":
-                        specularExponent = Single.Parse(parts[1], CultureInfo.InvariantCulture);
+                        specularExponent = float.Parse(parts[1], CultureInfo.InvariantCulture);
                         break;
 
                     case "d":
-                        opacity = Single.Parse(parts[1], CultureInfo.InvariantCulture);
+                        opacity = float.Parse(parts[1], CultureInfo.InvariantCulture);
                         break;
 
                     case "Ka":
@@ -255,9 +255,9 @@ namespace Sitana.Framework.Graphics.Model.Importers
         {
             try
             {
-                return new Color(Single.Parse(parts[1], CultureInfo.InvariantCulture),
-                                 Single.Parse(parts[2], CultureInfo.InvariantCulture),
-                                 Single.Parse(parts[3], CultureInfo.InvariantCulture));
+                return new Color(float.Parse(parts[1], CultureInfo.InvariantCulture),
+                                 float.Parse(parts[2], CultureInfo.InvariantCulture),
+                                 float.Parse(parts[3], CultureInfo.InvariantCulture));
             }
             catch(Exception ex)
             {
@@ -265,7 +265,7 @@ namespace Sitana.Framework.Graphics.Model.Importers
             }
         }
 
-        private static void AddNewSubset(List<ModelSubset> subsets, List<Int16> subsetIndices, ref Int32 material)
+        private static void AddNewSubset(List<ModelSubset> subsets, List<Int16> subsetIndices, ref int material)
         {
             subsets.Add(new ModelSubset(material, subsetIndices.ToArray()));
 
@@ -277,9 +277,9 @@ namespace Sitana.Framework.Graphics.Model.Importers
         {
             try
             {
-                list.Add(new Vector3(Single.Parse(parts[1], CultureInfo.InvariantCulture),
-                                     Single.Parse(parts[2], CultureInfo.InvariantCulture),
-                                     Single.Parse(parts[3], CultureInfo.InvariantCulture)));
+                list.Add(new Vector3(float.Parse(parts[1], CultureInfo.InvariantCulture),
+                                     float.Parse(parts[2], CultureInfo.InvariantCulture),
+                                     float.Parse(parts[3], CultureInfo.InvariantCulture)));
             }
             catch (Exception ex)
             {
@@ -289,15 +289,15 @@ namespace Sitana.Framework.Graphics.Model.Importers
 
         private static void AddVector2(List<Vector2> list, String[] parts)
         {
-            list.Add(new Vector2(Single.Parse(parts[1], CultureInfo.InvariantCulture),
-                                 1-Single.Parse(parts[2], CultureInfo.InvariantCulture)));
+            list.Add(new Vector2(float.Parse(parts[1], CultureInfo.InvariantCulture),
+                                 1-float.Parse(parts[2], CultureInfo.InvariantCulture)));
         }
 
-        private static void AddIndices(List<Int16> indices, String[] parts, List<VertexPositionNormalTexture> vertices, Dictionary<VertexPositionNormalTexture, Int32> vertexToIndex, List<Vector3> positions, List<Vector3> normals, List<Vector2> coords)
+        private static void AddIndices(List<Int16> indices, String[] parts, List<VertexPositionNormalTexture> vertices, Dictionary<VertexPositionNormalTexture, int> vertexToIndex, List<Vector3> positions, List<Vector3> normals, List<Vector2> coords)
         {
-            for (Int32 idx = 2; idx >= 0; --idx)
+            for (int idx = 2; idx >= 0; --idx)
             {
-                Tuple<Int32, Int32, Int32> vertexIndices;
+                Tuple<int, int, int> vertexIndices;
 
                 try
                 {
@@ -324,7 +324,7 @@ namespace Sitana.Framework.Graphics.Model.Importers
                         coords[index2]
                         );
 
-                    Int32 index = 0;
+                    int index = 0;
 
                     if (!vertexToIndex.TryGetValue(vertex, out index))
                     {
@@ -342,12 +342,12 @@ namespace Sitana.Framework.Graphics.Model.Importers
             }
         }
 
-        private static Tuple<Int32, Int32, Int32> GetIndices(String part)
+        private static Tuple<int, int, int> GetIndices(String part)
         {
             try
             {
                 String[] parts = part.Split('/');
-                return new Tuple<Int32, Int32, Int32>(Int32.Parse(parts[0]), Int32.Parse(parts[1]), Int32.Parse(parts[2]));
+                return new Tuple<int, int, int>(int.Parse(parts[0]), int.Parse(parts[1]), int.Parse(parts[2]));
             }
             catch
             {

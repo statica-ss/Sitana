@@ -12,7 +12,7 @@ namespace Sitana.Framework.Graphics.Model
 {
     public class ModelX
     {
-        const Int32 Version = 2;
+        const int Version = 2;
 
         VertexBuffer _vertexBuffer = null;
 
@@ -44,12 +44,12 @@ namespace Sitana.Framework.Graphics.Model
             }
         }
 
-        public Material[] Materials(Int32 set)
+        public Material[] Materials(int set)
         {
             return _materials[set];
         }
 
-        public Int32 MaterialsSetsCount
+        public int MaterialsSetsCount
         {
             get
             {
@@ -164,7 +164,7 @@ namespace Sitana.Framework.Graphics.Model
                 throw new InvalidDataException("Invalid file header. This is not Ebatiano's ModelX file.");
             }
 
-            Int32 version = reader.ReadInt32();
+            int version = reader.ReadInt32();
 
             switch (version)
             {
@@ -195,7 +195,7 @@ namespace Sitana.Framework.Graphics.Model
 
             vertices = new VertexPositionNormalTexture[reader.ReadInt32()];
 
-            for (Int32 idx = 0; idx < vertices.Length; ++idx)
+            for (int idx = 0; idx < vertices.Length; ++idx)
             {
                 Vector3 position = new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
                 Vector3 normal = new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
@@ -206,22 +206,22 @@ namespace Sitana.Framework.Graphics.Model
 
             subsets = new ModelSubset[reader.ReadInt32()];
 
-            for (Int32 idx = 0; idx < subsets.Length; ++idx)
+            for (int idx = 0; idx < subsets.Length; ++idx)
             {
                 subsets[idx] = ModelSubset.Deserialize(reader);
             }
 
-            Int32 materialSetsCount = reader.ReadInt32();
-            Int32 materialsPerSet = reader.ReadInt32();
+            int materialSetsCount = reader.ReadInt32();
+            int materialsPerSet = reader.ReadInt32();
 
             List<Material[]> materialSets = new List<Material[]>();
 
-            for ( Int32 idx = 0; idx < materialSetsCount; ++idx )
+            for ( int idx = 0; idx < materialSetsCount; ++idx )
             {
                 Material[] materials = new Material[materialsPerSet];
                 materialSets.Add(materials);
 
-                for ( Int32 idx2 = 0; idx2 < materialsPerSet; ++idx2 )
+                for ( int idx2 = 0; idx2 < materialsPerSet; ++idx2 )
                 {
                     materials[idx2] = Material.Deserialize(reader);
                 }
@@ -239,7 +239,7 @@ namespace Sitana.Framework.Graphics.Model
 
             writer.Write(Vertices.Length);
 
-            for (Int32 idx = 0; idx < Vertices.Length; ++idx)
+            for (int idx = 0; idx < Vertices.Length; ++idx)
             {
                 var vertex = Vertices[idx];
 
@@ -267,7 +267,7 @@ namespace Sitana.Framework.Graphics.Model
 
             foreach(var set in _materials)
             {
-                for ( Int32 idx = 0; idx < set.Length; ++idx )
+                for ( int idx = 0; idx < set.Length; ++idx )
                 {
                     set[idx].Serialize(writer);
                 }
@@ -278,7 +278,7 @@ namespace Sitana.Framework.Graphics.Model
             writer.Write(Up.Z);
         }
 
-        public void Render(IShaderEffect effect, Vector3 ambientColor, Int32 materialsSet)
+        public void Render(IShaderEffect effect, Vector3 ambientColor, int materialsSet)
         {
             ModelXRenderer.Render(this, effect, ambientColor, materialsSet);
         }

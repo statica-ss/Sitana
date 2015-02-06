@@ -15,8 +15,8 @@ namespace Sitana.Framework.Graphics
         Vector3 SpecularColor{set;}
         Vector3 EmissiveColor{set;}
         Vector3 AmbientLightColor{set;}
-        Single Alpha {set;}
-        Single SpecularPower{set;}
+        float Alpha {set;}
+        float SpecularPower{set;}
         Boolean TextureEnabled {set;}
         Boolean PreferPerPixelLighting{ set;}
         Boolean LightingEnabled {set;}
@@ -26,7 +26,7 @@ namespace Sitana.Framework.Graphics
         Matrix View { set; }
         Matrix Projection { set;}
 
-        void Apply(Int32 pass);
+        void Apply(int pass);
         void EnableDefaultLighting();
     }
 }

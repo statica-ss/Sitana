@@ -12,12 +12,12 @@ namespace Sitana.Framework.Media
 {
     public partial class MusicController: Singleton<MusicController>
     {
-        private Single _masterVolume = 1;
+        private float _masterVolume = 1;
         private bool _enabled = true;
 
         private Song _song;
 
-        public Single MasterVolume
+        public float MasterVolume
         {
             get
             {

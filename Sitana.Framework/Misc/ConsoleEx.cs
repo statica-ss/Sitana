@@ -12,7 +12,7 @@ namespace Sitana.Framework.Diagnostics
         public const String Info = "{Green}";
         public const String Asterisk = "{Purple}";
 
-        public static void EnableRemoteConsole(String address, Int32 port)
+        public static void EnableRemoteConsole(String address, int port)
         {
             RemoteConsoleClient.Instance.Initialize(address, port);
         }

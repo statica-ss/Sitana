@@ -17,7 +17,7 @@ namespace Sitana.Framework.Diagnostics
         Boolean _sending = false;
 
         String _ipAddress;
-        Int32 _port;
+        int _port;
 
         Boolean _initialized = false;
 
@@ -29,7 +29,7 @@ namespace Sitana.Framework.Diagnostics
             }
         }
 
-        public void Initialize(String ipAddress, Int32 port)
+        public void Initialize(String ipAddress, int port)
         {
             _ipAddress = ipAddress;
             _port = port;

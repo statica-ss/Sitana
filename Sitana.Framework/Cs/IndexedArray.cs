@@ -17,7 +17,7 @@ namespace Sitana.Framework.Cs
             _array = array;
         }
 
-        public T this[Int32 index]
+        public T this[int index]
         {
             get
             {
@@ -25,7 +25,7 @@ namespace Sitana.Framework.Cs
             }
         }
 
-        public Int32 Count
+        public int Count
         {
             get
             {

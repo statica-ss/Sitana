@@ -11,7 +11,7 @@ namespace Sitana.Framework.Cs
 {
     public interface IIndexedContainer<T>
     {
-        T this[Int32 index] { get; }
-        Int32 Count { get; }
+        T this[int index] { get; }
+        int Count { get; }
     }
 }

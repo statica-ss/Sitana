@@ -57,7 +57,7 @@ namespace Sitana.Framework
         /// <param name="desiredSize">Desired size.</param>
         public static Vector2 CalculateScale(Texture2D texture, Vector2 desiredSize)
         {
-            return new Vector2(desiredSize.X / (Single)texture.Width, desiredSize.Y / (Single)texture.Height);
+            return new Vector2(desiredSize.X / (float)texture.Width, desiredSize.Y / (float)texture.Height);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Sitana.Framework
         /// <param name="desiredSize">Desired size.</param>
         public static Vector2 CalculateScale(Texture2D texture, Point desiredSize)
         {
-            return new Vector2((Single)desiredSize.X / (Single)texture.Width, (Single)desiredSize.Y / (Single)texture.Height);
+            return new Vector2((float)desiredSize.X / (float)texture.Width, (float)desiredSize.Y / (float)texture.Height);
         }
 
         public static Color MultiplyColors(Color c1, Color c2)
@@ -81,7 +81,7 @@ namespace Sitana.Framework
         }
         
 
-        public static Color MixColors(Color c1, Color c2, Single c2Mix)
+        public static Color MixColors(Color c1, Color c2, float c2Mix)
         {
             Vector4 v1 = c1.ToVector4();
             Vector4 v2 = c2.ToVector4();
@@ -93,11 +93,11 @@ namespace Sitana.Framework
 
         public static Rectangle IntersectRectangle(ref Rectangle r1, ref Rectangle r2)
         {
-            Int32 x1 = Math.Max(r1.X, r2.X);
-            Int32 x2 = Math.Min(r1.Right, r2.Right);
+            int x1 = Math.Max(r1.X, r2.X);
+            int x2 = Math.Min(r1.Right, r2.Right);
 
-            Int32 y1 = Math.Max(r1.Y, r2.Y);
-            Int32 y2 = Math.Min(r1.Bottom, r2.Bottom);
+            int y1 = Math.Max(r1.Y, r2.Y);
+            int y2 = Math.Min(r1.Bottom, r2.Bottom);
 
             if (x1 > x2 || y1 > y2)
             {

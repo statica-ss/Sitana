@@ -39,7 +39,7 @@ namespace Sitana.Framework.Helpers
 
             if (vals.Length == 3)
             {
-                if (Int32.TryParse(vals[0], out r) && Int32.TryParse(vals[1], out g) && Int32.TryParse(vals[2], out b))
+                if (int.TryParse(vals[0], out r) && int.TryParse(vals[1], out g) && int.TryParse(vals[2], out b))
                 {
                     return new Color(r, g, b);
                 }
@@ -47,7 +47,7 @@ namespace Sitana.Framework.Helpers
 
             if (vals.Length == 4)
             {
-                if (Int32.TryParse(vals[0], out r) && Int32.TryParse(vals[1], out g) && Int32.TryParse(vals[2], out b) && Int32.TryParse(vals[3], out a))
+                if (int.TryParse(vals[0], out r) && int.TryParse(vals[1], out g) && int.TryParse(vals[2], out b) && int.TryParse(vals[3], out a))
                 {
                     return Color.FromNonPremultiplied(r, g, b, a);
                 }
