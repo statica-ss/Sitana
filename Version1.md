@@ -15,10 +15,10 @@
   - [X] BitmapFont drawing
   - [X] NinePatchImage
 
-- [ ] User Interface
+- [X] User Interface
   - [X] Application core
   - [X] UI XML parsing system
-  - [ ] Containers
+  - [X] Containers
     - [X] UiBorder
     - [X] UiStackPanel
     - [X] UiWrapPanel
@@ -29,7 +29,7 @@
     - [X] UiScrollView
     - [X] UiSplitterView
     - [X] UiExpandingBorder
-    - [ ] UiRadioGroup
+    - [X] UiRadioButton
   - [X] Controls
     - [X] UiButton
     - [X] UiCheckBox
