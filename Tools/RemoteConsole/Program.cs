@@ -51,8 +51,12 @@ namespace RemoteConsole
         {
             lock (_lock)
             {
+                if (color == ConsoleColor.Black)
+                {
+                    Console.ResetColor();
+                }
+
                 Console.ForegroundColor = color;
-                Console.BackgroundColor = ConsoleColor.White;
                 Console.WriteLine(text);
                 Console.ResetColor();
             }
@@ -69,13 +73,13 @@ namespace RemoteConsole
                     return ConsoleColor.Green;
 
                 case "Orange":
-                    return ConsoleColor.DarkYellow;
+                    return ConsoleColor.Yellow;
 
                 case "Blue":
                     return ConsoleColor.Blue;
 
                 case "Purple":
-                    return ConsoleColor.DarkMagenta;
+                    return ConsoleColor.Magenta;
             }
 
             return ConsoleColor.Black;
