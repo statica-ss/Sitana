@@ -1,31 +1,34 @@
-﻿using System;
+﻿using Sitana.Framework.Cs;
+using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Ui.Views.ButtonDrawables;
+using Sitana.Framework.Xml;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sitana.Framework.Xml;
-using Sitana.Framework.Ui.DefinitionFiles;
-using Sitana.Framework.Ui.Views.ButtonDrawables;
-using Sitana.Framework.Cs;
 
 namespace Sitana.Framework.Ui.Views
 {
-    public class UiCheckBox: UiButton
+    public class UiRadioButton: UiButton
     {
         public new static void Parse(XNode node, DefinitionFile file)
         {
             UiButton.Parse(node, file);
 
             var parser = new DefinitionParser(node);
-            file["Checked"] = parser.ParseBoolean("Checked");
+
+            file["Value"] = parser.ParseInt("Value");
+            file["SelectedValue"] = parser.ParseInt("SelectedValue");
         }
 
-        public SharedValue<bool> Checked { get; private set; }
+        public SharedValue<int> SelectedValue { get; private set; }
+        public int Value { get; private set; }
 
         public override ButtonState ButtonState
         {
             get
             {
-                return base.ButtonState | (Checked.Value ? ButtonState.Checked : ButtonState.None);
+                return base.ButtonState | (SelectedValue.Value == Value ? ButtonState.Checked : ButtonState.None);
             }
         }
 
@@ -38,18 +41,16 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiCheckBox));
 
-            Checked = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Checked"], false);
+            SelectedValue = DefinitionResolver.GetShared<int>(Controller, Binding, file["SelectedValue"], -1);
+            Value = DefinitionResolver.Get<int>(Controller, Binding, file["Value"], 0);
 
             return true;
         }
 
         protected override void DoAction()
         {
-            Checked.Value = !Checked.Value;
-
-            CallDelegate("Click", 
-                new InvokeParam("sender", this),
-                new InvokeParam("checked", Checked.Value));
+            SelectedValue.Value = Value;
+            CallDelegate("Click");
 
             if (_actionSound != null)
             {
