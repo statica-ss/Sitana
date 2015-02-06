@@ -64,7 +64,7 @@ namespace RemoteConsole
 
             byte[] addr = ipAddress.GetAddressBytes();
 
-            WriteLog(String.Format("{{Blue}}Listening started at {0} at {1}:{2}", ipHostInfo.HostName, ipAddress.ToString(), port));
+            WriteLog(String.Format("{{Info}}Listening started at {0} at {1}:{2}", ipHostInfo.HostName, ipAddress.ToString(), port));
 
             // Create a TCP/IP socket.
             Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -110,7 +110,7 @@ namespace RemoteConsole
             StateObject state = new StateObject();
             state.workSocket = handler;
 
-            WriteLog(String.Format("{{Purple}}Connection from {0}", handler.RemoteEndPoint.ToString()));
+            WriteLog(String.Format("{{Info}}Connection from {0}", handler.RemoteEndPoint.ToString()));
 
             handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                 new AsyncCallback(ReadCallback), state);
@@ -143,7 +143,7 @@ namespace RemoteConsole
             }
             catch
             {
-                WriteLog(String.Format("{{Purple}}Disconnected from {0}", handler.RemoteEndPoint.ToString()));
+                WriteLog(String.Format("{{Info}}Disconnected from {0}", handler.RemoteEndPoint.ToString()));
 
                 try
                 {

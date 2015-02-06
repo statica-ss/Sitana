@@ -66,19 +66,16 @@ namespace RemoteConsole
         {
             switch (text)
             {
-                case "Red":
+                case "Error":
                     return ConsoleColor.Red;
 
-                case "Green":
-                    return ConsoleColor.Green;
-
-                case "Orange":
+                case "Warning":
                     return ConsoleColor.Yellow;
 
-                case "Blue":
-                    return ConsoleColor.Blue;
+                case "Info":
+                    return ConsoleColor.Green;
 
-                case "Purple":
+                case "Asterisk":
                     return ConsoleColor.Magenta;
             }
 
