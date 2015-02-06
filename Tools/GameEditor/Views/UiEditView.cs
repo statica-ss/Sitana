@@ -213,6 +213,8 @@ namespace GameEditor.Views
 
             int startY = target.Y;
 
+            int maxY = 0;
+
             ushort[,] tiles = layer.Content;
 
             for(int idxX = 0; idxX < width; ++idxX)
@@ -237,16 +239,17 @@ namespace GameEditor.Views
                         }
 
                         target.Y += unitSize;
+                        maxY = Math.Max(target.Y, maxY);
                     }
                 }
-
+                
                 target.X += unitSize;
             }
 
             Color color = Color.White * 0.25f;
 
-            batch.DrawLine(new Point(target.X, bounds.Top), new Point(target.X, target.Y), color);
-            batch.DrawLine(new Point(bounds.Left, target.Y), new Point(target.X, target.Y), color);
+            batch.DrawLine(new Point(target.X, bounds.Top), new Point(target.X, maxY), color);
+            batch.DrawLine(new Point(bounds.Left, maxY), new Point(target.X, maxY), color);
 
             batch.SamplerState = oldSamplerState;
         }
