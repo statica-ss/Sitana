@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Cs;
+using Sitana.Framework;
+using GameEditor.Views;
+using Microsoft.Xna.Framework;
+using System.Globalization;
 
 namespace GameEditor
 {
@@ -12,60 +16,69 @@ namespace GameEditor
 		public readonly SharedString ZoomValue = new SharedString();
 
         public readonly SharedString WorldCoordinates = new SharedString();
-        public readonly SharedString TileCoordinates = new SharedString();
 
-        public int Zoom { get; private set; }
+        public readonly SharedValue<int> Zoom = new SharedValue<int>(100);
+
+        UiEditView _editView = null;
 
 		public EditViewController()
 		{
-            Zoom = 100;
-			UpdateZoomValue();
-
             LayerSelectionChanged();
             Document.Current.LayerSelectionChanged += LayerSelectionChanged;
+
+            UpdateZoomValue(100);
+            Zoom.ValueChanged += UpdateZoomValue;
 		}
 
 		public void ZoomOut()
 		{
-            Zoom -= Zoom > 200 ? 50 : 25;
+            Zoom.Value -= Zoom.Value > 200 ? 50 : 25;
 
-            if (Zoom < 25)
+            if (Zoom.Value < 25)
 			{
-                Zoom = 25;
+                Zoom.Value = 25;
 			}
-			UpdateZoomValue();
 		}
 
 		public void ZoomIn()
 		{
-            Zoom += Zoom < 200 ? 25 : 50;
+            Zoom.Value += Zoom.Value < 200 ? 25 : 50;
 
-            if (Zoom > 400)
+            if (Zoom.Value > 400)
 			{
-                Zoom = 400;
+                Zoom.Value = 400;
 			}
-			UpdateZoomValue();
 		}
 
-		void UpdateZoomValue()
+		void UpdateZoomValue(int zoom)
 		{
-            ZoomValue.Format("{0}%", Zoom);
+            ZoomValue.Format("{0}%", zoom);
 		}
 
-        void LayerSelectionChanged()
+        public void OnViewAdded()
         {
-            DocLayer layer = Document.Current.SelectedLayer;
+            _editView = Find<UiEditView>("EditView");
+        }
 
-            WorldCoordinates.Format("24.5, 25.8");
-            
-            if (layer is DocTiledLayer)
+        protected override void Update(float time)
+        {
+            base.Update(time);
+
+            Vector2? mousePos = _editView.MousePosition;
+
+            if(mousePos.HasValue)
             {
-                TileCoordinates.Format("12, 15");
+                WorldCoordinates.Format(CultureInfo.InvariantCulture, "{0:n2}, {1:n2}", mousePos.Value.X, mousePos.Value.Y);
             }
             else
             {
-                TileCoordinates.Clear();
+                WorldCoordinates.Clear();
             }
+        }
+
+        void LayerSelectionChanged()
+        {
+            WorldCoordinates.Clear();
         }
     }
 }

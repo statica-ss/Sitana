@@ -45,7 +45,7 @@ namespace GameEditor
         public void Close()
         {
             AppMain.Current.SetFocus(null);
-            Find("DialogModalDialog").Visible.Value = false;
+            Find("DialogModalDialog").Visible = false;
             NavigateTo(null);
         }
 

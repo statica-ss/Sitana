@@ -23,6 +23,7 @@ using Microsoft.Xna.Framework;
 using System.Windows.Forms;
 using Sitana.Framework.Diagnostics;
 using Microsoft.Xna.Framework.Input;
+using Sitana.Framework.Input;
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -109,6 +110,10 @@ namespace Sitana.Framework.Ui.Core
 
                         _currentFocus.OnCharacter(c);
                     }
+                    else
+                    {
+                        Accelerators.Instance.Process(c);
+                    }
                 };
 
             _keyboardHandler.OnKey += (k) =>
@@ -116,6 +121,10 @@ namespace Sitana.Framework.Ui.Core
                     if (_currentFocus != null)
                     {
                         _currentFocus.OnKey(k);
+                    }
+                    else
+                    {
+                        Accelerators.Instance.Process(k);
                     }
                 };
         }

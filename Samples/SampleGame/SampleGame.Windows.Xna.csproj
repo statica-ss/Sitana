@@ -122,7 +122,7 @@
       <Project>{68D03401-FD88-48C5-9821-0C3A07F89C34}</Project>
       <Name>Sitana.Framework.Windows.Xna</Name>
     </ProjectReference>
-    <ProjectReference Include="Assets\SampleGame.Assets.Windows.Xna.contentproj">
+    <ProjectReference Include="..\SampleGame.Assets\SampleGame.Assets.Windows.Xna.contentproj">
       <Project>{2766F0AF-5142-46FC-8646-AFE89F28A70A}</Project>
       <Name>SampleGame.Assets.Windows.Xna %28TestGame%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>

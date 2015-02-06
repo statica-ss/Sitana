@@ -6,12 +6,14 @@ namespace Sitana.Framework.Games
 {
     public class Map
     {
-        //Point _tileSize = Point.Zero;
-        //int _unitSizeInPixels = 32;
+        public string TemplateGuid { get; private set; }
 
-        //List<Layer> _layers = new List<Layer>();
+        List<Layer> _layers = new List<Layer>();
 
+        public Map(string guid)
+        {
 
+        }
     }
 }
 

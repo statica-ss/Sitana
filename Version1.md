@@ -28,7 +28,7 @@
       - [X] Transition Effects
     - [X] UiScrollView
     - [X] UiSplitterView
-    - [ ] UiCollapsingContainer
+    - [X] UiExpandingBorder
     - [ ] UiRadioGroup
   - [X] Controls
     - [X] UiButton

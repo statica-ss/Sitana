@@ -16,6 +16,7 @@ namespace GameEditor
         public class Template
         {
             public string Name {get;set;}
+            public string Guid { get; set; }
             public string Path { get; set; }
             public string ShortPath { get; set; }
         }
@@ -29,11 +30,25 @@ namespace GameEditor
             Templates.Add(new Template()
             {
                 Name="Sample",
+                Guid = "",
                 Path = null,
                 ShortPath = ""
             });
 
 			LoadTemplatesList();
+        }
+
+        public Template FindTemplate(string guid)
+        {
+            for(int idx = 0; idx < Templates.Count; ++idx)
+            {
+                if(Templates[idx].Guid == guid)
+                {
+                    return Templates[idx];
+                }
+            }
+
+            return null;
         }
 
         public void Register(string path)
@@ -59,6 +74,8 @@ namespace GameEditor
                             if (cn.Tag == "Properties")
                             {
                                 string name = cn.Attribute("Name");
+                                string guid = cn.Attribute("Guid");
+
                                 string shortPath = path;
 
                                 int maxLength = 44;
@@ -86,6 +103,7 @@ namespace GameEditor
                                 {
                                     Name = name,
                                     Path = path,
+                                    Guid = guid,
                                     ShortPath = shortPath.Replace('\\','/')
                                 });
                             }

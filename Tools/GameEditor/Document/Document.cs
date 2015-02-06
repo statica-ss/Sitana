@@ -2,6 +2,9 @@
 using Sitana.Framework.Cs;
 using System.IO;
 using Sitana.Framework.Ui.Binding;
+using System.Xml;
+using Sitana.Framework.Content;
+using Sitana.Framework;
 
 namespace GameEditor
 {
@@ -85,6 +88,89 @@ namespace GameEditor
             FileName.StringValue = Path.GetFileNameWithoutExtension(path);
 
             IsModified = false;
+
+            using (Stream stream = new FileStream(path, FileMode.Create))
+            {
+                BinaryWriter writer = new BinaryWriter(stream);
+
+                writer.Write(1);
+                writer.Write(CurrentTemplate.Instance.Guid);
+
+                WriteVersion1(writer);
+            }
+        }
+
+        public void Open(string path)
+        {
+            using(Stream stream = new FileStream(path, FileMode.Open))
+            {
+                BinaryReader reader = new BinaryReader(stream);
+
+                int version = reader.ReadInt32();
+                string guid = reader.ReadString();
+
+                RegisteredTemplates.Template template = RegisteredTemplates.Instance.FindTemplate(guid);
+
+                if (template == null)
+                {
+                    MessageBox.Info(string.Format("Template {0} is not registered.", guid));
+                    return;
+                }
+
+                if (template.Path.IsNullOrEmpty())
+                {
+                    using (Stream templateStream = ContentLoader.Current.Open("Templates/SampleTemplate.zip"))
+                    {
+                        CurrentTemplate.Instance.Load(templateStream);
+                    }
+                }
+                else
+                {
+                    using (Stream templateStream = new FileStream(template.Path, FileMode.Open))
+                    {
+                        CurrentTemplate.Instance.Load(templateStream);
+                    }
+                }
+
+                New();
+                Layers.Clear();
+
+                ReadVersion1(reader);
+
+                _layerIndex = Layers.Count + 1;
+                Layers[Layers.Count - 1].Selected.Value = true;
+            }
+
+            FilePath = path;
+            FileName.StringValue = Path.GetFileNameWithoutExtension(path);
+        }
+
+        void WriteVersion1(BinaryWriter writer)
+        {
+            writer.Write(Layers.Count);
+
+            for (int idx = 0; idx < Layers.Count; ++idx)
+            {
+                bool tiled = Layers[idx] is DocTiledLayer;
+                writer.Write(tiled);
+
+                Layers[idx].Serialize(writer);
+            }
+        }
+
+        void ReadVersion1(BinaryReader reader)
+        {
+            int layersNo = reader.ReadInt32();
+
+            for (int idx = 0; idx < layersNo; ++idx )
+            {
+                bool tiled = reader.ReadBoolean();
+
+                DocLayer layer = tiled ? (DocLayer)new DocTiledLayer("") : (DocLayer)new DocVectorLayer("");
+                layer.Deserialize(reader);
+
+                Layers.Add(layer);
+            }
         }
 
         public void CancelModified()
@@ -117,8 +203,6 @@ namespace GameEditor
             Select(layer);
             SetModified();
         }
-
-
 
         public void RemoveSelectedLayer()
         {

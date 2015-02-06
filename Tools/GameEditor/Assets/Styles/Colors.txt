@@ -27,6 +27,7 @@
 
 :ScrollbarTrackNormal			#60ffffff
 :ScrollbarTrackPushed			#60ffffff
+:ScrollbarTrackDisabled			#20ffffff
 
 :AccentSelected                 #40800000
 :AccentPushed                   #20800000

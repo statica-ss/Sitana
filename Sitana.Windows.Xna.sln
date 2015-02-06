@@ -5,13 +5,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp.Windows.Xna", "Sa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Framework.Windows.Xna", "Sitana.Framework\Sitana.Framework.Windows.Xna.csproj", "{68D03401-FD88-48C5-9821-0C3A07F89C34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp.Assets.Windows.Xna", "Samples\SampleApp\Assets\SampleApp.Assets.Windows.Xna.contentproj", "{E40D2C4B-A75A-4EE9-A558-71F346036DC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp.Assets.Windows.Xna", "Samples\SampleApp.Assets\SampleApp.Assets.Windows.Xna.contentproj", "{E40D2C4B-A75A-4EE9-A558-71F346036DC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Framework.Games.Windows.Xna", "Sitana.Framework.Games\Sitana.Framework.Games.Windows.Xna.csproj", "{34C29D3D-33C1-4D10-8AE3-D54FAF6540B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleGame.Windows.Xna", "Samples\SampleGame\SampleGame.Windows.Xna.csproj", "{9E6CF1FE-C0C6-4327-8D7A-5AFF873B6D9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleGame.Assets.Windows.Xna", "Samples\SampleGame\Assets\SampleGame.Assets.Windows.Xna.contentproj", "{2766F0AF-5142-46FC-8646-AFE89F28A70A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleGame.Assets.Windows.Xna", "Samples\SampleGame.Assets\SampleGame.Assets.Windows.Xna.contentproj", "{2766F0AF-5142-46FC-8646-AFE89F28A70A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteConsole", "Tools\RemoteConsole\RemoteConsole.csproj", "{AC11091E-F338-4FCF-8EC9-C2E68B5BADF9}"
 EndProject

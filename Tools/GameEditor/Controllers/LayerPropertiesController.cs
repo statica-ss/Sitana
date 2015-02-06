@@ -52,21 +52,21 @@ namespace GameEditor
             {
                 if (val)
                 {
-                    new Tools.Select();
+                    new Tools.EraseTile();
                 }
             };
         }
 
         protected override void Update(float time)
         {
-            if ( Document.Instance.SelectedLayer != _layer )
+            if ( Document.Instance.SelectedLayer != _layer || _layer.PropertiesDirty)
             {
                 _layer = Document.Instance.SelectedLayer;
                 UpdateProperties();
             }
 
             Select.Value = Tools.Tool.Current is Tools.Select;
-            Eraser.Value = false;
+            Eraser.Value = Tools.Tool.Current is Tools.EraseTile;
         }
 
         public string OnApplyLayerName(string text)
