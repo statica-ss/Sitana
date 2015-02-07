@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sitana.Framework.Ui.Core;
 using Sitana.Framework.Content;
 using Microsoft.Xna.Framework;
 
-namespace TestGame
+namespace SampleGame
 {
 	[Register("AppDelegate")]
 	class Program : UIApplicationDelegate
@@ -26,7 +26,7 @@ namespace TestGame
 			main.Graphics.IsFullScreen = true;
 			main.Graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
 
-			main.OnLoadContent += GameController.OnLoadContent;
+            main.ContentLoading += GameController.OnLoadContent;
 
 			// Compute scale factor.
 			double scale = Math.Min((double)main.Graphics.PreferredBackBufferWidth / 480.0, (double)main.Graphics.PreferredBackBufferHeight / 480.0);

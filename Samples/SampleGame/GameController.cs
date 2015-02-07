@@ -9,6 +9,7 @@ using Sitana.Framework.Ui.Views;
 using Sitana.Framework.Cs;
 using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
+using Sitana.Framework.Diagnostics;
 
 namespace SampleGame
 {
@@ -20,7 +21,9 @@ namespace SampleGame
         
         public static void OnLoadContent(AppMain main)
         {
-            FontManager.Instance.AddSitanaFont("Font", "Fonts/Font", new int[]{10,14,18,22,28,32,38,44,50,58});
+            FontManager.Instance.AddSitanaFont("Font", "Fonts/Font", 10,14,18,22,28,32,38,44,50,58);
+
+            PerformanceProfiler.Instance.Initialize(60, 30);
         }
         
         public void OpenLink(UiButton button)

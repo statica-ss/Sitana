@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{A50168F8-5145-42BE-8FB9-9DAEFB5743B1}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>SampleGame</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>SampleGame</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>i386</MtouchArch>
+    <MtouchLink>None</MtouchLink>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchDebug>true</MtouchDebug>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>i386</MtouchArch>
+    <MtouchLink>None</MtouchLink>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchDebug>true</MtouchDebug>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Ad-Hoc</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <IpaIncludeArtwork>true</IpaIncludeArtwork>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignProvision>Automatic:AdHoc</CodesignProvision>
+    <BuildIpa>true</BuildIpa>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\AppStore</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignProvision>Automatic:AppStore</CodesignProvision>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\..\ThirdParty\Dependences\MonoGame\iOs\MonoGame.Framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="iOs\Info.plist">
+      <Link>Info.plist</Link>
+    </BundleResource>
+    <None Include="Entitlements.plist" />
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font10.png">
+      <Link>Assets\Fonts\Font10.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font14.png">
+      <Link>Assets\Fonts\Font14.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font18.png">
+      <Link>Assets\Fonts\Font18.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font22.png">
+      <Link>Assets\Fonts\Font22.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font28.png">
+      <Link>Assets\Fonts\Font28.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font32.png">
+      <Link>Assets\Fonts\Font32.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font38.png">
+      <Link>Assets\Fonts\Font38.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font44.png">
+      <Link>Assets\Fonts\Font44.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font50.png">
+      <Link>Assets\Fonts\Font50.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font58.png">
+      <Link>Assets\Fonts\Font58.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font10.sft">
+      <Link>Assets\Fonts\Font10.sft</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font14.sft">
+      <Link>Assets\Fonts\Font14.sft</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font18.sft">
+      <Link>Assets\Fonts\Font18.sft</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font22.sft">
+      <Link>Assets\Fonts\Font22.sft</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font28.sft">
+      <Link>Assets\Fonts\Font28.sft</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font32.sft">
+      <Link>Assets\Fonts\Font32.sft</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font38.sft">
+      <Link>Assets\Fonts\Font38.sft</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font44.sft">
+      <Link>Assets\Fonts\Font44.sft</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font50.sft">
+      <Link>Assets\Fonts\Font50.sft</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Fonts\Font58.sft">
+      <Link>Assets\Fonts\Font58.sft</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Ui\Button.png">
+      <Link>Assets\Ui\Button.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Ui\Logo.png">
+      <Link>Assets\Ui\Logo.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Ui\AppStyles.xml">
+      <Link>Assets\Ui\AppStyles.xml</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Ui\Button.xml">
+      <Link>Assets\Ui\Button.xml</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Ui\MainPage.xml">
+      <Link>Assets\Ui\MainPage.xml</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Ui\MainView.xml">
+      <Link>Assets\Ui\MainView.xml</Link>
+    </BundleResource>
+    <BundleResource Include="..\SampleGame.Assets\Ui\OptionsPage.xml">
+      <Link>Assets\Ui\OptionsPage.xml</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.iOs.csproj">
+      <Project>{8035627E-934F-4AEB-B2E5-69CD5A08204B}</Project>
+      <Name>Sitana.Framework.iOs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sitana.Framework.Games\Sitana.Framework.Games.iOs.csproj">
+      <Project>{CC9FF0FD-F41B-478C-A1B8-D2900E857DD2}</Project>
+      <Name>Sitana.Framework.Games.iOs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.iOs.cs" />
+    <Compile Include="OptionsPage.cs" />
+    <Compile Include="MainPage.cs" />
+    <Compile Include="GameController.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Assets\" />
+    <Folder Include="Assets\Fonts\" />
+    <Folder Include="Assets\Ui\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-60%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-72.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-72%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-76.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-76%402x.png" />
+  </ItemGroup>
+</Project>

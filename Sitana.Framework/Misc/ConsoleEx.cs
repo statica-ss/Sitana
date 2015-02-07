@@ -7,10 +7,10 @@ namespace Sitana.Framework.Diagnostics
 {
     public static class ConsoleEx
     {
-        public const String Error = "{Red}";
-        public const String Warning = "{Orange}";
-        public const String Info = "{Green}";
-        public const String Asterisk = "{Purple}";
+        public const String Error = "{Error}";
+        public const String Warning = "{Warning}";
+        public const String Info = "{Info}";
+        public const String Asterisk = "{Asterisk}";
 
         public static void EnableRemoteConsole(String address, int port)
         {

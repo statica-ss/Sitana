@@ -60,6 +60,6 @@
         
         <UiButton Style="TransparentWhiteButton" Text="next" Y="C-8" X="C+190" HorizontalAlignment="Right" VerticalAlignment="Center" Click="{Next()}"/>
         <UiButton Style="TransparentWhiteButton" Text="prev" Y="C-8" X="C-190" HorizontalAlignment="Left" VerticalAlignment="Center" Click="{Prev()}"/>
-        
+
     </UiBorder>
 </UiPage>
