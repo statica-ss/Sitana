@@ -10,6 +10,7 @@ using Sitana.Framework.Ui.Views;
 using Sitana.Framework.Cs;
 using System.Threading;
 using Sitana.Framework.Ui.Binding;
+using Sitana.Framework.Diagnostics;
 
 namespace SampleApp
 {
@@ -63,6 +64,7 @@ namespace SampleApp
         public static void OnLoadContent(AppMain main)
         {
             FontManager.Instance.AddSpriteFont("Font", "Fonts/Font", new int[] { 8, 12, 16, 20, 24 });
+            PerformanceProfiler.Instance.Initialize(60, 30);
         }
     }
 }

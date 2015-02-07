@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sitana.Framework.Ui.Core;
 using Sitana.Framework.Content;
 using Microsoft.Xna.Framework;
 
-namespace TestApp
+namespace SampleApp
 {
 	[Register("AppDelegate")]
 	class Program : UIApplicationDelegate
@@ -26,7 +26,7 @@ namespace TestApp
 			main.Graphics.IsFullScreen = true;
 			main.Graphics.SupportedOrientations = DisplayOrientation.Portrait | DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight | DisplayOrientation.PortraitDown;
 
-			main.OnLoadContent += MainController.OnLoadContent;
+            main.ContentLoading += MainController.OnLoadContent;
 
 			main.Run();
 		}

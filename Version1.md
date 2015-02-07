@@ -50,7 +50,7 @@
 - [ ] Samples
   - [X] Windows.XNA
   - [X] Windows (DirectX)
-  - [ ] iOS
+  - [X] iOS
   - [X] Mac OS
   - [ ] Android
   - [ ] Windows Phone
