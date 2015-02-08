@@ -52,13 +52,7 @@ namespace SampleGame
         {
             UiTask.BeginInvoke(() =>
             {
-                double unit = Math.Min((double)AppMain.Current.GraphicsDevice.Viewport.Width / 640.0,
-                    (double)AppMain.Current.GraphicsDevice.Viewport.Height / 480.0);
-
-                unit = Math.Round(unit, 1);
-
-                UiUnit.FontUnit = UiUnit.Unit = unit;
-
+                GameController.UpdateScale(_appMain);
                 _appMain.SizeChanged();
             });
         }

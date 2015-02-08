@@ -24,8 +24,20 @@ namespace SampleGame
             FontManager.Instance.AddSitanaFont("Font", "Fonts/Font", 10,14,18,22,28,32,38,44,50,58);
 
             PerformanceProfiler.Instance.Initialize(60, 30);
+
+            UpdateScale(main);
         }
-        
+
+        public static void UpdateScale(AppMain main)
+        {
+            double scale = Math.Min((double)main.GraphicsDevice.Viewport.Width / 640.0, (double)main.GraphicsDevice.Viewport.Height / 480.0);
+            scale = Math.Round(scale, 1);
+
+            UiUnit.FontScaling = UiUnit.ScalingMode.Floating;
+            UiUnit.FontUnit = scale;
+            UiUnit.Unit = scale;
+        }
+
         public void OpenLink(UiButton button)
         {
             Platform.OpenWebsite(button.Text.StringValue);

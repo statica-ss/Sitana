@@ -52,6 +52,6 @@
   - [X] Windows (DirectX)
   - [X] iOS
   - [X] Mac OS
-  - [ ] Android
+  - [X] Android
   - [ ] Windows Phone
   

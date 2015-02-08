@@ -113,6 +113,7 @@
     <Compile Include="Tools\Select.cs" />
     <Compile Include="Tools\Tool.cs" />
     <Compile Include="Views\UiEditView.cs" />
+    <Compile Include="Tools\EraseTile.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.MacOs.csproj">
