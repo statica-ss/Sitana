@@ -14,6 +14,8 @@
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <AssemblyName>Sitana.Framework</AssemblyName>
     <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -230,6 +232,10 @@
     <Compile Include="Ui\Views\Controls\UiEditBoxBase.cs" />
     <Compile Include="Ui\TransitionEffects\None.cs" />
     <Compile Include="Ui\Views\Controls\UiHorizontalGradient.cs" />
+    <Compile Include="Helpers\ColorParser.cs" />
+    <Compile Include="Ui\Views\Controls\UiRadioButton.cs" />
+    <Compile Include="Ui\Definitions\HorizontalContentAlignment.cs" />
+    <Compile Include="Ui\Definitions\VerticalContentAlignment.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

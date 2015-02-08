@@ -12,6 +12,7 @@ using Sitana.Framework.Ui.Binding;
 using System.IO;
 using Sitana.Framework.Input;
 using Microsoft.Xna.Framework.Input;
+using Sitana.Framework.Diagnostics;
 
 namespace GameEditor
 {
@@ -58,6 +59,8 @@ namespace GameEditor
 
             FontManager.Instance.AddSitanaFont("Font", "Fonts/Font", 16,20,24,28,32);
             ChangeViewScaling(EditorSettings.Instance.View120, EditorSettings.Instance.View140);
+
+            PerformanceProfiler.Instance.Initialize(60, 30);
         }
 
         public static void ChangeViewScaling(bool view120, bool view140)

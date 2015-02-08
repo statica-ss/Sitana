@@ -81,5 +81,10 @@ namespace Sitana.Framework
         {
             
         }
+
+        public static int KeyboardHeight(bool landscape)
+        {
+            return 0;
+        }
     }
 }

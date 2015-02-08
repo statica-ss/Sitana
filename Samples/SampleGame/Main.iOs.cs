@@ -28,13 +28,6 @@ namespace SampleGame
 
             main.ContentLoading += GameController.OnLoadContent;
 
-			// Compute scale factor.
-			double scale = Math.Min((double)main.Graphics.PreferredBackBufferWidth / 480.0, (double)main.Graphics.PreferredBackBufferHeight / 480.0);
-			scale = Math.Round(scale, 1);
-
-			UiUnit.FontUnit = scale;
-			UiUnit.Unit = scale;
-
 			main.Run();
 		}
 

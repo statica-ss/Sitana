@@ -20,8 +20,6 @@ namespace Sitana.Framework.Ui.Core
 		int _width;
 		int _height;
 
-		double _checkTime = 1;
-
 		public AppMain_ImmersiveFullscreen(): base(false)
 		{
 			Init();

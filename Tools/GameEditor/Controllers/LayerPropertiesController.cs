@@ -2,6 +2,8 @@
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Games;
 using Sitana.Framework.Cs;
+using Sitana.Framework.Input;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameEditor
 {
@@ -55,6 +57,26 @@ namespace GameEditor
                     new Tools.EraseTile();
                 }
             };
+
+            Accelerators.Instance.Register(KeyModifiers.None, Keys.X, ()=>OnAccelerator("Erase"));
+            Accelerators.Instance.Register(KeyModifiers.None, Keys.Escape, () => OnAccelerator("Escape"));
+        }
+
+        void OnAccelerator(string type)
+        {
+            switch(type)
+            {
+                case "Erase":
+                    if(Document.Current.SelectedLayer is DocTiledLayer)
+                    {
+                        new Tools.EraseTile();
+                    }
+                    break;
+
+                case "Escape":
+                    new Tools.Select();
+                    break;
+            }
         }
 
         protected override void Update(float time)

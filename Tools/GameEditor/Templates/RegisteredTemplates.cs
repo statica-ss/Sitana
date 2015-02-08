@@ -78,7 +78,7 @@ namespace GameEditor
 
                                 string shortPath = path;
 
-                                int maxLength = 44;
+                                int maxLength = 34;
 
                                 if (shortPath.Length > maxLength)
                                 {

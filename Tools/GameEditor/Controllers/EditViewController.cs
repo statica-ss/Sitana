@@ -68,7 +68,14 @@ namespace GameEditor
 
             if(mousePos.HasValue)
             {
-                WorldCoordinates.Format(CultureInfo.InvariantCulture, "{0:n2}, {1:n2}", mousePos.Value.X, mousePos.Value.Y);
+                if (Document.Current.SelectedLayer is DocTiledLayer)
+                {
+                    WorldCoordinates.Format(CultureInfo.InvariantCulture, "{0:n0}, {1:n0}", mousePos.Value.X, mousePos.Value.Y);
+                }
+                else
+                {
+                    WorldCoordinates.Format(CultureInfo.InvariantCulture, "{0:n2}, {1:n2}", mousePos.Value.X, mousePos.Value.Y);
+                }
             }
             else
             {
