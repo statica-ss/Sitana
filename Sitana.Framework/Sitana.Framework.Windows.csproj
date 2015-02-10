@@ -78,6 +78,7 @@
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
     <Compile Include="Ui\Binding\ItemsList.cs" />
     <Compile Include="Ui\Core\AppMain.Windows.DirectX.cs" />
+    <Compile Include="Ui\DefinitionFiles\Commands\RegisterStyles.cs" />
     <Compile Include="Ui\Definitions\VerticalContentAlignment.cs" />
     <Compile Include="Ui\Definitions\HorizontalContentAlignment.cs" />
     <Compile Include="Ui\Definitions\HorizontalAlignment.cs" />

@@ -12,13 +12,13 @@ namespace Sitana.Framework
 {
     public class ColorsManager: Singleton<ColorsManager>
     {
-        private Dictionary<string, Color> _dictionary = new Dictionary<string, Color>();
+        private Dictionary<string, ColorWrapper> _dictionary = new Dictionary<string, ColorWrapper>();
 
-        public Color? this[string id]
+        public ColorWrapper this[string id]
         {
             get
             {
-                Color color;
+                ColorWrapper color;
 
                 if (!id.StartsWith(":"))
                 {
@@ -100,28 +100,28 @@ namespace Sitana.Framework
                     {
                         value.Replace(" ", string.Empty);
 
-                        Color? color = null;
+                        ColorWrapper destination = this[value];
+
+                        if(destination == null)
+                        {
+                            destination = new ColorWrapper();
+                        }
 
                         if (value.StartsWith(":"))
                         {
-                            color = this[value];
+                            destination.Value = this[value].Value;
                         }
                         else
                         {
-                            color = ColorParser.Parse(value);
-                        }
+                            Color? col = ColorParser.Parse(value);
 
-                        if (color.HasValue)
-                        {
-                            try
+                            if (col.HasValue)
                             {
-                                _dictionary.Add(key, color.Value);
-                            }
-                            catch
-                            {
-
+                                destination.Value = col.Value;
                             }
                         }
+
+                        _dictionary[key] = destination;
                     }
                 }
             }
