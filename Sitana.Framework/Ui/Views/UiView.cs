@@ -453,8 +453,6 @@ namespace Sitana.Framework.Ui.Views
 
         internal void ViewUpdate(float time)
         {
-            _enableGestureHandling = false;
-
 			if ( _updateController && _controller != null)
             {
                 _controller.UpdateInternal(time);
@@ -492,6 +490,8 @@ namespace Sitana.Framework.Ui.Views
             }
 
             Update(time);
+
+            _enableGestureHandling = false;
         }
 
         internal void ViewActivated()
