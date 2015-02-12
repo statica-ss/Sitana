@@ -486,6 +486,8 @@ namespace Sitana.Framework.Ui.Views
                 CallDelegate("ViewResized", new InvokeParam("bounds", Bounds), new InvokeParam("size", new Point(Bounds.Width, Bounds.Height)),
                     new InvokeParam("width", Bounds.Width), new InvokeParam("height", Bounds.Height));
 
+                OnSizeChanged();
+
                 _lastSize = Bounds;
             }
 
@@ -493,6 +495,8 @@ namespace Sitana.Framework.Ui.Views
 
             _enableGestureHandling = false;
         }
+
+        
 
         internal void ViewActivated()
         {
@@ -551,6 +555,11 @@ namespace Sitana.Framework.Ui.Views
                     parameters.DrawBatch.DrawRectangle(ScreenBounds, backgroundColor);
                 }
             }
+        }
+
+        protected virtual void OnSizeChanged()
+        {
+
         }
 
         protected virtual void Draw(ref UiViewDrawParameters parameters)
