@@ -18,7 +18,7 @@ namespace Sitana.Framework.Content
             foreach (int size in sizes)
             {
                 string fontPath = String.Format("{0}{1}", path, size);
-                AddSitanaFontInternal(name, fontPath, size);
+                AddSitanaFontExact(name, fontPath, size);
             }
         }
 
@@ -27,17 +27,17 @@ namespace Sitana.Framework.Content
             foreach (int size in sizes)
             {
                 string fontPath = String.Format("{0}{1}", path, size);
-                AddSpriteFontInternal(name, fontPath, size);
+                AddSpriteFontExact(name, fontPath, size);
             }
         }
 
-        void AddSitanaFontInternal(string fontName, string path, int size)
+        public void AddSitanaFontExact(string fontName, string path, int size)
         {
             Font font = ContentLoader.Current.Load<Font>(path);
             Add(fontName, size, new UniversalFont(font));
         }
 
-        void AddSpriteFontInternal(string fontName, string path, int size)
+        public void AddSpriteFontExact(string fontName, string path, int size)
         {
             SpriteFont font = ContentLoader.Current.Load<SpriteFont>(path);
             Add(fontName, size, new UniversalFont(font));

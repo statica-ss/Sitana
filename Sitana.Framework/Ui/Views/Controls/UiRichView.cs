@@ -274,6 +274,11 @@ namespace Sitana.Framework.Ui.Views
                 entityRect.Y += _lines[idx].Height;
             }
 
+            if(_firstVisibleLine < 0)
+            {
+                return null;
+            }
+
             for (int idx = _firstVisibleLine; idx <= _lastVisibleLine; ++idx)
             {
                 RichViewLine line = _lines[idx];

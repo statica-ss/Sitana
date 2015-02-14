@@ -17,28 +17,39 @@ namespace Sitana.Framework.Ui.Core
 {
 	public class AppMain_ImmersiveFullscreen: AppMain
 	{
-		int _width;
-		int _height;
+        double _checkTime = 1;
 
 		public AppMain_ImmersiveFullscreen(): base(false)
 		{
 			Init();
-			Display display = Activity.WindowManager.DefaultDisplay;
 
-			global::Android.Graphics.Point outSize = new global::Android.Graphics.Point();
-			display.GetRealSize(outSize);
-
-			_width = outSize.X;
-			_height = outSize.Y;
-
-            Activity.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)(SystemUiFlags.ImmersiveSticky|SystemUiFlags.LayoutFullscreen|SystemUiFlags.LayoutHideNavigation|SystemUiFlags.Fullscreen);
-			Activity.Window.DecorView.RequestLayout();
-
-			Graphics.PreferredBackBufferWidth = _width;
-			Graphics.PreferredBackBufferHeight = _height;
+            Activity.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)(SystemUiFlags.ImmersiveSticky|SystemUiFlags.Fullscreen|SystemUiFlags.HideNavigation|SystemUiFlags.Fullscreen);
+            Activity.Window.DecorView.RequestLayout();
 
 			AddView();
+
+            Graphics.PreferredBackBufferWidth = Activity.Window.DecorView.Width;
+            Graphics.PreferredBackBufferHeight = Activity.Window.DecorView.Height;
 		}
+
+        protected override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+//            _checkTime -= gameTime.ElapsedGameTime.TotalSeconds;
+//
+//            if (_checkTime <= 0)
+//            {
+//                if(!Activity.Window.DecorView.SystemUiVisibility.HasFlag((StatusBarVisibility)(SystemUiFlags.ImmersiveSticky|SystemUiFlags.Fullscreen|SystemUiFlags.HideNavigation|SystemUiFlags.Fullscreen)))
+//                {
+//                    Activity.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)(SystemUiFlags.ImmersiveSticky|SystemUiFlags.Fullscreen|SystemUiFlags.HideNavigation|SystemUiFlags.Fullscreen);
+//                    Activity.Window.DecorView.RequestLayout();
+//                }
+//
+//                _checkTime = 1;
+//            }
+        }
+
 	}
 }
 
