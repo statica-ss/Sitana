@@ -25,9 +25,24 @@ namespace Sitana.Framework.Diagnostics
             private List<float> _times = new List<float>();
             private int        _historyCount = 20;
 
-            public float Value { get; private set; }
+            public float Value
+            {
+                get
+                {
+                    float value = _value;
+
+                    for(int idx = 0; idx < _times.Count; ++idx)
+                    {
+                        value = Math.Max(value, _times[idx]);
+                    }
+
+                    return value;
+                }
+            }
 
             public bool Enabled;
+
+            float _value;
 
             public int MaxFill = 50;
 
@@ -63,6 +78,7 @@ namespace Sitana.Framework.Diagnostics
             public void Begin()
             {
                 _begin = StopWatch.Elapsed.TotalSeconds;
+                _value = 0;
             }
 
             public void End()
@@ -74,19 +90,7 @@ namespace Sitana.Framework.Diagnostics
 
             private void AddTime(float time)
             {
-                _times.Add(time);
-
-                while (_times.Count > _historyCount)
-                {
-                    _times.RemoveAt(0);
-                }
-
-                Value = 0;
-
-                for (int idx = 0; idx < _times.Count; ++idx)
-                {
-                    Value = Math.Max(_times[idx], Value);
-                }
+                _value += time;
             }
 
             public Counter(int historyCount)
@@ -97,7 +101,17 @@ namespace Sitana.Framework.Diagnostics
 
             public void Reset()
             {
-                Value = float.NaN;
+                if (!float.IsNaN(Value))
+                {
+                    _times.Add(_value);
+                }
+
+                while (_times.Count > _historyCount)
+                {
+                    _times.RemoveAt(0);
+                }
+
+                _value = float.NaN;
             }
         }
 

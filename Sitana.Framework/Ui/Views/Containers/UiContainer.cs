@@ -96,6 +96,24 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        public virtual void Insert(int index, UiView view)
+        {
+            if (!_children.Contains(view))
+            {
+                _children.Insert(index, view);
+                view.Bounds = CalculateChildBounds(view);
+                view.Parent = this;
+                view.RegisterView();
+
+                if (_added)
+                {
+                    view.ViewAdded();
+                }
+
+                OnChildrenModified();
+            }
+        }
+
         public void RecalculateAll()
         {
             for (int idx = 0; idx < _children.Count; ++idx)
