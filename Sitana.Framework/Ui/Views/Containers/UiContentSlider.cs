@@ -310,7 +310,11 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
-            _current = _children[_selectedIndex];
+            if (_children.Count > 0)
+            {
+                _current = _children[_selectedIndex];
+            }
+
             _previous = null;
 
             return true;
@@ -358,6 +362,16 @@ namespace Sitana.Framework.Ui.Views
                 _previous = _children[prev];
                 _current = _children[_selectedIndex];
             }
+        }
+
+        public void Switch(int index)
+        {
+            _previous = null;
+            _transition = 0;
+            _next = false;
+
+            _current = _children[index];
+            _selectedIndex = index;
         }
 
         int IIndexedElement.Count
@@ -410,11 +424,11 @@ namespace Sitana.Framework.Ui.Views
                         _transition = 0;
                     }
 
-                    _current = _children[value];
-
                     _next = value > _selectedIndex;
                     _selectedIndex = value;
                 }
+
+                _current = _children[value];
             }
         }
 

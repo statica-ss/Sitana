@@ -185,19 +185,17 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return null;
             }
 
-            Color? color = null;
-
             if (name[0] == ':')
             {
-                color = ColorsManager.Instance[name].Value;
+                ColorWrapper colorWrapper = ColorsManager.Instance[name];
 
-                if (color.HasValue)
+                if (colorWrapper != null)
                 {
-                    return color.Value;
+                    return colorWrapper;
                 }
             }
 
-            color = ColorParser.Parse(name);
+            Color? color = ColorParser.Parse(name);
 
             if (color.HasValue)
             {

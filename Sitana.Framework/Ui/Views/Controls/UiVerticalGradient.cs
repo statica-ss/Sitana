@@ -64,6 +64,8 @@ namespace Sitana.Framework.Ui.Views
 
             parameters.DrawBatch.PushVertex(new Vector2(bounds.Right, bounds.Top), topColor * opacity);
             parameters.DrawBatch.PushVertex(new Vector2(bounds.Right, bounds.Bottom), bottomColor * opacity);
+
+            parameters.DrawBatch.Flush();
         }
     }
 }

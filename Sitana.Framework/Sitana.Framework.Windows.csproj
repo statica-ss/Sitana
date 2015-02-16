@@ -62,6 +62,7 @@
     <Compile Include="Cs\Containers.cs" />
     <Compile Include="Diagnostics\PerformanceProfiler.cs" />
     <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
+    <Compile Include="Graphics\Fonts\UiFont.cs" />
     <Compile Include="Graphics\Sprites\Sprite.cs" />
     <Compile Include="Graphics\Sprites\SpriteInstance.cs" />
     <Compile Include="Graphics\Sprites\SpriteSequence.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
     <Compile Include="Ui\Binding\ItemsList.cs" />
     <Compile Include="Ui\Core\AppMain.Windows.DirectX.cs" />
+    <Compile Include="Ui\DefinitionFiles\Commands\RegisterStyles.cs" />
     <Compile Include="Ui\Definitions\VerticalContentAlignment.cs" />
     <Compile Include="Ui\Definitions\HorizontalContentAlignment.cs" />
     <Compile Include="Ui\Definitions\HorizontalAlignment.cs" />
