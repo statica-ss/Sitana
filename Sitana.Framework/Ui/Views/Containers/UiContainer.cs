@@ -96,6 +96,24 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        public virtual void Insert(int index, UiView view)
+        {
+            if (!_children.Contains(view))
+            {
+                _children.Insert(index, view);
+                view.Bounds = CalculateChildBounds(view);
+                view.Parent = this;
+                view.RegisterView();
+
+                if (_added)
+                {
+                    view.ViewAdded();
+                }
+
+                OnChildrenModified();
+            }
+        }
+
         public void RecalculateAll()
         {
             for (int idx = 0; idx < _children.Count; ++idx)
@@ -145,26 +163,17 @@ namespace Sitana.Framework.Ui.Views
 
             set
             {
-                bool shouldRecalculate = false;
-
-                if (_bounds.Width != value.Width || _bounds.Height != value.Height)
-                {
-                    shouldRecalculate = true;
-                }
-
                 _bounds = value;
                 _enableGestureHandling = false;
 
-                if (shouldRecalculate)
-                {
-                    RecalcLayout();
-                }
+                RecalcLayout();
+                InvalidateScreenBounds();
             }
         }
 
         public override void Move(Point offset)
         {
-            _bounds = new Rectangle(_bounds.X + offset.X, _bounds.Y + offset.Y, _bounds.Width, _bounds.Height);
+            Bounds = new Rectangle(_bounds.X + offset.X, _bounds.Y + offset.Y, _bounds.Width, _bounds.Height);
         }
 
         protected virtual Rectangle CalculateChildBounds(UiView view)

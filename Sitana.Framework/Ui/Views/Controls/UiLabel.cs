@@ -62,6 +62,8 @@ namespace Sitana.Framework.Ui.Views
         protected FontFace _fontFace = null;
         public TextAlign TextAlign {get;set;}
 
+        int test = 0;
+
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
             float opacity = parameters.Opacity;
@@ -80,6 +82,7 @@ namespace Sitana.Framework.Ui.Views
 
             float scale;
             UniversalFont font = _fontFace.Find(FontSize, out scale);
+
             parameters.DrawBatch.DrawText(font, Text, ScreenBounds, TextAlign, TextColor.Value * opacity, (float)FontSpacing / 1000.0f, (float)LineHeight / 100.0f, scale);
         }
 

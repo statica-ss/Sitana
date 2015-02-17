@@ -92,16 +92,15 @@ namespace Sitana.Framework.Input
             }
 
 			DisplayMetrics metrics = AppMain.Activity.Resources.DisplayMetrics;
-            int size = (int)(textSize * 0.82f);
 
-            int padding = (position.Height - size - 4) / 2;
+			int padding = 0;
 
             if (textInputType == TextInputType.MultilineText)
             {
                 padding = 0;
             }
 
-            _textField.SetTextSize(Android.Util.ComplexUnitType.Px, size);
+			_textField.SetTextSize(Android.Util.ComplexUnitType.Px, (float)(UiUnit.FontUnit * textSize));
             _textField.SetHeight(position.Height);
             _textField.SetPadding(0, padding, _textField.PaddingRight, padding);
             _textField.InputType = TypeFromContext(textInputType);
