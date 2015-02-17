@@ -163,26 +163,17 @@ namespace Sitana.Framework.Ui.Views
 
             set
             {
-                bool shouldRecalculate = false;
-
-                if (_bounds.Width != value.Width || _bounds.Height != value.Height)
-                {
-                    shouldRecalculate = true;
-                }
-
                 _bounds = value;
                 _enableGestureHandling = false;
 
-                if (shouldRecalculate)
-                {
-                    RecalcLayout();
-                }
+                RecalcLayout();
+                InvalidateScreenBounds();
             }
         }
 
         public override void Move(Point offset)
         {
-            _bounds = new Rectangle(_bounds.X + offset.X, _bounds.Y + offset.Y, _bounds.Width, _bounds.Height);
+            Bounds = new Rectangle(_bounds.X + offset.X, _bounds.Y + offset.Y, _bounds.Width, _bounds.Height);
         }
 
         protected virtual Rectangle CalculateChildBounds(UiView view)

@@ -154,14 +154,14 @@ namespace Sitana.Framework.Graphics
             Vector2 position;
             Vector2 size;
 
+            size = _font.MeasureString(text, spacing, lineHeight) * scale;
+
             if(align != TextAlign.None )
             {
-                size = _font.MeasureString(text, spacing, lineHeight) * scale;
                 position = TextPosition(ref target, align, size);
             }
             else
             {
-                size = Vector2.Zero;
                 position = target.Location.ToVector2();
             }
 
