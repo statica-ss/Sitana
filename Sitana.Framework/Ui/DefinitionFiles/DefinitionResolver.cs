@@ -231,6 +231,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return (Color)definition;
             }
 
+            if (definition is ColorWrapper)
+            {
+                return ((ColorWrapper)definition).Value;
+            }
+
             return GetValueFromMethodOrField<Color>(controller, binding, definition);
         }
 
@@ -246,7 +251,24 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return new ColorWrapper((Color)definition);
             }
 
-            return GetValueFromMethodOrField<ColorWrapper>(controller, binding, definition);
+            if (definition is ColorWrapper)
+            {
+                return ((ColorWrapper)definition);
+            }
+
+            object obj = GetValueFromMethodOrField(controller, binding, definition);
+
+            if(obj is Color)
+            {
+                return new ColorWrapper((Color)obj);
+            }
+
+            if(obj is ColorWrapper)
+            {
+                return obj as ColorWrapper;
+            }
+
+            return null;
         }
 
         public static SharedValue<T> GetShared<T>(UiController controller, object binding, object definition, T defaultValue)

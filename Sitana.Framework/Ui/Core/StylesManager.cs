@@ -70,8 +70,19 @@ namespace Sitana.Framework.Ui.Core
                     RegisterStyle(el.Key, el.Value, overwrite);
                 }
             }
+        }
 
-            
+        internal void RegisterStyles(DefinitionFile def, bool overwrite)
+        {
+            Dictionary<string, DefinitionFile> dict = def["Styles"] as Dictionary<string, DefinitionFile>;
+
+            if (dict != null)
+            {
+                foreach (var el in dict)
+                {
+                    RegisterStyle(el.Key, el.Value, overwrite);
+                }
+            }
         }
     }
 }

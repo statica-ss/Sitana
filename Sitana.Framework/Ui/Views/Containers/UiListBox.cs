@@ -97,6 +97,8 @@ namespace Sitana.Framework.Ui.Views
         bool _reverse = false;
 		float _wheelSpeed = 0;
 
+        int _maxAddOneTime = 32;
+
         public ScrollingService ScrollingService
         {
             get
@@ -208,18 +210,25 @@ namespace Sitana.Framework.Ui.Views
 
                         if (view == null)
                         {
-                            view = (UiView)_template.CreateInstance(Controller, bind);
-
-                            lock(_childrenLock)
+                            if (added < _maxAddOneTime)
                             {
-                                _bindingToElement.Add(bind, view);
-                                _children.Add(view);
-                            }
+                                view = (UiView)_template.CreateInstance(Controller, bind);
 
-                            view.Parent = this;
-                            view.RegisterView();
-                            view.ViewAdded();
-                            added++;
+                                lock (_childrenLock)
+                                {
+                                    _bindingToElement.Add(bind, view);
+                                    _children.Add(view);
+                                }
+
+                                view.Parent = this;
+                                view.RegisterView();
+                                view.ViewAdded();
+                                added++;
+                            }
+                            else
+                            {
+                                continue;
+                            }
                         }
 
                         Rectangle bounds = CalculateItemBounds(view);
@@ -241,14 +250,6 @@ namespace Sitana.Framework.Ui.Views
                         }
 
                         view.Bounds = bounds;
-
-                        if (position.X > Bounds.Width * 2 || position.Y > Bounds.Height * 2)
-                        {
-                            if (added > 0)
-                            {
-                                break;
-                            }
-                        }
                     }
 
                     _maxScroll = new Point(_updateScrollPosition.X + position.X, _updateScrollPosition.Y + position.Y);
