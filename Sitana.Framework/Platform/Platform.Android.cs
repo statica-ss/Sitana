@@ -77,6 +77,14 @@ namespace Sitana.Framework
             }
         }
 
+		public static string DeviceId
+		{
+			get
+			{
+				return Android.OS.Build.Device;
+			}
+		}
+
         public static void DisableLock(Boolean disable)
         {
             
