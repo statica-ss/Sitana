@@ -3,6 +3,7 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Xml;
@@ -87,8 +88,9 @@ namespace Sitana.Framework.Settings
                     }
                 }
             }
-            catch
-            {// If deserialization fails method returns default(T) that is usually null.
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
             }
 
             return obj;
@@ -118,6 +120,47 @@ namespace Sitana.Framework.Settings
 
                 fileName = Path.Combine(subDirectory, fileName);
             }
+        }
+
+        public static object Deserialize(String subDirectory, String fileName, Type[] possibleTypes)
+        {
+            try
+            {
+                if(possibleTypes != null && possibleTypes.Length > 0)
+                {
+                    using(var isolatedStorageFile = Platform.GetUserStoreForApplication())
+                    {
+                        Prepare(isolatedStorageFile, subDirectory, ref fileName);
+
+                        if(isolatedStorageFile.FileExists(fileName))
+                        {
+                            using(var stream = isolatedStorageFile.OpenFile(fileName, FileMode.Open))
+                            {                                
+                                using(var reader = XmlReader.Create(stream))
+                                {
+                                    foreach(var extraType in possibleTypes)
+                                    {
+                                        var extraTypeSerializer = new XmlSerializer(extraType);
+
+                                        if(extraTypeSerializer.CanDeserialize(reader))
+                                        {
+                                            stream.Position = 0;
+
+                                            return extraTypeSerializer.Deserialize(stream);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+
+            return null;
         }
     }
 }
