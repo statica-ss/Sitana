@@ -62,8 +62,6 @@ namespace Sitana.Framework.Ui.Views
         protected FontFace _fontFace = null;
         public TextAlign TextAlign {get;set;}
 
-        int test = 0;
-
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
             float opacity = parameters.Opacity;
