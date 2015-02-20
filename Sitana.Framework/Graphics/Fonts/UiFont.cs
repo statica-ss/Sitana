@@ -1,4 +1,6 @@
-﻿using Sitana.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Sitana.Framework.Content;
+using Sitana.Framework.Cs;
 using Sitana.Framework.Ui.Core;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ namespace Sitana.Framework.Graphics
 
         private UniversalFont _universalFont;
         private float _scale;
+        private float _spacing = 0;
 
         private double _lastUnit = 0;
 
@@ -35,10 +38,41 @@ namespace Sitana.Framework.Graphics
             }
         }
 
+        public float Spacing
+        {
+            get
+            {
+                return _spacing;
+            }
+        }
+
+        public UiFont(string font, int size, int spacing): this(font, size)
+        {
+            _spacing = (float)spacing / 1000.0f;
+        }
+
         public UiFont(string font, int size)
         {
             _fontFace = FontManager.Instance.FindFont(font);
             _fontSize = size;
+        }
+
+        public Vector2 MeasureString(string text)
+        {
+            return Font.MeasureString(text, Spacing) * Scale;
+        }
+
+        public Vector2 MeasureString(StringBuilder text)
+        {
+            return Font.MeasureString(text, Spacing) * Scale;
+        }
+
+        public Vector2 MeasureString(SharedString text)
+        {
+            lock (text)
+            {
+                return Font.MeasureString(text.StringBuilder, Spacing) * Scale;
+            }
         }
 
         void Get()
