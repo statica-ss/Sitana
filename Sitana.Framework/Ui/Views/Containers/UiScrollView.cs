@@ -131,7 +131,7 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
-            base.Draw(ref parameters);
+            DrawBackground(ref parameters);
 
             UiViewDrawParameters drawParams = parameters;
             drawParams.Opacity = opacity;

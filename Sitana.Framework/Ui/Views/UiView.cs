@@ -48,6 +48,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["Binding"] = parser.ParseDelegate("Binding");
 
+            file["Modal"] = parser.ParseBoolean("Modal");
+
             file["Visible"] = parser.ParseBoolean("Visible");
             file["Hidden"] = parser.ParseBoolean("Hidden");
 
@@ -260,6 +262,8 @@ namespace Sitana.Framework.Ui.Views
 
         protected float _showSpeed;
         protected float _hideSpeed;
+
+        protected bool _modal;
 
         protected Rectangle _bounds = new Rectangle();
 
@@ -547,6 +551,11 @@ namespace Sitana.Framework.Ui.Views
         {
             CallDelegate("ViewAdded");
             OnAdded();
+
+            if(_modal)
+            {
+                TouchPad.Instance.TouchDown += ModalTouchDown;
+            }
         }
 
         public void ViewRemoved()
@@ -558,6 +567,11 @@ namespace Sitana.Framework.Ui.Views
 
             CallDelegate("ViewRemoved");
             OnRemoved();
+
+            if (_modal)
+            {
+                TouchPad.Instance.TouchDown -= ModalTouchDown;
+            }
         }
 
         protected void DrawBackground(ref UiViewDrawParameters parameters)
@@ -681,7 +695,8 @@ namespace Sitana.Framework.Ui.Views
             Opacity = DefinitionResolver.GetShared<double>(Controller, binding, file["Opacity"], 1);
 
             DisplayVisibility = Visible ? 1 : 0;
-            
+
+            _modal = DefinitionResolver.Get<bool>(Controller, binding, file["Modal"], false);
 
             RegisterDelegate("ViewRemoved", file["ViewRemoved"]);
             RegisterDelegate("ViewAdded", file["ViewAdded"]);
@@ -842,17 +857,25 @@ namespace Sitana.Framework.Ui.Views
                     OnGesture(gesture);
                 }
             }
-            else if (_enableGestureHandling)
+            else
             {
-                if (gesture.PointerCapturedBy == null || gesture.PointerCapturedBy == this)
+                if (_enableGestureHandling)
                 {
-                    if ((gesture.GestureType & EnabledGestures) != GestureType.None)
+                    if (gesture.PointerCapturedBy == null || gesture.PointerCapturedBy == this)
                     {
-                        GestureType originalType = gesture.GestureType;
-                        gesture.GestureType = gesture.GestureType & EnabledGestures;
-                        OnGesture(gesture);
-                        gesture.GestureType = originalType;
+                        if ((gesture.GestureType & EnabledGestures) != GestureType.None)
+                        {
+                            GestureType originalType = gesture.GestureType;
+                            gesture.GestureType = gesture.GestureType & EnabledGestures;
+                            OnGesture(gesture);
+                            gesture.GestureType = originalType;
+                        }
                     }
+                }
+
+                if (_modal && Visible)
+                {
+                    gesture.SkipRest = true;
                 }
             }
         }
@@ -867,6 +890,15 @@ namespace Sitana.Framework.Ui.Views
             _enableGestureHandling = false;
         }
 
-        
+        void ModalTouchDown(int id, Vector2 position)
+        {
+            if(_modal && Visible)
+            {
+                if(!ScreenBounds.Contains(position.ToPoint()))
+                {
+                    Visible = false;
+                }
+            }
+        }
     }
 }
