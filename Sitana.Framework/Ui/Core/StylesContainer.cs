@@ -32,12 +32,18 @@ namespace Sitana.Framework.Ui.Core
 
                     string src = cn.Attribute("Source");
 
-                    if (cn.Nodes.Count != 1)
+                    if (cn.Nodes.Count > 1)
                     {
                         throw new Exception("Invalid number of child nodes. Style can have only one child node.");
                     }
 
-                    DefinitionFile styleFile = DefinitionFile.LoadFile(cn.Nodes[0]);
+                    DefinitionFile styleFile = null;
+
+                    if (cn.Nodes.Count == 1)
+                    {
+                        styleFile = DefinitionFile.LoadFile(cn.Nodes[0]);
+                    }
+
                     DefinitionFile otherStyle = null;
 
                     if (!src.IsNullOrWhiteSpace())
@@ -48,17 +54,24 @@ namespace Sitana.Framework.Ui.Core
                         }
                         else
                         {
-                            otherStyle = StylesManager.Instance.FindStyle(src, styleFile.Class);
+                            otherStyle = StylesManager.Instance.FindStyle(src);
                         }
                     }
 
                     if(otherStyle != null)
                     {
-                        foreach(var key in otherStyle.Keys)
+                        if (styleFile == null)
                         {
-                            if(!styleFile.HasKey(key))
+                            styleFile = otherStyle;
+                        }
+                        else
+                        {
+                            foreach (var key in otherStyle.Keys)
                             {
-                                styleFile[key] = otherStyle[key];
+                                if (!styleFile.HasKey(key))
+                                {
+                                    styleFile[key] = otherStyle[key];
+                                }
                             }
                         }
                     }
