@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace Sitana.Framework.Diagnostics
 {
@@ -26,7 +27,28 @@ namespace Sitana.Framework.Diagnostics
         {
             String text = String.Format(format, args);
 
-            Console.WriteLine(text);
+			#if DEBUG
+			switch (type)
+			{
+			case Error:
+				Debug.WriteLine(text, "AppError");
+				break;
+
+			case Warning:
+				Debug.WriteLine(text, "AppWarning");
+				break;
+
+			case Info:
+				Debug.WriteLine(text, "AppInfo");
+				break;
+
+			default:
+				Console.WriteLine(text);
+				break;
+			}
+			#else
+            	Console.WriteLine(text);
+			#endif
 
             if (RemoteConsoleClient.Instance.ConsoleAttached)
             {

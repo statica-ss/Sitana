@@ -14,14 +14,12 @@
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <AssemblyName>Sitana.Framework</AssemblyName>
     <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\_Bin\Android\Debug</OutputPath>
     <DefineConstants>DEBUG;__MOBILE__;ANDROID;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,7 +28,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\_Bin\Android\Release</OutputPath>
     <DefineConstants>__MOBILE__;ANDROID;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -236,6 +234,11 @@
     <Compile Include="Ui\Views\Controls\UiRadioButton.cs" />
     <Compile Include="Ui\Definitions\HorizontalContentAlignment.cs" />
     <Compile Include="Ui\Definitions\VerticalContentAlignment.cs" />
+    <Compile Include="Graphics\Fonts\UiFont.cs" />
+    <Compile Include="Cs\Containers.cs" />
+    <Compile Include="Ui\DefinitionFiles\Commands\RegisterStyles.cs" />
+    <Compile Include="Ui\Views\Controls\ButtonDrawables\EditText.cs" />
+    <Compile Include="Ui\Views\Containers\UiExpandingBorder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

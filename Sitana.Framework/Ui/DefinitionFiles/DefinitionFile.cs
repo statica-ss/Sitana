@@ -48,6 +48,14 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             Class = type;
         }
 
+        public List<string> Keys
+        {
+            get
+            {
+                return new List<string>(_values.Keys);
+            }
+        }
+
         public void Lock()
         {
             _locked = true;
@@ -89,7 +97,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return Type.GetType(name);
             }
 
-			throw new Exception(string.Format("Cannot find type: {0}", name));
+			throw new Exception(string.Format("[Sitana] Cannot find type: {0}", name));
         }
 
         static Type[] ParseMethodTypes = new Type[] { typeof(XNode), typeof(DefinitionFile) };
@@ -102,10 +110,10 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
 				if(type == null)
 				{
-					Console.WriteLine("Unknown type: {0}", node.Tag);
+					ConsoleEx.WriteLine(ConsoleEx.Error, "Unknown type: {0}", node.Tag);
 				}
 
-				Console.WriteLine("Loading file: {0} ({1}).", node.Owner.Name, node.LineNumber);
+				Console.WriteLine("[Sitana] Loading file: {0} ({1}).", node.Owner.Name, node.LineNumber);
 
 	            MethodInfo method = type.GetMethod("Parse", ParseMethodTypes);
 
@@ -130,7 +138,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 			}
 			catch(Exception ex)
 			{
-				ConsoleEx.WriteLine(ConsoleEx.Error, "Error: {0}.", ex.ToString());
+				ConsoleEx.WriteLine(ConsoleEx.Error, "[Sitana] {0}.", ex.ToString());
 				throw ex;
 			}
         }

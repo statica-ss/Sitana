@@ -58,6 +58,14 @@ namespace Sitana.Framework
             }
         }
 
+        public static string DeviceId
+        {
+            get
+            {
+                return System.Environment.MachineName;
+            }
+        }
+
         public static void DisableLock(Boolean disable)
         {
         }
@@ -95,5 +103,7 @@ namespace Sitana.Framework
         {
             return 0;
         }
+
+        
     }
 }

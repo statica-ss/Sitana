@@ -47,9 +47,18 @@ namespace Sitana.Framework
             }
         }
 
-        public static void DisableLock(Boolean disable)
+		public static string DeviceId
+        {
+            get
+            {
+                return DeviceStatus.DeviceName;
+            }
+        }
+		
+        public static void DisableLock(bool disable)
         {
             
         }
+		
     }
 }

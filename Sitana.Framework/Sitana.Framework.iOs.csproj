@@ -67,6 +67,7 @@
     <Folder Include="Ui\RichText\" />
     <Folder Include="Ui\Views\Controls\RichView\" />
     <Folder Include="Text\" />
+    <Folder Include="Ui\Views\Controls\BackgroundDrawables\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
@@ -251,6 +252,12 @@
     <Compile Include="Ui\Views\Controls\ButtonDrawables\EditText.cs" />
     <Compile Include="Ui\Views\Containers\UiExpandingBorder.cs" />
     <Compile Include="Ui\Views\Controls\UiRadioButton.cs" />
+    <Compile Include="Graphics\Fonts\UiFont.cs" />
+    <Compile Include="Cs\Containers.cs" />
+    <Compile Include="Ui\DefinitionFiles\Commands\RegisterStyles.cs" />
+    <Compile Include="Ui\Views\Controls\BackgroundDrawables\DrawableGroup.cs" />
+    <Compile Include="Ui\Views\Controls\BackgroundDrawables\NinePatchBackground.cs" />
+    <Compile Include="Ui\Views\Containers\UiItemsStack.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -26,12 +26,14 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["FontSpacing"] = parser.ParseInt("FontSpacing");
             file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
             file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
+            file["Text"] = parser.ParseString("Text");
         }
 
         protected string _font;
         protected int _fontSize;
         protected int _fontSpacing;
         protected TextAlign _textAlign;
+        protected SharedString _text;
 
         private FontFace _fontFace = null;
 
@@ -49,13 +51,14 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             VerticalContentAlignment vertAlign = DefinitionResolver.Get<VerticalContentAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalContentAlignment.Center);
 
             _textAlign = UiHelper.TextAlignFromContentAlignment(horzAlign, vertAlign);
+            _text = DefinitionResolver.GetSharedString(controller, binding, file["Text"]);
         }
 
         public override void Draw(AdvancedDrawBatch drawBatch, DrawButtonInfo info)
         {
             Update(info.EllapsedTime, info.ButtonState);
 
-            SharedString str = info.Text;
+            SharedString str = _text != null ? _text : info.Text;
 
             if (_fontFace == null)
             {

@@ -48,6 +48,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["Binding"] = parser.ParseDelegate("Binding");
 
+            file["Modal"] = parser.ParseBoolean("Modal");
+
             file["Visible"] = parser.ParseBoolean("Visible");
             file["Hidden"] = parser.ParseBoolean("Hidden");
 
@@ -224,6 +226,7 @@ namespace Sitana.Framework.Ui.Views
             set
             {
                 _bounds = value;
+                InvalidateScreenBounds();
                 _enableGestureHandling = false;
             }
         }
@@ -260,6 +263,8 @@ namespace Sitana.Framework.Ui.Views
         protected float _showSpeed;
         protected float _hideSpeed;
 
+        protected bool _modal;
+
         protected Rectangle _bounds = new Rectangle();
 
         public object Binding { get; private set; }
@@ -278,6 +283,14 @@ namespace Sitana.Framework.Ui.Views
 
 		bool _updateController = false;
         bool _visibleIsHidden = false;
+
+		Rectangle _screenBounds = new Rectangle();
+		bool _screenBoundsInvalid = true;
+
+        public void InvalidateScreenBounds()
+        {
+			_screenBoundsInvalid = true;
+        }
 
         public bool IsPointInsideView(Vector2 point)
         {
@@ -366,18 +379,36 @@ namespace Sitana.Framework.Ui.Views
         {
             get
             {
-                if (Parent != null)
+				if (_screenBoundsInvalid)
                 {
-                    return new Rectangle(Parent.ScreenBounds.X + Bounds.X, Parent.ScreenBounds.Y + Bounds.Y, Bounds.Width, Bounds.Height);
+					CalculateScreenBounds(out _screenBounds);
                 }
-
-                if (OffsetBoundsVertical != 0)
-                {
-                    return new Rectangle(Bounds.X, Bounds.Y + OffsetBoundsVertical, Bounds.Width, Bounds.Height);
-                }
-                return Bounds;
+                
+                return _screenBounds;
             }
         }
+
+		internal void CalculateScreenBounds(out Rectangle bounds)
+		{
+            if(!_screenBoundsInvalid)
+            {
+                bounds = _screenBounds;
+            }
+			else if (Parent != null)
+			{
+				Parent.CalculateScreenBounds(out bounds);
+
+				bounds.X += Bounds.X;
+				bounds.Y += Bounds.Y;
+
+				bounds.Width = Bounds.Width;
+				bounds.Height = Bounds.Height;
+			} 
+			else
+			{
+				bounds = Bounds;
+			}
+		}
 
         public UiView()
         {
@@ -520,6 +551,11 @@ namespace Sitana.Framework.Ui.Views
         {
             CallDelegate("ViewAdded");
             OnAdded();
+
+            if(_modal)
+            {
+                TouchPad.Instance.TouchDown += ModalTouchDown;
+            }
         }
 
         public void ViewRemoved()
@@ -531,6 +567,11 @@ namespace Sitana.Framework.Ui.Views
 
             CallDelegate("ViewRemoved");
             OnRemoved();
+
+            if (_modal)
+            {
+                TouchPad.Instance.TouchDown -= ModalTouchDown;
+            }
         }
 
         protected void DrawBackground(ref UiViewDrawParameters parameters)
@@ -654,7 +695,8 @@ namespace Sitana.Framework.Ui.Views
             Opacity = DefinitionResolver.GetShared<double>(Controller, binding, file["Opacity"], 1);
 
             DisplayVisibility = Visible ? 1 : 0;
-            
+
+            _modal = DefinitionResolver.Get<bool>(Controller, binding, file["Modal"], false);
 
             RegisterDelegate("ViewRemoved", file["ViewRemoved"]);
             RegisterDelegate("ViewAdded", file["ViewAdded"]);
@@ -815,17 +857,25 @@ namespace Sitana.Framework.Ui.Views
                     OnGesture(gesture);
                 }
             }
-            else if (_enableGestureHandling)
+            else
             {
-                if (gesture.PointerCapturedBy == null || gesture.PointerCapturedBy == this)
+                if (_enableGestureHandling)
                 {
-                    if ((gesture.GestureType & EnabledGestures) != GestureType.None)
+                    if (gesture.PointerCapturedBy == null || gesture.PointerCapturedBy == this)
                     {
-                        GestureType originalType = gesture.GestureType;
-                        gesture.GestureType = gesture.GestureType & EnabledGestures;
-                        OnGesture(gesture);
-                        gesture.GestureType = originalType;
+                        if ((gesture.GestureType & EnabledGestures) != GestureType.None)
+                        {
+                            GestureType originalType = gesture.GestureType;
+                            gesture.GestureType = gesture.GestureType & EnabledGestures;
+                            OnGesture(gesture);
+                            gesture.GestureType = originalType;
+                        }
                     }
+                }
+
+                if (_modal && Visible)
+                {
+                    gesture.SkipRest = true;
                 }
             }
         }
@@ -840,6 +890,15 @@ namespace Sitana.Framework.Ui.Views
             _enableGestureHandling = false;
         }
 
-        
+        void ModalTouchDown(int id, Vector2 position)
+        {
+            if(_modal && Visible)
+            {
+                if(!ScreenBounds.Contains(position.ToPoint()))
+                {
+                    Visible = false;
+                }
+            }
+        }
     }
 }

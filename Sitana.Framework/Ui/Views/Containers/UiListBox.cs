@@ -387,6 +387,42 @@ namespace Sitana.Framework.Ui.Views
             return childRect;
         }
 
+        public void Show(object item)
+        {
+            UiView view;
+            if(_bindingToElement.TryGetValue(item, out view))
+            {
+                if(_vertical)
+                {
+                    if(view.Bounds.Bottom > Bounds.Height)
+                    {
+                        _scrollingService.ScrollPositionY += view.Bounds.Bottom - Bounds.Height;
+                    }
+
+                    if (view.Bounds.Top < 0)
+                    {
+                        _scrollingService.ScrollPositionY += view.Bounds.Top;
+                    }
+                    
+                    _scrollingService.Process();
+                }
+                else
+                {
+                    if (view.Bounds.Right > Bounds.Width)
+                    {
+                        _scrollingService.ScrollPositionX += view.Bounds.Right - Bounds.Width;
+                    }
+
+                    if (view.Bounds.Left < 0)
+                    {
+                        _scrollingService.ScrollPositionX += view.Bounds.Left;
+                    }
+
+                    _scrollingService.Process();
+                }
+            }
+        }
+
         public Rectangle BoundsOf(object item)
         {
             UiView view;
