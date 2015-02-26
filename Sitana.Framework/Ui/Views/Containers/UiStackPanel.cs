@@ -391,16 +391,16 @@ namespace Sitana.Framework.Ui.Views
 
             InitChildren(Controller, Binding, definition);
 
-            if ( StackMode == Mode.Vertical )
-            {
-                PositionParameters.Margin._top = null;
-                PositionParameters.Margin._bottom = null;
-            }
-            else
-            {
-                PositionParameters.Margin._left = null;
-                PositionParameters.Margin._right = null;
-            }
+            //if ( StackMode == Mode.Vertical )
+            //{
+            //    PositionParameters.Margin._top = null;
+            //    PositionParameters.Margin._bottom = null;
+            //}
+            //else
+            //{
+            //    PositionParameters.Margin._left = null;
+            //    PositionParameters.Margin._right = null;
+            //}
 
             return true;
         }
