@@ -347,7 +347,19 @@ namespace Sitana.Framework.Ui.Views
         private ColorWrapper _backgroundColor = new ColorWrapper(Color.Transparent);
         private InvokeParameters _invokeParameters = new InvokeParameters();
 
-        internal int OffsetBoundsVertical = 0;
+        internal int OffsetBoundsVertical
+		{
+			set
+			{
+				_bounds.Y = value;
+				_screenBounds = _bounds;
+			}
+
+			get
+			{
+				return _bounds.Y;
+			}
+		}
 
         public bool Visible
         {

@@ -134,6 +134,12 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return intVal;
             }
 
+            bool boolVal;
+            if (bool.TryParse(val, out boolVal))
+            {
+                return boolVal;
+            }
+
             val = val.Trim();
             return new ReflectionParameter(val);
         }

@@ -177,7 +177,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 _applied = true;
 
-                CallDelegate("TextCancel", new InvokeParam("sender", this));
+                CallDelegate("TextCancel");
             }
         }
 
@@ -189,7 +189,7 @@ namespace Sitana.Framework.Ui.Views
 
                 string text = Text.StringValue;
 
-                object ret = CallDelegate("TextApply", new InvokeParam("sender", this), new InvokeParam("text", text));
+                object ret = CallDelegate("TextApply", new InvokeParam("text", text));
 
                 if (ret is string)
                 {
@@ -255,7 +255,7 @@ namespace Sitana.Framework.Ui.Views
 
         string OnTextChanged(string text)
         {
-            object ret = CallDelegate("TextChanged", new InvokeParam("sender", this), new InvokeParam("text", text));
+            object ret = CallDelegate("TextChanged", new InvokeParam("text", text));
 
             if (ret is string)
             {
