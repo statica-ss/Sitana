@@ -200,6 +200,7 @@ namespace Sitana.Framework.Ui.Views
             Point value = base.ComputeSize(width, height);
 
             int size = _padding.Compute();
+            int sizeAlt = 0;
 
             for (int idx = 0; idx < _children.Count; ++idx)
             {
@@ -213,6 +214,7 @@ namespace Sitana.Framework.Ui.Views
                     }
 
                     size += _vertical ? child.Bounds.Height + child.Margin.Height : child.Bounds.Width + child.Margin.Width;
+                    sizeAlt = Math.Max(sizeAlt, _vertical ? child.Bounds.Width + child.Margin.Width : child.Bounds.Height + child.Margin.Height);
                 }
             }
 
@@ -221,10 +223,19 @@ namespace Sitana.Framework.Ui.Views
             if (_vertical)
             {
                 value.Y = size;
+                if(PositionParameters.Width.IsAuto)
+                {
+                    value.X = sizeAlt;
+                }
             }
             else
             {
                 value.X = size;
+
+                if (PositionParameters.Height.IsAuto)
+                {
+                    value.Y = sizeAlt;
+                }
             }
 
             return value;
@@ -391,16 +402,16 @@ namespace Sitana.Framework.Ui.Views
 
             InitChildren(Controller, Binding, definition);
 
-            if ( StackMode == Mode.Vertical )
-            {
-                PositionParameters.Margin._top = null;
-                PositionParameters.Margin._bottom = null;
-            }
-            else
-            {
-                PositionParameters.Margin._left = null;
-                PositionParameters.Margin._right = null;
-            }
+            //if ( StackMode == Mode.Vertical )
+            //{
+            //    PositionParameters.Margin._top = null;
+            //    PositionParameters.Margin._bottom = null;
+            //}
+            //else
+            //{
+            //    PositionParameters.Margin._left = null;
+            //    PositionParameters.Margin._right = null;
+            //}
 
             return true;
         }

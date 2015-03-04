@@ -16,6 +16,8 @@ namespace Sitana.Framework.Cs
     /// </summary>
     public class SharedString
     {
+        public event EmptyArgsVoidDelegate ValueChanged;
+
         readonly StringBuilder _stringBuilder = new StringBuilder();
 
         // Remember to lock SharedString instance while using StringBuilder instance.
@@ -69,6 +71,11 @@ namespace Sitana.Framework.Cs
                 {
                     _stringBuilder.Clear();
                     _stringBuilder.Append(value);
+
+                    if(ValueChanged != null)
+                    {
+                        ValueChanged();
+                    }
                 }
             }
         }
@@ -92,6 +99,11 @@ namespace Sitana.Framework.Cs
                 _stringBuilder.Clear();
                 _stringBuilder.AppendFormat(format, args);
             }
+
+            if (ValueChanged != null)
+            {
+                ValueChanged();
+            }
         }
 
         public void Format(IFormatProvider formatProvider, string format, params object[] args)
@@ -102,6 +114,11 @@ namespace Sitana.Framework.Cs
                 _stringBuilder.Clear();
                 _stringBuilder.AppendFormat(formatProvider, format, args);
             }
+
+            if (ValueChanged != null)
+            {
+                ValueChanged();
+            }
         }
 
         public void AppendFormat(string format, params object[] args)
@@ -111,6 +128,11 @@ namespace Sitana.Framework.Cs
             {
                 _stringBuilder.AppendFormat(format, args);
             }
+
+            if (ValueChanged != null)
+            {
+                ValueChanged();
+            }
         }
 
         public void AppendFormat(IFormatProvider formatProvider, string format, params object[] args)
@@ -119,6 +141,11 @@ namespace Sitana.Framework.Cs
             lock (this)
             {
                 _stringBuilder.AppendFormat(formatProvider, format, args);
+            }
+
+            if (ValueChanged != null)
+            {
+                ValueChanged();
             }
         }
 
@@ -132,6 +159,11 @@ namespace Sitana.Framework.Cs
                     _stringBuilder.Append(other[idx]);
                 }
             }
+
+            if (ValueChanged != null)
+            {
+                ValueChanged();
+            }
         }
 
         public void Append(string value)
@@ -141,6 +173,11 @@ namespace Sitana.Framework.Cs
             {
                 _stringBuilder.Append(value);
             }
+
+            if (ValueChanged != null)
+            {
+                ValueChanged();
+            }
         }
 
         public void Clear()
@@ -149,6 +186,11 @@ namespace Sitana.Framework.Cs
             lock (this)
             {
                 _stringBuilder.Clear();
+            }
+
+            if (ValueChanged != null)
+            {
+                ValueChanged();
             }
         }
 
@@ -178,7 +220,7 @@ namespace Sitana.Framework.Cs
             return _stringBuilder.Equals(obj);
         }
 
-        public static implicit operator SharedString(string text)  // explicit byte to digit conversion operator
+        public static implicit operator SharedString(string text)
         {
             return new SharedString(text);
         }

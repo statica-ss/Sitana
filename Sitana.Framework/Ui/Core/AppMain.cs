@@ -43,6 +43,9 @@ namespace Sitana.Framework.Ui.Core
 
         private Point _lastSize = Point.Zero;
 
+		private int _desiredVerticalOffset = 0;
+		private float _currentVerticalOffset = 0;
+
         public double TotalGameTime { get; private set; }
 
         public List<IUpdatable> _updatables = new List<IUpdatable>();
@@ -177,19 +180,30 @@ namespace Sitana.Framework.Ui.Core
                 _lastSize = newSize;
             }
 
-            if(_currentFocus != null)
-            {
-                int offset = newSize.Y - Platform.KeyboardHeight(newSize.X > newSize.Y);
+			if (_currentVerticalOffset != _desiredVerticalOffset)
+			{
+				if (time >= 0.2)
+				{
+					_currentVerticalOffset = _desiredVerticalOffset;
+				} 
+				else
+				{
+					_currentVerticalOffset = _desiredVerticalOffset * time * 5 + (1 - time * 5) * _currentVerticalOffset;
+					_currentVerticalOffset = _desiredVerticalOffset * time * 5 + (1 - time * 5) * _currentVerticalOffset;
+					_currentVerticalOffset = _desiredVerticalOffset * time * 5 + (1 - time * 5) * _currentVerticalOffset;
+					_currentVerticalOffset = _desiredVerticalOffset * time * 5 + (1 - time * 5) * _currentVerticalOffset;
+				}
 
-                offset -= _currentFocus.Bottom;
-                offset = Math.Min(0, offset);
+				if (Math.Abs(_currentVerticalOffset - _desiredVerticalOffset) < 10)
+				{
+					_currentVerticalOffset = _desiredVerticalOffset;
+				}
+			}
 
-                MainView.OffsetBoundsVertical = offset;
-            }
-            else
-            {
-                MainView.OffsetBoundsVertical = 0;
-            }
+			if (MainView.OffsetBoundsVertical != (int)_currentVerticalOffset)
+			{
+				MainView.OffsetBoundsVertical = (int)_currentVerticalOffset;
+			}
 
             TouchPad.Instance.Update(time, IsActive);
             GamePads.Instance.Update();
@@ -275,14 +289,15 @@ namespace Sitana.Framework.Ui.Core
             _updatables.Remove(updatable);
         }
 
-        public void SetFocus(IFocusable focus)
+        public int SetFocus(IFocusable focus)
         {
             if ( _currentFocus != null )
             {
                 _currentFocus.Unfocus();
             }
-
+				
             _currentFocus = focus;
+			return ComputeFocus();
         }
 
         public void ReleaseFocus(IFocusable focus)
@@ -292,7 +307,30 @@ namespace Sitana.Framework.Ui.Core
                 _currentFocus = null;
                 focus.Unfocus();
             }
+
+			ComputeFocus();
         }
+
+		int ComputeFocus()
+		{
+			if(_currentFocus != null)
+			{
+				int offset = GraphicsDevice.Viewport.Height - Platform.KeyboardHeight(GraphicsDevice.Viewport.Height < GraphicsDevice.Viewport.Width);
+
+				offset -= _currentFocus.Bottom;
+				offset = Math.Min(0, offset);
+
+				_desiredVerticalOffset = offset;
+				_currentVerticalOffset = offset;
+				MainView.OffsetBoundsVertical = offset;
+				return offset;
+			}
+			else
+			{
+				_desiredVerticalOffset = 0;
+			}
+			return 0;
+		}
 
 		protected void CallResized(int width, int height)
 		{

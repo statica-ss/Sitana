@@ -116,6 +116,11 @@ namespace Sitana.Framework.Ui.Views
             {
                 var view = (UiView)_template.CreateInstance(Controller, item);
 
+                if(view == null)
+                {
+                    return;
+                }
+
                 lock (_childrenLock)
                 {
                     _bindingToElement.Add(item, view);

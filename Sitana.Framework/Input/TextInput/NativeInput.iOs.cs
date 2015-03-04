@@ -37,7 +37,7 @@ namespace Sitana.Framework.Input
 
         ITextEdit _controller;
 
-        static NativeInput CurrentFocus = null;
+        internal static NativeInput CurrentFocus = null;
 
         bool _useTextView = false;
 
@@ -91,6 +91,9 @@ namespace Sitana.Framework.Input
             {
                 InitTextField();
             }
+
+			Bottom = position.Bottom + (int)Platform.PointsToPixels(10);
+			position.Y += AppMain.Current.SetFocus(this);
 
             float x = Platform.PixelsToPoints(position.X) + 1;
 			float y = Platform.PixelsToPoints(position.Y) + 2;
@@ -163,9 +166,12 @@ namespace Sitana.Framework.Input
 
                 _textField.BecomeFirstResponder();
             }
+
+
+
         }
 
-        void HandleEnded (object sender, EventArgs e)
+        void HandleEnded(object sender, EventArgs e)
         {
             _textView.Ended += HandleEnded;
 
@@ -278,6 +284,7 @@ namespace Sitana.Framework.Input
             }
 
             CurrentFocus = null;
+			DelayedActionInvoker.Instance.AddAction(0.2f, (v)=>AppMain.Current.ReleaseFocus(this));
         }
     }
 }
