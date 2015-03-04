@@ -24,6 +24,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["Font"] = parser.Value("Font");
             file["FontSize"] = parser.ParseInt("FontSize");
             file["FontSpacing"] = parser.ParseInt("FontSpacing");
+            file["LineHeight"] = parser.ParseInt("LineHeight");
             file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
             file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
             file["Text"] = parser.ParseString("Text");
@@ -34,6 +35,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         protected int _fontSpacing;
         protected TextAlign _textAlign;
         protected SharedString _text;
+        protected int _lineHeight;
 
         private FontFace _fontFace = null;
 
@@ -46,7 +48,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _font = DefinitionResolver.GetString(controller, binding, file["Font"]);
             _fontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"], 0);
             _fontSpacing = DefinitionResolver.Get<int>(controller, binding, file["FontSpacing"], 0);
-
+            _lineHeight = DefinitionResolver.Get<int>(controller, binding, file["LineHeight"], 0);
             HorizontalContentAlignment horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Center);
             VerticalContentAlignment vertAlign = DefinitionResolver.Get<VerticalContentAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalContentAlignment.Center);
 
@@ -72,7 +74,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             Rectangle target = _margin.ComputeRect(info.Target);
 
-            drawBatch.DrawText(font, str, target, _textAlign, color, (float)_fontSpacing / 1000.0f, 0, scale);
+            drawBatch.DrawText(font, str, target, _textAlign, color, (float)_fontSpacing / 1000.0f, (float)_lineHeight / 100.0f, scale);
         }
 
         public override object OnAction(DrawButtonInfo info, params object[] parameters)

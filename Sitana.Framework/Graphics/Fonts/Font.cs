@@ -258,8 +258,8 @@ namespace Sitana.Framework.Graphics
             float topLeftX = glyph.X / (float)FontSheet.Width;
             float topLeftY = glyph.Y / (float)FontSheet.Height;
 
-            float bottomRightX = (float)(glyph.X + glyph.Width) / (float)FontSheet.Width;
-            float bottomRightY = (float)(glyph.Y + glyph.Height) / (float)FontSheet.Height;
+            float bottomRightX = (float)(glyph.X + glyph.Width + 1) / (float)FontSheet.Width;
+            float bottomRightY = (float)(glyph.Y + glyph.Height + 1) / (float)FontSheet.Height;
 
             float positionBrX = position.X + glyph.Width * scale.X;
             float positionBrY = position.Y + glyph.Height * scale.X;
