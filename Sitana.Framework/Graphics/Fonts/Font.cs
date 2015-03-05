@@ -255,21 +255,24 @@ namespace Sitana.Framework.Graphics
 
         void DrawGlyph(PrimitiveBatch primitiveBatch, Glyph glyph, ref Vector2 position, ref Color color, Vector2 scale)
         {
-            float topLeftX = glyph.X / (float)FontSheet.Width;
-            float topLeftY = glyph.Y / (float)FontSheet.Height;
+            float topLeftX = (glyph.X-1) / (float)FontSheet.Width;
+            float topLeftY = (glyph.Y-1) / (float)FontSheet.Height;
 
             float bottomRightX = (float)(glyph.X + glyph.Width + 1) / (float)FontSheet.Width;
             float bottomRightY = (float)(glyph.Y + glyph.Height + 1) / (float)FontSheet.Height;
 
-            float positionBrX = position.X + glyph.Width * scale.X;
-            float positionBrY = position.Y + glyph.Height * scale.X;
+            float positionTlX = position.X - scale.X;
+            float positionTlY = position.Y - scale.Y;
 
-            primitiveBatch.AddVertex(position.X, position.Y, ref color, topLeftX, topLeftY);
-            primitiveBatch.AddVertex(position.X, positionBrY, ref color, topLeftX, bottomRightY);
-            primitiveBatch.AddVertex(positionBrX, position.Y, ref color, bottomRightX, topLeftY);
+            float positionBrX = position.X + glyph.Width * scale.X + scale.X;
+            float positionBrY = position.Y + glyph.Height * scale.X + scale.Y;
 
-            primitiveBatch.AddVertex(position.X, positionBrY, ref color, topLeftX, bottomRightY);
-            primitiveBatch.AddVertex(positionBrX, position.Y, ref color, bottomRightX, topLeftY);
+            primitiveBatch.AddVertex(positionTlX, positionTlY, ref color, topLeftX, topLeftY);
+            primitiveBatch.AddVertex(positionTlX, positionBrY, ref color, topLeftX, bottomRightY);
+            primitiveBatch.AddVertex(positionBrX, positionTlY, ref color, bottomRightX, topLeftY);
+
+            primitiveBatch.AddVertex(positionTlX, positionBrY, ref color, topLeftX, bottomRightY);
+            primitiveBatch.AddVertex(positionBrX, positionTlY, ref color, bottomRightX, topLeftY);
             primitiveBatch.AddVertex(positionBrX, positionBrY, ref color, bottomRightX, bottomRightY);
         }
 
