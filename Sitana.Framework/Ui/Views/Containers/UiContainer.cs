@@ -164,7 +164,6 @@ namespace Sitana.Framework.Ui.Views
             set
             {
                 _bounds = value;
-                _enableGestureHandling = false;
 
                 RecalcLayout();
                 InvalidateScreenBounds();
@@ -310,7 +309,7 @@ namespace Sitana.Framework.Ui.Views
 
         internal override void ViewGesture(Gesture gesture)
         {
-            if (_enableGestureHandling || gesture.GestureType == GestureType.CapturedByOther)
+            if (_isViewDisplayed || gesture.GestureType == GestureType.CapturedByOther)
             {
                 for (int idx = _children.Count - 1; idx >= 0; --idx)
                 {
