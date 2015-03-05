@@ -508,9 +508,10 @@ namespace Sitana.Framework.Ui.Views
 
         void IItemsConsumer.RemovedAll()
         {
+            UiTask.BeginInvoke(() => _children.Clear());
+
             lock(_childrenLock)
-            {
-                _children.Clear();
+            {    
                 _bindingToElement.Clear();
             }
 
