@@ -28,6 +28,8 @@ namespace Sitana.Framework.Ui.Views
             file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
 			file["WheelScrollSpeed"] = parser.ParseDouble("WheelScrollSpeed");
 
+            Dictionary<Type, DefinitionFile> additionalTemplates = new Dictionary<Type, DefinitionFile>();
+
             foreach (var cn in node.Nodes)
             {
                 switch (cn.Tag)
@@ -48,24 +50,52 @@ namespace Sitana.Framework.Ui.Views
                             }
                         }
 
-                        if (file["Template"] != null)
-                        {
-                            string error = node.NodeError("UiListBox.ItemTemplate already defined.");
+                        if(string.IsNullOrEmpty(cn.Attribute("DataType")))
+                        { 
+                            if (file["Template"] != null)
+                            {
+                                string error = node.NodeError("UiListBox default template already defined.");
 
-                            if (DefinitionParser.EnableCheckMode)
-                            {
-                                ConsoleEx.WriteLine(error);
+                                if (DefinitionParser.EnableCheckMode)
+                                {
+                                    ConsoleEx.WriteLine(error);
+                                }
+                                else
+                                {
+                                    throw new Exception(error);
+                                }
                             }
-                            else
-                            {
-                                throw new Exception(error);
-                            }
+
+                            file["Template"] = DefinitionFile.LoadFile(cn.Nodes[0]);
                         }
+                        else
+                        {
+                            Type type = Type.GetType(cn.Attribute("DataType"));
 
-                        file["Template"] = DefinitionFile.LoadFile(cn.Nodes[0]);
+                            if(type == null)
+                            {
+                                string error = node.NodeError("Cannot find type: {0}", cn.Attribute("DataType"));
+
+                                if (DefinitionParser.EnableCheckMode)
+                                {
+                                    ConsoleEx.WriteLine(error);
+                                }
+                                else
+                                {
+                                    throw new Exception(error);
+                                }
+                            }
+
+                            additionalTemplates.Add(type, DefinitionFile.LoadFile(cn.Nodes[0]));
+                        }
                     }
                     break;
                 }
+            }
+
+            if (additionalTemplates.Count > 0)
+            {
+                file["AdditionalTemplates"] = additionalTemplates;
             }
         }
 
@@ -76,6 +106,8 @@ namespace Sitana.Framework.Ui.Views
         }
 
         DefinitionFile _template;
+        Dictionary<Type, DefinitionFile> _additionalTemplates;
+
         IItemsProvider _items = null;
         bool _recalculate = true;
         bool _vertical = false;
@@ -157,6 +189,8 @@ namespace Sitana.Framework.Ui.Views
 
 			_wheelSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["WheelScrollSpeed"], 0);
 
+            _additionalTemplates = file["AdditionalTemplates"] as Dictionary<Type, DefinitionFile>;
+
             return true;
         }
 
@@ -212,7 +246,14 @@ namespace Sitana.Framework.Ui.Views
                         {
                             if (added < _maxAddOneTime)
                             {
-                                view = (UiView)_template.CreateInstance(Controller, bind);
+                                DefinitionFile template;
+
+                                if(_additionalTemplates == null || !_additionalTemplates.TryGetValue(bind.GetType(), out template))
+                                {
+                                    template = _template;
+                                }
+
+                                view = (UiView)template.CreateInstance(Controller, bind);
 
                                 lock (_childrenLock)
                                 {

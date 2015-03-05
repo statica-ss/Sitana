@@ -131,6 +131,11 @@ namespace Sitana.Framework.Ui.Core
 
         void OnSize(int width, int height)
         {
+            if(width ==0 || height == 0)
+            {
+                return;
+            }
+
             if (MainView != null)
             {
                 int newWidth = Math.Max(width, MainView.MinSize.X);
