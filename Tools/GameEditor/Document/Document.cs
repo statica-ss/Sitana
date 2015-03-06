@@ -19,8 +19,21 @@ namespace GameEditor
         }
 
         int _nextIndex = 0;
+        string _fileName = string.Empty;
 
-        public readonly SharedString FileName = new SharedString();
+        public string FileName
+        {
+            private set
+            {
+                _fileName = value;
+                MainController.UpdateWindowName(value);
+            }
+
+            get
+            {
+                return _fileName;
+            }
+        }
 
         public string FilePath { get; private set;}
 
@@ -47,13 +60,13 @@ namespace GameEditor
                 return null;
             }
         }
-
+        
         public void New()
         {
             new Tools.Select();
 
             _nextIndex++;
-            FileName.Format("New {0}", _nextIndex);
+            FileName = string.Format("New {0}", _nextIndex);
             FilePath = null;
 
             Layers.Clear();
@@ -85,7 +98,7 @@ namespace GameEditor
         public void Save(string path)
         {
             FilePath = path;
-            FileName.StringValue = Path.GetFileNameWithoutExtension(path);
+            FileName = Path.GetFileNameWithoutExtension(path);
 
             IsModified = false;
 
@@ -142,7 +155,7 @@ namespace GameEditor
             }
 
             FilePath = path;
-            FileName.StringValue = Path.GetFileNameWithoutExtension(path);
+            FileName = Path.GetFileNameWithoutExtension(path);
         }
 
         void WriteVersion1(BinaryWriter writer)

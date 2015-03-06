@@ -11,8 +11,6 @@
         <UiButton Style="MenuButton" Text="Help" />
     </UiStackPanel>
 
-    <UiLabel Text="{FileName}" Font="Font" FontSize="8" X="@-4" Y="16" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-
     <!-- File menu -->
     <UiModalLayout Id="FileMenu" Style="MenuStripLayout" Controller="GameEditor.FileMenuController,GameEditor">
         <UiStackPanel Style="MenuStrip">
