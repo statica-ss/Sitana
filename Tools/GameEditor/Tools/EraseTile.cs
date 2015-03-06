@@ -20,6 +20,7 @@ namespace GameEditor.Tools
 
         public override void OnDown(Vector2 position)
         {
+            Document.Current.SetModified();
             TiledLayer layer = Document.Current.SelectedLayer.Layer as TiledLayer;
 
             if (layer != null)

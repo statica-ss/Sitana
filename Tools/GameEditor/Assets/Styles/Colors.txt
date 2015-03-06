@@ -1,18 +1,18 @@
 :Transparent					0,0,0,0
 
-:MainBackground #202830
-:ContentBackground #182028
+:MainBackground #282828
+:ContentBackground #181818
 
-:ButtonBackgroundNormal         #404850
-:ButtonBackgroundPushed         #606870
-:ButtonBackgroundDisabled       #646668
+:ButtonBackgroundNormal         #484848
+:ButtonBackgroundPushed         #686868
+:ButtonBackgroundDisabled       #766666
 
 :ButtonBackgroundChecked        #400000
 
 :ButtonTextNormal               #ffffff
-:ButtonTextPushed               #e8f0ff
+:ButtonTextPushed               #e0ffffff
 
-:ButtonTextChecked              #fff8e0
+:ButtonTextChecked              #fff8f8
 
 :MenuButtonBackgroundNormal     #400000
 :MenuButtonBackgroundPushed     #801010
@@ -41,7 +41,7 @@
 :EditBoxTextPushed				#000000
 :EditBoxTextChecked				:EditBoxTextPushed
 
-:ElementBackground              #272f35
+:ElementBackground              #2f2f2f
 
 :PopupHeaderBackground          :MenuButtonBackgroundNormal
 :PopupHeaderText                :MenuButtonTextNormal
