@@ -30,6 +30,7 @@ namespace Sitana.Framework.Ui.Views
             file["Click"] = parser.ParseDelegate("Click");
             file["Hold"] = parser.ParseDelegate("Hold");
             file["Enabled"] = parser.ParseBoolean("Enabled");
+            file["Disabled"] = parser.ParseBoolean("Disabled");
 
             file["PushSound"] = parser.ParseResource<SoundEffect>("PushSound");
             file["ReleaseSound"] = parser.ParseResource<SoundEffect>("ReleaseSound");
@@ -56,7 +57,21 @@ namespace Sitana.Framework.Ui.Views
 
         public bool IsPushed {get; private set;}
 
-        public SharedValue<bool> Enabled { get; set; }
+        SharedValue<bool> _enabledFlag;
+        bool _enabledFlagInvert = false;
+
+        public bool Enabled
+        {
+            get
+            {
+                return _enabledFlagInvert ? !_enabledFlag.Value : _enabledFlag.Value;
+            }
+
+            set
+            {
+                _enabledFlag.Value = _enabledFlagInvert ? !value : value;
+            }
+        }
 
         float _delayTime = 0.5f;
         float _waitForAction = 0;
@@ -100,7 +115,7 @@ namespace Sitana.Framework.Ui.Views
         {
             get
             {
-                return Enabled.Value ? (IsPushed ? ButtonState.Pushed : ButtonState.None) : ButtonState.Disabled;
+                return Enabled ? (IsPushed ? ButtonState.Pushed : ButtonState.None) : ButtonState.Disabled;
             }
         }
 
@@ -147,7 +162,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void OnGesture(Gesture gesture)
         {
-            if (!Enabled.Value)
+            if (!Enabled)
             {
                 return;
             }
@@ -319,7 +334,16 @@ namespace Sitana.Framework.Ui.Views
 
             List<DefinitionFile> drawableFiles = file["Drawables"] as List<DefinitionFile>;
 
-            Enabled = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Enabled"], true);
+            if (file["Disabled"] != null && file["Enabled"] == null)
+            {
+                _enabledFlag = DefinitionResolver.GetShared<bool>(Controller, binding, file["Disabled"], false);
+                _enabledFlagInvert = true;
+            }
+            else
+            {
+                _enabledFlag = DefinitionResolver.GetShared<bool>(Controller, binding, file["Enabled"], true);
+                _enabledFlagInvert = false;
+            }
 
             if ( drawableFiles != null )
             {
