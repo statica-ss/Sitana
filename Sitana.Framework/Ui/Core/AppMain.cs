@@ -46,6 +46,8 @@ namespace Sitana.Framework.Ui.Core
 		private int _desiredVerticalOffset = 0;
 		private float _currentVerticalOffset = 0;
 
+        private int _top = 0;
+
         public double TotalGameTime { get; private set; }
 
         public List<IUpdatable> _updatables = new List<IUpdatable>();
@@ -175,6 +177,7 @@ namespace Sitana.Framework.Ui.Core
                 if (MainView != null)
                 {
                     OnSize(newSize.X, newSize.Y);
+                    _top = MainView.Bounds.Top;
                 }
 
                 _lastSize = newSize;
@@ -200,9 +203,9 @@ namespace Sitana.Framework.Ui.Core
 				}
 			}
 
-			if (MainView.OffsetBoundsVertical != (int)_currentVerticalOffset)
+            if (MainView.OffsetBoundsVertical != (int)_currentVerticalOffset + _top)
 			{
-				MainView.OffsetBoundsVertical = (int)_currentVerticalOffset;
+                MainView.OffsetBoundsVertical = (int)_currentVerticalOffset + _top;
 			}
 
             TouchPad.Instance.Update(time, IsActive);
