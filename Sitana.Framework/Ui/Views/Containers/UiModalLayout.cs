@@ -24,7 +24,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void OnAdded()
         {
-            EnabledGestures = (GestureType.Down | GestureType.FreeDrag | GestureType.Tap | GestureType.HoldStart | GestureType.Hold);
+            EnabledGestures = (GestureType.Down | GestureType.FreeDrag | GestureType.Tap | GestureType.HoldStart | GestureType.Hold | GestureType.Move | GestureType.MouseMove | GestureType.MouseWheel);
 
             base.OnAdded();
         }

@@ -20,8 +20,6 @@ namespace GameEditor
     {
         public static MainController Current { get; private set; }
 
-        public SharedString FileName { get; private set; }
-
         public SharedValue<bool> ShowAllLayers
         { 
             get
@@ -88,6 +86,12 @@ namespace GameEditor
             }
         }
 
+        public static void UpdateWindowName(string file)
+        {
+            string name = string.Format("GameEditor - {0}", file);
+            AppMain.Current.Window.Title = name;
+        }
+
         public MainController()
         {
             if (Current != null)
@@ -96,7 +100,6 @@ namespace GameEditor
             }
 
             Current = this;
-            FileName = Document.Instance.FileName;
         }
 
         public void OpenLink(UiButton sender)
