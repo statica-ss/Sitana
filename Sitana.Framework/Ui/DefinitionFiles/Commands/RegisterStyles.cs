@@ -15,8 +15,6 @@ namespace Sitana.Framework.Ui.DefinitionFiles.Commands
         {
             StylesContainer.Parse(node, file);
 
-            DefinitionParser parser = new DefinitionParser(node);
-
             bool overwrite = false;
             bool.TryParse(node.Attribute("OverwriteExisting"), out overwrite);
 

@@ -33,19 +33,18 @@ namespace Sitana.Framework.Ui.Views
         {
             if ( Visible )
             {
-                
-                    if (gesture.GestureType == GestureType.Tap) 
+                if (gesture.GestureType == GestureType.Tap) 
+                {
+                    if (!ScreenBounds.Contains(gesture.Position.ToPoint()))
                     {
-                        if (!ScreenBounds.Contains(gesture.Position.ToPoint()))
+                        if (_touchOutsideToHide)
                         {
-                            if (_touchOutsideToHide)
-                            {
-                                Visible = false;
-                            }
-
-                            CallDelegate("ClickOutside");
+                            Visible = false;
                         }
+
+                        CallDelegate("ClickOutside");
                     }
+                }
 
                 gesture.SkipRest = true;
             }

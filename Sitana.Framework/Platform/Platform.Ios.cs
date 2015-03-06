@@ -98,6 +98,14 @@ namespace Sitana.Framework
             }
         }
 
+		public static string DeviceId
+		{
+			get
+			{
+				return UIDevice.CurrentDevice.Name;
+			}
+		}
+
         public static void DisableLock(bool disable)
         {
             _app.IdleTimerDisabled = disable;

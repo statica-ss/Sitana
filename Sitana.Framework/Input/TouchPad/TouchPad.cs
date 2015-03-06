@@ -26,13 +26,13 @@ namespace Sitana.Framework.Input.TouchPad
         struct LastTap
         {
             public Vector2 Position;
-            public DateTime Time;
+            public double  Time;
         }
 
         public int MinDragSize = 16;
         public int HoldTimeInMs = 1000;
         public int HoldStartTimeInMs = 700;
-        public int DoubleTapTimeInMs = 500;
+        public int DoubleTapTimeInMs = 1000;
 
         public GestureType RightClickGesture = GestureType.Hold;
 
@@ -45,6 +45,7 @@ namespace Sitana.Framework.Input.TouchPad
         Gesture _gesture = new Gesture();
 
         Vector2? _rightClick;
+
         DateTime _rightClickTime;
 
         LastTap? _lastTap;
@@ -68,6 +69,21 @@ namespace Sitana.Framework.Input.TouchPad
 
         internal void Update(float time, bool active)
         {
+			if (_lastTap.HasValue)
+			{
+				LastTap tap = _lastTap.Value;
+				tap.Time += time;
+
+				if (_lastTap.Value.Time > (double)DoubleTapTimeInMs / 1000.0f)
+				{
+					_lastTap = null;
+				} 
+				else
+				{
+					_lastTap = tap;
+				}
+			}
+
             AnalyzeMouse(time, active);
             AnalyzeTouch(time);
         }
@@ -325,21 +341,18 @@ namespace Sitana.Framework.Input.TouchPad
 
                         if ( _lastTap.HasValue )
                         {
-                            if ( (DateTime.Now - _lastTap.Value.Time).TotalMilliseconds < DoubleTapTimeInMs )
+                            if ( (element.Position-_lastTap.Value.Position).Length() < MinDragSize )
                             {
-                                if ( (element.Position-_lastTap.Value.Position).Length() < MinDragSize )
+                                _gesture.GestureType = GestureType.DoubleTap;
+
+                                OnGesture();
+
+                                doubleTap = true;
+
+                                if (_gesture.Handled)
                                 {
-                                    _gesture.GestureType = GestureType.DoubleTap;
-
-                                    OnGesture();
-
-                                    doubleTap = true;
-
-                                    if (_gesture.Handled)
-                                    {
-                                        _lastTap = null;
-                                        return;
-                                    }
+                                    _lastTap = null;
+                                    return;
                                 }
                             }
                         }
@@ -358,7 +371,7 @@ namespace Sitana.Framework.Input.TouchPad
                                 _lastTap = new LastTap()
                                 {
                                     Position = _gesture.Position,
-                                    Time = DateTime.Now
+                                    Time = 0
                                 };
                             }
                         }

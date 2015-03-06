@@ -32,19 +32,51 @@ namespace Sitana.Framework.Ui.Core
 
                     string src = cn.Attribute("Source");
 
-                    if (src.IsNullOrWhiteSpace())
+                    if (cn.Nodes.Count > 1)
                     {
-                        if (cn.Nodes.Count != 1)
-                        {
-                            throw new Exception("Invalid number of child nodes. Style can have only one child node.");
-                        }
+                        throw new Exception("Invalid number of child nodes. Style can have only one child node.");
+                    }
 
-                        definitions.Add(name, DefinitionFile.LoadFile(cn.Nodes[0]));
-                    }
-                    else
+                    DefinitionFile styleFile = null;
+
+                    if (cn.Nodes.Count == 1)
                     {
-                        definitions.Add(name, definitions[src]);
+                        styleFile = DefinitionFile.LoadFile(cn.Nodes[0]);
                     }
+
+                    DefinitionFile otherStyle = null;
+
+                    if (!src.IsNullOrWhiteSpace())
+                    {
+                        if (definitions.ContainsKey(src))
+                        {
+                            otherStyle = definitions[src];
+                        }
+                        else
+                        {
+                            otherStyle = StylesManager.Instance.FindStyle(src);
+                        }
+                    }
+
+                    if(otherStyle != null)
+                    {
+                        if (styleFile == null)
+                        {
+                            styleFile = otherStyle;
+                        }
+                        else
+                        {
+                            foreach (var key in otherStyle.Keys)
+                            {
+                                if (!styleFile.HasKey(key))
+                                {
+                                    styleFile[key] = otherStyle[key];
+                                }
+                            }
+                        }
+                    }
+
+                    definitions.Add(name, styleFile);
                 }
             }
 

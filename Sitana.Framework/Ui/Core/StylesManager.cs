@@ -13,6 +13,22 @@ namespace Sitana.Framework.Ui.Core
     {
         Dictionary<string, DefinitionFile> _styles = new Dictionary<string, DefinitionFile>();
 
+        internal DefinitionFile FindStyle(string name)
+        {
+            if (name == null)
+            {
+                return null;
+            }
+
+            DefinitionFile file;
+            if (_styles.TryGetValue(name, out file))
+            {
+                return file;
+            }
+
+            return null;
+        }
+
         public void RegisterStyle(string name, DefinitionFile file, bool overwrite)
         {
             if (_styles.ContainsKey(name))

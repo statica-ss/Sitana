@@ -424,7 +424,7 @@ namespace Sitana.Framework.Ui.Views
 
             _indent = DefinitionResolver.Get<Length>(Controller, Binding, file["Indent"], Length.Zero);
 
-            Text = DefinitionResolver.GetString(Controller, Binding, file["Text"]);
+            Text = DefinitionResolver.GetString(Controller, Binding, file["Text"]) ?? string.Empty;
             TextColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
 
             HorizontalContentAlignment horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Left);

@@ -34,9 +34,11 @@ namespace Sitana.Framework.Ui.Views
             file["TextColor"] = parser.ParseColor("TextColor");
             file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
             file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
+
+            file["AutoSizeUpdate"] = parser.ParseBoolean("AutoSizeUpdate");
         }
 
-        public SharedString Text { get; private set; }
+        public SharedString Text{ get; private set; }
         public ColorWrapper TextColor { get; private set; }
 
         public string FontName
@@ -61,8 +63,6 @@ namespace Sitana.Framework.Ui.Views
 
         protected FontFace _fontFace = null;
         public TextAlign TextAlign {get;set;}
-
-        int test = 0;
 
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
@@ -174,7 +174,26 @@ namespace Sitana.Framework.Ui.Views
 
             TextAlign = UiHelper.TextAlignFromContentAlignment(horzAlign, vertAlign);
 
+            if(DefinitionResolver.Get<bool>(Controller, Binding, file["AutoSizeUpdate"], false))
+            {
+                Text.ValueChanged += Text_ValueChanged;
+            }
+
             return true;
+        }
+
+        protected override void OnRemoved()
+        {
+            base.OnRemoved();
+            Text.ValueChanged -= Text_ValueChanged;
+        }
+
+        protected void Text_ValueChanged()
+        {
+            if(Parent!=null)
+            {
+                Parent.RecalcLayout();
+            }
         }
     }
 }

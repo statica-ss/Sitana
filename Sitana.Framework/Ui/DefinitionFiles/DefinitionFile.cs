@@ -48,6 +48,14 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             Class = type;
         }
 
+        public List<string> Keys
+        {
+            get
+            {
+                return new List<string>(_values.Keys);
+            }
+        }
+
         public void Lock()
         {
             _locked = true;

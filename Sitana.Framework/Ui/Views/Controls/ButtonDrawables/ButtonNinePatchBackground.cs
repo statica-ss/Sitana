@@ -24,6 +24,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["ImageReleased"] = parser.ParseResource<NinePatchImage>("Image");
             file["ImageDisabled"] = parser.ParseResource<NinePatchImage>("ImageDisabled");
             file["ScaleByUnit"] = parser.ParseBoolean("ScaleByUnit");
+
             file["Scale"] = parser.ParseDouble("Scale");
         }
 
