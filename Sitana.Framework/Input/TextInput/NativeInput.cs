@@ -17,10 +17,11 @@
 // ///---------------------------------------------------------------------------
 //
 using System;
+using Microsoft.Xna.Framework.Input;
 
 namespace Sitana.Framework.Input
 {
-    public partial class NativeInput
+    public partial class NativeInput: IFocusable
     {
         public interface ITextEdit
         {
@@ -31,6 +32,15 @@ namespace Sitana.Framework.Input
             int MaxLength {get;}
             int MaxLines {get;}
         }
+
+		void IFocusable.Unfocus(){}
+
+		void IFocusable.OnKey(Keys key){}
+		void IFocusable.OnCharacter(char character){}
+
+		void IFocusable.SetText(string text){}
+
+		public int Bottom { get; private set; }
     }
 }
 

@@ -239,6 +239,12 @@
     <Compile Include="Ui\DefinitionFiles\Commands\RegisterStyles.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\EditText.cs" />
     <Compile Include="Ui\Views\Containers\UiExpandingBorder.cs" />
+    <Compile Include="Ui\Views\Controls\BackgroundDrawables\DrawableGroup.cs" />
+    <Compile Include="Ui\Views\Controls\BackgroundDrawables\NinePatchBackground.cs" />
+    <Compile Include="Ui\Views\Containers\UiItemsStack.cs" />
+    <Compile Include="Ui\DefinitionFiles\DateTimeContext.cs" />
+    <Compile Include="Ui\Views\Controls\ScrollingSelector\ISelectorContext.cs" />
+    <Compile Include="Ui\Views\Controls\UiScrollingSelector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -258,6 +264,8 @@
     <Folder Include="Ui\RichText\" />
     <Folder Include="Text\" />
     <Folder Include="Ui\Views\Controls\RichView\" />
+    <Folder Include="Ui\Views\Controls\BackgroundDrawables\" />
+    <Folder Include="Ui\Views\Controls\ScrollingSelector\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

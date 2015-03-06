@@ -48,6 +48,9 @@ namespace Sitana.Framework.Ui.Views
 
         List<UiView> _tempChildren = new List<UiView>();
 
+        int _rest;
+        int _restParts;
+
         public int Spacing
         {
             get
@@ -200,6 +203,7 @@ namespace Sitana.Framework.Ui.Views
             Point value = base.ComputeSize(width, height);
 
             int size = _padding.Compute();
+            int sizeAlt = 0;
 
             for (int idx = 0; idx < _children.Count; ++idx)
             {
@@ -213,6 +217,7 @@ namespace Sitana.Framework.Ui.Views
                     }
 
                     size += _vertical ? child.Bounds.Height + child.Margin.Height : child.Bounds.Width + child.Margin.Width;
+                    sizeAlt = Math.Max(sizeAlt, _vertical ? child.Bounds.Width + child.Margin.Width : child.Bounds.Height + child.Margin.Height);
                 }
             }
 
@@ -220,15 +225,33 @@ namespace Sitana.Framework.Ui.Views
 
             if (_vertical)
             {
-                value.Y = size;
+                if (PositionParameters.Height.IsAuto)
+                {
+                    value.Y = size;
+                }
+
+                if(PositionParameters.Width.IsAuto)
+                {
+                    value.X = sizeAlt;
+                }
             }
             else
             {
-                value.X = size;
+                if (PositionParameters.Width.IsAuto)
+                {
+                    value.X = size;
+                }
+
+                if (PositionParameters.Height.IsAuto)
+                {
+                    value.Y = sizeAlt;
+                }
             }
 
             return value;
         }
+
+        
 
         protected override Rectangle CalculateChildBounds(UiView view)
         {
@@ -249,6 +272,12 @@ namespace Sitana.Framework.Ui.Views
             if (_vertical)
             {
                 Point size = view.ComputeSize(width, height);
+
+                if(view.PositionParameters.Height.IsRest)
+                {
+                    size.Y = _rest * view.PositionParameters.Height.Rest / _restParts;
+                }
+
                 int posX = Padding + parameters.Margin.Left;
 
                 switch (parameters.HorizontalAlignment)
@@ -282,6 +311,12 @@ namespace Sitana.Framework.Ui.Views
             else
             {
                 Point size = view.ComputeSize(width, height);
+
+                if (view.PositionParameters.Width.IsRest)
+                {
+                    size.X = _rest * view.PositionParameters.Width.Rest / _restParts;
+                }
+
                 int posY = Padding + parameters.Margin.Top;
 
                 switch (parameters.VerticalAlignment)
@@ -350,14 +385,66 @@ namespace Sitana.Framework.Ui.Views
 
         public override void RecalcLayout()
         {
+            int width = Bounds.Width;
+            int height = Bounds.Height;
+
+            bool computeRest = false;
+            _rest = 0;
+            _restParts = 0;
+
+            for (int idx = 0; idx < _children.Count; ++idx)
+            {
+                var child = _children[idx];
+                computeRest |= _vertical ? child.PositionParameters.Height.IsRest : child.PositionParameters.Width.IsRest;
+
+                if(computeRest)
+                {
+                    break;
+                }
+            }
+
             _tempChildren.Clear();
             for(int idx = 0; idx < _children.Count; ++idx)
             {
-                if ( _children[idx].DisplayVisibility > 0 )
+                var child = _children[idx];
+
+                if (child.DisplayVisibility > 0)
                 {
-                    _tempChildren.Add(_children[idx]);
+                    _tempChildren.Add(child);
+
+                    if (computeRest)
+                    {
+                        if (_vertical)
+                        {
+                            if (!child.PositionParameters.Height.IsRest)
+                            {
+                                _rest += child.ComputeSize(width, height).Y;
+                            }
+                            else
+                            {
+                                _restParts += child.PositionParameters.Height.Rest;
+                            }
+                        }
+                        else
+                        {
+                            if (!child.PositionParameters.Width.IsRest)
+                            {
+                                _rest += child.ComputeSize(width, height).X;
+                            }
+                            else
+                            {
+                                _restParts += child.PositionParameters.Width.Rest;
+                            }
+                        }
+                    }
                 }
             }
+
+            if (computeRest)
+            {
+                _rest = Bounds.Height - _rest;
+            }
+
             base.RecalcLayout();
         }
 
@@ -390,17 +477,6 @@ namespace Sitana.Framework.Ui.Views
             }
 
             InitChildren(Controller, Binding, definition);
-
-            //if ( StackMode == Mode.Vertical )
-            //{
-            //    PositionParameters.Margin._top = null;
-            //    PositionParameters.Margin._bottom = null;
-            //}
-            //else
-            //{
-            //    PositionParameters.Margin._left = null;
-            //    PositionParameters.Margin._right = null;
-            //}
 
             return true;
         }

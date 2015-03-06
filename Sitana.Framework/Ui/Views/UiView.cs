@@ -227,9 +227,11 @@ namespace Sitana.Framework.Ui.Views
             {
                 _bounds = value;
                 InvalidateScreenBounds();
-                _enableGestureHandling = false;
+                _isViewDisplayed = false;
             }
         }
+
+        public delegate void ViewDisplayChangedDelegate(bool visible);
 
         protected SharedValue<bool> _visiblityFlag { private get; set;}
 
@@ -277,7 +279,7 @@ namespace Sitana.Framework.Ui.Views
         internal TransitionEffect _parentShowTransitionEffect = null;
         internal TransitionEffect _parentHideTransitionEffect = null;
 
-        protected bool _enableGestureHandling = false;
+        protected bool _isViewDisplayed = false;
 
         public SharedString Tag { get; private set;}
 
@@ -286,6 +288,10 @@ namespace Sitana.Framework.Ui.Views
 
 		Rectangle _screenBounds = new Rectangle();
 		bool _screenBoundsInvalid = true;
+
+        bool _wasViewDisplayed = false;
+
+        public event ViewDisplayChangedDelegate ViewDisplayChanged;
 
         public void InvalidateScreenBounds()
         {
@@ -347,7 +353,19 @@ namespace Sitana.Framework.Ui.Views
         private ColorWrapper _backgroundColor = new ColorWrapper(Color.Transparent);
         private InvokeParameters _invokeParameters = new InvokeParameters();
 
-        internal int OffsetBoundsVertical = 0;
+        internal int OffsetBoundsVertical
+		{
+			set
+			{
+				_bounds.Y = value;
+				_screenBounds = _bounds;
+			}
+
+			get
+			{
+				return _bounds.Y;
+			}
+		}
 
         public bool Visible
         {
@@ -418,7 +436,7 @@ namespace Sitana.Framework.Ui.Views
 
         public void ViewDraw(ref UiViewDrawParameters parameters)
         {
-            _enableGestureHandling = Visible && Math.Abs(parameters.Transition) < 0.000001;
+            _isViewDisplayed = Visible && Math.Abs(parameters.Transition) < 0.000001;
             if (DisplayVisibility == 0)
             {
                 return;
@@ -522,9 +540,18 @@ namespace Sitana.Framework.Ui.Views
                 _lastSize = Bounds;
             }
 
+            if (_isViewDisplayed != _wasViewDisplayed)
+            {
+                _wasViewDisplayed = _isViewDisplayed;
+                if(ViewDisplayChanged!=null)
+                {
+                    ViewDisplayChanged(_isViewDisplayed);
+                }
+            }
+
             Update(time);
 
-            _enableGestureHandling = false;
+            _isViewDisplayed = false;
         }
 
         
@@ -859,7 +886,7 @@ namespace Sitana.Framework.Ui.Views
             }
             else
             {
-                if (_enableGestureHandling)
+                if (_isViewDisplayed)
                 {
                     if (gesture.PointerCapturedBy == null || gesture.PointerCapturedBy == this)
                     {
@@ -887,7 +914,6 @@ namespace Sitana.Framework.Ui.Views
         public virtual void Move(Point offset)
         {
             Bounds = new Rectangle(Bounds.X + offset.X, Bounds.Y + offset.Y, Bounds.Width, Bounds.Height);
-            _enableGestureHandling = false;
         }
 
         void ModalTouchDown(int id, Vector2 position)

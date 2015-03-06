@@ -28,6 +28,8 @@ namespace Sitana.Framework.Ui.Views
             file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
 			file["WheelScrollSpeed"] = parser.ParseDouble("WheelScrollSpeed");
 
+            Dictionary<Type, DefinitionFile> additionalTemplates = new Dictionary<Type, DefinitionFile>();
+
             foreach (var cn in node.Nodes)
             {
                 switch (cn.Tag)
@@ -48,24 +50,52 @@ namespace Sitana.Framework.Ui.Views
                             }
                         }
 
-                        if (file["Template"] != null)
-                        {
-                            string error = node.NodeError("UiListBox.ItemTemplate already defined.");
+                        if(string.IsNullOrEmpty(cn.Attribute("DataType")))
+                        { 
+                            if (file["Template"] != null)
+                            {
+                                string error = node.NodeError("UiListBox default template already defined.");
 
-                            if (DefinitionParser.EnableCheckMode)
-                            {
-                                ConsoleEx.WriteLine(error);
+                                if (DefinitionParser.EnableCheckMode)
+                                {
+                                    ConsoleEx.WriteLine(error);
+                                }
+                                else
+                                {
+                                    throw new Exception(error);
+                                }
                             }
-                            else
-                            {
-                                throw new Exception(error);
-                            }
+
+                            file["Template"] = DefinitionFile.LoadFile(cn.Nodes[0]);
                         }
+                        else
+                        {
+                            Type type = Type.GetType(cn.Attribute("DataType"));
 
-                        file["Template"] = DefinitionFile.LoadFile(cn.Nodes[0]);
+                            if(type == null)
+                            {
+                                string error = node.NodeError("Cannot find type: {0}", cn.Attribute("DataType"));
+
+                                if (DefinitionParser.EnableCheckMode)
+                                {
+                                    ConsoleEx.WriteLine(error);
+                                }
+                                else
+                                {
+                                    throw new Exception(error);
+                                }
+                            }
+
+                            additionalTemplates.Add(type, DefinitionFile.LoadFile(cn.Nodes[0]));
+                        }
                     }
                     break;
                 }
+            }
+
+            if (additionalTemplates.Count > 0)
+            {
+                file["AdditionalTemplates"] = additionalTemplates;
             }
         }
 
@@ -76,6 +106,8 @@ namespace Sitana.Framework.Ui.Views
         }
 
         DefinitionFile _template;
+        Dictionary<Type, DefinitionFile> _additionalTemplates;
+
         IItemsProvider _items = null;
         bool _recalculate = true;
         bool _vertical = false;
@@ -98,6 +130,7 @@ namespace Sitana.Framework.Ui.Views
 		float _wheelSpeed = 0;
 
         int _maxAddOneTime = 32;
+        bool _clearChildren = false;
 
         public ScrollingService ScrollingService
         {
@@ -157,7 +190,82 @@ namespace Sitana.Framework.Ui.Views
 
 			_wheelSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["WheelScrollSpeed"], 0);
 
+            _additionalTemplates = file["AdditionalTemplates"] as Dictionary<Type, DefinitionFile>;
+
             return true;
+        }
+
+        void Recalculate()
+        {
+            lock (_items)
+            {
+                int count = _items.Count;
+
+                int added = 0;
+
+                _updateScrollPosition = new Point((int)_scrollingService.ScrollPositionX, (int)_scrollingService.ScrollPositionY);
+                Point position = new Point(-_updateScrollPosition.X, -_updateScrollPosition.Y);
+
+                for (int idx = 0; idx < count; ++idx)
+                {
+                    object bind = _items.ElementAt(_reverse ? count - idx - 1 : idx);
+
+                    UiView view;
+                    _bindingToElement.TryGetValue(bind, out view);
+
+                    if (view == null)
+                    {
+                        if (added < _maxAddOneTime)
+                        {
+                            DefinitionFile template;
+
+                            if (_additionalTemplates == null || !_additionalTemplates.TryGetValue(bind.GetType(), out template))
+                            {
+                                template = _template;
+                            }
+
+                            view = (UiView)template.CreateInstance(Controller, bind);
+
+                            lock (_childrenLock)
+                            {
+                                _bindingToElement.Add(bind, view);
+                                _children.Add(view);
+                            }
+
+                            view.Parent = this;
+                            view.RegisterView();
+                            view.ViewAdded();
+                            added++;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    Rectangle bounds = CalculateItemBounds(view);
+                    Point size = view.ComputeSize(Bounds.Width, Bounds.Height);
+
+                    if (_vertical)
+                    {
+                        bounds.Height = size.Y;
+                        bounds.Y = position.Y + view.PositionParameters.Margin.Top;
+
+                        position.Y = bounds.Bottom + view.PositionParameters.Margin.Bottom;
+                    }
+                    else
+                    {
+                        bounds.Width = size.X;
+                        bounds.X = position.X + view.PositionParameters.Margin.Left;
+
+                        position.X = bounds.Right + view.PositionParameters.Margin.Right;
+                    }
+
+                    view.Bounds = bounds;
+                }
+
+                _maxScroll = new Point(_updateScrollPosition.X + position.X, _updateScrollPosition.Y + position.Y);
+            }
         }
 
         protected override void Update(float time)
@@ -175,11 +283,20 @@ namespace Sitana.Framework.Ui.Views
             }
 
             bool recalculate = false;
+            bool clearChildren = false;
 
             lock (_recalcLock)
             {
                 recalculate = _recalculate;
                 _recalculate = false;
+
+                clearChildren = _clearChildren;
+                _clearChildren = false;
+            }
+
+            if (clearChildren)
+            {
+                _children.Clear();
             }
 
             lock (_items)
@@ -192,68 +309,7 @@ namespace Sitana.Framework.Ui.Views
 
             if (recalculate)
             {
-                lock (_items)
-                {
-                    int count = _items.Count;
-
-                    int added = 0;
-
-                    _updateScrollPosition = new Point((int)_scrollingService.ScrollPositionX, (int)_scrollingService.ScrollPositionY);
-                    Point position = new Point(-_updateScrollPosition.X, -_updateScrollPosition.Y);
-
-                    for (int idx = 0; idx < count; ++idx)
-                    {
-                        object bind = _items.ElementAt(_reverse ? count - idx - 1 : idx);
-
-                        UiView view;
-                        _bindingToElement.TryGetValue(bind, out view);
-
-                        if (view == null)
-                        {
-                            if (added < _maxAddOneTime)
-                            {
-                                view = (UiView)_template.CreateInstance(Controller, bind);
-
-                                lock (_childrenLock)
-                                {
-                                    _bindingToElement.Add(bind, view);
-                                    _children.Add(view);
-                                }
-
-                                view.Parent = this;
-                                view.RegisterView();
-                                view.ViewAdded();
-                                added++;
-                            }
-                            else
-                            {
-                                continue;
-                            }
-                        }
-
-                        Rectangle bounds = CalculateItemBounds(view);
-                        Point size = view.ComputeSize(Bounds.Width, Bounds.Height);
-
-                        if (_vertical)
-                        {
-                            bounds.Height = size.Y;
-                            bounds.Y = position.Y + view.PositionParameters.Margin.Top;
-
-                            position.Y = bounds.Bottom + view.PositionParameters.Margin.Bottom;
-                        }
-                        else
-                        {
-                            bounds.Width = size.X;
-                            bounds.X = position.X + view.PositionParameters.Margin.Left;
-
-                            position.X = bounds.Right + view.PositionParameters.Margin.Right;
-                        }
-
-                        view.Bounds = bounds;
-                    }
-
-                    _maxScroll = new Point(_updateScrollPosition.X + position.X, _updateScrollPosition.Y + position.Y);
-                }
+                Recalculate();
             }
             else
             {
@@ -469,12 +525,12 @@ namespace Sitana.Framework.Ui.Views
         {
             lock(_childrenLock)
             {
-                _children.Clear();
                 _bindingToElement.Clear();
             }
 
             lock (_recalcLock)
             {
+                _clearChildren = true;
                 _recalculate = true;
             }
         }
@@ -486,14 +542,18 @@ namespace Sitana.Framework.Ui.Views
                 _recalculate = true;
             }
 
+            UiView view = null;
             lock(_childrenLock)
             {
-                UiView view;
                 if (_bindingToElement.TryGetValue(item, out view))
                 {
-                    _children.Remove(view);
                     _bindingToElement.Remove(item);
                 }
+            }
+
+            if(view != null)
+            {
+                UiTask.BeginInvoke(() => _children.Remove(view));
             }
         }
 

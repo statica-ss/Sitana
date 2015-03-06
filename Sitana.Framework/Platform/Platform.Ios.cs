@@ -117,8 +117,38 @@ namespace Sitana.Framework
 			return pixels / scale;
 		}
 
+		public static float PointsToPixels(float points)
+		{
+			float scale = (float)UIScreen.MainScreen.Scale;
+			return points * scale;
+		}
+
 		public static int KeyboardHeight(bool landscape)
 		{
+			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad)
+			{
+				if (landscape)
+				{
+					return (int)(352 * (float)UIScreen.MainScreen.Scale);
+				}
+				else
+				{
+					return (int)(264 * (float)UIScreen.MainScreen.Scale);
+				}
+			}
+
+			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone)
+			{
+				if (landscape)
+				{
+					return (int)(162 * (float)UIScreen.MainScreen.Scale);
+				} 
+				else
+				{
+					return (int)(216 * (float)UIScreen.MainScreen.Scale);
+				}
+			}
+
 			return 0;
 		}
     }

@@ -68,6 +68,7 @@
     <Folder Include="Ui\Views\Controls\RichView\" />
     <Folder Include="Text\" />
     <Folder Include="Ui\Views\Controls\BackgroundDrawables\" />
+    <Folder Include="Ui\Views\Controls\ScrollingSelector\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
@@ -258,6 +259,8 @@
     <Compile Include="Ui\Views\Controls\BackgroundDrawables\DrawableGroup.cs" />
     <Compile Include="Ui\Views\Controls\BackgroundDrawables\NinePatchBackground.cs" />
     <Compile Include="Ui\Views\Containers\UiItemsStack.cs" />
+    <Compile Include="Ui\Views\Controls\ScrollingSelector\ISelectorContext.cs" />
+    <Compile Include="Ui\Views\Controls\UiScrollingSelector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

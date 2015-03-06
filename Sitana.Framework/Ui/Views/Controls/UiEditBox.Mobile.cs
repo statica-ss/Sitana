@@ -12,6 +12,7 @@ using Sitana.Framework.Ui.Views.ButtonDrawables;
 using Sitana.Framework;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Input.TouchPad;
+using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -24,6 +25,7 @@ namespace Sitana.Framework.Ui.Views
 			var parser = new DefinitionParser(node);
 
 			file["NativeInputMargin"] = parser.ParseMargin("NativeInputMargin");
+			file["NativeInputAlign"] = parser.ParseEnum<Align>("NativeInputAlign");
 
 			#if __IOS__
 				file["NativeInputFontSize"] = parser.ParseInt("iOS.NativeInputFontSize");
@@ -109,6 +111,7 @@ namespace Sitana.Framework.Ui.Views
 
 		Margin _nativeInputMargin;
 		NativeInput _nativeInput = null;
+		Align _nativeInputAlign;
 
 		bool _applied = false;
 
@@ -156,7 +159,7 @@ namespace Sitana.Framework.Ui.Views
 
 			_fontSize = DefinitionResolver.Get<int>(Controller, Binding, file["NativeInputFontSize"], 20);
 			_nativeInputMargin = DefinitionResolver.Get<Margin>(Controller, Binding, file["NativeInputMargin"], Margin.None);
-
+			_nativeInputAlign = DefinitionResolver.Get<Align>(Controller, Binding, file["NativeInputAlign"], Align.Left);
 			return true;
 		}
 
@@ -171,16 +174,18 @@ namespace Sitana.Framework.Ui.Views
 			_original = Text.StringValue;
 
 			Rectangle rect = ScreenBounds;
+			rect.Y -= AppMain.Current.MainView.OffsetBoundsVertical;
 
 			rect = _nativeInputMargin.ComputeRect(rect);
 
-			_nativeInput = new NativeInput(rect, _inputType, _original, _fontSize, Align.Left, this);
+			_nativeInput = new NativeInput(rect, _inputType, _original, _fontSize, _nativeInputAlign, this);
 		}
 
 		public override void Focus()
 		{
 			if (!_focused)
 			{
+				_applied = false;
 				CreateInput();
 			}
 		}

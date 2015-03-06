@@ -195,9 +195,10 @@ namespace Sitana.Framework.Xml
             }
         }
 
-        public string NodeError(string message)
+        public string NodeError(string format, params object[] args)
         {
-            return String.Format("{0}: error: {1}", NodeInfo, message);
+            string message = string.Format(format, args);
+            return string.Format("{0}: error: {1}", NodeInfo, message);
         }
 
         public IEnumerable<string> Attributes

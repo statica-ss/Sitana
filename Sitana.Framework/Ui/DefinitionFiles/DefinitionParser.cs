@@ -134,6 +134,12 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return intVal;
             }
 
+            bool boolVal;
+            if (bool.TryParse(val, out boolVal))
+            {
+                return boolVal;
+            }
+
             val = val.Trim();
             return new ReflectionParameter(val);
         }
@@ -422,6 +428,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             double length = 0;
             double percent = 0;
             int pixels = 0;
+            int rest = 0;
 
             foreach (var val in vals)
             {
@@ -447,6 +454,18 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
                     percent += double.Parse(newVal, CultureInfo.InvariantCulture) / 100.0;
                 }
+                else if (val.EndsWith("*"))
+                {
+                    string newVal = val.TrimEnd('*');
+                    if (newVal.Length == 0)
+                    {
+                        rest++;
+                    }
+                    else
+                    {
+                        rest += int.Parse(newVal);
+                    }
+                }
                 else if (val.EndsWith("px"))
                 {
                     string newVal = val.TrimEnd('p','x');
@@ -459,7 +478,13 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 }
             }
 
-            return new Length(length, percent, pixels);
+            
+            if(rest != 0 && (pixels != 0 || length != 0 || percent != 0))
+            {
+                throw new Exception("Cannot mix rest with other Length units.");
+            }
+
+            return new Length(length, percent, pixels, rest);
         }
     }
 }
