@@ -42,6 +42,8 @@ namespace Sitana.Framework.Ui.Views
             file["LineHeight"] = parser.ParseInt("LineHeight");
             file["Indent"] = parser.ParseLength("Indent");
 
+            file["LineWidth"] = parser.ParseLength("LineWidth");
+
             file["Justify"] = parser.ParseBoolean("Justify");
 
             file["TextColor"] = parser.ParseColor("TextColor");
@@ -72,6 +74,8 @@ namespace Sitana.Framework.Ui.Views
         public int FontSpacing { get; set; }
         public int FontSize { get; set; }
         public TextAlign TextAlign { get; set; }
+
+        Length _lineWidth;
 
         public bool Justify
         {
@@ -114,7 +118,7 @@ namespace Sitana.Framework.Ui.Views
         {
             _text = value;
 
-            int width = Bounds.Width;
+            int width = _lineWidth.Compute(Bounds.Width);
 
             if (width < 2)
             {
@@ -423,8 +427,10 @@ namespace Sitana.Framework.Ui.Views
             Justify = DefinitionResolver.Get<bool>(Controller, Binding, file["Justify"], false);
 
             _indent = DefinitionResolver.Get<Length>(Controller, Binding, file["Indent"], Length.Zero);
-
+            _lineWidth = DefinitionResolver.Get<Length>(Controller, Binding, file["LineWidth"], Length.Stretch);
+            
             Text = DefinitionResolver.GetString(Controller, Binding, file["Text"]) ?? string.Empty;
+
             TextColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
 
             HorizontalContentAlignment horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Left);

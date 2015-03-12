@@ -13,8 +13,13 @@ namespace Sitana.Framework.Graphics
 {
     public partial class AdvancedDrawBatch
     {
-        private Vector2 TextPosition(ref Rectangle target, TextAlign align, Vector2 size)
+        private Vector2 TextPosition(ref Rectangle target, TextAlign align, Vector2 size, TextRotation rotation)
         {
+            if (rotation == TextRotation.Rotate270 || rotation == TextRotation.Rotate90)
+            {
+                size = new Vector2(size.Y, size.X);
+            }
+
             Vector2 pos = target.Location.ToVector2();
 
             switch (align & TextAlign.Horz)
@@ -36,6 +41,22 @@ namespace Sitana.Framework.Graphics
 
                 case TextAlign.Middle:
                     pos.Y = target.Center.Y - (int)size.Y / 2;
+                    break;
+            }
+
+            switch(rotation)
+            {
+                case TextRotation.Rotate90:
+                    pos.Y += size.Y;
+                    break;
+
+                case TextRotation.Rotate270:
+                    pos.X += size.X;
+                    break;
+
+                case TextRotation.Rotate180:
+                    pos.X += size.X;
+                    pos.Y += size.Y;
                     break;
             }
 

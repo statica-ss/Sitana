@@ -17,7 +17,7 @@ namespace Sitana.Framework.Ui.Core
 {
 	public class AppMain_ImmersiveFullscreen: AppMain
 	{
-        double _checkTime = 1;
+        //double _checkTime = 1;
 
 		public AppMain_ImmersiveFullscreen(): base(false)
 		{

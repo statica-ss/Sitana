@@ -261,6 +261,8 @@
     <Compile Include="Ui\Views\Containers\UiItemsStack.cs" />
     <Compile Include="Ui\Views\Controls\ScrollingSelector\ISelectorContext.cs" />
     <Compile Include="Ui\Views\Controls\UiScrollingSelector.cs" />
+    <Compile Include="Graphics\Fonts\StringProvider.cs" />
+    <Compile Include="Graphics\Fonts\TextRotation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -44,6 +44,8 @@ namespace Sitana.Framework.Ui.Views
 
         protected bool _added = false;
 
+        protected bool ProcessGestureBeforeChildren = false;
+
         public bool ClipChildren
         {
             get
@@ -201,7 +203,7 @@ namespace Sitana.Framework.Ui.Views
 
             for (int idx = 0; idx < _children.Count; ++idx)
             {
-                _children[idx].ViewDraw(ref drawParams);   
+                _children[idx].ViewDraw(ref drawParams);
             }
 
             if (_clipChildren)
@@ -309,7 +311,12 @@ namespace Sitana.Framework.Ui.Views
 
         internal override void ViewGesture(Gesture gesture)
         {
-            if (_isViewDisplayed || gesture.GestureType == GestureType.CapturedByOther)
+            if (ProcessGestureBeforeChildren)
+            {
+                base.ViewGesture(gesture);
+            }
+
+            if ((_isViewDisplayed && !gesture.Handled && !gesture.SkipRest) || gesture.GestureType == GestureType.CapturedByOther)
             {
                 for (int idx = _children.Count - 1; idx >= 0; --idx)
                 {
@@ -322,9 +329,12 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
-            if ((!gesture.Handled && !gesture.SkipRest) || gesture.GestureType == GestureType.CapturedByOther)
+            if (!ProcessGestureBeforeChildren)
             {
-                base.ViewGesture(gesture);
+                if ((!gesture.Handled && !gesture.SkipRest) || gesture.GestureType == GestureType.CapturedByOther)
+                {
+                    base.ViewGesture(gesture);
+                }
             }
         }
     }
