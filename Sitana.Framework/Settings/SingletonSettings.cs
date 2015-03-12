@@ -88,11 +88,21 @@ namespace Sitana.Framework.Settings
         /// </summary>
         public void Serialize()
         {
-            // Create path.
-            var path = Serializator.PathFromType(typeof(T));
+            try
+            {
+                _allowCreation = true;
 
-            // Serialize with serializator.
-            Serializator.Serialize(path, Instance);
+                // Create path.
+                var path = Serializator.PathFromType(typeof(T));
+
+                // Serialize with serializator.
+                Serializator.Serialize(path, Instance);
+            }
+            finally
+            {
+                _allowCreation = false;
+            }
+
         }
 
         protected virtual void Init()
