@@ -424,6 +424,8 @@ namespace Sitana.Framework.Ui.Views
                             {
                                 _restParts += child.PositionParameters.Height.Rest;
                             }
+
+                            _rest += child.PositionParameters.Margin.Height;
                         }
                         else
                         {
@@ -435,6 +437,8 @@ namespace Sitana.Framework.Ui.Views
                             {
                                 _restParts += child.PositionParameters.Width.Rest;
                             }
+
+                            _rest += child.PositionParameters.Margin.Width;
                         }
                     }
                 }
@@ -442,7 +446,14 @@ namespace Sitana.Framework.Ui.Views
 
             if (computeRest)
             {
-                _rest = Bounds.Height - _rest;
+                if (_vertical)
+                {
+                    _rest = Bounds.Height - _rest;
+                }
+                else
+                {
+                    _rest = Bounds.Width - _rest;
+                }
             }
 
             base.RecalcLayout();
