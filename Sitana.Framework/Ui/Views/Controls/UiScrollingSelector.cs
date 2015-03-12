@@ -54,13 +54,13 @@ namespace Sitana.Framework.Ui.Views
 
         private float _scrollTo = Single.NaN;
 
-        private float _speed = 0;
+        //private float _speed = 0;
 
         private int _touchId = 0;
 
         private Length _selectedPositionOffset;
 
-        double? _lastMoveTime = null;
+        //double? _lastMoveTime = null;
 
         protected List<ButtonDrawable> _drawables = new List<ButtonDrawable>();
 
@@ -254,7 +254,7 @@ namespace Sitana.Framework.Ui.Views
                         }
                         _touchId = 0;
                         _isScrolling = false;
-                        _lastMoveTime = null;
+                        //_lastMoveTime = null;
                     }
                     break;
 
@@ -268,7 +268,7 @@ namespace Sitana.Framework.Ui.Views
                             _touchId = gesture.TouchId;
                             gesture.Handled = true;
                             _touchId = gesture.TouchId;
-                            _lastMoveTime = null;
+                            //_lastMoveTime = null;
                         }
                     }
                     break;
@@ -277,11 +277,11 @@ namespace Sitana.Framework.Ui.Views
 
                     if (_touchId == gesture.TouchId)
                     {
-                        if (_lastMoveTime.HasValue)
-                        {
-                            double time = AppMain.Current.TotalGameTime - _lastMoveTime.Value;
-                            _speed = (float)(gesture.Offset.Y / (elementsSize.Y + spacing) / time);
-                        }
+//                        if (_lastMoveTime.HasValue)
+//                        {
+//                            double time = AppMain.Current.TotalGameTime - _lastMoveTime.Value;
+//                            _speed = (float)(gesture.Offset.Y / (elementsSize.Y + spacing) / time);
+//                        }
 
                         _isScrolling = true;
                         _scroll += gesture.Offset.Y / (elementsSize.Y + spacing);

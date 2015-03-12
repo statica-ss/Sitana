@@ -14,7 +14,7 @@ using Sitana.Framework.Ui.Interfaces;
 
 namespace Sitana.Framework.Ui.Views
 {
-    public class UiListBox: UiContainer, IItemsConsumer, IScrolledElement
+    public class UiListBox : UiContainer, IItemsConsumer, IScrolledElement
     {
         public new static void Parse(XNode node, DefinitionFile file)
         {

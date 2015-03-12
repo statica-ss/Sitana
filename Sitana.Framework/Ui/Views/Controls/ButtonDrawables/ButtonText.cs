@@ -28,6 +28,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
             file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
             file["Text"] = parser.ParseString("Text");
+            file["TextRotation"] = parser.ParseEnum<TextRotation>("TextRotation");
         }
 
         protected string _font;
@@ -36,6 +37,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         protected TextAlign _textAlign;
         protected SharedString _text;
         protected int _lineHeight;
+        protected TextRotation _textRotation;
 
         private FontFace _fontFace = null;
 
@@ -49,6 +51,9 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _fontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"], 0);
             _fontSpacing = DefinitionResolver.Get<int>(controller, binding, file["FontSpacing"], 0);
             _lineHeight = DefinitionResolver.Get<int>(controller, binding, file["LineHeight"], 0);
+
+            _textRotation = DefinitionResolver.Get<TextRotation>(controller, binding, file["TextRotation"], TextRotation.None);
+
             HorizontalContentAlignment horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Center);
             VerticalContentAlignment vertAlign = DefinitionResolver.Get<VerticalContentAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalContentAlignment.Center);
 
@@ -74,7 +79,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             Rectangle target = _margin.ComputeRect(info.Target);
 
-            drawBatch.DrawText(font, str, target, _textAlign, color, (float)_fontSpacing / 1000.0f, (float)_lineHeight / 100.0f, scale);
+            drawBatch.DrawText(font, str, target, _textAlign, color, (float)_fontSpacing / 1000.0f, (float)_lineHeight / 100.0f, scale, _textRotation);
         }
 
         public override object OnAction(DrawButtonInfo info, params object[] parameters)

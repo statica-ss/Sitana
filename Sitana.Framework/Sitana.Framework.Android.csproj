@@ -245,6 +245,8 @@
     <Compile Include="Ui\DefinitionFiles\DateTimeContext.cs" />
     <Compile Include="Ui\Views\Controls\ScrollingSelector\ISelectorContext.cs" />
     <Compile Include="Ui\Views\Controls\UiScrollingSelector.cs" />
+    <Compile Include="Graphics\Fonts\StringProvider.cs" />
+    <Compile Include="Graphics\Fonts\TextRotation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

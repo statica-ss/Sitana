@@ -90,7 +90,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             target.X = positionX;
 
-            drawBatch.DrawText(font, _string, target, _textAlign & TextAlign.Vert, color, spacing, 0, scale);
+            drawBatch.DrawText(font, _string, target, _textAlign & TextAlign.Vert, color, spacing, 0, scale, TextRotation.None);
 
             if(_flash>1)
             {

@@ -71,8 +71,6 @@ namespace Sitana.Framework.Ui.Views
 
         Dictionary<object, UiView> _bindingToElement = new Dictionary<object, UiView>();
 
-        object _recalcLock = new object();
-
         protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
             if (!base.Init(controller, binding, definition))

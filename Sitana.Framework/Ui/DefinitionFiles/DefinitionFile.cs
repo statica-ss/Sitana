@@ -171,7 +171,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
         public bool HasKey(string name)
         {
-            return _values.ContainsKey(name);
+            return _values.ContainsKey(name) && _values[name] != null;
         }
     }
 }

@@ -71,7 +71,7 @@ namespace Sitana.Framework.Graphics
 
         public Vector2 DrawText(UniversalFont font, StringBuilder text, Rectangle target, TextAlign align, Color color)
         {
-            return DrawText(font, text, target, align, color, 0, 0, 1);
+            return DrawText(font, text, target, align, color, 0, 0, 1, TextRotation.None);
         }
 
         public Vector2 DrawText(UniversalFont font, StringBuilder text, Rectangle target, TextAlign align, Color[] colors, float opacity)
@@ -89,14 +89,14 @@ namespace Sitana.Framework.Graphics
             Font = font;
 
             Vector2 size = _font.MeasureString(text, spacing, lineHeight) * scale;
-            Vector2 position = TextPosition(ref target, align, size);
+            Vector2 position = TextPosition(ref target, align, size, TextRotation.None);
 
             if (_font.SitanaFont != null)
             {
                 PrimitiveType = PrimitiveType.TriangleList;
 
                 PrimitiveBatchNeeded();
-                _font.SitanaFont.Draw(_primitiveBatch, text, position, colors, opacity, spacing, lineHeight, new Vector2(scale));
+                _font.SitanaFont.Draw(_primitiveBatch, text, position, colors, opacity, spacing, lineHeight, scale);
             }
             else
             {
@@ -106,7 +106,7 @@ namespace Sitana.Framework.Graphics
             return size;
         }
 
-        public Vector2 DrawText(UniversalFont font, StringBuilder text, Rectangle target, TextAlign align, Color color, float spacing, float lineHeight, float scale)
+        public Vector2 DrawText(UniversalFont font, StringBuilder text, Rectangle target, TextAlign align, Color color, float spacing, float lineHeight, float scale, TextRotation rotation = TextRotation.None)
         {
             if (font == null || text == null)
             {
@@ -116,14 +116,14 @@ namespace Sitana.Framework.Graphics
             Font = font;
 
             Vector2 size = _font.MeasureString(text, spacing, lineHeight) * scale;
-            Vector2 position = TextPosition(ref target, align, size);
+            Vector2 position = TextPosition(ref target, align, size, rotation);
 
             if (_font.SitanaFont != null)
             {
                 PrimitiveType = PrimitiveType.TriangleList;
 
                 PrimitiveBatchNeeded();
-                _font.SitanaFont.Draw(_primitiveBatch, text, position, color, spacing, lineHeight, new Vector2(scale));
+                _font.SitanaFont.Draw(_primitiveBatch, text, position, color, spacing, lineHeight, scale, rotation);
             }
             else
             {
@@ -139,10 +139,10 @@ namespace Sitana.Framework.Graphics
 
         public Vector2 DrawText(UniversalFont font, string text, Rectangle target, TextAlign align, Color color)
         {
-            return DrawText(font, text, target, align, color, 0, 0, 1);
+            return DrawText(font, text, target, align, color, 0, 0, 1, TextRotation.None);
         }
 
-        public Vector2 DrawText(UniversalFont font, string text, Rectangle target, TextAlign align, Color color, float spacing, float lineHeight, float scale)
+        public Vector2 DrawText(UniversalFont font, string text, Rectangle target, TextAlign align, Color color, float spacing, float lineHeight, float scale, TextRotation rotation = TextRotation.None)
         {
             if (font == null || text == null)
             {
@@ -158,7 +158,7 @@ namespace Sitana.Framework.Graphics
 
             if(align != TextAlign.None )
             {
-                position = TextPosition(ref target, align, size);
+                position = TextPosition(ref target, align, size, rotation);
             }
             else
             {
@@ -170,7 +170,7 @@ namespace Sitana.Framework.Graphics
                 PrimitiveType = PrimitiveType.TriangleList;
 
                 PrimitiveBatchNeeded();
-                _font.SitanaFont.Draw(_primitiveBatch, text, position, color, spacing, lineHeight, new Vector2(scale));
+                _font.SitanaFont.Draw(_primitiveBatch, text, position, color, spacing, lineHeight, scale, rotation);
             }
             else
             {
@@ -190,16 +190,16 @@ namespace Sitana.Framework.Graphics
             return size;
         }
 
-        public Vector2 DrawText(UniversalFont font, SharedString text, Rectangle target, TextAlign align, Color color)
+        public Vector2 DrawText(UniversalFont font, SharedString text, Rectangle target, TextAlign align, Color color, TextRotation rotation = TextRotation.None)
         {
             return DrawText(font, text, target, align, color, 0, 0, 1);
         }
 
-        public Vector2 DrawText(UniversalFont font, SharedString text, Rectangle target, TextAlign align, Color color, float spacing, float lineHeight, float scale)
+        public Vector2 DrawText(UniversalFont font, SharedString text, Rectangle target, TextAlign align, Color color, float spacing, float lineHeight, float scale, TextRotation rotation = TextRotation.None)
         {
             lock (text)
             {
-                return DrawText(font, text.StringBuilder, target, align, color, spacing, lineHeight, scale);
+                return DrawText(font, text.StringBuilder, target, align, color, spacing, lineHeight, scale, rotation);
             }
         }
 
@@ -231,7 +231,7 @@ namespace Sitana.Framework.Graphics
 
             lock (text)
             {
-                return DrawText(font, text.StringBuilder, target, align, color, spacing, lineHeight, scale);
+                return DrawText(font, text.StringBuilder, target, align, color, spacing, lineHeight, scale, TextRotation.None);
             }
         }
 

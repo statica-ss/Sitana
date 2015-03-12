@@ -36,10 +36,14 @@ namespace Sitana.Framework.Ui.Views
             file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
 
             file["AutoSizeUpdate"] = parser.ParseBoolean("AutoSizeUpdate");
+            file["TextRotation"] = parser.ParseEnum<TextRotation>("TextRotation");
         }
 
+        
         public SharedString Text{ get; private set; }
         public ColorWrapper TextColor { get; private set; }
+
+        TextRotation _rotation;
 
         public string FontName
         {
@@ -83,7 +87,8 @@ namespace Sitana.Framework.Ui.Views
             float scale;
             UniversalFont font = _fontFace.Find(FontSize, out scale);
 
-            parameters.DrawBatch.DrawText(font, Text, ScreenBounds, TextAlign, TextColor.Value * opacity, (float)FontSpacing / 1000.0f, (float)LineHeight / 100.0f, scale);
+
+            parameters.DrawBatch.DrawText(font, Text, ScreenBounds, TextAlign, TextColor.Value * opacity, (float)FontSpacing / 1000.0f, (float)LineHeight / 100.0f, scale, _rotation);
         }
 
         public override Point ComputeSize(int width, int height)
@@ -127,6 +132,14 @@ namespace Sitana.Framework.Ui.Views
                 size = font.MeasureString(Text.StringBuilder, (float)FontSpacing / 1000.0f, (float)LineHeight / 100.0f);
             }
 
+            switch(_rotation)
+            {
+                case TextRotation.Rotate270:
+                case TextRotation.Rotate90:
+                    size = new Vector2(size.Y, size.X);
+                    break;
+            }
+
             return size * scale;
         }
 
@@ -149,6 +162,8 @@ namespace Sitana.Framework.Ui.Views
             FontSize = DefinitionResolver.Get<int>(Controller, Binding, file["FontSize"], 0);
             FontSpacing = DefinitionResolver.Get<int>(Controller, Binding, file["FontSpacing"], 0);
             LineHeight = DefinitionResolver.Get<int>(Controller, Binding, file["LineHeight"], 100);
+
+            _rotation = DefinitionResolver.Get<TextRotation>(Controller, Binding, file["TextRotation"], TextRotation.None);
 
             Text = DefinitionResolver.GetSharedString(Controller, Binding, file["Text"]);
 

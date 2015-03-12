@@ -10,39 +10,7 @@ namespace Sitana.Framework.Graphics
 {
     public class Font
     {
-        struct StringProvider
-        {
-            private string _stringText;
-            private StringBuilder _builderText;
-
-            public StringProvider(string text)
-            {
-                _stringText = text;
-                _builderText = null;
-            }
-
-            public StringProvider(StringBuilder text)
-            {
-                _builderText = text;
-                _stringText = null;
-            }
-
-            public char this[int index]
-            {
-                get
-                {
-                    return _stringText != null ? _stringText[index] : _builderText[index];
-                }
-            }
-
-            public int Length
-            {
-                get
-                {
-                    return _stringText != null ? _stringText.Length : _builderText.Length;
-                }
-            }
-        }
+        
 
         public short Height;
         public short BaseLine;
@@ -128,24 +96,24 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        internal void Draw(PrimitiveBatch primitiveBatch, StringBuilder text, Vector2 position, Color[] colors, float opacity, float spacing, float lineHeight, Vector2 scale)
+        internal void Draw(PrimitiveBatch primitiveBatch, StringBuilder text, Vector2 position, Color[] colors, float opacity, float spacing, float lineHeight, float scale, TextRotation rotation = TextRotation.None)
         {
             StringProvider provider = new StringProvider(text);
-            DrawInternal(primitiveBatch, provider, position, colors, opacity, spacing, lineHeight, scale);
+            DrawInternal(primitiveBatch, provider, position, colors, opacity, spacing, lineHeight, scale, rotation);
         }
 
-        internal void Draw(PrimitiveBatch primitiveBatch, StringBuilder text, Vector2 position, Color color, float spacing, float lineHeight, Vector2 scale)
+        internal void Draw(PrimitiveBatch primitiveBatch, StringBuilder text, Vector2 position, Color color, float spacing, float lineHeight, float scale, TextRotation rotation = TextRotation.None)
         {
             StringProvider provider = new StringProvider(text);
             _colors[0] = color;
-            DrawInternal(primitiveBatch, provider, position, _colors, 1, spacing, lineHeight, scale);
+            DrawInternal(primitiveBatch, provider, position, _colors, 1, spacing, lineHeight, scale, rotation);
         }
 
-        internal void Draw(PrimitiveBatch primitiveBatch, string text, Vector2 position, Color color, float spacing, float lineHeight, Vector2 scale)
+        internal void Draw(PrimitiveBatch primitiveBatch, string text, Vector2 position, Color color, float spacing, float lineHeight, float scale, TextRotation rotation = TextRotation.None)
         {
             StringProvider provider = new StringProvider(text);
             _colors[0] = color;
-            DrawInternal(primitiveBatch, provider, position, _colors, 1, spacing, lineHeight, scale);
+            DrawInternal(primitiveBatch, provider, position, _colors, 1, spacing, lineHeight, scale, rotation);
         }
 
         public Vector2 MeasureString(StringBuilder text, float spacing, float lineHeight)
@@ -203,17 +171,38 @@ namespace Sitana.Framework.Graphics
             return size;
         }
 
-        void DrawInternal(PrimitiveBatch primitiveBatch, StringProvider text, Vector2 targetPosition, Color[] colors, float opacity, float spacing, float lineHeight, Vector2 scale)
+        void DrawInternal(PrimitiveBatch primitiveBatch, StringProvider text, Vector2 targetPosition, Color[] colors, float opacity, float spacing, float lineHeight, float scale, TextRotation rotation)
         {
             if ( primitiveBatch.PrimitiveType != PrimitiveType.TriangleList )
             {
                 throw new Exception("PrimitiveBatch has to be started with TriangleList primitive type.");
             }
 
+            Vector2 right = new Vector2(1, 0);
+            Vector2 down = new Vector2(0, 1);
+
+            switch(rotation)
+            {
+                case TextRotation.Rotate180:
+                    right = new Vector2(-1, 0);
+                    down = new Vector2(0, -1);
+                    break;
+
+                case TextRotation.Rotate270:
+                    right = new Vector2(0, 1);
+                    down = new Vector2(-1, 0);
+                    break;
+
+                case TextRotation.Rotate90:
+                    right = new Vector2(0, -1);
+                    down = new Vector2(1, 0);
+                    break;
+            }
+
             int count = text.Length;
             char previousChar = '\0';
 
-            spacing = (float)Height * spacing * scale.X;
+            spacing = (float)Height * spacing * scale;
 
             Vector2 position = targetPosition;
 
@@ -228,32 +217,38 @@ namespace Sitana.Framework.Graphics
                 {
                     if (previousChar != '\0')
                     {
-                        
                         float kerning = (float)glyph.Kerning(previousChar) / 10f;
-                        position.X += kerning * scale.X;
-                        position.X += spacing;
+                        position += right * (kerning * scale + spacing);
                     }
 
                     previousChar = character;
 
-                    Vector2 pos = new Vector2(position.X, position.Y + scale.Y * (glyph.Top - CapLine));
+                    Vector2 pos = position + down * (scale *(glyph.Top - CapLine));
 
                     color = colors[idx % colors.Length] * opacity;
 
-                    DrawGlyph(primitiveBatch, glyph, ref pos, ref color, scale);
+                    DrawGlyph(primitiveBatch, glyph, ref pos, ref color, scale, ref right, ref down);
 
-                    position.X += glyph.Width * scale.X;
+                    position += right * (glyph.Width * scale);
                 }
                 else if (text[idx] == '\n')
                 {
-                    position.X = targetPosition.X;
-                    position.Y += lineHeight * Height * scale.Y;
+                    if (rotation == TextRotation.Rotate270 || rotation == TextRotation.Rotate90)
+                    {
+                        position.Y = targetPosition.Y;
+                    }
+                    else
+                    {
+                        position.X = targetPosition.X;
+                    }
+
+                    position += down * (lineHeight * Height * scale);
                     previousChar = '\0';
                 }
             }
         }
 
-        void DrawGlyph(PrimitiveBatch primitiveBatch, Glyph glyph, ref Vector2 position, ref Color color, Vector2 scale)
+        void DrawGlyph(PrimitiveBatch primitiveBatch, Glyph glyph, ref Vector2 position, ref Color color, float scale, ref Vector2 right, ref Vector2 down)
         {
             float topLeftX = (glyph.X-1) / (float)FontSheet.Width;
             float topLeftY = (glyph.Y-1) / (float)FontSheet.Height;
@@ -261,19 +256,19 @@ namespace Sitana.Framework.Graphics
             float bottomRightX = (float)(glyph.X + glyph.Width + 1) / (float)FontSheet.Width;
             float bottomRightY = (float)(glyph.Y + glyph.Height + 1) / (float)FontSheet.Height;
 
-            float positionTlX = position.X - scale.X;
-            float positionTlY = position.Y - scale.Y;
+            Vector2 topLeft = position - (right + down) * scale;
+            Vector2 topRight = position + (right - down) * scale + right * glyph.Width * scale;
 
-            float positionBrX = position.X + glyph.Width * scale.X + scale.X;
-            float positionBrY = position.Y + glyph.Height * scale.X + scale.Y;
+            Vector2 bottomLeft = position - (right - down) * scale + down * glyph.Height * scale;
+            Vector2 bottomRight = position + (right + down) * scale + right * glyph.Width * scale + down * glyph.Height * scale;
+            
+            primitiveBatch.AddVertex(topLeft, color, new Vector2(topLeftX, topLeftY));
+            primitiveBatch.AddVertex(bottomLeft, color, new Vector2(topLeftX, bottomRightY));
+            primitiveBatch.AddVertex(topRight, color, new Vector2(bottomRightX, topLeftY));
 
-            primitiveBatch.AddVertex(positionTlX, positionTlY, ref color, topLeftX, topLeftY);
-            primitiveBatch.AddVertex(positionTlX, positionBrY, ref color, topLeftX, bottomRightY);
-            primitiveBatch.AddVertex(positionBrX, positionTlY, ref color, bottomRightX, topLeftY);
-
-            primitiveBatch.AddVertex(positionTlX, positionBrY, ref color, topLeftX, bottomRightY);
-            primitiveBatch.AddVertex(positionBrX, positionTlY, ref color, bottomRightX, topLeftY);
-            primitiveBatch.AddVertex(positionBrX, positionBrY, ref color, bottomRightX, bottomRightY);
+            primitiveBatch.AddVertex(bottomLeft, color, new Vector2(topLeftX, bottomRightY));
+            primitiveBatch.AddVertex(topRight, color, new Vector2(bottomRightX, topLeftY));
+            primitiveBatch.AddVertex(bottomRight, color, new Vector2(bottomRightX, bottomRightY));
         }
 
         public Glyph Find(char character)

@@ -65,13 +65,14 @@ namespace Sitana.Framework.Diagnostics
 
             public void Begin()
             {
-                
+				_begin = 0;
             }
 
 
             public void End()
             {
-                
+				float time = (float)(_begin);
+				AddTime(time);
             }
             #else
 

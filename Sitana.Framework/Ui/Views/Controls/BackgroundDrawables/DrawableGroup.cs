@@ -53,7 +53,7 @@ namespace Sitana.Framework.Ui.Views.BackgroundDrawables
         {
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(NinePatchBackground));
 
-            List<DefinitionFile> elements = definition["Elements"] as List<DefinitionFile>;
+			List<DefinitionFile> elements = file["Elements"] as List<DefinitionFile>;
 
             if (elements != null)
             {
