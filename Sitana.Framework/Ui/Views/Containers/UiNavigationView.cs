@@ -28,7 +28,7 @@ namespace Sitana.Framework.Ui.Views
 
         public event OnPageAddedDelegate OnPageAdded;
 
-        List<DefinitionFile> _history = new List<DefinitionFile>();
+        List<Tuple<DefinitionFile, InvokeParameters>> _history = new List<Tuple<DefinitionFile, InvokeParameters>>();
 
         bool _skipUpdate = false;
 
@@ -58,7 +58,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        internal void NavigateTo(DefinitionFile def)
+        internal void NavigateTo(DefinitionFile def, InvokeParameters parameters)
         {
             if (def == null)
             {
@@ -67,11 +67,12 @@ namespace Sitana.Framework.Ui.Views
             }
 
             UiPage view = def.CreateInstance(Controller, Binding) as UiPage;
-
+            
             if (view != null)
             {
+                view.Init(parameters);
                 AddPage(view);
-                _history.Add(def);
+                _history.Add(new Tuple<DefinitionFile, InvokeParameters>(def, parameters));
             }
             else
             {
@@ -95,12 +96,14 @@ namespace Sitana.Framework.Ui.Views
 
             for(int idx = _history.Count-1; idx >= 0; --idx)
             {
-                DefinitionFile newDef = _history[idx];
+                Tuple<DefinitionFile, InvokeParameters> historyItem = _history[idx];
                 _history.RemoveAt(idx);
+
+                DefinitionFile newDef = historyItem.Item1;
 
                 if (anchor == null || newDef.Anchor == anchor || idx == 0)
                 {
-                    NavigateTo(newDef);
+                    NavigateTo(newDef, historyItem.Item2);
                     break;
                 }
             }
@@ -219,7 +222,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 DefinitionFile pageFile = ContentLoader.Current.Load<DefinitionFile>(url);
 
-                NavigateTo(pageFile);
+                NavigateTo(pageFile, new InvokeParameters());
                 UiPage page = _children[0] as UiPage;
                 page.InstantShow();
             }

@@ -39,6 +39,11 @@ namespace Sitana.Framework.Ui.Controllers
             RegisterElementsInParent = false;
         }
 
+        public virtual void InitPage(UiPage page, InvokeParameters parameters)
+        {
+
+        }
+
         protected override void OnViewAttached()
         {
             if ( !(View is UiPage) && !(View is UiNavigationView))
@@ -50,7 +55,20 @@ namespace Sitana.Framework.Ui.Controllers
         public void NavigateTo(string uri)
         {
             DefinitionFile def = uri != null ? ContentLoader.Current.Load<DefinitionFile>(uri) : null;
-            Navigation.NavigateTo(def);
+            Navigation.NavigateTo(def, new InvokeParameters());
+        }
+
+        public void NavigateTo(string uri, params InvokeParam[] arguments)
+        {
+            InvokeParameters invokeParameters = new InvokeParameters();
+
+            foreach (var param in arguments)
+            {
+                invokeParameters.Set(param);
+            }
+
+            DefinitionFile def = uri != null ? ContentLoader.Current.Load<DefinitionFile>(uri) : null;
+            Navigation.NavigateTo(def, invokeParameters);
         }
 
         public void NavigateBack()
@@ -63,7 +81,7 @@ namespace Sitana.Framework.Ui.Controllers
             Navigation.NavigateBack(anchor);
         }
 
-        protected void ClearNavigation()
+        public void ClearNavigation()
         {
             Navigation.ClearNavigation();
         }

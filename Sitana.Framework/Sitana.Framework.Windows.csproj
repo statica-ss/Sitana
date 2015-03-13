@@ -152,6 +152,7 @@
     <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
     <Compile Include="Ui\Views\Controls\UiScrollingSelector.cs" />
+    <Compile Include="Ui\Views\Controls\UiSeparatorLine.cs" />
     <Compile Include="Ui\Views\Controls\UiSlider.cs" />
     <Compile Include="Ui\Views\Controls\UiSpritePresenter.cs" />
     <Compile Include="Ui\Views\Controls\UiText.cs" />
