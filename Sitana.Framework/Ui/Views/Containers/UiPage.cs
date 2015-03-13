@@ -9,6 +9,7 @@ using Sitana.Framework.Diagnostics;
 using System;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using Sitana.Framework.Ui.Controllers;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -84,6 +85,16 @@ namespace Sitana.Framework.Ui.Views
         internal void Hide()
         {
             Visible = false;
+        }
+
+        public void Init(InvokeParameters parameters)
+        {
+            UiNavigationController controller = (Controller as UiNavigationController);
+            
+            if(controller != null)
+            {
+                controller.InitPage(this, parameters);
+            }
         }
 
         protected override bool Init(object controller, object binding, DefinitionFile definition)

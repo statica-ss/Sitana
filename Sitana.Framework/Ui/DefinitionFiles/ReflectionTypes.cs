@@ -48,5 +48,15 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             Remove(param.Id);
             Add(param.Id, param.Value);
         }
+
+        public T Get<T>(string id)
+        {
+            if (ContainsKey(id))
+            {
+                return (T)this[id];
+            }
+
+            return default(T);
+        }
     }
 }

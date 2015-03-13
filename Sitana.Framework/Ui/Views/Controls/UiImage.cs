@@ -126,7 +126,7 @@ namespace Sitana.Framework.Ui.Views
                 return false;
             }
 
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiLabel));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiImage));
 
             _image = DefinitionResolver.GetShared<Texture2D>(Controller, Binding, file["Image"], null);
             _stretch = DefinitionResolver.Get<Stretch>(Controller, Binding, file["Stretch"], Stretch.Uniform);
