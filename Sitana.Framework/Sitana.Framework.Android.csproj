@@ -247,6 +247,7 @@
     <Compile Include="Ui\Views\Controls\UiScrollingSelector.cs" />
     <Compile Include="Graphics\Fonts\StringProvider.cs" />
     <Compile Include="Graphics\Fonts\TextRotation.cs" />
+    <Compile Include="Ui\Views\Controls\UiSeparatorLine.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
