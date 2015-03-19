@@ -348,7 +348,8 @@ namespace Sitana.Framework.Ui.Views
                 childBounds.Height = size.Y;
             }
 
-            _updateBounds = true;
+            _updateBounds |= view.Bounds != childBounds;
+            
             return childBounds;
         }
 
