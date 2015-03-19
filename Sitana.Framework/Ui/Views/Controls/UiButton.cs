@@ -336,12 +336,12 @@ namespace Sitana.Framework.Ui.Views
 
             if (file["Disabled"] != null && file["Enabled"] == null)
             {
-                _enabledFlag = DefinitionResolver.GetShared<bool>(Controller, binding, file["Disabled"], false);
+                _enabledFlag = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Disabled"], false);
                 _enabledFlagInvert = true;
             }
             else
             {
-                _enabledFlag = DefinitionResolver.GetShared<bool>(Controller, binding, file["Enabled"], true);
+                _enabledFlag = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Enabled"], true);
                 _enabledFlagInvert = false;
             }
 

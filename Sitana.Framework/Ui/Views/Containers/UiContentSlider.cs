@@ -324,11 +324,17 @@ namespace Sitana.Framework.Ui.Views
         {
             int prev = _selectedIndex;
 
-            if (_cycle)
+            while (_cycle)
             {
                 _selectedIndex = (_selectedIndex +  1) % _children.Count;
+
+                if(_children[_selectedIndex].Visible || prev == _selectedIndex)
+                {
+                    break;
+                }
             }
-            else
+
+            if(!_cycle)
             {
                 _selectedIndex = Math.Min(_selectedIndex + 1, _children.Count-1);
             }
@@ -346,11 +352,17 @@ namespace Sitana.Framework.Ui.Views
         {
             int prev = _selectedIndex;
 
-            if (_cycle)
+            while (_cycle)
             {
                 _selectedIndex = (_selectedIndex + _children.Count - 1) % _children.Count;
+
+                if (_children[_selectedIndex].Visible || prev == _selectedIndex)
+                {
+                    break;
+                }
             }
-            else
+            
+            if(!_cycle)
             {
                 _selectedIndex = Math.Max(_selectedIndex - 1, 0);
             }
