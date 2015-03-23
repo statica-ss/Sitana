@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Content;
 using Sitana.Framework.Input.TouchPad;
+using Sitana.Framework.Ui.Controllers;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -66,18 +67,48 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
-            UiPage view = def.CreateInstance(Controller, Binding) as UiPage;
+            Type controllerType = def["PageController"] as Type;
             
-            if (view != null)
+            UiController controller = Controller;
+            
+            bool attachController = false;
+
+            if (controllerType != null)
             {
-                view.Init(parameters);
-                AddPage(view);
-                _history.Add(new Tuple<DefinitionFile, InvokeParameters>(def, parameters));
+                var newController = Activator.CreateInstance(controllerType) as UiController;
+
+                if (newController != null)
+                {
+                    newController.Parent = Controller;
+                    controller = newController;
+                    attachController = true;
+                }
             }
-            else
+
+            IDefinitionClass obj = (IDefinitionClass)Activator.CreateInstance(def.Class);
+
+            if( !(obj is UiPage) )
+            {
+                throw new Exception("Error while navigating to page. The given file doesn't define UiPage.");
+            }
+
+            if (controller is UiNavigationController)
+            {
+                (controller as UiNavigationController).InitPage(parameters);
+            }
+
+            if (attachController)
+            {
+                controller.AttachView(obj as UiView);
+            }
+
+            if(!obj.Init(controller, Binding, def))
             {
                 throw new Exception("Error while navigating to page.");
             }
+
+            AddPage(obj as UiPage);
+            _history.Add(new Tuple<DefinitionFile, InvokeParameters>(def, parameters));
         }
 
         internal void NavigateBack()

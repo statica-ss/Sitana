@@ -78,7 +78,14 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                     throw new Exception("Modifying values is not allowed.");
                 }
 
-                _values[id] = value;
+                if (value == null)
+                {
+                    _values.Remove(id);
+                }
+                else
+                {
+                    _values[id] = value;
+                }
             }
         }
 
