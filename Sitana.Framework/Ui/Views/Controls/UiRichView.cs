@@ -191,7 +191,7 @@ namespace Sitana.Framework.Ui.Views
             }
 
             _bulletText = DefinitionResolver.GetString(Controller, Binding, file["BulletText"]) ?? "* ";
-            _bulletText = _bulletText.Replace(" ", ((char)0xa0).ToString());
+            //_bulletText = _bulletText.Replace(" ", ((char)0xa0).ToString());
 
             _horizontalRulerHeight = DefinitionResolver.Get<Length>(Controller, Binding, file["HorizontalRulerHeight"], new Length(0, 0, 1));
             _indentSize = DefinitionResolver.Get<Length>(Controller, Binding, file["Indent"], Length.Zero);
@@ -756,7 +756,7 @@ namespace Sitana.Framework.Ui.Views
                     {
                         richEntity.Type = EntityType.String;
                         FillEntityData(richEntity, entity);
-                        richEntity.Text = string.Format("{0}.{1}", entity.Data, (char)0xa0);
+                        richEntity.Text = string.Format("{0}. ", entity.Data);
                     }
                     break;
 

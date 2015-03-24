@@ -21,6 +21,9 @@ namespace Sitana.Framework.Ui.Views
 
 			var parser = new DefinitionParser(node);
 
+            file["PageController"] = file["Controller"];
+            file["Controller"] = null;
+
 			file["PageShown"] = parser.ParseBoolean("PageShown");
         }
 
@@ -85,16 +88,6 @@ namespace Sitana.Framework.Ui.Views
         internal void Hide()
         {
             Visible = false;
-        }
-
-        public void Init(InvokeParameters parameters)
-        {
-            UiNavigationController controller = (Controller as UiNavigationController);
-            
-            if(controller != null)
-            {
-                controller.InitPage(this, parameters);
-            }
         }
 
         protected override bool Init(object controller, object binding, DefinitionFile definition)

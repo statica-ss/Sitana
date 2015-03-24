@@ -39,7 +39,7 @@ namespace Sitana.Framework.Ui.Controllers
             RegisterElementsInParent = false;
         }
 
-        public virtual void InitPage(UiPage page, InvokeParameters parameters)
+        public virtual void InitPage(InvokeParameters parameters)
         {
 
         }
