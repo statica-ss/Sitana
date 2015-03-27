@@ -10,5 +10,6 @@ namespace Sitana.Framework.Ui.RichText
     {
         public FontFace Font;
         public float FontSpacing;
+        public int FontResize;
     }
 }

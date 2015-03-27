@@ -12,10 +12,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles.Commands
         {
             var path = node.Attribute("Path");
 
-            XNode childNode = ContentLoader.Current.Load<XFile>(path);
-
-            file = DefinitionFile.LoadFile(childNode);
-            return file;
+            return ContentLoader.Current.Load<DefinitionFile>(path);
         }
     }
 }

@@ -17,8 +17,6 @@ namespace Sitana.Framework.Ui.Views
 {
     public class UiIndexSelector : UiButton
     {
-        IIndexedElement _element;
-
         public new static void Parse(XNode node, DefinitionFile file)
         {
             UiButton.Parse(node, file);
@@ -53,6 +51,7 @@ namespace Sitana.Framework.Ui.Views
         private VerticalContentAlignment _contentVerticalAlignment;
 
         private string _context;
+        IIndexedElement _element;
 
         protected override void Draw(ref UiViewDrawParameters parameters)
         {

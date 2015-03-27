@@ -99,7 +99,7 @@ namespace Sitana.Framework.Ui.Views
 
             if (attachController)
             {
-                controller.AttachView(obj as UiView);
+                (obj as UiView).Controller = controller;
             }
 
             if(!obj.Init(controller, Binding, def))

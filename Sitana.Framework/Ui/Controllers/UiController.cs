@@ -111,5 +111,10 @@ namespace Sitana.Framework.Ui.Controllers
         {
             Platform.OpenWebsite(url);
         }
+
+        protected void ForceUpdate(float time)
+        {
+            View.ViewUpdate(time);
+        }
     }
 }

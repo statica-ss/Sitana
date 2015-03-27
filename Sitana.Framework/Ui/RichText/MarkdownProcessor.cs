@@ -24,6 +24,11 @@ namespace Sitana.Framework.Ui.RichText
         {
             _lines.Clear();
 
+            if(text==null)
+            {
+                return;
+            }
+
             var reader = new StringReader(text);
             Block document = CommonMarkConverter.ProcessStage1(reader);
             CommonMarkConverter.ProcessStage2(document);
@@ -32,8 +37,6 @@ namespace Sitana.Framework.Ui.RichText
 
             Line line = new Line();
             Process(document, ref props, ref line);
-
-            Console.WriteLine();
         }
 
         private void Process(Block block, ref TagProperties tagProperties, ref Line currentLine)

@@ -182,6 +182,14 @@ namespace Sitana.Framework.Ui.Binding
             }
         }
 
+        public T Find(Predicate<T> match)
+        {
+            lock (this)
+            {
+                return _elements.Find(match);
+            }
+        }
+
         object IItemsProvider.ElementAt(int index)
         {
             return _elements[index];

@@ -237,6 +237,9 @@ namespace Sitana.Framework.Ui.Views
 
         public GestureType EnabledGestures = GestureType.None;
 
+        public static int DefaultShowTime = 250;
+        public static int DefaultHideTime = 250;
+
         public virtual Point MinSize
         {
             get
@@ -292,6 +295,14 @@ namespace Sitana.Framework.Ui.Views
         bool _wasViewDisplayed = false;
 
         public event ViewDisplayChangedDelegate ViewDisplayChanged;
+
+        public bool IsViewDisplayed
+        {
+            get
+            {
+                return _isViewDisplayed;
+            }
+        }
 
         public void InvalidateScreenBounds()
         {
@@ -740,7 +751,7 @@ namespace Sitana.Framework.Ui.Views
 
             if ( _showSpeed < 0 )
             {
-                _showSpeed = 250;
+                _showSpeed = DefaultShowTime;
             }
 
             _showSpeed /= 1000.0f;
@@ -753,7 +764,7 @@ namespace Sitana.Framework.Ui.Views
 
             if ( _hideSpeed < 0 )
             {
-                _hideSpeed = 250;
+                _hideSpeed = DefaultHideTime;
             }
 
             _hideSpeed /= 1000.0f;

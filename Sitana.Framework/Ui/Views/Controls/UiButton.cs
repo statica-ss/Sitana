@@ -36,6 +36,8 @@ namespace Sitana.Framework.Ui.Views
             file["ReleaseSound"] = parser.ParseResource<SoundEffect>("ReleaseSound");
             file["ActionSound"] = parser.ParseResource<SoundEffect>("ActionSound");
 
+            file["GestureMargin"] = parser.ParseLength("GestureMargin");
+
             foreach (var cn in node.Nodes)
             {
                 switch (cn.Tag)
@@ -59,6 +61,7 @@ namespace Sitana.Framework.Ui.Views
 
         SharedValue<bool> _enabledFlag;
         bool _enabledFlagInvert = false;
+        Length _gestureMargin;
 
         public bool Enabled
         {
@@ -168,6 +171,7 @@ namespace Sitana.Framework.Ui.Views
             }
 
             Rectangle bounds = ScreenBounds;
+            bounds.Inflate(_gestureMargin.Compute(), _gestureMargin.Compute());
 
             switch(gesture.GestureType)
             {
@@ -182,7 +186,7 @@ namespace Sitana.Framework.Ui.Views
 
                 case GestureType.Down:
 
-                    if (IsPointInsideView(gesture.Origin))
+                    if (Parent.IsPointInsideView(gesture.Origin) && bounds.Contains(gesture.Origin.ToPoint()))
                     {
                         if ( _mode == UiButtonMode.Game)
                         {
@@ -203,8 +207,8 @@ namespace Sitana.Framework.Ui.Views
                             }
 
                             SetPushed(true, _mode != UiButtonMode.Press);
-                            _checkRect = ScreenBounds;
-
+                            _checkRect = bounds;
+                            
                             gesture.Handled = true;
 
                             if (_mode == UiButtonMode.Press)
@@ -316,6 +320,8 @@ namespace Sitana.Framework.Ui.Views
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiButton));
 
             Icon.Value = DefinitionResolver.Get<Texture2D>(Controller, Binding, file["Icon"], null);
+
+            _gestureMargin = DefinitionResolver.Get<Length>(Controller, Binding, file["GestureMargin"], Length.Zero);
 
             _text = DefinitionResolver.GetSharedString(Controller, Binding, file["Text"]);
 

@@ -10,8 +10,6 @@ namespace Sitana.Framework.Graphics
 {
     public class Font
     {
-        
-
         public short Height;
         public short BaseLine;
         public short CapLine;

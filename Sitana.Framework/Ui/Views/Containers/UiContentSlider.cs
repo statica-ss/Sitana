@@ -75,6 +75,8 @@ namespace Sitana.Framework.Ui.Views
         float _transition = 0;
         private float _transitionSpeed = 1;
 
+        SharedValue<int> _sharedSelectedIndex = null;
+
         bool _next = false;
 
         public override void Remove(UiView view)
@@ -107,6 +109,31 @@ namespace Sitana.Framework.Ui.Views
                     _previous = null;
                 }
             }
+        }
+
+        protected override void OnAdded()
+        {
+            base.OnAdded();
+
+            if(_sharedSelectedIndex!=null)
+            {
+                _sharedSelectedIndex.ValueChanged += SharedSelectedIndexValueChanged;
+            }
+        }
+
+        protected override void OnRemoved()
+        {
+            base.OnRemoved();
+
+            if(_sharedSelectedIndex!=null)
+            {
+                _sharedSelectedIndex.ValueChanged -= SharedSelectedIndexValueChanged;
+            }
+        }
+
+        void SharedSelectedIndexValueChanged(int newValue)
+        {
+            SelectedIndex = newValue;
         }
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
@@ -230,7 +257,26 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiNavigationView));
 
-            _selectedIndex = DefinitionResolver.Get<int>(Controller, Binding, file["SelectedIndex"], 0);
+            if (file["SelectedIndex"] is MethodName || file["SelectedIndex"] is FieldName)
+            {
+                object value = DefinitionResolver.GetValueFromMethodOrField(Controller, Binding, file["SelectedIndex"]);
+
+                if (value is SharedValue<int>)
+                {
+                    _sharedSelectedIndex = value as SharedValue<int>;
+                    _selectedIndex = _sharedSelectedIndex.Value;
+                }
+
+                if (value is int)
+                {
+                    _selectedIndex = (int)value;
+                }
+            }
+            else
+            {
+                _selectedIndex = DefinitionResolver.Get<int>(Controller, Binding, file["SelectedIndex"], 0);
+            }
+
             _cycle = DefinitionResolver.Get<bool>(Controller, Binding, file["Cycle"], false);
 
             double speed = DefinitionResolver.Get<double>(Controller, Binding, file["TransitionTime"], 500) / 1000.0;
@@ -346,6 +392,11 @@ namespace Sitana.Framework.Ui.Views
                 _previous = _children[prev];
                 _current = _children[_selectedIndex];
             }
+
+            if (_sharedSelectedIndex != null)
+            {
+                _sharedSelectedIndex.Value = _selectedIndex;
+            }
         }
 
         public void ShowPrev()
@@ -374,6 +425,11 @@ namespace Sitana.Framework.Ui.Views
                 _previous = _children[prev];
                 _current = _children[_selectedIndex];
             }
+
+            if (_sharedSelectedIndex != null)
+            {
+                _sharedSelectedIndex.Value = _selectedIndex;
+            }
         }
 
         public void Switch(int index)
@@ -384,6 +440,11 @@ namespace Sitana.Framework.Ui.Views
 
             _current = _children[index];
             _selectedIndex = index;
+
+            if (_sharedSelectedIndex != null)
+            {
+                _sharedSelectedIndex.Value = _selectedIndex;
+            }
         }
 
         int IIndexedElement.Count
@@ -438,6 +499,11 @@ namespace Sitana.Framework.Ui.Views
 
                     _next = value > _selectedIndex;
                     _selectedIndex = value;
+                }
+
+                if(_sharedSelectedIndex != null)
+                {
+                    _sharedSelectedIndex.Value = _selectedIndex;
                 }
 
                 _current = _children[value];

@@ -41,17 +41,19 @@ namespace Sitana.Framework.Ui.Views
                 FontType type = (FontType)idx;
                 string font = string.Format("{0}.Font", type);
                 string spacing = string.Format("{0}.FontSpacing", type);
+                string resize = string.Format("{0}.FontResize", type);
 
                 file[font] = parser.ValueOrNull(font);
                 file[spacing] = parser.ParseInt(spacing);
+                file[resize] = parser.ParseInt(resize);
             }
 
             for (int idx = 0; idx < (int)SizeType.Count; ++idx)
             {
                 SizeType type = (SizeType)idx;
-                string spacing = string.Format("{0}.FontSize", type);
+                string size = string.Format("{0}.FontSize", type);
 
-                file[spacing] = parser.ParseInt(spacing);
+                file[size] = parser.ParseInt(size);
             }
 
             file["LineHeight"] = parser.ParseInt("LineHeight");
@@ -147,9 +149,11 @@ namespace Sitana.Framework.Ui.Views
                 FontType type = (FontType)idx;
                 string font = string.Format("{0}.Font", type);
                 string spacing = string.Format("{0}.FontSpacing", type);
+                string resize = string.Format("{0}.FontResize", type);
 
                 string fontName = file[font] as string;
                 int fontSpacing = DefinitionResolver.Get<int>(Controller, Binding, file[spacing], defaultFontSpacing == int.MaxValue ? 0 : defaultFontSpacing);
+                int fontResize = DefinitionResolver.Get<int>(Controller, Binding, file[resize], 0);
 
                 if (fontName == null)
                 {
@@ -171,7 +175,8 @@ namespace Sitana.Framework.Ui.Views
                 _fonts[idx] = new FontInfo()
                 {
                     Font = fontObj,
-                    FontSpacing = (float)fontSpacing / 1000.0f
+                    FontSpacing = (float)fontSpacing / 1000.0f,
+                    FontResize = fontResize
                 };
             }
 
@@ -230,8 +235,6 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void OnGesture(Gesture gesture)
         {
-            RichViewEntity entity = EntityFromPoint(gesture.Position.ToPoint());
-
             switch (gesture.GestureType)
             {
                 case GestureType.CapturedByOther:
@@ -239,14 +242,17 @@ namespace Sitana.Framework.Ui.Views
                     break;
 
                 case GestureType.Down:
-                    _selected = entity;
+                    _selected = EntityFromPoint(gesture.Position.ToPoint());
                     break;
 
                 case GestureType.Move:
-
-                    if (_selected != entity)
                     {
-                        _selected = null;
+                        var entity = EntityFromPoint(gesture.Position.ToPoint());
+
+                        if (_selected != entity)
+                        {
+                            _selected = null;
+                        }
                     }
                     break;
 
@@ -278,6 +284,8 @@ namespace Sitana.Framework.Ui.Views
             {
                 return null;
             }
+
+            _lastVisibleLine = Math.Min(_lines.Count - 1, _lastVisibleLine);
 
             for (int idx = _firstVisibleLine; idx <= _lastVisibleLine; ++idx)
             {
@@ -776,7 +784,7 @@ namespace Sitana.Framework.Ui.Views
         {
             FontFace fontFace = _fonts[(int)entity.Font].Font;
             float spacing = _fonts[(int)entity.Font].FontSpacing;
-            int size = _sizes[(int)entity.Size];
+            int size = _sizes[(int)entity.Size] + _fonts[(int)entity.Font].FontResize;
             float scale;
 
             UniversalFont font = fontFace.Find(size, out scale);
@@ -834,6 +842,8 @@ namespace Sitana.Framework.Ui.Views
             int top = parameters.DrawBatch.ClipRect.Top;
             int bottom = parameters.DrawBatch.ClipRect.Bottom;
 
+            
+
             _firstVisibleLine = -1;
 
             for (int idx = 0; idx < _lines.Count; ++idx)
@@ -844,6 +854,8 @@ namespace Sitana.Framework.Ui.Views
                 {
                     break;
                 }
+
+                target.Height = line.Height;
 
                 if (target.Y + line.Height >= top)
                 {

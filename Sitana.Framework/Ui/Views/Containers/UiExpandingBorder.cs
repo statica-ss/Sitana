@@ -127,9 +127,37 @@ namespace Sitana.Framework.Ui.Views
                 size.X = width;
             }
 
+            if(_expandWidth.IsAuto)
+            {
+                size.X = 0;
+                for (int idx = 0; idx < _children.Count; ++idx)
+                {
+                    var child = _children[idx];
+
+                    if (child.DisplayVisibility > 0)
+                    {
+                        size.X = Math.Max(child.Bounds.Right + child.Margin.Right, size.X);
+                    }
+                }
+            }
+
             if (size.Y == 0 && PositionParameters.VerticalAlignment == VerticalAlignment.Stretch)
             {
                 size.Y = height;
+            }
+
+            if (_expandHeight.IsAuto)
+            {
+                size.Y = 0;
+                for(int idx = 0; idx < _children.Count; ++idx)
+                {
+                    var child = _children[idx];
+
+                    if (child.DisplayVisibility > 0)
+                    {
+                        size.Y = Math.Max(child.Bounds.Bottom + child.Margin.Bottom, size.Y);
+                    }
+                }
             }
 
             return size;
