@@ -39,7 +39,7 @@ namespace Sitana.Framework.Ui.Views
                 return false;
             }
 
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiCheckBox));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiRadioButton));
 
             SelectedValue = DefinitionResolver.GetShared<int>(Controller, Binding, file["SelectedValue"], -1);
             Value = DefinitionResolver.Get<int>(Controller, Binding, file["Value"], 0);

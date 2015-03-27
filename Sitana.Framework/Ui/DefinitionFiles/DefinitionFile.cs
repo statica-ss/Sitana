@@ -120,8 +120,6 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 					ConsoleEx.WriteLine(ConsoleEx.Error, "Unknown type: {0}", node.Tag);
 				}
 
-				Console.WriteLine("[Sitana] Loading file: {0} ({1}).", node.Owner.Name, node.LineNumber);
-
 	            MethodInfo method = type.GetMethod("Parse", ParseMethodTypes);
 
 	            DefinitionFile file = null;

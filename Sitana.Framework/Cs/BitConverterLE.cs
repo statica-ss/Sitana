@@ -64,8 +64,6 @@ namespace Sitana.Framework.Cs
             byte b0 = data[offset + 0];
             short b1 = data[offset + 1];
 
-            Console.WriteLine("ToInt16: {0}, {1}", (int)b0, (int)b1);
-
             return (short)(b0 | (b1 << 8));
         }
 

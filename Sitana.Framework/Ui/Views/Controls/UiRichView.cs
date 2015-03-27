@@ -138,7 +138,7 @@ namespace Sitana.Framework.Ui.Views
                 return false;
             }
 
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiText));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiRichView));
 
             string defaultFont = file["Font"] as string;
             int defaultFontSize = DefinitionResolver.Get<int>(Controller, Binding, file["FontSize"], 0);

@@ -57,7 +57,7 @@ namespace Sitana.Framework.Ui.Views
                 return false;
             }
 
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiView));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiModalLayout));
 
             _touchOutsideToHide = DefinitionResolver.Get<bool>(Controller, Binding, file["TouchOutsideToHide"], false);
 

@@ -51,7 +51,7 @@ namespace Sitana.Framework.Ui.Views.BackgroundDrawables
 
         bool IDefinitionClass.Init(UiController controller, object binding, DefinitionFile definition)
         {
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(NinePatchBackground));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(DrawableGroup));
 
 			List<DefinitionFile> elements = file["Elements"] as List<DefinitionFile>;
 

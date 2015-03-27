@@ -74,7 +74,7 @@ namespace Sitana.Framework.Ui.Views
                 return false;
             }
 
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiLabel));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiSpritePresenter));
 
             _spriteInstance = DefinitionResolver.Get<Sprite>(Controller, Binding, file["Sprite"], null).CreateInstance();
             _spriteInstance.Sequence = DefinitionResolver.GetString(Controller, Binding, file["Sequence"]);

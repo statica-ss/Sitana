@@ -713,11 +713,6 @@ namespace Sitana.Framework.Ui.Views
 
             Id = (string)file["Id"];
 
-            if (Id == "ttt")
-            {
-                Console.WriteLine();
-            }
-
             if (file["Hidden"] != null && file["Visible"] == null)
             {
                 _visiblityFlag = DefinitionResolver.GetShared<bool>(Controller, binding, file["Hidden"], false);

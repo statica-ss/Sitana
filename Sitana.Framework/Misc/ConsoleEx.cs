@@ -18,9 +18,9 @@ namespace Sitana.Framework.Diagnostics
             RemoteConsoleClient.Instance.Initialize(address, port);
         }
 
-        public static void WriteLine(String format, params Object[] args)
+        public static void WriteLine(String format)
         {
-            WriteLine(String.Empty, format, args);
+            WriteLine(String.Empty, format);
         }
 
         public static void WriteLine(String type, String format, params Object[] args)

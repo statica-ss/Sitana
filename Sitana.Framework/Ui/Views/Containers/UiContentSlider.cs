@@ -255,7 +255,7 @@ namespace Sitana.Framework.Ui.Views
 
             InitChildren(Controller, Binding, definition);
 
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiNavigationView));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiContentSlider));
 
             if (file["SelectedIndex"] is MethodName || file["SelectedIndex"] is FieldName)
             {

@@ -53,7 +53,7 @@ namespace Sitana.Framework.Ui.Views
                 return false;
             }
 
-            var file = new DefinitionFileWithStyle(definition, typeof(UiContainer));
+            var file = new DefinitionFileWithStyle(definition, typeof(UiScrollView));
 
             _mode = DefinitionResolver.Get<Scroller.Mode>(Controller, Binding, file["Mode"], Scroller.Mode.BothDrag);
             _rule = DefinitionResolver.Get<ScrollingService.ExceedRule>(Controller, Binding, file["ExceedRule"], ScrollingService.ExceedRule.Allow);

@@ -204,7 +204,7 @@ namespace Sitana.Framework.Ui.Views
                 return false;
             }
 
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiLabel));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiIndexSelector));
 
             _context = DefinitionResolver.GetString(Controller, Binding, file["Context"]);
 

@@ -56,12 +56,13 @@ namespace Sitana.Framework.Ui.Core
             DefinitionFile file;
             if ( _styles.TryGetValue(name, out file))
             {
-                if ( file.Class == type || file.Class.IsSubclassOf(type) )
+                if ( file.Class == type || file.Class.IsSubclassOf(type) || type.IsSubclassOf(file.Class))
                 {
                     return file;
                 }
 
-                ConsoleEx.WriteLine("Warning: Style {0} type {1} doesn't match desired type {2}.", name, file.Class.FullName, type.FullName);
+                ConsoleEx.WriteLine(ConsoleEx.Warning, "Warning: Style {0} type {1} doesn't match desired type {2}.", name, file.Class.FullName, type.FullName);
+                return file;
             }
 
             return null;
