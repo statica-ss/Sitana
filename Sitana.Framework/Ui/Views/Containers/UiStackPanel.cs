@@ -28,6 +28,9 @@ namespace Sitana.Framework.Ui.Views
             file["Expanded"] = parser.ParseBoolean("Expanded");
 
             file["Wrap"] = parser.ParseBoolean("Wrap");
+
+            file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
+            file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
         }
 
         public enum Mode
@@ -35,6 +38,9 @@ namespace Sitana.Framework.Ui.Views
             Horizontal,
             Vertical
         }
+
+        HorizontalContentAlignment _horizontalContentAlignment;
+        VerticalContentAlignment _verticalContentAlignment;
 
         bool _vertical = false;
         bool _updateBounds = true;
@@ -52,6 +58,8 @@ namespace Sitana.Framework.Ui.Views
 
         Length _spacing;
         Length _padding;
+
+        int _currentSize;
 
         List<UiView> _tempChildren = new List<UiView>();
 
@@ -275,6 +283,8 @@ namespace Sitana.Framework.Ui.Views
             {
                 _currentWrapMax = 0;
                 _currentWrapPos = Padding;
+
+                _currentSize = 0;
             }
 
             PositionParameters parameters = _tempChildren[index].PositionParameters;
@@ -320,9 +330,12 @@ namespace Sitana.Framework.Ui.Views
                     if (_wrap)
                     {
                         posX = _currentWrapPos + view.Margin.Left;
+                        
+                        _currentSize = Math.Max(pos, _currentSize);
 
                         if (pos + size.Y > Math.Ceiling(Bounds.Height+UiUnit.Unit))
                         {
+
                             pos = Padding;
 
                             _currentWrapPos = _currentWrapMax + Spacing;
@@ -340,6 +353,7 @@ namespace Sitana.Framework.Ui.Views
                 childBounds.Height = size.Y;
 
                 _currentWrapMax = Math.Max(_currentWrapMax, childBounds.Right + view.Margin.Right);
+                _currentSize = Math.Max(childBounds.Bottom + Padding, _currentSize);
             }
             else
             {
@@ -382,6 +396,7 @@ namespace Sitana.Framework.Ui.Views
 
                         if (pos + size.X > Math.Ceiling(Bounds.Width + UiUnit.Unit))
                         {
+
                             pos = Padding;
 
                             _currentWrapPos = _currentWrapMax + Spacing;
@@ -399,6 +414,7 @@ namespace Sitana.Framework.Ui.Views
                 childBounds.Height = size.Y;
 
                 _currentWrapMax = Math.Max(_currentWrapMax, childBounds.Bottom + view.Margin.Bottom);
+                _currentSize = Math.Max(childBounds.Right + Padding, _currentSize);
             }
 
             _updateBounds |= view.Bounds != childBounds;
@@ -511,6 +527,49 @@ namespace Sitana.Framework.Ui.Views
             }
 
             base.RecalcLayout();
+
+            if (_wrap)
+            {
+                Point move = Point.Zero;
+
+                if (_vertical)
+                {
+                    switch (_verticalContentAlignment)
+                    {
+                        case VerticalContentAlignment.Center:
+                            move.Y = (Bounds.Height - _currentSize) / 2;
+                            break;
+
+                        case VerticalContentAlignment.Bottom:
+                            move.Y = (Bounds.Height - _currentSize);
+                            break;
+                    }
+
+
+                }
+                else
+                {
+                    switch (_horizontalContentAlignment)
+                    {
+                        case HorizontalContentAlignment.Center:
+                            move.X = (Bounds.Width - _currentSize) / 2;
+                            break;
+
+                        case HorizontalContentAlignment.Right:
+                            move.X = (Bounds.Width - _currentSize);
+                            break;
+                    }
+                }
+
+                if (move != Point.Zero)
+                {
+                    for (int idx = 0; idx < _children.Count; ++idx)
+                    {
+                        var child = _children[idx];
+                        child.Bounds = new Rectangle(child.Bounds.X + move.X, child.Bounds.Y + move.Y, child.Bounds.Width, child.Bounds.Height);
+                    }
+                }
+            }
         }
 
         protected override bool Init(object controller, object binding, DefinitionFile definition)
@@ -528,6 +587,9 @@ namespace Sitana.Framework.Ui.Views
             _notifyParentOnResize = DefinitionResolver.Get<bool>(Controller, Binding, file["NotifyParentOnResize"], true);
 
             _wrap = DefinitionResolver.Get<bool>(Controller, Binding, file["Wrap"], false);
+
+            _horizontalContentAlignment = DefinitionResolver.Get<HorizontalContentAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Left);
+            _verticalContentAlignment = DefinitionResolver.Get<VerticalContentAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalContentAlignment.Top);
 
             _expanded = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Expanded"], true);
 
