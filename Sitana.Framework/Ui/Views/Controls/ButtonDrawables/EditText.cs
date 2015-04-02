@@ -16,8 +16,6 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             Text.Parse(node, file);
         }
 
-        private FontFace _fontFace = null;
-
         StringBuilder _string = new StringBuilder();
 
         double _flash = 0;
@@ -40,18 +38,13 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             SharedString str = info.Text;
 
-            if (_fontFace == null)
-            {
-                _fontFace = FontManager.Instance.FindFont(_font);
-            }
 
-            float scale;
-            UniversalFont font = _fontFace.Find(_fontSize, out scale);
-
+            float scale = _font.Scale;
+            UniversalFont font = _font.Font;
             Color color = ColorFromState * info.Opacity * Opacity;
 
             Rectangle target = _margin.ComputeRect(info.Target);
-            float spacing = (float)_fontSpacing / 1000.0f;
+            float spacing = _font.Spacing;
 
             lock(str)
             {

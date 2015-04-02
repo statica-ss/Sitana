@@ -7,6 +7,7 @@ using Sitana.Framework.Ui.DefinitionFiles;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Ui.Views.Parameters;
+using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -25,6 +26,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["ExpandTime"] = parser.ParseInt("ExpandTime");
             file["Expanded"] = parser.ParseBoolean("Expanded");
+
+            file["Wrap"] = parser.ParseBoolean("Wrap");
         }
 
         public enum Mode
@@ -37,9 +40,13 @@ namespace Sitana.Framework.Ui.Views
         bool _updateBounds = true;
         bool _recalculateLayout = true;
         bool _notifyParentOnResize = true;
+        bool _wrap = false;
 
         double _expandSpeed;
         double _expandedValue;
+
+        int _currentWrapPos;
+        int _currentWrapMax;
 
         SharedValue<bool> _expanded;
 
@@ -264,6 +271,12 @@ namespace Sitana.Framework.Ui.Views
                 return new Rectangle(100000, 10000, 100, 100);
             }
 
+            if(index == 0)
+            {
+                _currentWrapMax = 0;
+                _currentWrapPos = Padding;
+            }
+
             PositionParameters parameters = _tempChildren[index].PositionParameters;
 
             int width = Bounds.Width;
@@ -280,19 +293,22 @@ namespace Sitana.Framework.Ui.Views
 
                 int posX = Padding + parameters.Margin.Left;
 
-                switch (parameters.HorizontalAlignment)
+                if (!_wrap)
                 {
-                case HorizontalAlignment.Center:
-                        posX = (width - size.X) / 2;
-                        break;
+                    switch (parameters.HorizontalAlignment)
+                    {
+                        case HorizontalAlignment.Center:
+                            posX = (width - size.X) / 2;
+                            break;
 
-                case HorizontalAlignment.Right:
-                        posX = width - Padding - parameters.Margin.Right - size.X;
-                        break;
+                        case HorizontalAlignment.Right:
+                            posX = width - Padding - parameters.Margin.Right - size.X;
+                            break;
 
-                case HorizontalAlignment.Stretch:
-                        size.X = width - Padding * 2 - parameters.Margin.Width;
-                        break;
+                        case HorizontalAlignment.Stretch:
+                            size.X = width - Padding * 2 - parameters.Margin.Width;
+                            break;
+                    }
                 }
 
                 int pos = Padding;
@@ -300,6 +316,21 @@ namespace Sitana.Framework.Ui.Views
                 if (index > 0)
                 {
                     pos = _tempChildren[index - 1].Bounds.Bottom + _tempChildren[index - 1].PositionParameters.Margin.Bottom + Spacing;
+
+                    if (_wrap)
+                    {
+                        posX = _currentWrapPos + view.Margin.Left;
+
+                        if (pos + size.Y > Math.Ceiling(Bounds.Height+UiUnit.Unit))
+                        {
+                            pos = Padding;
+
+                            _currentWrapPos = _currentWrapMax + Spacing;
+
+                            int right = _currentWrapPos;
+                            posX = right + parameters.Margin.Left;
+                        }
+                    }
                 }
 
                 childBounds.X = posX;
@@ -307,6 +338,8 @@ namespace Sitana.Framework.Ui.Views
 
                 childBounds.Y = pos + parameters.Margin.Top;
                 childBounds.Height = size.Y;
+
+                _currentWrapMax = Math.Max(_currentWrapMax, childBounds.Right + view.Margin.Right);
             }
             else
             {
@@ -319,26 +352,44 @@ namespace Sitana.Framework.Ui.Views
 
                 int posY = Padding + parameters.Margin.Top;
 
-                switch (parameters.VerticalAlignment)
+                if (!_wrap)
                 {
-                case VerticalAlignment.Center:
-                        posY = (height - size.Y)/2;
-                        break;
+                    switch (parameters.VerticalAlignment)
+                    {
+                        case VerticalAlignment.Center:
+                            posY = (height - size.Y) / 2;
+                            break;
 
-                case VerticalAlignment.Bottom:
-                        posY = height - Padding - parameters.Margin.Bottom - size.Y;
-                        break;
+                        case VerticalAlignment.Bottom:
+                            posY = height - Padding - parameters.Margin.Bottom - size.Y;
+                            break;
 
-                case VerticalAlignment.Stretch:
-                        size.Y = height - Padding * 2 - parameters.Margin.Height;
-                        break;
+                        case VerticalAlignment.Stretch:
+                            size.Y = height - Padding * 2 - parameters.Margin.Height;
+                            break;
+                    }
                 }
 
                 int pos = Padding;
-
+                
                 if (index > 0)
                 {
                     pos = _tempChildren[index - 1].Bounds.Right + _tempChildren[index - 1].PositionParameters.Margin.Right + Spacing;
+
+                    if (_wrap)
+                    {
+                        posY = _currentWrapPos + view.Margin.Top;
+
+                        if (pos + size.X > Math.Ceiling(Bounds.Width + UiUnit.Unit))
+                        {
+                            pos = Padding;
+
+                            _currentWrapPos = _currentWrapMax + Spacing;
+
+                            int bottom = _currentWrapPos;
+                            posY = bottom + parameters.Margin.Top;
+                        }
+                    }
                 }
 
                 childBounds.X = pos + parameters.Margin.Left;
@@ -346,6 +397,8 @@ namespace Sitana.Framework.Ui.Views
 
                 childBounds.Y = posY;
                 childBounds.Height = size.Y;
+
+                _currentWrapMax = Math.Max(_currentWrapMax, childBounds.Bottom + view.Margin.Bottom);
             }
 
             _updateBounds |= view.Bounds != childBounds;
@@ -473,6 +526,8 @@ namespace Sitana.Framework.Ui.Views
             _spacing = DefinitionResolver.Get<Length>(Controller, Binding, file["Spacing"], Length.Zero);
             _padding = DefinitionResolver.Get<Length>(Controller, Binding, file["Padding"], Length.Zero);
             _notifyParentOnResize = DefinitionResolver.Get<bool>(Controller, Binding, file["NotifyParentOnResize"], true);
+
+            _wrap = DefinitionResolver.Get<bool>(Controller, Binding, file["Wrap"], false);
 
             _expanded = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Expanded"], true);
 

@@ -31,15 +31,11 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["TextRotation"] = parser.ParseEnum<TextRotation>("TextRotation");
         }
 
-        protected string _font;
-        protected int _fontSize;
-        protected int _fontSpacing;
+        protected UiFont _font;
         protected TextAlign _textAlign;
         protected SharedString _text;
         protected int _lineHeight;
         protected TextRotation _textRotation;
-
-        private FontFace _fontFace = null;
 
         protected override void Init(UiController controller, object binding, DefinitionFile definition)
         {
@@ -47,10 +43,12 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(Text));
 
-            _font = DefinitionResolver.GetString(controller, binding, file["Font"]);
-            _fontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"], 0);
-            _fontSpacing = DefinitionResolver.Get<int>(controller, binding, file["FontSpacing"], 0);
+            string font = DefinitionResolver.GetString(controller, binding, file["Font"]);
+            int fontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"], 0);
+            int fontSpacing = DefinitionResolver.Get<int>(controller, binding, file["FontSpacing"], 0);
             _lineHeight = DefinitionResolver.Get<int>(controller, binding, file["LineHeight"], 0);
+
+            _font = new UiFont(font, fontSize, fontSpacing);
 
             _textRotation = DefinitionResolver.Get<TextRotation>(controller, binding, file["TextRotation"], TextRotation.None);
 
@@ -67,19 +65,14 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             SharedString str = _text != null ? _text : info.Text;
 
-            if (_fontFace == null)
-            {
-                _fontFace = FontManager.Instance.FindFont(_font);
-            }
-
-            float scale;
-            UniversalFont font = _fontFace.Find(_fontSize, out scale);
+            float scale = _font.Scale;
+            UniversalFont font = _font.Font;
 
             Color color = ColorFromState * info.Opacity * Opacity;
 
             Rectangle target = _margin.ComputeRect(info.Target);
 
-            drawBatch.DrawText(font, str, target, _textAlign, color, (float)_fontSpacing / 1000.0f, (float)_lineHeight / 100.0f, scale, _textRotation);
+            drawBatch.DrawText(font, str, target, _textAlign, color, _font.Spacing, (float)_lineHeight / 100.0f, scale, _textRotation);
         }
 
         public override object OnAction(DrawButtonInfo info, params object[] parameters)

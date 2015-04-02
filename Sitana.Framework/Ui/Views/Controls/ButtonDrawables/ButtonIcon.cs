@@ -87,8 +87,6 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             Rectangle source = new Rectangle(0, 0, info.Icon.Width, info.Icon.Height);
             Vector2 size = new Vector2(source.Width * scaleX, source.Height * scaleY);
 
-            
-
             target.Width = (int)size.X;
             target.Height = (int)size.Y;
 
