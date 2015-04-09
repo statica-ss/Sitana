@@ -62,9 +62,15 @@ namespace Sitana.Framework.Input
             drawable.Paint.Color = new Android.Graphics.Color(255, 255, 255);
 
             _textField.SetBackgroundDrawable(drawable);
+			_textField.SetTextColor(Android.Graphics.Color.Black);
 
             _textField.SetIncludeFontPadding(false);
             _textField.Visibility = Android.Views.ViewStates.Invisible;
+
+			_textField.SetHighlightColor(new Android.Graphics.Color(128, 128, 128));
+			_textField.SetHintTextColor(new Android.Graphics.Color(128, 128, 128));
+
+
         }
 
 		EditTextEx CreateEdit(ViewGroup.LayoutParams lp)
@@ -86,7 +92,15 @@ namespace Sitana.Framework.Input
             _controller = controller;
             CurrentFocus = this;
 
-            if (_textField == null)
+			if (_textField != null)
+			{
+				EditTextEx field = _textField;
+				DelayedActionInvoker.Instance.AddAction(10, (s) =>
+				{
+					AppMain.Current.RootView.RemoveView(field);
+				});
+			}
+
             {
                 InitTextField();
             }
@@ -130,7 +144,7 @@ namespace Sitana.Framework.Input
                 _textField.Gravity = GravityFlags.Left | GravityFlags.Top;
                 _textField.SetSingleLine(false);
 
-                _textField.ImeOptions = ImeAction.ImeNull;
+				_textField.ImeOptions = ImeAction.ImeNull | (ImeAction)ImeFlags.NoExtractUi;
             } 
             else
             {
@@ -138,7 +152,7 @@ namespace Sitana.Framework.Input
                 _textField.EditorAction += HandleEditorAction;
                 _textField.SetSingleLine(true);
 
-                _textField.ImeOptions = controller.WaitsForReturn ? ImeAction.Next : ImeAction.Done;
+				_textField.ImeOptions = (controller.WaitsForReturn ? ImeAction.Next : ImeAction.Done) | (ImeAction)ImeFlags.NoExtractUi;
             }
 
 			_textField.TransformationMethod = textInputType == TextInputType.Password ? new PasswordTransformationMethod(): null;
@@ -155,7 +169,9 @@ namespace Sitana.Framework.Input
             _textField.RequestLayout();
 
             _textField.Visibility = Android.Views.ViewStates.Visible;
+			_textField.SetCursorVisible(true);
             _textField.RequestFocus();
+			_textField.RequestFocusFromTouch();
 
 			ShowKeyboard(_textField);
         }
@@ -242,28 +258,28 @@ namespace Sitana.Framework.Input
             switch (context)
             {
 			case TextInputType.Email:
-                return Android.Text.InputTypes.TextVariationEmailAddress;
+				return Android.Text.InputTypes.TextVariationEmailAddress | Android.Text.InputTypes.ClassText;
 
 			case TextInputType.FirstLetterUppercase:
-                return Android.Text.InputTypes.TextVariationPersonName;
+				return Android.Text.InputTypes.TextVariationPersonName | Android.Text.InputTypes.ClassText;
 
 			case TextInputType.Number:
                 return Android.Text.InputTypes.NumberFlagDecimal | Android.Text.InputTypes.ClassNumber;
 
 			case TextInputType.NormalText:
-                return Android.Text.InputTypes.TextVariationNormal;
+				return Android.Text.InputTypes.TextVariationNormal | Android.Text.InputTypes.ClassText;
 
 			case TextInputType.Uppercase:
                 return Android.Text.InputTypes.TextFlagCapCharacters | Android.Text.InputTypes.TextFlagNoSuggestions;
 
 			case TextInputType.Password:
-                return Android.Text.InputTypes.TextVariationPassword;
+				return Android.Text.InputTypes.TextVariationNormal |  Android.Text.InputTypes.ClassText;
 
 			case TextInputType.MultilineText:
                 return Android.Text.InputTypes.TextFlagMultiLine | Android.Text.InputTypes.TextFlagImeMultiLine;
             }
 
-            return Android.Text.InputTypes.TextFlagNoSuggestions;
+			return Android.Text.InputTypes.TextFlagNoSuggestions |  Android.Text.InputTypes.ClassText;
         }
     }
 }
