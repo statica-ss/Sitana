@@ -10,13 +10,13 @@ namespace Sitana.Framework.Diagnostics
 {
     public class ExceptionData
     {
-        public readonly string AppVersion;
-        public readonly string OsVersion;
-        public readonly long Time;
-        public readonly string Message;
-        public readonly string StackTrace;
-        public readonly string Source;
-        public readonly string Type;
+        public readonly string AppVersion = null;
+        public readonly string OsVersion = null;
+        public readonly long Time = 0;
+        public readonly string Message = null;
+        public readonly string StackTrace = null;
+        public readonly string Source = null;
+        public readonly string Type = null;
 
         public ExceptionData(BinaryReader reader)
         {

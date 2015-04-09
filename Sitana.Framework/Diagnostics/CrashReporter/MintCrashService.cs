@@ -61,32 +61,49 @@ namespace Sitana.Framework.Diagnostics
 
         string GenerateJson(ExceptionData data)
         {
-            string client = CreateJsonValue("client", CreateJsonValue("name", _appName), CreateJsonValue("version", data.AppVersion));
-            string exception = CreateJsonValue("exception", CreateJsonValue("message", data.Message), CreateJsonValue("where", data.Source), CreateJsonValue("klass", data.Type), CreateJsonValue("backtrace", data.StackTrace) );
-			string appEnvironment = CreateJsonValue("application_environment", CreateJsonValue("phone", _phone), CreateJsonValue("appver", data.AppVersion), CreateJsonValue("appname", _appName), CreateJsonValue("osver", data.OsVersion), CreateJsonValue("uid", _uid));
+            string client = CreateJsonGroup("client", CreateJsonValue("name", _appName), CreateJsonValue("version", data.AppVersion));
+
+            string appEnvironment = CreateJsonGroup("application_environment", CreateJsonValue("phone", _phone), CreateJsonValue("appver", data.AppVersion), CreateJsonValue("appname", _appName), CreateJsonValue("osver", data.OsVersion), CreateJsonValue("uid", _uid),
+                CreateJsonValue("user_agent", "Sitana.Framework.Diagnostics.CrashReporter"));
+            
+            string exception = CreateJsonGroup("exception", CreateJsonValue("message", data.Message), CreateJsonValue("where", data.Source), CreateJsonValue("klass", data.Type), CreateJsonValue("backtrace", data.StackTrace));
+            
 
             return "{\n" + client + ",\n" + exception + ",\n" + appEnvironment + "\n}";
         }
 
-        string CreateJsonValue(string name, params string[] values)
+        string CreateJsonGroup(string name, params string[] values)
         {
-            if(values.Length > 1)
+            if(values.Length == 0)
             {
-                string content = values[0];
+                return string.Format("\"{0}\": {{}}", name);
+            }
 
-                for(int idx = 1; idx < values.Length; ++idx)
+            string content = values[0];
+
+            for (int idx = 1; idx < values.Length; ++idx)
+            {
+                if (values[idx] != null)
                 {
                     content += string.Format(",\n{0}", values[idx]);
                 }
-
-                return string.Format("\"{0}\": {{\n{1}\n}}", name, content);
             }
-            else if (values.Length == 1)
+
+            return string.Format("\"{0}\": {{\n{1}\n}}", name, content);
+        }
+
+        string CreateJsonValue(string name, string value)
+        {
+            if (value == null)
             {
-                return string.Format("\"{0}\": \"{1}\"", name, values[0]);
+                value = "\"\"";
+            }
+            else
+            {
+                value = string.Format("\"{0}\"", value);
             }
 
-            return string.Format("\"{0}\": \"\"", name);
+            return string.Format("\"{0}\": {1}", name, value);
         }
     }
 }

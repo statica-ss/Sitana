@@ -35,6 +35,8 @@ namespace Sitana.Framework.Diagnostics
 
         async void Send()
         {
+            await _service.Start();
+
             while(_unhandledExceptions.Count > 0)
             {
                 ExceptionData data = await _service.SendOne(_unhandledExceptions[0]);
