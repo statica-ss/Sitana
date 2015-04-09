@@ -48,7 +48,6 @@
   <ItemGroup>
     <Folder Include="ContentGenerators\" />
     <Folder Include="ContentManagement\" />
-    <Folder Include="Cs\" />
     <Folder Include="Definitions\" />
     <Folder Include="Graphics\" />
     <Folder Include="Helpers\" />
@@ -68,7 +67,6 @@
     <Folder Include="Input\GamePad\" />
     <Folder Include="Ui\RichText\" />
     <Folder Include="Ui\Views\Controls\RichView\" />
-    <Folder Include="Text\" />
     <Folder Include="Ui\Views\Controls\BackgroundDrawables\" />
     <Folder Include="Ui\Views\Controls\ScrollingSelector\" />
     <Folder Include="Diagnostics\CrashReporter\" />
@@ -115,9 +113,6 @@
     <Compile Include="Ui\Interfaces\IScrolledElement.cs" />
     <Compile Include="Ui\Interfaces\IUpdatable.cs" />
     <Compile Include="Ui\Views\Scroller.cs" />
-    <Compile Include="Xml\XFile.cs" />
-    <Compile Include="Cs\SharedString.cs" />
-    <Compile Include="Cs\SharedValue.cs" />
     <Compile Include="Ui\Definitions\Length.cs" />
     <Compile Include="Ui\Definitions\Margin.cs" />
     <Compile Include="Definitions\TextAlign.cs" />
@@ -128,19 +123,11 @@
     <Compile Include="Input\TouchPad\TouchPad.cs" />
     <Compile Include="Input\TouchPad\Gesture.cs" />
     <Compile Include="Input\TouchPad\GestureType.cs" />
-    <Compile Include="Xml\XNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContentManagement\ContentLoader.cs" />
     <Compile Include="ContentManagement\LoadResourceInfo.cs" />
     <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
     <Compile Include="Graphics\Sprites\Sprite.cs" />
-    <Compile Include="Cs\CsToolkit.cs" />
-    <Compile Include="Cs\Deletages.cs" />
-    <Compile Include="Cs\IIndexedContainer.cs" />
-    <Compile Include="Cs\IndexedArray.cs" />
-    <Compile Include="Cs\IndexedList.cs" />
-    <Compile Include="Cs\Singleton.cs" />
-    <Compile Include="Cs\BitConverterLE.cs" />
     <Compile Include="Definitions\Align.cs" />
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
@@ -164,7 +151,6 @@
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
-    <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="Misc\AppRater.cs" />
     <Compile Include="Misc\ColorsManager.cs" />
     <Compile Include="Misc\ColorWrapper.cs" />
@@ -223,7 +209,6 @@
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs" />
     <Compile Include="Graphics\Sprites\SpriteInstance.cs" />
     <Compile Include="Graphics\Sprites\SpriteSequence.cs" />
-    <Compile Include="Xml\XNodeAttributes.cs" />
     <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
     <Compile Include="Ui\Views\Controls\UiSlider.cs" />
@@ -240,7 +225,6 @@
     <Compile Include="Ui\Views\Controls\UiRichView.cs" />
     <Compile Include="Ui\Views\Controls\UiSpritePresenter.cs" />
     <Compile Include="Ui\Views\Controls\UiText.cs" />
-    <Compile Include="Text\HtmlSpecialChars.cs" />
     <Compile Include="Ui\TransitionEffects\None.cs" />
     <Compile Include="Media\SoundEffectBuffer.cs" />
     <Compile Include="Ui\Views\Controls\UiColoredLabel.cs" />
@@ -257,7 +241,6 @@
     <Compile Include="Ui\Views\Containers\UiExpandingBorder.cs" />
     <Compile Include="Ui\Views\Controls\UiRadioButton.cs" />
     <Compile Include="Graphics\Fonts\UiFont.cs" />
-    <Compile Include="Cs\Containers.cs" />
     <Compile Include="Ui\DefinitionFiles\Commands\RegisterStyles.cs" />
     <Compile Include="Ui\Views\Controls\BackgroundDrawables\DrawableGroup.cs" />
     <Compile Include="Ui\Views\Controls\BackgroundDrawables\NinePatchBackground.cs" />
@@ -271,6 +254,13 @@
     <Compile Include="Diagnostics\CrashReporter\ExceptionData.cs" />
     <Compile Include="Diagnostics\CrashReporter\ICrashService.cs" />
     <Compile Include="Diagnostics\CrashReporter\MintCrashService.cs" />
+    <Compile Include="Xml\XFileEx.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Sitana.Framework.Common\Sitana.Framework.Common.Portable.csproj">
+      <Project>{24203251-CC02-47A6-BA3C-1656B2FDC968}</Project>
+      <Name>Sitana.Framework.Common.Portable</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

@@ -15,10 +15,10 @@ namespace Sitana.Framework.Cs
         private static T _instance;
 
         // Flag to avoid creation of an instance using new.
-        private static Boolean _allowCreation = false;
+        private static bool _allowCreation = false;
 
         // LockedListener object for synchronization.
-        private static Object _lockObj = new Object();
+        private static object _lockObj = new object();
 
         // Returns instance of singleton class.
         public static T Instance

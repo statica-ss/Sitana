@@ -135,7 +135,7 @@ namespace Sitana.Framework.Content
         {
             NinePatchImage.Register();
             ModelXLoader.Register();
-            XFile.Register();
+            XFileEx.Register();
             DefinitionFile.Register();
             FontLoader.Register();
 

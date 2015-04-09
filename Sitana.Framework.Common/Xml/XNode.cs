@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
-using Sitana.Framework.Content;
 
 namespace Sitana.Framework.Xml
 {
