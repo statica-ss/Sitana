@@ -11,7 +11,7 @@ using Sitana.Framework.Graphics;
 #if MACOSX
 using MonoMac.Foundation;
 #elif IOS
-using MonoTouch.Foundation;
+using Foundation;
 #else
 using System.Diagnostics;
 #endif

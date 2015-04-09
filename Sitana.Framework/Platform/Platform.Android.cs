@@ -13,6 +13,7 @@ using Sitana.Framework.Ui.Core;
 using Android.Content;
 using Android.App;
 using Android.Content.PM;
+using Java.Lang.Reflect;
 
 namespace Sitana.Framework
 {
@@ -61,7 +62,7 @@ namespace Sitana.Framework
             }
         }
 
-        public static String CurrentVersion
+        public static string CurrentVersion
         {
             get
             {
@@ -77,11 +78,36 @@ namespace Sitana.Framework
             }
         }
 
-		public static string DeviceId
+		public static string OsName
+		{
+			get
+			{
+				return string.Format("android ({0})", Android.OS.Build.Board);
+			}
+		}
+
+		public static string DeviceName
 		{
 			get
 			{
 				return Android.OS.Build.Device;
+			}
+		}
+
+		public static string OsVersion
+		{
+			get
+			{
+				return "Android " + Android.OS.Build.VERSION.Release;
+			}
+		}
+
+		public static string DeviceId
+		{
+			get
+			{
+				string deviceId = Android.Provider.Settings.Secure.GetString(Game.Activity.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
+				return deviceId;
 			}
 		}
 

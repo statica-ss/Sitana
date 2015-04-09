@@ -43,14 +43,14 @@ namespace Sitana.Framework
             return Color.FromNonPremultiplied(r,g,b,a);
         }
 
-        public static String Merge(this List<String> lines, String separator)
+		public static string Merge(this List<string> lines, string separator)
         {
             if (lines.Count == 0)
             {
-                return String.Empty;
+				return string.Empty;
             }
 
-            String output = lines[0];
+			string output = lines[0];
 
             for (int idx = 1; idx < lines.Count; ++idx)
             {
@@ -61,19 +61,19 @@ namespace Sitana.Framework
             return output;
         }
 
-        public static String Merge(this String[] lines, String separator)
+        public static string Merge(this string[] lines, string separator)
         {
             return lines.Merge(separator, 0, lines.Length);
         }
 
-        public static String Merge(this String[] lines, String separator, int start, int count)
+        public static string Merge(this string[] lines, string separator, int start, int count)
         {
             if (lines.Length == 0)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
-            String output = lines[start];
+			string output = lines[start];
 
             for (int idx = start + 1; idx < start + count; ++idx)
             {
@@ -84,36 +84,24 @@ namespace Sitana.Framework
             return output;
         }
 
-        public static String SafeString(this String text)
+        public static string SafeString(this String text)
         {
-            if (String.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             return text;
         }
 
-        public static Boolean IsNullOrEmpty(this String text)
+        public static bool IsNullOrEmpty(this String text)
         {
-            return String.IsNullOrEmpty(text);
+            return string.IsNullOrEmpty(text);
         }
 
-        public static Boolean IsNullOrWhiteSpace(this String text)
+		public static bool IsNullOrWhiteSpace(this string text)
         {
-            return String.IsNullOrWhiteSpace(text);
-        }
-
-        public static String UrlEncode(this byte[] data)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            foreach (byte d in data)
-            {
-                sb.AppendFormat("%{0:X02}", d);
-            }
-
-            return sb.ToString();
+            return string.IsNullOrWhiteSpace(text);
         }
 
         public static Vector2 ToVector2(this MouseState ms)

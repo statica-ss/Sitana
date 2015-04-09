@@ -102,7 +102,38 @@ namespace Sitana.Framework
 		{
 			get
 			{
+				var selector = new ObjCRuntime.Selector("uniqueIdentifier");
+
+				if (UIDevice.CurrentDevice.RespondsToSelector(selector))
+				{
+					return UIDevice.CurrentDevice.PerformSelector(selector).ToString();
+				}
+
+				return UIDevice.CurrentDevice.IdentifierForVendor.ToString();
+			}
+		}
+
+		public static string DeviceName
+		{
+			get
+			{
 				return UIDevice.CurrentDevice.Name;
+			}
+		}
+
+		public static string OsVersion
+		{
+			get
+			{
+				return OsName + " " + UIDevice.CurrentDevice.SystemVersion;
+			}
+		}
+
+		public static string OsName
+		{
+			get
+			{
+				return UIDevice.CurrentDevice.SystemName;
 			}
 		}
 

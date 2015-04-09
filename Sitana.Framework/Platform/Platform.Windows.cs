@@ -7,6 +7,9 @@ using System.Diagnostics;
 using System.IO.IsolatedStorage;
 using System.Reflection;
 using Sitana.Framework.Cs;
+using System.Management;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Sitana.Framework
 {
@@ -58,11 +61,57 @@ namespace Sitana.Framework
             }
         }
 
-        public static string DeviceId
+        public static string OsVersion
+        {
+            get
+            {
+                return System.Environment.OSVersion.ToString();
+            }
+        }
+
+        public static string OsName
+        {
+            get
+            {
+                return "Windows";
+            }
+        }
+
+        public static string DeviceName
         {
             get
             {
                 return System.Environment.MachineName;
+            }
+        }
+
+        public static string DeviceId
+        {
+            get
+            {
+                ManagementObjectSearcher mosDisks = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
+
+                string id = string.Empty;
+
+                foreach(var disk in mosDisks.Get())
+                {
+                    id += disk["SerialNumber"].ToString();
+                    id += disk["Model"].ToString();
+                }
+
+                SHA1Managed sha1 = new SHA1Managed();
+                
+                byte[] hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(id));
+
+                var sb = new StringBuilder(hash.Length * 2);
+
+                foreach (byte b in hash)
+                {
+                    // can be "x2" if you want lowercase
+                    sb.Append(b.ToString("x2"));
+                }
+
+                return sb.ToString();
             }
         }
 

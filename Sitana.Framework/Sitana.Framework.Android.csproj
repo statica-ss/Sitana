@@ -49,6 +49,7 @@
     <Reference Include="GooglePlayServicesLib">
       <HintPath>..\ThirdParty\Dependences\GooglePlayServices\GooglePlayServicesLib.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Services" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
@@ -248,6 +249,10 @@
     <Compile Include="Graphics\Fonts\StringProvider.cs" />
     <Compile Include="Graphics\Fonts\TextRotation.cs" />
     <Compile Include="Ui\Views\Controls\UiSeparatorLine.cs" />
+    <Compile Include="Diagnostics\CrashReporter\CrashReporter.cs" />
+    <Compile Include="Diagnostics\CrashReporter\ExceptionData.cs" />
+    <Compile Include="Diagnostics\CrashReporter\ICrashService.cs" />
+    <Compile Include="Diagnostics\CrashReporter\MintCrashService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -269,6 +274,7 @@
     <Folder Include="Ui\Views\Controls\RichView\" />
     <Folder Include="Ui\Views\Controls\BackgroundDrawables\" />
     <Folder Include="Ui\Views\Controls\ScrollingSelector\" />
+    <Folder Include="Diagnostics\CrashReporter\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
