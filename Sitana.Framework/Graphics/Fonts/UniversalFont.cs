@@ -38,5 +38,13 @@ namespace Sitana.Framework.Graphics
                 return SitanaFont != null ? SitanaFont.Height : (int)SpriteFont.MeasureString("A").Y;
             }
         }
+
+        public int BaseLine
+        {
+            get
+            {
+                return SitanaFont != null ? SitanaFont.BaseLine - SitanaFont.CapLine : (int)SpriteFont.MeasureString("A").Y;
+            }
+        }
     }
 }
