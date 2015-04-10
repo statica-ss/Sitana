@@ -19,7 +19,7 @@ namespace Sitana.Framework.Graphics
         {
             get
             {
-                if(!_hasBegun)
+                if (!_hasBegun)
                 {
                     throw new Exception("PrimitiveBatch not started.");
                 }
@@ -79,7 +79,7 @@ namespace Sitana.Framework.Graphics
         // that PrimitiveBatch will need.
         public PrimitiveBatch(GraphicsDevice graphicsDevice)
         {
-            if(graphicsDevice == null)
+            if (graphicsDevice == null)
             {
                 throw new ArgumentNullException("graphicsDevice");
             }
@@ -101,9 +101,9 @@ namespace Sitana.Framework.Graphics
 
         protected virtual void Dispose(bool disposing)
         {
-            if(disposing && !_isDisposed)
+            if (disposing && !_isDisposed)
             {
-                if(_basicEffect != null)
+                if (_basicEffect != null)
                     _basicEffect.Dispose();
 
                 _isDisposed = true;
@@ -142,7 +142,7 @@ namespace Sitana.Framework.Graphics
         // drawn, and to prepare the graphics card to render those primitives.
         public void Begin(PrimitiveType primitiveType, RasterizerState rasterizerState, SamplerState samplerState, Texture2D texture)
         {
-            if(_hasBegun)
+            if (_hasBegun)
             {
                 throw new InvalidOperationException
                     ("End must be called before Begin can be called again.");
@@ -192,13 +192,13 @@ namespace Sitana.Framework.Graphics
         // automatically.
         public void AddVertex(Vector2 vertex, Color color)
         {
-            if(!_hasBegun)
+            if (!_hasBegun)
             {
                 throw new InvalidOperationException
                     ("Begin must be called before AddVertex can be called.");
             }
 
-            if(_basicEffect.TextureEnabled)
+            if (_basicEffect.TextureEnabled)
             {
                 throw new InvalidOperationException
                     ("Texture enabled. Use AddVertex with texture coordinates");
@@ -208,7 +208,7 @@ namespace Sitana.Framework.Graphics
             // for a whole primitive, flush.
             Boolean newPrimitive = false;
 
-            if(_numRestVertsPerPrimitive != 0)
+            if (_numRestVertsPerPrimitive != 0)
             {
                 newPrimitive = (_positionInBuffer >= _numRestVertsPerPrimitive + _numVertsPerPrimitive);
             }
@@ -217,7 +217,7 @@ namespace Sitana.Framework.Graphics
                 newPrimitive = ((_positionInBuffer % _numVertsPerPrimitive) == 0);
             }
 
-            if(newPrimitive && (_positionInBuffer + _numVertsPerPrimitive) >= _vertices.Length)
+            if (newPrimitive && (_positionInBuffer + _numVertsPerPrimitive) >= _vertices.Length)
             {
                 Flush();
             }
@@ -237,13 +237,13 @@ namespace Sitana.Framework.Graphics
         // automatically.
         public void AddVertex(Vector2 vertex, Color color, Vector2 texCoords)
         {
-            if(!_hasBegun)
+            if (!_hasBegun)
             {
                 throw new InvalidOperationException
                     ("Begin must be called before AddVertex can be called.");
             }
 
-            if(!_basicEffect.TextureEnabled)
+            if (!_basicEffect.TextureEnabled)
             {
                 throw new InvalidOperationException
                     ("Texture is not enabled. Use AddVertex without texture coordinates");
@@ -253,7 +253,7 @@ namespace Sitana.Framework.Graphics
             // for a whole primitive, flush.
             Boolean newPrimitive = false;
 
-            if(_numRestVertsPerPrimitive != 0)
+            if (_numRestVertsPerPrimitive != 0)
             {
                 newPrimitive = (_positionInBuffer >= _numRestVertsPerPrimitive + _numVertsPerPrimitive);
             }
@@ -262,7 +262,7 @@ namespace Sitana.Framework.Graphics
                 newPrimitive = ((_positionInBuffer % _numVertsPerPrimitive) == 0);
             }
 
-            if(newPrimitive && (_positionInBuffer + _numVertsPerPrimitive) >= _vertices.Length)
+            if (newPrimitive && (_positionInBuffer + _numVertsPerPrimitive) >= _vertices.Length)
             {
                 Flush();
             }
@@ -278,13 +278,13 @@ namespace Sitana.Framework.Graphics
 
         public void AddVertex(float x, float y, ref Color color, float tx, float ty)
         {
-            if(!_hasBegun)
+            if (!_hasBegun)
             {
                 throw new InvalidOperationException
                     ("Begin must be called before AddVertex can be called.");
             }
 
-            if(!_basicEffect.TextureEnabled)
+            if (!_basicEffect.TextureEnabled)
             {
                 throw new InvalidOperationException
                     ("Texture is not enabled. Use AddVertex without texture coordinates");
@@ -294,7 +294,7 @@ namespace Sitana.Framework.Graphics
             // for a whole primitive, flush.
             Boolean newPrimitive = false;
 
-            if(_numRestVertsPerPrimitive != 0)
+            if (_numRestVertsPerPrimitive != 0)
             {
                 newPrimitive = (_positionInBuffer >= _numRestVertsPerPrimitive + _numVertsPerPrimitive);
             }
@@ -303,7 +303,7 @@ namespace Sitana.Framework.Graphics
                 newPrimitive = ((_positionInBuffer % _numVertsPerPrimitive) == 0);
             }
 
-            if(newPrimitive && (_positionInBuffer + _numVertsPerPrimitive) >= _vertices.Length)
+            if (newPrimitive && (_positionInBuffer + _numVertsPerPrimitive) >= _vertices.Length)
             {
                 Flush();
             }
@@ -312,7 +312,7 @@ namespace Sitana.Framework.Graphics
             // and increase position.
             _verticesTexture[_positionInBuffer].Position = new Vector3(x, y, 0);
             _verticesTexture[_positionInBuffer].Color = color;
-            _verticesTexture[_positionInBuffer].TextureCoordinate = new Vector2(tx, ty);
+            _verticesTexture[_positionInBuffer].TextureCoordinate = new Vector2(tx,ty);
 
             _positionInBuffer++;
         }
@@ -322,7 +322,7 @@ namespace Sitana.Framework.Graphics
         // then tell the basic effect to end.
         public void End()
         {
-            if(!_hasBegun)
+            if (!_hasBegun)
             {
                 throw new InvalidOperationException
                     ("Begin must be called before End can be called.");
@@ -344,14 +344,14 @@ namespace Sitana.Framework.Graphics
         // buffer.
         private void Flush()
         {
-            if(!_hasBegun)
+            if (!_hasBegun)
             {
                 throw new InvalidOperationException
                     ("Begin must be called before Flush can be called.");
             }
 
             // no work to do
-            if(_positionInBuffer == 0)
+            if (_positionInBuffer == 0)
             {
                 return;
             }
@@ -359,35 +359,31 @@ namespace Sitana.Framework.Graphics
             // how many primitives will we draw?
             int primitiveCount = _positionInBuffer / _numVertsPerPrimitive - _numRestVertsPerPrimitive;
 
-            if(primitiveCount < 0)
+            if (primitiveCount <= 0)
             {
                 throw new InvalidOperationException("Not enough vertices for " + _primitiveType.ToString() + ".");
             }
-            else if(primitiveCount > 0)
+
+            if (_basicEffect.TextureEnabled)
             {
+                // submit the draw call to the graphics card
+                _device.DrawUserPrimitives<VertexPositionColorTexture>(_primitiveType, _verticesTexture, 0, primitiveCount);
 
-
-                if(_basicEffect.TextureEnabled)
+                // Copy rest of vertices for next primitives.
+                for (int idx = 0; idx < _numRestVertsPerPrimitive; ++idx)
                 {
-                    // submit the draw call to the graphics card
-                    _device.DrawUserPrimitives<VertexPositionColorTexture>(_primitiveType, _verticesTexture, 0, primitiveCount);
-
-                    // Copy rest of vertices for next primitives.
-                    for(int idx = 0; idx < _numRestVertsPerPrimitive; ++idx)
-                    {
-                        _verticesTexture[idx] = _verticesTexture[_positionInBuffer - _numRestVertsPerPrimitive + idx];
-                    }
+                    _verticesTexture[idx] = _verticesTexture[_positionInBuffer - _numRestVertsPerPrimitive + idx];
                 }
-                else
-                {
-                    // submit the draw call to the graphics card
-                    _device.DrawUserPrimitives<VertexPositionColor>(_primitiveType, _vertices, 0, primitiveCount);
+            }
+            else
+            {
+                // submit the draw call to the graphics card
+                _device.DrawUserPrimitives<VertexPositionColor>(_primitiveType, _vertices, 0, primitiveCount);
 
-                    // Copy rest of vertices for next primitives.
-                    for(int idx = 0; idx < _numRestVertsPerPrimitive; ++idx)
-                    {
-                        _vertices[idx] = _vertices[_positionInBuffer - _numRestVertsPerPrimitive + idx];
-                    }
+                // Copy rest of vertices for next primitives.
+                for (int idx = 0; idx < _numRestVertsPerPrimitive; ++idx)
+                {
+                    _vertices[idx] = _vertices[_positionInBuffer - _numRestVertsPerPrimitive + idx];
                 }
             }
 
@@ -400,7 +396,7 @@ namespace Sitana.Framework.Graphics
         // it will take to draw each kind of primitive.
         private void SetNumVertsPerPrimitive(PrimitiveType primitive)
         {
-            switch(primitive)
+            switch (primitive)
             {
                 case PrimitiveType.LineList:
                     _numVertsPerPrimitive = 2;
