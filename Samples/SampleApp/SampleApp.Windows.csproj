@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>SampleApp</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
@@ -41,6 +41,7 @@
     <NoStdLib>true</NoStdLib>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -52,6 +53,7 @@
     <NoStdLib>true</NoStdLib>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -139,6 +141,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Sitana.Framework.Common\Sitana.Framework.Common.csproj">
+      <Project>{95ef38c7-c12e-4134-b896-59fc80d24524}</Project>
+      <Name>Sitana.Framework.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Sitana.Framework\Sitana.Framework.Windows.csproj">
       <Project>{F527C2FC-292B-4AB0-AAE7-AFF2B5CCE086}</Project>
       <Name>Sitana.Framework.Windows</Name>

@@ -187,9 +187,6 @@
     <EmbeddedResource Include="Assets\Fonts\Font32.sft" />
     <EmbeddedResource Include="Assets\Templates\SampleTemplate.zip" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <PropertyGroup>

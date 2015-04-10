@@ -51,6 +51,8 @@ namespace FontGenerator
                 baseLine--;
             }
 
+            baseLine--;
+
             int top;
             int left;
             int right;
@@ -79,7 +81,7 @@ namespace FontGenerator
                 maxHeight = Math.Max(maxHeight, bitmap.Height);
             }
 
-            int margin = 2;
+            int margin = Math.Min(16,Math.Max(4, height / 8));
             int lineHeight = maxHeight + margin;
 
             int posX = margin;
@@ -299,7 +301,7 @@ namespace FontGenerator
 
         bool BitmapIsEmpty(Bitmap bitmap, Int32 coord, bool vertical, bool takeOnlyFullAlpha = false)
         {
-            int compare = takeOnlyFullAlpha ? 250 : 1;
+            int compare = takeOnlyFullAlpha ? 254 : 1;
             int length = vertical ? bitmap.Height : bitmap.Width;
 
             for (Int32 pos = 0; pos < length; pos++)
