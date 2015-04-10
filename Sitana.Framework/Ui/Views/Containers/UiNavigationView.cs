@@ -11,6 +11,7 @@ using Sitana.Framework.Xml;
 using Sitana.Framework.Content;
 using Sitana.Framework.Input.TouchPad;
 using Sitana.Framework.Ui.Controllers;
+using System.Linq;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -28,6 +29,14 @@ namespace Sitana.Framework.Ui.Views
         }
 
         public event OnPageAddedDelegate OnPageAdded;
+
+        public UiPage TopPage
+        {
+            get
+            {
+                return (UiPage)(_children.Count > 0 ? _children.Last() : null);
+            }
+        }
 
         List<Tuple<DefinitionFile, InvokeParameters>> _history = new List<Tuple<DefinitionFile, InvokeParameters>>();
 

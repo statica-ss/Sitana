@@ -88,7 +88,7 @@ namespace Sitana.Framework.Ui.Controllers
 
         protected override void Update(float time)
         {
-			if ( View.DisplayVisibility == 1 && GamePads.Instance[0].ButtonState(Buttons.Back) == GamePadButtonState.Pressed)
+            if ( View.DisplayVisibility == 1 && GamePads.Instance[0].ButtonState(Buttons.Back) == GamePadButtonState.Pressed)
             {
                 OnBack();
             }
