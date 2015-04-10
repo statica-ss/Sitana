@@ -388,6 +388,7 @@ namespace Sitana.Framework.Ui.Views
 
                     bool process = true;
                     int lineHeight = 0;
+                    int lineBase = 0;
 
                     switch (entity.Type)
                     {
@@ -456,12 +457,18 @@ namespace Sitana.Framework.Ui.Views
                                 Point size = (entity.Font.MeasureString(entity.Text, entity.FontSpacing, 0) * entity.FontScale + kerning).ToPoint();
                                 size.Y = (int)(entity.Font.Height * entity.FontScale * _lineHeight);
 
+                                int baseLine = (int)(entity.Font.BaseLine * entity.FontScale);
+
+                                lineBase = Math.Max(lineBase, baseLine);
                                 lineHeight = Math.Max(lineHeight, size.Y);
+
                                 line.Height = lineHeight;
+                                line.BaseLine = lineBase;
 
                                 if (position + size.X > maxWidth)
                                 {
                                     lineHeight = 0;
+                                    lineBase = 0;
                                     restOfLine.Clear();
 
                                     for (int ent2 = ent + 1; ent2 < line.Entities.Count; ++ent2)
@@ -842,8 +849,6 @@ namespace Sitana.Framework.Ui.Views
             int top = parameters.DrawBatch.ClipRect.Top;
             int bottom = parameters.DrawBatch.ClipRect.Bottom;
 
-            
-
             _firstVisibleLine = -1;
 
             for (int idx = 0; idx < _lines.Count; ++idx)
@@ -876,6 +881,8 @@ namespace Sitana.Framework.Ui.Views
                         float scale = entity.FontScale;
                         UniversalFont font = entity.Font;
 
+                        int offset = line.BaseLine - (int)(font.BaseLine * scale);
+
                         target.X = startX + entity.Offset + lineOffset;
 
                         switch (entity.Type)
@@ -896,7 +903,9 @@ namespace Sitana.Framework.Ui.Views
                                         textColor = _selected == entity ? _colorClickableActive.Value : _colorClickable.Value;
                                     }
 
+                                    target.Y += offset;
                                     parameters.DrawBatch.DrawText(font, entity.Text, target, TextAlign.Left, textColor * opacity, spacing, 0, scale);
+                                    target.Y -= offset;
                                 }
                                 break;
 

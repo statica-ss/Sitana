@@ -46,7 +46,7 @@ namespace FontGenerator
             }
 
             // Remove unused space from the right.
-            while ((baseLine > capLine) && (BitmapIsEmpty(image, baseLine, false)))
+            while ((baseLine > capLine) && (BitmapIsEmpty(image, baseLine, false, true)))
             {
                 baseLine--;
             }
@@ -297,22 +297,23 @@ namespace FontGenerator
             return croppedBitmap;
         }
 
-        bool BitmapIsEmpty(Bitmap bitmap, Int32 coord, bool vertical)
+        bool BitmapIsEmpty(Bitmap bitmap, Int32 coord, bool vertical, bool takeOnlyFullAlpha = false)
         {
+            int compare = takeOnlyFullAlpha ? 250 : 1;
             int length = vertical ? bitmap.Height : bitmap.Width;
 
             for (Int32 pos = 0; pos < length; pos++)
             {
                 if (vertical)
                 {
-                    if (bitmap.GetPixel(coord, pos).A != 0)
+                    if (bitmap.GetPixel(coord, pos).A >= compare)
                     {
                         return false;
                     }
                 }
                 else
                 {
-                    if (bitmap.GetPixel(pos, coord).A != 0)
+                    if (bitmap.GetPixel(pos, coord).A >= compare)
                     {
                         return false;
                     }
