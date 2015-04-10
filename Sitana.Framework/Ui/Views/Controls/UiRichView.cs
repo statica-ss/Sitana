@@ -457,7 +457,7 @@ namespace Sitana.Framework.Ui.Views
                                 Point size = (entity.Font.MeasureString(entity.Text, entity.FontSpacing, 0) * entity.FontScale + kerning).ToPoint();
                                 size.Y = (int)(entity.Font.Height * entity.FontScale * _lineHeight);
 
-                                int baseLine = (int)(entity.Font.BaseLine * entity.FontScale);
+                                int baseLine = (int)((entity.Font.BaseLine-1) * entity.FontScale);
 
                                 lineBase = Math.Max(lineBase, baseLine);
                                 lineHeight = Math.Max(lineHeight, size.Y);
@@ -881,7 +881,7 @@ namespace Sitana.Framework.Ui.Views
                         float scale = entity.FontScale;
                         UniversalFont font = entity.Font;
 
-                        int offset = line.BaseLine - (int)(font.BaseLine * scale);
+                        int offset = line.BaseLine - (int)((font.BaseLine-1) * scale);
 
                         target.X = startX + entity.Offset + lineOffset;
 
