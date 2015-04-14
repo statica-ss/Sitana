@@ -76,6 +76,36 @@ namespace Sitana.Framework.Ui.Views
             return true;
         }
 
+        protected override object CallDelegate(string id, params InvokeParam[] args)
+        {
+            if (_inputType == TextInputType.Digits)
+            {
+                if (id == "TextChanged")
+                {
+                    string text = null;
+                    foreach(var arg in args)
+                    {
+                        if(arg.Id == "text")
+                        {
+                            text = arg.Value as string;
+                        }
+                    }
+
+                    if(!text.IsNullOrEmpty())
+                    {
+                        int value;
+
+                        if(!int.TryParse(text, out value))
+                        {
+                            return Text.StringValue;
+                        }
+                    }
+                }
+            }
+
+            return base.CallDelegate(id, args);
+        }
+
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
         {
             float opacity = parameters.Opacity;

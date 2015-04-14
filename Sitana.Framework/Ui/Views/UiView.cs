@@ -831,7 +831,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        protected object CallDelegate(string id, params InvokeParam[] args)
+        protected virtual object CallDelegate(string id, params InvokeParam[] args)
         {
             _invokeParameters.Clear();
 

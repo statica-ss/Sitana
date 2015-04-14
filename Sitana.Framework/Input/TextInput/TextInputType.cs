@@ -12,7 +12,8 @@ namespace Sitana.Framework.Input
         NormalText,
         FirstLetterUppercase,
         Uppercase,
-        Number,
+        Digits,
+		Numeric,
         Email,
 		Password,
 		MultilineText

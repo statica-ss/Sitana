@@ -131,7 +131,6 @@
     <Compile Include="Definitions\Align.cs" />
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
-    <Compile Include="Definitions\TransitionType.cs" />
     <Compile Include="Graphics\Images\NinePatchImage.cs" />
     <Compile Include="Graphics\3D\BasicShaderEffect.cs" />
     <Compile Include="Graphics\3D\IShaderEffect.cs" />
@@ -157,9 +156,7 @@
     <Compile Include="Misc\ConsoleEx.cs" />
     <Compile Include="Misc\DelayedActionInvoker.cs" />
     <Compile Include="Misc\RemoteConsoleClient.cs" />
-    <Compile Include="Misc\StringsManager.cs" />
     <Compile Include="Misc\UiTask.cs" />
-    <Compile Include="Misc\UuidGenerator.cs" />
     <Compile Include="Settings\Serializator.cs" />
     <Compile Include="Settings\SingletonSettings.cs" />
     <Compile Include="Ui\Controllers\UiController.cs" />

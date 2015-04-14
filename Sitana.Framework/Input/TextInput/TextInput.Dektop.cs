@@ -86,8 +86,11 @@ namespace Sitana.Framework.Input
         {
             switch(_inputType)
             {
-            case TextInputType.Number:
+            case TextInputType.Digits:
                 return char.IsDigit(ch);
+
+            case TextInputType.Numeric:
+                return char.IsDigit(ch) || ch == '.' || ch == ',';
             }
 
             return true;

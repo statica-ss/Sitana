@@ -38,7 +38,6 @@ namespace Sitana.Framework.Ui.Views
             file["AutoSizeUpdate"] = parser.ParseBoolean("AutoSizeUpdate");
             file["TextRotation"] = parser.ParseEnum<TextRotation>("TextRotation");
         }
-
         
         public SharedString Text{ get; private set; }
         public ColorWrapper TextColor { get; private set; }

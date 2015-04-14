@@ -263,8 +263,11 @@ namespace Sitana.Framework.Input
 			case TextInputType.FirstLetterUppercase:
 				return Android.Text.InputTypes.TextVariationPersonName | Android.Text.InputTypes.ClassText;
 
-			case TextInputType.Number:
-                return Android.Text.InputTypes.NumberFlagDecimal | Android.Text.InputTypes.ClassNumber;
+			case TextInputType.Digits:
+                return Android.Text.InputTypes.ClassNumber;
+
+			case TextInputType.Numeric:
+				return Android.Text.InputTypes.NumberFlagDecimal | Android.Text.InputTypes.ClassNumber;
 
 			case TextInputType.NormalText:
 				return Android.Text.InputTypes.TextVariationNormal | Android.Text.InputTypes.ClassText;

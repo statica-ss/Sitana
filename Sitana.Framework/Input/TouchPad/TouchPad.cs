@@ -30,8 +30,12 @@ namespace Sitana.Framework.Input.TouchPad
         }
 
         public int MinDragSize = 16;
+
         public int HoldTimeInMs = 1000;
         public int HoldStartTimeInMs = 700;
+
+        public int DoubleTapSize = 32;
+
         public int DoubleTapTimeInMs = 1000;
 
         public GestureType RightClickGesture = GestureType.Hold;
@@ -341,7 +345,7 @@ namespace Sitana.Framework.Input.TouchPad
 
                         if ( _lastTap.HasValue )
                         {
-                            if ( (element.Position-_lastTap.Value.Position).Length() < MinDragSize )
+                            if ( (element.Position-_lastTap.Value.Position).Length() < DoubleTapSize )
                             {
                                 _gesture.GestureType = GestureType.DoubleTap;
 

@@ -205,7 +205,10 @@ namespace Sitana.Framework.Input
 			case TextInputType.Email:
                     return UIKeyboardType.EmailAddress;
 
-			case TextInputType.Number:
+			case TextInputType.Digits:
+				return UIKeyboardType.NumberPad;
+
+			case TextInputType.Numeric:
                     return UIKeyboardType.NumbersAndPunctuation;
             }
 
