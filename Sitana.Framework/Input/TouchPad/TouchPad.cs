@@ -296,11 +296,11 @@ namespace Sitana.Framework.Input.TouchPad
             if (move != Vector2.Zero)
             {
                 OnGesture();
+            }
 
-                if (!_gesture.Handled)
-                {
-                    AnalyzeMoveGestures(id, ref element, ref move);
-                }
+            if (!_gesture.Handled)
+            {
+                AnalyzeMoveGestures(id, ref element, ref move);
             }
 
             element.LockedListener = _gesture.PointerCapturedBy;
