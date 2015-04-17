@@ -50,6 +50,9 @@
       <HintPath>..\ThirdParty\Dependences\GooglePlayServices\GooglePlayServicesLib.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Services" />
+    <Reference Include="Sitana.Framework.Common">
+      <HintPath>..\_Bin\Sitana.Framework.Common.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
@@ -268,10 +271,4 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
-  <ItemGroup>
-    <ProjectReference Include="..\Sitana.Framework.Common\Sitana.Framework.Common.Portable.csproj">
-      <Project>{24203251-CC02-47A6-BA3C-1656B2FDC968}</Project>
-      <Name>Sitana.Framework.Common.Portable</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>
