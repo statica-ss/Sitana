@@ -18,6 +18,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["Items"] = parser.ParseDelegate("Items");
 
+            Dictionary<Type, DefinitionFile> additionalTemplates = new Dictionary<Type, DefinitionFile>();
+
             foreach (var cn in node.Nodes)
             {
                 switch (cn.Tag)
@@ -38,21 +40,44 @@ namespace Sitana.Framework.Ui.Views
                                 }
                             }
 
-                            if (file["Template"] != null)
+                            if (string.IsNullOrEmpty(cn.Attribute("DataType")))
                             {
-                                string error = node.NodeError("UiItemsStack.ItemTemplate already defined.");
+                                if (file["Template"] != null)
+                                {
+                                    string error = node.NodeError("UiItemsStack default template already defined.");
 
-                                if (DefinitionParser.EnableCheckMode)
-                                {
-                                    ConsoleEx.WriteLine(error);
+                                    if (DefinitionParser.EnableCheckMode)
+                                    {
+                                        ConsoleEx.WriteLine(error);
+                                    }
+                                    else
+                                    {
+                                        throw new Exception(error);
+                                    }
                                 }
-                                else
-                                {
-                                    throw new Exception(error);
-                                }
+
+                                file["Template"] = DefinitionFile.LoadFile(cn.Nodes[0]);
                             }
+                            else
+                            {
+                                Type type = Type.GetType(cn.Attribute("DataType"));
 
-                            file["Template"] = DefinitionFile.LoadFile(cn.Nodes[0]);
+                                if (type == null)
+                                {
+                                    string error = node.NodeError("Cannot find type: {0}", cn.Attribute("DataType"));
+
+                                    if (DefinitionParser.EnableCheckMode)
+                                    {
+                                        ConsoleEx.WriteLine(error);
+                                    }
+                                    else
+                                    {
+                                        throw new Exception(error);
+                                    }
+                                }
+
+                                additionalTemplates.Add(type, DefinitionFile.LoadFile(cn.Nodes[0]));
+                            }
                         }
                         break;
                 }
@@ -62,10 +87,16 @@ namespace Sitana.Framework.Ui.Views
                     throw new Exception("UiItemsStack cannot have any children.");
                 }
             }
+
+            if (additionalTemplates.Count > 0)
+            {
+                file["AdditionalTemplates"] = additionalTemplates;
+            }
         }
 
         DefinitionFile _template;
         IItemsProvider _items = null;
+        Dictionary<Type, DefinitionFile> _additionalTemplates;
 
         object _childrenLock = new object();
 
@@ -81,6 +112,8 @@ namespace Sitana.Framework.Ui.Views
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiItemsStack));
 
             _template = (DefinitionFile)file["Template"];
+
+            _additionalTemplates = file["AdditionalTemplates"] as Dictionary<Type, DefinitionFile>;
 
             _items = (IItemsProvider)DefinitionResolver.GetValueFromMethodOrField(Controller, Binding, file["Items"]);
             _items.Subscribe(this);
@@ -112,7 +145,14 @@ namespace Sitana.Framework.Ui.Views
         {
             lock (_childrenLock)
             {
-                var view = (UiView)_template.CreateInstance(Controller, item);
+                DefinitionFile template;
+
+                if (_additionalTemplates == null || !_additionalTemplates.TryGetValue(item.GetType(), out template))
+                {
+                    template = _template;
+                }
+
+                var view = (UiView)template.CreateInstance(Controller, item);
 
                 if(view == null)
                 {

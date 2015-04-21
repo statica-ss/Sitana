@@ -80,5 +80,7 @@ namespace Sitana.Framework.Ui.Views
             pos.Margin.RepairRect(ref childRect, Bounds.Width, Bounds.Height);
             return childRect;
         }
+
+
     }
 }

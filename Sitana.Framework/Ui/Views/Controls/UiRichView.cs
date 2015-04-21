@@ -214,10 +214,10 @@ namespace Sitana.Framework.Ui.Views
 
             Text = DefinitionResolver.GetString(Controller, Binding, file["Text"]);
 
-            _colorNormal = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
-            _colorClickable = DefinitionResolver.GetColorWrapper(Controller, Binding, file["LinkColor"]) ?? new ColorWrapper(Color.White);
+            _colorNormal = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? UiLabel.DefaultTextColor;
+            _colorClickable = DefinitionResolver.GetColorWrapper(Controller, Binding, file["LinkColor"]) ?? UiLabel.DefaultTextColor;
             _colorClickableActive = DefinitionResolver.GetColorWrapper(Controller, Binding, file["ActiveLinkColor"]) ?? _colorClickable;
-            _colorRuler = DefinitionResolver.GetColorWrapper(Controller, Binding, file["HorizontalRulerColor"]) ?? new ColorWrapper(Color.White);
+            _colorRuler = DefinitionResolver.GetColorWrapper(Controller, Binding, file["HorizontalRulerColor"]) ?? UiLabel.DefaultTextColor;
 
             HorizontalContentAlignment horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Left);
             VerticalContentAlignment vertAlign = DefinitionResolver.Get<VerticalContentAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalContentAlignment.Top);
@@ -881,7 +881,12 @@ namespace Sitana.Framework.Ui.Views
                         float scale = entity.FontScale;
                         UniversalFont font = entity.Font;
 
-                        int offset = line.BaseLine - (int)((font.BaseLine-1) * scale);
+                        int offset = 0;
+
+                        if (font != null)
+                        {
+                            offset = line.BaseLine - (int)((font.BaseLine - 1) * scale);
+                        }
 
                         target.X = startX + entity.Offset + lineOffset;
 

@@ -61,6 +61,8 @@ namespace Sitana.Framework.Ui.Views
 
         int _currentSize;
 
+        Point? _internalSize = null;
+
         List<UiView> _tempChildren = new List<UiView>();
 
         int _rest;
@@ -266,8 +268,6 @@ namespace Sitana.Framework.Ui.Views
             return value;
         }
 
-        
-
         protected override Rectangle CalculateChildBounds(UiView view)
         {
             Rectangle childBounds = Bounds;
@@ -455,6 +455,11 @@ namespace Sitana.Framework.Ui.Views
 
         public override void RecalcLayout()
         {
+            if(_internalSize != null)
+            {
+                return;
+            }
+
             int width = Bounds.Width;
             int height = Bounds.Height;
 
@@ -526,7 +531,11 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
-            base.RecalcLayout();
+            for (int idx = 0; idx < _children.Count; ++idx)
+            {
+                var child = _children[idx];
+                child.Bounds = CalculateChildBounds(child);
+            }
 
             if (_wrap)
             {
@@ -569,7 +578,42 @@ namespace Sitana.Framework.Ui.Views
                         child.Bounds = new Rectangle(child.Bounds.X + move.X, child.Bounds.Y + move.Y, child.Bounds.Width, child.Bounds.Height);
                     }
                 }
+
+                bool calculate = (_vertical && PositionParameters.Width.IsAuto) || (!_vertical && PositionParameters.Height.IsAuto);
+
+                if (calculate)
+                {
+                    int size = 0;
+
+                    for (int idx = 0; idx < _children.Count; ++idx)
+                    {
+                        var child = _children[idx];
+
+                        if (_vertical)
+                        {
+                            size = Math.Max(child.Bounds.Right + child.Margin.Right, size);
+                        }
+                        else
+                        {
+                            size = Math.Max(child.Bounds.Bottom + child.Margin.Bottom, size);
+                        }
+                    }
+
+                    if (_vertical)
+                    {
+                        _bounds.Width = size;
+                    }
+                    else
+                    {
+                        _bounds.Height = size;
+                    }
+
+                    _internalSize = new Point(_bounds.Width, _bounds.Height);
+                    Parent.RecalcLayout(this);
+                }
             }
+
+            _internalSize = null;
         }
 
         protected override bool Init(object controller, object binding, DefinitionFile definition)
@@ -612,6 +656,11 @@ namespace Sitana.Framework.Ui.Views
 
         public override Point ComputeSize(int width, int height)
         {
+            if(_internalSize != null)
+            {
+                return _internalSize.Value;
+            }
+
             Point size = Point.Zero;
             Point exSize = ComputeSizeInternal(width, height);
 

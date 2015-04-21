@@ -38,9 +38,11 @@ namespace Sitana.Framework.Ui.Views
             file["AutoSizeUpdate"] = parser.ParseBoolean("AutoSizeUpdate");
             file["TextRotation"] = parser.ParseEnum<TextRotation>("TextRotation");
         }
-        
+
+        public static ColorWrapper DefaultTextColor = new ColorWrapper();
+
         public SharedString Text{ get; private set; }
-        public ColorWrapper TextColor { get; private set; }
+        public ColorWrapper TextColor { get; protected set; }
 
         TextRotation _rotation;
 
@@ -171,7 +173,7 @@ namespace Sitana.Framework.Ui.Views
                 return false;
             }
 
-            TextColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
+            TextColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? DefaultTextColor;
 
             HorizontalContentAlignment horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Auto);
             VerticalContentAlignment vertAlign = DefinitionResolver.Get<VerticalContentAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalContentAlignment.Auto);

@@ -431,7 +431,7 @@ namespace Sitana.Framework.Ui.Views
             
             Text = DefinitionResolver.GetString(Controller, Binding, file["Text"]) ?? string.Empty;
 
-            TextColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? new ColorWrapper(Color.White);
+            TextColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["TextColor"]) ?? UiLabel.DefaultTextColor;
 
             HorizontalContentAlignment horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Left);
             VerticalContentAlignment vertAlign = DefinitionResolver.Get<VerticalContentAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalContentAlignment.Top);
