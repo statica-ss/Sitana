@@ -154,7 +154,8 @@ namespace Sitana.Framework.Cs
             lock(this)
             {
                 _stringBuilder.Clear();
-                for(int idx = 0; idx < other.Length; ++idx)
+
+                for (int idx = 0; idx < other.Length; ++idx)
                 {
                     _stringBuilder.Append(other[idx]);
                 }

@@ -553,8 +553,6 @@ namespace Sitana.Framework.Ui.Views
                             move.Y = (Bounds.Height - _currentSize);
                             break;
                     }
-
-
                 }
                 else
                 {
