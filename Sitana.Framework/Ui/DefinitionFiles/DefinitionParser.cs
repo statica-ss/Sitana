@@ -11,6 +11,8 @@ using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
 using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework.Helpers;
+using System.Reflection;
+using System.Collections.Generic;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
 {
@@ -208,8 +210,10 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return color.Value;
             }
 
-            Exception ex = Error(id, "Invalid format. Color formats are: '#aarrggbb' '#rrggbb' 'r,g,b' 'r,g,b,a'.");
-            if ( ex != null) throw ex;
+            {
+                Exception ex = Error(id, "Invalid format. Color formats are: '#aarrggbb' '#rrggbb' 'r,g,b' 'r,g,b,a' 'Name' 'Name*Alpha'.");
+                if (ex != null) throw ex;
+            }
 
             return null;
         }

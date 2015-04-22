@@ -4,11 +4,32 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Globalization;
+using System.Reflection;
 
 namespace Sitana.Framework.Helpers
 {
     public static class ColorParser
     {
+        static Dictionary<string, Color> _colors = null;
+
+        static ColorParser()
+        {
+            _colors = new Dictionary<string, Color>();
+
+            PropertyInfo[] props = typeof(Color).GetProperties(BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.Static);
+
+            foreach (var prop in props)
+            {
+                if (prop.PropertyType == typeof(Color))
+                {
+                    string name = prop.Name;
+                    Color color = (Color)prop.GetValue(null);
+
+                    _colors.Add(name, color);
+                }
+            }
+        }
+
         public static Color? Parse(string name)
         {
             int r, g, b, a;
@@ -33,6 +54,31 @@ namespace Sitana.Framework.Helpers
                         return Color.FromNonPremultiplied(r, g, b, a);
                     }
                 }
+            }
+
+            Color parsedColor;
+
+            if (name.Contains("*"))
+            {
+                string[] elements = name.Split('*');
+                int alpha;
+
+                if (!int.TryParse(elements[1].Trim(), out alpha))
+                {
+                    throw new Exception("Invalid format. Named color format is: Name*Alpha");
+                }
+
+                float opacity = (float)alpha / 255.0f;
+
+                if (_colors.TryGetValue(elements[0].Trim(), out parsedColor))
+                {
+                    return parsedColor * opacity;
+                }
+            }
+
+            if (_colors.TryGetValue(name, out parsedColor))
+            {
+                return parsedColor;
             }
 
             string[] vals = name.Replace(" ", "").Split(',');
