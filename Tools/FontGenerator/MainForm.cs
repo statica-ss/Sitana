@@ -213,6 +213,8 @@ namespace FontGenerator
 
             Settings.Instance.Serie = SizeSerie.Text;
 
+            Settings.Instance.CutOpacity = (int)CutOpacity.Value;
+
             Settings.Instance.Serialize();
         }
 
@@ -227,6 +229,7 @@ namespace FontGenerator
                 FontStyle style = (FontStyle)Enum.Parse(typeof(FontStyle), FontStyle.Text);
 
                 bool kerning = Kerning.Checked;
+                int cutOpacity = Settings.Instance.CutOpacity;
 
                 using (Font font = new Font(new FontFamily(FontFace.Text), size, style, GraphicsUnit.Point))
                 {
@@ -251,7 +254,7 @@ namespace FontGenerator
                             }
                         }
 
-                        new SitanaFontGenerator(font, pen, brush, kerning).Generate(characters, width, out sitanaFont, out bitmap);
+                        new SitanaFontGenerator(font, pen, brush, kerning).Generate(characters, width, cutOpacity, out sitanaFont, out bitmap);
 
                         return sitanaFont;
                     }

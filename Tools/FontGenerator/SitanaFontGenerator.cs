@@ -29,7 +29,7 @@ namespace FontGenerator
             _kerning = kerning;
         }
 
-        public void Generate(List<char> list, int width, out SitanaFont font, out Bitmap outBitmap)
+        public void Generate(List<char> list, int width, int cutOpacity, out SitanaFont font, out Bitmap outBitmap)
         {
             int additional = _pen != null ? (int)_pen.Width : 0;
 
@@ -40,13 +40,13 @@ namespace FontGenerator
             int height = image.Height;
 
             // Remove unused space from the left.
-            while ((capLine < baseLine) && (BitmapIsEmpty(image, capLine, false)))
+            while ((capLine < baseLine) && (BitmapIsEmpty(image, capLine, true, 1)))
             {
                 capLine++;
             }
 
             // Remove unused space from the right.
-            while ((baseLine > capLine) && (BitmapIsEmpty(image, baseLine, false, true)))
+            while ((baseLine > capLine) && (BitmapIsEmpty(image, baseLine, false, cutOpacity)))
             {
                 baseLine--;
             }
@@ -297,9 +297,9 @@ namespace FontGenerator
             return croppedBitmap;
         }
 
-        bool BitmapIsEmpty(Bitmap bitmap, Int32 coord, bool vertical, bool takeOnlyFullAlpha = false)
+        bool BitmapIsEmpty(Bitmap bitmap, Int32 coord, bool vertical, int cutOpacity = 1)
         {
-            int compare = takeOnlyFullAlpha ? 250 : 1;
+            int compare = cutOpacity;
             int length = vertical ? bitmap.Height : bitmap.Width;
 
             for (Int32 pos = 0; pos < length; pos++)

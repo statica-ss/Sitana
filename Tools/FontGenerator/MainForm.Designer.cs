@@ -57,9 +57,12 @@
             this.SizeSerie = new System.Windows.Forms.TextBox();
             this.GenerateSerieBtn = new System.Windows.Forms.Button();
             this.Kerning = new System.Windows.Forms.CheckBox();
+            this.CutOpacity = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.preview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BorderOpacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BorderSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CutOpacity)).BeginInit();
             this.SuspendLayout();
             // 
             // FontFace
@@ -375,12 +378,45 @@
             this.Kerning.Text = "Kerning";
             this.Kerning.UseVisualStyleBackColor = true;
             // 
+            // CutOpacity
+            // 
+            this.CutOpacity.Location = new System.Drawing.Point(200, 213);
+            this.CutOpacity.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.CutOpacity.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.CutOpacity.Name = "CutOpacity";
+            this.CutOpacity.Size = new System.Drawing.Size(63, 22);
+            this.CutOpacity.TabIndex = 30;
+            this.CutOpacity.Value = new decimal(new int[] {
+            128,
+            0,
+            0,
+            0});
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(197, 197);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(65, 13);
+            this.label13.TabIndex = 31;
+            this.label13.Text = "Cut opacity";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(343, 585);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.CutOpacity);
             this.Controls.Add(this.Kerning);
             this.Controls.Add(this.GenerateSerieBtn);
             this.Controls.Add(this.SizeSerie);
@@ -420,6 +456,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.preview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BorderOpacity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BorderSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CutOpacity)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -455,6 +492,8 @@
       private System.Windows.Forms.TextBox SizeSerie;
       private System.Windows.Forms.Button GenerateSerieBtn;
       private System.Windows.Forms.CheckBox Kerning;
+      private System.Windows.Forms.NumericUpDown CutOpacity;
+      private System.Windows.Forms.Label label13;
    }
 }
 

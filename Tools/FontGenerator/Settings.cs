@@ -22,6 +22,7 @@ namespace FontGenerator
         public bool RoundBorder;
         public string Serie;
         public bool Kerning;
+        public int CutOpacity;
 
         protected override void Init()
         {
@@ -40,6 +41,7 @@ namespace FontGenerator
                 RoundBorder = true;
                 Serie = "10";
                 Kerning = false;
+                CutOpacity = 128;
             }
         }
     }
