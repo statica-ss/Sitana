@@ -24,6 +24,7 @@ namespace Sitana.Framework.Ui.Views
             var parser = new DefinitionParser(node);
 
             file["Context"] = parser.ParseString("Context");
+
             file["Spacing"] = parser.ParseLength("Spacing");
 
             file["ElementWidth"] = parser.ParseLength("ElementWidth");
@@ -206,9 +207,30 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiIndexSelector));
 
-            _context = DefinitionResolver.GetString(Controller, Binding, file["Context"]);
+            var context = file["Context"];
 
-            _element = Controller.Find(_context) as IIndexedElement;
+            if((context is MethodName) || (context is FieldName))
+            {
+                var obj = DefinitionResolver.GetValueFromMethodOrField(Controller, Binding, context);
+
+                if (obj is IIndexedElement)
+                {
+                    _element = obj as IIndexedElement;
+                }
+                else if(obj is string)
+                {
+                    _context = obj as string;
+                }
+            }
+            else
+            {
+                _context = DefinitionResolver.GetString(Controller, Binding, context);
+            }
+
+            if (_element == null)
+            {    
+                _element = Controller.Find(_context) as IIndexedElement;
+            }
 
             _spacing = DefinitionResolver.Get<Length>(Controller, Binding, file["Spacing"], Length.Zero);
             _vertical = DefinitionResolver.Get<Mode>(Controller, Binding, file["Mode"], Mode.Horizontal) == Mode.Vertical;

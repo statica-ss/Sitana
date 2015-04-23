@@ -90,7 +90,8 @@
 
         <UiIndexSelector Context="TestSlider" Spacing="25%" Width="@-350" Height="16" X="340" Y="@-16" HorizontalAlignment="Left" VerticalAlignment="Center" ElementWidth="150%">
           <UiButton.Drawables>
-            <button:NinePatchBackground ColorPushed="#40ffffff" ColorReleased="#80ffffff" Image="Ui/Button" ScaleByUnit="true" Scale="0.2"/>
+            <button:NinePatchBackground ColorPushed="#40ffffff" ColorReleased="#80ffffff" Image="Ui/Button" ScaleByUnit="true" Scale="0.2" Checked="false"/>
+            <button:NinePatchBackground ColorPushed="#60ffffff" ColorReleased="#a0ffffff" Image="Ui/Button" ScaleByUnit="true" Scale="0.2" Checked="true"/>
             <button:Text ColorPushed="#ffffff" ColorReleased="#ffffff" Font="Font" FontSize="12"/>
           </UiButton.Drawables>
         </UiIndexSelector>
