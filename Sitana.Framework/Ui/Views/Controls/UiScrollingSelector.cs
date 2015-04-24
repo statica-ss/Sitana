@@ -25,6 +25,9 @@ namespace Sitana.Framework.Ui.Views
             file["Context"] = parser.ParseDelegate("Context");
             file["ElementHeight"] = parser.ParseLength("ElementHeight");
             file["Spacing"] = parser.ParseLength("Spacing");
+
+            file["AutoValidate"] = parser.ParseBoolean("AutoValidate");
+
             file["SelectedPositionOffset"] = parser.ParseLength("SelectedPositionOffset");
 
             foreach (var cn in node.Nodes)
@@ -54,6 +57,8 @@ namespace Sitana.Framework.Ui.Views
 
         private float _scrollTo = Single.NaN;
 
+        private bool _autoValidate = false;
+
         //private float _speed = 0;
 
         private int _touchId = 0;
@@ -77,6 +82,8 @@ namespace Sitana.Framework.Ui.Views
 
             _elementHeight = DefinitionResolver.Get<Length>(Controller, Binding, file["ElementHeight"], Length.Zero);
             _spacing = DefinitionResolver.Get<Length>(Controller, Binding, file["Spacing"], Length.Zero);
+
+            _autoValidate = DefinitionResolver.Get<bool>(Controller, Binding, file["AutoValidate"], false);
 
             _selectedPositionOffset = DefinitionResolver.Get<Length>(Controller, Binding, file["SelectedPositionOffset"], Length.Zero);
 
@@ -188,7 +195,7 @@ namespace Sitana.Framework.Ui.Views
 
                 if (Math.Abs(_scroll - _scrollTo) < 0.02)
                 {
-                    _context.SetCurrent(-(Int32)_scrollTo);
+                    _context.SetCurrent(-(int)_scrollTo);
 
                     _scroll = 0;
                     _scrollTo = Single.NaN;
@@ -233,11 +240,11 @@ namespace Sitana.Framework.Ui.Views
 
                             if (center > bounds.Top - elementsSize.Y / 2)
                             {
-                                Rectangle rect = new Rectangle(bounds.X, center - (Int32)elementsSize.Y / 2, bounds.Width, (Int32)elementsSize.Y);
+                                Rectangle rect = new Rectangle(bounds.X, center - (int)elementsSize.Y / 2, bounds.Width, (int)elementsSize.Y);
 
                                 if (rect.Contains(pos))
                                 {
-                                    _scrollTo = (Int32)((beginCenter - center) / (elementsSize.Y + spacing));
+                                    _scrollTo = (int)((beginCenter - center) / (elementsSize.Y + spacing));
                                 }
                             }
                         }
@@ -294,16 +301,16 @@ namespace Sitana.Framework.Ui.Views
 
         private void ComputeScrollTo()
         {
-            Single internalFactor = _scroll - (Int32)_scroll;
+            float internalFactor = _scroll - (int)_scroll;
 
-            Boolean enabled = false;
+            bool enabled = !_autoValidate;
 
-            Single newScrollTo = (Int32)(_scroll + Math.Sign(_scroll) * 0.5f);
+            float newScrollTo = (int)(_scroll + Math.Sign(_scroll) * 0.5f);
 
-            Int32 scrollTo = (Int32)newScrollTo;
+            int scrollTo = (int)newScrollTo;
 
-            Int32 sign = internalFactor < 0.5f ? -1 : 1;
-            Single add = 1;
+            int sign = internalFactor < 0.5f ? -1 : 1;
+            float add = 1;
 
             while (!enabled)
             {
@@ -311,7 +318,7 @@ namespace Sitana.Framework.Ui.Views
 
                 if (!enabled)
                 {
-                    scrollTo = (Int32)newScrollTo + (Int32)add * sign;
+                    scrollTo = (int)newScrollTo + (int)add * sign;
 
                     add += 0.5f;
                     sign *= -1;
