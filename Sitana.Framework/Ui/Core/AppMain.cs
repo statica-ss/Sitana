@@ -36,6 +36,7 @@ namespace Sitana.Framework.Ui.Core
         public event LoadDelegate ContentLoading;
         public event LoadDelegate ViewLoaded;
         public event ResizedDelegate Resized;
+
         public event EmptyArgsVoidDelegate AppActivated;
         public event EmptyArgsVoidDelegate AppDeactivated;
 

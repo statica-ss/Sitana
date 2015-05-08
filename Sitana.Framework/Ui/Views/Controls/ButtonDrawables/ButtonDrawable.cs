@@ -17,10 +17,14 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             var parser = new DefinitionParser(node);
 
             file["ChangeTime"] = parser.ParseDouble("ChangeTime");
+
+            file["Opacity"] = parser.ParseDouble("Opacity");
+
             file["ColorPushed"] = parser.ParseColor("ColorPushed");
             file["ColorReleased"] = parser.ParseColor("ColorReleased");
             file["ColorDisabled"] = parser.ParseColor("ColorDisabled");
             file["Margin"] = parser.ParseMargin("Margin");
+
 
             file["Checked"] = parser.ParseBoolean("Checked");
             file["Special"] = parser.ParseBoolean("Special");
@@ -37,6 +41,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
         protected bool? _specialState;
         protected bool? _checkedState;
+
+        float _opacity;
 
         protected Margin _margin;
 
@@ -110,6 +116,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             _margin = DefinitionResolver.Get<Margin>(controller, binding, file["Margin"], Margin.None);
 
+            _opacity = (float)DefinitionResolver.Get<double>(controller, binding, file["Opacity"], 1);
+
             if (file["Special"] != null)
             {
                 _specialState = DefinitionResolver.Get<bool>(controller, binding, file["Special"], false);
@@ -145,7 +153,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
                     color = GraphicsHelper.MixColors(color, _colorPushed.Value, PushedState);
                 }
 
-                return color;
+                return color * _opacity;
             }
         }
 

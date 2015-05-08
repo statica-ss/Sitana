@@ -490,6 +490,19 @@ namespace Sitana.Framework.Ui.Views
             throw new Exception("List doesn't contain requested element!");
         }
 
+        public T ItemFromPoint<T>(Point point) where T : class
+        {
+            foreach(var bind in _bindingToElement)
+            {
+                if(bind.Value.ScreenBounds.Contains(point))
+                {
+                    return bind.Key as T;
+                }
+            }
+
+            return null;
+        }
+
         public T FirstVisible<T>() where T: class
         {
             Rectangle bounds = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
