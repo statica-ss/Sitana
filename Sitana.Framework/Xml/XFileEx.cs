@@ -35,7 +35,7 @@ namespace Sitana.Framework.Xml
                 // Open font definition file and load info.
                 using (Stream stream = ContentLoader.Current.Open(name))
                 {
-                    return XFile.FromStream(stream, name);
+                    return XFile.Create(stream, name);
                 }
             }
             catch (Exception ex)

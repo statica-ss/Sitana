@@ -51,6 +51,9 @@
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Misc\StringsManager.cs" />
     <Compile Include="Misc\UuidGenerator.cs" />
+    <Compile Include="Serialization\BuiltInSerializatorX.cs" />
+    <Compile Include="Serialization\IXSerializable.cs" />
+    <Compile Include="Serialization\XSerializer.cs" />
     <Compile Include="Text\HtmlSpecialChars.cs" />
     <Compile Include="Xml\XFile.cs" />
     <Compile Include="Xml\XNode.cs" />

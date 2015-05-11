@@ -11,7 +11,7 @@ namespace Sitana.Framework.Xml
     public class XNode
     {
         public readonly string Tag;
-        public readonly string Value;
+        public string Value;
         public readonly string Namespace;
         public readonly int LineNumber;
         public readonly XFile Owner;
@@ -21,6 +21,22 @@ namespace Sitana.Framework.Xml
         Dictionary<string, string> _attributes = new Dictionary<string,string>();
 
         XNode _parent = null;
+
+        internal XNode(XFile owner, string tag)
+        {
+            _parent = null;
+            Owner = owner;
+            Tag = tag;
+            Nodes = new List<XNode>();
+        }
+
+        public XNode(XNode parent, string tag)
+        {
+            _parent = parent;
+            Owner = parent.Owner;
+            Tag = tag;
+            Nodes = new List<XNode>();
+        }
 
         private XNode(XNode parent, XFile file, int lineNumber)
         {
@@ -136,6 +152,11 @@ namespace Sitana.Framework.Xml
             }
         }
 
+        public void AddAttribute(string name, string value)
+        {
+            _attributes.Add(name, value);
+        }
+
         public XNode EnucleateAttributes(string attribPrefix)
         {
             var node = new XNode(_parent, Owner, LineNumber);
@@ -206,6 +227,28 @@ namespace Sitana.Framework.Xml
             {
                 return _attributes.Keys;
             }
+        }
+
+        internal void Write(XmlWriter writer)
+        {
+            writer.WriteStartElement(Tag, Namespace);
+
+            foreach (var attr in _attributes)
+            {
+                writer.WriteAttributeString(attr.Key, attr.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(Value))
+            {
+                writer.WriteString(Value);
+            }
+
+            foreach(var node in Nodes)
+            {
+                node.Write(writer);
+            }
+
+            writer.WriteEndElement();
         }
     }
 }

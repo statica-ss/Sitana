@@ -109,7 +109,7 @@ namespace Sitana.Framework.Settings
             return type.Name + "__(" + type.Namespace + ").xml";
         }
 
-        static void Prepare(IsolatedStorageFile  isolatedStorageFile, String subDirectory, ref String fileName)
+        static void Prepare(IsolatedStorageFile isolatedStorageFile, String subDirectory, ref String fileName)
         {
             if(!string.IsNullOrWhiteSpace(subDirectory))
             {
