@@ -85,7 +85,7 @@ namespace GameEditor
 
                 if (entryFileName == "Definition.xml")
                 {
-                    ParseDefinition(XFile.FromStream(fileStream, entryFileName));
+                    ParseDefinition(XFile.Create(fileStream, entryFileName));
                     continue;
                 }
 

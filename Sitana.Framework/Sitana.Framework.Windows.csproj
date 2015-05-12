@@ -41,6 +41,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ThirdParty\Dependences\CommonMark\CommonMark.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdParty\Dependences\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ThirdParty\Dependences\MonoGame\Windows\MonoGame.Framework.dll</HintPath>
@@ -80,6 +84,10 @@
     <Compile Include="Input\TextInput\ITextConsumer.cs" />
     <Compile Include="Input\TextInput\TextInput.Dektop.cs" />
     <Compile Include="Input\TouchPad\IGestureListener.cs" />
+    <Compile Include="IO\IsolatedStorageManager.cs" />
+    <Compile Include="IO\StorageManager.cs" />
+    <Compile Include="IO\ZipReadStorageManager.cs" />
+    <Compile Include="IO\ZipWriteStorageManager.cs" />
     <Compile Include="Media\SoundEffectBuffer.cs" />
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />

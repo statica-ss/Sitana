@@ -20,20 +20,16 @@ namespace Sitana.Framework.Xml
             Name = name;
         }
 
-        public static XFile Create(XmlReader reader, string name)
+        public static XFile Create(Stream stream, string name)
         {
+            XmlReader reader = XmlReader.Create(stream);
+
             var xfile = new XFile(name);
             var node = XNode.ReadXml(reader, xfile);
 
             xfile._node = node;
 
             return xfile;
-        }
-
-        public static XFile Create(Stream stream, string name)
-        {
-            XmlReader reader = XmlReader.Create(stream);
-            return Create(reader, name);
         }
 
         public static XFile Create(string name)

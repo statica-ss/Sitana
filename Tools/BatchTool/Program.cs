@@ -13,7 +13,7 @@ namespace BatchTool
                 XFile file = null;
                 using (Stream stream = new FileStream(args[0], FileMode.Open))
                 {
-                    file = XFile.FromStream(stream, args[0]);
+                    file = XFile.Create(stream, args[0]);
                 }
 
                 Parse(file);

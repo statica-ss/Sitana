@@ -124,7 +124,7 @@ namespace Sitana.Framework.Serialization
             if(node != null)
             {
                 string typeName = node.Attribute("XSerializer.SerializedType");
-                Type type = string.IsNullOrEmpty(typeName) ? null : Type.GetType(typeName);
+                Type type = string.IsNullOrEmpty(typeName) ? null : Type.GetType(typeName, true, true);
 
                 if(type == null)
                 {

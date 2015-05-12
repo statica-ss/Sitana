@@ -53,6 +53,9 @@
     <Reference Include="Sitana.Framework.Common">
       <HintPath>..\_Bin\Sitana.Framework.Common.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\ThirdParty\Dependences\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
@@ -239,6 +242,10 @@
     <Compile Include="Diagnostics\CrashReporter\ICrashService.cs" />
     <Compile Include="Diagnostics\CrashReporter\MintCrashService.cs" />
     <Compile Include="Xml\XFileEx.cs" />
+    <Compile Include="IO\IsolatedStorageManager.cs" />
+    <Compile Include="IO\StorageManager.cs" />
+    <Compile Include="IO\ZipReadStorageManager.cs" />
+    <Compile Include="IO\ZipWriteStorageManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -261,6 +268,7 @@
     <Folder Include="Ui\Views\Controls\ScrollingSelector\" />
     <Folder Include="Diagnostics\CrashReporter\" />
     <Folder Include="Xml\" />
+    <Folder Include="IO\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

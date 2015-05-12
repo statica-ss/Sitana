@@ -62,7 +62,7 @@ namespace GameEditor
                 {
                     using(Stream zipStream = zf.GetInputStream(entry))
                     {
-                        XNode node = XFile.FromStream(zipStream, entry.Name);
+                        XNode node = XFile.Create(zipStream, entry.Name);
 
                         if (node.Tag != "Template")
                         {
