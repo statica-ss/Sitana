@@ -1,4 +1,5 @@
-﻿using ICSharpCode.SharpZipLib.Core;
+﻿using ICSharpCode.SharpZipLib.Checksums;
+using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using Sitana.Framework.Cs;
 using System;
@@ -14,7 +15,13 @@ namespace Sitana.Framework.IO
     {
         class ZipEntryStream: Stream
         {
-            ZipOutputStream _output;
+            static byte[] _buffer = new byte[4096];
+            //static Crc32 _crc = new Crc32();
+            static MemoryStream _output = new MemoryStream();
+
+            ZipOutputStream _zipStream;
+            
+            ZipEntry _entry;
 
             public override bool CanWrite
             {
@@ -51,10 +58,13 @@ namespace Sitana.Framework.IO
                 }
             }
 
-            public ZipEntryStream(ZipOutputStream output, ZipEntry entry)
+            public ZipEntryStream(ZipOutputStream zipStream, ZipEntry entry)
             {
-                _output = output;
-                _output.PutNextEntry(entry);
+                _output.SetLength(0);
+                _output.Position = 0;
+
+                _zipStream = zipStream;
+                _entry = entry;
             }
 
             public override void Write(byte[] buffer, int offset, int count)
@@ -62,34 +72,10 @@ namespace Sitana.Framework.IO
                 _output.Write(buffer, offset, count);
             }
 
-            public override IAsyncResult BeginWrite(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
-            {
-                return _output.BeginWrite(buffer, offset, count, callback, state);
-            }
-
-            public override Task CopyToAsync(Stream destination, int bufferSize, System.Threading.CancellationToken cancellationToken)
-            {
-                return _output.CopyToAsync(destination, bufferSize, cancellationToken);
-            }
-
-            public override void EndWrite(IAsyncResult asyncResult)
-            {
-                _output.EndWrite(asyncResult);
-            }
-
-            public override Task FlushAsync(System.Threading.CancellationToken cancellationToken)
-            {
-                return _output.FlushAsync(cancellationToken);
-            }
-
-            public override Task WriteAsync(byte[] buffer, int offset, int count, System.Threading.CancellationToken cancellationToken)
-            {
-                return _output.WriteAsync(buffer, offset, count, cancellationToken);
-            }
 
             public override void WriteByte(byte value)
             {
-                _output.WriteByte(value);
+                throw new NotImplementedException();
             }            
 
             public override void Flush()
@@ -100,7 +86,21 @@ namespace Sitana.Framework.IO
             public override void Close()
             {
                 base.Close();
-                _output.CloseEntry();
+
+                //_crc.Reset();
+                //_crc.Update(_output.GetBuffer(), 0, (int)_output.Position);
+
+                _entry.DateTime = DateTime.Now;
+                _entry.Size = (int)_output.Position;
+
+                _zipStream.PutNextEntry(_entry);
+
+                _output.Position = 0;
+                _output.SetLength(_entry.Size);
+
+                StreamUtils.Copy(_output, _zipStream, _buffer);
+
+                _zipStream.CloseEntry();
             }
 
             public override long Length
@@ -205,6 +205,8 @@ namespace Sitana.Framework.IO
         public override void Dispose()
         {
             _output.IsStreamOwner = true; // Makes the Close also Close the underlying stream
+            _output.Finish();
+            _output.Flush();
             _output.Close();
         }
     }

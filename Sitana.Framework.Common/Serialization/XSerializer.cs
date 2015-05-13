@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -58,7 +59,7 @@ namespace Sitana.Framework.Serialization
             {
                 foreach(var cn in node.Nodes)
                 {
-                    T val = Deserialize<T>(cn, defaultValue);
+                    T val = (T)Deserialize(cn, defaultValue, typeof(T));
                     list.Add(val);
                 }
             }
@@ -73,53 +74,97 @@ namespace Sitana.Framework.Serialization
 
         void Serialize(XNode root, string name, object obj)
         {
-            if(obj is IXSerializable)
-            {
-                Serialize(root, name, obj as IXSerializable);
-            }
-            else
-            {
-                SerializeBuiltIn(root, name, obj);
-            }
-        }
-
-        void SerializeBuiltIn(XNode root, string name, object obj)
-        {
             if (root == null)
             {
                 root = _file;
             }
 
-            var node = new XNode(root, name);
-            BuiltInSerializatorX.Serialize(node, obj);
+            if (!SerializeBuiltIn(root, name, obj))
+            {
+                XNode node = new XNode(root, name);
+                root.Nodes.Add(node);
 
-            root.Nodes.Add(node);
+                string type = obj.GetType().FullName + "," + obj.GetType().Assembly.GetName().Name;
+
+                node.AddAttribute("XSerializer.SerializedType", type);
+
+                if(obj is IXSerializable)
+                {
+                    XNode serializableNode = new XNode(node, "IXSerializable");
+                    node.Nodes.Add(serializableNode);
+
+                    (obj as IXSerializable).Serialize(serializableNode);
+                }
+
+                SerializeProperties(node, name, obj);
+            }
         }
 
-        void Serialize(XNode root, string name, IXSerializable obj)
+        void SerializeProperties(XNode root, string name, object obj)
         {
-            string type = obj.GetType().FullName + "," + obj.GetType().Assembly.GetName().Name;
+            XNode node = null;
 
-            if(root == null)
+            Type type = obj.GetType();
+
+            PropertyInfo[] properties = type.GetProperties();
+
+            foreach(var info in properties)
             {
-                root = _file;
+                Attribute attr = info.GetCustomAttribute(typeof(XSerializableAttribute));
+
+                if(attr != null)
+                {
+                    if(node == null)
+                    {
+                        node = new XNode(root, "Properties");
+                        root.Nodes.Add(node);
+                    }
+
+                    string id = info.Name;
+                    object value = info.GetValue(obj);
+
+                    Serialize(node, id, value);
+                }
+            }
+        }
+
+        bool SerializeBuiltIn(XNode root, string name, object obj)
+        {
+            var node = new XNode(root, name);
+            if(!BuiltInSerializatorX.Serialize(node, obj))
+            {
+                return false;
             }
 
-            var node = new XNode(root, name);
-
-            node.AddAttribute("XSerializer.SerializedType", type);
-            obj.Serialize(node);
-
             root.Nodes.Add(node);
+            return true;
+        }
+        
+
+        void DeserializeProperties(object obj, XNode root)
+        {
+            XNode node = root.Nodes.Find(n => n.Tag == "Properties");
+            Type type = obj.GetType();
+
+            if(node != null)
+            {
+                foreach(var child in node.Nodes)
+                {
+                    PropertyInfo info = type.GetProperty(child.Tag);
+                    object value = Deserialize(child, null, info.PropertyType);
+
+                    info.SetValue(obj, value);
+                }
+            }
         }
 
         public T Deserialize<T>(string name, T defaultValue = default(T))
         {
             var node = _file.Nodes.Find(n => n.Tag == name);
-            return Deserialize<T>(node, defaultValue);
+            return (T)Deserialize(node, defaultValue, typeof(T));
         }
 
-        T Deserialize<T>(XNode node, T defaultValue)
+        object Deserialize(XNode node, object defaultValue, Type asType)
         {
             if(node != null)
             {
@@ -128,8 +173,8 @@ namespace Sitana.Framework.Serialization
 
                 if(type == null)
                 {
-                    T enumValue;
-                    if (BuiltInSerializatorX.DeserializeEnum<T>(node, out enumValue))
+                    object enumValue;
+                    if (BuiltInSerializatorX.DeserializeEnum(node, asType, out enumValue))
                     {
                         return enumValue;
                     }
@@ -141,18 +186,25 @@ namespace Sitana.Framework.Serialization
                         return defaultValue;
                     }
 
-                    return (T)value;
+                    return value;
                 }
 
                 object obj = Activator.CreateInstance(type);
 
+                DeserializeProperties(obj, node);
+
                 if(obj is IXSerializable)
                 {
-                    IXSerializable serializable = obj as IXSerializable;
-                    serializable.Deserialize(node);
+                    XNode serializableNode = node.Nodes.Find(n => n.Tag == "IXSerializable");
 
-                    return (T)serializable;
+                    if (serializableNode != null)
+                    {
+                        IXSerializable serializable = obj as IXSerializable;
+                        serializable.Deserialize(serializableNode);
+                    }
                 }
+
+                return obj;
             }
 
             return defaultValue;

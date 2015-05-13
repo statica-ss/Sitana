@@ -70,7 +70,7 @@ namespace Sitana.Framework.Serialization
             return null;
         }
 
-        public static bool DeserializeEnum<T>(XNode node, out T value)
+        public static bool DeserializeEnum(XNode node, Type enumType, out object value)
         {
             string type = node.Attribute("type");
 
@@ -78,19 +78,19 @@ namespace Sitana.Framework.Serialization
             {
                 try
                 {
-                    value = (T)Enum.Parse(typeof(T), node.Attribute("value"));
+                    value = Enum.Parse(enumType, node.Attribute("value"));
                     return true;
                 }
                 catch
                 {}
             }
 
-            value = default(T);
+            value = null;
 
             return false;
         }
 
-        public static void Serialize(XNode node, object value)
+        public static bool Serialize(XNode node, object value)
         {
             if(value is Enum)
             {
@@ -171,8 +171,10 @@ namespace Sitana.Framework.Serialization
             }
             else
             {
-                throw new InvalidOperationException("Cannot serialize type: " + value.GetType().Name);
+                return false;
             }
+
+            return true;
         }
     }
 }

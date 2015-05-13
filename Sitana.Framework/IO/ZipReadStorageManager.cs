@@ -90,5 +90,7 @@ namespace Sitana.Framework.IO
             _zipFile.IsStreamOwner = true;
             _zipFile.Close();
         }
+
+        
     }
 }
