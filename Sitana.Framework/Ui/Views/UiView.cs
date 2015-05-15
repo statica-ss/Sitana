@@ -782,7 +782,7 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
-            BackgroundColor = DefinitionResolver.GetColor(Controller, binding, file["BackgroundColor"]) ?? defaultBackgroundColor;
+            _backgroundColor = DefinitionResolver.GetColorWrapper(Controller, binding, file["BackgroundColor"]) ?? new ColorWrapper(defaultBackgroundColor);
 
             DefinitionFile showTransitionEffectFile = file["ShowTransitionEffect"] as DefinitionFile;
             DefinitionFile hideTransitionEffectFile = file["HideTransitionEffect"] as DefinitionFile;
