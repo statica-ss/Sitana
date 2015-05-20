@@ -565,8 +565,6 @@ namespace Sitana.Framework.Ui.Views
             _isViewDisplayed = false;
         }
 
-        
-
         internal void ViewActivated()
         {
             CallDelegate("ViewActivated");

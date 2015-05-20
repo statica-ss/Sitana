@@ -271,6 +271,7 @@ namespace Sitana.Framework.Ui.Views
                     {
                         if ( IsPushed && _mode == UiButtonMode.Release)
                         {
+                            gesture.Handled = true;
                             DoAction();
                         }
 

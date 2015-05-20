@@ -34,6 +34,21 @@ namespace Sitana.Framework.Ui.Controllers
         {
         }
 
+        public TYPE FindParent<TYPE>() where TYPE: UiController
+        {
+            if (Parent == null)
+            {
+                return null;
+            }
+
+            if(Parent is TYPE)
+            {
+                return Parent as TYPE;
+            }
+
+            return Parent.FindParent<TYPE>();
+        }
+
         public TYPE Find<TYPE>(string id) where TYPE: UiView
         {
             var view = Find(id);
