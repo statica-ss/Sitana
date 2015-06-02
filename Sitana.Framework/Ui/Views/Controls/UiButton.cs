@@ -91,7 +91,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected Rectangle _checkRect;
 
-        public readonly SharedValue<Texture2D> Icon = new SharedValue<Texture2D>();
+        public SharedValue<Texture2D> Icon;
 
         private SoundEffect _pushSound;
         private SoundEffect _releaseSound;
@@ -320,7 +320,12 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiButton));
 
-            Icon.Value = DefinitionResolver.Get<Texture2D>(Controller, Binding, file["Icon"], null);
+            Icon = DefinitionResolver.GetShared<Texture2D>(Controller, Binding, file["Icon"], null);
+
+            if(Icon==null)
+            {
+                Icon = new SharedValue<Texture2D>();
+            }
 
             _gestureMargin = DefinitionResolver.Get<Length>(Controller, Binding, file["GestureMargin"], Length.Zero);
 

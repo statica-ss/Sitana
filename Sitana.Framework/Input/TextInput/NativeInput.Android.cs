@@ -276,7 +276,7 @@ namespace Sitana.Framework.Input
                 return Android.Text.InputTypes.TextFlagCapCharacters | Android.Text.InputTypes.TextFlagNoSuggestions;
 
 			case TextInputType.Password:
-				return Android.Text.InputTypes.TextVariationNormal |  Android.Text.InputTypes.ClassText;
+				return Android.Text.InputTypes.TextVariationNormal |  Android.Text.InputTypes.TextFlagNoSuggestions;
 
 			case TextInputType.MultilineText:
                 return Android.Text.InputTypes.TextFlagMultiLine | Android.Text.InputTypes.TextFlagImeMultiLine;

@@ -63,7 +63,12 @@ namespace Sitana.Framework.Input
             }
             else
             {
-                if (CanAddCharacter(character))
+                if (_inputType == TextInputType.Uppercase)
+                {
+                    character = Char.ToUpperInvariant(character);
+                }
+
+                if (ProcessCharacter(ref character))
                 {
                     _text += character;
                 }
@@ -82,7 +87,7 @@ namespace Sitana.Framework.Input
             }
         }
 
-        bool CanAddCharacter(char ch)
+        bool ProcessCharacter(ref char ch)
         {
             switch(_inputType)
             {
@@ -91,6 +96,10 @@ namespace Sitana.Framework.Input
 
             case TextInputType.Numeric:
                 return char.IsDigit(ch) || ch == '.' || ch == ',';
+
+            case TextInputType.Uppercase:
+                ch = char.ToUpperInvariant(ch);
+                break;
             }
 
             return true;
