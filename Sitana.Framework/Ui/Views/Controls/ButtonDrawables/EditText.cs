@@ -23,6 +23,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         public override void Draw(AdvancedDrawBatch drawBatch, DrawButtonInfo info)
         {
 			int carretPosition = info.Additional != null ? (int)info.Additional : -1;
+            bool focused = false;
 
             Update(info.EllapsedTime, info.ButtonState);
 
@@ -30,6 +31,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             {
                 _flash += info.EllapsedTime * 2;
                 _flash %= 2;
+                focused = true;
             }
             else
             {
@@ -67,19 +69,33 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             }
 
             Vector2 size = font.MeasureString(_string, spacing, 0) * scale;
+            
+            if(focused)
+            {
+                size.X += font.MeasureString("|", spacing).X * scale;
+            }
 
             int positionX = target.X;
 
-            switch (_textAlign & TextAlign.Horz)
+            if (size.X >= target.Width)
             {
-            case TextAlign.Right:
                 positionX = target.Right - (int)size.X;
-                break;
-
-            case TextAlign.Center:
-                positionX = target.Center.X - (int)size.X / 2;
-                break;
             }
+            else
+            {
+                switch (_textAlign & TextAlign.Horz)
+                {
+                    case TextAlign.Right:
+                        positionX = target.Right - (int)size.X;
+                        break;
+
+                    case TextAlign.Center:
+                        positionX = target.Center.X - (int)size.X / 2;
+                        break;
+                }
+            }
+
+            drawBatch.PushClip(target);
 
             target.X = positionX;
 
@@ -91,6 +107,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
                 drawBatch.DrawText(font, "|", target, _textAlign & TextAlign.Vert, color, spacing, 0, scale);
             }
+
+            drawBatch.PopClip();
         }
 
 //        public override object OnAction(DrawButtonInfo info, params object[] parameters)

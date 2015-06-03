@@ -60,14 +60,22 @@ namespace Sitana.Framework.Ui.Views
 
 		string NativeInput.ITextEdit.TextChanged(string text)
 		{
-			object ret = CallDelegate("TextChanged", new InvokeParam("text", text));
-
-			if (ret != null && ret is string)
+			if (text.Length > _maxLength)
 			{
-				text = (string)ret;
-			}
+				text = Text.StringValue.Substring(0, _maxLength);
+			} 
+			else
+			{
 
-			Text.StringValue = text;
+				object ret = CallDelegate("TextChanged", new InvokeParam("text", text));
+
+				if (ret != null && ret is string)
+				{
+					text = (string)ret;
+				}
+
+				Text.StringValue = text;
+			}
 			return text;
 		}
 

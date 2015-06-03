@@ -26,9 +26,15 @@ namespace Sitana.Framework.Ui.Views
 
         string ITextConsumer.OnTextChanged(string newText)
         {
-            newText = OnTextChanged(newText);
-
-            Text.Format("{0}", newText);
+            if (newText.Length > _maxLength)
+            {
+                newText = Text.StringValue.Substring(0,_maxLength);
+            }
+            else
+            {
+                newText = OnTextChanged(newText);
+                Text.Format("{0}", newText);
+            }
 
             return newText;
         }

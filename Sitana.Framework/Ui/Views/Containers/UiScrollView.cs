@@ -162,7 +162,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        Point ScrollPosition
+        public Point ScrollPosition
         {
             get
             {

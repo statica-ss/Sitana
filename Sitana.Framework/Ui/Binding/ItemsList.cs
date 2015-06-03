@@ -194,5 +194,10 @@ namespace Sitana.Framework.Ui.Binding
         {
             return _elements[index];
         }
+
+        public T Last()
+        {
+            return _elements.Last();
+        }
     }
 }

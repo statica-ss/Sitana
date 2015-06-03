@@ -73,6 +73,11 @@ namespace Sitana.Framework.Ui.Views
             set
             {
                 _enabledFlag.Value = _enabledFlagInvert ? !value : value;
+
+                if(!Enabled)
+                {
+                    SetPushed(false, false);
+                }
             }
         }
 
@@ -181,6 +186,13 @@ namespace Sitana.Framework.Ui.Views
                     {
                         _touchId = 0;
                         SetPushed(false, true);
+                    }
+                    break;
+
+                case GestureType.Hold:
+                    if(_touchId == gesture.TouchId && _processHold)
+                    {
+                        gesture.Handled = true;
                     }
                     break;
 

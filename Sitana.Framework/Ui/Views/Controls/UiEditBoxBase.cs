@@ -29,6 +29,7 @@ namespace Sitana.Framework.Ui.Views
 
 			file["LostFocus"] = parser.ParseDelegate("LostFocus");
 			file["Return"] = parser.ParseDelegate("Return");
+            file["MaxLength"] = parser.ParseInt("MaxLength");
         }
 
         public override ButtonState ButtonState
@@ -46,6 +47,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected SharedString _password;
         protected TextInputType _inputType;
+        protected int _maxLength = int.MaxValue;
 
         protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
@@ -58,6 +60,7 @@ namespace Sitana.Framework.Ui.Views
 
             Hint = DefinitionResolver.GetSharedString(Controller, Binding, file["Hint"]) ?? new SharedString();
 
+            _maxLength = DefinitionResolver.Get<int>(Controller, Binding, file["MaxLength"], int.MaxValue);
             _inputType = DefinitionResolver.Get<TextInputType>(Controller, Binding, file["InputType"], TextInputType.NormalText);
             _lostFocusCancels = DefinitionResolver.Get<bool>(Controller, Binding, file["CancelOnLostFocus"], false);
 
