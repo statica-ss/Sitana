@@ -447,6 +447,18 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        public void Switch(UiView child)
+        {
+            for (int idx = 0; idx < _children.Count; ++idx)
+            {
+                if (_children[idx] == child)
+                {
+                    Switch(idx);
+                    return;
+                }
+            }
+        }
+
         int IIndexedElement.Count
         {
             get

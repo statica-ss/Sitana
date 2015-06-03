@@ -40,6 +40,11 @@ namespace Sitana.Framework.Serialization
 
         public void SerializeList<T>(string name, List<T> list)
         {
+            if(list == null)
+            {
+                return;
+            }
+
             var node = new XNode(_file, name);
             _file.Nodes.Add(node);
 
