@@ -41,6 +41,11 @@ namespace Sitana.Framework.Ui.Views
 
         void ITextConsumer.OnLostFocus()
         {
+            if (_focused)
+            {
+                UiTask.BeginInvoke(() => CallDelegate("LostFocus"));
+            }
+
             _focused = false;
 
             if (_lostFocusCancels)
