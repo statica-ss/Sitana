@@ -143,6 +143,46 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        public void ScrollToChild(UiView view, bool vertical)
+        {
+            Rectangle myBounds = ScreenBounds;
+            Rectangle viewBounds = view.ScreenBounds;
+
+            if(vertical)
+            {
+                float scrollPosition = _scrollingService.ScrollPositionY;
+
+                if (viewBounds.Bottom > myBounds.Bottom)
+                {
+                    scrollPosition += viewBounds.Bottom - myBounds.Bottom;
+                }
+
+                if (viewBounds.Top < myBounds.Top)
+                {
+                    scrollPosition -= myBounds.Top - viewBounds.Top;
+                }
+
+                _scrollingService.ScrollPositionY = scrollPosition;
+            }
+            else
+            {
+                float scrollPosition = _scrollingService.ScrollPositionX;
+
+                if(viewBounds.Right > myBounds.Right)
+                {
+                    scrollPosition += viewBounds.Right - myBounds.Right;
+                }
+
+                if (viewBounds.Left < myBounds.Left)
+                {
+                    scrollPosition -= myBounds.Left - viewBounds.Left;
+                }
+
+                _scrollingService.ScrollPositionX = scrollPosition;
+            }
+
+        }
+
         protected override void Update(float time)
         {
             base.Update(time);
