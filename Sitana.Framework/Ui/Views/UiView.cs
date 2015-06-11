@@ -602,6 +602,10 @@ namespace Sitana.Framework.Ui.Views
             }
 
             CallDelegate("ViewRemoved");
+            if(_updateController)
+            {
+                Controller.OnViewDetached();
+            }
             OnRemoved();
 
             if (_modal)

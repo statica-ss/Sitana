@@ -131,5 +131,10 @@ namespace Sitana.Framework.Ui.Controllers
         {
             View.ViewUpdate(time);
         }
+
+        public virtual void OnViewDetached()
+        {
+            
+        }
     }
 }

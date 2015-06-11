@@ -24,6 +24,8 @@ using System.Windows.Forms;
 using Sitana.Framework.Diagnostics;
 using Microsoft.Xna.Framework.Input;
 using Sitana.Framework.Input;
+using Sitana.Framework.Input.GamePad;
+using Sitana.Framework.Misc;
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -116,7 +118,7 @@ namespace Sitana.Framework.Ui.Core
                     }
                 };
 
-            _keyboardHandler.OnKey += (k) =>
+            _keyboardHandler.OnKeyDown += (k) =>
                 {
                     if (_currentFocus != null)
                     {
@@ -127,6 +129,11 @@ namespace Sitana.Framework.Ui.Core
                         Accelerators.Instance.Process(k);
                     }
                 };
+
+            _keyboardHandler.OnKeyDown += GamePads.Instance[0].ProcessKey;
+            _keyboardHandler.OnKeyUp += GamePads.Instance[0].ProcessKey;
+
+            RegisterUpdatable(BackServicesManager.Instance);
         }
 
         void OnSize(int width, int height)
