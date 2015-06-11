@@ -13,7 +13,7 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <AssemblyName>Sitana.Framework</AssemblyName>
-    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -187,7 +187,6 @@
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
     <Compile Include="Media\MusicController.Common.cs" />
     <Compile Include="Ui\Core\AppMain.Android.cs" />
-    <Compile Include="Input\GamePad\GamePad.cs" />
     <Compile Include="Input\GamePad\GamePadButtonState.cs" />
     <Compile Include="Input\GamePad\GamePads.cs" />
     <Compile Include="Graphics\Sprites\SpriteInstance.cs" />
@@ -246,6 +245,9 @@
     <Compile Include="IO\StorageManager.cs" />
     <Compile Include="IO\ZipReadStorageManager.cs" />
     <Compile Include="IO\ZipWriteStorageManager.cs" />
+    <Compile Include="Input\GamePad\GamePad.Mobile.cs" />
+    <Compile Include="Ui\Interfaces\IBackable.cs" />
+    <Compile Include="Misc\BackServicesManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

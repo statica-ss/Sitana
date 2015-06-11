@@ -10,7 +10,8 @@ namespace Microsoft.Xna.Framework.Input
         public delegate void OnKeyDownDelegate(Keys key);
 
         public event OnCharacterDelegate OnCharacter;
-        public event OnKeyDownDelegate OnKey;
+        public event OnKeyDownDelegate OnKeyDown;
+        public event OnKeyDownDelegate OnKeyUp;
 
         public KeyboardHandler(IntPtr window)
             : base(window)
@@ -31,11 +32,11 @@ namespace Microsoft.Xna.Framework.Input
                     {
                         long tick = DateTime.Now.Ticks;
 
-                        if (OnKey != null)
+                        if (OnKeyDown != null)
                         {
                             Keys key = GetKey(m.wparam);
                             Console.WriteLine(key.ToString());
-                            OnKey(key);
+                            OnKeyDown(key);
                         }
 
 #if WINDOWS_XNA
@@ -46,6 +47,21 @@ namespace Microsoft.Xna.Framework.Input
 #endif
                     }
 
+                    break;
+
+                case Wm.KeyUp:
+                    {
+                        long tick = DateTime.Now.Ticks;
+
+                        if(OnKeyUp != null)
+                        {
+                            Keys key = GetKey(m.wparam);
+                            if(OnKeyUp != null)
+                            {
+                                OnKeyUp(key);
+                            }
+                        }
+                    }
                     break;
 
                 case Wm.Char:

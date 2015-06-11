@@ -7,10 +7,12 @@ using System.Text;
 using Sitana.Framework.Content;
 using Sitana.Framework.Input.GamePad;
 using Microsoft.Xna.Framework.Input;
+using Sitana.Framework.Ui.Interfaces;
+using Sitana.Framework.Misc;
 
 namespace Sitana.Framework.Ui.Controllers
 {
-    public abstract class UiNavigationController: UiController
+    public abstract class UiNavigationController : UiController, IBackable
     {
         UiNavigationView _navigation = null;
 
@@ -50,6 +52,13 @@ namespace Sitana.Framework.Ui.Controllers
             {
                 throw new InvalidOperationException("Attached view must be either UiNavigationView or UiPage.");
             }
+
+            BackServicesManager.Instance.Add(this);
+        }
+
+        public override void OnViewDetached()
+        {
+         	 BackServicesManager.Instance.Remove(this);
         }
 
         public void NavigateTo(string uri)
@@ -86,19 +95,14 @@ namespace Sitana.Framework.Ui.Controllers
             Navigation.ClearNavigation();
         }
 
-        protected override void Update(float time)
+        bool IBackable.OnBack()
         {
-            if ( View.DisplayVisibility == 1 && GamePads.Instance[0].ButtonState(Buttons.Back) == GamePadButtonState.Pressed)
-            {
-                OnBack();
-            }
-
-            base.Update(time);
+            return OnBack();
         }
 
-        protected virtual void OnBack()
+        protected virtual bool OnBack()
         {
-            NavigateBack();
+            return false;
         }
     }
 }

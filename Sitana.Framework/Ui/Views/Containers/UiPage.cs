@@ -19,12 +19,12 @@ namespace Sitana.Framework.Ui.Views
         {
             UiContainer.Parse(node, file);
 
-			var parser = new DefinitionParser(node);
+            var parser = new DefinitionParser(node);
 
             file["PageController"] = file["Controller"];
             file["Controller"] = null;
 
-			file["PageShown"] = parser.ParseBoolean("PageShown");
+            file["PageShown"] = parser.ParseBoolean("PageShown");
         }
 
         public TransitionEffect ShowTransitionEffect
@@ -79,7 +79,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-		bool _alreadyFullyVisible = false;
+        bool _alreadyFullyVisible = false;
 
         public UiPage()
         {
@@ -101,7 +101,7 @@ namespace Sitana.Framework.Ui.Views
             Visible = true;
             DisplayVisibility = 0;
 
-			RegisterDelegate("PageShown", definition["PageShown"]);
+            RegisterDelegate("PageShown", definition["PageShown"]);
 
             return true;
         }
@@ -124,12 +124,12 @@ namespace Sitana.Framework.Ui.Views
 
             drawParams.TransitionMode = DisplayVisibility == 1 ? TransitionMode.None : (Visible ? TransitionMode.Show : TransitionMode.Hide);
 
-			if (DisplayVisibility == 1 && !_alreadyFullyVisible)
-			{
-				_alreadyFullyVisible = true;
+            if (DisplayVisibility == 1 && !_alreadyFullyVisible)
+            {
+                _alreadyFullyVisible = true;
 
-				UiTask.BeginInvoke(() => CallDelegate("PageShown"));
-			}
+                UiTask.BeginInvoke(() => CallDelegate("PageShown"));
+            }
 
             for (int idx = 0; idx < _children.Count; ++idx)
             {
