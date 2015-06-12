@@ -3,7 +3,6 @@
 // file 'LICENSE.txt', which is part of this source code package.
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Diagnostics;
-using Sitana.Framework.Misc;
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -28,7 +27,6 @@ namespace Sitana.Framework.Ui.Core
 
         protected void PlatformUpdate(GameTime gameTime)
         {
-            RegisterUpdatable(BackServicesManager.Instance);
         }
     }
 }

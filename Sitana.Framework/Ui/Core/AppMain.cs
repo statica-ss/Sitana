@@ -18,6 +18,7 @@ using Sitana.Framework.Input;
 using Sitana.Framework.Input.GamePad;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Media;
+using Sitana.Framework.Misc;
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -44,8 +45,8 @@ namespace Sitana.Framework.Ui.Core
 
         private Point _lastSize = Point.Zero;
 
-		private int _desiredVerticalOffset = 0;
-		private float _currentVerticalOffset = 0;
+        private int _desiredVerticalOffset = 0;
+        private float _currentVerticalOffset = 0;
 
         private int _top = 0;
 
@@ -101,35 +102,37 @@ namespace Sitana.Framework.Ui.Core
         #if !ANDROID
         public AppMain()
         {
-			Init();
+            Init();
         }
-		#endif
+        #endif
 
-		protected void Init()
-		{
-			if (Current != null)
-			{
-				throw new Exception("There can be only one AppMain instance.");
-			}
+        protected void Init()
+        {
+            if (Current != null)
+            {
+                throw new Exception("There can be only one AppMain instance.");
+            }
 
-			Current = this;
+            Current = this;
 
-			InactiveSleepTime = TimeSpan.FromMilliseconds(100);
+            InactiveSleepTime = TimeSpan.FromMilliseconds(100);
 
-			IsFixedTimeStep = false;
+            IsFixedTimeStep = false;
 
-			_graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
 
-			Graphics.IsFullScreen = true;
-			Graphics.SynchronizeWithVerticalRetrace = true;
+            Graphics.IsFullScreen = true;
+            Graphics.SynchronizeWithVerticalRetrace = true;
 
-			MusicController.Instance.Initialize();
-			TouchPad.Instance.AddListener(this);
+            MusicController.Instance.Initialize();
+            TouchPad.Instance.AddListener(this);
 
-			TotalGameTime = 0;
+            TotalGameTime = 0;
 
-			PlatformInit();
-		}
+            PlatformInit();
+
+            RegisterUpdatable(BackServicesManager.Instance);
+        }
 
         protected override void Dispose(bool disposing)
         {
@@ -228,30 +231,30 @@ namespace Sitana.Framework.Ui.Core
                 _lastSize = newSize;
             }
 
-			if (_currentVerticalOffset != _desiredVerticalOffset)
-			{
-				if (time >= 0.2)
-				{
-					_currentVerticalOffset = _desiredVerticalOffset;
-				} 
-				else
-				{
-					_currentVerticalOffset = _desiredVerticalOffset * time * 5 + (1 - time * 5) * _currentVerticalOffset;
-					_currentVerticalOffset = _desiredVerticalOffset * time * 5 + (1 - time * 5) * _currentVerticalOffset;
-					_currentVerticalOffset = _desiredVerticalOffset * time * 5 + (1 - time * 5) * _currentVerticalOffset;
-					_currentVerticalOffset = _desiredVerticalOffset * time * 5 + (1 - time * 5) * _currentVerticalOffset;
-				}
+            if (_currentVerticalOffset != _desiredVerticalOffset)
+            {
+                if (time >= 0.2)
+                {
+                    _currentVerticalOffset = _desiredVerticalOffset;
+                } 
+                else
+                {
+                    _currentVerticalOffset = _desiredVerticalOffset * time * 5 + (1 - time * 5) * _currentVerticalOffset;
+                    _currentVerticalOffset = _desiredVerticalOffset * time * 5 + (1 - time * 5) * _currentVerticalOffset;
+                    _currentVerticalOffset = _desiredVerticalOffset * time * 5 + (1 - time * 5) * _currentVerticalOffset;
+                    _currentVerticalOffset = _desiredVerticalOffset * time * 5 + (1 - time * 5) * _currentVerticalOffset;
+                }
 
-				if (Math.Abs(_currentVerticalOffset - _desiredVerticalOffset) < 10)
-				{
-					_currentVerticalOffset = _desiredVerticalOffset;
-				}
-			}
+                if (Math.Abs(_currentVerticalOffset - _desiredVerticalOffset) < 10)
+                {
+                    _currentVerticalOffset = _desiredVerticalOffset;
+                }
+            }
 
             if (MainView.OffsetBoundsVertical != (int)_currentVerticalOffset + _top)
-			{
+            {
                 MainView.OffsetBoundsVertical = (int)_currentVerticalOffset + _top;
-			}
+            }
 
             TouchPad.Instance.Update(time, IsActive);
             GamePads.Instance.Update();
@@ -351,9 +354,9 @@ namespace Sitana.Framework.Ui.Core
             {
                 _currentFocus.Unfocus();
             }
-				
+                
             _currentFocus = focus;
-			return ComputeFocus();
+            return ComputeFocus();
         }
 
         public void ReleaseFocus(IFocusable focus)
@@ -364,42 +367,42 @@ namespace Sitana.Framework.Ui.Core
                 focus.Unfocus();
             }
 
-			ComputeFocus();
+            ComputeFocus();
         }
 
-		int ComputeFocus()
-		{
-			if(_currentFocus != null)
-			{
-				int offset = GraphicsDevice.Viewport.Height - Platform.KeyboardHeight(GraphicsDevice.Viewport.Height < GraphicsDevice.Viewport.Width);
+        int ComputeFocus()
+        {
+            if(_currentFocus != null)
+            {
+                int offset = GraphicsDevice.Viewport.Height - Platform.KeyboardHeight(GraphicsDevice.Viewport.Height < GraphicsDevice.Viewport.Width);
 
-				offset -= _currentFocus.Bottom;
-				offset = Math.Min(0, offset);
+                offset -= _currentFocus.Bottom;
+                offset = Math.Min(0, offset);
 
-				_desiredVerticalOffset = offset;
-				_currentVerticalOffset = offset;
-				MainView.OffsetBoundsVertical = offset;
-				return offset;
-			}
-			else
-			{
-				_desiredVerticalOffset = 0;
-			}
-			return 0;
-		}
+                _desiredVerticalOffset = offset;
+                _currentVerticalOffset = offset;
+                MainView.OffsetBoundsVertical = offset;
+                return offset;
+            }
+            else
+            {
+                _desiredVerticalOffset = 0;
+            }
+            return 0;
+        }
 
-		protected void CallResized(int width, int height)
-		{
-			if (Resized != null)
-			{
-				Resized(width, height);
-			}
-		}
+        protected void CallResized(int width, int height)
+        {
+            if (Resized != null)
+            {
+                Resized(width, height);
+            }
+        }
 
         public void CloseApp()
         {
 #if __ANDROID__
-			Activity.MoveTaskToBack(true);
+            Activity.MoveTaskToBack(true);
 #elif __IOS__
             throw new NotImplementedException("Cannot exit app on iOS.");
 #else
