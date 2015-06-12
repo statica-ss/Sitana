@@ -134,7 +134,7 @@ namespace Sitana.Framework.Ui.Views
 
                 if (_touchIdX == gesture.TouchId || _touchIdY == gesture.TouchId)
                 {
-                    gesture.Handled = true;
+                    gesture.SetHandled();
 
                     if (_touchIdX != 0 && _mode.HasFlag(Mode.HorizontalDrag))
                     {

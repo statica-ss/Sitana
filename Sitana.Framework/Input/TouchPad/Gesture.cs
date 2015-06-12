@@ -16,8 +16,9 @@ namespace Sitana.Framework.Input.TouchPad
 
         public Vector2 Offset { internal set; get; }
 
-        public bool Handled { get; set; }
-        public bool SkipRest { get; set; }
+        public bool Handled {get; private set;}
+
+        public bool SkipRest { get; private set; }
         
         public object PointerCapturedBy { get; internal set; }
 
@@ -29,6 +30,22 @@ namespace Sitana.Framework.Input.TouchPad
             }
 
             PointerCapturedBy = captureBy;
+        }
+
+        public void ResetState()
+        {
+            Handled = false;
+            SkipRest = false;
+        }
+
+        public void SetHandled()
+        {
+            Handled = true;
+        }
+
+        public void Skip()
+        {
+            SkipRest = true;
         }
     }
 }

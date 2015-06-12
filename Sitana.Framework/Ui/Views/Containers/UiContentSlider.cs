@@ -10,6 +10,7 @@ using Sitana.Framework.Ui.Views.Parameters;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Ui.Interfaces;
+using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -108,6 +109,8 @@ namespace Sitana.Framework.Ui.Views
                     _transition = 0;
                     _previous = null;
                 }
+
+                AppMain.Redraw();
             }
         }
 

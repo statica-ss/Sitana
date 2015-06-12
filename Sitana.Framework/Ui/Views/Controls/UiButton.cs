@@ -192,44 +192,47 @@ namespace Sitana.Framework.Ui.Views
                 case GestureType.Hold:
                     if(_touchId == gesture.TouchId && _processHold)
                     {
-                        gesture.Handled = true;
+                        gesture.SetHandled();
                     }
                     break;
 
                 case GestureType.Down:
 
-                    if (Parent.IsPointInsideView(gesture.Origin) && bounds.Contains(gesture.Origin.ToPoint()))
+                    if (bounds.Contains(gesture.Origin.ToPoint()))
                     {
-                        if ( _mode == UiButtonMode.Game)
+                        if (Parent.IsPointInsideView(gesture.Origin))
                         {
-                            if ( !_touches.ContainsKey(gesture.TouchId))
+                            if (_mode == UiButtonMode.Game)
                             {
-                                _touches.Add(gesture.TouchId, true);
-                            }
-                            break;
-                        }
-
-                        if (_touchId == 0)
-                        {
-                            _touchId = gesture.TouchId;
-
-                            if (_processHold)
-                            {
-                                _holdTime = (float)TouchPad.Instance.HoldTimeInMs / 1000.0f;
+                                if (!_touches.ContainsKey(gesture.TouchId))
+                                {
+                                    _touches.Add(gesture.TouchId, true);
+                                }
+                                break;
                             }
 
-                            SetPushed(true, _mode != UiButtonMode.Press);
-                            _checkRect = bounds;
-                            
-                            gesture.Handled = true;
+                            if (_touchId == 0)
+                            {
+                                _touchId = gesture.TouchId;
 
-                            if (_mode == UiButtonMode.Press)
-                            {
-                                DoAction();
-                            }
-                            else if (_mode == UiButtonMode.Delayed)
-                            {
-                                _waitForAction = _delayTime;
+                                if (_processHold)
+                                {
+                                    _holdTime = (float)TouchPad.Instance.HoldTimeInMs / 1000.0f;
+                                }
+
+                                SetPushed(true, _mode != UiButtonMode.Press);
+                                _checkRect = bounds;
+
+                                gesture.SetHandled();
+
+                                if (_mode == UiButtonMode.Press)
+                                {
+                                    DoAction();
+                                }
+                                else if (_mode == UiButtonMode.Delayed)
+                                {
+                                    _waitForAction = _delayTime;
+                                }
                             }
                         }
                     }
@@ -283,7 +286,7 @@ namespace Sitana.Framework.Ui.Views
                     {
                         if ( IsPushed && _mode == UiButtonMode.Release)
                         {
-                            gesture.Handled = true;
+                            gesture.SetHandled();
                             DoAction();
                         }
 

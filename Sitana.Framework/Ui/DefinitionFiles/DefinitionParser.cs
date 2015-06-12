@@ -168,6 +168,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             }
 
             name = Value(name);
+
             object method = ParseMethodOrField(name);
 
             if (method != null)

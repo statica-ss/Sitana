@@ -97,6 +97,7 @@ namespace Sitana.Framework.Ui.Views
 
                 for (int di = 0; di < _drawables.Count; ++di)
                 {
+                    _drawables[di].DontForceRedraw();
                     _drawables[di].Draw(parameters.DrawBatch, drawInfo);
                 }
 

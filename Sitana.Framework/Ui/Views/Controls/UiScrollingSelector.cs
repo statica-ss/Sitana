@@ -273,7 +273,7 @@ namespace Sitana.Framework.Ui.Views
                         {
                             _scrollTo = float.NaN;
                             _touchId = gesture.TouchId;
-                            gesture.Handled = true;
+                            gesture.SetHandled();
                             _touchId = gesture.TouchId;
                             //_lastMoveTime = null;
                         }
@@ -292,7 +292,7 @@ namespace Sitana.Framework.Ui.Views
 
                         _isScrolling = true;
                         _scroll += gesture.Offset.Y / (elementsSize.Y + spacing);
-                        gesture.Handled = true;
+                        gesture.SetHandled();
                     }
 
                     break;

@@ -14,6 +14,7 @@ using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Diagnostics;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Input.TouchPad;
+using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -227,7 +228,6 @@ namespace Sitana.Framework.Ui.Views
             {
                 _bounds = value;
                 InvalidateScreenBounds();
-                _isViewDisplayed = false;
             }
         }
 
@@ -448,6 +448,7 @@ namespace Sitana.Framework.Ui.Views
         public void ViewDraw(ref UiViewDrawParameters parameters)
         {
             _isViewDisplayed = Visible && Math.Abs(parameters.Transition) < 0.000001;
+
             if (DisplayVisibility == 0)
             {
                 return;
@@ -511,6 +512,23 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        internal virtual void ResetViewDisplayed()
+        {
+            _isViewDisplayed = false;
+        }
+
+        internal virtual void ProcessAfterDraw()
+        {
+            if (_isViewDisplayed != _wasViewDisplayed)
+            {
+                _wasViewDisplayed = _isViewDisplayed;
+                if (ViewDisplayChanged != null)
+                {
+                    ViewDisplayChanged(_isViewDisplayed);
+                }
+            }
+        }
+
         internal void ViewUpdate(float time)
         {
 			if ( _updateController && _controller != null)
@@ -521,6 +539,8 @@ namespace Sitana.Framework.Ui.Views
             float opacity = Visible ? 1 : 0;
 
             bool visible = DisplayVisibility > 0;
+
+            float oldDisplayVisibility = DisplayVisibility;
 
             if (DisplayVisibility < opacity)
             {
@@ -533,6 +553,11 @@ namespace Sitana.Framework.Ui.Views
                 DisplayVisibility = Math.Max(DisplayVisibility, opacity);
             }
 
+            if(DisplayVisibility != oldDisplayVisibility)
+            {
+                AppMain.Redraw();
+            }
+
             if (visible != DisplayVisibility > 0)
             {
                 if ( Parent != null )
@@ -543,26 +568,20 @@ namespace Sitana.Framework.Ui.Views
 
             if ( _lastSize != Bounds)
             {
-                CallDelegate("ViewResized", new InvokeParam("bounds", Bounds), new InvokeParam("size", new Point(Bounds.Width, Bounds.Height)),
-                    new InvokeParam("width", Bounds.Width), new InvokeParam("height", Bounds.Height));
+                if (_lastSize.Height != Bounds.Height || _lastSize.Width != Bounds.Width)
+                {
+                    CallDelegate("ViewResized", new InvokeParam("bounds", Bounds), new InvokeParam("size", new Point(Bounds.Width, Bounds.Height)),
+                        new InvokeParam("width", Bounds.Width), new InvokeParam("height", Bounds.Height));
 
-                OnSizeChanged();
+                    OnSizeChanged();
+                }
 
                 _lastSize = Bounds;
-            }
 
-            if (_isViewDisplayed != _wasViewDisplayed)
-            {
-                _wasViewDisplayed = _isViewDisplayed;
-                if(ViewDisplayChanged!=null)
-                {
-                    ViewDisplayChanged(_isViewDisplayed);
-                }
+                AppMain.Redraw();
             }
 
             Update(time);
-
-            _isViewDisplayed = false;
         }
 
         internal void ViewActivated()
@@ -910,7 +929,7 @@ namespace Sitana.Framework.Ui.Views
 
                 if (_modal && Visible)
                 {
-                    gesture.SkipRest = true;
+                    gesture.Skip();
                 }
             }
         }
