@@ -46,7 +46,7 @@ namespace Sitana.Framework.Ui.Views
                     }
                 }
 
-                //gesture.Skip();
+                gesture.Skip();
             }
         }
 
