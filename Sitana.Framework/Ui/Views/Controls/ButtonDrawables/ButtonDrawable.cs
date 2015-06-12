@@ -6,6 +6,7 @@ using Sitana.Framework.Xml;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Controllers;
 using Microsoft.Xna.Framework;
+using Sitana.Framework.Ui.Core;
 
 
 namespace Sitana.Framework.Ui.Views.ButtonDrawables
@@ -41,6 +42,8 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
         protected bool? _specialState;
         protected bool? _checkedState;
+
+        bool _dontForceRedraw = false;
 
         float _opacity;
 
@@ -85,10 +88,19 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             ComputeState(ref CheckedState, check, time);
             ComputeState(ref DisabledState, disable, time);
             ComputeState(ref PushedState, push, time);
+
+            _dontForceRedraw = false;
+        }
+
+        public void DontForceRedraw()
+        {
+            _dontForceRedraw = true;
         }
 
         private void ComputeState(ref float current, float desired, float time)
         {
+            float oldValue = current;
+
             if (float.IsNaN(current))
             {
                 current = desired;
@@ -99,6 +111,11 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
                 current += time * sign * _changeSpeed;
 
                 current = Math.Max(0, Math.Min(1, current));
+            }
+
+            if (oldValue != current && !_dontForceRedraw)
+            {
+                AppMain.RedrawNextFrame();
             }
         }
 

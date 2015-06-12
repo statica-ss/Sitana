@@ -212,6 +212,26 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        internal override void ResetViewDisplayed()
+        {
+            base.ResetViewDisplayed();
+
+            for (int idx = 0; idx < _children.Count; ++idx)
+            {
+                _children[idx].ResetViewDisplayed();
+            }
+        }
+
+        internal override void ProcessAfterDraw()
+        {
+            base.ProcessAfterDraw();
+
+            for (int idx = 0; idx < _children.Count; ++idx)
+            {
+                _children[idx].ProcessAfterDraw();
+            }
+        }
+
         protected override void OnRemoved()
         {
             for (int idx = 0; idx < _children.Count; ++idx)

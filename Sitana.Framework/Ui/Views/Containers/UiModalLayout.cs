@@ -24,7 +24,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void OnAdded()
         {
-            EnabledGestures = (GestureType.Down | GestureType.FreeDrag | GestureType.Tap | GestureType.HoldStart | GestureType.Hold | GestureType.Move | GestureType.MouseMove | GestureType.MouseWheel);
+            EnabledGestures = (GestureType.Down | GestureType.FreeDrag | GestureType.Tap | GestureType.HoldStart | GestureType.Hold | GestureType.Move | GestureType.MouseWheel);
 
             base.OnAdded();
         }
@@ -46,7 +46,7 @@ namespace Sitana.Framework.Ui.Views
                     }
                 }
 
-                gesture.SkipRest = true;
+                //gesture.Skip();
             }
         }
 

@@ -118,6 +118,8 @@ namespace Sitana.Framework.Graphics
             Vector2 size = _font.MeasureString(text, spacing, lineHeight) * scale;
             Vector2 position = TextPosition(ref target, align, size, rotation);
 
+            
+
             if (_font.SitanaFont != null)
             {
                 PrimitiveType = PrimitiveType.TriangleList;

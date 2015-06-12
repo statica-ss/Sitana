@@ -192,6 +192,11 @@ namespace Sitana.Framework.Ui.Views
                 {
                     _rotation += MathHelper.TwoPi;
                 }
+
+                if(DisplayVisibility > 0)
+                {
+                    AppMain.Redraw();
+                }
             }
         }
     }

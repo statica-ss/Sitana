@@ -180,7 +180,7 @@ namespace Sitana.Framework.Ui.Views
                     {
                         _touchId = gesture.TouchId;
 
-                        gesture.Handled = true;
+                        gesture.SetHandled();
                         _scrollPositionOnDown = _vertical ? _element.ScrollingService.ScrollPositionY : _element.ScrollingService.ScrollPositionX;
                     }
                 }
@@ -190,7 +190,7 @@ namespace Sitana.Framework.Ui.Views
 
                 if (_touchId == gesture.TouchId)
                 {
-                    gesture.Handled = true;
+                    gesture.SetHandled();
                     UpdatePosition(gesture.Origin, gesture.Position);
                 }
                 break;
@@ -206,7 +206,7 @@ namespace Sitana.Framework.Ui.Views
             case GestureType.HorizontalDrag:
                 if ( _touchId == gesture.TouchId)
                 {
-                    gesture.Handled = true;
+                    gesture.SetHandled();
                     gesture.CapturePointer(this);
                 }
                 break;

@@ -129,7 +129,7 @@ namespace Sitana.Framework.Ui.Views
 
                             _touchId = gesture.TouchId;
 
-                            gesture.Handled = true;
+                            gesture.SetHandled();
                             _scrollPositionOnDown = Value;
                         }
                     }
@@ -154,7 +154,7 @@ namespace Sitana.Framework.Ui.Views
                 case GestureType.HorizontalDrag:
                     if (_touchId == gesture.TouchId)
                     {
-                        gesture.Handled = true;
+                        gesture.SetHandled();
                         gesture.CapturePointer(this);
                     }
                     break;

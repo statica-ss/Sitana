@@ -53,7 +53,28 @@ namespace Sitana.Framework.Ui.Core
 
         public List<IUpdatable> _updatables = new List<IUpdatable>();
 
+        public int RedrawFrequency
+        {
+            set
+            {
+                if (value == 0)
+                {
+                    _redrawPeriod = 0;
+                }
+                else
+                {
+                    _redrawPeriod = 1.0 / (double)value;
+                }
+            }
+        }
+
         IFocusable _currentFocus = null;
+
+        double _redrawPeriod = 0;
+        double _timeTillRedraw = 0;
+
+        bool _shouldRedraw = false;
+        bool _redrawInNextFrame = false;
 
         public GraphicsDeviceManager Graphics
         {
@@ -124,9 +145,19 @@ namespace Sitana.Framework.Ui.Core
 
         protected override void Draw(GameTime gameTime)
         {
+            if(MainView!=null)
+            {
+                MainView.ResetViewDisplayed();
+            }
+
             Viewport viewport = GraphicsDevice.Viewport;
             Draw((float)gameTime.ElapsedGameTime.TotalSeconds);
             GraphicsDevice.Viewport = viewport;
+
+            if (MainView != null)
+            {
+                MainView.ProcessAfterDraw();
+            }
         }
 
         public bool Draw(float ellapsedTime)
@@ -158,6 +189,19 @@ namespace Sitana.Framework.Ui.Core
 
         protected override void Update(GameTime gameTime)
         {
+            bool shouldRedraw = _redrawInNextFrame;
+            _redrawInNextFrame = false;
+
+            _timeTillRedraw -= gameTime.ElapsedGameTime.TotalSeconds;
+
+            if(_timeTillRedraw <= 0)
+            {
+                _timeTillRedraw = _redrawPeriod;
+                shouldRedraw = true;
+            }
+
+            _shouldRedraw = false;
+
             PlatformUpdate(gameTime);
 
             float time = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -218,6 +262,13 @@ namespace Sitana.Framework.Ui.Core
             }
 
             MainView.ViewUpdate(time);
+
+            shouldRedraw |= _shouldRedraw;
+
+            if(!shouldRedraw)
+            {
+                SuppressDraw();
+            }
         }
 
         protected override void LoadContent()
@@ -248,6 +299,7 @@ namespace Sitana.Framework.Ui.Core
 
         protected override void OnActivated(object sender, EventArgs args)
         {
+            _shouldRedraw = true;
             if (MainView != null)
             {
                 MainView.ViewActivated();
@@ -362,7 +414,32 @@ namespace Sitana.Framework.Ui.Core
 
         void IGestureListener.OnGesture(Gesture gesture)
         {
+            switch(gesture.GestureType)
+            {
+                case GestureType.Down:
+                case GestureType.Up:
+                    Redraw();
+                    break;
+
+                case GestureType.Move:
+                    if(gesture.Offset != Vector2.Zero)
+                    {
+                        Redraw();
+                    }
+                    break;
+            }
+
             MainView.ViewGesture(gesture);
+        }
+
+        public static void Redraw()
+        {
+            Current._shouldRedraw = true;
+        }
+
+        public static void RedrawNextFrame()
+        {
+            Current._redrawInNextFrame = true;
         }
     }
 }
