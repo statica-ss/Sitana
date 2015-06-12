@@ -21,13 +21,20 @@ namespace Sitana.Framework.Misc
             {
                 throw new ArgumentNullException("Backable can't be null");
             }
-            
-            if(_backables.Find(item => item == backable) != null)
-            {
-                throw new ArgumentException("Can't add more then one backable");
-            }
 
-            _backables.Add(backable);
+            var position = _backables.FindIndex(item => item == backable);
+            if(position >= 0)
+            {
+                if(position < (_backables.Count -1))
+                {
+                    _backables.RemoveAt(position);
+                    _backables.Add(backable);
+                }
+            }
+            else
+            {
+                _backables.Add(backable);
+            }
         }
 
         public void Remove(IBackable obj)
