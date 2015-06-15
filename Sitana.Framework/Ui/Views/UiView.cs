@@ -33,19 +33,19 @@ namespace Sitana.Framework.Ui.Views
 
             file["Id"] = node.Attribute("Id");
 
-			string controller = node.Attribute("Controller");
-			Type controllerType = null;
+            string controller = node.Attribute("Controller");
+            Type controllerType = null;
 
-			if (!string.IsNullOrEmpty(controller))
-			{
-				controllerType = Type.GetType(controller);
-				if (controllerType == null)
-				{
-					throw new Exception(string.Format("Cannot find controller type: {0}.", controller));
-				}
-			}
+            if (!string.IsNullOrEmpty(controller))
+            {
+                controllerType = Type.GetType(controller);
+                if (controllerType == null)
+                {
+                    throw new Exception(string.Format("Cannot find controller type: {0}.", controller));
+                }
+            }
 
-			file["Controller"] = controllerType;
+            file["Controller"] = controllerType;
 
             file["Binding"] = parser.ParseDelegate("Binding");
 
@@ -286,11 +286,11 @@ namespace Sitana.Framework.Ui.Views
 
         public SharedString Tag { get; private set;}
 
-		bool _updateController = false;
+        bool _updateController = false;
         bool _visibleIsHidden = false;
 
-		Rectangle _screenBounds = new Rectangle();
-		bool _screenBoundsInvalid = true;
+        Rectangle _screenBounds = new Rectangle();
+        bool _screenBoundsInvalid = true;
 
         bool _wasViewDisplayed = false;
 
@@ -306,7 +306,7 @@ namespace Sitana.Framework.Ui.Views
 
         public void InvalidateScreenBounds()
         {
-			_screenBoundsInvalid = true;
+            _screenBoundsInvalid = true;
         }
 
         public bool IsPointInsideView(Vector2 point)
@@ -365,18 +365,18 @@ namespace Sitana.Framework.Ui.Views
         private InvokeParameters _invokeParameters = new InvokeParameters();
 
         internal int OffsetBoundsVertical
-		{
-			set
-			{
-				_bounds.Y = value;
-				_screenBounds = _bounds;
-			}
+        {
+            set
+            {
+                _bounds.Y = value;
+                _screenBounds = _bounds;
+            }
 
-			get
-			{
-				return _bounds.Y;
-			}
-		}
+            get
+            {
+                return _bounds.Y;
+            }
+        }
 
         public bool Visible
         {
@@ -408,36 +408,36 @@ namespace Sitana.Framework.Ui.Views
         {
             get
             {
-				if (_screenBoundsInvalid)
+                if (_screenBoundsInvalid)
                 {
-					CalculateScreenBounds(out _screenBounds);
+                    CalculateScreenBounds(out _screenBounds);
                 }
                 
                 return _screenBounds;
             }
         }
 
-		internal void CalculateScreenBounds(out Rectangle bounds)
-		{
+        internal void CalculateScreenBounds(out Rectangle bounds)
+        {
             if(!_screenBoundsInvalid)
             {
                 bounds = _screenBounds;
             }
-			else if (Parent != null)
-			{
-				Parent.CalculateScreenBounds(out bounds);
+            else if (Parent != null)
+            {
+                Parent.CalculateScreenBounds(out bounds);
 
-				bounds.X += Bounds.X;
-				bounds.Y += Bounds.Y;
+                bounds.X += Bounds.X;
+                bounds.Y += Bounds.Y;
 
-				bounds.Width = Bounds.Width;
-				bounds.Height = Bounds.Height;
-			} 
-			else
-			{
-				bounds = Bounds;
-			}
-		}
+                bounds.Width = Bounds.Width;
+                bounds.Height = Bounds.Height;
+            } 
+            else
+            {
+                bounds = Bounds;
+            }
+        }
 
         public UiView()
         {
@@ -531,7 +531,7 @@ namespace Sitana.Framework.Ui.Views
 
         internal void ViewUpdate(float time)
         {
-			if ( _updateController && _controller != null)
+            if ( _updateController && _controller != null)
             {
                 _controller.UpdateInternal(time);
             }
@@ -695,7 +695,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 _controller = value;
                 _controller.AttachView(this);
-				_updateController = true;
+                _updateController = true;
             }
         }
 
@@ -736,21 +736,21 @@ namespace Sitana.Framework.Ui.Views
 
             if (file["Hidden"] != null && file["Visible"] == null)
             {
-                _visiblityFlag = DefinitionResolver.GetShared<bool>(Controller, binding, file["Hidden"], false);
+                _visiblityFlag = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Hidden"], false);
                 _visibleIsHidden = true;
             }
             else
             {
-                _visiblityFlag = DefinitionResolver.GetShared<bool>(Controller, binding, file["Visible"], true);
+                _visiblityFlag = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Visible"], true);
             }
 
             Tag = DefinitionResolver.GetSharedString(Controller, Binding, file["Tag"]);
 
-            Opacity = DefinitionResolver.GetShared<double>(Controller, binding, file["Opacity"], 1);
+            Opacity = DefinitionResolver.GetShared<double>(Controller, Binding, file["Opacity"], 1);
 
             DisplayVisibility = Visible ? 1 : 0;
 
-            _modal = DefinitionResolver.Get<bool>(Controller, binding, file["Modal"], false);
+            _modal = DefinitionResolver.Get<bool>(Controller, Binding, file["Modal"], false);
 
             RegisterDelegate("ViewRemoved", file["ViewRemoved"]);
             RegisterDelegate("ViewAdded", file["ViewAdded"]);
@@ -758,12 +758,12 @@ namespace Sitana.Framework.Ui.Views
             RegisterDelegate("ViewDeactivated", file["ViewDeactivated"]);
             RegisterDelegate("ViewResized", file["ViewResized"]);
 
-            _minWidth = DefinitionResolver.Get<Length>(Controller, binding, file["MinWidth"], Length.Zero);
-            _minHeight = DefinitionResolver.Get<Length>(Controller, binding, file["MinHeight"], Length.Zero);
+            _minWidth = DefinitionResolver.Get<Length>(Controller, Binding, file["MinWidth"], Length.Zero);
+            _minHeight = DefinitionResolver.Get<Length>(Controller, Binding, file["MinHeight"], Length.Zero);
 
             _showSpeed = (float) Math.Max(
-                    DefinitionResolver.Get<double>(Controller, binding, file["ShowHideTime"], -1),
-                    DefinitionResolver.Get<double>(Controller, binding, file["ShowTime"], -1));
+                    DefinitionResolver.Get<double>(Controller, Binding, file["ShowHideTime"], -1),
+                    DefinitionResolver.Get<double>(Controller, Binding, file["ShowTime"], -1));
 
             if ( _showSpeed < 0 )
             {
@@ -775,8 +775,8 @@ namespace Sitana.Framework.Ui.Views
             _showSpeed = _showSpeed > 0 ? 1 / _showSpeed : float.MaxValue;
 
             _hideSpeed = (float) Math.Max(
-                DefinitionResolver.Get<double>(Controller, binding, file["ShowHideTime"], -1),
-                DefinitionResolver.Get<double>(Controller, binding, file["HideTime"], -1));
+                DefinitionResolver.Get<double>(Controller, Binding, file["ShowHideTime"], -1),
+                DefinitionResolver.Get<double>(Controller, Binding, file["HideTime"], -1));
 
             if ( _hideSpeed < 0 )
             {
@@ -787,7 +787,7 @@ namespace Sitana.Framework.Ui.Views
 
             _hideSpeed = _hideSpeed > 0 ? 1 / _hideSpeed : float.MaxValue;
 
-            CreatePositionParameters(Controller, binding, definition);
+            CreatePositionParameters(Controller, Binding, definition);
 
             DefinitionFile backgroundDrawable = file["BackgroundDrawable"] as DefinitionFile;
 
@@ -795,7 +795,7 @@ namespace Sitana.Framework.Ui.Views
 
             if (backgroundDrawable != null)
             {
-                BackgroundDrawable = backgroundDrawable.CreateInstance(Controller, binding) as IBackgroundDrawable;
+                BackgroundDrawable = backgroundDrawable.CreateInstance(Controller, Binding) as IBackgroundDrawable;
 
                 if (BackgroundDrawable != null)
                 {
@@ -803,7 +803,7 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
-            _backgroundColor = DefinitionResolver.GetColorWrapper(Controller, binding, file["BackgroundColor"]) ?? new ColorWrapper(defaultBackgroundColor);
+            _backgroundColor = DefinitionResolver.GetColorWrapper(Controller, Binding, file["BackgroundColor"]) ?? new ColorWrapper(defaultBackgroundColor);
 
             DefinitionFile showTransitionEffectFile = file["ShowTransitionEffect"] as DefinitionFile;
             DefinitionFile hideTransitionEffectFile = file["HideTransitionEffect"] as DefinitionFile;
@@ -812,22 +812,22 @@ namespace Sitana.Framework.Ui.Views
 
             if (showTransitionEffectFile != null)
             {
-                _showTransitionEffect = showTransitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+                _showTransitionEffect = showTransitionEffectFile.CreateInstance(Controller, Binding) as TransitionEffect;
             }
 
             if (hideTransitionEffectFile != null)
             {
-                _hideTransitionEffect = hideTransitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+                _hideTransitionEffect = hideTransitionEffectFile.CreateInstance(Controller, Binding) as TransitionEffect;
             }
 
             if (parentShowTransitionEffectFile != null)
             {
-                _parentShowTransitionEffect = parentShowTransitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+                _parentShowTransitionEffect = parentShowTransitionEffectFile.CreateInstance(Controller, Binding) as TransitionEffect;
             }
 
             if (parentHideTransitionEffectFile != null)
             {
-                _parentHideTransitionEffect = parentHideTransitionEffectFile.CreateInstance(Controller, binding) as TransitionEffect;
+                _parentHideTransitionEffect = parentHideTransitionEffectFile.CreateInstance(Controller, Binding) as TransitionEffect;
             }
 
             return true;
@@ -862,7 +862,7 @@ namespace Sitana.Framework.Ui.Views
             }
 
             _invokeParameters.Set(new InvokeParam("binding", Binding));
-			_invokeParameters.Set(new InvokeParam("sender", this));
+            _invokeParameters.Set(new InvokeParam("sender", this));
 
             object definition;
 
