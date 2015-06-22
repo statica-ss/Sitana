@@ -132,8 +132,6 @@ namespace Sitana.Framework.Ui.Core
 
             _keyboardHandler.OnKeyDown += GamePads.Instance[0].ProcessKey;
             _keyboardHandler.OnKeyUp += GamePads.Instance[0].ProcessKey;
-
-            RegisterUpdatable(BackServicesManager.Instance);
         }
 
         void OnSize(int width, int height)
