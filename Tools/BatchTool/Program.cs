@@ -49,6 +49,10 @@ namespace BatchTool
                 case "ImportFont":
                     FontImporter.Import(node);
                     break;
+
+                case "PackFonts":
+                    FontPacker.Pack(node);
+                    break;
             }
         }
     }

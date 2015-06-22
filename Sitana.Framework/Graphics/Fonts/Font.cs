@@ -23,6 +23,51 @@ namespace Sitana.Framework.Graphics
 
         private Color[] _colors = new Color[1];
 
+        public static void LoadFontsPack(string path)
+        {
+            Texture2D texture = ContentLoader.Current.Load<Texture2D>(path);
+
+            using (Stream stream = ContentLoader.Current.Open(path + ".pft"))
+            {
+                using (BinaryReader reader = new BinaryReader(stream))
+                {
+                    int count = reader.ReadInt32();
+
+                    while (count > 0)
+                    {
+                        count--;
+
+                        string name = reader.ReadString();
+
+                        Font font = new Font();
+                        font.Load(reader);
+
+                        font.FontSheet = texture;
+                        ContentLoader.Current.AddContent(name, typeof(Font), font);
+                    }
+                }
+            }
+        }
+
+        public List<Glyph> GetGlyphs()
+        {
+            List<Glyph> glyphs = new List<Glyph>();
+            foreach(var gl in _glyphs)
+            {
+                glyphs.Add(gl.Value);
+            }
+
+            foreach(var gl in _glyphsIndexed)
+            {
+                if(gl != null)
+                {
+                    glyphs.Add(gl);
+                }
+            }
+
+            return glyphs;
+        }
+
         public void AddGlyph(Glyph glyph)
         {
             int index = (int)glyph.Character - 32;
