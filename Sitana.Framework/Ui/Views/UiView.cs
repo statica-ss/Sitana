@@ -732,7 +732,7 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
-            Id = (string)file["Id"];
+            Id = DefinitionResolver.GetString(Controller, Binding, file["Id"]);
 
             if (file["Hidden"] != null && file["Visible"] == null)
             {

@@ -187,6 +187,8 @@ namespace Sitana.Framework.Ui.Views
 			rect = _nativeInputMargin.ComputeRect(rect);
 
 			_nativeInput = new NativeInput(rect, _inputType, _original, _fontSize, _nativeInputAlign, this);
+
+			AppMain.Redraw();
 		}
 
 		public override void Focus()
