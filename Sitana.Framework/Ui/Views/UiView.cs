@@ -31,7 +31,7 @@ namespace Sitana.Framework.Ui.Views
         {
             var parser = new DefinitionParser(node);
 
-            file["Id"] = node.Attribute("Id");
+            file["Id"] = parser.ParseString("Id");
 
             string controller = node.Attribute("Controller");
             Type controllerType = null;
