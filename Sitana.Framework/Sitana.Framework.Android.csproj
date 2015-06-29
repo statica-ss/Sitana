@@ -245,9 +245,10 @@
     <Compile Include="IO\StorageManager.cs" />
     <Compile Include="IO\ZipReadStorageManager.cs" />
     <Compile Include="IO\ZipWriteStorageManager.cs" />
-    <Compile Include="Input\GamePad\GamePad.Mobile.cs" />
-    <Compile Include="Ui\Interfaces\IBackable.cs" />
-    <Compile Include="Misc\BackServicesManager.cs" />
+    <Compile Include="Input\ExtendedKeyboardManager.cs" />
+    <Compile Include="Input\Interfaces\IBackable.cs" />
+    <Compile Include="Input\Interfaces\IMenuButtonListener.cs" />
+    <Compile Include="Input\GamePad\GamePad.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -271,6 +272,7 @@
     <Folder Include="Diagnostics\CrashReporter\" />
     <Folder Include="Xml\" />
     <Folder Include="IO\" />
+    <Folder Include="Input\Interfaces\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

@@ -34,6 +34,10 @@ namespace Sitana.Framework.Ui.Core
         KeyboardHandler _keyboardHandler;
         double _updateSizeTimer = 0;
 
+        public event KeyboardHandler.OnCharacterDelegate OnCharacter;
+        public event KeyboardHandler.OnKeyDownDelegate OnKeyDown;
+        public event KeyboardHandler.OnKeyDownDelegate OnKeyUp;
+
         public void ResizeToView()
         {
             if (!Graphics.IsFullScreen)
@@ -116,6 +120,11 @@ namespace Sitana.Framework.Ui.Core
                     {
                         Accelerators.Instance.Process(c);
                     }
+
+                    if( OnCharacter != null)
+                    {
+                        OnCharacter(c);
+                    }
                 };
 
             _keyboardHandler.OnKeyDown += (k) =>
@@ -127,6 +136,19 @@ namespace Sitana.Framework.Ui.Core
                     else
                     {
                         Accelerators.Instance.Process(k);
+                    }
+
+                    if (OnKeyDown != null) 
+                    {
+                        OnKeyDown(k);
+                    }
+                };
+
+            _keyboardHandler.OnKeyUp += (k) =>
+                {
+                    if (OnKeyUp != null)
+                    {
+                        OnKeyUp(k);
                     }
                 };
 

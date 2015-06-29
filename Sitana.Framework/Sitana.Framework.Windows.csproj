@@ -80,6 +80,8 @@
     <Compile Include="Graphics\Images\LoadTexture2DFromPng.cs" />
     <Compile Include="Graphics\Textures\PartialTexture2D.cs" />
     <Compile Include="Helpers\ColorParser.cs" />
+    <Compile Include="Input\ExtendedKeyboardManager.cs" />
+    <Compile Include="Input\GamePad\GamePad.cs" />
     <Compile Include="Input\TextInput\IFocusable.cs" />
     <Compile Include="Input\TextInput\ITextConsumer.cs" />
     <Compile Include="Input\TextInput\TextInput.Dektop.cs" />
@@ -89,7 +91,6 @@
     <Compile Include="IO\ZipReadStorageManager.cs" />
     <Compile Include="IO\ZipWriteStorageManager.cs" />
     <Compile Include="Media\SoundEffectBuffer.cs" />
-    <Compile Include="Misc\BackServicesManager.cs" />
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
     <Compile Include="Ui\Binding\ItemsList.cs" />
@@ -114,7 +115,6 @@
     <Compile Include="Ui\DefinitionFiles\DefinitionFileWithStyle.cs" />
     <Compile Include="Ui\Definitions\UiHelper.cs" />
     <Compile Include="Ui\Definitions\VerticalAlignment.cs" />
-    <Compile Include="Ui\Interfaces\IBackable.cs" />
     <Compile Include="Ui\RichText\Entity.cs" />
     <Compile Include="Ui\RichText\EntityType.cs" />
     <Compile Include="Ui\RichText\FontEnums.cs" />
@@ -247,11 +247,12 @@
     <Compile Include="Ui\Views\UiView.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.DrawMethods.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.Helpers.cs" />
-    <Compile Include="Input\GamePad\GamePad.Windows.cs" />
     <Compile Include="Input\GamePad\GamePadButtonState.cs" />
     <Compile Include="Input\GamePad\GamePads.cs" />
     <Compile Include="Input\Accelerators\Accelerators.cs" />
     <Compile Include="Input\Accelerators\KeyModifiers.cs" />
+    <Compile Include="Input\Interfaces\IBackable.cs" />
+    <Compile Include="Input\Interfaces\IMenuButtonListener.cs" />
     <Compile Include="Xml\XFileEx.cs" />
   </ItemGroup>
   <ItemGroup>

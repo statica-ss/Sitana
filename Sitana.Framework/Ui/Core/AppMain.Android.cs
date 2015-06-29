@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Sitana.Framework.Diagnostics;
 using System;
 using Android.Widget;
+using Sitana.Framework.Misc;
 
 
 namespace Sitana.Framework.Ui.Core
@@ -36,6 +37,28 @@ namespace Sitana.Framework.Ui.Core
 			RootView.AddView(view);
 
 			Activity.SetContentView(RootView);
+
+			RootView.KeyPress += OnKeyPress;
+			view.KeyPress += OnKeyPress;
+		}
+
+		void OnKeyPress(object sender, View.KeyEventArgs e)
+		{
+			if (e.Event.Action == KeyEventActions.Up && e.Event.KeyCode == Keycode.Back) 
+			{
+				if (ExtendedKeyboardManager.Instance.OnBackPressed())
+				{
+					e.Handled = true;
+				}
+			}
+
+			if (e.Event.Action == KeyEventActions.Up && e.Event.KeyCode == Keycode.Menu) 
+			{
+				if (ExtendedKeyboardManager.Instance.OnMenuPressed())
+				{
+					e.Handled = true;
+				}
+			}
 		}
 	}
 }

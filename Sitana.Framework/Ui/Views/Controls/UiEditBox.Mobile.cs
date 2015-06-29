@@ -62,20 +62,18 @@ namespace Sitana.Framework.Ui.Views
 		{
 			if (text.Length > _maxLength)
 			{
-				text = Text.StringValue.Substring(0, _maxLength);
+				text = text.Substring(0, _maxLength);
 			} 
-			else
+
+			object ret = CallDelegate("TextChanged", new InvokeParam("text", text));
+
+			if (ret != null && ret is string)
 			{
-
-				object ret = CallDelegate("TextChanged", new InvokeParam("text", text));
-
-				if (ret != null && ret is string)
-				{
-					text = (string)ret;
-				}
-
-				Text.StringValue = text;
+				text = (string)ret;
 			}
+
+			Text.StringValue = text;
+
 			return text;
 		}
 

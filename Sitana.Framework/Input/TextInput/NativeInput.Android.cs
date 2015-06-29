@@ -28,11 +28,22 @@ using Android.Text.Method;
 using Android.Views;
 using Android.Text;
 using Sitana.Framework.Ui.Core;
+using Sitana.Framework.Input.Interfaces;
+using Sitana.Framework.Misc;
 
 namespace Sitana.Framework.Input
 {
 	public partial class NativeInput
     {
+		class BackableSkipper: IBackable
+		{
+			public bool OnBack()
+			{
+				UiTask.BeginInvoke(()=>ExtendedKeyboardManager.Instance.Remove(this));
+				return true;
+			}
+		}
+
         static EditTextEx _textField = null;
         bool _internalTextChange = false;
         ITextEdit _controller;
@@ -70,7 +81,7 @@ namespace Sitana.Framework.Input
 			_textField.SetHighlightColor(new Android.Graphics.Color(128, 128, 128));
 			_textField.SetHintTextColor(new Android.Graphics.Color(128, 128, 128));
 
-
+			_textField.OnBackPressed += UnfocusByBack;
         }
 
 		EditTextEx CreateEdit(ViewGroup.LayoutParams lp)
@@ -95,6 +106,9 @@ namespace Sitana.Framework.Input
 			if (_textField != null)
 			{
 				EditTextEx field = _textField;
+				field.OnBackPressed -= UnfocusByBack;
+				_textField = null;
+
 				DelayedActionInvoker.Instance.AddAction(10, (s) =>
 				{
 					AppMain.Current.RootView.RemoveView(field);
@@ -137,7 +151,7 @@ namespace Sitana.Framework.Input
             }
 
 
-			if (textInputType == TextInputType.MultilineText)
+			if ((textInputType&TextInputType.TypeFilter) == TextInputType.MultilineText)
             {
                 _textField.SetMaxLines(controller.MaxLines);
                 _textField.EditorAction -= HandleEditorAction;
@@ -154,6 +168,13 @@ namespace Sitana.Framework.Input
 
 				_textField.ImeOptions = (controller.WaitsForReturn ? ImeAction.Next : ImeAction.Done) | (ImeAction)ImeFlags.NoExtractUi;
             }
+
+			if (textInputType.HasFlag(TextInputType.NoSuggestions))
+			{
+				_textField.ImeOptions |= (ImeAction)InputTypes.TextFlagNoSuggestions;
+			}
+
+			_textField.SetAllCaps( (textInputType&TextInputType.TypeFilter) == TextInputType.Uppercase );
 
 			_textField.TransformationMethod = textInputType == TextInputType.Password ? new PasswordTransformationMethod(): null;
 
@@ -186,6 +207,12 @@ namespace Sitana.Framework.Input
 
             return false;
         }
+
+		void UnfocusByBack()
+		{
+			ExtendedKeyboardManager.Instance.Add(new BackableSkipper());
+			Unfocus();
+		}
 
         void HandleFocusChange(object sender, Android.Views.View.FocusChangeEventArgs e)
         {
@@ -234,7 +261,6 @@ namespace Sitana.Framework.Input
                     HideKeyboard(_textField);
                 }
             });
-
         }
 
 		void HideKeyboard(View view) 
@@ -247,42 +273,57 @@ namespace Sitana.Framework.Input
 			catch{}
 		}
 
-		void ShowKeyboard(View view) 
+		void ShowKeyboard(View view)
 		{
 			InputMethodManager imm = (InputMethodManager)AppMain.Activity.GetSystemService(Context.InputMethodService);
 			imm.ShowSoftInput(view, ShowFlags.Forced);
 		}
 
-		Android.Text.InputTypes TypeFromContext(TextInputType context)
+		InputTypes TypeFromContext(TextInputType context)
         {
-            switch (context)
+			InputTypes value = Android.Text.InputTypes.TextFlagNoSuggestions |  Android.Text.InputTypes.ClassText;
+
+			switch (context & TextInputType.TypeFilter)
             {
 			case TextInputType.Email:
-				return Android.Text.InputTypes.TextVariationEmailAddress | Android.Text.InputTypes.ClassText;
+				value = InputTypes.TextVariationEmailAddress | Android.Text.InputTypes.ClassText;
+				break;
 
 			case TextInputType.FirstLetterUppercase:
-				return Android.Text.InputTypes.TextVariationPersonName | Android.Text.InputTypes.ClassText;
+				value = InputTypes.TextVariationPersonName | Android.Text.InputTypes.ClassText;
+				break;
 
 			case TextInputType.Digits:
-                return Android.Text.InputTypes.ClassNumber;
+				value = InputTypes.ClassNumber;
+				break;
 
 			case TextInputType.Numeric:
-				return Android.Text.InputTypes.NumberFlagDecimal | Android.Text.InputTypes.ClassNumber;
+				value = InputTypes.NumberFlagDecimal | Android.Text.InputTypes.ClassNumber;
+				break;
 
 			case TextInputType.NormalText:
-				return Android.Text.InputTypes.TextVariationNormal | Android.Text.InputTypes.ClassText;
+				value = InputTypes.TextVariationNormal | Android.Text.InputTypes.ClassText;
+				break;
 
 			case TextInputType.Uppercase:
-                return Android.Text.InputTypes.TextFlagCapCharacters | Android.Text.InputTypes.TextFlagNoSuggestions;
+				value = InputTypes.TextFlagCapCharacters | InputTypes.ClassText;
+				break;
 
-			case TextInputType.Password:
-				return Android.Text.InputTypes.TextVariationPassword |  Android.Text.InputTypes.TextFlagNoSuggestions | Android.Text.InputTypes.TextVariationWebPassword;
+			case TextInputType.PasswordClass:
+				value = InputTypes.TextVariationPassword | Android.Text.InputTypes.ClassText;
+				break;
 
 			case TextInputType.MultilineText:
-                return Android.Text.InputTypes.TextFlagMultiLine | Android.Text.InputTypes.TextFlagImeMultiLine;
+				value = InputTypes.TextFlagMultiLine | Android.Text.InputTypes.TextFlagImeMultiLine;
+				break;
             }
 
-			return Android.Text.InputTypes.TextFlagNoSuggestions |  Android.Text.InputTypes.ClassText;
+			if (context.HasFlag(TextInputType.NoSuggestions))
+			{
+				value |= InputTypes.TextFlagNoSuggestions | InputTypes.TextVariationVisiblePassword;
+			}
+
+			return value;
         }
     }
 }

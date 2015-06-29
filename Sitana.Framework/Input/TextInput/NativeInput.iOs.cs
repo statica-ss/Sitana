@@ -92,6 +92,8 @@ namespace Sitana.Framework.Input
                 InitTextField();
             }
 
+			text = text.Replace('\n', '\r');
+
 			Bottom = position.Bottom + (int)Platform.PointsToPixels(10);
 			position.Y += AppMain.Current.SetFocus(this);
 
@@ -110,9 +112,9 @@ namespace Sitana.Framework.Input
                 _textView.Opaque = true;
                 _textView.KeyboardType = TypeFromContext(keyboardContext);
                 _textView.AutocapitalizationType = AutoCapitalizationFromContext(keyboardContext);
-				_textView.SecureTextEntry = keyboardContext == TextInputType.Password;
+				_textView.SecureTextEntry = (keyboardContext & TextInputType.TypeFilter) == TextInputType.PasswordClass;
                 _textView.KeyboardType = UIKeyboardType.Default;
-                _textView.AutocorrectionType = UITextAutocorrectionType.Yes;
+				_textView.AutocorrectionType = keyboardContext.HasFlag(TextInputType.NoSuggestions) ?  UITextAutocorrectionType.No :  UITextAutocorrectionType.Yes;
 
 				_textView.Font = UIFont.FromName("Helvetica", textSize);
                 SetText(text);
@@ -127,9 +129,12 @@ namespace Sitana.Framework.Input
                 _textField.TextColor = new UIColor(0, 0, 0, 255);
                 _textField.Opaque = true;
                 _textField.KeyboardType = TypeFromContext(keyboardContext);
-                _textField.AutocapitalizationType = AutoCapitalizationFromContext(keyboardContext);
-				_textField.SecureTextEntry = keyboardContext == TextInputType.Password;
-                _textField.ClearsOnBeginEditing = false;
+				_textField.AutocapitalizationType = AutoCapitalizationFromContext(keyboardContext);
+
+				_textView.SecureTextEntry = (keyboardContext & TextInputType.TypeFilter) == TextInputType.PasswordClass;
+				_textView.AutocorrectionType = keyboardContext.HasFlag(TextInputType.NoSuggestions) ?  UITextAutocorrectionType.No :  UITextAutocorrectionType.Yes;
+
+				_textField.ClearsOnBeginEditing = false;
 
                 _textField.Font = UIFont.FromName("Helvetica", textSize);
 
@@ -155,7 +160,7 @@ namespace Sitana.Framework.Input
 
                 _textField.ShouldReturn = delegate
                 {
-					if (keyboardContext != TextInputType.MultilineText)
+					if ((keyboardContext & TextInputType.TypeFilter) != TextInputType.MultilineText)
                     {
                         _controller.Return();
                         return true;
@@ -175,7 +180,7 @@ namespace Sitana.Framework.Input
         {
             _textView.Ended += HandleEnded;
 
-            _controller.TextChanged(_textView.Text);
+			_controller.TextChanged(_textView.Text.Replace('\r', '\n'));
 
             Unfocus();
             _controller.LostFocus();
@@ -183,7 +188,7 @@ namespace Sitana.Framework.Input
 
 		UITextAutocapitalizationType AutoCapitalizationFromContext(TextInputType context)
         {
-            switch (context)
+			switch (context & TextInputType.TypeFilter)
             {
 			case TextInputType.FirstLetterUppercase:
                     return UITextAutocapitalizationType.Words;
@@ -200,7 +205,7 @@ namespace Sitana.Framework.Input
 
 		UIKeyboardType TypeFromContext(TextInputType context)
         {
-            switch (context)
+			switch (context & TextInputType.TypeFilter)
             {
 			case TextInputType.Email:
                     return UIKeyboardType.EmailAddress;
@@ -226,7 +231,7 @@ namespace Sitana.Framework.Input
             if (_internalTextChange)
                 return;
 
-            string newText = _textField.Text;
+			string newText = _textField.Text.Replace('\r', '\n');
 
             string text = _controller.TextChanged(newText);
 

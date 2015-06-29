@@ -115,7 +115,7 @@ namespace Sitana.Framework
             }
         }
 
-        public static void DisableLock(Boolean disable)
+        public static void DisableLock(bool disable)
         {
         }
 

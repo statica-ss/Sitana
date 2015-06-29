@@ -130,8 +130,6 @@ namespace Sitana.Framework.Ui.Core
             TotalGameTime = 0;
 
             PlatformInit();
-
-            RegisterUpdatable(BackServicesManager.Instance);
         }
 
         protected override void Dispose(bool disposing)
@@ -190,7 +188,7 @@ namespace Sitana.Framework.Ui.Core
             return true;
         }
 
-        protected override void Update(GameTime gameTime)
+		protected override void Update(GameTime gameTime)
         {
             bool shouldRedraw = _redrawInNextFrame;
             _redrawInNextFrame = false;

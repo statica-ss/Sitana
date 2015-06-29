@@ -41,25 +41,33 @@ namespace Sitana.Framework.Input.GamePad
 
         internal void Update()
         {
+            GamePadState state = XnaGamePad.GetState(_playerIndex);
+
+            foreach(var en in _keys)
+            {
+                bool isPressed = state.IsButtonDown(en);
+                bool wasPressed = _states[en] != GamePadButtonState.Released;
+
+                if(isPressed)
+                {
+                    if(wasPressed)
+                    {
+                        _states[en] = GamePadButtonState.Hold;
+                    }
+                    else
+                    {
+                        _states[en] = GamePadButtonState.Pressed;
+                    }
+                }
+                else
+                {
+                    _states[en] = GamePadButtonState.Released;
+                }
+            }
         }
 
-        internal void ProcessKey(Keys key)
+		internal void ProcessKey(Keys key)
         {
-            if(key != Keys.Escape)
-            {
-                return;
-            }
-
-            KeyboardState state = Keyboard.GetState();
-
-            if(state.IsKeyDown(Keys.Escape))
-            {
-                _states[Buttons.Back] = GamePadButtonState.Pressed;
-            }
-            else if(state.IsKeyUp(Keys.Escape))
-            {
-                _states[Buttons.Back] = GamePadButtonState.Released;
-            }
         }
 
         public bool IsButtonDown(Buttons button)

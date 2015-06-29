@@ -84,6 +84,11 @@ namespace Sitana.Framework.Serialization
                 root = _file;
             }
 
+            if(obj == null)
+            {
+                return;
+            }
+
             if (!SerializeBuiltIn(root, name, obj))
             {
                 XNode node = new XNode(root, name);

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using System.Text;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework.Ui.Views.ButtonDrawables
 {
@@ -39,7 +40,6 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             }
 
             SharedString str = info.Text;
-
 
             float scale = _font.Scale;
             UniversalFont font = _font.Font;

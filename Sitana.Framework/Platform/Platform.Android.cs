@@ -111,14 +111,66 @@ namespace Sitana.Framework
 			}
 		}
 
-        public static void DisableLock(Boolean disable)
+        public static void DisableLock(bool disable)
         {
-            
+			if (disable)
+			{
+				AppMain.Activity.Window.AddFlags(Android.Views.WindowManagerFlags.KeepScreenOn);
+			} 
+			else
+			{
+				AppMain.Activity.Window.ClearFlags(Android.Views.WindowManagerFlags.KeepScreenOn);
+			}
         }
 
         public static int KeyboardHeight(bool landscape)
         {
             return 0;
         }
+
+		public static void DoRestart(Context context) 
+		{
+			try 
+			{
+				//check if the context is given
+				if (context != null) 
+				{
+					//fetch the packagemanager so we can get the default launch activity 
+					// (you can replace this intent with any other activity if you want
+					PackageManager pm = context.PackageManager;
+					//check if we got the PackageManager
+					if (pm != null) 
+					{
+						//create the intent with the default start activity for your application
+						Intent mStartActivity = pm.GetLaunchIntentForPackage(context.PackageName);
+
+						if (mStartActivity != null) 
+						{
+							
+							mStartActivity.AddFlags(ActivityFlags.ClearTop);
+							//create a pending intent so the application is restarted after System.exit(0) was called. 
+							// We use an AlarmManager to call this intent in 100ms
+
+							int mPendingIntentId = 223344;
+
+							PendingIntent mPendingIntent = PendingIntent.GetActivity(context, mPendingIntentId, mStartActivity, PendingIntentFlags.CancelCurrent);
+
+							AlarmManager mgr = (AlarmManager)context.GetSystemService(Context.AlarmService);
+
+							mgr.Set(AlarmType.Rtc, Java.Lang.JavaSystem.CurrentTimeMillis() + 100, mPendingIntent);
+							//kill the application
+							Java.Lang.JavaSystem.Exit(0);
+
+						} 
+
+					}
+
+				}
+			}
+			catch (Exception ex)
+			{
+				Java.Lang.JavaSystem.Exit(0);
+			}
+		}
     }
 }

@@ -19,6 +19,7 @@
 using System;
 using Android.Widget;
 using Android.Content;
+using Sitana.Framework.Cs;
 
 namespace Sitana.Framework.Input
 {
@@ -27,6 +28,8 @@ namespace Sitana.Framework.Input
         public delegate bool EditorActionDelegate(Android.Views.InputMethods.ImeAction actionCode);
 
         public new event EditorActionDelegate EditorAction;
+
+		public event EmptyArgsVoidDelegate OnBackPressed;
 
         public EditTextEx(Context context): base(context)
         {
@@ -41,6 +44,20 @@ namespace Sitana.Framework.Input
 
             base.OnEditorAction(actionCode);
         }
+
+		public override bool OnKeyPreIme(Android.Views.Keycode keyCode, Android.Views.KeyEvent e)
+		{
+			if (e.KeyCode == Android.Views.Keycode.Back)
+			{
+				if (OnBackPressed != null)
+				{
+					OnBackPressed();
+					return true;
+				}
+			}
+
+			return base.OnKeyPreIme(keyCode, e);
+		}
     }
 }
 

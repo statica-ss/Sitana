@@ -43,7 +43,7 @@ namespace Sitana.Framework.Ui.Views
         protected bool _lostFocusCancels = false;
         protected bool _focused = false;
 
-        public SharedString Hint {get;set;}
+        public SharedString Hint { get; private set; }
 
         protected SharedString _password;
         protected TextInputType _inputType;

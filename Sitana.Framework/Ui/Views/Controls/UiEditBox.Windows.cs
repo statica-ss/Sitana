@@ -252,6 +252,11 @@ namespace Sitana.Framework.Ui.Views
             drawInfo.Icon = Icon.Value;
             drawInfo.Additional = _carretPosition;
 
+            if(_focused)
+            {
+                AppMain.RedrawNextFrame();
+            }
+
             if (hint)
             {
                 drawInfo.ButtonState |= ButtonDrawables.ButtonState.Special;

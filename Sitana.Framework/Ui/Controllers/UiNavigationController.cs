@@ -7,8 +7,8 @@ using System.Text;
 using Sitana.Framework.Content;
 using Sitana.Framework.Input.GamePad;
 using Microsoft.Xna.Framework.Input;
-using Sitana.Framework.Ui.Interfaces;
 using Sitana.Framework.Misc;
+using Sitana.Framework.Input.Interfaces;
 
 namespace Sitana.Framework.Ui.Controllers
 {
@@ -53,12 +53,12 @@ namespace Sitana.Framework.Ui.Controllers
                 throw new InvalidOperationException("Attached view must be either UiNavigationView or UiPage.");
             }
 
-            BackServicesManager.Instance.Add(this);
+            ExtendedKeyboardManager.Instance.Add(this);
         }
 
         public override void OnViewDetached()
         {
-         	 BackServicesManager.Instance.Remove(this);
+         	 ExtendedKeyboardManager.Instance.Remove(this);
         }
 
         public void NavigateTo(string uri)
