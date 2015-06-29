@@ -77,6 +77,7 @@
     <Folder Include="Ui\Views\Controls\ScrollingSelector\" />
     <Folder Include="Diagnostics\CrashReporter\" />
     <Folder Include="IO\" />
+    <Folder Include="Input\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
@@ -262,9 +263,10 @@
     <Compile Include="IO\StorageManager.cs" />
     <Compile Include="IO\ZipReadStorageManager.cs" />
     <Compile Include="IO\ZipWriteStorageManager.cs" />
-    <Compile Include="Input\GamePad\GamePad.Mobile.cs" />
-    <Compile Include="Misc\BackServicesManager.cs" />
-    <Compile Include="Ui\Interfaces\IBackable.cs" />
+    <Compile Include="Input\Interfaces\IBackable.cs" />
+    <Compile Include="Input\Interfaces\IMenuButtonListener.cs" />
+    <Compile Include="Input\ExtendedKeyboardManager.cs" />
+    <Compile Include="Input\GamePad\GamePad.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
