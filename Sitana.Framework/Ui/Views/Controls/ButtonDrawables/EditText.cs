@@ -55,7 +55,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
                 if (_flash > 1)
                 {
                     _string.Clear();
-
+                    carretPosition = Math.Min(builder.Length, carretPosition);
                     for (int idx = 0; idx < carretPosition; ++idx)
                     {
                         _string.Append(builder[idx]);
