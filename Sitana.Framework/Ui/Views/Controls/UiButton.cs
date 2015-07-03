@@ -32,11 +32,16 @@ namespace Sitana.Framework.Ui.Views
             file["Enabled"] = parser.ParseBoolean("Enabled");
             file["Disabled"] = parser.ParseBoolean("Disabled");
 
+            file["RepeatStart"] = parser.ParseInt("RepeatStart");
+            file["RepeatInterval"] = parser.ParseInt("RepeatInterval");
+
             file["PushSound"] = parser.ParseResource<SoundEffect>("PushSound");
             file["ReleaseSound"] = parser.ParseResource<SoundEffect>("ReleaseSound");
             file["ActionSound"] = parser.ParseResource<SoundEffect>("ActionSound");
 
             file["GestureMargin"] = parser.ParseLength("GestureMargin");
+
+            file["Mode"] = parser.ParseEnum<UiButtonMode>("Mode");
 
             foreach (var cn in node.Nodes)
             {
@@ -82,6 +87,10 @@ namespace Sitana.Framework.Ui.Views
         }
 
         float _delayTime = 0.5f;
+        
+        float _repeatInterval = 0.5f;
+        float _repeatStart = 1f;
+
         float _waitForAction = 0;
 
         UiButtonMode _mode = UiButtonMode.Release;
@@ -162,8 +171,19 @@ namespace Sitana.Framework.Ui.Views
 
                 if ( _waitForAction <= 0 )
                 {
-                    DoAction();
-                    _waitForAction = 0;
+                    if (_mode == UiButtonMode.Repeat)
+                    {
+                        if (IsPushed)
+                        {
+                            DoAction();
+                            _waitForAction += _repeatInterval;
+                        }
+                    }
+                    else
+                    {
+                        DoAction();
+                        _waitForAction = 0;
+                    }
                 }
             }
         }
@@ -225,9 +245,14 @@ namespace Sitana.Framework.Ui.Views
 
                                 gesture.SetHandled();
 
-                                if (_mode == UiButtonMode.Press)
+                                if (_mode == UiButtonMode.Press || _mode == UiButtonMode.Repeat)
                                 {
                                     DoAction();
+
+                                    if(_mode == UiButtonMode.Repeat)
+                                    {
+                                        _waitForAction = _repeatStart;
+                                    }
                                 }
                                 else if (_mode == UiButtonMode.Delayed)
                                 {
@@ -388,6 +413,11 @@ namespace Sitana.Framework.Ui.Views
             _pushSound = DefinitionResolver.Get<SoundEffect>(Controller, Binding, file["PushSound"], null);
             _releaseSound = DefinitionResolver.Get<SoundEffect>(Controller, Binding, file["ReleaseSound"], null);
             _actionSound = DefinitionResolver.Get<SoundEffect>(Controller, Binding, file["ActionSound"], null);
+
+            ButtonMode = DefinitionResolver.Get<UiButtonMode>(Controller, Binding, file["Mode"], UiButtonMode.Release);
+
+            _repeatStart = (float)DefinitionResolver.Get<int>(Controller, Binding, file["RepeatStart"], 0) / 1000f;
+            _repeatInterval = (float)DefinitionResolver.Get<int>(Controller, Binding, file["RepeatInterval"], 0) / 1000f;
 
             return true;
         }

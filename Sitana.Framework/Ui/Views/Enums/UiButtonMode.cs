@@ -9,6 +9,7 @@ namespace Sitana.Framework.Ui.Views
         Press,
         Release,
         Delayed,
+        Repeat,
         Game
     }
 }

@@ -133,7 +133,14 @@ namespace Sitana.Framework.Input
             _textField.SetPadding(0, padding, _textField.PaddingRight, padding);
             _textField.InputType = TypeFromContext(textInputType);
 
-            _textField.SetFilters( new IInputFilter[] {new InputFilterLengthFilter(controller.MaxLength)});
+			if (textInputType.HasFlag(TextInputType.Uppercase))
+			{
+				_textField.SetFilters(new IInputFilter[] { new InputFilterLengthFilter(controller.MaxLength), new InputFilterAllCaps() });
+			}
+			else
+			{
+				_textField.SetFilters(new IInputFilter[] { new InputFilterLengthFilter(controller.MaxLength) });
+			}
 
             switch (textAlign & Align.Horz)
             {

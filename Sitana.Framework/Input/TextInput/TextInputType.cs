@@ -12,16 +12,16 @@ namespace Sitana.Framework.Input
     {
         NormalText = 1,
 		MultilineText = 2,
-		FirstLetterUppercase = 3,
-		Uppercase = 4,
-		PasswordClass = 5,
-        Digits = 6,
-		Numeric = 7,
-        Email = 8,
+		FirstLetterUppercase = 4,
+		Uppercase = 8,
+		PasswordClass = 16,
+        Digits = 32,
+		Numeric = 64,
+        Email = 128,
 
-		TypeFilter = 0xff,
+		TypeFilter = 1023,
 
-		NoSuggestions = 256,
+		NoSuggestions = 1024,
 		Password = NoSuggestions | PasswordClass
     }
 }

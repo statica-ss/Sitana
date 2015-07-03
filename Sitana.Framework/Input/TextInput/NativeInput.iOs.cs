@@ -102,7 +102,12 @@ namespace Sitana.Framework.Input
 			float width = Platform.PixelsToPoints(position.Width) - 2;
 			float height = Platform.PixelsToPoints(position.Height) - 4;
 
-			if (keyboardContext == TextInputType.MultilineText)
+			if (keyboardContext.HasFlag(TextInputType.PasswordClass))
+			{
+				keyboardContext &= ~(TextInputType.NoSuggestions);
+			}
+
+			if (keyboardContext.HasFlag(TextInputType.MultilineText))
             {
                 _useTextView = true;
 
@@ -112,9 +117,12 @@ namespace Sitana.Framework.Input
                 _textView.Opaque = true;
                 _textView.KeyboardType = TypeFromContext(keyboardContext);
                 _textView.AutocapitalizationType = AutoCapitalizationFromContext(keyboardContext);
-				_textView.SecureTextEntry = (keyboardContext & TextInputType.TypeFilter) == TextInputType.PasswordClass;
+
                 _textView.KeyboardType = UIKeyboardType.Default;
-				_textView.AutocorrectionType = keyboardContext.HasFlag(TextInputType.NoSuggestions) ?  UITextAutocorrectionType.No :  UITextAutocorrectionType.Yes;
+
+				_textView.AutocorrectionType = keyboardContext.HasFlag(TextInputType.NoSuggestions) ?  UITextAutocorrectionType.No :  UITextAutocorrectionType.Default;
+
+				_textView.SecureTextEntry = keyboardContext.HasFlag(TextInputType.PasswordClass);
 
 				_textView.Font = UIFont.FromName("Helvetica", textSize);
                 SetText(text);
@@ -131,8 +139,10 @@ namespace Sitana.Framework.Input
                 _textField.KeyboardType = TypeFromContext(keyboardContext);
 				_textField.AutocapitalizationType = AutoCapitalizationFromContext(keyboardContext);
 
-				_textView.SecureTextEntry = (keyboardContext & TextInputType.TypeFilter) == TextInputType.PasswordClass;
-				_textView.AutocorrectionType = keyboardContext.HasFlag(TextInputType.NoSuggestions) ?  UITextAutocorrectionType.No :  UITextAutocorrectionType.Yes;
+				_textField.ResignFirstResponder();
+
+				_textField.AutocorrectionType = keyboardContext.HasFlag(TextInputType.NoSuggestions) ?  UITextAutocorrectionType.No :  UITextAutocorrectionType.Default;
+				_textField.SecureTextEntry = keyboardContext.HasFlag(TextInputType.PasswordClass);
 
 				_textField.ClearsOnBeginEditing = false;
 
