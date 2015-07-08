@@ -165,6 +165,11 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
+            if(IsPushed && !Enabled)
+            {
+                SetPushed(false, false);
+            }
+
             if( _waitForAction > 0 )
             {
                 _waitForAction -= time;

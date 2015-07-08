@@ -297,15 +297,15 @@ namespace Sitana.Framework.Input
 				break;
 
 			case TextInputType.FirstLetterUppercase:
-				value = InputTypes.TextVariationPersonName | Android.Text.InputTypes.ClassText;
+				value = InputTypes.TextFlagCapWords | Android.Text.InputTypes.ClassText;
 				break;
 
 			case TextInputType.Digits:
-				value = InputTypes.ClassNumber;
+				value = InputTypes.ClassNumber | InputTypes.NumberFlagSigned;
 				break;
 
 			case TextInputType.Numeric:
-				value = InputTypes.NumberFlagDecimal | Android.Text.InputTypes.ClassNumber;
+				value = InputTypes.NumberFlagDecimal | InputTypes.ClassNumber;
 				break;
 
 			case TextInputType.NormalText:

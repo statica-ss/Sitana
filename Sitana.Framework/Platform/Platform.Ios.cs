@@ -113,6 +113,14 @@ namespace Sitana.Framework
 			}
 		}
 
+		public static string UniqueDeviceId
+		{
+			get
+			{
+				return UIDevice.CurrentDevice.IdentifierForVendor.AsString();
+			}
+		}
+
 		public static string DeviceName
 		{
 			get
@@ -160,11 +168,11 @@ namespace Sitana.Framework
 			{
 				if (landscape)
 				{
-					return (int)(352 * (float)UIScreen.MainScreen.Scale);
+					return (int)(391 * (float)UIScreen.MainScreen.Scale);
 				}
 				else
 				{
-					return (int)(264 * (float)UIScreen.MainScreen.Scale);
+					return (int)(303 * (float)UIScreen.MainScreen.Scale);
 				}
 			}
 

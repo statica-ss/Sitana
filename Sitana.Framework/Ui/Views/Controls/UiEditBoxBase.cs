@@ -96,11 +96,12 @@ namespace Sitana.Framework.Ui.Views
 
                     if(!text.IsNullOrEmpty())
                     {
-                        int value;
-
-                        if(!int.TryParse(text, out value))
+                        foreach(char c in text)
                         {
-                            return Text.StringValue;
+                            if(!char.IsDigit(c))
+                            {
+                                return Text.StringValue;
+                            }
                         }
                     }
                 }

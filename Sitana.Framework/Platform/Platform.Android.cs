@@ -14,6 +14,7 @@ using Android.Content;
 using Android.App;
 using Android.Content.PM;
 using Java.Lang.Reflect;
+using Android.OS;
 
 namespace Sitana.Framework
 {
@@ -91,6 +92,28 @@ namespace Sitana.Framework
 			get
 			{
 				return Android.OS.Build.Device;
+			}
+		}
+
+		public static string UniqueDeviceId
+		{
+			get
+			{
+				ISharedPreferences sharedPrefs = AppMain.Activity.GetSharedPreferences(AppMain.Activity.PackageName, FileCreationMode.MultiProcess);
+
+				string uniqueId = sharedPrefs.GetString("UniqueId", null);
+
+				if (uniqueId == null) 
+				{
+					uniqueId = UuidGenerator.GenerateString();
+
+					ISharedPreferencesEditor editor =  sharedPrefs.Edit();
+					editor.PutString("UniqueId", uniqueId);
+					editor.Commit();
+				}
+					
+				System.Diagnostics.Debug.WriteLine(string.Format("DeviceId: {0}", uniqueId));
+				return uniqueId;
 			}
 		}
 

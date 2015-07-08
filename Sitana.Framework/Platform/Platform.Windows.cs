@@ -10,6 +10,7 @@ using Sitana.Framework.Cs;
 using System.Management;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Win32;
 
 namespace Sitana.Framework
 {
@@ -82,6 +83,26 @@ namespace Sitana.Framework
             get
             {
                 return System.Environment.MachineName;
+            }
+        }
+
+        public static string UniqueDeviceId
+        {
+            get
+            {
+                RegistryKey localKey;
+                if (Environment.Is64BitOperatingSystem)
+                {
+                    localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+                }
+                else
+                {
+                    localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
+                }
+                
+                string value = (string)localKey.OpenSubKey(@"SOFTWARE\Microsoft\Cryptography").GetValue("MachineGuid", null);    
+
+                return value;
             }
         }
 
