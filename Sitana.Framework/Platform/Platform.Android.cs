@@ -15,6 +15,10 @@ using Android.App;
 using Android.Content.PM;
 using Java.Lang.Reflect;
 using Android.OS;
+using Android.Telephony;
+using Java.Util;
+using Android.Net.Wifi;
+using System.Globalization;
 
 namespace Sitana.Framework
 {
@@ -103,6 +107,11 @@ namespace Sitana.Framework
 
 				string uniqueId = sharedPrefs.GetString("UniqueId", null);
 
+				if (uniqueId == null)
+				{
+					uniqueId = GenerateDeviceId();
+				}
+
 				if (uniqueId == null) 
 				{
 					uniqueId = UuidGenerator.GenerateString();
@@ -115,6 +124,83 @@ namespace Sitana.Framework
 				System.Diagnostics.Debug.WriteLine(string.Format("DeviceId: {0}", uniqueId));
 				return uniqueId;
 			}
+		}
+
+		static string GenerateDeviceId()
+		{
+			string androidId = Android.Provider.Settings.Secure.GetString(AppMain.Activity.ApplicationContext.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
+
+			if (CheckIdValid(androidId))
+			{
+				return FormatLikeGuid(androidId);
+			}
+
+			try
+			{
+				WifiManager wifiMan = (WifiManager)AppMain.Activity.GetSystemService(Context.WifiService);
+				WifiInfo wifiInf = wifiMan.ConnectionInfo;
+				String macAddr = wifiInf.MacAddress;
+
+				if (CheckIdValid(macAddr))
+				{
+					return FormatLikeGuid(macAddr);
+				}
+			}
+			catch{}
+
+			return null;
+		}
+
+		static string FormatLikeGuid(string id)
+		{
+			long plus = 0;
+
+			id = id.ToUpperInvariant();
+
+			for (int index = 0; index < id.Length; ++index )
+			{
+				char ch = id[index];
+				if (!char.IsDigit(ch) && (ch < 'A' || ch > 'F') )
+				{
+					id = id.Replace(ch.ToString(), string.Empty);
+					plus += (int)ch;
+				}
+			}
+
+			string part1 = id.Substring(0, id.Length / 2);
+			string part2 = id.Substring(id.Length / 2);
+
+			part1 = part1.Substring(0, Math.Min(16, part1.Length));
+			part2 = part2.Substring(0, Math.Min(16, part2.Length));
+
+			long part1Long;
+			long part2Long;
+
+			if(long.TryParse(part1, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out part1Long))
+			{
+				if(long.TryParse(part2, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out part2Long))
+				{
+					part2 += plus;
+					return new UUID(part1Long, part2Long).ToString();
+				}
+			}
+
+			return null;
+		}
+
+		static bool CheckIdValid(string id)
+		{
+			List<char> characters = new List<char>();
+
+			foreach (var ch in id)
+			{
+				if(char.IsLetterOrDigit(ch) && !characters.Contains(ch))
+				{
+					characters.Add(ch);
+				}
+			}
+
+			return characters.Count > 4;
 		}
 
 		public static string OsVersion
