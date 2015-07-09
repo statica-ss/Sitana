@@ -106,7 +106,10 @@ namespace Sitana.Framework.Ui.RichText
                         break;
 
                     case BlockTag.IndentedCode:
-                        Console.WriteLine(block.StringContent);
+                        currentLine = AddLine();
+                        currentLine.Add(new Entity(EntityType.String, ref tagProperties, block.StringContent.ToString()));
+                        currentLine = AddLine();
+
                         break;
 
                     case BlockTag.FencedCode:
