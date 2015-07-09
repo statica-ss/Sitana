@@ -60,7 +60,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
         
-        public int FontSize {get;set;}
+        public virtual int FontSize {get;set;}
         public int FontSpacing {get; set;}
         public int LineHeight { get; set; }
 
@@ -87,7 +87,6 @@ namespace Sitana.Framework.Ui.Views
 
             float scale;
             UniversalFont font = _fontFace.Find(FontSize, out scale);
-
 
             parameters.DrawBatch.DrawText(font, Text, ScreenBounds, TextAlign, TextColor.Value * opacity, (float)FontSpacing / 1000.0f, (float)LineHeight / 100.0f, scale, _rotation);
         }

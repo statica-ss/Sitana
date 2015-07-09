@@ -30,18 +30,37 @@ namespace Sitana.Framework.Ui.Views
 			file["LostFocus"] = parser.ParseDelegate("LostFocus");
 			file["Return"] = parser.ParseDelegate("Return");
             file["MaxLength"] = parser.ParseInt("MaxLength");
+
+			file["IsFocused"] = parser.ParseBoolean("IsFocused");
         }
 
         public override ButtonState ButtonState
         {
             get
             {
-                return base.ButtonState | (_focused ? ButtonState.Checked : ButtonState.None);
+                return base.ButtonState | (Focused ? ButtonState.Checked : ButtonState.None);
             }
         }
 
         protected bool _lostFocusCancels = false;
-        protected bool _focused = false;
+
+		private bool _isFocused = false;
+
+		protected bool Focused
+		{
+			get
+			{
+				return _isFocused;
+			}
+
+			set
+			{
+				_isFocused = value;
+				_focusedShared.Value = value;
+			}
+		}
+
+		SharedValue<bool> _focusedShared;
 
         public SharedString Hint { get; private set; }
 
@@ -63,6 +82,8 @@ namespace Sitana.Framework.Ui.Views
             _maxLength = DefinitionResolver.Get<int>(Controller, Binding, file["MaxLength"], int.MaxValue);
             _inputType = DefinitionResolver.Get<TextInputType>(Controller, Binding, file["InputType"], TextInputType.NormalText);
             _lostFocusCancels = DefinitionResolver.Get<bool>(Controller, Binding, file["CancelOnLostFocus"], false);
+			_focusedShared = DefinitionResolver.GetShared<bool>(Controller, Binding, file["IsFocused"], false);
+			_focusedShared.Value = false;
 
             if (_inputType == TextInputType.Password)
             {

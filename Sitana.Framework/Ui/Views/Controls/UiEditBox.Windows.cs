@@ -41,12 +41,12 @@ namespace Sitana.Framework.Ui.Views
 
         void ITextConsumer.OnLostFocus()
         {
-            if (_focused)
+            if (Focused)
             {
                 UiTask.BeginInvoke(() => CallDelegate("LostFocus"));
             }
 
-            _focused = false;
+            Focused = false;
 
             if (_lostFocusCancels)
             {
@@ -132,9 +132,9 @@ namespace Sitana.Framework.Ui.Views
 
         public override void Focus()
         {
-            if (!_focused)
+            if (!Focused)
             {
-                _focused = true;
+                Focused = true;
                 _original = Text.StringValue;
                 _textInput.SetText(_original);
                 _applied = false;
@@ -147,7 +147,7 @@ namespace Sitana.Framework.Ui.Views
 
         void OnTouchDown(int id, Vector2 pos)
         {
-            if (_focused )
+            if (Focused)
             {
                 if(!IsPointInsideView(pos))
                 {
@@ -252,7 +252,7 @@ namespace Sitana.Framework.Ui.Views
             drawInfo.Icon = Icon.Value;
             drawInfo.Additional = _carretPosition;
 
-            if(_focused)
+            if (Focused)
             {
                 AppMain.RedrawNextFrame();
             }

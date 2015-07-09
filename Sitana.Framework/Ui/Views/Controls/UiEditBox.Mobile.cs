@@ -40,7 +40,7 @@ namespace Sitana.Framework.Ui.Views
 
 		void NativeInput.ITextEdit.LostFocus()
 		{
-			_focused = false;
+			Focused = false;
 
 			if ( _lostFocusCancels )
 			{
@@ -128,7 +128,7 @@ namespace Sitana.Framework.Ui.Views
 		{
 			get
 			{
-				return base.ButtonState | (_focused ? ButtonState.Checked : ButtonState.None);
+				return base.ButtonState | (Focused ? ButtonState.Checked : ButtonState.None);
 			}
 		}
 
@@ -148,7 +148,7 @@ namespace Sitana.Framework.Ui.Views
 
 		void OnTouchDown(int id, Vector2 pos)
 		{
-			if ( _focused && !IsPointInsideView(pos))
+			if ( Focused && !IsPointInsideView(pos))
 			{
 				Unfocus();
 			}
@@ -176,7 +176,7 @@ namespace Sitana.Framework.Ui.Views
 				_nativeInput.Unfocus();
 			}
 
-			_focused = true;
+			Focused = true;
 			_original = Text.StringValue;
 
 			Rectangle rect = ScreenBounds;
@@ -191,7 +191,7 @@ namespace Sitana.Framework.Ui.Views
 
 		public override void Focus()
 		{
-			if (!_focused)
+			if (!Focused)
 			{
 				_applied = false;
 				CreateInput();
@@ -205,7 +205,7 @@ namespace Sitana.Framework.Ui.Views
 
 		void Unfocus()
 		{
-			_focused = false;
+			Focused = false;
 			if (_nativeInput != null)
 			{
 				_nativeInput.Unfocus();

@@ -168,6 +168,8 @@ namespace Sitana.Framework.Ui.Views
             if(IsPushed && !Enabled)
             {
                 SetPushed(false, false);
+                _touchId = 0;
+                _waitForAction = 0;
             }
 
             if( _waitForAction > 0 )

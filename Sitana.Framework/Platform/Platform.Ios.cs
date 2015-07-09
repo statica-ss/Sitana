@@ -94,7 +94,6 @@ namespace Sitana.Framework
             get
             {
 				NSObject obj = NSBundle.MainBundle.ObjectForInfoDictionary("CFBundleShortVersionString");
-
 				return (obj as NSString).ToString();
             }
         }
