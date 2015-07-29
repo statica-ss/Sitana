@@ -34,6 +34,8 @@ namespace Sitana.Framework.Ui.Views
 			file["IsFocused"] = parser.ParseBoolean("IsFocused");
         }
 
+		public static UiEditBoxBase CurrentlyFocused { get; private set; }
+
         public override ButtonState ButtonState
         {
             get
@@ -84,6 +86,18 @@ namespace Sitana.Framework.Ui.Views
             _lostFocusCancels = DefinitionResolver.Get<bool>(Controller, Binding, file["CancelOnLostFocus"], false);
 			_focusedShared = DefinitionResolver.GetShared<bool>(Controller, Binding, file["IsFocused"], false);
 			_focusedShared.Value = false;
+
+			_focusedShared.ValueChanged += (bool focused) => 
+			{
+				if(focused)
+				{
+					CurrentlyFocused = this;
+				}
+				else if( CurrentlyFocused == this )
+				{
+					CurrentlyFocused = null;
+				}
+			};
 
             if (_inputType == TextInputType.Password)
             {
@@ -184,12 +198,27 @@ namespace Sitana.Framework.Ui.Views
             
         }
 
+		public virtual void Unfocus()
+		{
+			
+		}
+
         protected override void DoAction()
         {
             Focus();
         }
 
-        
+        public void DoActionWhenUnfocused(EmptyArgsVoidDelegate action)
+        {
+            if(!Focused)
+            {
+                action();
+            }
+            else
+            {
+                UiTask.BeginInvoke(() => DoActionWhenUnfocused(action));
+            }
+        }
     }
 }
 

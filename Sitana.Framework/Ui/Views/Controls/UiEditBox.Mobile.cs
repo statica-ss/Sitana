@@ -203,13 +203,14 @@ namespace Sitana.Framework.Ui.Views
 			Focus();
 		}
 
-		void Unfocus()
+		public override void Unfocus()
 		{
-			Focused = false;
 			if (_nativeInput != null)
 			{
 				_nativeInput.Unfocus();
 			}
+
+			Focused = false;
 		}
 
 

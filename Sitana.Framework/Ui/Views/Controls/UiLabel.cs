@@ -37,6 +37,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["AutoSizeUpdate"] = parser.ParseBoolean("AutoSizeUpdate");
             file["TextRotation"] = parser.ParseEnum<TextRotation>("TextRotation");
+
+            file["TextMargin"] = parser.ParseMargin("TextMargin");
         }
 
         public static ColorWrapper DefaultTextColor = new ColorWrapper();
@@ -65,6 +67,7 @@ namespace Sitana.Framework.Ui.Views
         public int LineHeight { get; set; }
 
         string _fontName;
+        Margin _textMargin;
 
         protected FontFace _fontFace = null;
         public TextAlign TextAlign {get;set;}
@@ -88,7 +91,14 @@ namespace Sitana.Framework.Ui.Views
             float scale;
             UniversalFont font = _fontFace.Find(FontSize, out scale);
 
-            parameters.DrawBatch.DrawText(font, Text, ScreenBounds, TextAlign, TextColor.Value * opacity, (float)FontSpacing / 1000.0f, (float)LineHeight / 100.0f, scale, _rotation);
+            Rectangle bounds = ScreenBounds;
+
+            if(Text.Length > 0)
+            {
+                bounds =  _textMargin.ComputeRect(bounds);
+            }
+
+            parameters.DrawBatch.DrawText(font, Text, bounds, TextAlign, TextColor.Value * opacity, (float)FontSpacing / 1000.0f, (float)LineHeight / 100.0f, scale, _rotation);
         }
 
         public override Point ComputeSize(int width, int height)
@@ -140,7 +150,14 @@ namespace Sitana.Framework.Ui.Views
                     break;
             }
 
-            return size * scale;
+            Vector2 marginIfText = Vector2.Zero;
+
+            if(Text.Length > 0)
+            {
+                marginIfText = new Vector2(_textMargin.Width, _textMargin.Height);
+            }
+
+            return size * scale + marginIfText;
         }
 
         public Point CalculateSize()
@@ -162,6 +179,8 @@ namespace Sitana.Framework.Ui.Views
             FontSize = DefinitionResolver.Get<int>(Controller, Binding, file["FontSize"], 0);
             FontSpacing = DefinitionResolver.Get<int>(Controller, Binding, file["FontSpacing"], 0);
             LineHeight = DefinitionResolver.Get<int>(Controller, Binding, file["LineHeight"], 100);
+
+            _textMargin = DefinitionResolver.Get<Margin>(Controller, Binding, file["TextMargin"], Margin.None);
 
             _rotation = DefinitionResolver.Get<TextRotation>(Controller, Binding, file["TextRotation"], TextRotation.None);
 

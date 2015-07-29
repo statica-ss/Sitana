@@ -299,6 +299,7 @@ namespace Sitana.Framework.Ui.Views
                 if(view.PositionParameters.Height.IsRest)
                 {
                     size.Y = _rest * view.PositionParameters.Height.Rest / _restParts;
+                    size.Y = Math.Max(view.MinSize.Y, size.Y);
                 }
 
                 int posX = Padding + parameters.Margin.Left;
@@ -362,6 +363,7 @@ namespace Sitana.Framework.Ui.Views
                 if (view.PositionParameters.Width.IsRest)
                 {
                     size.X = _rest * view.PositionParameters.Width.Rest / _restParts;
+                    size.X = Math.Max(view.MinSize.X, size.X);
                 }
 
                 int posY = Padding + parameters.Margin.Top;

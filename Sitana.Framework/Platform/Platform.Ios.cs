@@ -24,7 +24,6 @@ namespace Sitana.Framework
         {
             private Action _onCompleted;
 
-
             public CustomMailComposeDelegate(Action onCompleted)
             {
                 _onCompleted = onCompleted;

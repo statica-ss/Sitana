@@ -145,6 +145,12 @@ namespace Sitana.Framework.Ui.Views
         
         }
 
+        public override void Unfocus()
+        {
+            AppMain.Current.ReleaseFocus(_textInput);
+            Focused = false;
+        }
+
         void OnTouchDown(int id, Vector2 pos)
         {
             if (Focused)
