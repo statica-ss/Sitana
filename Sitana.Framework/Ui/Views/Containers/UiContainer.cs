@@ -85,9 +85,10 @@ namespace Sitana.Framework.Ui.Views
             if (!_children.Contains(view))
             {
                 _children.Add(view);
-                view.Bounds = CalculateChildBounds(view);
                 view.Parent = this;
                 view.RegisterView();
+                view.Bounds = CalculateChildBounds(view);
+                
 
                 if (_added)
                 {
