@@ -249,6 +249,7 @@
     <Compile Include="Input\Interfaces\IBackable.cs" />
     <Compile Include="Input\Interfaces\IMenuButtonListener.cs" />
     <Compile Include="Input\GamePad\GamePad.cs" />
+    <Compile Include="Ui\Core\GlobalVariables.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

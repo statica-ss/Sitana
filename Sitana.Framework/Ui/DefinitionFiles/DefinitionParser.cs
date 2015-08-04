@@ -54,9 +54,15 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
         object ParseMethodOrField(string name)
         {
-            if (name.StartsWith("{"))
+            if(name.StartsWith("{~"))
+            {
+                name = name.Trim('{', '}');
+                return new GlobalVariable() { Name = name.Substring(1) };
+            }
+            else if (name.StartsWith("{"))
             {
                 bool binding = name.StartsWith("{{");
+
                 name = name.Trim('{', '}');
 
                 int index = name.IndexOf('(');

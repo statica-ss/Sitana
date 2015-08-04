@@ -19,6 +19,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
         public bool Binding;
     }
 
+    public class GlobalVariable
+    {
+        public string Name;
+    }
+
     struct ReflectionParameter
     {
         public readonly string Name;

@@ -8,6 +8,7 @@ using Sitana.Framework.Content;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Graphics;
 using Sitana.Framework.Ui.Controllers;
+using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
 {
@@ -140,6 +141,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
         public static object GetValueFromMethodOrField(UiController controller, object binding, object definition)
         {
+            if(definition is GlobalVariable)
+            {
+                return GlobalVariables.Instance[(definition as GlobalVariable).Name];
+            }
+
             if ( definition is FieldName )
             {
                 return GetFieldValue(controller, binding, definition, null);
@@ -292,7 +298,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 }
             }
 
-            if (definition is MethodName || definition is FieldName)
+            if (definition is MethodName || definition is FieldName || definition is GlobalVariable)
             {
                 object value = GetValueFromMethodOrField(controller, binding, definition);
 
