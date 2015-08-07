@@ -6,7 +6,7 @@ namespace Sitana.Framework
 {
     public static class UiTask
     {
-        static List<Tuple<long, EmptyArgsVoidDelegate>> _tasks = new List<Tuple<long, EmptyArgsVoidDelegate>>();
+		static Queue<EmptyArgsVoidDelegate> _tasks = new Queue<EmptyArgsVoidDelegate>();
 
 		static object _lock = new object();
 
@@ -14,55 +14,42 @@ namespace Sitana.Framework
         {
 			lock (_lock)
 			{
-				_tasks.Add(new Tuple<long, EmptyArgsVoidDelegate>(0, lambda));
-			}
-        }
-
-        public static void BeginInvoke(double delay, EmptyArgsVoidDelegate lambda)
-        {
-			lock (_lock)
-			{
-				_tasks.Add(new Tuple<long, EmptyArgsVoidDelegate>(
-					DateTime.Now.AddSeconds(delay).Ticks,
-					lambda));
+				_tasks.Enqueue(lambda);
 			}
         }
 
         internal static void Process()
         {
-            long ticks = 0;
-            if (_tasks.Count > 0)
-            {
-                ticks = DateTime.Now.Ticks;
-            }
+			EmptyArgsVoidDelegate func = null;
 
-            for (int idx = 0; idx < _tasks.Count; )
-            {
-                var pair = _tasks[idx];
-                if (pair.Item1 <= ticks)
-                {
-					EmptyArgsVoidDelegate func = pair.Item2;
+			lock (_lock)
+			{
+				if (_tasks.Count > 0)
+				{
+					func = _tasks.Dequeue();
+				}
+			}
 
-					if (func == null)
+			while(func != null)
+			{
+				try
+				{
+                	func.Invoke();
+				}
+				catch(Exception ex)
+				{
+					throw new Exception(string.Format("UiTask invoke exception at {0}.{1}", func.Method.DeclaringType.FullName, func.Method.Name), ex);
+				}
+
+				func = null;
+
+				lock (_lock)
+				{
+					if (_tasks.Count > 0)
 					{
-						throw new NullReferenceException("Delegate.");
+						func = _tasks.Dequeue();
 					}
-
-					try
-					{
-                    	func.Invoke();
-					}
-					catch(Exception ex)
-					{
-						throw new Exception(string.Format("UiTask invoke exception at {0}.{1}", func.Method.DeclaringType.FullName, func.Method.Name), ex);
-					}
-
-                    _tasks.RemoveAt(idx);
-                }
-                else
-                {
-                    ++idx;
-                }
+				}
             }
         }
     }
