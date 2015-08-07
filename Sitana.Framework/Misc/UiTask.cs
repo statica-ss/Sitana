@@ -8,16 +8,24 @@ namespace Sitana.Framework
     {
         static List<Tuple<long, EmptyArgsVoidDelegate>> _tasks = new List<Tuple<long, EmptyArgsVoidDelegate>>();
 
+		static object _lock = new object();
+
         public static void BeginInvoke( EmptyArgsVoidDelegate lambda )
         {
-            _tasks.Add(new Tuple<long, EmptyArgsVoidDelegate>(0, lambda));
+			lock (_lock)
+			{
+				_tasks.Add(new Tuple<long, EmptyArgsVoidDelegate>(0, lambda));
+			}
         }
 
         public static void BeginInvoke(double delay, EmptyArgsVoidDelegate lambda)
         {
-            _tasks.Add(new Tuple<long, EmptyArgsVoidDelegate>(
-                DateTime.Now.AddSeconds(delay).Ticks,
-                lambda));
+			lock (_lock)
+			{
+				_tasks.Add(new Tuple<long, EmptyArgsVoidDelegate>(
+					DateTime.Now.AddSeconds(delay).Ticks,
+					lambda));
+			}
         }
 
         internal static void Process()
@@ -33,7 +41,22 @@ namespace Sitana.Framework
                 var pair = _tasks[idx];
                 if (pair.Item1 <= ticks)
                 {
-                    pair.Item2.Invoke();
+					EmptyArgsVoidDelegate func = pair.Item2;
+
+					if (func == null)
+					{
+						throw new NullReferenceException("Delegate.");
+					}
+
+					try
+					{
+                    	func.Invoke();
+					}
+					catch(Exception ex)
+					{
+						throw new Exception(string.Format("UiTask invoke exception at {0}.{1}", func.Method.DeclaringType.FullName, func.Method.Name), ex);
+					}
+
                     _tasks.RemoveAt(idx);
                 }
                 else

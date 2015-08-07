@@ -13,6 +13,8 @@ namespace Sitana.Framework.Diagnostics
 {
     public class MintCrashService: CrashService
     {
+        public override string AppName { get { return _appName; } }
+
         string _apiToken;
         string _appName;
         string _uid;

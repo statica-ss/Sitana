@@ -57,7 +57,16 @@ namespace Sitana.Framework
             for (int idx = 0; idx < _workingActions.Count; ++idx)
             {
                 var action = _workingActions[idx];
-                action.Action.Invoke(_currentTime);
+
+				try
+				{
+                	action.Action.Invoke(_currentTime);
+				}
+				catch(Exception ex)
+				{
+					var func = action.Action;
+					throw new Exception(string.Format("DelayedActionInvoker invoke exception at {0}.{1}", func.Method.DeclaringType.FullName, func.Method.Name), ex);
+				}
             }
             _workingActions.Clear();
         }

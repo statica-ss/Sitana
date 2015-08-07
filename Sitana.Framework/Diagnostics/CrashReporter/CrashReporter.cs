@@ -5,6 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+#if ANDROID
+using Android.Runtime;
+#endif
+
 namespace Sitana.Framework.Diagnostics
 {
     public class CrashReporter
@@ -19,6 +23,14 @@ namespace Sitana.Framework.Diagnostics
 
         List<ExceptionData> _unhandledExceptions = new List<ExceptionData>();
 
+        public string AppName
+        {
+            get
+            {
+                return _service.AppName;
+            }
+        }
+
         private CrashReporter()
         {
         }
@@ -27,7 +39,14 @@ namespace Sitana.Framework.Diagnostics
         {
             _service = service;
             _appVersion = Platform.CurrentVersion;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+			TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;;
+
+			#if ANDROID
+			AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledException;
+			#else
+			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+			#endif
 
             LoadLastSession();
             Send();
@@ -79,6 +98,17 @@ namespace Sitana.Framework.Diagnostics
             catch { }
         }
 
+		#if ANDROID
+		void AndroidEnvironment_UnhandledException(object sender, RaiseThrowableEventArgs args)
+		{
+			lock (_crashesLock)
+			{
+				_unhandledExceptions.Add(new ExceptionData(_appVersion, DateTime.UtcNow, args.Exception));
+			}
+
+			Serialize();
+		}
+		#else
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
             if (args.IsTerminating)
@@ -91,6 +121,18 @@ namespace Sitana.Framework.Diagnostics
                 Serialize();
             }
         }
+		#endif
+
+		void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs args)
+		{
+			lock (_crashesLock)
+			{
+				_unhandledExceptions.Add(new ExceptionData(_appVersion, DateTime.UtcNow, args.Exception));
+			}
+
+			Serialize();
+		}
+
 
         public void Clear()
         {

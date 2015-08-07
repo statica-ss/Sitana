@@ -8,6 +8,8 @@ namespace Sitana.Framework.Diagnostics
 {
     public abstract class CrashService
     {
+        public abstract string AppName { get; }
+
         public virtual async Task Start()
         {
             await Task.Run(() => { });
