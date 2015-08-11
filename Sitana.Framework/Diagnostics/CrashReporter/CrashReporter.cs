@@ -40,7 +40,7 @@ namespace Sitana.Framework.Diagnostics
             _service = service;
             _appVersion = Platform.CurrentVersion;
 
-			TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;;
+			TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
 			#if ANDROID
 			AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledException;
