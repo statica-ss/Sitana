@@ -40,16 +40,16 @@ namespace Sitana.Framework.Diagnostics
             _service = service;
             _appVersion = Platform.CurrentVersion;
 
-			TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+			LoadLastSession();
+			Send();
+
+			//TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
 			#if ANDROID
 			AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledException;
 			#else
 			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 			#endif
-
-            LoadLastSession();
-            Send();
         }
 
         async void Send()
@@ -125,6 +125,11 @@ namespace Sitana.Framework.Diagnostics
 
 		void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs args)
 		{
+			if (args.Exception == null)
+			{
+				return;
+			}
+
 			lock (_crashesLock)
 			{
 				_unhandledExceptions.Add(new ExceptionData(_appVersion, DateTime.UtcNow, args.Exception));
