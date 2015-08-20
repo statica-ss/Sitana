@@ -46,7 +46,7 @@ namespace Sitana.Framework.Ui.Views
         public SharedString Text{ get; private set; }
         public ColorWrapper TextColor { get; protected set; }
 
-        TextRotation _rotation;
+        protected TextRotation _rotation;
 
         public string FontName
         {
@@ -67,7 +67,7 @@ namespace Sitana.Framework.Ui.Views
         public int LineHeight { get; set; }
 
         string _fontName;
-        Margin _textMargin;
+        protected Margin _textMargin;
 
         protected FontFace _fontFace = null;
         public TextAlign TextAlign {get;set;}
