@@ -48,6 +48,8 @@ namespace Sitana.Framework.Ui.Views
         bool _notifyParentOnResize = true;
         bool _wrap = false;
 
+        bool _recalculateAllParent = true;
+
         double _expandSpeed;
         double _expandedValue;
 
@@ -145,6 +147,15 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void Update(float time)
         {
+            if (_recalculateAllParent)
+            {
+                if (Parent != null)
+                {
+                    Parent.RecalculateAll();
+                }
+                _recalculateAllParent = false;
+            }
+
             if (_updateBounds)
             {
                 UpdateBounds();

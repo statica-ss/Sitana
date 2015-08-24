@@ -201,6 +201,11 @@ namespace Sitana.Framework.Ui.Views
             {
                 parameters.DrawBatch.PopClip();
             }
+
+            if(_transition > 0)
+            {
+                AppMain.RedrawNextFrame();
+            }
         }
 
         TransitionEffect FindTransition(bool hide)

@@ -19,6 +19,7 @@ using Sitana.Framework.Input.GamePad;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Media;
 using Sitana.Framework.Misc;
+using System.Threading;
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -97,6 +98,7 @@ namespace Sitana.Framework.Ui.Core
 
         private DefinitionFile _mainView;
 
+        float _cumulativeFrameTime = 0;
 
         // Move this to proper partial class!
         #if !ANDROID
@@ -262,13 +264,22 @@ namespace Sitana.Framework.Ui.Core
                 _updatables[idx].Update(time);
             }
 
-            MainView.ViewUpdate(time);
+            _cumulativeFrameTime += time;
+
+            bool shouldUpdate = shouldRedraw | true;
+
+            if (shouldUpdate)
+            {
+                MainView.ViewUpdate(_cumulativeFrameTime);
+                _cumulativeFrameTime = 0;
+            }
 
             shouldRedraw |= _shouldRedraw;
 
-            if(!shouldRedraw)
+            if (!shouldRedraw)
             {
                 SuppressDraw();
+                Thread.Sleep(1);
             }
         }
 
