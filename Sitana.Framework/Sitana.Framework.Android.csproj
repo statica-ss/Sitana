@@ -250,6 +250,9 @@
     <Compile Include="Input\Interfaces\IMenuButtonListener.cs" />
     <Compile Include="Input\GamePad\GamePad.cs" />
     <Compile Include="Ui\Core\GlobalVariables.cs" />
+    <Compile Include="Ui\Views\Controls\UiQuickList.cs" />
+    <Compile Include="Ui\Views\Controls\QuickData\QuickColumnDefinition.cs" />
+    <Compile Include="Ui\Views\Controls\QuickData\QuickDataRow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

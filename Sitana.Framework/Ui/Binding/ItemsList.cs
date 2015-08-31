@@ -178,7 +178,10 @@ namespace Sitana.Framework.Ui.Binding
         {
             get
             {
-                return _elements[index];
+				lock (this)
+				{
+					return _elements[index];
+				}
             }
         }
 
@@ -192,12 +195,18 @@ namespace Sitana.Framework.Ui.Binding
 
         object IItemsProvider.ElementAt(int index)
         {
-            return _elements[index];
+			lock (this)
+			{
+				return _elements[index];
+			}
         }
 
         public T Last()
         {
-            return _elements.Last();
+			lock (this)
+			{
+				return _elements.Last();
+			}
         }
     }
 }

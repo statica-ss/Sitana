@@ -219,6 +219,9 @@
     <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
     <Compile Include="Media\MusicController.Common.cs" />
+	<Compile Include="Ui\Views\Controls\UiQuickList.cs" />
+    <Compile Include="Ui\Views\Controls\QuickData\QuickColumnDefinition.cs" />
+    <Compile Include="Ui\Views\Controls\QuickData\QuickDataRow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Gamer\" />

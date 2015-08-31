@@ -45,6 +45,9 @@ namespace Sitana.Framework.Ui.Views
 
         void IUpdatable.Update(float time)
         {
+            float lastScrollX = ScrollPositionX;
+            float lastScrollY = ScrollPositionY;
+
             var bounds = ScrolledElement.ScreenBounds;
 
             var maxScrollX = ScrolledElement.MaxScrollX;
@@ -101,6 +104,11 @@ namespace Sitana.Framework.Ui.Views
             {
                 ScrollPositionX = ComputeScroll(1, ScrollPositionX, maxScrollX, bounds.Width);
                 ScrollPositionY = ComputeScroll(1, ScrollPositionY, maxScrollY, bounds.Height);
+            }
+
+            if(lastScrollX != ScrollPositionX || lastScrollY != ScrollPositionY)
+            {
+                AppMain.Redraw();
             }
         }
 

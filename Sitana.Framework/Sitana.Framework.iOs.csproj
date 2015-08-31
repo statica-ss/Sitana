@@ -78,6 +78,7 @@
     <Folder Include="Diagnostics\CrashReporter\" />
     <Folder Include="IO\" />
     <Folder Include="Input\Interfaces\" />
+    <Folder Include="Ui\Views\Controls\QuickData\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
@@ -268,6 +269,9 @@
     <Compile Include="Input\ExtendedKeyboardManager.cs" />
     <Compile Include="Input\GamePad\GamePad.cs" />
     <Compile Include="Ui\Core\GlobalVariables.cs" />
+    <Compile Include="Ui\Views\Controls\UiQuickList.cs" />
+    <Compile Include="Ui\Views\Controls\QuickData\QuickColumnDefinition.cs" />
+    <Compile Include="Ui\Views\Controls\QuickData\QuickDataRow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

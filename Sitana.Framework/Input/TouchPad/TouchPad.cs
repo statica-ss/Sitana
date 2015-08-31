@@ -71,6 +71,19 @@ namespace Sitana.Framework.Input.TouchPad
             _listeners.Remove(listener);
         }
 
+        public void LockListener(int pointerId, object listener)
+        {
+            UiTask.BeginInvoke( ()=>
+                {
+                    _gesture.GestureType = GestureType.CapturedByOther;
+                    _gesture.TouchId = pointerId;
+					_gesture.ResetState();
+                    _gesture.CapturePointer(listener);
+
+                    OnGesture();
+                });
+        }
+
         internal void Update(float time, bool active)
         {
 			if (_lastTap.HasValue)

@@ -254,6 +254,9 @@
     <Compile Include="Input\Accelerators\KeyModifiers.cs" />
     <Compile Include="Input\Interfaces\IBackable.cs" />
     <Compile Include="Input\Interfaces\IMenuButtonListener.cs" />
+    <Compile Include="Ui\Views\Controls\UiQuickList.cs" />
+    <Compile Include="Ui\Views\Controls\QuickData\QuickColumnDefinition.cs" />
+    <Compile Include="Ui\Views\Controls\QuickData\QuickDataRow.cs" />
     <Compile Include="Xml\XFileEx.cs" />
   </ItemGroup>
   <ItemGroup>
