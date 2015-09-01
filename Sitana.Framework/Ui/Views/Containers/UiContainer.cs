@@ -45,6 +45,7 @@ namespace Sitana.Framework.Ui.Views
         protected bool _added = false;
 
         protected bool ProcessGestureBeforeChildren = false;
+        protected bool _shouldRecalcLayout = false;
 
         public bool ClipChildren
         {
@@ -150,6 +151,12 @@ namespace Sitana.Framework.Ui.Views
                 var child = _children[idx];
                 child.Bounds = CalculateChildBounds(child);
             }
+
+            if(_shouldRecalcLayout)
+            {
+                _shouldRecalcLayout = false;
+                RecalcLayout();
+            }
         }
 
         public virtual void RecalcLayout(UiView view)
@@ -243,6 +250,12 @@ namespace Sitana.Framework.Ui.Views
 
         protected override void Update(float time)
         {
+            if (_shouldRecalcLayout)
+            {
+                _shouldRecalcLayout = false;
+                RecalcLayout();
+            }
+
             for (int idx = 0; idx < _children.Count; ++idx)
             {
                 _children[idx].ViewUpdate(time);
@@ -328,6 +341,39 @@ namespace Sitana.Framework.Ui.Views
                     }
                 }
             }
+
+            for (int idx = 0; idx < _children.Count; ++idx)
+            {
+                _children[idx].OnNeighboursInited();
+            }
+        }
+
+        internal UiView FindChild(string id)
+        {
+            UiView found = _children.Find((v) => v.Id == id);
+
+            if(found == null)
+            {
+                foreach(var ch in _children)
+                {
+                    if(ch is UiContainer)
+                    {
+                        found = (ch as UiContainer).FindChild(id);
+
+                        if(found != null)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return found;
+        }
+
+        public void ShouldRecalcLayout()
+        {
+            _shouldRecalcLayout = true;
         }
 
         internal override void ViewGesture(Gesture gesture)

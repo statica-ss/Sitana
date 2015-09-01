@@ -7,6 +7,7 @@ using Sitana.Framework.Xml;
 using Sitana.Framework.Ui.Controllers;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -15,7 +16,13 @@ namespace Sitana.Framework.Ui.Views
         public new static void Parse(XNode node, DefinitionFile file)
         {
             UiContainer.Parse(node, file);
+
+            var parser = new DefinitionParser(node);
+            file["FitChildren"] = parser.ParseBoolean("FitChildren");
         }
+
+        bool _fitChildren = false;
+        bool _updateBounds = false;
 
         protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
@@ -23,6 +30,11 @@ namespace Sitana.Framework.Ui.Views
             {
                 return false;
             }
+
+            var file = new DefinitionFileWithStyle(definition, typeof(UiContainer));
+
+            _fitChildren = DefinitionResolver.Get<bool>(Controller, Binding, file["FitChildren"], false);
+
             InitChildren(Controller, Binding, definition);
             return true;
         }
@@ -81,6 +93,80 @@ namespace Sitana.Framework.Ui.Views
             return childRect;
         }
 
+        public override Point ComputeSize(int width, int height)
+        {
+            if (!_fitChildren)
+            {
+                return base.ComputeSize(width, height);
+            }
 
+            if (_shouldRecalcLayout)
+            {
+                RecalcLayout();
+                _shouldRecalcLayout = false;
+            }
+
+            Point value = base.ComputeSize(width, height);
+
+            int sizeX = 0;
+            int sizeY = 0;
+
+            for (int idx = 0; idx < _children.Count; ++idx)
+            {
+                var child = _children[idx];
+
+                if (child.DisplayVisibility > 0)
+                {
+                    if (child.PositionParameters.HorizontalAlignment != HorizontalAlignment.Stretch)
+                    {
+                        sizeX = Math.Max(sizeX, child.Bounds.Width + child.Margin.Right + child.Bounds.X);
+                    }
+
+                    if (child.PositionParameters.VerticalAlignment != VerticalAlignment.Stretch)
+                    {
+                        sizeY = Math.Max(sizeY, child.Bounds.Height + child.Margin.Bottom + child.Bounds.Y);
+                    }
+                }
+            }
+
+            if (PositionParameters.Height.IsAuto)
+            {
+                value.Y = sizeY;
+
+                if(Bounds.Height != sizeY)
+                {
+                    _updateBounds = true;
+                }
+            }
+
+            if (PositionParameters.Width.IsAuto)
+            {
+                value.X = sizeX;
+
+                if (Bounds.Width != sizeX)
+                {
+                    _updateBounds = true;
+                }
+            }
+
+            return value;
+        }
+
+        protected override void Update(float time)
+        {
+            base.Update(time);
+
+            if(_updateBounds)
+            {
+                _updateBounds = false;
+
+                if (Parent != null)
+                {
+                    Parent.RecalcLayout();
+                }
+            }
+        }
     }
+
+    
 }

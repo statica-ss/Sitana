@@ -20,6 +20,9 @@ namespace Sitana.Framework.Ui.Views
         public Length X;
         public Length Y;
 
+        public string BindWidthId;
+        public string BindHeightId;
+
         public static void Parse(XNode node, DefinitionFile file)
         {
             var parser = new DefinitionParser(node);
@@ -33,6 +36,9 @@ namespace Sitana.Framework.Ui.Views
 
             file["X"] = parser.ParseLength("X");
             file["Y"] = parser.ParseLength("Y");
+
+            file["BindHeight"] = parser.ParseString("BindHeight");
+            file["BindWidth"] = parser.ParseString("BindWidth");
         }
 
         internal void Init(UiController controller, object binding, DefinitionFile definition)
@@ -45,6 +51,9 @@ namespace Sitana.Framework.Ui.Views
 
             HorizontalAlignment = DefinitionResolver.Get<HorizontalAlignment>(controller, binding, file["HorizontalAlignment"], HorizontalAlignment.Stretch);
             VerticalAlignment = DefinitionResolver.Get<VerticalAlignment>(controller, binding, file["VerticalAlignment"], VerticalAlignment.Stretch);
+
+            BindWidthId = DefinitionResolver.GetString(controller, binding, file["BindWidth"]);
+            BindHeightId = DefinitionResolver.GetString(controller, binding, file["BindHeight"]);
 
             X = DefinitionResolver.Get<Length>(controller, binding, file["X"], Length.Default);
             Y = DefinitionResolver.Get<Length>(controller, binding, file["Y"], Length.Default);

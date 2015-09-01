@@ -233,6 +233,8 @@ namespace Sitana.Framework.Ui.Views
 
         public delegate void ViewDisplayChangedDelegate(bool visible);
 
+        public delegate void ViewSizeChangedDelegate(Rectangle bounds);
+
         protected SharedValue<bool> _visiblityFlag { private get; set;}
 
         public GestureType EnabledGestures = GestureType.None;
@@ -295,6 +297,7 @@ namespace Sitana.Framework.Ui.Views
         bool _wasViewDisplayed = false;
 
         public event ViewDisplayChangedDelegate ViewDisplayChanged;
+        public event ViewSizeChangedDelegate ViewSizeChanged;
 
         public bool IsViewDisplayed
         {
@@ -574,6 +577,11 @@ namespace Sitana.Framework.Ui.Views
                         new InvokeParam("width", Bounds.Width), new InvokeParam("height", Bounds.Height));
 
                     OnSizeChanged();
+
+                    if(ViewSizeChanged != null)
+                    {
+                        ViewSizeChanged(Bounds);
+                    }
                 }
 
                 _lastSize = Bounds;
@@ -842,6 +850,41 @@ namespace Sitana.Framework.Ui.Views
         bool IDefinitionClass.Init(UiController controller, object binding, DefinitionFile file)
         {
             return Init(controller, binding, file);
+        }
+
+        internal void OnNeighboursInited()
+        {
+            if(!PositionParameters.BindHeightId.IsNullOrWhiteSpace() && Parent != null)
+            {
+                UiView view = Parent.FindChild(PositionParameters.BindHeightId);
+                view.ViewSizeChanged += BindHeight_ViewSizeChanged;
+            }
+
+            if (!PositionParameters.BindWidthId.IsNullOrWhiteSpace() && Parent != null)
+            {
+                UiView view = Parent.FindChild(PositionParameters.BindWidthId);
+                view.ViewSizeChanged += BindWidth_ViewSizeChanged;
+            }
+        }
+
+        void BindWidth_ViewSizeChanged(Rectangle bounds)
+        {
+            PositionParameters.Width = new Length(pixels: bounds.Width);
+
+            if (Bounds.Width != bounds.Width)
+            {
+                Parent.ShouldRecalcLayout();
+            }
+        }
+
+        void BindHeight_ViewSizeChanged(Rectangle bounds)
+        {
+            PositionParameters.Height = new Length(pixels: bounds.Height);
+
+            if (Bounds.Height != bounds.Height)
+            {
+                Parent.ShouldRecalcLayout();
+            }
         }
 
         protected void RegisterDelegate(string id, object definition)

@@ -44,7 +44,6 @@ namespace Sitana.Framework.Ui.Views
 
         bool _vertical = false;
         bool _updateBounds = true;
-        bool _recalculateLayout = true;
         bool _notifyParentOnResize = true;
         bool _wrap = false;
 
@@ -162,12 +161,6 @@ namespace Sitana.Framework.Ui.Views
                 _updateBounds = false;
             }
 
-            if (_recalculateLayout)
-            {
-                _recalculateLayout = false;
-                RecalcLayout();
-            }
-
             base.Update(time);
 
             double desiredValue = _expanded.Value ? 1 : 0;
@@ -216,16 +209,16 @@ namespace Sitana.Framework.Ui.Views
 
                 OnChildrenModified();
 
-                _recalculateLayout = true;
+                ShouldRecalcLayout();
             }
         }
 
         public Point ComputeSizeInternal(int width, int height)
         {
-            if (_recalculateLayout)
+            if (_shouldRecalcLayout)
             {
                 RecalcLayout();
-                _recalculateLayout = false;
+                _shouldRecalcLayout = false;
             }
 
             Point value = base.ComputeSize(width, height);
