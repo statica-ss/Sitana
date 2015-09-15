@@ -28,6 +28,8 @@ namespace Sitana.Framework.Ui.Views
             file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
             file["WheelScrollSpeed"] = parser.ParseDouble("WheelScrollSpeed");
 
+            file["SeparatorHeight"] = parser.ParseLength("SeparatorHeight");
+
 			foreach (var cn in node.Nodes)
 			{
 				switch (cn.Tag)
@@ -35,6 +37,28 @@ namespace Sitana.Framework.Ui.Views
 				case "UiQuickList.Columns":
 					ParseColumns(cn, file);
 					break;
+
+                case "UiQuickList.Separator":
+                    {
+                        if (cn.Nodes.Count != 1)
+                        {
+                            string error = node.NodeError("UiQuickList.Separator must have exactly 1 child.");
+
+                            if (DefinitionParser.EnableCheckMode)
+                            {
+                                ConsoleEx.WriteLine(error);
+                            }
+                            else
+                            {
+                                throw new Exception(error);
+                            }
+                        }
+
+
+                        DefinitionFile separatorDef = DefinitionFile.LoadFile(cn.Nodes[0]);
+                        file["Separator"] = separatorDef;
+                    }
+                    break;
 				}
 			}
         }
@@ -90,6 +114,7 @@ namespace Sitana.Framework.Ui.Views
 		bool _reversed;
 
 		Length _rowHeight;
+        Length _separatorHeight;
 
         ScrollingService _scrollingService;
         ScrollingService.ExceedRule _rule = ScrollingService.ExceedRule.Allow;
@@ -100,6 +125,8 @@ namespace Sitana.Framework.Ui.Views
         float _wheelSpeed = 0;
 
         bool _recalculateScroll = true;
+
+        QuickSeparator _separator = null;
 
         public override Rectangle Bounds
         {
@@ -156,6 +183,9 @@ namespace Sitana.Framework.Ui.Views
             _items.Subscribe(this);
 
 			_rowHeight = DefinitionResolver.Get<Length>(Controller, Binding, file["RowHeight"], Length.Default);
+            _separatorHeight = DefinitionResolver.Get<Length>(Controller, Binding, file["SeparatorHeight"], Length.Zero);
+            
+
 			_reversed = DefinitionResolver.Get<bool>(Controller, Binding, file["Reversed"], false);
 
             _wheelSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["WheelScrollSpeed"], 0);
@@ -176,12 +206,19 @@ namespace Sitana.Framework.Ui.Views
 				_columns.Add(columnDefinitionObj);
 			}
 
+            DefinitionFile separatorDef = file["Separator"] as DefinitionFile;
+
+            if(separatorDef != null)
+            {
+                _separator = separatorDef.CreateInstance(Controller, Binding) as QuickSeparator;
+            }
+
 			return true;
 		}
 
         public void MoveListBy(int count)
         {
-            int height = _rowHeight.Compute(Bounds.Height);
+            int height = _rowHeight.Compute(Bounds.Height) + _separatorHeight.Compute(Bounds.Height);
             _scrollingService.ScrollPositionY += height * count;
             _scrollingService.Process();
         }
@@ -193,13 +230,16 @@ namespace Sitana.Framework.Ui.Views
 			int position = 0;
 			int startPosition = ScreenBounds.Top;
 
+            int separatorHeight = _separator != null ? Math.Max(1,_separatorHeight.Compute(Bounds.Height)) : 0;
+            int rowHeight = _rowHeight.Compute(Bounds.Height);
+
 			Rectangle target = new Rectangle();
-			target.Height = _rowHeight.Compute(Bounds.Height);
-            
-            float startIndexF = _scrollingService.ScrollPositionY / (float)target.Height;
+
+
+            float startIndexF = _scrollingService.ScrollPositionY / (float)(rowHeight + separatorHeight);
 
             int startIndex = (int)startIndexF;
-            startPosition -= (int)_scrollingService.ScrollPositionY % target.Height;
+            startPosition -= (int)_scrollingService.ScrollPositionY % (rowHeight + separatorHeight);
 
             if(_reversed)
             {
@@ -207,8 +247,32 @@ namespace Sitana.Framework.Ui.Views
             }
 
 			Rectangle textTarget = new Rectangle();
-            
+            int maxY = ScreenBounds.Bottom;
+
             parameters.DrawBatch.PushClip(ScreenBounds);
+
+            target = ScreenBounds;
+            target.Y = startPosition;
+            target.Height = separatorHeight;
+
+            if (separatorHeight > 0)
+            {
+                for (int dataIndex = startIndex; dataIndex < _items.Count && dataIndex >= 0; )
+                {
+                    _separator.Draw(parameters.DrawBatch, target, parameters.Opacity);
+
+                    target.Y += rowHeight + separatorHeight;
+
+                    if (target.Y > maxY)
+                    {
+                        break;
+                    }
+
+                    dataIndex += _reversed ? -1 : 1;
+                }
+            }
+
+            startPosition += separatorHeight;
 
 			for (int columnIndex = 0; columnIndex < _columns.Count; ++columnIndex)
 			{
@@ -227,9 +291,7 @@ namespace Sitana.Framework.Ui.Views
 				target.Width = width - column.TextMargin.Width;
 
 				target.Y = startPosition;
-				target.Height = _rowHeight.Compute(Bounds.Height);
-
-				int maxY = ScreenBounds.Bottom;
+                target.Height = rowHeight;
 
 				Margin textMargin = column.TextMargin;
 
@@ -248,7 +310,7 @@ namespace Sitana.Framework.Ui.Views
 
 					parameters.DrawBatch.DrawText(font, text, textTarget, textAlign, color, fontSpacing, lineHeight, fontScale);
 
-					target.Y += target.Height;
+					target.Y += target.Height + separatorHeight;
 
 					if (target.Y > maxY)
 					{
@@ -276,7 +338,7 @@ namespace Sitana.Framework.Ui.Views
 
         void RecalculateScroll()
         {
-            int height = _rowHeight.Compute(Bounds.Height) * _items.Count;
+            int height = (_rowHeight.Compute(Bounds.Height) + _separatorHeight.Compute(Bounds.Height)) * _items.Count;
 
             _maxScroll.X = 0;
             _maxScroll.Y = height;
@@ -292,14 +354,6 @@ namespace Sitana.Framework.Ui.Views
         void IItemsConsumer.Added(object item, int index)
         {
             _recalculateScroll = true;
-
-            //if(_scrollingService.ScrollPositionY > TouchPad.Instance.MinDragSize)
-            //{
-            //    if (_reversed && index == _items.Count - 1)
-            //    {
-            //        MoveListBy(1);
-            //    }
-            //}
         }
 
         void IItemsConsumer.Removed(object item)

@@ -100,7 +100,7 @@ namespace Sitana.Framework
                     {
                         value.Replace(" ", string.Empty);
 
-                        ColorWrapper destination = this[value];
+                        ColorWrapper destination = this[key];
 
                         if(destination == null)
                         {

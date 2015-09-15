@@ -253,6 +253,8 @@
     <Compile Include="Ui\Views\Controls\UiQuickList.cs" />
     <Compile Include="Ui\Views\Controls\QuickData\QuickColumnDefinition.cs" />
     <Compile Include="Ui\Views\Controls\QuickData\QuickDataRow.cs" />
+    <Compile Include="Ui\Views\Controls\QuickData\QuickSeparator.cs" />
+    <Compile Include="Ui\Views\Controls\QuickData\QuickSeparatorLine.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

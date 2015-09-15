@@ -41,6 +41,8 @@ namespace Sitana.Framework.Input
 
         bool _useTextView = false;
 
+		public static bool UseDarkKeyboard = false;
+
         public bool Visible
         {
             get
@@ -101,6 +103,14 @@ namespace Sitana.Framework.Input
 			float y = Platform.PixelsToPoints(position.Y) + 2;
 			float width = Platform.PixelsToPoints(position.Width) - 2;
 			float height = Platform.PixelsToPoints(position.Height) - 4;
+
+			try
+			{
+				_textField.KeyboardAppearance = UseDarkKeyboard ? UIKeyboardAppearance.Dark : UIKeyboardAppearance.Light;
+			}
+			catch
+			{
+			}
 
 			if (keyboardContext.HasFlag(TextInputType.PasswordClass))
 			{

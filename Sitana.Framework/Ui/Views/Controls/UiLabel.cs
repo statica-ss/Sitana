@@ -39,6 +39,7 @@ namespace Sitana.Framework.Ui.Views
             file["TextRotation"] = parser.ParseEnum<TextRotation>("TextRotation");
 
             file["TextMargin"] = parser.ParseMargin("TextMargin");
+            file["MaxWidth"] = parser.ParseLength("MaxWidth");
         }
 
         public static ColorWrapper DefaultTextColor = new ColorWrapper();
@@ -66,11 +67,14 @@ namespace Sitana.Framework.Ui.Views
         public int FontSpacing {get; set;}
         public int LineHeight { get; set; }
 
-        string _fontName;
+        protected string _fontName;
         protected Margin _textMargin;
 
         protected FontFace _fontFace = null;
         public TextAlign TextAlign {get;set;}
+
+        Length _maxWidth;
+        protected float _rescale = 1;
 
         protected override void Draw(ref UiViewDrawParameters parameters)
         {
@@ -90,6 +94,8 @@ namespace Sitana.Framework.Ui.Views
 
             float scale;
             UniversalFont font = _fontFace.Find(FontSize, out scale);
+
+            scale *= _rescale;
 
             Rectangle bounds = ScreenBounds;
 
@@ -157,7 +163,17 @@ namespace Sitana.Framework.Ui.Views
                 marginIfText = new Vector2(_textMargin.Width, _textMargin.Height);
             }
 
-            return size * scale + marginIfText;
+            size = size * scale + marginIfText;
+            
+            int maxWidth = _maxWidth.Compute(Parent.Bounds.Width);
+
+            if(size.X > maxWidth)
+            {
+                _rescale = (float)maxWidth / size.X;
+                size = size * _rescale;
+            }
+
+            return size;
         }
 
         public Point CalculateSize()
@@ -183,6 +199,8 @@ namespace Sitana.Framework.Ui.Views
             _textMargin = DefinitionResolver.Get<Margin>(Controller, Binding, file["TextMargin"], Margin.None);
 
             _rotation = DefinitionResolver.Get<TextRotation>(Controller, Binding, file["TextRotation"], TextRotation.None);
+
+            _maxWidth = DefinitionResolver.Get<Length>(Controller, Binding, file["MaxWidth"], new Length(pixels: int.MaxValue));
 
             Text = DefinitionResolver.GetSharedString(Controller, Binding, file["Text"]);
 

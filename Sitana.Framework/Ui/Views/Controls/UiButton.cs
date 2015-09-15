@@ -29,6 +29,10 @@ namespace Sitana.Framework.Ui.Views
             file["Icon"] = parser.ParseResource<Texture2D>("Icon");
             file["Click"] = parser.ParseDelegate("Click");
             file["Hold"] = parser.ParseDelegate("Hold");
+
+            file["Push"] = parser.ParseDelegate("Push");
+            file["Release"] = parser.ParseDelegate("Release");
+
             file["Enabled"] = parser.ParseBoolean("Enabled");
             file["Disabled"] = parser.ParseBoolean("Disabled");
 
@@ -349,6 +353,9 @@ namespace Sitana.Framework.Ui.Views
                 }
 
                 IsPushed = pushed;
+
+                CallDelegate(pushed ? "Push" : "Release");
+
                 OnPushedChanged();
             }
 
@@ -388,6 +395,9 @@ namespace Sitana.Framework.Ui.Views
                 RegisterDelegate("Hold", file["Hold"]);
                 _processHold = true;
             }
+
+            RegisterDelegate("Release", file["Release"]);
+            RegisterDelegate("Push", file["Push"]);
 
             RegisterDelegate("Click", file["Click"]);
 
