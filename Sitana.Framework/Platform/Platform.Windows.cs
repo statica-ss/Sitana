@@ -174,6 +174,8 @@ namespace Sitana.Framework
             return 0;
         }
 
-        
+        public static void PlayVideo(string path, bool local)
+        {
+        }
     }
 }

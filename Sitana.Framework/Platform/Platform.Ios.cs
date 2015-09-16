@@ -15,6 +15,11 @@ using Foundation;
 using UIKit;
 using GameKit;
 using Security;
+using MediaPlayer;
+using CoreGraphics;
+using AVFoundation;
+using Sitana.Framework.Cs;
+using Sitana.Framework.Ui.Interfaces;
 
 namespace Sitana.Framework
 {
@@ -208,6 +213,32 @@ namespace Sitana.Framework
 			}
 
 			return 0;
+		}
+
+		public static void PlayVideo(string path, bool local)
+		{
+			NSUrl url = null;
+
+			if (local)
+			{
+				url = NSUrl.FromFilename(path);
+			} 
+			else
+			{
+				url = NSUrl.FromString(path);
+			}
+
+			MPMoviePlayerViewController movieController = new MPMoviePlayerViewController(url);
+			UIViewController controller = AppMain.Current.Services.GetService(typeof(UIViewController)) as UIViewController;
+				
+			movieController.MoviePlayer.SetFullscreen(true, false);
+			controller.PresentMoviePlayerViewController(movieController);
+			movieController.MoviePlayer.Play();
+
+			NSNotificationCenter.DefaultCenter.AddObserver(new NSString("MPMoviePlayerDidExitFullscreenNotification"), (not) =>
+			{
+				controller.DismissMoviePlayerViewController();
+			});
 		}
     }
 }

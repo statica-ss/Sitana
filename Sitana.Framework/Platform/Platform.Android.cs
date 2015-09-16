@@ -281,5 +281,9 @@ namespace Sitana.Framework
 				Java.Lang.JavaSystem.Exit(0);
 			}
 		}
+
+		public static void PlayVideo(string path, bool local)
+		{
+		}
     }
 }
