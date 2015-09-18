@@ -312,9 +312,21 @@ namespace Sitana.Framework.Ui.Views
             _screenBoundsInvalid = true;
         }
 
-        public bool IsPointInsideView(Vector2 point)
+		public bool IsPointInsideView(Vector2 point, int tolerance = 0)
         {
-            bool ret = ScreenBounds.Contains(point);
+			bool ret = false;
+
+			if (tolerance == 0)
+			{
+				ret = ScreenBounds.Contains(point);
+			} 
+			else
+			{
+				Rectangle bounds = ScreenBounds;
+				bounds.Inflate(tolerance, tolerance);
+
+				ret = bounds.Contains(point);
+			}
 
             if (ret && Parent != null)
             {

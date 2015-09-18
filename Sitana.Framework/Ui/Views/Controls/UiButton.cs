@@ -206,8 +206,10 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
+			int tolerance = _gestureMargin.Compute();
+
             Rectangle bounds = ScreenBounds;
-            bounds.Inflate(_gestureMargin.Compute(), _gestureMargin.Compute());
+			bounds.Inflate(tolerance, tolerance);
 
             switch(gesture.GestureType)
             {
@@ -231,7 +233,7 @@ namespace Sitana.Framework.Ui.Views
 
                     if (bounds.Contains(gesture.Origin.ToPoint()))
                     {
-                        if (Parent.IsPointInsideView(gesture.Origin))
+						if (Parent.IsPointInsideView(gesture.Origin, tolerance))
                         {
                             if (_mode == UiButtonMode.Game)
                             {
@@ -278,7 +280,7 @@ namespace Sitana.Framework.Ui.Views
 
                     if (_mode == UiButtonMode.Game)
                     {
-                        if (IsPointInsideView(gesture.Position))
+						if (IsPointInsideView(gesture.Position, tolerance))
                         {
                             if (!_touches.ContainsKey(gesture.TouchId))
                             {

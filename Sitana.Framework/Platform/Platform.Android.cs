@@ -19,6 +19,7 @@ using Android.Telephony;
 using Java.Util;
 using Android.Net.Wifi;
 using System.Globalization;
+using Android.Widget;
 
 namespace Sitana.Framework
 {
@@ -281,9 +282,14 @@ namespace Sitana.Framework
 				Java.Lang.JavaSystem.Exit(0);
 			}
 		}
+			
 
 		public static void PlayVideo(string path, bool local)
 		{
+			Intent intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse(path));
+			intent.SetDataAndType(Android.Net.Uri.Parse(path), "video/mp4");
+
+			AppMain.Activity.StartActivity(intent);
 		}
     }
 }
