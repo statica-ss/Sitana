@@ -330,7 +330,7 @@ namespace Sitana.Framework.Ui.Views
 
             if (ret && Parent != null)
             {
-                return Parent.IsPointInsideView(point);
+                return Parent.IsPointInsideView(point, tolerance);
             }
 
             return ret;
