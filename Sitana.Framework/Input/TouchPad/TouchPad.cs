@@ -41,6 +41,7 @@ namespace Sitana.Framework.Input.TouchPad
         public GestureType RightClickGesture = GestureType.Hold;
 
         public event OnTouchDelegate TouchDown;
+        public event OnTouchDelegate Tap;
 
 		private int _scrollWheelValue = 0;
 
@@ -368,6 +369,11 @@ namespace Sitana.Framework.Input.TouchPad
 
                         _gesture.GestureType = GestureType.Tap;
                         OnGesture();
+
+                        if(Tap!=null)
+                        {
+                            Tap(_gesture.TouchId, _gesture.Position);
+                        }
 
                         if ( !_gesture.Handled )
                         {

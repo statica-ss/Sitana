@@ -26,7 +26,17 @@ namespace Sitana.Framework.Ui.Views
             file["RotationSpeed"] = parser.ParseDouble("RotationSpeed");
             file["ScaleByUnit"] = parser.ParseBoolean("ScaleByUnit");
             file["Scale"] = parser.ParseDouble("Scale");
+
+			file["ResampleFilter"] = parser.ParseEnum<ResampleFilter>("ResampleFilter");
         }
+
+		enum ResampleFilter
+		{
+			Default,
+			Point,
+			Linear,
+			Anisotropic
+		}
 
         SharedValue<Texture2D> _image = null;
 
@@ -36,6 +46,8 @@ namespace Sitana.Framework.Ui.Views
         float _rotation = 0;
         bool _scaleByUnit = false;
         float _scale = 1;
+
+		SamplerState _samplerState = null;
 
         float Scale
         {
@@ -108,6 +120,13 @@ namespace Sitana.Framework.Ui.Views
 
                 Color color = _color != null ? _color.Value * opacity : Color.White;
 
+				SamplerState oldState = parameters.DrawBatch.SamplerState;
+
+				if (_samplerState != null)
+				{
+					parameters.DrawBatch.SamplerState = _samplerState;
+				}
+
                 if (_rotationSpeed == 0)
                 {
                     parameters.DrawBatch.DrawImage(image, target, source, color);
@@ -116,6 +135,8 @@ namespace Sitana.Framework.Ui.Views
                 {
                     parameters.DrawBatch.DrawImage(image, target.Center.ToVector2(), null, color, _rotation, new Vector2(image.Width / 2, image.Height / 2), scale);
                 }
+
+				parameters.DrawBatch.SamplerState = oldState;
             }
         }
 
@@ -134,6 +155,22 @@ namespace Sitana.Framework.Ui.Views
             _rotationSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["RotationSpeed"], 0);
             _scaleByUnit = DefinitionResolver.Get<bool>(Controller, Binding, file["ScaleByUnit"], true);
             _scale = (float)DefinitionResolver.Get<double>(Controller, Binding, file["Scale"], 1);
+
+			switch(DefinitionResolver.Get<ResampleFilter>(Controller, Binding, file["ResampleFilter"], ResampleFilter.Default))
+			{
+			case ResampleFilter.Point:
+				_samplerState = SamplerState.PointClamp;
+				break;
+
+			case ResampleFilter.Linear:
+				_samplerState = SamplerState.LinearClamp;
+				break;
+
+			case ResampleFilter.Anisotropic:
+				_samplerState = SamplerState.AnisotropicClamp;
+				break;
+
+			}
 
             return true;
         }

@@ -65,12 +65,19 @@ namespace Sitana.Framework.Ui.Views
 
         protected List<UiView> _children = new List<UiView>();
 
+        public IReadOnlyCollection<UiView> Children { get; private set; }
+
         public bool HasChildren
         {
             get
             {
                 return _children.Count > 0;
             }
+        }
+
+        public UiContainer()
+        {
+            Children = _children.AsReadOnly();
         }
 
         public virtual void Remove(UiView view)

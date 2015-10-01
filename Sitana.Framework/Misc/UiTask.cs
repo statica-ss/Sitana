@@ -32,6 +32,7 @@ namespace Sitana.Framework
 
 			while(func != null)
 			{
+#if !DEBUG
 				try
 				{
                 	func.Invoke();
@@ -40,6 +41,9 @@ namespace Sitana.Framework
 				{
 					throw new Exception(string.Format("UiTask invoke exception at {0}.{1}", func.Method.DeclaringType.FullName, func.Method.Name), ex);
 				}
+#else
+                func.Invoke();
+#endif
 
 				func = null;
 
