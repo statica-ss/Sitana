@@ -48,30 +48,19 @@ namespace Sitana.Framework.Ui.Views
         public ColorWrapper TextColor { get; protected set; }
 
         protected TextRotation _rotation;
-
-        public string FontName
-        {
-            get
-            {
-                return _fontName;
-            }
-
-            set
-            {
-                _fontName = value;
-                _fontFace = null;
-            }
-        }
         
-        public virtual int FontSize {get;set;}
-        public int FontSpacing {get; set;}
-        public int LineHeight { get; set; }
+        int FontSize {get; set;}
+        int FontSpacing {get;  set;}
 
-        protected string _fontName;
+        protected int _lineHeight;
+
+        //protected string _fontName;
         protected Margin _textMargin;
 
         protected FontFace _fontFace = null;
         public TextAlign TextAlign {get;set;}
+
+        protected UiFont _font;
 
         Length _maxWidth;
         protected float _rescale = 1;
@@ -87,14 +76,7 @@ namespace Sitana.Framework.Ui.Views
 
             base.Draw(ref parameters);
 
-            if (_fontFace == null)
-            {
-                _fontFace = FontManager.Instance.FindFont(FontName);
-            }
-
-            float scale;
-            UniversalFont font = _fontFace.Find(FontSize, out scale);
-
+            float scale = _font.Scale;
             scale *= _rescale;
 
             Rectangle bounds = ScreenBounds;
@@ -104,7 +86,7 @@ namespace Sitana.Framework.Ui.Views
                 bounds =  _textMargin.ComputeRect(bounds);
             }
 
-            parameters.DrawBatch.DrawText(font, Text, bounds, TextAlign, TextColor.Value * opacity, (float)FontSpacing / 1000.0f, (float)LineHeight / 100.0f, scale, _rotation);
+            parameters.DrawBatch.DrawText(_font.Font, Text, bounds, TextAlign, TextColor.Value * opacity, _font.Spacing, (float)_lineHeight / 100.0f, scale, _rotation);
         }
 
         public override Point ComputeSize(int width, int height)
@@ -133,19 +115,13 @@ namespace Sitana.Framework.Ui.Views
 
         private Vector2 CalculateSizeInPixels()
         {
-            if (_fontFace == null)
-            {
-                _fontFace = FontManager.Instance.FindFont(FontName);
-            }
-
-            float scale;
-            UniversalFont font = _fontFace.Find(FontSize, out scale);
+            
 
             Vector2 size;
 
             lock (Text)
             {
-                size = font.MeasureString(Text.StringBuilder, (float)FontSpacing / 1000.0f, (float)LineHeight / 100.0f);
+                size = _font.Font.MeasureString(Text.StringBuilder, _font.Spacing, (float)_lineHeight / 100.0f);
             }
 
             switch(_rotation)
@@ -163,6 +139,7 @@ namespace Sitana.Framework.Ui.Views
                 marginIfText = new Vector2(_textMargin.Width, _textMargin.Height);
             }
 
+            float scale = _font.Scale;
             size = size * scale + marginIfText;
             
             int maxWidth = _maxWidth.Compute(Parent.Bounds.Width);
@@ -191,10 +168,13 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiLabel));
 
-            FontName = file["Font"] as string;
-            FontSize = DefinitionResolver.Get<int>(Controller, Binding, file["FontSize"], 0);
-            FontSpacing = DefinitionResolver.Get<int>(Controller, Binding, file["FontSpacing"], 0);
-            LineHeight = DefinitionResolver.Get<int>(Controller, Binding, file["LineHeight"], 100);
+            string fontName = file["Font"] as string;
+            int fontSize = DefinitionResolver.Get<int>(Controller, Binding, file["FontSize"], 0);
+            int fontSpacing = DefinitionResolver.Get<int>(Controller, Binding, file["FontSpacing"], 0);
+
+            _font = new UiFont(fontName, fontSize, fontSpacing);
+
+            _lineHeight = DefinitionResolver.Get<int>(Controller, Binding, file["LineHeight"], 100);
 
             _textMargin = DefinitionResolver.Get<Margin>(Controller, Binding, file["TextMargin"], Margin.None);
 

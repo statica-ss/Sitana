@@ -52,15 +52,9 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
-            if (_fontFace == null)
-            {
-                _fontFace = FontManager.Instance.FindFont(FontName);
-            }
+            float scale = _font.Scale;
 
-            float scale;
-            UniversalFont font = _fontFace.Find(FontSize, out scale);
-
-            if (font.SitanaFont == null)
+            if (_font.Font.SitanaFont == null)
             {
                 throw new Exception("Only Sitana fonts support UiColoredLabel.");
             }
@@ -69,7 +63,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 lock (Colors)
                 {
-                    parameters.DrawBatch.DrawText(font, Text.StringBuilder, ScreenBounds, TextAlign, Colors, opacity, (float)FontSpacing / 1000.0f, (float)LineHeight / 100.0f, scale);
+                    parameters.DrawBatch.DrawText(_font.Font, Text.StringBuilder, ScreenBounds, TextAlign, Colors, opacity, _font.Spacing, (float)_lineHeight / 100.0f, scale);
                 }
             }
         }
