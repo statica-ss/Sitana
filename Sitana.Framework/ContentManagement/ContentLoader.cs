@@ -96,7 +96,6 @@ namespace Sitana.Framework.Content
         private StringBuilder _pathBuilder = new StringBuilder();
 
         private ZipFile _zipFile = null;
-        
 
 #if RESOURCE_MANAGER_AVALIABLE
 
@@ -196,15 +195,18 @@ namespace Sitana.Framework.Content
 
         string FullPath(string name)
         {
-            _pathBuilder.Clear();
-            _pathBuilder.Append(name);
-            
-            for (int idx = 0; idx < _specialFolders.Count; ++idx)
+            lock (_lockObj)
             {
-                _pathBuilder.Replace(_specialFolders[idx].Item1, _specialFolders[idx].Item2);
-            }
+                _pathBuilder.Clear();
+                _pathBuilder.Append(name);
 
-            return _pathBuilder.ToString();
+                for (int idx = 0; idx < _specialFolders.Count; ++idx)
+                {
+                    _pathBuilder.Replace(_specialFolders[idx].Item1, _specialFolders[idx].Item2);
+                }
+
+                return _pathBuilder.ToString();
+            }
         }
 
         /// <summary>
