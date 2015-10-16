@@ -31,6 +31,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["Processor"] = Type.GetType(node.Attribute("Processor"));
 
+            file["EnableBaseLineCorrection"] = parser.ParseBoolean("EnableBaseLineCorrection");
+
             file["Text"] = parser.ParseString("Text");
             file["Font"] = parser.ValueOrNull("Font");
             file["FontSize"] = parser.ParseInt("FontSize");
@@ -93,6 +95,8 @@ namespace Sitana.Framework.Ui.Views
         ColorWrapper _colorClickableActive;
         ColorWrapper _colorRuler;
 
+        bool _baseLineCorrection = false;
+
         IRichProcessor _richProcessor;
 
         List<RichViewLine> _lines = new List<RichViewLine>();
@@ -122,8 +126,8 @@ namespace Sitana.Framework.Ui.Views
             set
             {
                 _text = HtmlSpecialChars.Convert(value);
-                
-                if ( _richProcessor != null )
+
+                if (_richProcessor != null)
                 {
                     _richProcessor.Process(value);
                 }
@@ -205,6 +209,8 @@ namespace Sitana.Framework.Ui.Views
             _lineHeight = (float)DefinitionResolver.Get<int>(Controller, Binding, file["LineHeight"], 100) / 100.0f;
             _justify = DefinitionResolver.Get<bool>(Controller, Binding, file["Justify"], false);
 
+            _baseLineCorrection = DefinitionResolver.Get<bool>(Controller, Binding, file["EnableBaseLineCorrection"], false);
+
             Type processorType = file["Processor"] as Type;
 
             if (processorType != null)
@@ -280,7 +286,7 @@ namespace Sitana.Framework.Ui.Views
                 entityRect.Y += _lines[idx].Height;
             }
 
-            if(_firstVisibleLine < 0)
+            if (_firstVisibleLine < 0)
             {
                 return null;
             }
@@ -366,6 +372,11 @@ namespace Sitana.Framework.Ui.Views
             int width = Bounds.Width;
             int maxWidth = width;
 
+            if(_text.StartsWith("**Indeks"))
+            {
+                Console.WriteLine();
+            }
+
             List<string> tempLines = new List<string>();
             List<RichViewEntity> restOfLine = new List<RichViewEntity>();
             int indent = 0;
@@ -375,6 +386,7 @@ namespace Sitana.Framework.Ui.Views
                 RichViewLine line = _lines[idx];
 
                 char _lastChar = '\0';
+                Font _lastFont = null; 
                 float position = line.Entities.Count > 0 ? line.Entities[0].Offset : 0;
 
                 if (line.NewParagraph)
@@ -382,17 +394,17 @@ namespace Sitana.Framework.Ui.Views
                     indent = 0;
                 }
 
-                for (int ent = 0; ent < line.Entities.Count;)
+                for (int ent = 0; ent < line.Entities.Count; )
                 {
                     RichViewEntity entity = line.Entities[ent];
 
                     bool process = true;
                     int lineHeight = 0;
-                    int lineBase = 0;
 
                     switch (entity.Type)
                     {
                         case EntityType.HorizontalLine:
+                            _lastChar = '\0';
                             line.Height = _horizontalRulerHeight.Compute(0);
                             break;
 
@@ -448,6 +460,7 @@ namespace Sitana.Framework.Ui.Views
                                 if (_lastChar != '\0' && entity.Font.SitanaFont != null)
                                 {
                                     Glyph glyph = entity.Font.SitanaFont.Find(entity.Text[0]);
+
                                     if (glyph != null)
                                     {
                                         kerning.X = (float)glyph.Kerning(_lastChar) / 10f * entity.FontScale;
@@ -455,20 +468,18 @@ namespace Sitana.Framework.Ui.Views
                                 }
 
                                 Point size = (entity.Font.MeasureString(entity.Text, entity.FontSpacing, 0) * entity.FontScale + kerning).ToPoint();
+
+                                entity.Offset += (int)kerning.X;
+
                                 size.Y = (int)(entity.Font.Height * entity.FontScale * _lineHeight);
 
-                                int baseLine = (int)((entity.Font.BaseLine-1) * entity.FontScale);
-
-                                lineBase = Math.Max(lineBase, baseLine);
                                 lineHeight = Math.Max(lineHeight, size.Y);
 
                                 line.Height = lineHeight;
-                                line.BaseLine = lineBase;
 
                                 if (position + size.X > maxWidth)
                                 {
                                     lineHeight = 0;
-                                    lineBase = 0;
                                     restOfLine.Clear();
 
                                     for (int ent2 = ent + 1; ent2 < line.Entities.Count; ++ent2)
@@ -524,7 +535,7 @@ namespace Sitana.Framework.Ui.Views
                                         line.Width = (int)position;
 
                                         RichViewLine newLine = new RichViewLine();
-                                        _lines.Insert(idx+1, newLine);
+                                        _lines.Insert(idx + 1, newLine);
 
                                         foreach (var en in restOfLine)
                                         {
@@ -560,6 +571,19 @@ namespace Sitana.Framework.Ui.Views
                 {
                     line.Height += space;
                 }
+
+                int lineBase = 0;
+
+                foreach (var entity in line.Entities)
+                {
+                    if (entity.Font != null)
+                    {
+                        int baseLine = (int)((entity.Font.BaseLine - 1) * entity.FontScale);
+
+                        lineBase = Math.Max(lineBase, baseLine);
+                        line.BaseLine = lineBase;
+                    }
+                }
             }
 
             if (_justify && !internalProcess)
@@ -573,6 +597,7 @@ namespace Sitana.Framework.Ui.Views
                     if (!last)
                     {
                         int wholeWidth = width;
+                        int tries = 0;
 
                         do
                         {
@@ -594,10 +619,11 @@ namespace Sitana.Framework.Ui.Views
 
                                 currentWidth += ComputeWidth(entity);
                             }
-
+                            
                             wholeWidth = currentWidth + (line.Entities.Count > 0 ? line.Entities[0].Offset : 0);
+                            tries++;
                         }
-                        while (Math.Abs(wholeWidth - width) > 5);
+                        while (Math.Abs(wholeWidth - width) > 5 && tries < 50);
                     }
                 }
             }
@@ -620,7 +646,7 @@ namespace Sitana.Framework.Ui.Views
 
         int ComputeWidth(RichViewEntity entity)
         {
-            switch(entity.Type)
+            switch (entity.Type)
             {
                 case EntityType.String:
                     return (int)(entity.Font.MeasureString(entity.Text, entity.FontSpacing, 0).X * entity.FontScale);
@@ -710,14 +736,14 @@ namespace Sitana.Framework.Ui.Views
                 lines.Add(newLine.ToString());
             }
 
-            
-                lines[lines.Count - 1] = lines.Last() + " ";
-            
+
+            lines[lines.Count - 1] = lines.Last() + " ";
+
         }
 
         void GenerateRichViewLines()
         {
-            if ( _richProcessor == null )
+            if (_richProcessor == null)
             {
                 return;
             }
@@ -809,7 +835,7 @@ namespace Sitana.Framework.Ui.Views
                     return Bounds.Width - width;
 
                 case TextAlign.Center:
-                    return (Bounds.Width - width)/2;
+                    return (Bounds.Width - width) / 2;
             }
 
             return 0;
@@ -828,17 +854,17 @@ namespace Sitana.Framework.Ui.Views
 
             Rectangle target = ScreenBounds;
 
-            if( _height < target.Height )
+            if (_height < target.Height)
             {
-                switch(_textAlign & TextAlign.Vert)
+                switch (_textAlign & TextAlign.Vert)
                 {
-                case TextAlign.Middle:
-                    target.Y = target.Center.Y - _height / 2;
-                    break;
+                    case TextAlign.Middle:
+                        target.Y = target.Center.Y - _height / 2;
+                        break;
 
-                case TextAlign.Bottom:
-                    target.Y = target.Bottom - _height;
-                    break;
+                    case TextAlign.Bottom:
+                        target.Y = target.Bottom - _height;
+                        break;
                 }
             }
 
@@ -934,7 +960,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 object processed = CallDelegate("UrlClick", new InvokeParam("sender", this), new InvokeParam("url", entity.Url));
 
-                if ( processed == null || !processed.Equals(true))
+                if (processed == null || !processed.Equals(true))
                 {
                     Platform.OpenWebsite(entity.Url);
                 }
