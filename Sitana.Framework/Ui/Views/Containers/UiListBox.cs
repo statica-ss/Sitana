@@ -296,6 +296,10 @@ namespace Sitana.Framework.Ui.Views
 
             if (clearChildren)
             {
+                foreach(var child in _children)
+                {
+                    child.ViewRemoved();
+                }
                 _children.Clear();
             }
 
@@ -566,7 +570,11 @@ namespace Sitana.Framework.Ui.Views
 
             if(view != null)
             {
-                UiTask.BeginInvoke(() => _children.Remove(view));
+                UiTask.BeginInvoke(() => 
+                    {
+                        view.ViewRemoved();
+                        _children.Remove(view);
+                    });
             }
         }
 

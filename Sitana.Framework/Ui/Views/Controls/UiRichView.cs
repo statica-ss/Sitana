@@ -372,7 +372,7 @@ namespace Sitana.Framework.Ui.Views
             int width = Bounds.Width;
             int maxWidth = width;
 
-            if(_text.StartsWith("**Indeks"))
+            if(_text.StartsWith("**Inflacja HICP"))
             {
                 Console.WriteLine();
             }

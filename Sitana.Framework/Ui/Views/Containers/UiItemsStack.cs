@@ -186,6 +186,10 @@ namespace Sitana.Framework.Ui.Views
         {
             lock (_childrenLock)
             {
+                foreach(var child in _children)
+                {
+                    child.ViewRemoved();
+                }
                 _children.Clear();
                 _bindingToElement.Clear();
             }
@@ -200,6 +204,7 @@ namespace Sitana.Framework.Ui.Views
                 UiView view;
                 if (_bindingToElement.TryGetValue(item, out view))
                 {
+                    view.ViewRemoved();
                     _children.Remove(view);
                     _bindingToElement.Remove(item);
                 }
