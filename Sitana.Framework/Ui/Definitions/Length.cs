@@ -77,5 +77,10 @@ namespace Sitana.Framework.Ui
         {
             return (int)Math.Ceiling(_percent * size + UiUnit.Unit * _length) + _pixels;
         }
+
+        public double ComputeDouble()
+        {
+            return UiUnit.Unit * _length + _pixels;
+        }
     }
 }

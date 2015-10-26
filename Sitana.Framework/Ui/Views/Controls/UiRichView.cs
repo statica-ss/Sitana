@@ -457,15 +457,15 @@ namespace Sitana.Framework.Ui.Views
 
                                 Vector2 kerning = Vector2.Zero;
 
-                                if (_lastChar != '\0' && entity.Font.SitanaFont != null)
-                                {
-                                    Glyph glyph = entity.Font.SitanaFont.Find(entity.Text[0]);
+                                //if (_lastChar != '\0' && entity.Font.SitanaFont != null)
+                                //{
+                                //    Glyph glyph = entity.Font.SitanaFont.Find(entity.Text[0]);
 
-                                    if (glyph != null)
-                                    {
-                                        kerning.X = (float)glyph.Kerning(_lastChar) / 10f * entity.FontScale;
-                                    }
-                                }
+                                //    if (glyph != null)
+                                //    {
+                                //        kerning.X = (float)glyph.Kerning(_lastChar) / 10f * entity.FontScale;
+                                //    }
+                                //}
 
                                 Point size = (entity.Font.MeasureString(entity.Text, entity.FontSpacing, 0) * entity.FontScale + kerning).ToPoint();
 

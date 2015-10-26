@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Sitana.Framework.Cs
 {
-    public class Singleton<T>
+    public class Singleton<T> where T: class, new()
     {
         // Instance of type.
         private static T _instance;
@@ -32,7 +32,7 @@ namespace Sitana.Framework.Cs
                     {
                         // Set created flag to true to avoid wild creation of class.
                         _allowCreation = true;
-                        _instance = (T)Activator.CreateInstance(typeof(T));
+                        _instance = new T();
                         _allowCreation = false;
                     }
 

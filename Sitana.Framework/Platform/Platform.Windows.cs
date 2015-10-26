@@ -100,7 +100,7 @@ namespace Sitana.Framework
                     localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
                 }
                 
-                string value = (string)localKey.OpenSubKey(@"SOFTWARE\Microsoft\Cryptography").GetValue("MachineGuid", null);    
+                string value = (string)localKey.OpenSubKey(@"SOFTWARE\Microsoft\Cryptography").GetValue("MachineGuid", null);
 
                 return value;
             }
