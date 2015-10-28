@@ -274,6 +274,7 @@
     <Compile Include="Ui\Views\Controls\QuickData\QuickDataRow.cs" />
     <Compile Include="Ui\Views\Controls\QuickData\QuickSeparator.cs" />
     <Compile Include="Ui\Views\Controls\QuickData\QuickSeparatorLine.cs" />
+    <Compile Include="Misc\RemoteImageCache.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
