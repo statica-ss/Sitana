@@ -41,6 +41,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ThirdParty\Dependences\CommonMark\CommonMark.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\ThirdParty\Dependences\HtmlAgilityPack\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ThirdParty\Dependences\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -80,6 +83,7 @@
     <Compile Include="Graphics\Images\LoadTexture2DFromPng.cs" />
     <Compile Include="Graphics\Textures\PartialTexture2D.cs" />
     <Compile Include="Helpers\ColorParser.cs" />
+    <Compile Include="HtmlRenderer\HtmlRenderer.cs" />
     <Compile Include="Input\ExtendedKeyboardManager.cs" />
     <Compile Include="Input\GamePad\GamePad.cs" />
     <Compile Include="Input\TextInput\IFocusable.cs" />
@@ -91,6 +95,7 @@
     <Compile Include="IO\ZipReadStorageManager.cs" />
     <Compile Include="IO\ZipWriteStorageManager.cs" />
     <Compile Include="Media\SoundEffectBuffer.cs" />
+    <Compile Include="Misc\RemoteImageCache.cs" />
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
     <Compile Include="Ui\Binding\ItemsList.cs" />

@@ -18,10 +18,21 @@ using Sitana.Framework.Ui.Core;
 using Sitana.Framework.Ui.Views.Parameters;
 using Sitana.Framework.Input.TouchPad;
 using Sitana.Framework.Ui.Views.RichView;
+using System.Threading.Tasks;
+using System.Net;
+using Sitana.Framework.Cs;
+using Sitana.Framework.Misc;
 
 namespace Sitana.Framework.Ui.Views
 {
-    public class UiRichView : UiView
+    public delegate void LinkResolvedDelegate(string result);
+
+    public interface ILinkResolver
+    {    
+        void ResolveLink(string link, LinkResolvedDelegate onResolved);
+    }
+
+    public class UiRichView : UiView, ICacheClient, ILinkResolver
     {
         public new static void Parse(XNode node, DefinitionFile file)
         {
@@ -30,6 +41,8 @@ namespace Sitana.Framework.Ui.Views
             var parser = new DefinitionParser(node);
 
             file["Processor"] = Type.GetType(node.Attribute("Processor"));
+
+            file["LinkResolver"] = parser.ParseDelegate("LinkResolver");
 
             file["EnableBaseLineCorrection"] = parser.ParseBoolean("EnableBaseLineCorrection");
 
@@ -116,6 +129,9 @@ namespace Sitana.Framework.Ui.Views
 
         int _height = 0;
 
+        ILinkResolver _linkResolver;
+        Dictionary<string, string> _resolvedLinks = new Dictionary<string, string>();
+
         public string Text
         {
             get
@@ -133,6 +149,11 @@ namespace Sitana.Framework.Ui.Views
                 }
                 _lastSize = Point.Zero;
             }
+        }
+
+        void ILinkResolver.ResolveLink(string link, LinkResolvedDelegate onResolved)
+        {
+            onResolved(link);
         }
 
         protected override bool Init(object controller, object binding, DefinitionFile definition)
@@ -208,6 +229,8 @@ namespace Sitana.Framework.Ui.Views
 
             _lineHeight = (float)DefinitionResolver.Get<int>(Controller, Binding, file["LineHeight"], 100) / 100.0f;
             _justify = DefinitionResolver.Get<bool>(Controller, Binding, file["Justify"], false);
+
+            _linkResolver = DefinitionResolver.Get<ILinkResolver>(Controller, Binding, file["LinkResolver"], this);
 
             _baseLineCorrection = DefinitionResolver.Get<bool>(Controller, Binding, file["EnableBaseLineCorrection"], false);
 
@@ -372,11 +395,6 @@ namespace Sitana.Framework.Ui.Views
             int width = Bounds.Width;
             int maxWidth = width;
 
-            if(_text.StartsWith("**Inflacja HICP"))
-            {
-                Console.WriteLine();
-            }
-
             List<string> tempLines = new List<string>();
             List<RichViewEntity> restOfLine = new List<RichViewEntity>();
             int indent = 0;
@@ -428,8 +446,11 @@ namespace Sitana.Framework.Ui.Views
                             _lastChar = '\0';
                             entity.Offset = (int)position;
 
-                            if (position + (int)(entity.Image.Width * UiUnit.Unit) > maxWidth)
+                            int imageWidth = Math.Min((int)(entity.Image.Width * UiUnit.Unit), maxWidth-indent);
+                            
+                            if (position + imageWidth > maxWidth)
                             {
+                                entity.Offset = indent;
                                 RichViewLine newLine = new RichViewLine();
 
                                 for (int ent2 = ent; ent2 < line.Entities.Count; ++ent2)
@@ -741,6 +762,12 @@ namespace Sitana.Framework.Ui.Views
 
         }
 
+        protected override void OnRemoved()
+        {
+            base.OnRemoved();
+            RemoteImageCache.Instance.RemoveClient(this);
+        }
+
         void GenerateRichViewLines()
         {
             if (_richProcessor == null)
@@ -789,7 +816,23 @@ namespace Sitana.Framework.Ui.Views
                 case EntityType.Image:
                     {
                         richEntity.Text = entity.Data as string;
-                        richEntity.Image = ContentLoader.Current.Load<Texture2D>(richEntity.Text);
+                        richEntity.Image = AdvancedDrawBatch.OnePixelWhiteTexture;
+
+                        _linkResolver.ResolveLink(richEntity.Text, (result) =>
+                            {
+                                Uri uriResult;
+                                bool isUrl = Uri.TryCreate(result, UriKind.Absolute, out uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+
+                                if (isUrl)
+                                {
+                                    richEntity.Image = RemoteImageCache.Instance.RegisterClient(uriResult, this);
+                                }
+                                else
+                                {
+                                    richEntity.Image = ContentLoader.Current.Load<Texture2D>(richEntity.Text);
+                                    _lastSize = Point.Zero;
+                                }
+                            });
                     }
                     break;
 
@@ -811,6 +854,11 @@ namespace Sitana.Framework.Ui.Views
             }
 
             return richEntity;
+        }
+
+        void ICacheClient.ImageUpdated()
+        {
+            _lastSize = Point.Zero;
         }
 
         void FillEntityData(RichViewEntity richEntity, Entity entity)
@@ -943,6 +991,15 @@ namespace Sitana.Framework.Ui.Views
                             case EntityType.Image:
                                 {
                                     Point size = new Point((int)(entity.Image.Width * UiUnit.Unit), (int)(entity.Image.Height * UiUnit.Unit));
+
+                                    int maxWidth = Bounds.Width - entity.Offset;
+
+                                    if (size.X > maxWidth)
+                                    {
+                                        size.Y = maxWidth * size.Y / size.X;
+                                        size.X = maxWidth;
+                                    }
+
                                     parameters.DrawBatch.DrawImage(entity.Image, target.Location, size, Point.Zero, (float)UiUnit.Unit, Color.White * opacity);
                                 }
                                 break;
