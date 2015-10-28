@@ -114,6 +114,8 @@ namespace Sitana.Framework.Ui.Views
 
         List<RichViewLine> _lines = new List<RichViewLine>();
 
+        List<RichViewLine> _originalRichViewLines = new List<RichViewLine>();
+
         Length _indentSize;
         Length _paragraphSpacing;
         Length _horizontalRulerHeight;
@@ -127,6 +129,7 @@ namespace Sitana.Framework.Ui.Views
 
         Length _clickMargin;
 
+        bool _shouldUpdate = true;
         int _height = 0;
 
         ILinkResolver _linkResolver;
@@ -147,7 +150,7 @@ namespace Sitana.Framework.Ui.Views
                 {
                     _richProcessor.Process(value);
                 }
-                _lastSize = Point.Zero;
+                _shouldUpdate = true;
             }
         }
 
@@ -351,12 +354,16 @@ namespace Sitana.Framework.Ui.Views
         {
             base.Update(time);
 
-            if (_lastSize.X != Bounds.Width || _lastSize.Y != Bounds.Height)
+            if (IsViewDisplayed || _shouldUpdate)
             {
-                _lastSize.X = Bounds.Width;
-                _lastSize.Y = Bounds.Height;
-                Process();
-                Parent.RecalculateAll();
+                if (_lastSize.X != Bounds.Width || _shouldUpdate)
+                {
+                    _lastSize.X = Bounds.Width;
+                    _lastSize.Y = Bounds.Height;
+                    Process();
+                    Parent.RecalculateAll();
+                    _shouldUpdate = false;
+                }
             }
         }
 
@@ -818,7 +825,7 @@ namespace Sitana.Framework.Ui.Views
                         richEntity.Text = entity.Data as string;
                         richEntity.Image = AdvancedDrawBatch.OnePixelWhiteTexture;
 
-                        _linkResolver.ResolveLink(richEntity.Text, (result) =>
+                        LinkResolvedDelegate onLinkResolved = (string result) =>
                             {
                                 Uri uriResult;
                                 bool isUrl = Uri.TryCreate(result, UriKind.Absolute, out uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
@@ -830,9 +837,11 @@ namespace Sitana.Framework.Ui.Views
                                 else
                                 {
                                     richEntity.Image = ContentLoader.Current.Load<Texture2D>(richEntity.Text);
-                                    _lastSize = Point.Zero;
+                                    _shouldUpdate = true;
                                 }
-                            });
+                            };
+
+                        _linkResolver.ResolveLink(richEntity.Text, onLinkResolved);
                     }
                     break;
 
@@ -858,7 +867,7 @@ namespace Sitana.Framework.Ui.Views
 
         void ICacheClient.ImageUpdated()
         {
-            _lastSize = Point.Zero;
+            _shouldUpdate = true;
         }
 
         void FillEntityData(RichViewEntity richEntity, Entity entity)

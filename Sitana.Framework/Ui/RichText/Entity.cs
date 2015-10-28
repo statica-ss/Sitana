@@ -13,6 +13,8 @@ namespace Sitana.Framework.Ui.RichText
         public readonly object Data;
         public readonly string Url;
 
+        public object Extra;
+
         public Entity(EntityType type, ref TagProperties props, string text)
         {
             Type = type;
@@ -20,6 +22,7 @@ namespace Sitana.Framework.Ui.RichText
             Size = props.FontSize;
             Url = props.Url;
             Data = null;
+            Extra = null;
 
             switch (type)
             {

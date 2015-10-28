@@ -157,6 +157,12 @@ namespace Sitana.Framework.Ui.DefinitionFiles
         public static T GetValueFromMethodOrField<T>(UiController controller, object binding, object definition)
         {
             object result = GetValueFromMethodOrField(controller, binding, definition);
+
+            if(result is T)
+            {
+                return (T)result;
+            }
+
             return (T)Convert.ChangeType(result, typeof(T));
         }
 

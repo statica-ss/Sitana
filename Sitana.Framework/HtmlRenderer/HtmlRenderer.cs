@@ -10,11 +10,11 @@ namespace Sitana.Framework.HtmlRenderer
     {
         public void ParseHtml(string html)
         {
-            HtmlAgilityPack.HtmlDocument htmlDoc = new HtmlAgilityPack.HtmlDocument();
+            //HtmlAgilityPack.HtmlDocument htmlDoc = new HtmlAgilityPack.HtmlDocument();
 
             // There are various options, set as needed
-            htmlDoc.OptionFixNestedTags = true;
-            htmlDoc.LoadHtml(html);
+            //htmlDoc.OptionFixNestedTags = true;
+            //htmlDoc.LoadHtml(html);
 
 
         }
