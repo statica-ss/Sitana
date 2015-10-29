@@ -46,7 +46,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             string font = DefinitionResolver.GetString(controller, binding, file["Font"]);
             int fontSize = DefinitionResolver.Get<int>(controller, binding, file["FontSize"], 0);
             int fontSpacing = DefinitionResolver.Get<int>(controller, binding, file["FontSpacing"], 0);
-            _lineHeight = DefinitionResolver.Get<int>(controller, binding, file["LineHeight"], 0);
+            _lineHeight = DefinitionResolver.Get<int>(controller, binding, file["LineHeight"], 100);
 
             _font = new UiFont(font, fontSize, fontSpacing);
 

@@ -470,8 +470,10 @@ namespace Sitana.Framework.Ui.Views
                             }
                             else
                             {
-                                lineHeight = Math.Max(lineHeight, (int)(entity.Image.Height * UiUnit.Unit));
-                                position += (int)(entity.Image.Width * UiUnit.Unit);
+                                float newHeight = imageWidth * entity.Image.Height / entity.Image.Width;
+                                
+                                lineHeight = Math.Max(lineHeight, (int)newHeight);
+                                position += imageWidth;
 
                                 line.Height = lineHeight;
                                 line.Width = (int)position;
@@ -1009,7 +1011,7 @@ namespace Sitana.Framework.Ui.Views
                                         size.X = maxWidth;
                                     }
 
-                                    parameters.DrawBatch.DrawImage(entity.Image, target.Location, size, Point.Zero, (float)UiUnit.Unit, Color.White * opacity);
+                                    parameters.DrawBatch.DrawImage(entity.Image, target.Location, size, Point.Zero, (float)size.X / (float)entity.Image.Width, Color.White * opacity);
                                 }
                                 break;
                         }

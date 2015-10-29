@@ -18,6 +18,21 @@ namespace Sitana.Framework.Misc
 
     public class RemoteImageCache: Singleton<RemoteImageCache>
     {
+        Texture2D _noImage;
+
+        public Texture2D NoImage
+        {
+            get
+            {
+                return _noImage == null ? AdvancedDrawBatch.OnePixelWhiteTexture : _noImage;
+            }
+
+            set
+            {
+                _noImage = value;
+            }
+        }
+
         List<string> _toRemove = new List<string>();
         Dictionary<string, RemoteImage> _images = new Dictionary<string, RemoteImage>();
 
@@ -86,7 +101,7 @@ namespace Sitana.Framework.Misc
 
         public void Dispose()
         {
-            if (Image != AdvancedDrawBatch.OnePixelWhiteTexture)
+            if (Image != AdvancedDrawBatch.OnePixelWhiteTexture && Image != RemoteImageCache.Instance.NoImage)
             {
                 Image.Dispose();
                 Image = null;
@@ -108,42 +123,61 @@ namespace Sitana.Framework.Misc
 
         void DownloadImageAsync(Uri uri)
         {
-            WebClient client = new WebClient();
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(uri);
 
-            client.DownloadDataCompleted += client_DownloadDataCompleted;
-            client.DownloadDataAsync(uri, uri);
+            request.BeginGetResponse(OnImageResponse, request);
         }
 
-        void client_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs args)
+        void OnImageResponse(IAsyncResult state)
         {
-            if (args.Error != null)
-            {
-                Console.WriteLine(args.Error);
-            }
-            else if (!args.Cancelled)
-            {
-                Uri uri = args.UserState as Uri;
-                string path = uri.ToString();
+            HttpWebRequest request = state.AsyncState as HttpWebRequest;
 
+            WebResponse response = request.EndGetResponse(state);
+
+            if(!response.ContentType.ToLowerInvariant().Contains("image"))
+            {
                 UiTask.BeginInvoke(() =>
                 {
-                    GraphicsDevice device = AdvancedDrawBatch.OnePixelWhiteTexture.GraphicsDevice;
-
-                    MemoryStream stream = new MemoryStream(args.Result);
-                    Texture2D texture = Texture2D.FromStream(device, stream);
-
-                    Image = texture;
-
+                    Image = RemoteImageCache.Instance.NoImage;
                     foreach (var client in _clients)
                     {
                         client.ImageUpdated();
                     }
                 });
+
+                response.Close();
+                return;
             }
+
+            MemoryStream stream = new MemoryStream();
+            
+            Stream responseStream = response.GetResponseStream();
+
+            responseStream.CopyTo(stream);
+            response.Close();
+
+            stream.Seek(0, SeekOrigin.Begin);
+
+            UiTask.BeginInvoke(() =>
+            {
+                GraphicsDevice device = AdvancedDrawBatch.OnePixelWhiteTexture.GraphicsDevice;
+
+                try
+                {
+                    Image = Texture2D.FromStream(device, stream);
+                }
+                catch
+                {
+                    Image = RemoteImageCache.Instance.NoImage;
+                }
+
+                foreach (var client in _clients)
+                {
+                    client.ImageUpdated();
+                }
+            });
+
+            
         }
-
-        
-
-        
     }
 }
