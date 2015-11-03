@@ -490,6 +490,9 @@ namespace Sitana.Framework.Ui.Views
             }
 
             _tempChildren.Clear();
+
+            int spacingParts = 0;
+
             for(int idx = 0; idx < _children.Count; ++idx)
             {
                 var child = _children[idx];
@@ -500,6 +503,8 @@ namespace Sitana.Framework.Ui.Views
 
                     if (computeRest)
                     {
+                        spacingParts++;
+
                         if (_vertical)
                         {
                             if (!child.PositionParameters.Height.IsRest)
@@ -534,11 +539,11 @@ namespace Sitana.Framework.Ui.Views
             {
                 if (_vertical)
                 {
-                    _rest = Bounds.Height - _rest;
+                    _rest = Bounds.Height - _rest - (spacingParts - 1) * Spacing;
                 }
                 else
                 {
-                    _rest = Bounds.Width - _rest;
+                    _rest = Bounds.Width - _rest - (spacingParts - 1) * Spacing;
                 }
             }
 

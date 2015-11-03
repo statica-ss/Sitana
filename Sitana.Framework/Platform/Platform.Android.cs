@@ -20,6 +20,9 @@ using Java.Util;
 using Android.Net.Wifi;
 using System.Globalization;
 using Android.Widget;
+using Java.IO;
+using System.Net;
+using System.IO;
 
 namespace Sitana.Framework
 {
@@ -290,6 +293,72 @@ namespace Sitana.Framework
 			intent.SetDataAndType(Android.Net.Uri.Parse(path), "video/mp4");
 
 			AppMain.Activity.StartActivity(intent);
+		}
+
+		public static void DownloadAndOpenFile(string url)
+		{
+			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+			request.BeginGetResponse(OnFileDownloaded, request);
+		}
+
+		static void OnFileDownloaded(IAsyncResult state)
+		{
+			HttpWebRequest request = state.AsyncState as HttpWebRequest;
+
+			WebResponse response = request.EndGetResponse(state);
+
+			string fileName = response.Headers["Content-Disposition"].Replace("attachment; filename=", String.Empty).Replace("\"", String.Empty);
+			string contentType = response.ContentType;
+
+			fileName = AppMain.Activity.GetFileStreamPath(fileName).AbsolutePath;
+
+			using (Stream openFileOutput = new FileStream(fileName, FileMode.Create))
+			{
+
+				Stream responseStream = response.GetResponseStream();
+
+				byte[] buffer = new byte[1024 * 1024];
+
+				for (;;)
+				{
+					int read = responseStream.Read(buffer, 0, 1024 * 1024);
+
+					if (read == 0)
+					{
+						break;
+					}
+
+					openFileOutput.Write(buffer, 0, read);
+				}
+			}
+
+			try
+			{
+				Intent viewDoc = new Intent(Intent.ActionView);
+				viewDoc.SetDataAndType(Android.Net.Uri.Parse(fileName), contentType);
+				viewDoc.SetFlags(ActivityFlags.NewTask);
+				PackageManager pm = AppMain.Activity.PackageManager;
+
+				IList<ResolveInfo> apps = pm.QueryIntentActivities(viewDoc, PackageInfoFlags.MatchDefaultOnly);
+
+				Intent chooser = Intent.CreateChooser(viewDoc, "Choose an application to open with:");
+
+				if (apps.Count > 0)
+				{
+					try
+					{
+						AppMain.Activity.StartActivity(chooser);
+					}
+					catch(Exception ex)
+					{
+						System.Console.WriteLine("{0}", ex);
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine("{0}", ex);
+			}
 		}
     }
 }
