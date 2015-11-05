@@ -297,7 +297,18 @@ namespace Sitana.Framework
 
 		public static void DownloadAndOpenFile(string url)
 		{
-			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+//			Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).Mkdirs();
+//			
+//			DownloadManager downloadManager = (DownloadManager)AppMain.Activity.GetSystemService("download");
+//
+//			downloadManager.Enqueue(new DownloadManager.Request(Android.Net.Uri.Parse(url))
+//				.SetAllowedNetworkTypes(DownloadNetwork.Mobile|DownloadNetwork.Wifi)
+//				.SetAllowedOverRoaming(false)
+//				.SetTitle("Pobieranie pliku")
+//				.SetShowRunningNotification(true)
+//				.SetDestinationInExternalPublicDir(Android.OS.Environment.DirectoryDownloads, "test.pdf"));
+			
+			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);//"https://upload.wikimedia.org/wikipedia/commons/b/ba/Vierer-Nachbarschaft.png");
 			request.BeginGetResponse(OnFileDownloaded, request);
 		}
 
@@ -307,14 +318,29 @@ namespace Sitana.Framework
 
 			WebResponse response = request.EndGetResponse(state);
 
-			string fileName = response.Headers["Content-Disposition"].Replace("attachment; filename=", String.Empty).Replace("\"", String.Empty);
+			string fileName = Path.GetFileName(request.RequestUri.ToString());
+
+			try
+			{
+				fileName = response.Headers["Content-Disposition"].Replace("attachment; filename=", String.Empty).Replace("\"", String.Empty);
+			}
+			catch
+			{
+			}
+
 			string contentType = response.ContentType;
 
-			fileName = AppMain.Activity.GetFileStreamPath(fileName).AbsolutePath;
+			//var dir = new Java.IO.File(Path.Combine(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath, AppMain.Activity.PackageName));
 
-			using (Stream openFileOutput = new FileStream(fileName, FileMode.Create))
+			//dir.Mkdirs();
+			//dir.DeleteOnExit();
+
+			var file = AppMain.Activity.GetFileStreamPath(fileName);
+			file.Mkdirs();
+			file.Delete();
+
+			using (var openFileOutput = AppMain.Activity.OpenFileOutput(fileName, FileCreationMode.WorldReadable))
 			{
-
 				Stream responseStream = response.GetResponseStream();
 
 				byte[] buffer = new byte[1024 * 1024];
@@ -330,29 +356,27 @@ namespace Sitana.Framework
 
 					openFileOutput.Write(buffer, 0, read);
 				}
+
+				openFileOutput.Flush();
 			}
+				
+			file.DeleteOnExit();
 
 			try
 			{
+				
 				Intent viewDoc = new Intent(Intent.ActionView);
-				viewDoc.SetDataAndType(Android.Net.Uri.Parse(fileName), contentType);
+
+				viewDoc.SetDataAndType(Android.Net.Uri.FromFile(file), contentType);
 				viewDoc.SetFlags(ActivityFlags.NewTask);
+
 				PackageManager pm = AppMain.Activity.PackageManager;
 
 				IList<ResolveInfo> apps = pm.QueryIntentActivities(viewDoc, PackageInfoFlags.MatchDefaultOnly);
 
-				Intent chooser = Intent.CreateChooser(viewDoc, "Choose an application to open with:");
-
 				if (apps.Count > 0)
 				{
-					try
-					{
-						AppMain.Activity.StartActivity(chooser);
-					}
-					catch(Exception ex)
-					{
-						System.Console.WriteLine("{0}", ex);
-					}
+					AppMain.Activity.StartActivity(viewDoc);
 				}
 			}
 			catch(Exception ex)

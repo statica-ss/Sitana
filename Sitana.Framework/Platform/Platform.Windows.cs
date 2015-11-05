@@ -11,6 +11,8 @@ using System.Management;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Win32;
+using System.Net;
+using System.IO;
 
 namespace Sitana.Framework
 {
@@ -138,6 +140,41 @@ namespace Sitana.Framework
 
         public static void DisableLock(bool disable)
         {
+        }
+
+        public static void DownloadAndOpenFile(string url)
+		{
+			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+			request.BeginGetResponse(OnFileDownloaded, request);
+		}
+
+        static void OnFileDownloaded(IAsyncResult state)
+        {
+            HttpWebRequest request = state.AsyncState as HttpWebRequest;
+
+            WebResponse response = request.EndGetResponse(state);
+
+            string fileName = Path.GetFileName(request.RequestUri.ToString());
+
+            try
+            {
+                fileName = response.Headers["Content-Disposition"].Replace("attachment; filename=", String.Empty).Replace("\"", String.Empty);
+            }
+            catch
+            {
+            }
+
+            string contentType = response.ContentType;
+
+            fileName = Path.Combine(Path.GetTempPath(), fileName);
+
+            using (var stream = new FileStream(fileName, FileMode.Create))
+            {
+                Stream responseStream = response.GetResponseStream();
+                responseStream.CopyTo(stream);
+            }
+
+            Process.Start(fileName);
         }
 
         public static string OpenFileDialog(string title, string filter)
