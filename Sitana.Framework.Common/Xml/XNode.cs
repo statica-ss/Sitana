@@ -4,14 +4,19 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 
 namespace Sitana.Framework.Xml
 {
     public class XNode
     {
+        const byte ContentTypeString = 0;
+        const byte ContentTypeByteArray = 1;
+
         public readonly string Tag;
         public string Value;
+        public byte[] BinaryValue;
         public readonly string Namespace;
         public readonly int LineNumber;
         public readonly XFile Owner;
@@ -44,6 +49,49 @@ namespace Sitana.Framework.Xml
             Owner = file;
             LineNumber = lineNumber;
             Nodes = new List<XNode>();
+        }
+
+        internal XNode(XNode parent, XFile owner, BinaryReader reader)
+        {
+            _parent = parent;
+            Owner = owner;
+
+            Nodes = new List<XNode>();
+
+            Tag = reader.ReadString();
+
+            int attrCount = reader.ReadInt32();
+
+            for (int idx = 0; idx < attrCount; ++idx)
+            {
+                string key = reader.ReadString();
+                string value = reader.ReadString();
+
+                _attributes.Add(key, value);
+            }
+
+            int nodesCount = reader.ReadInt32();
+
+            for (int idx = 0; idx < nodesCount; ++idx)
+            {
+                var node = new XNode(this, owner, reader);
+                Nodes.Add(node);
+            }
+
+            if (nodesCount == 0)
+            {
+                byte contentType = reader.ReadByte();
+
+                if (contentType == ContentTypeString)
+                {
+                    Value = reader.ReadString();
+                }
+                else if(contentType == ContentTypeByteArray)
+                {
+                    int count = reader.ReadInt32();
+                    BinaryValue = reader.ReadBytes(count);
+                }
+            }
         }
 
         private XNode(XmlReader reader, XFile owner, XNode parent, Dictionary<string, string> namespaces)
@@ -82,7 +130,7 @@ namespace Sitana.Framework.Xml
             }
 
             Boolean hasChildren = !reader.IsEmptyElement;
-
+            bool hasBinaryContent = false;
             if (reader.HasAttributes)
             {
                 // Read all attributes and add them to dictionary.
@@ -104,7 +152,14 @@ namespace Sitana.Framework.Xml
                             key = String.Format("{0}:{1}", namespaces[vals[0]], vals[1]);
                         }
 
-                        _attributes.Add(key, reader.Value);
+                        if (key == "___XNodeExtensionAttribute_HasBinaryContent")
+                        {
+                            hasBinaryContent = reader.Value == "true";
+                        }
+                        else
+                        {
+                            _attributes.Add(key, reader.Value);
+                        }
                     }
                 }
             }
@@ -126,7 +181,14 @@ namespace Sitana.Framework.Xml
 
             if (reader.NodeType == XmlNodeType.Text)
             {
-                Value = reader.Value;
+                if (hasBinaryContent)
+                {
+                    BinaryValue = Convert.FromBase64String(reader.Value);
+                }
+                else
+                {
+                    Value = reader.Value;
+                }
             }
 
             if (hasChildren)
@@ -233,12 +295,22 @@ namespace Sitana.Framework.Xml
         {
             writer.WriteStartElement(Tag, Namespace);
 
+            if (BinaryValue != null)
+            {
+                writer.WriteAttributeString("___XNodeExtensionAttribute_HasBinaryContent", "true");
+            }
+
             foreach (var attr in _attributes)
             {
                 writer.WriteAttributeString(attr.Key, attr.Value);
             }
 
-            if (!string.IsNullOrWhiteSpace(Value))
+            if (BinaryValue != null)
+            {
+                string text = Convert.ToBase64String(BinaryValue);
+                writer.WriteString(text);
+            }
+            else if (!string.IsNullOrWhiteSpace(Value))
             {
                 writer.WriteString(Value);
             }
@@ -249,6 +321,48 @@ namespace Sitana.Framework.Xml
             }
 
             writer.WriteEndElement();
+        }
+
+        internal void Write(BinaryWriter writer)
+        {
+            if (Namespace.IsNullOrWhiteSpace())
+            {
+                writer.Write(Tag);
+            }
+            else
+            {
+                throw new NotImplementedException("Binary serialization of XNode doesn't support namespaces.");
+            }
+
+            writer.Write(_attributes.Count);
+
+            foreach(var attr in _attributes)
+            {
+                writer.Write(attr.Key);
+                writer.Write(attr.Value ?? string.Empty);
+            }
+
+            writer.Write(Nodes.Count);
+
+            foreach(var node in Nodes)
+            {
+                node.Write(writer);
+            }
+
+            if (Nodes.Count == 0)
+            {
+                if (BinaryValue != null)
+                {
+                    writer.Write(ContentTypeByteArray);
+                    writer.Write(BinaryValue.Length);
+                    writer.Write(BinaryValue);
+                }
+                else
+                {
+                    writer.Write(ContentTypeString);
+                    writer.Write(Value ?? string.Empty);
+                }
+            }
         }
     }
 }

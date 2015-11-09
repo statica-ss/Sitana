@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Xml;
 
@@ -45,6 +46,17 @@ namespace Sitana.Framework.Xml
             return file._node;
         }
 
+        public static XFile LoadBinary(Stream stream, string name)
+        {
+            var reader = new BinaryReader(stream);
+            var xfile = new XFile(name);
+
+            var node = new XNode(null, xfile, reader);
+            xfile._node = node;
+
+            return xfile;
+        }
+
         public void Write(Stream stream)
         {
             XmlWriterSettings settings = new XmlWriterSettings();
@@ -56,9 +68,35 @@ namespace Sitana.Framework.Xml
 
             XmlWriter writer = XmlWriter.Create(stream, settings);
 
-            foreach (var node in _node.Nodes)
+            if (_node.Tag.IsNullOrEmpty())
             {
-                node.Write(writer);
+                foreach (var node in _node.Nodes)
+                {
+                    node.Write(writer);
+                }
+            }
+            else
+            {
+                _node.Write(writer);
+            }
+
+            writer.Flush();
+        }
+
+        public void WriteBinary(Stream stream)
+        {
+            var writer = new BinaryWriter(stream);
+
+            if (_node.Tag.IsNullOrEmpty())
+            {
+                foreach (var node in _node.Nodes)
+                {
+                    node.Write(writer);
+                }
+            }
+            else
+            {
+                _node.Write(writer);
             }
 
             writer.Flush();

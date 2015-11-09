@@ -114,12 +114,22 @@ namespace Sitana.Framework.Ui.Controllers
 
         public void ShowElement(string id)
         {
-            Find(id).Visible = true;
+			var view = Find(id);
+            
+			if(view != null)
+			{
+				view.Visible = true;
+			}
         }
 
         public void HideElement(string id)
         {
-            Find(id).Visible = false;
+			var view = Find(id);
+
+			if(view != null)
+			{
+            	view.Visible = false;
+			}
         }
 
         public void OpenWebsite(string url)

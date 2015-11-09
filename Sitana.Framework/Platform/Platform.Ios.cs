@@ -240,5 +240,10 @@ namespace Sitana.Framework
 				controller.DismissMoviePlayerViewController();
 			});
 		}
+
+		public static void DownloadAndOpenFile(string url)
+		{
+			OpenWebsite(url);
+		}
     }
 }

@@ -18,12 +18,43 @@ namespace Sitana.Framework.Serialization
             _file = node;
         }
 
+        public void AddContentBinary(string name, byte[] binary)
+        {
+            var node = new XNode(_file, name);
+            node.BinaryValue = binary;
+
+            _file.Nodes.Add(node);
+        }
+
         public void AddContentString(string name, string value)
         {
             var node = new XNode(_file, name);
             node.Value = value;
 
             _file.Nodes.Add(node);
+        }
+
+        public byte[] GetContentBinary(string name)
+        {
+            var node = _file.Nodes.Find(n => n.Tag == name);
+
+            if (node != null)
+            {
+                if(node.BinaryValue == null)
+                {
+                    try
+                    {
+                        return Convert.FromBase64String(node.Value);
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                return node.BinaryValue;
+            }
+
+            return null;
         }
 
         public string GetContentString(string name)

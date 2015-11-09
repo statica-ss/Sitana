@@ -12,7 +12,7 @@ namespace Sitana.Framework.Ui.Views
     {
         public new static void Parse(XNode node, DefinitionFile file)
         {
-            UiContainer.Parse(node, file);
+			UiBorder.Parse(node, file);
 
             DefinitionParser parser = new DefinitionParser(node);
 
