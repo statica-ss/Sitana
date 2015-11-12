@@ -51,6 +51,7 @@
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Misc\StringsManager.cs" />
     <Compile Include="Misc\UuidGenerator.cs" />
+    <Compile Include="Misc\Wildcard.cs" />
     <Compile Include="Serialization\BuiltInSerializatorX.cs" />
     <Compile Include="Serialization\IXSerializable.cs" />
     <Compile Include="Serialization\XSerializableAttribute.cs" />

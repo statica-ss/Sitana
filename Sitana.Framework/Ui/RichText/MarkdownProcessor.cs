@@ -5,6 +5,7 @@ using System.Text;
 using CommonMark.Syntax;
 using System.IO;
 using CommonMark;
+using Sitana.Framework.Diagnostics;
 
 namespace Sitana.Framework.Ui.RichText
 {
@@ -178,11 +179,11 @@ namespace Sitana.Framework.Ui.RichText
                         break;
 
                     case InlineTag.Code:
-                        Console.WriteLine(inline.LiteralContent);
+                        ConsoleEx.WriteLine(inline.LiteralContent);
                         break;
 
                     case InlineTag.RawHtml:
-                        Console.WriteLine(inline.LiteralContent);
+                        ConsoleEx.WriteLine(inline.LiteralContent);
                         break;
 
                     case InlineTag.Link:

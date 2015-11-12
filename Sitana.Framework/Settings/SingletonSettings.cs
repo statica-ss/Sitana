@@ -4,6 +4,7 @@
 
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Sitana.Framework.Settings
 {
@@ -42,8 +43,9 @@ namespace Sitana.Framework.Settings
                         // Path is full type name.
                         var path = Serializator.PathFromType(typeof(T));
 
-                        // Try deserialze.
-                        _instance = (T)Serializator.Deserialize<T>(path);
+                        var task = Serializator.Deserialize<T>(path);
+                        task.Wait();
+                        _instance = task.Result;
 
                         // If not deserialized create instance of type and set it wasn't loaded.
                         if (_instance == null)
@@ -96,7 +98,9 @@ namespace Sitana.Framework.Settings
                 var path = Serializator.PathFromType(typeof(T));
 
                 // Serialize with serializator.
-                Serializator.Serialize(path, Instance);
+                var task = Serializator.Serialize(path, Instance);
+                task.Wait();
+
             }
             finally
             {

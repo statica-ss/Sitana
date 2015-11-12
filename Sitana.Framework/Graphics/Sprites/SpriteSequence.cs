@@ -47,7 +47,7 @@ namespace Sitana.Framework.Graphics
                     list.Add(texture);
                 }
 
-                Images = list.AsReadOnly();
+                Images = new ReadOnlyCollection<PartialTexture2D>(list);
             }
         }
     }

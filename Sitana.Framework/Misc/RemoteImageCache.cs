@@ -145,7 +145,7 @@ namespace Sitana.Framework.Misc
                     }
                 });
 
-                response.Close();
+                response.Dispose();
                 return;
             }
 
@@ -154,7 +154,7 @@ namespace Sitana.Framework.Misc
             Stream responseStream = response.GetResponseStream();
 
             responseStream.CopyTo(stream);
-            response.Close();
+            response.Dispose();
 
             stream.Seek(0, SeekOrigin.Begin);
 

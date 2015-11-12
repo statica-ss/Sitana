@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Sitana.Framework.IO
 {
+    #pragma warning disable 1998
     public class IsolatedStorageManager: StorageManager
     {
         IsolatedStorageFile _storage;
@@ -18,39 +19,43 @@ namespace Sitana.Framework.IO
             _storage = Platform.GetUserStoreForApplication();
         }
 
-        public override bool FileExists(string path)
+        public async override Task<bool> FileExists(string path)
         {
-            return _storage.FileExists(path);
+            bool result = _storage.FileExists(path);
+            return result;
         }
 
-        public override bool DirectoryExists(string path)
+        public async override Task<bool> DirectoryExists(string path)
         {
-            return _storage.DirectoryExists(path);
+            bool result = _storage.DirectoryExists(path);
+            return result;
         }
 
-        public override string[] GetFileNames(string pattern)
+        public async override Task<string[]> GetFileNames(string pattern)
         {
-            return _storage.GetFileNames(pattern);
+            string[] result = _storage.GetFileNames(pattern);
+            return result;
         }
 
-        public override void CreateDirectory(string name)
+        public async override Task CreateDirectory(string name)
         {
             _storage.CreateDirectory(name);
         }
 
-        public override void DeleteFile(string name)
+        public async override Task DeleteFile(string name)
         {
             _storage.DeleteFile(name);
         }
 
-        public override void DeleteDirectory(string name)
+        public async override Task DeleteDirectory(string name)
         {
             _storage.DeleteDirectory(name);
         }
 
-        public override Stream OpenFile(string name, FileMode mode)
+        public async override Task<Stream> OpenFile(string name, FileMode mode)
         {
-            return _storage.OpenFile(name, mode);
+            Stream result = _storage.OpenFile(name, mode);
+            return result;
         }
 
         public override void Dispose()
@@ -62,4 +67,5 @@ namespace Sitana.Framework.IO
             }
         }
     }
+    #pragma warning restore 1998
 }

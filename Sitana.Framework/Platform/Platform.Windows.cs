@@ -140,6 +140,7 @@ namespace Sitana.Framework
 
         public static void DisableLock(bool disable)
         {
+            
         }
 
         public static void DownloadAndOpenFile(string url)

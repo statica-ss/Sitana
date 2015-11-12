@@ -70,6 +70,7 @@
     <Compile Include="Diagnostics\CrashReporter\ICrashService.cs" />
     <Compile Include="Diagnostics\CrashReporter\MintCrashService.cs" />
     <Compile Include="Diagnostics\PerformanceProfiler.cs" />
+    <Compile Include="Diagnostics\ServiceMode.cs" />
     <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
     <Compile Include="Graphics\Fonts\StringProvider.cs" />
     <Compile Include="Graphics\Fonts\TextRotation.cs" />

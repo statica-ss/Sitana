@@ -411,7 +411,7 @@ namespace Sitana.Framework.Ui.Views
                 RichViewLine line = _lines[idx];
 
                 char _lastChar = '\0';
-                Font _lastFont = null; 
+                //Font _lastFont = null; 
                 float position = line.Entities.Count > 0 ? line.Entities[0].Offset : 0;
 
                 if (line.NewParagraph)
@@ -830,7 +830,7 @@ namespace Sitana.Framework.Ui.Views
                         LinkResolvedDelegate onLinkResolved = (string result) =>
                             {
                                 Uri uriResult;
-                                bool isUrl = Uri.TryCreate(result, UriKind.Absolute, out uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+                                bool isUrl = Uri.TryCreate(result, UriKind.Absolute, out uriResult) && (uriResult.Scheme == "http" || uriResult.Scheme == "https" );
 
                                 if (isUrl)
                                 {

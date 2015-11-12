@@ -107,8 +107,6 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 			throw new Exception(string.Format("[Sitana] Cannot find type: {0}", name));
         }
 
-        static Type[] ParseMethodTypes = new Type[] { typeof(XNode), typeof(DefinitionFile) };
-
         public static DefinitionFile LoadFile(XNode node)
         {
 			try
@@ -120,7 +118,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 					ConsoleEx.WriteLine(ConsoleEx.Error, "Unknown type: {0}", node.Tag);
 				}
 
-	            MethodInfo method = type.GetMethod("Parse", ParseMethodTypes);
+	            MethodInfo method = type.GetMethod("Parse");
 
 	            DefinitionFile file = null;
 
@@ -151,7 +149,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
         public static DefinitionFile CreateFile(Type type, XNode attributesNode)
         {
             DefinitionFile file = null;
-            MethodInfo method = type.GetMethod("Parse", ParseMethodTypes);
+            MethodInfo method = type.GetMethod("Parse");
 
             if (method != null)
             {

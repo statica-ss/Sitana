@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Sitana.Framework.Cs;
-using System.Net.Sockets;
 
 namespace Sitana.Framework.Diagnostics
 {
     class RemoteConsoleClient: Singleton<RemoteConsoleClient>
     {
-        Socket _socket = null;
+        //Socket _socket = null;
 
         Queue<Byte[]> _toSend = new Queue<Byte[]>();
 

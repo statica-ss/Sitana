@@ -39,7 +39,11 @@ namespace Sitana.Framework
 				}
 				catch(Exception ex)
 				{
+#if !WINDOWS_PHONE_APP
 					throw new Exception(string.Format("UiTask invoke exception at {0}.{1}", func.Method.DeclaringType.FullName, func.Method.Name), ex);
+#else
+                    throw ex;
+#endif
 				}
 #else
                 func.Invoke();

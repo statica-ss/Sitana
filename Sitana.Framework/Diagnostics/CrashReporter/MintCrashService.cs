@@ -6,8 +6,6 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Sitana.Framework;
-using System.Web;
-
 
 namespace Sitana.Framework.Diagnostics
 {
@@ -28,38 +26,38 @@ namespace Sitana.Framework.Diagnostics
 			_phone = Platform.OsName;
         }
 
-        public override async Task<ExceptionData> SendOne(ExceptionData exceptionData)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://mint.splunk.com/api/errors");
-            request.Headers.Add("X-Splunk-Mint-Auth-Token", _apiToken);
-            request.Headers.Add("X-BugSense-Api-Key", _apiToken);
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.Method = "POST";
+        //public override Task<ExceptionData> SendOne(ExceptionData exceptionData)
+        //{
+        //    //HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://mint.splunk.com/api/errors");
+        //    //request.Headers.Add("X-Splunk-Mint-Auth-Token", _apiToken);
+        //    //request.Headers.Add("X-BugSense-Api-Key", _apiToken);
+        //    //request.ContentType = "application/x-www-form-urlencoded";
+        //    //request.Method = "POST";
 
-            string data = GenerateJson(exceptionData);
-			string requestString = "data=" + HttpUtility.UrlEncode(data);
-			byte[] requestData = Encoding.UTF8.GetBytes(requestString);
+        //    //string data = GenerateJson(exceptionData);
+        //    //string requestString = "data=" + HttpUtility.UrlEncode(data);
+        //    //byte[] requestData = Encoding.UTF8.GetBytes(requestString);
 
-            try
-            {
-                var requestStream = await request.GetRequestStreamAsync();
-                await requestStream.WriteAsync(requestData, 0, requestData.Length);
-                requestStream.Close();
+        //    //try
+        //    //{
+        //    //    var requestStream = await request.GetRequestStreamAsync();
+        //    //    await requestStream.WriteAsync(requestData, 0, requestData.Length);
+        //    //    requestStream.Close();
 
-                var response = await request.GetResponseAsync();
+        //    //    var response = await request.GetResponseAsync();
 
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-                string responseString = await reader.ReadToEndAsync();
+        //    //    StreamReader reader = new StreamReader(response.GetResponseStream());
+        //    //    string responseString = await reader.ReadToEndAsync();
 
-                response.Close();
-            }
-            catch
-            {
-                return exceptionData;
-            }
+        //    //    response.Close();
+        //    //}
+        //    //catch
+        //    //{
+        //    //    return exceptionData;
+        //    //}
 
-            return null;
-        }
+        //    return null;
+        //}
 
         string GenerateJson(ExceptionData data)
         {

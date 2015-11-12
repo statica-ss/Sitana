@@ -156,40 +156,42 @@ namespace Sitana.Framework.IO
             _output.UseZip64 = UseZip64.Off;
         }
 
-        public override bool FileExists(string path)
+        public override Task<bool> FileExists(string path)
         {
             throw new NotImplementedException();
         }
 
-        public override bool DirectoryExists(string path)
+        public override Task<bool> DirectoryExists(string path)
         {
             throw new NotImplementedException();
         }
 
-        public override string[] GetFileNames(string wildcard)
+        public override Task<string[]> GetFileNames(string wildcard)
         {
             throw new NotImplementedException();
         }
 
-        public override void CreateDirectory(string name)
+        public override Task CreateDirectory(string name)
         {
             string entryName = ZipEntry.CleanName(name.TrimEnd('\\', '/') + '/');
             ZipEntry newEntry = new ZipEntry(entryName);
             _output.PutNextEntry(newEntry);
             _output.CloseEntry();
+
+            return new Task(() => { });
         }
 
-        public override void DeleteFile(string name)
+        public override Task DeleteFile(string name)
         {
             throw new NotImplementedException();
         }
 
-        public override void DeleteDirectory(string name)
+        public override Task DeleteDirectory(string name)
         {
             throw new NotImplementedException();
         }
 
-        public override Stream OpenFile(string name, FileMode mode)
+        public override Task<Stream> OpenFile(string name, FileMode mode)
         {
             if(mode != FileMode.Create)
             {
@@ -199,7 +201,9 @@ namespace Sitana.Framework.IO
             string entryName = ZipEntry.CleanName(name);
             ZipEntry newEntry = new ZipEntry(entryName);
 
-            return new ZipEntryStream(_output, newEntry);
+            var stream = new ZipEntryStream(_output, newEntry);
+
+            return new Task<Stream>(() => stream);
         }
 
         public override void Dispose()

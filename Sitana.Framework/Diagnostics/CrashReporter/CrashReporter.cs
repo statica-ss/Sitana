@@ -1,9 +1,14 @@
-﻿using System;
+﻿using Sitana.Framework.IO;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+#if WINDOWS_PHONE_APP
+using Windows.UI.Xaml;
+#endif
 
 #if ANDROID
 using Android.Runtime;
@@ -47,6 +52,7 @@ namespace Sitana.Framework.Diagnostics
 
 			#if ANDROID
 			AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledException;
+            #elif WINDOWS_PHONE_APP
 			#else
 			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 			#endif
@@ -73,15 +79,15 @@ namespace Sitana.Framework.Diagnostics
             Serialize();
         }
 
-        void LoadLastSession()
+        async void LoadLastSession()
         {
             try
             {
-                using (var store = Platform.GetUserStoreForApplication())
+                using (var store = new IsolatedStorageManager())
                 {
-                    if (store.FileExists("CrashReporter"))
+                    if (await store.FileExists("CrashReporter"))
                     {
-                        using (Stream stream = store.OpenFile("CrashReporter", FileMode.Open))
+                        using (Stream stream = await store.OpenFile("CrashReporter", FileMode.Open))
                         {
                             BinaryReader reader = new BinaryReader(stream);
 
@@ -108,7 +114,7 @@ namespace Sitana.Framework.Diagnostics
 
 			Serialize();
 		}
-		#else
+		#elif !WINDOWS_PHONE_APP
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
             if (args.IsTerminating)
@@ -116,6 +122,19 @@ namespace Sitana.Framework.Diagnostics
                 lock (_crashesLock)
                 {
                     _unhandledExceptions.Add(new ExceptionData(_appVersion, DateTime.UtcNow, args.ExceptionObject));
+                }
+
+                Serialize();
+            }
+        }
+        #else
+        void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)
+        {
+            if (!args.Handled)
+            {
+                lock (_crashesLock)
+                {
+                    _unhandledExceptions.Add(new ExceptionData(_appVersion, DateTime.UtcNow, args.Exception));
                 }
 
                 Serialize();
@@ -149,22 +168,19 @@ namespace Sitana.Framework.Diagnostics
             Serialize();
         }
 
-        private void Serialize()
+        private async void Serialize()
         {
-            lock (_crashesLock)
+            using (var store = new IsolatedStorageManager())
             {
-                using (var store = Platform.GetUserStoreForApplication())
+                using (Stream stream = await store.OpenFile("CrashReporter", FileMode.Create))
                 {
-                    using (Stream stream = store.OpenFile("CrashReporter", FileMode.Create))
+                    BinaryWriter writer = new BinaryWriter(stream);
+
+                    writer.Write(_unhandledExceptions.Count);
+
+                    foreach (var crash in _unhandledExceptions)
                     {
-                        BinaryWriter writer = new BinaryWriter(stream);
-
-                        writer.Write(_unhandledExceptions.Count);
-
-                        foreach (var crash in _unhandledExceptions)
-                        {
-                            crash.Serialize(writer);
-                        }
+                        crash.Serialize(writer);
                     }
                 }
             }

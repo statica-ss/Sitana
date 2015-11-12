@@ -10,15 +10,14 @@ namespace Sitana.Framework.Diagnostics
     {
         public abstract string AppName { get; }
 
-        public virtual async Task Start()
+        public virtual Task Start()
         {
-            await Task.Run(() => { });
+            return new Task(() => { });
         }
 
-        public virtual async Task<ExceptionData> SendOne(ExceptionData exceptionData)
+        public virtual Task<ExceptionData> SendOne(ExceptionData exceptionData)
         {
-            await Task.Run(() => { });
-            return exceptionData;
+            return new Task<ExceptionData>(() => exceptionData);
         }
     }
 }

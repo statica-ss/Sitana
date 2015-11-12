@@ -1,79 +1,122 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{68D03401-FD88-48C5-9821-0C3A07F89C34}</ProjectGuid>
+    <ProjectGuid>{3A6A2969-AF2E-4923-A0B0-BFBEB0EACD91}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sitana.Framework</RootNamespace>
     <AssemblyName>Sitana.Framework</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+    <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <ProjectTypeGuids>{76F1466A-8B6D-4E39-A767-685A06062A39};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_PHONE_APP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\_Bin\WindowsPhone\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_PHONE_APP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_PHONE_APP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_PHONE_APP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Windows.Xna\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWS;ELOGGING;RESOURCE_MANAGER_AVALIABLE;WINDOWS_XNA</DefineConstants>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_PHONE_APP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>..\_Bin\Windows.Xna\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;ELOGGING;RESOURCE_MANAGER_AVALIABLE;WINDOWS_XNA</DefineConstants>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_PHONE_APP</DefineConstants>
     <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="CommonMark">
-      <HintPath>..\ThirdParty\Dependences\CommonMark\CommonMark.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
-    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
-    <Reference Include="Microsoft.Xna.Framework.GamerServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
-    <Reference Include="Microsoft.Xna.Framework.Input.Touch, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Xna.Framework.Net, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Xna.Framework.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ResourcesContentManager.cs" />
     <Compile Include="ContentManagement\ZipContentManager.cs" />
     <Compile Include="ContentManagement\ZipFile.cs" />
+    <Compile Include="Diagnostics\CrashReporter\CrashReporter.cs" />
+    <Compile Include="Diagnostics\CrashReporter\ExceptionData.cs" />
+    <Compile Include="Diagnostics\CrashReporter\ICrashService.cs" />
+    <Compile Include="Diagnostics\CrashReporter\MintCrashService.cs" />
     <Compile Include="Diagnostics\PerformanceProfiler.cs" />
     <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
+    <Compile Include="Graphics\Fonts\StringProvider.cs" />
+    <Compile Include="Graphics\Fonts\TextRotation.cs" />
+    <Compile Include="Graphics\Fonts\UiFont.cs" />
     <Compile Include="Graphics\Sprites\Sprite.cs" />
     <Compile Include="Graphics\Sprites\SpriteInstance.cs" />
     <Compile Include="Graphics\Sprites\SpriteSequence.cs" />
+    <Compile Include="Graphics\Images\LoadTexture2DFromPng.cs" />
     <Compile Include="Graphics\Textures\PartialTexture2D.cs" />
     <Compile Include="Helpers\ColorParser.cs" />
+    <Compile Include="HtmlRenderer\HtmlRenderer.cs" />
+    <Compile Include="Input\ExtendedKeyboardManager.cs" />
+    <Compile Include="Input\GamePad\GamePad.cs" />
     <Compile Include="Input\TextInput\IFocusable.cs" />
     <Compile Include="Input\TextInput\ITextConsumer.cs" />
     <Compile Include="Input\TextInput\TextInput.Dektop.cs" />
     <Compile Include="Input\TouchPad\IGestureListener.cs" />
+    <Compile Include="IO\StorageManager.cs" />
     <Compile Include="Media\SoundEffectBuffer.cs" />
-    <Compile Include="Text\HtmlSpecialChars.cs" />
+    <Compile Include="Misc\Console.cs" />
+    <Compile Include="Misc\ReflectionExtensions.cs" />
+    <Compile Include="Misc\RemoteConsoleClient.WindowsPhone.cs" />
+    <Compile Include="Misc\RemoteImageCache.cs" />
+    <Compile Include="Settings\Serializator.cs" />
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
     <Compile Include="Ui\Binding\ItemsList.cs" />
+    <Compile Include="Ui\Core\AppMain.Mobile.cs" />
+    <Compile Include="Ui\Core\GlobalVariables.cs" />
+    <Compile Include="Ui\DefinitionFiles\Commands\RegisterStyles.cs" />
     <Compile Include="Ui\Definitions\VerticalContentAlignment.cs" />
     <Compile Include="Ui\Definitions\HorizontalContentAlignment.cs" />
     <Compile Include="Ui\Definitions\HorizontalAlignment.cs" />
@@ -104,6 +147,8 @@
     <Compile Include="Ui\TransitionEffects\None.cs" />
     <Compile Include="Ui\TransitionEffects\Rotate.cs" />
     <Compile Include="Ui\Views\Containers\UiContentSlider.cs" />
+    <Compile Include="Ui\Views\Containers\UiExpandingBorder.cs" />
+    <Compile Include="Ui\Views\Containers\UiItemsStack.cs" />
     <Compile Include="Ui\Views\Containers\UiListBox.cs" />
     <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
     <Compile Include="Ui\Views\Containers\UiScrollView.cs" />
@@ -111,6 +156,8 @@
     <Compile Include="Ui\Interfaces\IScrolledElement.cs" />
     <Compile Include="Ui\Interfaces\IUpdatable.cs" />
     <Compile Include="Ui\Views\Containers\UiStackPanel.cs" />
+    <Compile Include="Ui\Views\Controls\BackgroundDrawables\DrawableGroup.cs" />
+    <Compile Include="Ui\Views\Controls\BackgroundDrawables\NinePatchBackground.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonImage.cs" />
@@ -124,8 +171,11 @@
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonTransformGroup.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\DrawButtonInfo.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\EditText.cs" />
+    <Compile Include="Ui\Views\Controls\QuickData\QuickSeparator.cs" />
+    <Compile Include="Ui\Views\Controls\QuickData\QuickSeparatorLine.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewEntity.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewLine.cs" />
+    <Compile Include="Ui\Views\Controls\ScrollingSelector\ISelectorContext.cs" />
     <Compile Include="Ui\Views\Controls\UiCheckBox.cs" />
     <Compile Include="Ui\Views\Controls\UiColoredLabel.cs" />
     <Compile Include="Ui\Views\Controls\UiEditBoxBase.cs" />
@@ -133,10 +183,13 @@
     <Compile Include="Ui\Views\Controls\UiImage.cs" />
     <Compile Include="Ui\Views\Controls\UiIndexSelector.cs" />
     <Compile Include="Ui\Views\Controls\UiEditBox.Windows.cs" />
+    <Compile Include="Ui\Views\Controls\UiRadioButton.cs" />
     <Compile Include="Ui\Views\Controls\UiRichView.cs" />
     <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
     <Compile Include="Ui\DefinitionFiles\Commands\IncludeView.cs" />
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
+    <Compile Include="Ui\Views\Controls\UiScrollingSelector.cs" />
+    <Compile Include="Ui\Views\Controls\UiSeparatorLine.cs" />
     <Compile Include="Ui\Views\Controls\UiSlider.cs" />
     <Compile Include="Ui\Views\Controls\UiSpritePresenter.cs" />
     <Compile Include="Ui\Views\Controls\UiText.cs" />
@@ -145,9 +198,6 @@
     <Compile Include="Ui\Views\IBackgroundDrawable.cs" />
     <Compile Include="Ui\Views\Scroller.cs" />
     <Compile Include="Ui\Views\ScrollingService.cs" />
-    <Compile Include="Xml\XFile.cs" />
-    <Compile Include="Cs\SharedString.cs" />
-    <Compile Include="Cs\SharedValue.cs" />
     <Compile Include="Ui\Definitions\Length.cs" />
     <Compile Include="Ui\Definitions\Margin.cs" />
     <Compile Include="Definitions\TextAlign.cs" />
@@ -157,24 +207,14 @@
     <Compile Include="Input\TouchPad\TouchPad.cs" />
     <Compile Include="Input\TouchPad\Gesture.cs" />
     <Compile Include="Input\TouchPad\GestureType.cs" />
-    <Compile Include="Xml\XNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContentManagement\ContentLoader.cs" />
     <Compile Include="ContentManagement\LoadResourceInfo.cs" />
-    <Compile Include="Graphics\Images\LoadTexture2DFromPng.cs" />
     <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
-    <Compile Include="Cs\CsToolkit.cs" />
-    <Compile Include="Cs\Deletages.cs" />
-    <Compile Include="Cs\IIndexedContainer.cs" />
-    <Compile Include="Cs\IndexedArray.cs" />
-    <Compile Include="Cs\IndexedList.cs" />
-    <Compile Include="Cs\Singleton.cs" />
-    <Compile Include="Cs\BitConverterLE.cs" />
     <Compile Include="Definitions\Align.cs" />
     <Compile Include="Input\TextInput\TextInputType.cs" />
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
-    <Compile Include="Definitions\TransitionType.cs" />
     <Compile Include="Graphics\Images\NinePatchImage.cs" />
     <Compile Include="Graphics\3D\BasicShaderEffect.cs" />
     <Compile Include="Graphics\3D\IShaderEffect.cs" />
@@ -194,21 +234,14 @@
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\GraphicsHelper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
-    <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="Misc\AppRater.cs" />
     <Compile Include="Misc\ColorsManager.cs" />
     <Compile Include="Misc\ColorWrapper.cs" />
     <Compile Include="Misc\ConsoleEx.cs" />
     <Compile Include="Misc\DelayedActionInvoker.cs" />
-    <Compile Include="Misc\RemoteConsoleClient.cs" />
-    <Compile Include="Misc\StringsManager.cs" />
     <Compile Include="Misc\UiTask.cs" />
-    <Compile Include="Misc\UuidGenerator.cs" />
-    <Compile Include="Settings\Serializator.cs" />
     <Compile Include="Settings\SingletonSettings.cs" />
-    <Compile Include="Platform\Keyboard\KeyboardHandler.cs" />
-    <Compile Include="Platform\Keyboard\MessageHook.cs" />
-    <Compile Include="Platform\Platform.Windows.cs" />
+    <Compile Include="Platform\Platform.WindowsPhone.cs" />
     <Compile Include="Ui\Controllers\UiController.cs" />
     <Compile Include="Ui\Controllers\UiNavigationController.cs" />
     <Compile Include="Ui\Core\AppMain.cs" />
@@ -233,16 +266,41 @@
     <Compile Include="Ui\Views\UiView.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.DrawMethods.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.Helpers.cs" />
-    <Compile Include="Xml\XNodeAttributes.cs" />
-    <Compile Include="Input\GamePad\GamePad.cs" />
     <Compile Include="Input\GamePad\GamePadButtonState.cs" />
     <Compile Include="Input\GamePad\GamePads.cs" />
-    <Compile Include="Ui\Core\AppMain.Windows.Xna.cs" />
     <Compile Include="Input\Accelerators\Accelerators.cs" />
     <Compile Include="Input\Accelerators\KeyModifiers.cs" />
+    <Compile Include="Input\Interfaces\IBackable.cs" />
+    <Compile Include="Input\Interfaces\IMenuButtonListener.cs" />
+    <Compile Include="Ui\Views\Controls\UiQuickList.cs" />
+    <Compile Include="Ui\Views\Controls\QuickData\QuickColumnDefinition.cs" />
+    <Compile Include="Ui\Views\Controls\QuickData\QuickDataRow.cs" />
+    <Compile Include="Xml\XFileEx.cs" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="CommonMark">
+      <HintPath>..\ThirdParty\Dependences\CommonMark\CommonMark.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\ThirdParty\Dependences\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\ThirdParty\Dependences\MonoGame\WindowsPhone81\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitana.Framework.Common">
+      <HintPath>..\_Bin\Sitana.Framework.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IO\IsolatedStorageManager.WindowsPhone.cs" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
+    <VisualStudioVersion>12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetPlatformIdentifier)' == '' ">
+    <TargetPlatformIdentifier>WindowsPhoneApp</TargetPlatformIdentifier>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

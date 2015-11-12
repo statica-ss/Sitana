@@ -7,7 +7,7 @@ using System.IO;
 using Microsoft.Xna.Framework;
 
 
-#if WINRT
+#if WINRT|| WINDOWS_PHONE_APP
 using System.Threading.Tasks;
 #elif IOS
 using Foundation;
@@ -22,7 +22,7 @@ namespace Sitana.Framework.Content
 {
     public static class TitleContainerEx
     {
-#if WINRT
+#if WINRT || WINDOWS_PHONE_APP
             static char notSeparator = '/';
             static char separator = '\\';
 #else
@@ -54,7 +54,7 @@ namespace Sitana.Framework.Content
         static internal bool SupportRetina { get; private set; }
 #endif
 
-#if WINRT
+#if WINRT|| WINDOWS_PHONE_APP
 
         private static async Task<Stream> OpenStreamAsync(string name)
         {
@@ -90,13 +90,12 @@ namespace Sitana.Framework.Content
                 return false;
             }
 
-#if WINRT
-            var stream = Task.Run( () => OpenStreamAsync(safeName).Result ).Result;
-
-            if (stream == null)
-                return false;
-
-            stream.Close();
+#if WINRT|| WINDOWS_PHONE_APP
+            using (var stream = Task.Run(() => OpenStreamAsync(safeName).Result).Result)
+            {
+                if (stream == null)
+                    return false;
+            }
             return true;
 
 #elif ANDROID

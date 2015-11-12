@@ -51,9 +51,10 @@ namespace Sitana.Framework.Diagnostics
                 StackTrace = exc.StackTrace.Trim().Replace('\\', '/');
                 Source = exc.Source;
 
+#if !WINDOWS_PHONE_APP
                 MethodBase site = exc.TargetSite;
-                
-                if(site == null)
+
+                if (site == null)
                 {
                     Source = string.Empty;
                 }
@@ -70,8 +71,8 @@ namespace Sitana.Framework.Diagnostics
                         Source = string.Format("{0}.{1}", site.DeclaringType.FullName, site.Name );
                     }
                 }
-
-				Console.WriteLine(exc.ToString());
+#endif
+                Console.WriteLine(exc.ToString());
             }
             else
             {

@@ -9,6 +9,7 @@ using ICSharpCode.SharpZipLib.Zip;
 
 namespace Sitana.Framework.IO
 {
+    #pragma warning disable 1998
     public class ZipReadStorageManager : StorageManager
     {
         ZipFile _zipFile;
@@ -18,19 +19,21 @@ namespace Sitana.Framework.IO
             _zipFile = new ZipFile(stream);
         }
 
-        public override bool FileExists(string path)
+        public async override Task<bool> FileExists(string path)
         {
-            return _zipFile.FindEntry(path, false) != -1;
+            bool exists = _zipFile.FindEntry(path, false) != -1;
+            return exists;
         }
 
-        public override bool DirectoryExists(string path)
+        public async override Task<bool> DirectoryExists(string path)
         {
             path = path.Replace('\\', '/').Trim('/') + '/';
 
-            return _zipFile.FindEntry(path, false) != -1;
+            bool exists = _zipFile.FindEntry(path, false) != -1;
+            return exists;
         }
 
-        public override string[] GetFileNames(string wildcard)
+        public async override Task<string[]> GetFileNames(string wildcard)
         {
             string pattern = "^" + Regex.Escape(ZipEntry.CleanName(wildcard)).Replace(@"\*", ".*").Replace(@"\?", ".") + "$";
 
@@ -50,25 +53,26 @@ namespace Sitana.Framework.IO
                     }
                 }
             }
+
             return files.ToArray();
         }
 
-        public override void CreateDirectory(string name)
+        public async override Task CreateDirectory(string name)
         {
             throw new NotImplementedException();
         }
 
-        public override void DeleteFile(string name)
+        public async override Task DeleteFile(string name)
         {
             throw new NotImplementedException();
         }
 
-        public override void DeleteDirectory(string name)
+        public async override Task DeleteDirectory(string name)
         {
             throw new NotImplementedException();
         }
 
-        public override Stream OpenFile(string name, FileMode mode)
+        public async override Task<Stream> OpenFile(string name, FileMode mode)
         {
             if(mode != FileMode.Open)
             {
@@ -82,7 +86,8 @@ namespace Sitana.Framework.IO
                 throw new FileNotFoundException("Cannot find file in zip archive.", name);
             }
 
-            return _zipFile.GetInputStream(entry);
+            var stream = _zipFile.GetInputStream(entry);
+            return stream;
         }
 
         public override void Dispose()
@@ -90,7 +95,6 @@ namespace Sitana.Framework.IO
             _zipFile.IsStreamOwner = true;
             _zipFile.Close();
         }
-
-        
     }
+    #pragma warning restore 1998
 }

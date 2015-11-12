@@ -65,7 +65,12 @@ namespace Sitana.Framework
 				catch(Exception ex)
 				{
 					var func = action.Action;
-					throw new Exception(string.Format("DelayedActionInvoker invoke exception at {0}.{1}", func.Method.DeclaringType.FullName, func.Method.Name), ex);
+
+#if !WINDOWS_PHONE_APP
+					throw new Exception(string.Format("DelayedActionInvoker invoke exception at {0}.{1}", func.Target.GetType().FullName, func.Method.Name), ex);
+#else
+                    throw ex;
+#endif
 				}
             }
             _workingActions.Clear();

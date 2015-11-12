@@ -10,6 +10,7 @@ using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Input.TouchPad;
+using System.Collections.ObjectModel;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -77,7 +78,7 @@ namespace Sitana.Framework.Ui.Views
 
         public UiContainer()
         {
-            Children = _children.AsReadOnly();
+            Children = new ReadOnlyCollection<UiView>(_children);
         }
 
         public virtual void Remove(UiView view)

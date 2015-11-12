@@ -348,11 +348,13 @@ namespace Sitana.Framework.Content
             }
             catch (Exception)
             {
+#if !WINDOWS_PHONE_APP
                 try
                 {
                     return new FileStream(Path.Combine(_contentManager.RootDirectory, name), FileMode.Open);
                 }
                 catch { }
+#endif
             }
 
             // throw that file wasn't found
