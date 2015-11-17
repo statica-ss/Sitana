@@ -49,11 +49,14 @@ namespace Sitana.Framework.Input
 
         static InputScope _inputScope = new InputScope();
 
+        static InputScopeName _inputScopeDigits = new InputScopeName() { NameValue = InputScopeNameValue.Number };
         static InputScopeName _inputScopeNumber = new InputScopeName() { NameValue = InputScopeNameValue.NumberFullWidth };
         static InputScopeName _inputScopeName = new InputScopeName() { NameValue = InputScopeNameValue.NameOrPhoneNumber };
-        static InputScopeName _inputScopeText = new InputScopeName() { NameValue = InputScopeNameValue.Chat };
-        static InputScopeName _inputScopeUpper = new InputScopeName() { NameValue = InputScopeNameValue.Chat };
+        static InputScopeName _inputScopeText = new InputScopeName() { NameValue = InputScopeNameValue.Default };
+        static InputScopeName _inputScopeUpper = new InputScopeName() { NameValue = InputScopeNameValue.Default };
         static InputScopeName _inputScopeEmail = new InputScopeName() { NameValue = InputScopeNameValue.EmailSmtpAddress };
+
+        static double _oneLineTextBoxHeight = 0;
 
         public bool Visible
         {
@@ -82,15 +85,16 @@ namespace Sitana.Framework.Input
             _textBox.Visibility = Visibility.Collapsed;
             _textBox.HorizontalAlignment = HorizontalAlignment.Left;
             _textBox.VerticalAlignment = VerticalAlignment.Top;
+            _textBox.VerticalContentAlignment = VerticalAlignment.Center;
             _textBox.Margin = new Thickness(0);
             _textBox.Padding = new Thickness(0);
 
-            _textBox.InputScope = _inputScope;
 
             _passwordBox.Background = new SolidColorBrush(Windows.UI.Colors.White);
             _passwordBox.Visibility = Visibility.Collapsed;
             _passwordBox.HorizontalAlignment = HorizontalAlignment.Left;
             _passwordBox.VerticalAlignment = VerticalAlignment.Top;
+            _passwordBox.VerticalContentAlignment = VerticalAlignment.Center;
             _passwordBox.Margin = new Thickness(0);
             _passwordBox.Padding = new Thickness(0);
         }
@@ -117,31 +121,27 @@ namespace Sitana.Framework.Input
                 _passwordBox.LostFocus += HandleEditingDidEnd;
                 _passwordBox.KeyUp += HandleKeyUp;
 
-                Canvas.SetLeft(_passwordBox, (position.X + 1) / scale);
-                Canvas.SetTop(_passwordBox, (position.Y + 2) / scale);
+                Canvas.SetLeft(_passwordBox, (position.X+2) / scale);
 
-                _passwordBox.Width = (position.Width - 2) / scale;
-                _passwordBox.Height = (position.Height - 4) / scale;
-
-                CoreDispatcher dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
-                Task.Run(async () => await dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                    {
-                        _passwordBox.Visibility = Visibility.Visible;
-                        _passwordBox.Focus(FocusState.Pointer);
-                    })).Wait();
+                _passwordBox.Width = (position.Width-4) / scale;
+                _passwordBox.Height = _passwordBox.MinHeight;
+                Canvas.SetTop(_passwordBox, (position.Center.Y / scale - _passwordBox.Height / 2));
+                
+                _passwordBox.Visibility = Visibility.Visible;
+                _passwordBox.Focus(FocusState.Pointer);
             }
             else
             {
                 _usePasswordBox = false;
+
                 _textBox.TextChanged += HandleEditingChanged;
                 _textBox.LostFocus += HandleEditingDidEnd;
                 _textBox.KeyUp += HandleKeyUp;
 
-                Canvas.SetLeft(_textBox, (position.X + 1) / scale);
-                Canvas.SetTop(_textBox, (position.Y + 2) / scale);
+                Canvas.SetLeft(_textBox, (position.X+2) / scale);
+                
 
-                _textBox.Width = (position.Width - 2) / scale;
-                _textBox.Height = (position.Height - 4) / scale;
+                _textBox.Width = (position.Width-2) / scale;
 
                 switch (align & Align.Horz)
                 {
@@ -160,7 +160,9 @@ namespace Sitana.Framework.Input
 
                 _inputScope.Names.Clear();
                 _inputScope.Names.Add(NameFromContext(keyboardContext));
+                _textBox.InputScope = _inputScope;
 
+                _textBox.IsTextPredictionEnabled = !keyboardContext.HasFlag(TextInputType.NoSuggestions);
                 _uppercase = keyboardContext.HasFlag(TextInputType.Uppercase);
 
                 if (keyboardContext == TextInputType.MultilineText)
@@ -169,6 +171,9 @@ namespace Sitana.Framework.Input
                     _textBox.AcceptsReturn = true;
                     _textBox.TextWrapping = TextWrapping.Wrap;
                     _multiline = true;
+
+                    Canvas.SetTop(_textBox, (position.Y + 2) / scale);
+                    _textBox.Height = (position.Height - 4) / scale;
                 }
                 else
                 {
@@ -176,16 +181,18 @@ namespace Sitana.Framework.Input
                     _textBox.AcceptsReturn = false;
                     _textBox.TextWrapping = TextWrapping.NoWrap;
                     _multiline = false;
+
+                    _textBox.Height = _textBox.MinHeight;
+                    Canvas.SetTop(_textBox, (position.Center.Y / scale - _textBox.Height / 2));
+                    
                 }
 
                 SetText(text);
 
                 CoreDispatcher dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
-                Task.Run(async () => await dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                {
-                    _passwordBox.Visibility = Visibility.Visible;
-                    _passwordBox.Focus(FocusState.Pointer);
-                })).Wait();
+
+                _textBox.Visibility = Visibility.Visible;
+                _textBox.Focus(FocusState.Pointer);
             }
         }
 
@@ -201,6 +208,7 @@ namespace Sitana.Framework.Input
             else
             {   
                 _textBox.Text = text;
+                _textBox.Select(text.Length, 0);
             }
             _internalTextChange = false;
         }
@@ -231,6 +239,7 @@ namespace Sitana.Framework.Input
             if (e.Key == VirtualKey.Enter && !_multiline)
             {
                 _controller.Return();
+                Unfocus();
             }
         }
 
@@ -245,10 +254,13 @@ namespace Sitana.Framework.Input
                     return _inputScopeNumber;
 
                 case TextInputType.Uppercase:
-                    return _inputScopeName;
+                    return _inputScopeUpper;
 
                 case TextInputType.Email:
                     return _inputScopeEmail;
+
+                case TextInputType.Digits:
+                    return _inputScopeDigits;
             }
 
             return _inputScopeText;
@@ -282,19 +294,15 @@ namespace Sitana.Framework.Input
 
         public void Unfocus()
         {
-            CoreDispatcher dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
-            Task.Run(async () => await dispatcher.RunAsync(CoreDispatcherPriority.High, () => UnfocusInternal())).Wait();
+            if (CurrentFocus == this)
+            {
+                _textBox.Visibility = Visibility.Collapsed;
+                _passwordBox.Visibility = Visibility.Collapsed;
 
-            CurrentFocus = null;
+                _controller.LostFocus();
 
-			DelayedActionInvoker.Instance.AddAction(0.2f, (v)=>AppMain.Current.ReleaseFocus(this));
-        }
-
-        private void UnfocusInternal()
-        {
-            _textBox.Visibility = Visibility.Collapsed;
-            _passwordBox.Visibility = Visibility.Collapsed;
-
+                CurrentFocus = null;
+            }
             _textBox.TextChanged -= HandleEditingChanged;
             _textBox.LostFocus -= HandleEditingDidEnd;
             _textBox.KeyUp -= HandleKeyUp;
@@ -302,10 +310,6 @@ namespace Sitana.Framework.Input
             _passwordBox.PasswordChanged -= HandleEditingChangedPassword;
             _passwordBox.LostFocus -= HandleEditingDidEnd;
             _passwordBox.KeyUp -= HandleKeyUp;
-
-            _controller.LostFocus();
-
-            CurrentFocus = null;
         }
     }
 }
