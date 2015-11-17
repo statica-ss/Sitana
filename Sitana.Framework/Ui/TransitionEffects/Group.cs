@@ -7,6 +7,7 @@ using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Diagnostics;
+using System.Reflection;
 
 namespace Sitana.Framework.Ui.Views.TransitionEffects
 {
@@ -20,7 +21,7 @@ namespace Sitana.Framework.Ui.Views.TransitionEffects
             {
                 DefinitionFile def = DefinitionFile.LoadFile(cn);
 
-                if (!def.Class.IsSubclassOf(typeof(TransitionEffect)))
+                if (!def.Class.GetTypeInfo().IsSubclassOf(typeof(TransitionEffect)))
                 {
                     string error = node.NodeError("Group of transitions can contain only other transition effects.");
                     if (DefinitionParser.EnableCheckMode)

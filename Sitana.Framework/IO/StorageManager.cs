@@ -7,37 +7,36 @@ using System.Threading.Tasks;
 
 namespace Sitana.Framework.IO
 {
-    #pragma warning disable 1998
     public abstract class StorageManager: IDisposable
     {
-        public async virtual Task<bool> FileExists(string path)
+        public virtual bool FileExists(string path)
         {
             return false;
         }
 
-        public async virtual Task<bool> DirectoryExists(string path)
+        public virtual bool DirectoryExists(string path)
         {
             return false;
         }
 
-        public async virtual Task<string[]> GetFileNames(string pattern)
+        public virtual string[] GetFileNames(string pattern)
         {
             return null;
         }
 
-        public async virtual Task DeleteFile(string name)
+        public virtual void DeleteFile(string name)
         {
             
         }
-        public async virtual Task DeleteDirectory(string name)
+        public virtual void DeleteDirectory(string name)
         {
         }
 
-        public async virtual Task CreateDirectory(string name)
+        public virtual void CreateDirectory(string name)
         {
         }
 
-        public async virtual Task<Stream> OpenFile(string name, FileMode mode)
+        public virtual Stream OpenFile(string name, FileMode mode)
         {
             return null;
         }
@@ -49,5 +48,5 @@ namespace Sitana.Framework.IO
             Dispose();
         }
     }
-    #pragma warning restore 1998
+
 }

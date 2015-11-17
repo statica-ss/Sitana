@@ -1,11 +1,8 @@
 ﻿using Sitana.Framework.Xml;
+using Sitana.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 
 namespace Sitana.Framework.Serialization
 {
@@ -124,8 +121,8 @@ namespace Sitana.Framework.Serialization
             {
                 XNode node = new XNode(root, name);
                 root.Nodes.Add(node);
-
-                string type = obj.GetType().FullName + "," + obj.GetType().Assembly.GetName().Name;
+                
+                string type = obj.GetType().FullName + "," + obj.GetType().GetTypeInfo().Assembly.GetName().Name;
 
                 node.AddAttribute("XSerializer.SerializedType", type);
 
@@ -147,9 +144,7 @@ namespace Sitana.Framework.Serialization
 
             Type type = obj.GetType();
 
-            PropertyInfo[] properties = type.GetProperties();
-
-            foreach(var info in properties)
+            foreach(var info in type.GetTypeInfo().DeclaredProperties)
             {
                 Attribute attr = info.GetCustomAttribute(typeof(XSerializableAttribute));
 
@@ -210,7 +205,7 @@ namespace Sitana.Framework.Serialization
             if(node != null)
             {
                 string typeName = node.Attribute("XSerializer.SerializedType");
-                Type type = string.IsNullOrEmpty(typeName) ? null : Type.GetType(typeName, true, true);
+                Type type = string.IsNullOrEmpty(typeName) ? null : Type.GetType(typeName, true);
 
                 if(type == null)
                 {

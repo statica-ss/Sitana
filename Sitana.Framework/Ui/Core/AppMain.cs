@@ -50,6 +50,7 @@ namespace Sitana.Framework.Ui.Core
         private float _currentVerticalOffset = 0;
 
         private int _top = 0;
+        private bool _inited = false;
 
         public double TotalGameTime { get; private set; }
 
@@ -251,7 +252,7 @@ namespace Sitana.Framework.Ui.Core
                 }
             }
 
-            if (MainView.OffsetBoundsVertical != (int)_currentVerticalOffset + _top)
+            if (MainView != null && MainView.OffsetBoundsVertical != (int)_currentVerticalOffset + _top)
             {
                 MainView.OffsetBoundsVertical = (int)_currentVerticalOffset + _top;
             }
@@ -268,7 +269,7 @@ namespace Sitana.Framework.Ui.Core
 
             bool shouldUpdate = shouldRedraw | true;
 
-            if (shouldUpdate)
+            if (shouldUpdate && MainView != null)
             {
                 MainView.ViewUpdate(_cumulativeFrameTime);
                 _cumulativeFrameTime = 0;
@@ -287,6 +288,12 @@ namespace Sitana.Framework.Ui.Core
 
         protected override void LoadContent()
         {
+            _inited = true;
+            if (_mainView == null)
+            {
+                return;
+            }
+
             _drawBatch = new AdvancedDrawBatch(GraphicsDevice);
 
             if (ContentLoading != null)
@@ -342,6 +349,11 @@ namespace Sitana.Framework.Ui.Core
         {
             DefinitionFile file = ContentLoader.Current.Load<DefinitionFile>(path);
             _mainView = file;
+
+            if(_inited)
+            {
+                LoadContent();
+            }
         }
 
         public void SizeChanged()

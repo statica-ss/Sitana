@@ -36,9 +36,7 @@ namespace Sitana.Framework
 
             bool loaded = true;
 
-            var task = Serializator.Deserialize<AppRaterData>(Serializator.PathFromType(typeof(AppRaterData)));
-            task.Wait();
-            _data = task.Result;
+            _data = Serializator.Deserialize<AppRaterData>(Serializator.PathFromType(typeof(AppRaterData)));
 
             if (_data == null)
             {
@@ -103,8 +101,7 @@ namespace Sitana.Framework
 
         private void Serialize()
         {
-            var task = Serializator.Serialize(Serializator.PathFromType(typeof(AppRaterData)), _data);
-            task.Wait();
+            Serializator.Serialize(Serializator.PathFromType(typeof(AppRaterData)), _data);
         }
 
 		public bool IsAppRated

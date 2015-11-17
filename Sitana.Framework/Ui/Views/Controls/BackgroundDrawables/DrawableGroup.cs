@@ -6,6 +6,7 @@ using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 
 namespace Sitana.Framework.Ui.Views.BackgroundDrawables
@@ -20,7 +21,7 @@ namespace Sitana.Framework.Ui.Views.BackgroundDrawables
             {
                 DefinitionFile def = DefinitionFile.LoadFile(cn);
 
-                if (!typeof(IBackgroundDrawable).IsAssignableFrom(def.Class))
+                if (!typeof(IBackgroundDrawable).GetTypeInfo().IsAssignableFrom(def.Class.GetTypeInfo()))
                 {
                     string error = node.NodeError("Group of background drawables can contain only other background drawables.");
                     if (DefinitionParser.EnableCheckMode)

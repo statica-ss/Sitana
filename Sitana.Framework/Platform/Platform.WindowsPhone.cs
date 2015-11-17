@@ -6,6 +6,7 @@ using Sitana.Framework.Cs;
 using System;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using Windows.Storage;
 
 
@@ -17,7 +18,9 @@ namespace Sitana.Framework
         {
             return ApplicationData.Current.LocalFolder;
         }
-        
+
+        public static Assembly MainAssembly { get; set; }
+
         public static bool CloseApp()
         {
             return false;

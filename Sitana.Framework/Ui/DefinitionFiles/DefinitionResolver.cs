@@ -111,21 +111,16 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             {
                 parameters[idx] = ObtainParameter(invokeParameters, method.Parameters[idx]);
             }
-
-            MethodInfo[] infos = context.GetType().GetMethods();
-
-            if (infos != null)
+            
+            foreach (var info in context.GetType().GetMethods())
             {
-                foreach (var info in infos)
+                if (info.Name == name)
                 {
-                    if (info.Name == name)
-                    {
-                        ParameterInfo[] methodParams = info.GetParameters();
+                    ParameterInfo[] methodParams = info.GetParameters();
 
-                        if (parameters.Length == methodParams.Length)
-                        {
-                            return info.Invoke(context, parameters);
-                        }
+                    if (parameters.Length == methodParams.Length)
+                    {
+                        return info.Invoke(context, parameters);
                     }
                 }
             }

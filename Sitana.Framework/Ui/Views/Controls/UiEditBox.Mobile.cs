@@ -31,8 +31,8 @@ namespace Sitana.Framework.Ui.Views
 				file["NativeInputFontSize"] = parser.ParseInt("iOS.NativeInputFontSize");
 			#elif __ANDROID__
 				file["NativeInputFontSize"] = parser.ParseInt("Android.NativeInputFontSize");
-			#elif __WINDOWSPHONE__
-				file["NativeInputFontSize"] = parser.ParseInt("WindowsPhone.NativeInputFontSize");
+            #elif WINDOWS_PHONE_APP
+            file["NativeInputFontSize"] = parser.ParseInt("WindowsPhone.NativeInputFontSize");
 			#elif __WINRT__
 				file["NativeInputFontSize"] = parser.ParseInt("WindowsRT.NativeInputFontSize");
 			#endif

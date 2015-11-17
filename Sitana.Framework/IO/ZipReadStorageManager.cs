@@ -19,13 +19,13 @@ namespace Sitana.Framework.IO
             _zipFile = new ZipFile(stream);
         }
 
-        public async override Task<bool> FileExists(string path)
+        public override bool FileExists(string path)
         {
             bool exists = _zipFile.FindEntry(path, false) != -1;
             return exists;
         }
 
-        public async override Task<bool> DirectoryExists(string path)
+        public override bool DirectoryExists(string path)
         {
             path = path.Replace('\\', '/').Trim('/') + '/';
 
@@ -33,7 +33,7 @@ namespace Sitana.Framework.IO
             return exists;
         }
 
-        public async override Task<string[]> GetFileNames(string wildcard)
+        public override string[] GetFileNames(string wildcard)
         {
             string pattern = "^" + Regex.Escape(ZipEntry.CleanName(wildcard)).Replace(@"\*", ".*").Replace(@"\?", ".") + "$";
 
@@ -57,22 +57,22 @@ namespace Sitana.Framework.IO
             return files.ToArray();
         }
 
-        public async override Task CreateDirectory(string name)
+        public override void CreateDirectory(string name)
         {
             throw new NotImplementedException();
         }
 
-        public async override Task DeleteFile(string name)
+        public override void DeleteFile(string name)
         {
             throw new NotImplementedException();
         }
 
-        public async override Task DeleteDirectory(string name)
+        public override void DeleteDirectory(string name)
         {
             throw new NotImplementedException();
         }
 
-        public async override Task<Stream> OpenFile(string name, FileMode mode)
+        public override Stream OpenFile(string name, FileMode mode)
         {
             if(mode != FileMode.Open)
             {

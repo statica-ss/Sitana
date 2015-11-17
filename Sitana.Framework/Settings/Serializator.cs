@@ -18,9 +18,9 @@ namespace Sitana.Framework.Settings
     /// </summary>
     public static class Serializator
     {
-        public async static Task Serialize(string fileName, Object obj)
+        public static void Serialize(string fileName, Object obj)
         {
-            await Serialize(null, fileName, obj);
+            Serialize(null, fileName, obj);
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Sitana.Framework.Settings
         /// </summary>
         /// <param name="fileName">file name.</param>
         /// <param name="obj">Object to serialize.</param>
-        public async static Task Serialize(string subDirectory, string fileName, Object obj)
+        public static void Serialize(string subDirectory, string fileName, Object obj)
         {
             // Write to the Isolated Storage
             var xmlWriterSettings = new XmlWriterSettings { Indent = true };
@@ -36,10 +36,10 @@ namespace Sitana.Framework.Settings
             // Open isolated storage.
             using (var storageManager = new IsolatedStorageManager())
             {
-                fileName = await Prepare(storageManager, subDirectory, fileName);
+                fileName = Prepare(storageManager, subDirectory, fileName);
 
                 // Open file from storage.
-                using (Stream stream = await storageManager.OpenFile(fileName, FileMode.Create))
+                using (Stream stream = storageManager.OpenFile(fileName, FileMode.Create))
                 {
                     // Create serializer for type.
                     var serializer = new XmlSerializer(obj.GetType());
@@ -54,9 +54,9 @@ namespace Sitana.Framework.Settings
             }
         }
 
-        public async static Task<T> Deserialize<T>(string fileName)
+        public static T Deserialize<T>(string fileName)
         {
-            return await Deserialize<T>(null, fileName);
+            return Deserialize<T>(null, fileName);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Sitana.Framework.Settings
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="fileName">Path to isolated storage file.</param>
         /// <returns></returns>
-        public async static Task<T> Deserialize<T>(string subDirectory, string fileName)
+        public static T Deserialize<T>(string subDirectory, string fileName)
         {
             T obj = default(T);
 
@@ -74,12 +74,12 @@ namespace Sitana.Framework.Settings
                 // Open isolated storage.
                 using (var storageManager = new IsolatedStorageManager())
                 {
-                    fileName = await Prepare(storageManager, subDirectory, fileName);
+                    fileName = Prepare(storageManager, subDirectory, fileName);
 
-                    if (await storageManager.FileExists(fileName))
+                    if (storageManager.FileExists(fileName))
                     {
                         // Open file from storage.
-                        using(var stream = await storageManager.OpenFile(fileName, FileMode.Open))
+                        using(var stream = storageManager.OpenFile(fileName, FileMode.Open))
                         {
                             // Create serializer for type.
                             var serializer = new XmlSerializer(typeof(T));
@@ -98,11 +98,11 @@ namespace Sitana.Framework.Settings
             return obj;
         }
 
-        public async static Task<bool> FileExist(string path)
+        public static bool FileExist(string path)
         {
             using (var storageManager = new IsolatedStorageManager())
             {
-                return await storageManager.FileExists(path);
+                return storageManager.FileExists(path);
             }
         }
 
@@ -111,13 +111,13 @@ namespace Sitana.Framework.Settings
             return type.Name + "__(" + type.Namespace + ").xml";
         }
 
-        static async Task<string> Prepare(StorageManager storageManager, string subDirectory, string fileName)
+        static string Prepare(StorageManager storageManager, string subDirectory, string fileName)
         {
             if(!string.IsNullOrWhiteSpace(subDirectory))
             {
-                if (! await storageManager.DirectoryExists(subDirectory))
+                if (! storageManager.DirectoryExists(subDirectory))
                 {
-                    await storageManager.CreateDirectory(subDirectory);
+                    storageManager.CreateDirectory(subDirectory);
                 }
 
                 fileName = Path.Combine(subDirectory, fileName);
@@ -126,7 +126,7 @@ namespace Sitana.Framework.Settings
             return fileName;
         }
 
-        public async static Task<object> Deserialize(string subDirectory, string fileName, Type[] possibleTypes)
+        public static object Deserialize(string subDirectory, string fileName, Type[] possibleTypes)
         {
             try
             {
@@ -134,11 +134,11 @@ namespace Sitana.Framework.Settings
                 {
                     using(var storageManager = new IsolatedStorageManager())
                     {
-                        fileName = await Prepare(storageManager, subDirectory, fileName);
+                        fileName = Prepare(storageManager, subDirectory, fileName);
 
-                        if (await storageManager.FileExists(fileName))
+                        if (storageManager.FileExists(fileName))
                         {
-                            using (var stream = await storageManager.OpenFile(fileName, FileMode.Open))
+                            using (var stream = storageManager.OpenFile(fileName, FileMode.Open))
                             {                                
                                 using(var reader = XmlReader.Create(stream))
                                 {

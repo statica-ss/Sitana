@@ -83,24 +83,24 @@ namespace Sitana.Framework.IO
                 _output.Flush();
             }
 
-            public override void Close()
+            protected override void Dispose(bool disposing)
             {
-                base.Close();
+                base.Dispose(disposing);
 
-                //_crc.Reset();
-                //_crc.Update(_output.GetBuffer(), 0, (int)_output.Position);
+                if (disposing)
+                {
+                    _entry.DateTime = DateTime.Now;
+                    _entry.Size = (int)_output.Position;
 
-                _entry.DateTime = DateTime.Now;
-                _entry.Size = (int)_output.Position;
+                    _zipStream.PutNextEntry(_entry);
 
-                _zipStream.PutNextEntry(_entry);
+                    _output.Position = 0;
+                    _output.SetLength(_entry.Size);
 
-                _output.Position = 0;
-                _output.SetLength(_entry.Size);
+                    StreamUtils.Copy(_output, _zipStream, _buffer);
 
-                StreamUtils.Copy(_output, _zipStream, _buffer);
-
-                _zipStream.CloseEntry();
+                    _zipStream.CloseEntry();
+                }
             }
 
             public override long Length
@@ -156,42 +156,40 @@ namespace Sitana.Framework.IO
             _output.UseZip64 = UseZip64.Off;
         }
 
-        public override Task<bool> FileExists(string path)
+        public override bool FileExists(string path)
         {
             throw new NotImplementedException();
         }
 
-        public override Task<bool> DirectoryExists(string path)
+        public override bool DirectoryExists(string path)
         {
             throw new NotImplementedException();
         }
 
-        public override Task<string[]> GetFileNames(string wildcard)
+        public override string[] GetFileNames(string wildcard)
         {
             throw new NotImplementedException();
         }
 
-        public override Task CreateDirectory(string name)
+        public override void CreateDirectory(string name)
         {
             string entryName = ZipEntry.CleanName(name.TrimEnd('\\', '/') + '/');
             ZipEntry newEntry = new ZipEntry(entryName);
             _output.PutNextEntry(newEntry);
             _output.CloseEntry();
-
-            return new Task(() => { });
         }
 
-        public override Task DeleteFile(string name)
+        public override void DeleteFile(string name)
         {
             throw new NotImplementedException();
         }
 
-        public override Task DeleteDirectory(string name)
+        public override void DeleteDirectory(string name)
         {
             throw new NotImplementedException();
         }
 
-        public override Task<Stream> OpenFile(string name, FileMode mode)
+        public override Stream OpenFile(string name, FileMode mode)
         {
             if(mode != FileMode.Create)
             {
@@ -203,7 +201,7 @@ namespace Sitana.Framework.IO
 
             var stream = new ZipEntryStream(_output, newEntry);
 
-            return new Task<Stream>(() => stream);
+            return stream;
         }
 
         public override void Dispose()

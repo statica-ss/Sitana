@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Sitana.Framework
 {
-    public static class Extensions
+    public static partial class Extensions
     {
 		public static string Merge(this List<string> lines, string separator)
         {

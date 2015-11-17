@@ -16,16 +16,20 @@ namespace Sitana.Framework.Helpers
         {
             _colors = new Dictionary<string, Color>();
 
-            PropertyInfo[] props = typeof(Color).GetProperties(BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.Static);
-
-            foreach (var prop in props)
+            foreach (var prop in typeof(Color).GetTypeInfo().DeclaredProperties)
             {
                 if (prop.PropertyType == typeof(Color))
                 {
                     string name = prop.Name;
-                    Color color = (Color)prop.GetValue(null);
 
-                    _colors.Add(name, color);
+                    try
+                    {
+                        Color color = (Color)prop.GetValue(null);
+                        _colors.Add(name, color);
+                    }
+                    catch
+                    {
+                    }
                 }
             }
         }

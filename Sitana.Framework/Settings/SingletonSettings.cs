@@ -43,9 +43,7 @@ namespace Sitana.Framework.Settings
                         // Path is full type name.
                         var path = Serializator.PathFromType(typeof(T));
 
-                        var task = Serializator.Deserialize<T>(path);
-                        task.Wait();
-                        _instance = task.Result;
+                        _instance = Serializator.Deserialize<T>(path);
 
                         // If not deserialized create instance of type and set it wasn't loaded.
                         if (_instance == null)
@@ -98,8 +96,7 @@ namespace Sitana.Framework.Settings
                 var path = Serializator.PathFromType(typeof(T));
 
                 // Serialize with serializator.
-                var task = Serializator.Serialize(path, Instance);
-                task.Wait();
+                Serializator.Serialize(path, Instance);
 
             }
             finally

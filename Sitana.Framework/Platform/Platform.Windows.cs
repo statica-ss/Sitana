@@ -23,6 +23,21 @@ namespace Sitana.Framework
             return IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly | IsolatedStorageScope.Domain, typeof(System.Security.Policy.Url), typeof(System.Security.Policy.Url));
         }
         
+        public static Assembly MainAssembly
+        {
+            get
+            {
+                var assembly = Assembly.GetEntryAssembly();
+
+                if(assembly == null)
+                {
+                    assembly = Assembly.GetExecutingAssembly();
+                }
+
+                return assembly;
+            }
+        }
+
         public static bool CloseApp()
         {
             return false;
