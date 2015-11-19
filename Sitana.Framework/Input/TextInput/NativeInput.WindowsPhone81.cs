@@ -239,7 +239,6 @@ namespace Sitana.Framework.Input
             if (e.Key == VirtualKey.Enter && !_multiline)
             {
                 _controller.Return();
-                Unfocus();
             }
         }
 
@@ -294,6 +293,14 @@ namespace Sitana.Framework.Input
 
         public void Unfocus()
         {
+            _textBox.TextChanged -= HandleEditingChanged;
+            _textBox.LostFocus -= HandleEditingDidEnd;
+            _textBox.KeyUp -= HandleKeyUp;
+
+            _passwordBox.PasswordChanged -= HandleEditingChangedPassword;
+            _passwordBox.LostFocus -= HandleEditingDidEnd;
+            _passwordBox.KeyUp -= HandleKeyUp;
+
             if (CurrentFocus == this)
             {
                 _textBox.Visibility = Visibility.Collapsed;
@@ -303,13 +310,6 @@ namespace Sitana.Framework.Input
 
                 CurrentFocus = null;
             }
-            _textBox.TextChanged -= HandleEditingChanged;
-            _textBox.LostFocus -= HandleEditingDidEnd;
-            _textBox.KeyUp -= HandleKeyUp;
-
-            _passwordBox.PasswordChanged -= HandleEditingChangedPassword;
-            _passwordBox.LostFocus -= HandleEditingDidEnd;
-            _passwordBox.KeyUp -= HandleKeyUp;
         }
     }
 }

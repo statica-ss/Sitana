@@ -15,7 +15,7 @@ namespace Sitana.Framework.IO
 
         public IsolatedStorageManager()
         {
-            _storage = Platform.GetUserStoreForApplication();
+            _storage = Platform.UserStore;
         }
 
         public override bool FileExists(string path)

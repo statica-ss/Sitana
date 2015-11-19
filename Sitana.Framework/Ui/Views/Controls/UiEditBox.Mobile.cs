@@ -151,6 +151,15 @@ namespace Sitana.Framework.Ui.Views
 			TouchPad.Instance.TouchDown -= OnTouchDown;
 		}
 
+        public override void SetText(string text)
+        {
+            base.SetText(text);
+            if(Focused)
+            {
+                _nativeInput.SetText(text);
+            }
+        }
+
 		void OnTouchDown(int id, Vector2 pos)
 		{
 			if ( Focused && !IsPointInsideView(pos))

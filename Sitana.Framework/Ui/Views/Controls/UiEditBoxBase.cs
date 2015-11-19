@@ -145,6 +145,11 @@ namespace Sitana.Framework.Ui.Views
             return base.CallDelegate(id, args);
         }
 
+        public virtual void SetText(string text)
+        {
+            Text.StringValue = text;
+        }
+
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
         {
             float opacity = parameters.Opacity;

@@ -37,6 +37,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Zlib.Portable">
+      <HintPath>..\ThirdParty\Dependences\Zlib.Portable\Zlib.Portable.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cs\BitConverterLE.cs" />
@@ -49,6 +52,7 @@
     <Compile Include="Cs\SharedValue.cs" />
     <Compile Include="Cs\Singleton.cs" />
     <Compile Include="Helpers\CommonExtensions.cs" />
+    <Compile Include="Helpers\Compression.cs" />
     <Compile Include="Misc\ReflectionExtensionsCommon.cs" />
     <Compile Include="Misc\SHA.cs" />
     <Compile Include="Misc\StringsManager.cs" />

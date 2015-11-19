@@ -14,9 +14,10 @@ namespace Sitana.Framework
 {
     public static class Platform
     {
+        [Obsolete("GetUserStoreForApplication is deprecated, please use IsolatedStorageManager instead.", true)]
         public static StorageFolder GetUserStoreForApplication()
         {
-            return ApplicationData.Current.LocalFolder;
+            throw new InvalidOperationException();
         }
 
         public static Assembly MainAssembly { get; set; }

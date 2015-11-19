@@ -19,7 +19,7 @@ namespace Sitana.Framework.IO
 
         public IsolatedStorageManager()
         {
-            _storage = Platform.GetUserStoreForApplication();
+            _storage = ApplicationData.Current.LocalFolder;
         }
 
         public override bool FileExists(string path)
@@ -60,7 +60,20 @@ namespace Sitana.Framework.IO
 
         public override string[] GetFileNames(string pattern)
         {
-            var files = Task.Run<IReadOnlyList<StorageFile>>( async ()=> await _storage.GetFilesAsync(CommonFileQuery.DefaultQuery)).Result;
+            string dir = Path.GetDirectoryName(pattern);
+            pattern = Path.GetFileName(pattern);
+
+            IReadOnlyList<StorageFile> files = null;
+
+            if (dir.IsNullOrWhiteSpace())
+            {
+                files = Task.Run<IReadOnlyList<StorageFile>>(async () => await _storage.GetFilesAsync(CommonFileQuery.DefaultQuery)).Result;
+            }
+            else
+            {
+                var folder = Task.Run<StorageFolder>(async () => await _storage.GetFolderAsync(dir)).Result;
+                files = Task.Run<IReadOnlyList<StorageFile>>(async () => await folder.GetFilesAsync()).Result;
+            }
 
 			List<string> filePaths = new List<string>();
 

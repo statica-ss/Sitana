@@ -36,11 +36,28 @@ namespace Sitana.Framework
         {
 			return true;
         }
-		
-        public static IsolatedStorageFile GetUserStoreForApplication()
-        {
-            return IsolatedStorageFile.GetUserStoreForApplication();
-        }
+
+		public static Assembly MainAssembly
+		{
+			get
+			{
+				return Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+			}
+		}
+
+		[Obsolete("GetUserStoreForApplication is deprecated, please use IsolatedStorageManager instead.", true)]
+		public static IsolatedStorageFile GetUserStoreForApplication()
+		{
+			throw new InvalidOperationException();
+		}
+
+		internal static IsolatedStorageFile UserStore
+		{
+			get
+			{
+				return IsolatedStorageFile.GetUserStoreForApplication();
+			}
+		}
 
         public static void OpenWebsite(String url)
         {
