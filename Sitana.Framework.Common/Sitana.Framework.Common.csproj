@@ -38,7 +38,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Zlib.Portable">
-      <HintPath>..\ThirdParty\Dependences\Zlib.Portable\Zlib.Portable.dll</HintPath>
+      <HintPath>..\ThirdParty\Dependences\Zlib.Portable.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
