@@ -28,7 +28,7 @@ namespace Sitana.Framework
             {
                 baseType = baseType.GetTypeInfo().BaseType;
 
-                if(baseType == null || baseType.GetTypeInfo().IsPrimitive || baseType.GetTypeInfo().IsGenericType)
+                if(baseType == null || baseType.GetTypeInfo().IsPrimitive)
                 {
                     return null;
                 }
@@ -47,7 +47,7 @@ namespace Sitana.Framework
             {
                 baseType = baseType.GetTypeInfo().BaseType;
 
-                if (baseType == null || baseType.GetTypeInfo().IsPrimitive || baseType.GetTypeInfo().IsGenericType)
+                if (baseType == null || baseType.GetTypeInfo().IsPrimitive)
                 {
                     return null;
                 }
@@ -73,7 +73,7 @@ namespace Sitana.Framework
 
                     baseType = baseType.GetTypeInfo().BaseType;
 
-                    if (baseType == null || baseType.GetTypeInfo().IsPrimitive || baseType.GetTypeInfo().IsGenericType)
+                    if (baseType == null || baseType.GetTypeInfo().IsPrimitive)
                     {
                         break;
                     }

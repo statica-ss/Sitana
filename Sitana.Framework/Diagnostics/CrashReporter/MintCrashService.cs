@@ -22,7 +22,7 @@ namespace Sitana.Framework.Diagnostics
         {
             _apiToken = apiToken;
             _appName = appName;
-			_uid = Platform.DeviceId;
+			_uid = Platform.UniqueDeviceId;
 			_phone = Platform.OsName;
         }
 

@@ -2,12 +2,17 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
+using Sitana.Framework.Crypto;
 using Sitana.Framework.Cs;
 using System;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using Windows.Security.Cryptography;
+using Windows.Security.Cryptography.Core;
 using Windows.Storage;
+using Windows.Storage.Streams;
+using Windows.System.Profile;
 
 
 namespace Sitana.Framework
@@ -77,15 +82,14 @@ namespace Sitana.Framework
         {
             get
             {
-                return "";
-            }
-        }
+                HardwareToken token = HardwareIdentification.GetPackageSpecificToken(null);
+                IBuffer hardwareId = token.Id;
 
-        public static string DeviceId
-        {
-            get
-            {
-                return "";
+                byte[] bytes;
+                CryptographicBuffer.CopyToByteArray(token.Id, out bytes);
+                bytes = SHA.ComputeSHA1(bytes);
+
+                return BitConverter.ToString(bytes, 0, bytes.Length).Replace("-", "");
             }
         }
 
