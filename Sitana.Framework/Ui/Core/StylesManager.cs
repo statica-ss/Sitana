@@ -6,6 +6,7 @@ using Sitana.Framework.Cs;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Diagnostics;
 using Sitana.Framework.Xml;
+using System.Reflection;
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -56,7 +57,7 @@ namespace Sitana.Framework.Ui.Core
             DefinitionFile file;
             if ( _styles.TryGetValue(name, out file))
             {
-                if ( file.Class == type || file.Class.IsSubclassOf(type) || type.IsSubclassOf(file.Class))
+                if (file.Class == type || file.Class.GetTypeInfo().IsSubclassOf(type) || type.GetTypeInfo().IsSubclassOf(file.Class))
                 {
                     return file;
                 }

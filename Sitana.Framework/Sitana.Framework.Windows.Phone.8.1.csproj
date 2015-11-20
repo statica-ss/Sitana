@@ -87,6 +87,7 @@
     <Compile Include="Diagnostics\CrashReporter\ICrashService.cs" />
     <Compile Include="Diagnostics\CrashReporter\MintCrashService.cs" />
     <Compile Include="Diagnostics\PerformanceProfiler.cs" />
+    <Compile Include="Diagnostics\ServiceMode.cs" />
     <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
     <Compile Include="Graphics\Fonts\StringProvider.cs" />
     <Compile Include="Graphics\Fonts\TextRotation.cs" />
@@ -102,12 +103,14 @@
     <Compile Include="Input\GamePad\GamePad.cs" />
     <Compile Include="Input\TextInput\IFocusable.cs" />
     <Compile Include="Input\TextInput\ITextConsumer.cs" />
-    <Compile Include="Input\TextInput\TextInput.Dektop.cs" />
+    <Compile Include="Input\TextInput\NativeInput.cs" />
+    <Compile Include="Input\TextInput\NativeInput.WindowsPhone81.cs" />
     <Compile Include="Input\TouchPad\IGestureListener.cs" />
     <Compile Include="IO\StorageManager.cs" />
+    <Compile Include="IO\ZipReadStorageManager.cs" />
+    <Compile Include="IO\ZipWriteStorageManager.cs" />
     <Compile Include="Media\SoundEffectBuffer.cs" />
     <Compile Include="Misc\Console.cs" />
-    <Compile Include="Misc\ReflectionExtensions.cs" />
     <Compile Include="Misc\RemoteConsoleClient.WindowsPhone.cs" />
     <Compile Include="Misc\RemoteImageCache.cs" />
     <Compile Include="Settings\Serializator.cs" />
@@ -178,11 +181,11 @@
     <Compile Include="Ui\Views\Controls\ScrollingSelector\ISelectorContext.cs" />
     <Compile Include="Ui\Views\Controls\UiCheckBox.cs" />
     <Compile Include="Ui\Views\Controls\UiColoredLabel.cs" />
+    <Compile Include="Ui\Views\Controls\UiEditBox.Mobile.cs" />
     <Compile Include="Ui\Views\Controls\UiEditBoxBase.cs" />
     <Compile Include="Ui\Views\Controls\UiHorizontalGradient.cs" />
     <Compile Include="Ui\Views\Controls\UiImage.cs" />
     <Compile Include="Ui\Views\Controls\UiIndexSelector.cs" />
-    <Compile Include="Ui\Views\Controls\UiEditBox.Windows.cs" />
     <Compile Include="Ui\Views\Controls\UiRadioButton.cs" />
     <Compile Include="Ui\Views\Controls\UiRichView.cs" />
     <Compile Include="Ui\Views\Controls\UiRectangle.cs" />
@@ -281,18 +284,18 @@
     <Reference Include="CommonMark">
       <HintPath>..\ThirdParty\Dependences\CommonMark\CommonMark.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\ThirdParty\Dependences\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\ThirdParty\Dependences\MonoGame\WindowsPhone81\MonoGame.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitana.Framework.Common">
-      <HintPath>..\_Bin\Sitana.Framework.Common.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IO\IsolatedStorageManager.WindowsPhone.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sitana.Framework.Common\Sitana.Framework.Common.Portable.csproj">
+      <Project>{9bd11040-37df-4f7d-a71e-7a4ac35cfe76}</Project>
+      <Name>Sitana.Framework.Common.Portable</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

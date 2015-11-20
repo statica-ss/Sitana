@@ -1,41 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
+using System.IO.Compression;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using ICSharpCode.SharpZipLib.Zip;
 
 namespace Sitana.Framework.IO
 {
-    #pragma warning disable 1998
     public class ZipReadStorageManager : StorageManager
     {
-        ZipFile _zipFile;
+        ZipArchive _zipFile;
 
         public ZipReadStorageManager(Stream stream)
         {
-            _zipFile = new ZipFile(stream);
+            _zipFile = new ZipArchive(stream);
         }
 
-        public async override Task<bool> FileExists(string path)
+        public override bool FileExists(string path)
         {
-            bool exists = _zipFile.FindEntry(path, false) != -1;
-            return exists;
+            var entry = _zipFile.GetEntry(path);
+            return entry != null;
         }
 
-        public async override Task<bool> DirectoryExists(string path)
+        public override bool DirectoryExists(string path)
         {
             path = path.Replace('\\', '/').Trim('/') + '/';
 
-            bool exists = _zipFile.FindEntry(path, false) != -1;
-            return exists;
+            var entry = _zipFile.GetEntry(path);
+            return entry != null;
         }
 
-        public async override Task<string[]> GetFileNames(string wildcard)
-        {
-            string pattern = "^" + Regex.Escape(ZipEntry.CleanName(wildcard)).Replace(@"\*", ".*").Replace(@"\?", ".") + "$";
+        public override string[] GetFileNames(string wildcard)
+        { 
+            string pattern = "^" + Regex.Escape(wildcard.Replace('\\', '/')).Replace(@"\*", ".*").Replace(@"\?", ".") + "$";
 
             // Now, run the Regex as you already know
             Regex regex;
@@ -43,58 +39,56 @@ namespace Sitana.Framework.IO
 
             List<string> files = new List<string>();
 
-            foreach (ZipEntry entry in _zipFile)
+            foreach (var entry in _zipFile.Entries)
             {
-                if(!entry.IsDirectory)
+                if(regex.IsMatch(entry.FullName))
                 {
-                    if(regex.IsMatch(entry.Name))
-                    {
-                        files.Add(Path.GetFileName(entry.Name));
-                    }
+                    files.Add(Path.GetFileName(entry.Name));
                 }
             }
 
             return files.ToArray();
         }
 
-        public async override Task CreateDirectory(string name)
+        public override void CreateDirectory(string name)
         {
             throw new NotImplementedException();
         }
 
-        public async override Task DeleteFile(string name)
+        public override void DeleteFile(string name)
         {
             throw new NotImplementedException();
         }
 
-        public async override Task DeleteDirectory(string name)
+        public override void DeleteDirectory(string name)
         {
             throw new NotImplementedException();
         }
 
-        public async override Task<Stream> OpenFile(string name, FileMode mode)
+        public override Stream OpenFile(string name, FileMode mode)
         {
             if(mode != FileMode.Open)
             {
                 throw new NotImplementedException();
             }
 
-            ZipEntry entry = _zipFile.GetEntry(ZipEntry.CleanName(name));
+            var entry = _zipFile.GetEntry(name.Replace('\\', '/'));
 
             if(entry == null)
             {
                 throw new FileNotFoundException("Cannot find file in zip archive.", name);
             }
 
-            var stream = _zipFile.GetInputStream(entry);
-            return stream;
+            return entry.Open();
         }
 
         public override void Dispose()
         {
-            _zipFile.IsStreamOwner = true;
-            _zipFile.Close();
+            if (_zipFile != null)
+            {
+                _zipFile.Dispose();
+                _zipFile = null;
+            }
         }
     }
-    #pragma warning restore 1998
 }

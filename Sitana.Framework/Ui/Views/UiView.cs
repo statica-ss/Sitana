@@ -2,19 +2,18 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
-using System;
-using Sitana.Framework.Input;
-using Sitana.Framework.Ui.Views.Parameters;
 using Microsoft.Xna.Framework;
-using Sitana.Framework.Graphics;
-using Sitana.Framework.Ui.Controllers;
-using System.Collections.Generic;
 using Sitana.Framework.Cs;
-using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Diagnostics;
-using Sitana.Framework.Xml;
 using Sitana.Framework.Input.TouchPad;
+using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Ui.Core;
+using Sitana.Framework.Ui.DefinitionFiles;
+using Sitana.Framework.Ui.Views.Parameters;
+using Sitana.Framework.Xml;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -181,7 +180,7 @@ namespace Sitana.Framework.Ui.Views
                 XNode childNode = node.Nodes[idx];
                 DefinitionFile newFile = DefinitionFile.LoadFile(childNode);
 
-                if (!newFile.Class.IsSubclassOf(drawableType))
+                if (!newFile.Class.GetTypeInfo().IsSubclassOf(drawableType))
                 {
                     string error = node.NodeError(String.Format("Drawable must inherit from {0} type.", drawableType.Name));
                     if (DefinitionParser.EnableCheckMode)

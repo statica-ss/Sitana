@@ -128,12 +128,12 @@ namespace Sitana.Framework.Diagnostics
             }
         }
 
-        public async static Task<string> LoadLog(bool removeExisting)
+        public static string LoadLog(bool removeExisting)
         {
             using (var storageManager = new IsolatedStorageManager())
             {
                 string text;
-                using (var stream = await storageManager.OpenFile("ServiceMode.log", FileMode.Open))
+                using (var stream = storageManager.OpenFile("ServiceMode.log", FileMode.Open))
                 {
                     var reader = new StreamReader(stream);
                     text = reader.ReadToEnd();   
@@ -141,14 +141,14 @@ namespace Sitana.Framework.Diagnostics
 
                 if(removeExisting)
                 {
-                    await storageManager.DeleteFile("ServiceMode.log");
+                    storageManager.DeleteFile("ServiceMode.log");
                 }
 
                 return text;
             }
         }
 
-        internal static async void Update()
+        internal static void Update()
         {
             if (_flush)
             {
@@ -162,7 +162,7 @@ namespace Sitana.Framework.Diagnostics
 
                 using(var storageManager = new IsolatedStorageManager())
                 {
-                    using(var stream = await storageManager.OpenFile("ServiceMode.log", FileMode.Append))
+                    using(var stream = storageManager.OpenFile("ServiceMode.log", FileMode.Append))
                     {
                         var writer = new StreamWriter(stream);
                         writer.AutoFlush = true;

@@ -24,15 +24,20 @@ namespace Sitana.Framework.Ui.Views
 
 			var parser = new DefinitionParser(node);
 
-			file["NativeInputMargin"] = parser.ParseMargin("NativeInputMargin");
-			file["NativeInputAlign"] = parser.ParseEnum<Align>("NativeInputAlign");
+            file["NativeInputMargin"] = parser.ParseMargin("NativeInputMargin");
+
+//#if WINDOWS_PHONE_APP
+//            file["NativeInputMargin"] = parser.ParseMargin("WindowsPhone.NativeInputMargin");
+//#endif
+
+            file["NativeInputAlign"] = parser.ParseEnum<Align>("NativeInputAlign");
 
 			#if __IOS__
 				file["NativeInputFontSize"] = parser.ParseInt("iOS.NativeInputFontSize");
 			#elif __ANDROID__
 				file["NativeInputFontSize"] = parser.ParseInt("Android.NativeInputFontSize");
-			#elif __WINDOWSPHONE__
-				file["NativeInputFontSize"] = parser.ParseInt("WindowsPhone.NativeInputFontSize");
+            #elif WINDOWS_PHONE_APP
+            file["NativeInputFontSize"] = parser.ParseInt("WindowsPhone.NativeInputFontSize");
 			#elif __WINRT__
 				file["NativeInputFontSize"] = parser.ParseInt("WindowsRT.NativeInputFontSize");
 			#endif
@@ -63,7 +68,7 @@ namespace Sitana.Framework.Ui.Views
 			if (text.Length > _maxLength)
 			{
 				text = text.Substring(0, _maxLength);
-			} 
+			}
 
 			object ret = CallDelegate("TextChanged", new InvokeParam("text", text));
 
@@ -146,6 +151,15 @@ namespace Sitana.Framework.Ui.Views
 			TouchPad.Instance.TouchDown -= OnTouchDown;
 		}
 
+        public override void SetText(string text)
+        {
+            base.SetText(text);
+            if(Focused)
+            {
+                _nativeInput.SetText(text);
+            }
+        }
+
 		void OnTouchDown(int id, Vector2 pos)
 		{
 			if ( Focused && !IsPointInsideView(pos))
@@ -208,6 +222,7 @@ namespace Sitana.Framework.Ui.Views
 			if (_nativeInput != null)
 			{
 				_nativeInput.Unfocus();
+                _nativeInput = null;
 			}
 
 			Focused = false;

@@ -43,12 +43,10 @@
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="Sitana.Framework.Common">
       <HintPath>..\_Bin\Sitana.Framework.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\ThirdParty\Dependences\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

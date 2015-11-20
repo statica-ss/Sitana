@@ -17,17 +17,9 @@
 // ///---------------------------------------------------------------------------
 //
 using System;
-using Ebatianos.Cs;
 using Microsoft.Xna.Framework;
-using Ebatianos.Gui;
-using System.Windows.Controls;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Threading;
 using Windows.Graphics.Display;
-using System.Windows.Media;
-using System.Reflection;
-using Microsoft.Phone.Controls;
+using Windows.UI.Xaml.Controls;
 
 namespace Ebatianos
 {
@@ -93,99 +85,97 @@ namespace Ebatianos
 
         public TextInput(Rectangle position, KeyboardContext keyboardContext, string text, int textSize, Align contentAlign, ITextEdit controller)
         {
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            
+            if (CurrentFocus != null)
             {
-                if (CurrentFocus != null)
+                CurrentFocus.UnfocusInternal();
+            }
+
+            _controller = controller;
+            CurrentFocus = this;
+
+            float dipFactor = DisplayProperties.LogicalDpi / 96.0f;
+
+            if (keyboardContext == KeyboardContext.Password)
+            {
+                _password = true;
+
+                Canvas.SetLeft(_passwordField, (position.X + 1) / dipFactor);
+                Canvas.SetTop(_passwordField, (position.Y + 2) / dipFactor);
+
+                _passwordField.Width = (position.Width - 2) / dipFactor;
+                _passwordField.Height = (position.Height - 4) / dipFactor;
+
+                SetText(text);
+
+                _passwordField.PasswordChanged += HandleEditingChangedPassword;
+                _passwordField.LostFocus += HandleEditingDidEnd;
+                _passwordField.KeyUp += HandleKeyUp;
+
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    CurrentFocus.UnfocusInternal();
+                    _passwordField.Visibility = Visibility.Visible;
+                    _passwordField.Focus();
+                    RootFrame.RenderTransform = new CompositeTransform();
+                });
+            }
+            else
+            {
+                Canvas.SetLeft(_textField, (position.X + 1) / dipFactor);
+                Canvas.SetTop(_textField, (position.Y + 2) / dipFactor);
+
+                _textField.Width = (position.Width - 2) / dipFactor;
+                _textField.Height = (position.Height - 4) / dipFactor;
+
+                switch (contentAlign & Align.Horz)
+                {
+                    case Align.Left:
+                        _textField.TextAlignment = TextAlignment.Left;
+                        break;
+
+                    case Align.Right:
+                        _textField.TextAlignment = TextAlignment.Right;
+                        break;
+
+                    case Align.Center:
+                        _textField.TextAlignment = TextAlignment.Center;
+                        break;
                 }
 
-                _controller = controller;
-                CurrentFocus = this;
+                _inputScope.Names.Clear();
+                _inputScope.Names.Add(NameFromContext(keyboardContext));
 
-                float dipFactor = DisplayProperties.LogicalDpi / 96.0f;
+                _uppercase = keyboardContext == KeyboardContext.Uppercase;
 
-                if (keyboardContext == KeyboardContext.Password)
+                if (keyboardContext == KeyboardContext.MultilineText)
                 {
-                    _password = true;
-
-                    Canvas.SetLeft(_passwordField, (position.X + 1) / dipFactor);
-                    Canvas.SetTop(_passwordField, (position.Y + 2) / dipFactor);
-
-                    _passwordField.Width = (position.Width - 2) / dipFactor;
-                    _passwordField.Height = (position.Height - 4) / dipFactor;
-
-                    SetText(text);
-
-                    _passwordField.PasswordChanged += HandleEditingChangedPassword;
-                    _passwordField.LostFocus += HandleEditingDidEnd;
-                    _passwordField.KeyUp += HandleKeyUp;
-
-                    Deployment.Current.Dispatcher.BeginInvoke(() =>
-                    {
-                        _passwordField.Visibility = Visibility.Visible;
-                        _passwordField.Focus();
-                        RootFrame.RenderTransform = new CompositeTransform();
-                    });
+                    _textField.VerticalContentAlignment = VerticalAlignment.Top;
+                    _textField.AcceptsReturn = true;
+                    _textField.TextWrapping = TextWrapping.Wrap;
+                    _multiline = true;
                 }
+
                 else
                 {
-                    Canvas.SetLeft(_textField, (position.X + 1) / dipFactor);
-                    Canvas.SetTop(_textField, (position.Y + 2) / dipFactor);
-
-                    _textField.Width = (position.Width - 2) / dipFactor;
-                    _textField.Height = (position.Height - 4) / dipFactor;
-
-                    switch (contentAlign & Align.Horz)
-                    {
-                        case Align.Left:
-                            _textField.TextAlignment = TextAlignment.Left;
-                            break;
-
-                        case Align.Right:
-                            _textField.TextAlignment = TextAlignment.Right;
-                            break;
-
-                        case Align.Center:
-                            _textField.TextAlignment = TextAlignment.Center;
-                            break;
-                    }
-
-                    _inputScope.Names.Clear();
-                    _inputScope.Names.Add(NameFromContext(keyboardContext));
-
-                    _uppercase = keyboardContext == KeyboardContext.Uppercase;
-
-                    if (keyboardContext == KeyboardContext.MultilineText)
-                    {
-                        _textField.VerticalContentAlignment = VerticalAlignment.Top;
-                        _textField.AcceptsReturn = true;
-                        _textField.TextWrapping = TextWrapping.Wrap;
-                        _multiline = true;
-                    }
-
-                    else
-                    {
-                        _textField.VerticalContentAlignment = VerticalAlignment.Center;
-                        _textField.AcceptsReturn = false;
-                        _textField.TextWrapping = TextWrapping.NoWrap;
-                        _multiline = false;
-                    }
-
-                    SetText(text);
-
-                    _textField.TextChanged += HandleEditingChanged;
-                    _textField.LostFocus += HandleEditingDidEnd;
-                    _textField.KeyUp += HandleKeyUp;
-
-                    Deployment.Current.Dispatcher.BeginInvoke(() =>
-                    {
-                        _textField.Visibility = Visibility.Visible;
-                        _textField.Focus();
-                        RootFrame.RenderTransform = new CompositeTransform();
-                    });
+                    _textField.VerticalContentAlignment = VerticalAlignment.Center;
+                    _textField.AcceptsReturn = false;
+                    _textField.TextWrapping = TextWrapping.NoWrap;
+                    _multiline = false;
                 }
-            });
+
+                SetText(text);
+
+                _textField.TextChanged += HandleEditingChanged;
+                _textField.LostFocus += HandleEditingDidEnd;
+                _textField.KeyUp += HandleKeyUp;
+
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    _textField.Visibility = Visibility.Visible;
+                    _textField.Focus();
+                    RootFrame.RenderTransform = new CompositeTransform();
+                });
+            };
         }
 
         void HandleKeyUp(object sender, KeyEventArgs e)

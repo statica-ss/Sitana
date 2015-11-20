@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Sitana.Framework
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         public static Point ToPoint(this Vector2 vec)
         {

@@ -19,73 +19,114 @@ namespace Sitana.Framework.IO
 
         public IsolatedStorageManager()
         {
-            _storage = Platform.GetUserStoreForApplication();
+            _storage = ApplicationData.Current.LocalFolder;
         }
 
-        public async override Task<bool> FileExists(string path)
+        public override bool FileExists(string path)
         {
-            var file = await _storage.GetFileAsync(path);
-            return file != null;
+            return Task.Run<bool>(async () =>
+                {
+                    try
+                    {
+                        var file = await _storage.GetFileAsync(path);
+                        return file != null;
+                    }
+                    catch
+                    {
+
+                    }
+
+                    return false;
+                }).Result;
         }
 
-        public async override Task<bool> DirectoryExists(string path)
+        public override bool DirectoryExists(string path)
         {
-            var folder = await _storage.GetFolderAsync(path);
-            return folder != null;
-        }
-
-        public async override Task<string[]> GetFileNames(string pattern)
-        {
-            var files = await _storage.GetFilesAsync(CommonFileQuery.DefaultQuery);
-
-			return await Task.Run<string[]>( ()=>
-				{
-					List<string> filePaths = new List<string>();
-
-					Wildcard wildcard = new Wildcard(pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-
-					foreach(var file in files)
-					{
-						if(wildcard.IsMatch(file.Name))
-						{
-							filePaths.Add(file.Name);
-						}
-					}
-
-					return filePaths.ToArray();
-                });
-        }
-
-        public async override Task CreateDirectory(string name)
-        {
-            await _storage.CreateFolderAsync(name);
-        }
-
-        public async override Task DeleteFile(string name)
-        {
-            var file = await _storage.GetFileAsync(name);
-            await file.DeleteAsync();
-        }
-
-        public async override Task DeleteDirectory(string name)
-        {
-            var folder = await _storage.GetFolderAsync(name);
-            await folder.DeleteAsync();
-        }
-
-        public async override Task<Stream> OpenFile(string name, FileMode mode)
-        {
-			switch(mode)
+            return Task.Run<bool>(async () =>
             {
-				case FileMode.Create:
-                    return await _storage.OpenStreamForWriteAsync(name, CreationCollisionOption.ReplaceExisting);
+                try
+                {
+                    var folder = await _storage.GetFolderAsync(path);
+                    return folder != null;
+                }
+                catch
+                {
+
+                }
+
+                return false;
+            }).Result;
+        }
+
+        public override string[] GetFileNames(string pattern)
+        {
+            string dir = Path.GetDirectoryName(pattern);
+            pattern = Path.GetFileName(pattern);
+
+            IReadOnlyList<StorageFile> files = null;
+
+            if (dir.IsNullOrWhiteSpace())
+            {
+                files = Task.Run<IReadOnlyList<StorageFile>>(async () => await _storage.GetFilesAsync(CommonFileQuery.DefaultQuery)).Result;
+            }
+            else
+            {
+                var folder = Task.Run<StorageFolder>(async () => await _storage.GetFolderAsync(dir)).Result;
+                files = Task.Run<IReadOnlyList<StorageFile>>(async () => await folder.GetFilesAsync()).Result;
+            }
+
+			List<string> filePaths = new List<string>();
+
+			Wildcard wildcard = new Wildcard(pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+
+			foreach(var file in files)
+			{
+				if(wildcard.IsMatch(file.Name))
+				{
+					filePaths.Add(file.Name);
+				}
+			}
+
+			return filePaths.ToArray();
+        }
+
+        public override void CreateDirectory(string name)
+        {
+            Task.Run(async () => await _storage.CreateFolderAsync(name)).Wait();
+        }
+
+        public override void DeleteFile(string name)
+        {
+            Task.Run(async () =>
+                {
+                    var file = await _storage.GetFileAsync(name);
+                    await file.DeleteAsync();
+                }).Wait();
+        }
+
+        public override void DeleteDirectory(string name)
+        {
+            Task.Run(async () =>
+            {
+                var folder = await _storage.GetFolderAsync(name);
+                await folder.DeleteAsync();
+            }).Wait();
+        }
+
+        public override Stream OpenFile(string name, FileMode mode)
+        {
+            switch (mode)
+            {
+                case FileMode.Create:
+                    return Task.Run<Stream>(() => _storage.OpenStreamForWriteAsync(name, CreationCollisionOption.ReplaceExisting).Result).Result;
 
                 case FileMode.Open:
-                    return await _storage.OpenStreamForReadAsync(name);
+                    return Task.Run<Stream>(() => _storage.OpenStreamForReadAsync(name)).Result;
 
                 case FileMode.Append:
-                    return await _storage.OpenStreamForWriteAsync(name, CreationCollisionOption.OpenIfExists);
+                    return Task.Run<Stream>(() => _storage.OpenStreamForWriteAsync(name, CreationCollisionOption.OpenIfExists)).Result;
             }
+            
 
             throw new NotImplementedException();
         }

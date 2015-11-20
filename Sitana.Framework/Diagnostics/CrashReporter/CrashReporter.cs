@@ -79,15 +79,15 @@ namespace Sitana.Framework.Diagnostics
             Serialize();
         }
 
-        async void LoadLastSession()
+        void LoadLastSession()
         {
             try
             {
                 using (var store = new IsolatedStorageManager())
                 {
-                    if (await store.FileExists("CrashReporter"))
+                    if (store.FileExists("CrashReporter"))
                     {
-                        using (Stream stream = await store.OpenFile("CrashReporter", FileMode.Open))
+                        using (Stream stream = store.OpenFile("CrashReporter", FileMode.Open))
                         {
                             BinaryReader reader = new BinaryReader(stream);
 
@@ -168,11 +168,11 @@ namespace Sitana.Framework.Diagnostics
             Serialize();
         }
 
-        private async void Serialize()
+        private void Serialize()
         {
             using (var store = new IsolatedStorageManager())
             {
-                using (Stream stream = await store.OpenFile("CrashReporter", FileMode.Create))
+                using (Stream stream = store.OpenFile("CrashReporter", FileMode.Create))
                 {
                     BinaryWriter writer = new BinaryWriter(stream);
 

@@ -56,6 +56,7 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\ThirdParty\Dependences\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="System.IO.Compression" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />

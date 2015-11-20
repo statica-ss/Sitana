@@ -9,50 +9,49 @@ using System.Threading.Tasks;
 
 namespace Sitana.Framework.IO
 {
-    #pragma warning disable 1998
     public class IsolatedStorageManager: StorageManager
     {
         IsolatedStorageFile _storage;
 
         public IsolatedStorageManager()
         {
-            _storage = Platform.GetUserStoreForApplication();
+            _storage = Platform.UserStore;
         }
 
-        public async override Task<bool> FileExists(string path)
+        public override bool FileExists(string path)
         {
             bool result = _storage.FileExists(path);
             return result;
         }
 
-        public async override Task<bool> DirectoryExists(string path)
+        public override bool DirectoryExists(string path)
         {
             bool result = _storage.DirectoryExists(path);
             return result;
         }
 
-        public async override Task<string[]> GetFileNames(string pattern)
+        public override string[] GetFileNames(string pattern)
         {
             string[] result = _storage.GetFileNames(pattern);
             return result;
         }
 
-        public async override Task CreateDirectory(string name)
+        public override void CreateDirectory(string name)
         {
             _storage.CreateDirectory(name);
         }
 
-        public async override Task DeleteFile(string name)
+        public override void DeleteFile(string name)
         {
             _storage.DeleteFile(name);
         }
 
-        public async override Task DeleteDirectory(string name)
+        public override void DeleteDirectory(string name)
         {
             _storage.DeleteDirectory(name);
         }
 
-        public async override Task<Stream> OpenFile(string name, FileMode mode)
+        public override Stream OpenFile(string name, FileMode mode)
         {
             Stream result = _storage.OpenFile(name, mode);
             return result;
@@ -67,5 +66,4 @@ namespace Sitana.Framework.IO
             }
         }
     }
-    #pragma warning restore 1998
 }

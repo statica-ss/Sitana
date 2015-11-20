@@ -18,11 +18,28 @@ namespace Sitana.Framework
 {
     public static class Platform
     {
+        [Obsolete("GetUserStoreForApplication is deprecated, please use IsolatedStorageManager instead.", true)]
         public static IsolatedStorageFile GetUserStoreForApplication()
         {
-            return IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly | IsolatedStorageScope.Domain, typeof(System.Security.Policy.Url), typeof(System.Security.Policy.Url));
+            throw new InvalidOperationException();
         }
-        
+
+        internal static IsolatedStorageFile UserStore
+        {
+            get
+            {
+                return IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly | IsolatedStorageScope.Domain, typeof(System.Security.Policy.Url), typeof(System.Security.Policy.Url));
+            }
+        }
+
+        public static Assembly MainAssembly
+        {
+            get
+            {
+                return Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+            }
+        }
+
         public static bool CloseApp()
         {
             return false;
