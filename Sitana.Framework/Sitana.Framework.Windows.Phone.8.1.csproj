@@ -282,7 +282,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CommonMark">
-      <HintPath>..\ThirdParty\Dependences\CommonMark\CommonMark.dll</HintPath>
+      <HintPath>..\ThirdParty\Dependences\CommonMark.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\ThirdParty\Dependences\MonoGame\WindowsPhone81\MonoGame.Framework.dll</HintPath>
