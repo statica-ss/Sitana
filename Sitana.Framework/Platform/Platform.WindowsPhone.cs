@@ -49,8 +49,8 @@ namespace Sitana.Framework
         {
             get
             {
-                //Version version = Assembly.GetEntryAssembly().GetName().Version;
-                return "1.0";// version.ToString();
+                Version version = MainAssembly.GetName().Version;
+                return version.ToString();
             }
         }
 
@@ -58,7 +58,7 @@ namespace Sitana.Framework
         {
             get
             {
-                return "1.0";// System.Environment.OSVersion.ToString();
+                return "8.1 | 10";//System.Environment..ToString();
             }
         }
 
@@ -66,7 +66,7 @@ namespace Sitana.Framework
         {
             get
             {
-                return "Windows Phone 8.1";
+                return "Windows Phone";
             }
         }
 
@@ -85,11 +85,13 @@ namespace Sitana.Framework
                 HardwareToken token = HardwareIdentification.GetPackageSpecificToken(null);
                 IBuffer hardwareId = token.Id;
 
-                byte[] bytes;
-                CryptographicBuffer.CopyToByteArray(token.Id, out bytes);
-                bytes = SHA.ComputeSHA1(bytes);
+                HashAlgorithmProvider hasher = HashAlgorithmProvider.OpenAlgorithm("MD5");
+                IBuffer hashed = hasher.HashData(hardwareId);
 
-                return BitConverter.ToString(bytes, 0, bytes.Length).Replace("-", "");
+                byte[] bytes;
+                CryptographicBuffer.CopyToByteArray(hashed, out bytes);
+
+                return new Guid(bytes).ToString();
             }
         }
 
