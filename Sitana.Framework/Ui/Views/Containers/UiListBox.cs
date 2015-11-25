@@ -235,6 +235,7 @@ namespace Sitana.Framework.Ui.Views
                             view.Parent = this;
                             view.RegisterView();
                             view.ViewAdded();
+							view.ViewUpdate(0);
                             added++;
                         }
                         else
@@ -246,22 +247,22 @@ namespace Sitana.Framework.Ui.Views
                     Rectangle bounds = CalculateItemBounds(view);
                     Point size = view.ComputeSize(Bounds.Width, Bounds.Height);
 
-                    if (_vertical)
-                    {
-                        bounds.Height = size.Y;
-                        bounds.Y = position.Y + view.PositionParameters.Margin.Top;
+					if (_vertical)
+					{
+						bounds.Height = size.Y;
+						bounds.Y = position.Y + view.PositionParameters.Margin.Top;
 
-                        position.Y = bounds.Bottom + view.PositionParameters.Margin.Bottom;
-                    }
-                    else
-                    {
-                        bounds.Width = size.X;
-                        bounds.X = position.X + view.PositionParameters.Margin.Left;
+						position.Y = bounds.Bottom + view.PositionParameters.Margin.Bottom;
+					}
+					else
+					{
+						bounds.Width = size.X;
+						bounds.X = position.X + view.PositionParameters.Margin.Left;
 
-                        position.X = bounds.Right + view.PositionParameters.Margin.Right;
-                    }
+						position.X = bounds.Right + view.PositionParameters.Margin.Right;
+					}
 
-                    view.Bounds = bounds;
+					view.Bounds = bounds;
                 }
 
                 _maxScroll = new Point(_updateScrollPosition.X + position.X, _updateScrollPosition.Y + position.Y);
@@ -363,7 +364,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 var child = _children[idx];
 
-                if (bounds.Intersects(child.Bounds))
+				if (bounds.Intersects(child.Bounds))
                 {
                     child.ViewDraw(ref drawParams);
                 }

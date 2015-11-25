@@ -83,6 +83,7 @@ namespace Sitana.Framework.Ui.Views
                     CallDelegate("ExpandFinished");
                 }
 
+				_sizeCanChange = SizeChangeDimension.Both;
                 update = true;
             }
             else if(_expandedValue > desiredValue)
@@ -90,6 +91,7 @@ namespace Sitana.Framework.Ui.Views
                 _expandedValue -= time * _expandSpeed;
                 _expandedValue = Math.Max(0, _expandedValue);
                 update = true;
+				_sizeCanChange = SizeChangeDimension.Both; 
 
                 if (_expandedValue == 0)
                 {

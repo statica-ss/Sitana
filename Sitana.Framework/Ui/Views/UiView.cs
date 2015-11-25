@@ -298,6 +298,19 @@ namespace Sitana.Framework.Ui.Views
         public event ViewDisplayChangedDelegate ViewDisplayChanged;
         public event ViewSizeChangedDelegate ViewSizeChanged;
 
+		public bool IsSizeStable { get; protected set; }
+
+		[Flags]
+		protected enum SizeChangeDimension
+		{
+			None = 0,
+			Width = 1,
+			Height = 2,
+			Both = Width | Height
+		}
+
+		protected SizeChangeDimension _sizeCanChange = SizeChangeDimension.None;
+
         public bool IsViewDisplayed
         {
             get
@@ -580,6 +593,8 @@ namespace Sitana.Framework.Ui.Views
                 }
             }
 
+			bool sizeStable = true;
+
             if ( _lastSize != Bounds)
             {
                 if (_lastSize.Height != Bounds.Height || _lastSize.Width != Bounds.Width)
@@ -593,14 +608,45 @@ namespace Sitana.Framework.Ui.Views
                     {
                         ViewSizeChanged(Bounds);
                     }
+
+					if (_lastSize.Height != Bounds.Height && !_sizeCanChange.HasFlag(SizeChangeDimension.Height))
+					{
+						sizeStable = false;
+					}
+
+					if (_lastSize.Width != Bounds.Width && !_sizeCanChange.HasFlag(SizeChangeDimension.Width))
+					{
+						sizeStable = false;
+					}
                 }
 
                 _lastSize = Bounds;
-
                 AppMain.Redraw();
             }
 
+			_sizeCanChange = SizeChangeDimension.None;
+			IsSizeStable = sizeStable;
+
             Update(time);
+
+			while (!IsSizeStable)
+			{
+				IsSizeStable = true;
+				Update(0);
+
+				if (_lastSize.Width != Bounds.Width || _lastSize.Height != Bounds.Height)
+				{
+					OnSizeChanged();
+
+					if(ViewSizeChanged != null)
+					{
+						ViewSizeChanged(Bounds);
+					}
+
+					IsSizeStable = false;
+					_lastSize = Bounds;
+				}
+			}
         }
 
         internal void ViewActivated()
