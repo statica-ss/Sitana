@@ -132,7 +132,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 var child = _children[idx];
 
-                if (child.Bounds.Intersects(bound))
+				if (child.Bounds.Intersects(bound))
                 {
                     child.ViewDraw(ref drawParams);
                 }
@@ -172,12 +172,17 @@ namespace Sitana.Framework.Ui.Views
                 _expandedValue = Math.Min(1, _expandedValue);
 
                 update = true;
+
+				_sizeCanChange = SizeChangeDimension.Both; 
+
             }
             else if (_expandedValue > desiredValue)
             {
                 _expandedValue -= time * _expandSpeed;
                 _expandedValue = Math.Max(0, _expandedValue);
                 update = true;
+
+				_sizeCanChange = SizeChangeDimension.Both; 
             }
 
             if (update)

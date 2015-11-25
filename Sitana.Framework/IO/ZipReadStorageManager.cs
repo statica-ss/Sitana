@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Text.RegularExpressions;
+using System.IO.Compression;
 
 namespace Sitana.Framework.IO
 {
@@ -12,7 +12,7 @@ namespace Sitana.Framework.IO
 
         public ZipReadStorageManager(Stream stream)
         {
-            _zipFile = new ZipArchive(stream);
+			_zipFile = new ZipArchive(stream, ZipArchiveMode.Read, false, System.Text.Encoding.UTF8);
         }
 
         public override bool FileExists(string path)

@@ -48,6 +48,9 @@
     <Reference Include="CommonMark">
       <HintPath>..\ThirdParty\Dependences\CommonMark.dll</HintPath>
     </Reference>
+    <Reference Include="Zlib.Portable">
+      <HintPath>..\ThirdParty\Dependences\Zlib.Portable.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ContentGenerators\" />
