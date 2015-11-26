@@ -31,6 +31,9 @@ namespace Sitana.Framework.Ui.Views
 
             file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
             file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
+
+            file["CollapseFinished"] = parser.ParseDelegate("CollapseFinished");
+            file["ExpandFinished"] = parser.ParseDelegate("ExpandFinished");
         }
 
         public enum Mode
@@ -171,18 +174,27 @@ namespace Sitana.Framework.Ui.Views
                 _expandedValue += time * _expandSpeed;
                 _expandedValue = Math.Min(1, _expandedValue);
 
-                update = true;
+                if(_expandedValue == 1)
+                {
+                    CallDelegate("ExpandFinished");
+                }
 
-				_sizeCanChange = SizeChangeDimension.Both; 
+                update = true;
+				_sizeCanChange = SizeChangeDimension.Both;
 
             }
             else if (_expandedValue > desiredValue)
             {
                 _expandedValue -= time * _expandSpeed;
                 _expandedValue = Math.Max(0, _expandedValue);
-                update = true;
 
-				_sizeCanChange = SizeChangeDimension.Both; 
+                if(_expandedValue == 0)
+                {
+                    CallDelegate("CollapseFinished");
+                }
+
+                update = true;
+				_sizeCanChange = SizeChangeDimension.Both;
             }
 
             if (update)
@@ -667,6 +679,9 @@ namespace Sitana.Framework.Ui.Views
             {
                 _expandSpeed = 10000;
             }
+
+            RegisterDelegate("CollapseFinished", file["CollapseFinished"]);
+            RegisterDelegate("ExpandFinished", file["ExpandFinished"]);
 
             InitChildren(Controller, Binding, definition);
 
