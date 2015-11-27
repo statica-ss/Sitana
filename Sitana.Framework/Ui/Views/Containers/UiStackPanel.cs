@@ -25,6 +25,7 @@ namespace Sitana.Framework.Ui.Views
             file["NotifyParentOnResize"] = parser.ParseBoolean("NotifyParentOnResize");
 
             file["ExpandTime"] = parser.ParseInt("ExpandTime");
+            file["CollapseTime"] = parser.ParseInt("CollapseTime");
             file["Expanded"] = parser.ParseBoolean("Expanded");
 
             file["Wrap"] = parser.ParseBoolean("Wrap");
@@ -53,6 +54,7 @@ namespace Sitana.Framework.Ui.Views
         bool _recalculateAllParent = true;
 
         double _expandSpeed;
+        double _collapseSpeed;
         double _expandedValue;
 
         int _currentWrapPos;
@@ -91,6 +93,14 @@ namespace Sitana.Framework.Ui.Views
             {
                 _padding = new Length(value);
                 RecalcLayout();
+            }
+        }
+
+        public override bool ForceUpdate
+        {
+            get
+            {
+                return _expandedValue != 0 && _expandedValue != 1;
             }
         }
 
@@ -187,7 +197,7 @@ namespace Sitana.Framework.Ui.Views
             }
             else if (_expandedValue > desiredValue)
             {
-                _expandedValue -= time * _expandSpeed;
+                _expandedValue -= time * _collapseSpeed;
                 _expandedValue = Math.Max(0, _expandedValue);
 
                 if(_expandedValue == 0)
@@ -671,6 +681,8 @@ namespace Sitana.Framework.Ui.Views
             _expanded = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Expanded"], true);
 
             _expandSpeed = DefinitionResolver.Get<int>(Controller, Binding, file["ExpandTime"], 0);
+            _collapseSpeed = DefinitionResolver.Get<int>(Controller, Binding, file["CollapseTime"], (int)_expandSpeed);
+
             _expandedValue = _expanded.Value ? 1 : 0;
 
             if (_expandSpeed > 0)
@@ -680,6 +692,15 @@ namespace Sitana.Framework.Ui.Views
             else
             {
                 _expandSpeed = 10000;
+            }
+
+            if (_collapseSpeed > 0)
+            {
+                _collapseSpeed = 1000 / _collapseSpeed;
+            }
+            else
+            {
+                _collapseSpeed = 10000;
             }
 
             RegisterDelegate("CollapseFinished", file["CollapseFinished"]);

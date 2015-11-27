@@ -33,6 +33,15 @@ namespace Sitana.Framework.Ui.Views
         double _expandSpeed;
         double _expandedValue;
 
+
+        public override bool ForceUpdate
+        {
+            get
+            {
+                return _expandedValue != 0 && _expandedValue != 1;
+            }
+        }
+
         protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
             if(!base.Init(controller, binding, definition))

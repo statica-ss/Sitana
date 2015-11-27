@@ -106,8 +106,6 @@ namespace Sitana.Framework.Ui.Views
         DefinitionFile _template;
         Dictionary<Type, DefinitionFile> _additionalTemplates;
 
-        List<object> _forceUpdate = new List<object>();
-
         IItemsProvider _items = null;
         bool _recalculate = true;
         bool _vertical = false;
@@ -131,6 +129,9 @@ namespace Sitana.Framework.Ui.Views
 
         int _maxAddOneTime = 32;
         bool _clearChildren = false;
+
+        object _lockedItem = null;
+        double _lockedTimer = 0;
 
         public ScrollingService ScrollingService
         {
@@ -272,19 +273,16 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public void ForceUpdate(object item, bool force)
+        public void LockVisible(object item, double time)
         {
-            if(force)
-            {
-                if(!_forceUpdate.Contains(item))
-                {
-                    _forceUpdate.Add(item);
-                }
-            }
-            else
-            {
-                _forceUpdate.Remove(item);
-            }
+            _lockedItem = item;
+            _lockedTimer = time;
+        }
+
+        public void UnlockVisible()
+        {
+            _lockedItem = null;
+            _lockedTimer = 0;
         }
 
         protected override void Update(float time)
@@ -295,7 +293,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 var child = _children[idx];
 
-                if (listBounds.Intersects(child.Bounds) || _forceUpdate.Contains(child.Binding))
+                if ( child.ForceUpdate || listBounds.Intersects(child.Bounds) || _lockedItem == child.Binding)
                 {
                     child.ViewUpdate(time);
                 }
@@ -349,6 +347,41 @@ namespace Sitana.Framework.Ui.Views
                         child.Move(diff);
                     }
                 }
+            }
+
+            while(_lockedItem != null)
+            {
+                if(_lockedTimer > 0 )
+                {
+                    _lockedTimer -= time;
+                    if(_lockedTimer <= 0)
+                    {
+                        _lockedTimer = 0;
+                        _lockedItem = null;
+                        break;
+                    }
+                }
+
+                UiView child;
+                if(_bindingToElement.TryGetValue(_lockedItem, out child))
+                {
+                    if(_vertical)
+                    {
+                        if(child.Bounds.Y < 0 || child.Bounds.Bottom > Bounds.Height)
+                        {
+                            Show(_lockedItem);
+                        }
+                    }
+                    else
+                    {
+                        if (child.Bounds.X < 0 || child.Bounds.Right > Bounds.Width)
+                        {
+                            Show(_lockedItem);
+                        }
+                    }
+                }
+
+                break;
             }
         }
 
@@ -473,7 +506,11 @@ namespace Sitana.Framework.Ui.Views
             {
                 if(_vertical)
                 {
-                    if(view.Bounds.Bottom > Bounds.Height)
+                    if (view.Bounds.Top < 0)
+                    {
+                        _scrollingService.ScrollPositionY += view.Bounds.Top;
+                    }
+                    else if(view.Bounds.Bottom > Bounds.Height)
                     {
                         if(view.Bounds.Height > Bounds.Height)
                         {
@@ -484,17 +521,16 @@ namespace Sitana.Framework.Ui.Views
                             _scrollingService.ScrollPositionY += view.Bounds.Bottom - Bounds.Height;
                         }
                     }
-
-                    if (view.Bounds.Top < 0)
-                    {
-                        _scrollingService.ScrollPositionY += view.Bounds.Top;
-                    }
                     
                     _scrollingService.Process();
                 }
                 else
                 {
-                    if (view.Bounds.Right > Bounds.Width)
+                    if (view.Bounds.Left < 0)
+                    {
+                        _scrollingService.ScrollPositionX += view.Bounds.Left;
+                    }
+                    else if (view.Bounds.Right > Bounds.Width)
                     {
                         if(view.Bounds.Width > Bounds.Width)
                         {
@@ -504,11 +540,6 @@ namespace Sitana.Framework.Ui.Views
                         {
                             _scrollingService.ScrollPositionX += view.Bounds.Right - Bounds.Width;
                         }
-                    }
-
-                    if (view.Bounds.Left < 0)
-                    {
-                        _scrollingService.ScrollPositionX += view.Bounds.Left;
                     }
 
                     _scrollingService.Process();

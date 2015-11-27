@@ -263,6 +263,14 @@ namespace Sitana.Framework.Ui.Views
 
         public IBackgroundDrawable BackgroundDrawable { get; set; }
 
+        public virtual bool ForceUpdate
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         protected Length _minWidth;
         protected Length _minHeight;
 
