@@ -110,6 +110,8 @@ namespace Sitana.Framework.Ui.Views
         DefinitionFile _template;
         Dictionary<Type, DefinitionFile> _additionalTemplates;
 
+        List<object> _forceUpdate = new List<object>();
+
         IItemsProvider _items = null;
         bool _recalculate = true;
         bool _vertical = false;
@@ -276,6 +278,21 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        public void ForceUpdate(object item, bool force)
+        {
+            if(force)
+            {
+                if(!_forceUpdate.Contains(item))
+                {
+                    _forceUpdate.Add(item);
+                }
+            }
+            else
+            {
+                _forceUpdate.Remove(item);
+            }
+        }
+
         protected override void Update(float time)
         {
             Rectangle listBounds = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
@@ -284,7 +301,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 var child = _children[idx];
 
-                if (listBounds.Intersects(child.Bounds))
+                if (listBounds.Intersects(child.Bounds) || _forceUpdate.Contains(child.Binding))
                 {
                     child.ViewUpdate(time);
                 }
@@ -464,7 +481,14 @@ namespace Sitana.Framework.Ui.Views
                 {
                     if(view.Bounds.Bottom > Bounds.Height)
                     {
-                        _scrollingService.ScrollPositionY += view.Bounds.Bottom - Bounds.Height;
+                        if(view.Bounds.Height > Bounds.Height)
+                        {
+                            _scrollingService.ScrollPositionY += view.Bounds.Top;
+                        }
+                        else
+                        {
+                            _scrollingService.ScrollPositionY += view.Bounds.Bottom - Bounds.Height;
+                        }
                     }
 
                     if (view.Bounds.Top < 0)
@@ -478,7 +502,14 @@ namespace Sitana.Framework.Ui.Views
                 {
                     if (view.Bounds.Right > Bounds.Width)
                     {
-                        _scrollingService.ScrollPositionX += view.Bounds.Right - Bounds.Width;
+                        if(view.Bounds.Width > Bounds.Width)
+                        {
+                            _scrollingService.ScrollPositionX += view.Bounds.Left;
+                        }
+                        else
+                        {
+                            _scrollingService.ScrollPositionX += view.Bounds.Right - Bounds.Width;
+                        }
                     }
 
                     if (view.Bounds.Left < 0)
