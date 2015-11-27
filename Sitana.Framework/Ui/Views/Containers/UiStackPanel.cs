@@ -134,8 +134,10 @@ namespace Sitana.Framework.Ui.Views
             for (int idx = 0; idx < _children.Count; ++idx)
             {
                 var child = _children[idx];
+                Rectangle childBounds = child.Bounds;
 
-				if (child.Bounds.Intersects(bound))
+                if(childBounds.X < bound.Width && childBounds.Y < bound.Height &&
+                    childBounds.Right >= 0 && childBounds.Bottom >= 0)
                 {
                     child.ViewDraw(ref drawParams);
                 }
