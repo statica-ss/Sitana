@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Sitana.Framework.Xml;
-using Sitana.Framework.Ui.DefinitionFiles;
+﻿using Microsoft.Xna.Framework;
 using Sitana.Framework.Diagnostics;
-using Microsoft.Xna.Framework;
-using Sitana.Framework.Ui.Binding;
-using Sitana.Framework.Ui.Views.Parameters;
 using Sitana.Framework.Input.TouchPad;
-using Sitana.Framework.Ui.Core;
+using Sitana.Framework.Ui.Binding;
+using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Interfaces;
-using System.Threading.Tasks;
+using Sitana.Framework.Ui.Views.Parameters;
+using Sitana.Framework.Xml;
+using System;
+using System.Collections.Generic;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -135,8 +131,6 @@ namespace Sitana.Framework.Ui.Views
 
         int _maxAddOneTime = 32;
         bool _clearChildren = false;
-
-        List<Task> _updateTasks = new List<Task>();
 
         public ScrollingService ScrollingService
         {
