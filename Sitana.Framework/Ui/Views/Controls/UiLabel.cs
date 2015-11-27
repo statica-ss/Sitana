@@ -54,13 +54,19 @@ namespace Sitana.Framework.Ui.Views
 
         protected int _lineHeight;
 
-        //protected string _fontName;
         protected Margin _textMargin;
 
-        protected FontFace _fontFace = null;
         public TextAlign TextAlign {get;set;}
 
         protected UiFont _font;
+
+        protected virtual UiFont Font
+        {
+            get
+            {
+                return _font;
+            }
+        }
 
         Length _maxWidth;
         protected float _rescale = 1;
@@ -76,7 +82,9 @@ namespace Sitana.Framework.Ui.Views
 
             base.Draw(ref parameters);
 
-            float scale = _font.Scale;
+            UiFont font = Font;
+
+            float scale = font.Scale;
             scale *= _rescale;
 
             Rectangle bounds = ScreenBounds;
@@ -86,7 +94,7 @@ namespace Sitana.Framework.Ui.Views
                 bounds =  _textMargin.ComputeRect(bounds);
             }
 
-            parameters.DrawBatch.DrawText(_font.Font, Text, bounds, TextAlign, TextColor.Value * opacity, _font.Spacing, (float)_lineHeight / 100.0f, scale, _rotation);
+            parameters.DrawBatch.DrawText(font.Font, Text, bounds, TextAlign, TextColor.Value * opacity, font.Spacing, (float)_lineHeight / 100.0f, scale, _rotation);
         }
 
         public override Point ComputeSize(int width, int height)
@@ -119,9 +127,11 @@ namespace Sitana.Framework.Ui.Views
 
             Vector2 size;
 
+            UiFont font = Font;
+
             lock (Text)
             {
-                size = _font.Font.MeasureString(Text.StringBuilder, _font.Spacing, (float)_lineHeight / 100.0f);
+                size = font.Font.MeasureString(Text.StringBuilder, font.Spacing, (float)_lineHeight / 100.0f);
             }
 
             switch(_rotation)
@@ -139,7 +149,7 @@ namespace Sitana.Framework.Ui.Views
                 marginIfText = new Vector2(_textMargin.Width, _textMargin.Height);
             }
 
-            float scale = _font.Scale;
+            float scale = font.Scale;
             size = size * scale + marginIfText;
             
             int maxWidth = _maxWidth.Compute(Parent.Bounds.Width);
