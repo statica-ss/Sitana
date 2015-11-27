@@ -11,6 +11,7 @@ using Sitana.Framework.Ui.Views.Parameters;
 using Sitana.Framework.Input.TouchPad;
 using Sitana.Framework.Ui.Core;
 using Sitana.Framework.Ui.Interfaces;
+using System.Threading.Tasks;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -25,6 +26,7 @@ namespace Sitana.Framework.Ui.Views
             file["Items"] = parser.ParseDelegate("Items");
             file["Mode"] = parser.ParseEnum<Mode>("Mode");
             file["Reverse"] = parser.ParseBoolean("Reverse");
+            file["MaxAddOneTime"] = parser.ParseInt("MaxAddOneTime");
             file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
 			file["WheelScrollSpeed"] = parser.ParseDouble("WheelScrollSpeed");
 
@@ -132,6 +134,8 @@ namespace Sitana.Framework.Ui.Views
         int _maxAddOneTime = 32;
         bool _clearChildren = false;
 
+        List<Task> _updateTasks = new List<Task>();
+
         public ScrollingService ScrollingService
         {
             get
@@ -191,6 +195,8 @@ namespace Sitana.Framework.Ui.Views
 			_wheelSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["WheelScrollSpeed"], 0);
 
             _additionalTemplates = file["AdditionalTemplates"] as Dictionary<Type, DefinitionFile>;
+
+            _maxAddOneTime = DefinitionResolver.Get<int>(Controller, Binding, file["MaxAddOneTime"], 32);
 
             return true;
         }
@@ -263,6 +269,7 @@ namespace Sitana.Framework.Ui.Views
 					}
 
 					view.Bounds = bounds;
+                    view.ViewUpdate(0);
                 }
 
                 _maxScroll = new Point(_updateScrollPosition.X + position.X, _updateScrollPosition.Y + position.Y);
