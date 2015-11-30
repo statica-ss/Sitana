@@ -96,14 +96,6 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public override bool ForceUpdate
-        {
-            get
-            {
-                return _expandedValue != 0 && _expandedValue != 1;
-            }
-        }
-
         public Mode StackMode
         {
             get
@@ -211,6 +203,7 @@ namespace Sitana.Framework.Ui.Views
 
             if (update)
             {
+                ForceUpdate();
                 Parent.RecalcLayout();
             }
         }
@@ -708,7 +701,20 @@ namespace Sitana.Framework.Ui.Views
 
             InitChildren(Controller, Binding, definition);
 
+
+            _expanded.ValueChanged += _expanded_ValueChanged;
+
             return true;
+        }
+
+        protected override void OnRemoved()
+        {
+            _expanded.ValueChanged -= _expanded_ValueChanged;
+        }
+
+        void _expanded_ValueChanged(bool newValue)
+        {
+            UiTask.BeginInvoke(() => ForceUpdate());
         }
 
         public override Point ComputeSize(int width, int height)

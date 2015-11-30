@@ -263,11 +263,14 @@ namespace Sitana.Framework.Ui.Views
 
         public IBackgroundDrawable BackgroundDrawable { get; set; }
 
-        public virtual bool ForceUpdate
+
+        bool _forceUpdate = false;
+
+        public bool ShouldForceUpdate 
         {
             get
             {
-                return false;
+                return _forceUpdate;
             }
         }
 
@@ -330,6 +333,16 @@ namespace Sitana.Framework.Ui.Views
         public void InvalidateScreenBounds()
         {
             _screenBoundsInvalid = true;
+        }
+
+        public void ForceUpdate()
+        {
+            _forceUpdate = true;
+
+            if(Parent != null)
+            {
+                Parent.ForceUpdate();
+            }
         }
 
 		public bool IsPointInsideView(Vector2 point, int tolerance = 0)
@@ -566,6 +579,8 @@ namespace Sitana.Framework.Ui.Views
 
         internal void ViewUpdate(float time)
         {
+            _forceUpdate = false;
+
             if ( _updateController && _controller != null)
             {
                 _controller.UpdateInternal(time);
