@@ -364,6 +364,7 @@ namespace Sitana.Framework.Ui.Views
                         if(child.Bounds.Y < 0)
                         {
                             Show(_lockedItem);
+                            Recalculate();
                         }
                     }
                     else
@@ -371,6 +372,7 @@ namespace Sitana.Framework.Ui.Views
                         if (child.Bounds.X < 0)
                         {
                             Show(_lockedItem);
+                            Recalculate();
                         }
                     }
                 }
