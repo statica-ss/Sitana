@@ -577,7 +577,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        internal void ViewUpdate(float time)
+        public void ViewUpdate(float time)
         {
             _forceUpdate = false;
 
@@ -680,6 +680,14 @@ namespace Sitana.Framework.Ui.Views
         internal void ViewDeactivated()
         {
             CallDelegate("ViewDeactivated");
+        }
+
+        public void OutsideViewInitialize(UiContainer parent)
+        {
+            Parent = parent;
+            RegisterView();
+            ViewAdded();
+            ViewUpdate(0);
         }
 
         internal void RegisterView()

@@ -31,7 +31,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
         /// <param name="name">name of resource</param>
         /// <param name="contentLoader">content loader to load additional resources and files</param>
         /// <returns></returns>
-        public static Object Load(String path)
+        public static DefinitionFile Load(String path)
         {
             XNode node = XFileEx.FromPath(path);
             return DefinitionFile.LoadFile(node);
