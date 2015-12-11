@@ -134,16 +134,40 @@ namespace Sitana.Framework.Ui.Views
 
                 if (_touchIdX == gesture.TouchId || _touchIdY == gesture.TouchId)
                 {
+                    float maxExceed = (float)_service.MaxExceed.ComputeDouble();
+
                     gesture.SetHandled();
 
                     if (_touchIdX != 0 && _mode.HasFlag(Mode.HorizontalDrag))
                     {
-                        _service.ScrollPositionX -= gesture.Offset.X;
+                        if (_service.ScrollPositionX < -maxExceed && gesture.Offset.X > 0)
+                        {
+                            _service.ScrollPositionX = -maxExceed;
+                        }
+                        else if (_service.ScrollPositionX > _service.ScrolledElement.MaxScrollX + maxExceed && gesture.Offset.X < 0)
+                        {
+                            _service.ScrollPositionX = _service.ScrolledElement.MaxScrollX + maxExceed;
+                        }
+                        else
+                        {
+                            _service.ScrollPositionX -= gesture.Offset.X;
+                        }
                     }
 
                     if (_touchIdY != 0 && _mode.HasFlag(Mode.VerticalDrag))
                     {
-                        _service.ScrollPositionY -= gesture.Offset.Y;
+                        if (_service.ScrollPositionY < -maxExceed && gesture.Offset.Y > 0)
+                        {
+                            _service.ScrollPositionY = -maxExceed;
+                        }
+                        else if (_service.ScrollPositionY > _service.ScrolledElement.MaxScrollY + maxExceed && gesture.Offset.Y < 0)
+                        {
+                            _service.ScrollPositionY = _service.ScrolledElement.MaxScrollY + maxExceed;
+                        }
+                        else
+                        {
+                            _service.ScrollPositionY -= gesture.Offset.Y;
+                        }
                     }
 
                     if (_lastMoveTime != null)

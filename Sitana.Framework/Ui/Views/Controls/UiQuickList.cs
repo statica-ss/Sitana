@@ -30,6 +30,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["SeparatorHeight"] = parser.ParseLength("SeparatorHeight");
 
+            file["MaxScrollExceed"] = parser.ParseLength("MaxScrollExceed");
+
 			foreach (var cn in node.Nodes)
 			{
 				switch (cn.Tag)
@@ -127,6 +129,7 @@ namespace Sitana.Framework.Ui.Views
         bool _recalculateScroll = true;
 
         QuickSeparator _separator = null;
+        Length _maxScrollExceed;
 
         public override Rectangle Bounds
         {
@@ -145,7 +148,7 @@ namespace Sitana.Framework.Ui.Views
         {
             Scroller.Mode mode = Scroller.Mode.VerticalDrag | Scroller.Mode.VerticalWheel;
 
-            _scrollingService = new ScrollingService(this, _rule);
+            _scrollingService = new ScrollingService(this, _rule, _maxScrollExceed);
             _scroller = new Scroller(this, mode, _scrollingService, _wheelSpeed);
 
             base.OnAdded();
@@ -184,8 +187,8 @@ namespace Sitana.Framework.Ui.Views
 
 			_rowHeight = DefinitionResolver.Get<Length>(Controller, Binding, file["RowHeight"], Length.Default);
             _separatorHeight = DefinitionResolver.Get<Length>(Controller, Binding, file["SeparatorHeight"], Length.Zero);
-            
 
+            _maxScrollExceed = DefinitionResolver.Get<Length>(Controller, Binding, file["MaxScrollExceed"], ScrollingService.MaxScrollExceed);
 			_reversed = DefinitionResolver.Get<bool>(Controller, Binding, file["Reversed"], false);
 
             _wheelSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["WheelScrollSpeed"], 0);
@@ -295,30 +298,36 @@ namespace Sitana.Framework.Ui.Views
 
 				Margin textMargin = column.TextMargin;
 
-				for (int dataIndex = startIndex; dataIndex < _items.Count && dataIndex >= 0;)
-				{
-					QuickDataRow row = (QuickDataRow)(_items.ElementAt(dataIndex));
+                int dataIndex = startIndex;
+                int count = _items.Count;
 
-					Color color = row.Colors[columnIndex].Value;
-					string text = row.Labels[columnIndex];
+                for (int idx = 0; idx < count; idx++ )
+                {
+                    textTarget.X = target.X;
+                    textTarget.Width = target.Width;
 
-					textTarget.X = target.X;
-					textTarget.Width = target.Width;
+                    textTarget.Y = target.Y + textMargin.Top;
+                    textTarget.Height = target.Height - textMargin.Height;
 
-					textTarget.Y = target.Y + textMargin.Top;
-					textTarget.Height = target.Height - textMargin.Height;
+                    if (dataIndex >= 0 && dataIndex < count)
+                    {
+                        QuickDataRow row = (QuickDataRow)(_items.ElementAt(dataIndex));
 
-					parameters.DrawBatch.DrawText(font, text, textTarget, textAlign, color, fontSpacing, lineHeight, fontScale);
+                        Color color = row.Colors[columnIndex].Value;
+                        string text = row.Labels[columnIndex];    
 
-					target.Y += target.Height + separatorHeight;
+                        parameters.DrawBatch.DrawText(font, text, textTarget, textAlign, color, fontSpacing, lineHeight, fontScale);
+                    }
 
-					if (target.Y > maxY)
-					{
-						break;
-					}
+                    target.Y += target.Height + separatorHeight;
 
-					dataIndex += _reversed ? -1 : 1;
-				}
+                    if (target.Y > maxY)
+                    {
+                        break;
+                    }
+
+                    dataIndex += _reversed ? -1 : 1;
+                }
 
 				position += width;
 			}

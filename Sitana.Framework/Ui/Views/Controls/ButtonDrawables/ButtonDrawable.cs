@@ -26,7 +26,6 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["ColorDisabled"] = parser.ParseColor("ColorDisabled");
             file["Margin"] = parser.ParseMargin("Margin");
 
-
             file["Checked"] = parser.ParseBoolean("Checked");
             file["Special"] = parser.ParseBoolean("Special");
         }

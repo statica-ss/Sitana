@@ -118,7 +118,7 @@ namespace Sitana.Framework.Ui.Views
         {
             _text = value;
 
-            int width = _lineWidth.Compute(Bounds.Width);
+            int width = _lineWidth.Compute( PositionParameters.Width.IsAuto && Parent != null ? Parent.Bounds.Width : Bounds.Width);
 
             if (width < 2)
             {
@@ -370,10 +370,20 @@ namespace Sitana.Framework.Ui.Views
         {
             Point size = base.ComputeSize(width, height);
 
-            if (PositionParameters.Height.IsAuto)
+            if (PositionParameters.Width.IsAuto || PositionParameters.Height.IsAuto)
             {
                 Vector2 sizeInPixels = CalculateSizeInPixels();
-                size.Y = (int)Math.Ceiling(sizeInPixels.Y);
+
+                if (PositionParameters.Width.IsAuto)
+                {
+
+                    size.X = (int)Math.Ceiling(sizeInPixels.X);
+                }
+
+                if (PositionParameters.Height.IsAuto)
+                {
+                    size.Y = (int)Math.Ceiling(sizeInPixels.Y);
+                }
             }
 
             return size;

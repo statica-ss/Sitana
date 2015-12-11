@@ -110,7 +110,7 @@ namespace Sitana.Framework.Ui.Views
                     _previous = null;
                 }
 
-                AppMain.Redraw();
+                AppMain.Redraw(this);
             }
         }
 

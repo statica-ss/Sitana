@@ -25,6 +25,7 @@ namespace Sitana.Framework.Ui.Views
             file["MaxAddOneTime"] = parser.ParseInt("MaxAddOneTime");
             file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
 			file["WheelScrollSpeed"] = parser.ParseDouble("WheelScrollSpeed");
+            file["MaxScrollExceed"] = parser.ParseLength("MaxScrollExceed");
 
             Dictionary<Type, DefinitionFile> additionalTemplates = new Dictionary<Type, DefinitionFile>();
 
@@ -109,6 +110,7 @@ namespace Sitana.Framework.Ui.Views
         IItemsProvider _items = null;
         bool _recalculate = true;
         bool _vertical = false;
+        bool _recalculatePositionsAndScroll = true;
 
         object _childrenLock = new object();
 
@@ -133,6 +135,12 @@ namespace Sitana.Framework.Ui.Views
         object _lockedItem = null;
         double _lockedTimer = 0;
 
+        Length _maxScrollExceed;
+
+        List<UiView> _itemViews = new List<UiView>();
+
+        List<UiView> _newItems = new List<UiView>();
+
         public ScrollingService ScrollingService
         {
             get
@@ -145,7 +153,7 @@ namespace Sitana.Framework.Ui.Views
         {
 			Scroller.Mode mode = (_vertical ? Scroller.Mode.VerticalDrag | Scroller.Mode.VerticalWheel : Scroller.Mode.HorizontalDrag | Scroller.Mode.HorizontalWheel);
 
-            _scrollingService = new ScrollingService(this, _rule);
+            _scrollingService = new ScrollingService(this, _rule, _maxScrollExceed);
 			_scroller = new Scroller(this, mode, _scrollingService, _wheelSpeed );
 
             base.OnAdded();
@@ -187,6 +195,8 @@ namespace Sitana.Framework.Ui.Views
 
             _rule = DefinitionResolver.Get<ScrollingService.ExceedRule>(Controller, Binding, file["ExceedRule"], ScrollingService.ExceedRule.Allow);
 
+            _maxScrollExceed = DefinitionResolver.Get<Length>(Controller, Binding, file["MaxScrollExceed"], ScrollingService.MaxScrollExceed);
+
             _reverse = DefinitionResolver.Get<bool>(Controller, Binding, file["Reverse"], false);
 
 			_wheelSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["WheelScrollSpeed"], 0);
@@ -200,14 +210,14 @@ namespace Sitana.Framework.Ui.Views
 
         void Recalculate()
         {
+            _newItems.Clear();
+
             lock (_items)
             {
                 int count = _items.Count;
-
                 int added = 0;
 
-                _updateScrollPosition = new Point((int)_scrollingService.ScrollPositionX, (int)_scrollingService.ScrollPositionY);
-                Point position = new Point(-_updateScrollPosition.X, -_updateScrollPosition.Y);
+                int numberOfElements = 0;
 
                 for (int idx = 0; idx < count; ++idx)
                 {
@@ -229,16 +239,7 @@ namespace Sitana.Framework.Ui.Views
 
                             view = (UiView)template.CreateInstance(Controller, bind);
 
-                            lock (_childrenLock)
-                            {
-                                _bindingToElement.Add(bind, view);
-                                _children.Add(view);
-                            }
-
-                            view.Parent = this;
-                            view.RegisterView();
-                            view.ViewAdded();
-							view.ViewUpdate(0);
+                            _newItems.Add(view);
                             added++;
                         }
                         else
@@ -247,27 +248,71 @@ namespace Sitana.Framework.Ui.Views
                         }
                     }
 
-                    Rectangle bounds = CalculateItemBounds(view);
-                    Point size = view.ComputeSize(Bounds.Width, Bounds.Height);
-
-					if (_vertical)
-					{
-						bounds.Height = size.Y;
-						bounds.Y = position.Y + view.PositionParameters.Margin.Top;
-
-						position.Y = bounds.Bottom + view.PositionParameters.Margin.Bottom;
-					}
-					else
-					{
-						bounds.Width = size.X;
-						bounds.X = position.X + view.PositionParameters.Margin.Left;
-
-						position.X = bounds.Right + view.PositionParameters.Margin.Right;
-					}
-
-					view.Bounds = bounds;
-                    view.ViewUpdate(0);
+                    if (numberOfElements < _itemViews.Count)
+                    {
+                        _itemViews[numberOfElements] = view;
+                    }
+                    else
+                    {
+                        _itemViews.Add(view);
+                    }
+                    numberOfElements++;
                 }
+
+                if (_itemViews.Count > numberOfElements)
+                {
+                    _itemViews.RemoveRange(numberOfElements, _itemViews.Count - numberOfElements);
+                }
+            }
+
+            for (int idx = 0; idx < _newItems.Count; ++idx )
+            {
+                UiView view = _newItems[idx];
+
+                lock (_childrenLock)
+                {
+                    _bindingToElement.Add(view.Binding, view);
+                    _children.Add(view);
+                }
+
+                view.Parent = this;
+                view.RegisterView();
+                view.ViewAdded();
+                view.ViewUpdate(0);
+            }
+
+            RecalculatePositionsAndScroll();
+        }
+
+        void RecalculatePositionsAndScroll()
+        {
+            _updateScrollPosition = new Point((int)_scrollingService.ScrollPositionX, (int)_scrollingService.ScrollPositionY);
+            Point position = new Point(-_updateScrollPosition.X, -_updateScrollPosition.Y);
+
+            for (int idx = 0; idx < _itemViews.Count; ++idx)
+            {
+                UiView view = _itemViews[idx];
+
+                Rectangle bounds = CalculateItemBounds(view);
+                Point size = view.ComputeSize(Bounds.Width, Bounds.Height);
+
+                if (_vertical)
+                {
+                    bounds.Height = size.Y;
+                    bounds.Y = position.Y + view.PositionParameters.Margin.Top;
+
+                    position.Y = bounds.Bottom + view.PositionParameters.Margin.Bottom;
+                }
+                else
+                {
+                    bounds.Width = size.X;
+                    bounds.X = position.X + view.PositionParameters.Margin.Left;
+
+                    position.X = bounds.Right + view.PositionParameters.Margin.Right;
+                }
+
+                view.Bounds = bounds;
+                view.ViewUpdate(0);
 
                 _maxScroll = new Point(_updateScrollPosition.X + position.X, _updateScrollPosition.Y + position.Y);
             }
@@ -325,6 +370,11 @@ namespace Sitana.Framework.Ui.Views
             if (recalculate)
             {
                 Recalculate();
+            }
+            else if (_recalculatePositionsAndScroll)
+            {
+                RecalculatePositionsAndScroll();
+                _recalculatePositionsAndScroll = false;
             }
             else
             {
@@ -427,10 +477,7 @@ namespace Sitana.Framework.Ui.Views
         {
             base.RecalcLayout();
 
-            lock (_recalcLock)
-            {
-                _recalculate = true;
-            }
+            _recalculatePositionsAndScroll = true;
         }
 
         Rectangle CalculateItemBounds(UiView view)
