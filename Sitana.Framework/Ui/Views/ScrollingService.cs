@@ -33,6 +33,9 @@ namespace Sitana.Framework.Ui.Views
         public float ScrollSpeedX = 0;
         public float ScrollSpeedY = 0;
 
+        public bool IsDraggingX = false;
+        public bool IsDraggingY = false;
+
         Vector2 _lastScroll = Vector2.Zero;
 
         Rectangle _bounds = new Rectangle(0,0,1,1);
@@ -84,9 +87,6 @@ namespace Sitana.Framework.Ui.Views
             float maxExceedX = (float)MaxExceed.ComputeDouble();
             float maxExceedY = (float)MaxExceed.ComputeDouble();
 
-            bool scrollXChanged = _lastScroll.X != ScrollPositionX;
-            bool scrollYChanged = _lastScroll.Y != ScrollPositionY;
-
             if (Math.Abs(desiredScrollX - ScrollPositionX) > maxExceedX)
             {
                 ScrollSpeedX = 0;
@@ -123,12 +123,12 @@ namespace Sitana.Framework.Ui.Views
 
             if (_mode == ExceedRule.Allow || (_mode == ExceedRule.AllowWhenScroll && scroll))
             {
-                if (!scrollXChanged)
+                if (!IsDraggingX)
                 {
                     ScrollPositionX = ComputeScroll(time, ScrollPositionX, 0, maxScrollX, bounds.Width);
                 }
 
-                if (!scrollYChanged)
+                if (!IsDraggingY)
                 {
                     ScrollPositionY = ComputeScroll(time, ScrollPositionY, 0, maxScrollY, bounds.Height);
                 }
@@ -146,8 +146,6 @@ namespace Sitana.Framework.Ui.Views
             {
 				AppMain.Redraw( ScrolledElement as UiView );
             }
-
-            _lastScroll = new Vector2(ScrollPositionX, ScrollPositionY);
         }
 
         private float ComputeScroll(float time, float scrollPosition, float minScroll, float maxScroll, int size)

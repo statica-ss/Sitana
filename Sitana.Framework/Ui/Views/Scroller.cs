@@ -101,6 +101,7 @@ namespace Sitana.Framework.Ui.Views
 				break;
 
             case GestureType.Up:
+            case GestureType.CapturedByOther:
                 if (_touchIdX == gesture.TouchId)
                 {
                     _touchIdX = 0;
@@ -194,6 +195,9 @@ namespace Sitana.Framework.Ui.Views
                 }
                 break;
             }
+
+            _service.IsDraggingX = _touchIdX != 0;
+            _service.IsDraggingY = _touchIdY != 0;
         }
     }
 }
