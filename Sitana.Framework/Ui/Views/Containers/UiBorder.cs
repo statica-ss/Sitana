@@ -35,7 +35,7 @@ namespace Sitana.Framework.Ui.Views
 
             _fitChildren = DefinitionResolver.Get<bool>(Controller, Binding, file["FitChildren"], false);
 
-            InitChildren(Controller, Binding, definition);
+            TryInitChildren(definition);
             return true;
         }
 

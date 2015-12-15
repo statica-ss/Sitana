@@ -24,6 +24,7 @@ namespace Sitana.Framework.Ui.Views
 
             file["CollapseFinished"] = parser.ParseDelegate("CollapseFinished");
             file["ExpandFinished"] = parser.ParseDelegate("ExpandFinished");
+            file["ExpandStarted"] = parser.ParseDelegate("ExpandStarted");
         }
 
         SharedValue<bool> _expanded;
@@ -53,6 +54,7 @@ namespace Sitana.Framework.Ui.Views
 
             RegisterDelegate("CollapseFinished", file["CollapseFinished"]);
             RegisterDelegate("ExpandFinished", file["ExpandFinished"]);
+            RegisterDelegate("ExpandStarted", file["ExpandStarted"]);
 
             if(_expandSpeed>0)
             {
@@ -75,6 +77,11 @@ namespace Sitana.Framework.Ui.Views
         void _expanded_ValueChanged(bool newValue)
         {
             UiTask.BeginInvoke(() => ForceUpdate());
+
+            if (newValue)
+            {
+                CallDelegate("ExpandStarted");
+            }            
         }
 
         protected override void Update(float time)

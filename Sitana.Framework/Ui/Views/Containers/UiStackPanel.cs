@@ -35,6 +35,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["CollapseFinished"] = parser.ParseDelegate("CollapseFinished");
             file["ExpandFinished"] = parser.ParseDelegate("ExpandFinished");
+
+            file["ExpandStarted"] = parser.ParseDelegate("ExpandStarted");
         }
 
         public enum Mode
@@ -698,8 +700,9 @@ namespace Sitana.Framework.Ui.Views
 
             RegisterDelegate("CollapseFinished", file["CollapseFinished"]);
             RegisterDelegate("ExpandFinished", file["ExpandFinished"]);
+            RegisterDelegate("ExpandStarted", file["ExpandStarted"]);
 
-            InitChildren(Controller, Binding, definition);
+            TryInitChildren(definition);
 
 
             _expanded.ValueChanged += _expanded_ValueChanged;
@@ -715,6 +718,11 @@ namespace Sitana.Framework.Ui.Views
         void _expanded_ValueChanged(bool newValue)
         {
             UiTask.BeginInvoke(() => ForceUpdate());
+
+            if(newValue)
+            {
+                CallDelegate("ExpandStarted");
+            }
         }
 
         public override Point ComputeSize(int width, int height)
