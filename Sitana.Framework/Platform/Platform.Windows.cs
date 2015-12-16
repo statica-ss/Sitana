@@ -161,10 +161,10 @@ namespace Sitana.Framework
         }
 
         public static void DownloadAndOpenFile(string url)
-		{
-			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
-			request.BeginGetResponse(OnFileDownloaded, request);
-		}
+        {
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            request.BeginGetResponse(OnFileDownloaded, request);
+        }
 
         static void OnFileDownloaded(IAsyncResult state)
         {
@@ -231,6 +231,16 @@ namespace Sitana.Framework
 
         public static void PlayVideo(string path, bool local)
         {
+        }
+
+        public static void PLayYoutubeVideo(string movieId)
+        {
+            var url = "https://www.youtube.com/watch?" + "v=" + movieId;
+
+            if(url.StartsWith(Uri.UriSchemeHttp) || url.StartsWith(Uri.UriSchemeHttps))
+            {
+                Process.Start(url);
+            }
         }
     }
 }
