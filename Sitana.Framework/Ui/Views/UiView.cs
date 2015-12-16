@@ -263,6 +263,17 @@ namespace Sitana.Framework.Ui.Views
 
         public IBackgroundDrawable BackgroundDrawable { get; set; }
 
+
+        bool _forceUpdate = false;
+
+        public bool ShouldForceUpdate 
+        {
+            get
+            {
+                return _forceUpdate;
+            }
+        }
+
         protected Length _minWidth;
         protected Length _minHeight;
 
@@ -322,6 +333,16 @@ namespace Sitana.Framework.Ui.Views
         public void InvalidateScreenBounds()
         {
             _screenBoundsInvalid = true;
+        }
+
+        public void ForceUpdate()
+        {
+            _forceUpdate = true;
+
+            if(Parent != null)
+            {
+                Parent.ForceUpdate();
+            }
         }
 
 		public bool IsPointInsideView(Vector2 point, int tolerance = 0)
@@ -556,8 +577,10 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        internal void ViewUpdate(float time)
+        public void ViewUpdate(float time)
         {
+            _forceUpdate = false;
+
             if ( _updateController && _controller != null)
             {
                 _controller.UpdateInternal(time);
@@ -582,7 +605,7 @@ namespace Sitana.Framework.Ui.Views
 
             if(DisplayVisibility != oldDisplayVisibility)
             {
-                AppMain.Redraw();
+                AppMain.Redraw(true);
             }
 
             if (visible != DisplayVisibility > 0)
@@ -621,7 +644,7 @@ namespace Sitana.Framework.Ui.Views
                 }
 
                 _lastSize = Bounds;
-                AppMain.Redraw();
+                AppMain.Redraw(this);
             }
 
 			_sizeCanChange = SizeChangeDimension.None;
@@ -657,6 +680,14 @@ namespace Sitana.Framework.Ui.Views
         internal void ViewDeactivated()
         {
             CallDelegate("ViewDeactivated");
+        }
+
+        public void OutsideViewInitialize(UiContainer parent)
+        {
+            Parent = parent;
+            RegisterView();
+            ViewAdded();
+            ViewUpdate(0);
         }
 
         internal void RegisterView()

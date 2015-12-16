@@ -40,7 +40,7 @@ namespace Sitana.Framework.Ui.Binding
         public void Add(T element)
         {
             int index = 0;
-            lock(this)
+            lock (this)
             {
                 _elements.Add(element);
                 index = _elements.Count - 1;
@@ -57,7 +57,7 @@ namespace Sitana.Framework.Ui.Binding
 
         public void Insert(int index, T element)
         {
-            lock(this)
+            lock (this)
             {
                 _elements.Insert(index, element);
             }
@@ -114,7 +114,7 @@ namespace Sitana.Framework.Ui.Binding
 
         public void Remove(T element)
         {
-            lock(this)
+            lock (this)
             {
                 _elements.Remove(element);
             }
@@ -138,7 +138,7 @@ namespace Sitana.Framework.Ui.Binding
                 }
             }
 
-            lock(this)
+            lock (this)
             {
                 _elements.Clear();
             }
@@ -178,7 +178,7 @@ namespace Sitana.Framework.Ui.Binding
         {
             get
             {
-				lock (this)
+                lock (this)
 				{
 					return _elements[index];
 				}
@@ -193,9 +193,34 @@ namespace Sitana.Framework.Ui.Binding
             }
         }
 
+        public void ForEach(Action<T> action)
+        {
+            lock (this)
+            {
+                _elements.ForEach(action);
+            }
+        }
+
+        A IItemsProvider.Find<A>(Predicate<A> match)
+        {
+            lock (this)
+            {
+                T element = _elements.Find(match as Predicate<T>);
+                return (A)(object)element;
+            }
+        }
+
+        void IItemsProvider.ForEach<A>(Action<A> action)
+        {
+            lock (this)
+            {
+                _elements.ForEach( (el)=> action((A)(object)el));
+            }
+        }
+
         object IItemsProvider.ElementAt(int index)
         {
-			lock (this)
+            lock (this)
 			{
 				return _elements[index];
 			}
@@ -203,7 +228,7 @@ namespace Sitana.Framework.Ui.Binding
 
         public T Last()
         {
-			lock (this)
+            lock (this)
 			{
 				return _elements.Last();
 			}

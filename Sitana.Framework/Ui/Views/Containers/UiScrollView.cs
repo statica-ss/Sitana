@@ -20,6 +20,7 @@ namespace Sitana.Framework.Ui.Views
             var parser = new DefinitionParser(node);
             file["Mode"] = parser.ParseEnum<Scroller.Mode>("Mode");
 			file["WheelScrollSpeed"] = parser.ParseDouble("WheelScrollSpeed");
+            file["MaxScrollExceed"] = parser.ParseLength("MaxScrollExceed");
             file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
         }
 
@@ -30,10 +31,11 @@ namespace Sitana.Framework.Ui.Views
         ScrollingService.ExceedRule _rule = ScrollingService.ExceedRule.Allow;
         Scroller.Mode _mode = Scroller.Mode.None;
 		float _wheelSpeed = 0;
+        Length _maxScrollExceed;
 
         protected override void OnAdded()
         {
-            _scrollingService = new ScrollingService(this, _rule);
+            _scrollingService = new ScrollingService(this, _rule, _maxScrollExceed);
 			_scroller = new Scroller(this, _mode, _scrollingService, _wheelSpeed);
 
             base.OnAdded();
@@ -58,6 +60,7 @@ namespace Sitana.Framework.Ui.Views
             _mode = DefinitionResolver.Get<Scroller.Mode>(Controller, Binding, file["Mode"], Scroller.Mode.BothDrag);
             _rule = DefinitionResolver.Get<ScrollingService.ExceedRule>(Controller, Binding, file["ExceedRule"], ScrollingService.ExceedRule.Allow);
 			_wheelSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["WheelScrollSpeed"], 0);
+            _maxScrollExceed = DefinitionResolver.Get<Length>(Controller, Binding, file["MaxScrollExceed"], ScrollingService.MaxScrollExceed);
 
             return true;
         }

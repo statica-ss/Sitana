@@ -18,8 +18,8 @@ namespace Sitana.Framework.Input.TouchPad
 #else
         const float MouseWheelScrollFactor = 100;
 #endif
-
         const int MouseId = 1;
+        public const int InvalidTouchId = 0;
 
         public delegate void OnTouchDelegate(int id, Vector2 position);
 

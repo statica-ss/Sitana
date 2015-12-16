@@ -62,7 +62,7 @@ namespace Sitana.Framework.Ui.Core
             {
                 if (value == 0)
                 {
-                    _redrawPeriod = 0;
+					_redrawPeriod = 0;
                 }
                 else
                 {
@@ -191,8 +191,14 @@ namespace Sitana.Framework.Ui.Core
             return true;
         }
 
+		double updatesCount = 0;
+		double secTime = 0;
+
 		protected override void Update(GameTime gameTime)
         {
+			
+
+
             bool shouldRedraw = _redrawInNextFrame;
             _redrawInNextFrame = false;
 
@@ -267,21 +273,32 @@ namespace Sitana.Framework.Ui.Core
 
             _cumulativeFrameTime += time;
 
-            bool shouldUpdate = shouldRedraw | true;
+            bool shouldUpdate = shouldRedraw;
 
             if (shouldUpdate && MainView != null)
             {
                 MainView.ViewUpdate(_cumulativeFrameTime);
                 _cumulativeFrameTime = 0;
+				updatesCount++;
             }
 
+			secTime += gameTime.ElapsedGameTime.TotalSeconds;
+
+			if (secTime >= 1)
+			{
+				Console.WriteLine("Updates per sec: {0:0.00}", updatesCount / secTime);
+				updatesCount -= updatesCount / secTime;
+				secTime = 0;
+			}
+
+			_redrawInNextFrame |= _shouldRedraw;
             shouldRedraw |= _shouldRedraw;
 
             if (!shouldRedraw)
             {
                 SuppressDraw();
 #if !WINDOWS_PHONE_APP
-                Thread.Sleep(1);
+                Thread.Sleep(10);
 #endif
             }
         }
@@ -444,13 +461,13 @@ namespace Sitana.Framework.Ui.Core
             {
                 case GestureType.Down:
                 case GestureType.Up:
-                    Redraw();
+                    Redraw(true);
                     break;
 
                 case GestureType.Move:
                     if(gesture.Offset != Vector2.Zero)
                     {
-                        Redraw();
+                        Redraw(true);
                     }
                     break;
             }
@@ -458,10 +475,18 @@ namespace Sitana.Framework.Ui.Core
             MainView.ViewGesture(gesture);
         }
 
-        public static void Redraw()
+		public static void Redraw(UiView caller)
         {
-            Current._shouldRedraw = true;
+			if(caller != null && caller.IsViewDisplayed)
+			{
+            	Current._shouldRedraw = true;
+			}
         }
+
+		public static void Redraw(bool test)
+		{
+			Current._shouldRedraw = true;
+		}
 
         public static void RedrawNextFrame()
         {

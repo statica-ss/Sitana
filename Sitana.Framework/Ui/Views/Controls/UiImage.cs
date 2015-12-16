@@ -232,7 +232,7 @@ namespace Sitana.Framework.Ui.Views
 
                 if(DisplayVisibility > 0)
                 {
-                    AppMain.Redraw();
+                    AppMain.Redraw(this);
                 }
             }
         }

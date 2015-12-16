@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Sitana.Framework.Xml;
-using Sitana.Framework.Ui.DefinitionFiles;
+﻿using Microsoft.Xna.Framework;
 using Sitana.Framework.Diagnostics;
-using Microsoft.Xna.Framework;
-using Sitana.Framework.Ui.Binding;
-using Sitana.Framework.Ui.Views.Parameters;
 using Sitana.Framework.Input.TouchPad;
-using Sitana.Framework.Ui.Core;
+using Sitana.Framework.Ui.Binding;
+using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Interfaces;
+using Sitana.Framework.Ui.Views.Parameters;
+using Sitana.Framework.Xml;
+using System;
+using System.Collections.Generic;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -25,8 +22,10 @@ namespace Sitana.Framework.Ui.Views
             file["Items"] = parser.ParseDelegate("Items");
             file["Mode"] = parser.ParseEnum<Mode>("Mode");
             file["Reverse"] = parser.ParseBoolean("Reverse");
+            file["MaxAddOneTime"] = parser.ParseInt("MaxAddOneTime");
             file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
 			file["WheelScrollSpeed"] = parser.ParseDouble("WheelScrollSpeed");
+            file["MaxScrollExceed"] = parser.ParseLength("MaxScrollExceed");
 
             Dictionary<Type, DefinitionFile> additionalTemplates = new Dictionary<Type, DefinitionFile>();
 
@@ -108,11 +107,10 @@ namespace Sitana.Framework.Ui.Views
         DefinitionFile _template;
         Dictionary<Type, DefinitionFile> _additionalTemplates;
 
-        List<object> _forceUpdate = new List<object>();
-
         IItemsProvider _items = null;
         bool _recalculate = true;
         bool _vertical = false;
+        bool _recalculatePositionsAndScroll = true;
 
         object _childrenLock = new object();
 
@@ -134,6 +132,15 @@ namespace Sitana.Framework.Ui.Views
         int _maxAddOneTime = 32;
         bool _clearChildren = false;
 
+        object _lockedItem = null;
+        double _lockedTimer = 0;
+
+        Length _maxScrollExceed;
+
+        List<UiView> _itemViews = new List<UiView>();
+
+        List<UiView> _newItems = new List<UiView>();
+
         public ScrollingService ScrollingService
         {
             get
@@ -146,7 +153,7 @@ namespace Sitana.Framework.Ui.Views
         {
 			Scroller.Mode mode = (_vertical ? Scroller.Mode.VerticalDrag | Scroller.Mode.VerticalWheel : Scroller.Mode.HorizontalDrag | Scroller.Mode.HorizontalWheel);
 
-            _scrollingService = new ScrollingService(this, _rule);
+            _scrollingService = new ScrollingService(this, _rule, _maxScrollExceed);
 			_scroller = new Scroller(this, mode, _scrollingService, _wheelSpeed );
 
             base.OnAdded();
@@ -188,25 +195,29 @@ namespace Sitana.Framework.Ui.Views
 
             _rule = DefinitionResolver.Get<ScrollingService.ExceedRule>(Controller, Binding, file["ExceedRule"], ScrollingService.ExceedRule.Allow);
 
+            _maxScrollExceed = DefinitionResolver.Get<Length>(Controller, Binding, file["MaxScrollExceed"], ScrollingService.MaxScrollExceed);
+
             _reverse = DefinitionResolver.Get<bool>(Controller, Binding, file["Reverse"], false);
 
 			_wheelSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["WheelScrollSpeed"], 0);
 
             _additionalTemplates = file["AdditionalTemplates"] as Dictionary<Type, DefinitionFile>;
 
+            _maxAddOneTime = DefinitionResolver.Get<int>(Controller, Binding, file["MaxAddOneTime"], 32);
+
             return true;
         }
 
         void Recalculate()
         {
+            _newItems.Clear();
+
             lock (_items)
             {
                 int count = _items.Count;
-
                 int added = 0;
 
-                _updateScrollPosition = new Point((int)_scrollingService.ScrollPositionX, (int)_scrollingService.ScrollPositionY);
-                Point position = new Point(-_updateScrollPosition.X, -_updateScrollPosition.Y);
+                int numberOfElements = 0;
 
                 for (int idx = 0; idx < count; ++idx)
                 {
@@ -228,16 +239,7 @@ namespace Sitana.Framework.Ui.Views
 
                             view = (UiView)template.CreateInstance(Controller, bind);
 
-                            lock (_childrenLock)
-                            {
-                                _bindingToElement.Add(bind, view);
-                                _children.Add(view);
-                            }
-
-                            view.Parent = this;
-                            view.RegisterView();
-                            view.ViewAdded();
-							view.ViewUpdate(0);
+                            _newItems.Add(view);
                             added++;
                         }
                         else
@@ -246,44 +248,80 @@ namespace Sitana.Framework.Ui.Views
                         }
                     }
 
-                    Rectangle bounds = CalculateItemBounds(view);
-                    Point size = view.ComputeSize(Bounds.Width, Bounds.Height);
-
-					if (_vertical)
-					{
-						bounds.Height = size.Y;
-						bounds.Y = position.Y + view.PositionParameters.Margin.Top;
-
-						position.Y = bounds.Bottom + view.PositionParameters.Margin.Bottom;
-					}
-					else
-					{
-						bounds.Width = size.X;
-						bounds.X = position.X + view.PositionParameters.Margin.Left;
-
-						position.X = bounds.Right + view.PositionParameters.Margin.Right;
-					}
-
-					view.Bounds = bounds;
+                    if (numberOfElements < _itemViews.Count)
+                    {
+                        _itemViews[numberOfElements] = view;
+                    }
+                    else
+                    {
+                        _itemViews.Add(view);
+                    }
+                    numberOfElements++;
                 }
+
+                if (_itemViews.Count > numberOfElements)
+                {
+                    _itemViews.RemoveRange(numberOfElements, _itemViews.Count - numberOfElements);
+                }
+            }
+
+            for (int idx = 0; idx < _newItems.Count; ++idx )
+            {
+                UiView view = _newItems[idx];
+
+                lock (_childrenLock)
+                {
+                    _bindingToElement.Add(view.Binding, view);
+                    _children.Add(view);
+                }
+
+                view.Parent = this;
+                view.RegisterView();
+                view.ViewAdded();
+                view.ViewUpdate(0);
+            }
+
+            RecalculatePositionsAndScroll();
+        }
+
+        void RecalculatePositionsAndScroll()
+        {
+            _updateScrollPosition = new Point((int)_scrollingService.ScrollPositionX, (int)_scrollingService.ScrollPositionY);
+            Point position = new Point(-_updateScrollPosition.X, -_updateScrollPosition.Y);
+
+            for (int idx = 0; idx < _itemViews.Count; ++idx)
+            {
+                UiView view = _itemViews[idx];
+
+                Rectangle bounds = CalculateItemBounds(view);
+                Point size = view.ComputeSize(Bounds.Width, Bounds.Height);
+
+                if (_vertical)
+                {
+                    bounds.Height = size.Y;
+                    bounds.Y = position.Y + view.PositionParameters.Margin.Top;
+
+                    position.Y = bounds.Bottom + view.PositionParameters.Margin.Bottom;
+                }
+                else
+                {
+                    bounds.Width = size.X;
+                    bounds.X = position.X + view.PositionParameters.Margin.Left;
+
+                    position.X = bounds.Right + view.PositionParameters.Margin.Right;
+                }
+
+                view.Bounds = bounds;
+                view.ViewUpdate(0);
 
                 _maxScroll = new Point(_updateScrollPosition.X + position.X, _updateScrollPosition.Y + position.Y);
             }
         }
 
-        public void ForceUpdate(object item, bool force)
+        public void LockVisible(object item, double time)
         {
-            if(force)
-            {
-                if(!_forceUpdate.Contains(item))
-                {
-                    _forceUpdate.Add(item);
-                }
-            }
-            else
-            {
-                _forceUpdate.Remove(item);
-            }
+            _lockedItem = item;
+            _lockedTimer = time;
         }
 
         protected override void Update(float time)
@@ -294,7 +332,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 var child = _children[idx];
 
-                if (listBounds.Intersects(child.Bounds) || _forceUpdate.Contains(child.Binding))
+                if ( child.ShouldForceUpdate || listBounds.Intersects(child.Bounds))
                 {
                     child.ViewUpdate(time);
                 }
@@ -333,6 +371,11 @@ namespace Sitana.Framework.Ui.Views
             {
                 Recalculate();
             }
+            else if (_recalculatePositionsAndScroll)
+            {
+                RecalculatePositionsAndScroll();
+                _recalculatePositionsAndScroll = false;
+            }
             else
             {
                 Point scrollPosition = new Point((int)_scrollingService.ScrollPositionX, (int)_scrollingService.ScrollPositionY);
@@ -348,6 +391,43 @@ namespace Sitana.Framework.Ui.Views
                         child.Move(diff);
                     }
                 }
+            }
+
+            while(_lockedItem != null)
+            {
+                if(_lockedTimer > 0 )
+                {
+                    _lockedTimer -= time;
+                    if(_lockedTimer <= 0)
+                    {
+                        _lockedTimer = 0;
+                        _lockedItem = null;
+                        break;
+                    }
+                }
+
+                UiView child;
+                if(_bindingToElement.TryGetValue(_lockedItem, out child))
+                {
+                    if(_vertical)
+                    {
+                        if(child.Bounds.Y < 0)
+                        {
+                            Show(_lockedItem);
+                            Recalculate();
+                        }
+                    }
+                    else
+                    {
+                        if (child.Bounds.X < 0)
+                        {
+                            Show(_lockedItem);
+                            Recalculate();
+                        }
+                    }
+                }
+
+                break;
             }
         }
 
@@ -397,10 +477,7 @@ namespace Sitana.Framework.Ui.Views
         {
             base.RecalcLayout();
 
-            lock (_recalcLock)
-            {
-                _recalculate = true;
-            }
+            _recalculatePositionsAndScroll = true;
         }
 
         Rectangle CalculateItemBounds(UiView view)
@@ -472,42 +549,46 @@ namespace Sitana.Framework.Ui.Views
             {
                 if(_vertical)
                 {
-                    if(view.Bounds.Bottom > Bounds.Height)
+                    if (view.Bounds.Top < 0)
+                    {
+                        _scrollingService.ScrollPositionY += view.Bounds.Top;
+                        ShouldRecalcLayout();
+                    }
+                    else if(view.Bounds.Bottom > Bounds.Height)
                     {
                         if(view.Bounds.Height > Bounds.Height)
                         {
                             _scrollingService.ScrollPositionY += view.Bounds.Top;
+                            ShouldRecalcLayout();
                         }
                         else
                         {
                             _scrollingService.ScrollPositionY += view.Bounds.Bottom - Bounds.Height;
+                            ShouldRecalcLayout();
                         }
-                    }
-
-                    if (view.Bounds.Top < 0)
-                    {
-                        _scrollingService.ScrollPositionY += view.Bounds.Top;
                     }
                     
                     _scrollingService.Process();
                 }
                 else
                 {
-                    if (view.Bounds.Right > Bounds.Width)
+                    if (view.Bounds.Left < 0)
+                    {
+                        _scrollingService.ScrollPositionX += view.Bounds.Left;
+                        ShouldRecalcLayout();
+                    }
+                    else if (view.Bounds.Right > Bounds.Width)
                     {
                         if(view.Bounds.Width > Bounds.Width)
                         {
                             _scrollingService.ScrollPositionX += view.Bounds.Left;
+                            ShouldRecalcLayout();
                         }
                         else
                         {
                             _scrollingService.ScrollPositionX += view.Bounds.Right - Bounds.Width;
+                            ShouldRecalcLayout();
                         }
-                    }
-
-                    if (view.Bounds.Left < 0)
-                    {
-                        _scrollingService.ScrollPositionX += view.Bounds.Left;
                     }
 
                     _scrollingService.Process();

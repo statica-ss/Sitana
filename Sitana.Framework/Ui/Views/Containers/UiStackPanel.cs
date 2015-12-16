@@ -25,6 +25,7 @@ namespace Sitana.Framework.Ui.Views
             file["NotifyParentOnResize"] = parser.ParseBoolean("NotifyParentOnResize");
 
             file["ExpandTime"] = parser.ParseInt("ExpandTime");
+            file["CollapseTime"] = parser.ParseInt("CollapseTime");
             file["Expanded"] = parser.ParseBoolean("Expanded");
 
             file["Wrap"] = parser.ParseBoolean("Wrap");
@@ -34,6 +35,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["CollapseFinished"] = parser.ParseDelegate("CollapseFinished");
             file["ExpandFinished"] = parser.ParseDelegate("ExpandFinished");
+
+            file["ExpandStarted"] = parser.ParseDelegate("ExpandStarted");
         }
 
         public enum Mode
@@ -53,6 +56,7 @@ namespace Sitana.Framework.Ui.Views
         bool _recalculateAllParent = true;
 
         double _expandSpeed;
+        double _collapseSpeed;
         double _expandedValue;
 
         int _currentWrapPos;
@@ -134,8 +138,10 @@ namespace Sitana.Framework.Ui.Views
             for (int idx = 0; idx < _children.Count; ++idx)
             {
                 var child = _children[idx];
+                Rectangle childBounds = child.Bounds;
 
-				if (child.Bounds.Intersects(bound))
+                if(childBounds.X < bound.Width && childBounds.Y < bound.Height &&
+                    childBounds.Right >= 0 && childBounds.Bottom >= 0)
                 {
                     child.ViewDraw(ref drawParams);
                 }
@@ -185,7 +191,7 @@ namespace Sitana.Framework.Ui.Views
             }
             else if (_expandedValue > desiredValue)
             {
-                _expandedValue -= time * _expandSpeed;
+                _expandedValue -= time * _collapseSpeed;
                 _expandedValue = Math.Max(0, _expandedValue);
 
                 if(_expandedValue == 0)
@@ -199,6 +205,7 @@ namespace Sitana.Framework.Ui.Views
 
             if (update)
             {
+                ForceUpdate();
                 Parent.RecalcLayout();
             }
         }
@@ -669,6 +676,8 @@ namespace Sitana.Framework.Ui.Views
             _expanded = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Expanded"], true);
 
             _expandSpeed = DefinitionResolver.Get<int>(Controller, Binding, file["ExpandTime"], 0);
+            _collapseSpeed = DefinitionResolver.Get<int>(Controller, Binding, file["CollapseTime"], (int)_expandSpeed);
+
             _expandedValue = _expanded.Value ? 1 : 0;
 
             if (_expandSpeed > 0)
@@ -680,12 +689,40 @@ namespace Sitana.Framework.Ui.Views
                 _expandSpeed = 10000;
             }
 
+            if (_collapseSpeed > 0)
+            {
+                _collapseSpeed = 1000 / _collapseSpeed;
+            }
+            else
+            {
+                _collapseSpeed = 10000;
+            }
+
             RegisterDelegate("CollapseFinished", file["CollapseFinished"]);
             RegisterDelegate("ExpandFinished", file["ExpandFinished"]);
+            RegisterDelegate("ExpandStarted", file["ExpandStarted"]);
 
-            InitChildren(Controller, Binding, definition);
+            TryInitChildren(definition);
+
+
+            _expanded.ValueChanged += _expanded_ValueChanged;
 
             return true;
+        }
+
+        protected override void OnRemoved()
+        {
+            _expanded.ValueChanged -= _expanded_ValueChanged;
+        }
+
+        void _expanded_ValueChanged(bool newValue)
+        {
+            UiTask.BeginInvoke(() => ForceUpdate());
+
+            if(newValue)
+            {
+                CallDelegate("ExpandStarted");
+            }
         }
 
         public override Point ComputeSize(int width, int height)

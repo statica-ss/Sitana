@@ -169,7 +169,7 @@ namespace Sitana.Framework.Ui.Views
             _splitterPosition = DefinitionResolver.Get<Length>(Controller, Binding, file["Position"], new Length(0, 0.5));
             _splitterSize = DefinitionResolver.Get<Length>(Controller, Binding, file["SplitterSize"], Length.Default).Compute(100);
 
-            InitChildren(Controller, Binding, definition);
+            TryInitChildren(definition);
 
             return true;
         }

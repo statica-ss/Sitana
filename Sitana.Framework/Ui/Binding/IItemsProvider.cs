@@ -12,5 +12,9 @@ namespace Sitana.Framework.Ui.Binding
 
         void Subscribe(IItemsConsumer consumer);
         void Unsubscribe(IItemsConsumer consumer);
+
+        T Find<T>(Predicate<T> predicate);
+
+        void ForEach<T>(Action<T> element);
     }
 }

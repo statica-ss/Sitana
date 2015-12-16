@@ -130,11 +130,56 @@ namespace Sitana.Framework.Misc
 
         void OnImageResponse(IAsyncResult state)
         {
-            HttpWebRequest request = state.AsyncState as HttpWebRequest;
+            try
+            {
+                HttpWebRequest request = state.AsyncState as HttpWebRequest;
 
-            WebResponse response = request.EndGetResponse(state);
+                WebResponse response = request.EndGetResponse(state);
 
-            if(!response.ContentType.ToLowerInvariant().Contains("image"))
+                if (!response.ContentType.ToLowerInvariant().Contains("image"))
+                {
+                    UiTask.BeginInvoke(() =>
+                    {
+                        Image = RemoteImageCache.Instance.NoImage;
+                        foreach (var client in _clients)
+                        {
+                            client.ImageUpdated();
+                        }
+                    });
+
+                    response.Dispose();
+                    return;
+                }
+
+                MemoryStream stream = new MemoryStream();
+
+                Stream responseStream = response.GetResponseStream();
+
+                responseStream.CopyTo(stream);
+                response.Dispose();
+
+                stream.Seek(0, SeekOrigin.Begin);
+
+                UiTask.BeginInvoke(() =>
+                {
+                    GraphicsDevice device = AdvancedDrawBatch.OnePixelWhiteTexture.GraphicsDevice;
+
+                    try
+                    {
+                        Image = Texture2D.FromStream(device, stream);
+                    }
+                    catch
+                    {
+                        Image = RemoteImageCache.Instance.NoImage;
+                    }
+
+                    foreach (var client in _clients)
+                    {
+                        client.ImageUpdated();
+                    }
+                });
+            }
+            catch
             {
                 UiTask.BeginInvoke(() =>
                 {
@@ -144,40 +189,7 @@ namespace Sitana.Framework.Misc
                         client.ImageUpdated();
                     }
                 });
-
-                response.Dispose();
-                return;
             }
-
-            MemoryStream stream = new MemoryStream();
-            
-            Stream responseStream = response.GetResponseStream();
-
-            responseStream.CopyTo(stream);
-            response.Dispose();
-
-            stream.Seek(0, SeekOrigin.Begin);
-
-            UiTask.BeginInvoke(() =>
-            {
-                GraphicsDevice device = AdvancedDrawBatch.OnePixelWhiteTexture.GraphicsDevice;
-
-                try
-                {
-                    Image = Texture2D.FromStream(device, stream);
-                }
-                catch
-                {
-                    Image = RemoteImageCache.Instance.NoImage;
-                }
-
-                foreach (var client in _clients)
-                {
-                    client.ImageUpdated();
-                }
-            });
-
-            
         }
     }
 }

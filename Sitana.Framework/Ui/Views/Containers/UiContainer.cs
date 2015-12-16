@@ -22,6 +22,7 @@ namespace Sitana.Framework.Ui.Views
 
             var parser = new DefinitionParser(node);
             file["ClipChildren"] = parser.ParseBoolean("ClipChildren");
+            file["AutoCreateChildren"] = parser.ParseBoolean("AutoCreateChildren");
 
             List<DefinitionFile> list = new List<DefinitionFile>();
 
@@ -47,6 +48,10 @@ namespace Sitana.Framework.Ui.Views
 
         protected bool ProcessGestureBeforeChildren = false;
         protected bool _shouldRecalcLayout = false;
+
+        bool _autoCreateChildren = true;
+
+        List<DefinitionFile> _childrenDefinition = null;
 
         public bool ClipChildren
         {
@@ -98,7 +103,6 @@ namespace Sitana.Framework.Ui.Views
                 view.RegisterView();
                 view.Bounds = CalculateChildBounds(view);
                 
-
                 if (_added)
                 {
                     view.ViewAdded();
@@ -321,27 +325,28 @@ namespace Sitana.Framework.Ui.Views
 
             var file = new DefinitionFileWithStyle(definition, typeof(UiContainer));
 
+            _autoCreateChildren = DefinitionResolver.Get<bool>(Controller, Binding, file["AutoCreateChildren"], true);
             _clipChildren = DefinitionResolver.Get<bool>(Controller, Binding, file["ClipChildren"], false);
             return true;
         }
 
-        protected void InitChildren(UiController controller, object binding, DefinitionFile definition)
+        public void ShouldCreateChildren()
         {
-            InitChildren(controller, binding, definition, typeof(PositionParameters));
+            if(_childrenDefinition != null)
+            {
+                CreateChildren(_childrenDefinition);
+                _childrenDefinition = null;
+            }
         }
 
-        protected void InitChildren(UiController controller, object binding, DefinitionFile definition, Type positionParametersType)
+        void CreateChildren(List<DefinitionFile> children)
         {
-            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiContainer));
-
-            List<DefinitionFile> children = file["Children"] as List<DefinitionFile>;
-
             if (children != null)
             {
                 for (int idx = 0; idx < children.Count; ++idx)
                 {
                     var childFile = children[idx];
-                    var child = childFile.CreateInstance(controller, binding) as UiView;
+                    var child = childFile.CreateInstance(Controller, Binding) as UiView;
 
                     if (child != null)
                     {
@@ -353,6 +358,21 @@ namespace Sitana.Framework.Ui.Views
             for (int idx = 0; idx < _children.Count; ++idx)
             {
                 _children[idx].OnNeighboursInited();
+            }
+        }
+
+        protected void TryInitChildren(DefinitionFile definition)
+        {
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiContainer));
+            List<DefinitionFile> children = file["Children"] as List<DefinitionFile>;
+
+            if(_autoCreateChildren)
+            {
+                CreateChildren(children);
+            }
+            else
+            {
+                _childrenDefinition = children;
             }
         }
 
