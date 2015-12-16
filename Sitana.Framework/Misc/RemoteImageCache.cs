@@ -3,6 +3,7 @@ using Sitana.Framework.Cs;
 using Sitana.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -179,8 +180,9 @@ namespace Sitana.Framework.Misc
                     }
                 });
             }
-            catch
+            catch(Exception ex)
             {
+                Debug.WriteLine(ex);
                 UiTask.BeginInvoke(() =>
                 {
                     Image = RemoteImageCache.Instance.NoImage;

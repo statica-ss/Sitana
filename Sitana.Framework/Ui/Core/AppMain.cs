@@ -196,9 +196,6 @@ namespace Sitana.Framework.Ui.Core
 
 		protected override void Update(GameTime gameTime)
         {
-			
-
-
             bool shouldRedraw = _redrawInNextFrame;
             _redrawInNextFrame = false;
 
@@ -266,18 +263,20 @@ namespace Sitana.Framework.Ui.Core
             TouchPad.Instance.Update(time, IsActive);
             GamePads.Instance.Update();
 
-            for(int idx = 0; idx < _updatables.Count; ++idx)
+			bool shouldUpdate = shouldRedraw;
+			_cumulativeFrameTime += time;
+
+            if (shouldUpdate)
             {
-                _updatables[idx].Update(time);
-            }
+				for(int idx = 0; idx < _updatables.Count; ++idx)
+				{
+					_updatables[idx].Update(time);
+				}
 
-            _cumulativeFrameTime += time;
-
-            bool shouldUpdate = shouldRedraw;
-
-            if (shouldUpdate && MainView != null)
-            {
-                MainView.ViewUpdate(_cumulativeFrameTime);
+				if (MainView != null)
+				{
+					MainView.ViewUpdate(_cumulativeFrameTime);
+				}
                 _cumulativeFrameTime = 0;
 				updatesCount++;
             }

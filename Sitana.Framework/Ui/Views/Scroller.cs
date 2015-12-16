@@ -153,6 +153,11 @@ namespace Sitana.Framework.Ui.Views
                         {
                             _service.ScrollPositionX -= gesture.Offset.X;
                         }
+
+						if (gesture.Offset.X != 0)
+						{
+							AppMain.Redraw(_view);
+						}
                     }
 
                     if (_touchIdY != 0 && _mode.HasFlag(Mode.VerticalDrag))
@@ -169,6 +174,11 @@ namespace Sitana.Framework.Ui.Views
                         {
                             _service.ScrollPositionY -= gesture.Offset.Y;
                         }
+
+						if (gesture.Offset.Y != 0)
+						{
+							AppMain.Redraw(_view);
+						}
                     }
 
                     if (_lastMoveTime != null)

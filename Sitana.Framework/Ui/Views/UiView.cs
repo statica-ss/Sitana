@@ -723,6 +723,8 @@ namespace Sitana.Framework.Ui.Views
             }
             OnRemoved();
 
+            _visiblityFlag.ValueChanged -= _visiblityFlag_ValueChanged;
+
             if (_modal)
             {
                 TouchPad.Instance.TouchDown -= ModalTouchDown;
@@ -840,6 +842,8 @@ namespace Sitana.Framework.Ui.Views
                 _visiblityFlag = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Visible"], true);
             }
 
+            _visiblityFlag.ValueChanged += _visiblityFlag_ValueChanged;
+
             Tag = DefinitionResolver.GetSharedString(Controller, Binding, file["Tag"]);
 
             Opacity = DefinitionResolver.GetShared<double>(Controller, Binding, file["Opacity"], 1);
@@ -927,6 +931,24 @@ namespace Sitana.Framework.Ui.Views
             }
 
             return true;
+        }
+
+        void _visiblityFlag_ValueChanged(bool newValue)
+        {
+            if(newValue)
+            {
+                if(_showSpeed == float.MaxValue)
+                {
+                    DisplayVisibility = 1;
+                }
+            }
+            else
+            {
+                if (_hideSpeed == float.MaxValue)
+                {
+                    DisplayVisibility = 0;
+                }
+            }
         }
 
         void CreatePositionParameters(UiController controller, object binding, DefinitionFile file)
