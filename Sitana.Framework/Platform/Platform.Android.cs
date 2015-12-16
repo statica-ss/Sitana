@@ -61,8 +61,15 @@ namespace Sitana.Framework
 
         public static void OpenWebsite(String url)
         {
-			Intent intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse(url));
-			AppMain.Activity.StartActivity(intent);
+            try 
+            {
+                Intent intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse(url));
+                AppMain.Activity.StartActivity(intent);   
+            } 
+            catch (Exception ex) 
+            {
+                System.Console.WriteLine (ex.ToString ());
+            }
         }
 
         public static void OpenMail(String name, String address, String subject, String text, Action onCompleted)
@@ -399,5 +406,23 @@ namespace Sitana.Framework
 				_fileDownloading = false;
 			}
 		}
+
+        public static void PLayYoutubeVideo(string movieId)
+        {
+            try
+            {
+                var uri = Android.Net.Uri.Parse("vnd.youtube:" + movieId);
+                Intent intent = new Intent(Intent.ActionView, uri);
+
+                intent.PutExtra("force_fullscreen", true); 
+                intent.PutExtra("finish_on_ended", true);
+                AppMain.Activity.StartActivity(intent);
+            }
+            catch(ActivityNotFoundException) 
+            {
+                var url = "https://www.youtube.com/watch?" + "v=" + movieId;
+                OpenWebsite (url);
+            }
+        }
     }
 }

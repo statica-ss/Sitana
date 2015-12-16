@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Sitana.Framework.Misc
 {
@@ -132,7 +133,17 @@ namespace Sitana.Framework.Misc
         {
             HttpWebRequest request = state.AsyncState as HttpWebRequest;
 
-            WebResponse response = request.EndGetResponse(state);
+            WebResponse response = null;
+
+            try
+            {
+                response = request.EndGetResponse(state);
+            }
+            catch(Exception exc)
+            {
+                Debug.WriteLine(exc.ToString());
+                return;
+            }
 
             if(!response.ContentType.ToLowerInvariant().Contains("image"))
             {
