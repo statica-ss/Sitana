@@ -44,6 +44,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["LinkResolver"] = parser.ParseDelegate("LinkResolver");
 
+            file["ImageNotLoaded"] = parser.ParseResource<Texture2D>("ImageNotLoaded");
+
             file["EnableBaseLineCorrection"] = parser.ParseBoolean("EnableBaseLineCorrection");
 
             file["Text"] = parser.ParseString("Text");
@@ -109,6 +111,8 @@ namespace Sitana.Framework.Ui.Views
         ColorWrapper _colorRuler;
 
         bool _baseLineCorrection = false;
+
+        Texture2D _imageNotLoaded;
 
         IRichProcessor _richProcessor;
 
@@ -229,7 +233,7 @@ namespace Sitana.Framework.Ui.Views
             _horizontalRulerHeight = DefinitionResolver.Get<Length>(Controller, Binding, file["HorizontalRulerHeight"], new Length(0, 0, 1));
             _indentSize = DefinitionResolver.Get<Length>(Controller, Binding, file["Indent"], Length.Zero);
             _paragraphSpacing = DefinitionResolver.Get<Length>(Controller, Binding, file["ParagraphSpacing"], Length.Zero);
-
+            _imageNotLoaded = DefinitionResolver.Get<Texture2D>(Controller, Binding, file["ImageNotLoaded"], AdvancedDrawBatch.OnePixelWhiteTexture);
             _lineHeight = (float)DefinitionResolver.Get<int>(Controller, Binding, file["LineHeight"], 100) / 100.0f;
             _justify = DefinitionResolver.Get<bool>(Controller, Binding, file["Justify"], false);
 
@@ -825,7 +829,7 @@ namespace Sitana.Framework.Ui.Views
                 case EntityType.Image:
                     {
                         richEntity.Text = entity.Data as string;
-                        richEntity.Image = AdvancedDrawBatch.OnePixelWhiteTexture;
+                        richEntity.Image = _imageNotLoaded;
 
                         LinkResolvedDelegate onLinkResolved = (string result) =>
                             {
@@ -870,6 +874,8 @@ namespace Sitana.Framework.Ui.Views
         void ICacheClient.ImageUpdated()
         {
             _shouldUpdate = true;
+            Parent.RecalcLayout();
+            AppMain.Redraw(this);
         }
 
         void FillEntityData(RichViewEntity richEntity, Entity entity)

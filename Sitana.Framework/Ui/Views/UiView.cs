@@ -605,7 +605,7 @@ namespace Sitana.Framework.Ui.Views
 
             if(DisplayVisibility != oldDisplayVisibility)
             {
-                AppMain.Redraw();
+                AppMain.Redraw(true);
             }
 
             if (visible != DisplayVisibility > 0)
@@ -644,7 +644,7 @@ namespace Sitana.Framework.Ui.Views
                 }
 
                 _lastSize = Bounds;
-                AppMain.Redraw();
+                AppMain.Redraw(this);
             }
 
 			_sizeCanChange = SizeChangeDimension.None;

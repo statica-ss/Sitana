@@ -110,7 +110,7 @@ namespace Sitana.Framework.Ui.Views
                     _previous = null;
                 }
 
-                AppMain.Redraw();
+                AppMain.Redraw(this);
             }
         }
 
@@ -261,7 +261,7 @@ namespace Sitana.Framework.Ui.Views
                 return false;
             }
 
-            InitChildren(Controller, Binding, definition);
+            TryInitChildren(definition);
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiContentSlider));
 

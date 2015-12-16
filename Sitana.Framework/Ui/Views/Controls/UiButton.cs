@@ -99,7 +99,7 @@ namespace Sitana.Framework.Ui.Views
 
         UiButtonMode _mode = UiButtonMode.Release;
 
-        protected int _touchId = 0;
+        protected int _touchId = TouchPad.InvalidTouchId;
 
         private Dictionary<int, bool> _touches = new Dictionary<int, bool>();
 
