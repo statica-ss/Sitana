@@ -100,21 +100,23 @@ namespace Sitana.Framework.Ui.Views
 
 				break;
 
-            case GestureType.Up:
-            case GestureType.CapturedByOther:
-                if (_touchIdX == gesture.TouchId)
-                {
-                    _touchIdX = 0;
-                    _lastMoveTime = null;
-                    _service.ScrollSpeedX = _scrollSpeed.X;
-                }
+			case GestureType.Up:
+			case GestureType.CapturedByOther:
+				if (_touchIdX == gesture.TouchId)
+				{
+					_touchIdX = 0;
+					_lastMoveTime = null;
+					_service.ScrollSpeedX = _scrollSpeed.X;
+					AppMain.Redraw(_view);
+				}
 
-                if (_touchIdY == gesture.TouchId)
-                {
-                    _touchIdY = 0;
-                    _lastMoveTime = null;
-                    _service.ScrollSpeedY = _scrollSpeed.Y;
-                }
+				if (_touchIdY == gesture.TouchId)
+				{
+					_touchIdY = 0;
+					_lastMoveTime = null;
+					_service.ScrollSpeedY = _scrollSpeed.Y;
+					AppMain.Redraw(_view);
+				}
                 break;
 
             case GestureType.HorizontalDrag:
