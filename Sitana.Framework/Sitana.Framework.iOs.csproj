@@ -277,6 +277,7 @@
     <Compile Include="Ui\Views\Controls\QuickData\QuickSeparatorLine.cs" />
     <Compile Include="Misc\RemoteImageCache.cs" />
     <Compile Include="Diagnostics\ServiceMode.cs" />
+    <Compile Include="Platform\UiYoutubeViewController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

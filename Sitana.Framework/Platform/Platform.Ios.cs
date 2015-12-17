@@ -20,6 +20,7 @@ using CoreGraphics;
 using AVFoundation;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Ui.Interfaces;
+using System.Diagnostics;
 
 namespace Sitana.Framework
 {
@@ -261,6 +262,21 @@ namespace Sitana.Framework
 		public static void DownloadAndOpenFile(string url)
 		{
 			OpenWebsite(url);
+		}
+
+		public static void PlayYoutubeVideo(string movieId)
+		{
+			try
+			{
+				UIViewController ytController = new UiYoutubeViewController(movieId);
+
+				UIViewController controller = AppMain.Current.Services.GetService(typeof(UIViewController)) as UIViewController;
+				controller.PresentModalViewController(ytController, true);
+			}
+			catch(Exception ex)
+			{
+				Debug.WriteLine(ex);
+			}
 		}
     }
 }

@@ -407,7 +407,7 @@ namespace Sitana.Framework
 			}
 		}
 
-        public static void PLayYoutubeVideo(string movieId)
+        public static void PlayYoutubeVideo(string movieId)
         {
             try
             {

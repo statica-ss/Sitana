@@ -191,9 +191,6 @@ namespace Sitana.Framework.Input
 
                 _textField.BecomeFirstResponder();
             }
-
-
-
         }
 
         void HandleEnded(object sender, EventArgs e)
@@ -204,6 +201,8 @@ namespace Sitana.Framework.Input
 
             Unfocus();
             _controller.LostFocus();
+
+			AppMain.Redraw(true);
         }
 
 		UITextAutocapitalizationType AutoCapitalizationFromContext(TextInputType context)

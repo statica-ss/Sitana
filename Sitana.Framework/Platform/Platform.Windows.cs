@@ -233,7 +233,7 @@ namespace Sitana.Framework
         {
         }
 
-        public static void PLayYoutubeVideo(string movieId)
+        public static void PlayYoutubeVideo(string movieId)
         {
             var url = "https://www.youtube.com/watch?" + "v=" + movieId;
 
