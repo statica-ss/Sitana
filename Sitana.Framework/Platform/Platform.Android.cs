@@ -125,7 +125,12 @@ namespace Sitana.Framework
 		{
 			get
 			{
-				return Android.OS.Build.Device;
+                if(string.IsNullOrWhiteSpace(Android.OS.Build.Brand))
+                {
+                    return Android.OS.Build.Model;
+                }
+
+                return Android.OS.Build.Brand + " " + Android.OS.Build.Model;
 			}
 		}
 
