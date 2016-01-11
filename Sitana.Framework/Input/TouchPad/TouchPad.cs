@@ -21,6 +21,8 @@ namespace Sitana.Framework.Input.TouchPad
         const int MouseId = 1;
         public const int InvalidTouchId = 0;
 
+        public Matrix TouchTransform {private get; set;}
+
         public delegate void OnTouchDelegate(int id, Vector2 position);
 
         struct LastTap
@@ -47,6 +49,14 @@ namespace Sitana.Framework.Input.TouchPad
 
         Dictionary<int, TouchElement> _elements = new Dictionary<int, TouchElement>();
 
+        internal Dictionary<int, TouchElement> TouchElements
+        {
+            get
+            {
+                return _elements;
+            }
+        }
+
         Gesture _gesture = new Gesture();
 
         Vector2? _rightClick;
@@ -59,6 +69,7 @@ namespace Sitana.Framework.Input.TouchPad
 
 		public TouchPad()
 		{
+            TouchTransform = Matrix.Identity;
 			_scrollWheelValue = Mouse.GetState().ScrollWheelValue;
 		}
 
@@ -146,18 +157,21 @@ namespace Sitana.Framework.Input.TouchPad
 
             if (touch.State == TouchLocationState.Pressed || touch.State == TouchLocationState.Moved)
             {
+                Vector2 pos = Vector2.Transform(touch.Position, TouchTransform);
+
                 if (!element.Valid)
                 {
-                    ProcessDown(touch.Id, touch.Position);
+                    ProcessDown(touch.Id, pos);
                 }
                 else
                 {
-                    ProcessMove(touch.Id, touch.Position, time);
+                    ProcessMove(touch.Id, pos, time);
                 }
             }
             else if (element.Valid)
             {
-                ProcessUp(touch.Id, touch.Position, time);
+                Vector2 pos = Vector2.Transform(touch.Position, TouchTransform);
+                ProcessUp(touch.Id, pos, time);
             }
         }
 

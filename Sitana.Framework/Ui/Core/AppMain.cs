@@ -147,6 +147,33 @@ namespace Sitana.Framework.Ui.Core
             Current = null;
         }
 
+        void DrawTouchTest()
+        {
+            var touchElements = TouchPad.Instance.TouchElements;
+
+            foreach (var element in touchElements)
+            {
+                Point p0 = element.Value.Position.ToPoint();
+                
+                Point pL = p0;
+                Point pR = p0;
+
+                Point pT = p0;
+                Point pB = p0;
+
+                pL.X = 0;
+                pR.X = 10000;
+
+                pT.Y = 0;
+                pB.Y = 10000;
+
+                _drawBatch.DrawLine(pL, pR, Color.Red);
+                _drawBatch.DrawLine(pT, pB, Color.Red);
+            }
+
+            _drawBatch.Flush();
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             if(MainView!=null)
@@ -161,6 +188,11 @@ namespace Sitana.Framework.Ui.Core
             if (MainView != null)
             {
                 MainView.ProcessAfterDraw();
+            }
+
+            if (_drawBatch != null)
+            {
+                DrawTouchTest();
             }
         }
 

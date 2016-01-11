@@ -343,6 +343,10 @@ namespace Sitana.Framework.Ui.Views
             {
                 Parent.ForceUpdate();
             }
+            else
+            {
+                AppMain.Redraw(true);
+            }
         }
 
 		public bool IsPointInsideView(Vector2 point, int tolerance = 0)
@@ -605,7 +609,7 @@ namespace Sitana.Framework.Ui.Views
 
             if(DisplayVisibility != oldDisplayVisibility)
             {
-                AppMain.Redraw(true);
+                ForceUpdate();
             }
 
             if (visible != DisplayVisibility > 0)
@@ -940,6 +944,11 @@ namespace Sitana.Framework.Ui.Views
                 if(_showSpeed == float.MaxValue)
                 {
                     DisplayVisibility = 1;
+
+                    if (Parent != null)
+                    {
+                        Parent.RecalcLayout();
+                    }
                 }
             }
             else
@@ -947,8 +956,15 @@ namespace Sitana.Framework.Ui.Views
                 if (_hideSpeed == float.MaxValue)
                 {
                     DisplayVisibility = 0;
+
+                    if (Parent != null)
+                    {
+                        Parent.RecalcLayout();
+                    }
                 }
             }
+
+            ForceUpdate();
         }
 
         void CreatePositionParameters(UiController controller, object binding, DefinitionFile file)

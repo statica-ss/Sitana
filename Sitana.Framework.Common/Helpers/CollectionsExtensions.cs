@@ -10,9 +10,9 @@ namespace Sitana.Framework
     {
         public delegate void ForElementDelegate<T>(T element);
 
-        public static void ForEach<T>(this List<T> list, ForElementDelegate<T> forElement)
+        public static void ForEach<T>(this List<T> list, Action<T> forElement)
         {
-            for(int idx = 0; idx < list.Count; ++idx)
+            for (int idx = 0; idx < list.Count; ++idx)
             {
                 forElement(list[idx]);
             }

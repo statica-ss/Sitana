@@ -174,5 +174,8 @@ namespace Sitana.Framework
         {
         }
 		
+        public static void PlayYoutubeVideo(string videoId)
+        {
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             RegisterType(typeof(DefinitionFile), Load, true);
         }
 
-        // <summary>
+        /// <summary>
         /// Loads content object
         /// </summary>
         /// <param name="name">name of resource</param>
