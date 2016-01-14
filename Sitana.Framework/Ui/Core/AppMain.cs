@@ -54,6 +54,8 @@ namespace Sitana.Framework.Ui.Core
 
         public double TotalGameTime { get; private set; }
 
+        public bool TouchTestEnable = false;
+
         public List<IUpdatable> _updatables = new List<IUpdatable>();
 
         public int RedrawFrequency
@@ -190,7 +192,7 @@ namespace Sitana.Framework.Ui.Core
                 MainView.ProcessAfterDraw();
             }
 
-            if (_drawBatch != null)
+            if (_drawBatch != null && TouchTestEnable)
             {
                 DrawTouchTest();
             }
@@ -265,6 +267,7 @@ namespace Sitana.Framework.Ui.Core
                 }
 
                 _lastSize = newSize;
+                _shouldRedraw = true;
             }
 
             if (_currentVerticalOffset != _desiredVerticalOffset)
@@ -407,6 +410,7 @@ namespace Sitana.Framework.Ui.Core
         public void SizeChanged()
         {
             _lastSize = Point.Zero;
+            Redraw(true);
         }
 
         public void RegisterUpdatable(IUpdatable updatable)
