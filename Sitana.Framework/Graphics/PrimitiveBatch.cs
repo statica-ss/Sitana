@@ -13,7 +13,7 @@ namespace Sitana.Framework.Graphics
         // this constant controls how large the vertices buffer is. Larger buffers will
         // require flushing less often, which can increase performance. However, having
         // buffer that is unnecessarily large will waste memory.
-        const int DefaultBufferSize = 500;
+        const int DefaultBufferSize = 2000;
 
         public PrimitiveType PrimitiveType
         {
@@ -310,9 +310,12 @@ namespace Sitana.Framework.Graphics
 
             // once we know there's enough room, set the vertex in the buffer,
             // and increase position.
-            _verticesTexture[_positionInBuffer].Position = new Vector3(x, y, 0);
+			_verticesTexture[_positionInBuffer].Position.X = x;
+			_verticesTexture[_positionInBuffer].Position.Y = y;
+			_verticesTexture[_positionInBuffer].Position.Z = 0;
             _verticesTexture[_positionInBuffer].Color = color;
-            _verticesTexture[_positionInBuffer].TextureCoordinate = new Vector2(tx,ty);
+			_verticesTexture[_positionInBuffer].TextureCoordinate.X = tx;
+			_verticesTexture[_positionInBuffer].TextureCoordinate.Y = ty;
 
             _positionInBuffer++;
         }

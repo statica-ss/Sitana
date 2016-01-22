@@ -288,7 +288,7 @@ namespace Sitana.Framework.Ui.Views
             _cycle = DefinitionResolver.Get<bool>(Controller, Binding, file["Cycle"], false);
 
             double speed = DefinitionResolver.Get<double>(Controller, Binding, file["TransitionTime"], 500) / 1000.0;
-            _transitionSpeed = (float)(speed > 0 ? 1 / speed : 10000000);
+			_transitionSpeed = (float)(speed > 0 ? 1 / speed : float.MaxValue);
 
             DefinitionFile transitionEffectFile = file["ShowTransitionEffectNext"] as DefinitionFile;
 
@@ -519,6 +519,13 @@ namespace Sitana.Framework.Ui.Views
 
                     _next = value > _selectedIndex;
                     _selectedIndex = value;
+
+					if (_transitionSpeed == float.MaxValue) 
+					{
+						_previous = null;
+						_transition = 0;
+						_next = false;
+					}
                 }
 
                 if(_sharedSelectedIndex != null)

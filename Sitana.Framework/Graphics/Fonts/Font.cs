@@ -305,13 +305,13 @@ namespace Sitana.Framework.Graphics
             Vector2 bottomLeft = position - (right - down) * scale + down * glyph.Height * scale;
             Vector2 bottomRight = position + (right + down) * scale + right * glyph.Width * scale + down * glyph.Height * scale;
             
-            primitiveBatch.AddVertex(topLeft, color, new Vector2(topLeftX, topLeftY));
-            primitiveBatch.AddVertex(bottomLeft, color, new Vector2(topLeftX, bottomRightY));
-            primitiveBatch.AddVertex(topRight, color, new Vector2(bottomRightX, topLeftY));
+			primitiveBatch.AddVertex(topLeft.X, topLeft.Y, ref color, topLeftX, topLeftY);
+			primitiveBatch.AddVertex(bottomLeft.X, bottomLeft.Y, ref color, topLeftX, bottomRightY);
+			primitiveBatch.AddVertex(topRight.X, topRight.Y, ref color, bottomRightX, topLeftY);
 
-            primitiveBatch.AddVertex(bottomLeft, color, new Vector2(topLeftX, bottomRightY));
-            primitiveBatch.AddVertex(topRight, color, new Vector2(bottomRightX, topLeftY));
-            primitiveBatch.AddVertex(bottomRight, color, new Vector2(bottomRightX, bottomRightY));
+			primitiveBatch.AddVertex(bottomLeft.X, bottomLeft.Y, ref color, topLeftX, bottomRightY);
+			primitiveBatch.AddVertex(topRight.X, topRight.Y, ref color, bottomRightX, topLeftY);
+			primitiveBatch.AddVertex(bottomRight.X, bottomRight.Y, ref color, bottomRightX, bottomRightY);
         }
 
         public Glyph Find(char character)

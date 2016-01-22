@@ -303,6 +303,17 @@ namespace Sitana.Framework.Ui.Views
 
                     if (_touchId == gesture.TouchId)
                     {
+                        if(_holdTime > 0)
+                        {
+                            if( (gesture.Origin - gesture.Position).Length() >= TouchPad.Instance.MinDragSize )
+                            {
+                                _holdTime = 0;
+                                _touchId = 0;
+                                SetPushed(false, false);
+                                break;
+                            }
+                        }
+
                         SetPushed(_checkRect.Contains(gesture.Position), true);
                     }
                     break;
