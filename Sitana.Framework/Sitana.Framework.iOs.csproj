@@ -193,7 +193,6 @@
     <Compile Include="Ui\Views\UiView.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.DrawMethods.cs" />
     <Compile Include="Graphics\AdvancedDrawBatch.Helpers.cs" />
-    <Compile Include="Ui\Core\AppMain.Mobile.cs" />
     <Compile Include="Media\MusicController.iOs.cs" />
     <Compile Include="Diagnostics\PerformanceProfiler.cs" />
     <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
@@ -278,6 +277,8 @@
     <Compile Include="Misc\RemoteImageCache.cs" />
     <Compile Include="Diagnostics\ServiceMode.cs" />
     <Compile Include="Platform\UiYoutubeViewController.cs" />
+    <Compile Include="Input\TouchPad\TouchPad_iOSGestureRecognizer.cs" />
+    <Compile Include="Ui\Core\AppMain.iOS.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

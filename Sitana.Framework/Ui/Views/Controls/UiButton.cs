@@ -115,7 +115,7 @@ namespace Sitana.Framework.Ui.Views
         private SoundEffect _releaseSound;
         protected SoundEffect _actionSound;
 
-        private float _holdTime = 0;
+        private DateTime? _holdTime = null;
 
         private bool _processHold = false;
 
@@ -156,15 +156,13 @@ namespace Sitana.Framework.Ui.Views
         {
             base.Update(time);
 
-            if (_holdTime > 0)
+            if (_holdTime.HasValue)
             {
-                _holdTime -= time;
-
-                if (_holdTime <= 0)
+                if ((DateTime.Now - _holdTime.Value).TotalMilliseconds >= TouchPad.Instance.HoldTimeInMs)
                 {
                     CallDelegate("Hold");
                     _touchId = 0;
-                    _holdTime = 0;
+                    _holdTime = null;
                     SetPushed(false, false);
                 }
             }
@@ -250,7 +248,7 @@ namespace Sitana.Framework.Ui.Views
 
                                 if (_processHold)
                                 {
-                                    _holdTime = (float)TouchPad.Instance.HoldTimeInMs / 1000.0f;
+                                    _holdTime = gesture.Time;
                                 }
 
                                 SetPushed(true, _mode != UiButtonMode.Press);
@@ -303,11 +301,11 @@ namespace Sitana.Framework.Ui.Views
 
                     if (_touchId == gesture.TouchId)
                     {
-                        if(_holdTime > 0)
+                        if(_holdTime.HasValue)
                         {
                             if( (gesture.Origin - gesture.Position).Length() >= TouchPad.Instance.MinDragSize )
                             {
-                                _holdTime = 0;
+                                _holdTime = null;
                                 _touchId = 0;
                                 SetPushed(false, false);
                                 break;
@@ -374,7 +372,7 @@ namespace Sitana.Framework.Ui.Views
 
             if (!pushed)
             {
-                _holdTime = 0;
+				_holdTime = null;
             }
         }
 

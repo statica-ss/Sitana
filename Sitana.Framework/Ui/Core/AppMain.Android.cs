@@ -8,6 +8,7 @@ using Sitana.Framework.Diagnostics;
 using System;
 using Android.Widget;
 using Sitana.Framework.Misc;
+using Sitana.Framework.Input.TouchPad;
 
 
 namespace Sitana.Framework.Ui.Core
@@ -40,6 +41,8 @@ namespace Sitana.Framework.Ui.Core
 
 			RootView.KeyPress += OnKeyPress;
 			view.KeyPress += OnKeyPress;
+
+			//RootView.AddView(new TouchPad_AndroidGestureView(Activity));
 		}
 
 		void OnKeyPress(object sender, View.KeyEventArgs e)

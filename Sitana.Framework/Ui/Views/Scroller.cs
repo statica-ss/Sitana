@@ -24,7 +24,7 @@ namespace Sitana.Framework.Ui.Views
         int _touchIdX = 0;
         int _touchIdY = 0;
 
-        double? _lastMoveTime = null;
+        DateTime? _lastMoveTime = null;
 
         UiView _view;
         ScrollingService _service;
@@ -185,16 +185,21 @@ namespace Sitana.Framework.Ui.Views
 
                     if (_lastMoveTime != null)
                     {
-                        double time = AppMain.Current.TotalGameTime - _lastMoveTime.Value;
+						double time = (gesture.Time - _lastMoveTime.Value).TotalSeconds;
+
+						if (time == 0) 
+						{
+							time = 0.01;
+						}
 
                         if (_touchIdX != 0 && _mode.HasFlag(Mode.HorizontalDrag))
                         {
-                            _scrollSpeed.X = (_service.ScrollSpeedX + -gesture.Offset.X / (float)time) / 2;
+                            _scrollSpeed.X = (_service.ScrollSpeedX - gesture.Offset.X / (float)time) / 2;
                         }
 
                         if (_touchIdY != 0 && _mode.HasFlag(Mode.VerticalDrag))
                         {
-                            _scrollSpeed.Y = (_service.ScrollSpeedY + -gesture.Offset.Y / (float)time) / 2;
+                            _scrollSpeed.Y = (_service.ScrollSpeedY - gesture.Offset.Y / (float)time) / 2;
                         }
                     }
                     else
@@ -203,7 +208,7 @@ namespace Sitana.Framework.Ui.Views
                         _scrollSpeed.Y = 0;
                     }
 
-                    _lastMoveTime = AppMain.Current.TotalGameTime;
+					_lastMoveTime = gesture.Time;
                 }
                 break;
             }

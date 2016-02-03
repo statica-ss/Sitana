@@ -381,7 +381,11 @@ namespace Sitana.Framework.Graphics
             else
             {
                 // submit the draw call to the graphics card
-                _device.DrawUserPrimitives<VertexPositionColor>(_primitiveType, _vertices, 0, primitiveCount);
+                try
+                {
+                    _device.DrawUserPrimitives<VertexPositionColor>(_primitiveType, _vertices, 0, primitiveCount);
+                }
+                catch { }
 
                 // Copy rest of vertices for next primitives.
                 for (int idx = 0; idx < _numRestVertsPerPrimitive; ++idx)

@@ -19,6 +19,7 @@ namespace Sitana.Framework
     public static class ReflectionExtensions
     {
         static Dictionary<Type, MethodInfo[]> _methods = new Dictionary<Type, MethodInfo[]>();
+        static Dictionary<Type, PropertyInfo[]> _properties = new Dictionary<Type, PropertyInfo[]>();
 
         public static FieldInfo GetField(this Type type, string name)
         {
@@ -56,6 +57,33 @@ namespace Sitana.Framework
             }
 
             return info;
+        }
+
+        public static PropertyInfo[] GetProperties(this Type type)
+        {
+            PropertyInfo[] properties;
+            if (!_properties.TryGetValue(type, out properties))
+            {
+                List<PropertyInfo> list = new List<PropertyInfo>();
+
+                Type baseType = type;
+
+                for (; ; )
+                {
+                    list.AddRange(baseType.GetTypeInfo().DeclaredProperties);
+
+                    baseType = baseType.GetTypeInfo().BaseType;
+
+                    if (baseType == null || baseType.GetTypeInfo().IsPrimitive)
+                    {
+                        break;
+                    }
+                }
+
+                properties = list.ToArray();
+                _properties.Add(type, properties);
+            }
+            return properties;
         }
 
         public static MethodInfo[] GetMethods(this Type type)

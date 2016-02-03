@@ -10,7 +10,7 @@ namespace Sitana.Framework.Ui.Core
     {
         void PlatformInit()
         {
-
+			
         }
         
         protected virtual void OnSize(int width, int height)

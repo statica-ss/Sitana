@@ -268,6 +268,8 @@ namespace Sitana.Framework.Ui.Core
 
                 _lastSize = newSize;
                 _shouldRedraw = true;
+				Redraw(true);
+				RedrawNextFrame();
             }
 
             if (_currentVerticalOffset != _desiredVerticalOffset)
@@ -275,7 +277,7 @@ namespace Sitana.Framework.Ui.Core
                 if (time >= 0.2)
                 {
                     _currentVerticalOffset = _desiredVerticalOffset;
-                } 
+                }
                 else
                 {
                     _currentVerticalOffset = _desiredVerticalOffset * time * 5 + (1 - time * 5) * _currentVerticalOffset;
@@ -335,6 +337,28 @@ namespace Sitana.Framework.Ui.Core
                 Thread.Sleep(10);
 #endif
             }
+        }
+
+        public void ReloadView(string path)
+        {
+            DefinitionFile file = ContentLoader.Current.Load<DefinitionFile>(path);
+            _mainView = file;
+
+            IDefinitionClass obj = _mainView.CreateInstance(null, null);
+
+            MainView = (UiContainer)obj;
+
+            MainView.RecalculateAll();
+
+            MainView.RegisterView();
+            MainView.ViewAdded();
+
+            if (ViewLoaded != null)
+            {
+                ViewLoaded(this);
+            }
+
+            MainView.Bounds = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         }
 
         protected override void LoadContent()

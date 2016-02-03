@@ -17,6 +17,7 @@ namespace Sitana.Framework.Graphics
         private UniversalFont _universalFont;
         private float _scale;
         private float _spacing = 0;
+        private float _lineHeight = 1;
 
         private double _lastUnit = 0;
 
@@ -46,9 +47,22 @@ namespace Sitana.Framework.Graphics
             }
         }
 
+        public float LineHeight
+        {
+            get
+            {
+                return _lineHeight;
+            }
+        }
+
         public UiFont(string font, int size, int spacing): this(font, size)
         {
             _spacing = (float)spacing / 1000.0f;
+        }
+
+        public UiFont(string font, int size, int spacing, int lineHeight): this(font, size, spacing)
+        {
+            _lineHeight = lineHeight / 100.0f;
         }
 
         public UiFont(string font, int size)
@@ -59,19 +73,19 @@ namespace Sitana.Framework.Graphics
 
         public Vector2 MeasureString(string text)
         {
-            return Font.MeasureString(text, Spacing) * Scale;
+            return Font.MeasureString(text, Spacing, LineHeight) * Scale;
         }
 
         public Vector2 MeasureString(StringBuilder text)
         {
-            return Font.MeasureString(text, Spacing) * Scale;
+            return Font.MeasureString(text, Spacing, LineHeight) * Scale;
         }
 
         public Vector2 MeasureString(SharedString text)
         {
             lock (text)
             {
-                return Font.MeasureString(text.StringBuilder, Spacing) * Scale;
+                return Font.MeasureString(text.StringBuilder, Spacing, LineHeight) * Scale;
             }
         }
 

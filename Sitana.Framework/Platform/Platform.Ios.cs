@@ -52,11 +52,11 @@ namespace Sitana.Framework
 
 		private static string _appId;
 
-		private static UIApplication _app;
+		public static UIApplication UIApplication { get; private set; }
 
 		public static void Init(UIApplication app, string appId)
 		{
-			_app = app;
+			UIApplication = app;
 			_appId = appId;
 		}
 
@@ -189,7 +189,7 @@ namespace Sitana.Framework
 
         public static void DisableLock(bool disable)
         {
-            _app.IdleTimerDisabled = disable;
+            UIApplication.IdleTimerDisabled = disable;
         }
 
 		public static float PixelsToPoints(float pixels)

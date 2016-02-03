@@ -72,10 +72,10 @@ namespace Sitana.Framework.Content
                     throw new TypeLoadException();
                 }
 
-                SpriteBatch spriteBatch = new SpriteBatch(device);
-                spriteBatch.Begin();
-                spriteBatch.Draw(texture, Vector2.Zero, Color.White);
-                spriteBatch.End();
+                //SpriteBatch spriteBatch = new SpriteBatch(device);
+                //spriteBatch.Begin();
+                //spriteBatch.Draw(texture, Vector2.Zero, Color.White);
+                //spriteBatch.End();
 
                 // Return loaded texture.
                 return texture;

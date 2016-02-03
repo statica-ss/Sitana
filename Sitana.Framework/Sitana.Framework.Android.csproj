@@ -255,8 +255,8 @@
     <Compile Include="Ui\Views\Controls\QuickData\QuickSeparatorLine.cs" />
     <Compile Include="Misc\RemoteImageCache.cs" />
     <Compile Include="Diagnostics\ServiceMode.cs" />
+    <Compile Include="Input\TouchPad\TouchPad_AndroidGestureView.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ContentManagement\" />
     <Folder Include="Definitions\" />
@@ -289,4 +289,5 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

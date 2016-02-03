@@ -144,7 +144,7 @@ namespace Sitana.Framework.Serialization
 
             Type type = obj.GetType();
 
-            foreach(var info in type.GetTypeInfo().DeclaredProperties)
+            foreach(var info in type.GetProperties())
             {
                 Attribute attr = info.GetCustomAttribute(typeof(XSerializableAttribute));
 

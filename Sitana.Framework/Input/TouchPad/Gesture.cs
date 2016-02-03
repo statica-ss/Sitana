@@ -18,6 +18,8 @@ namespace Sitana.Framework.Input.TouchPad
 
         public bool Handled {get; private set;}
 
+		public DateTime Time { get; internal set; }
+
         public bool SkipRest { get; private set; }
         
         public object PointerCapturedBy { get; internal set; }

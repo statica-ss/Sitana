@@ -12,7 +12,7 @@ namespace Sitana.Framework.IO
 
         public ZipReadStorageManager(Stream stream)
         {
-			_zipFile = new ZipArchive(stream, ZipArchiveMode.Read, false, System.Text.Encoding.UTF8);
+			_zipFile = new ZipArchive(stream, ZipArchiveMode.Read, false);
         }
 
         public override bool FileExists(string path)
@@ -25,7 +25,7 @@ namespace Sitana.Framework.IO
         {
             path = path.Replace('\\', '/').Trim('/') + '/';
 
-            var entry = _zipFile.GetEntry(path);
+            var entry = _zipFile.GetEntry(path); 
             return entry != null;
         }
 

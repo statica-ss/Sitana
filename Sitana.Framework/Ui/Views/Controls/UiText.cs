@@ -477,9 +477,9 @@ namespace Sitana.Framework.Ui.Views
             {
                 case Framework.TextAlign.Middle:
                     target.Y = target.Center.Y - fullHeight / 2;
-                    break;
+                    break; 
 
-                case Framework.TextAlign.Bottom:
+                case Framework.TextAlign.Bottom: 
                     target.Y = target.Bottom - fullHeight;
                     break;
             }
@@ -513,10 +513,13 @@ namespace Sitana.Framework.Ui.Views
 
             if (_lastSize.X != Bounds.Width || _lastSize.Y != Bounds.Height)
             {
-                _lastSize.X = Bounds.Width;
-                _lastSize.Y = Bounds.Height;
-                SetText(_text);
-                Parent.RecalculateAll();
+                if (IsSizeStable)
+                {
+                    _lastSize.X = Bounds.Width;
+                    _lastSize.Y = Bounds.Height;
+                    SetText(_text);
+                    Parent.RecalculateAll();
+                }
             }
         }
     }

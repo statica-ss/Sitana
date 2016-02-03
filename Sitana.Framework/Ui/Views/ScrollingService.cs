@@ -87,12 +87,12 @@ namespace Sitana.Framework.Ui.Views
             float maxExceedX = (float)MaxExceed.ComputeDouble();
             float maxExceedY = (float)MaxExceed.ComputeDouble();
 
-            if (Math.Abs(desiredScrollX - ScrollPositionX) > maxExceedX)
+			if (Math.Abs(desiredScrollX - ScrollPositionX) >= maxExceedX)
             {
                 ScrollSpeedX = 0;
             }
 
-            if (Math.Abs(desiredScrollY - ScrollPositionY) > maxExceedY)
+			if (Math.Abs(desiredScrollY - ScrollPositionY) >= maxExceedY)
             {
                 ScrollSpeedY = 0;
             }
@@ -113,7 +113,7 @@ namespace Sitana.Framework.Ui.Views
                 ScrollPositionY += ScrollSpeedY * time;
                 ScrollSpeedY -= ScrollSpeedY * time * 10;
 
-                if (Math.Abs(ScrollSpeedY) < 1)
+                if(Math.Abs(ScrollSpeedY) < 1)
                 {
                     ScrollSpeedY = 0;
                 }

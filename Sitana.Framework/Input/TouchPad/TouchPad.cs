@@ -113,8 +113,10 @@ namespace Sitana.Framework.Input.TouchPad
 				}
 			}
 
-            AnalyzeMouse(time, active);
-            AnalyzeTouch(time);
+			#if !IOS
+				AnalyzeMouse(time, active);
+            	AnalyzeTouch(time);
+			#endif
         }
 
         void AnalyzeTouch(float time)
@@ -137,7 +139,7 @@ namespace Sitana.Framework.Input.TouchPad
 
                 if ( id != MouseId && !touch.FindById(id, out tl) )
                 {
-                    ProcessUp(id, _elements[id].Position, time);
+					ProcessUp(id, _elements[id].Position, DateTime.Now);
                 }
                 else
                 {
@@ -146,7 +148,7 @@ namespace Sitana.Framework.Input.TouchPad
             }
         }
 
-        void AnalyzeTouchPoint(ref TouchLocation touch, float time)
+		void AnalyzeTouchPoint(ref TouchLocation touch, float time)
         {
             TouchElement element;
 
@@ -161,17 +163,17 @@ namespace Sitana.Framework.Input.TouchPad
 
                 if (!element.Valid)
                 {
-                    ProcessDown(touch.Id, pos);
+					ProcessDown(touch.Id, pos, DateTime.Now);
                 }
                 else
                 {
-                    ProcessMove(touch.Id, pos, time);
+					ProcessMove(touch.Id, pos, DateTime.Now);
                 }
             }
             else if (element.Valid)
             {
                 Vector2 pos = Vector2.Transform(touch.Position, TouchTransform);
-                ProcessUp(touch.Id, pos, time);
+				ProcessUp(touch.Id, pos, DateTime.Now);
             }
         }
 
@@ -258,20 +260,20 @@ namespace Sitana.Framework.Input.TouchPad
             {
                 if (!element.Valid)
                 {
-                    ProcessDown(MouseId, state.ToVector2());
+					ProcessDown(MouseId, state.ToVector2(), DateTime.Now);
                 }
                 else
                 {
-                    ProcessMove(MouseId, state.ToVector2(), time);
+					ProcessMove(MouseId, state.ToVector2(), DateTime.Now);
                 }
             }
             else if ( element.Valid )
             {
-                ProcessUp(MouseId, state.ToVector2(), time);
+				ProcessUp(MouseId, state.ToVector2(), DateTime.Now);
             }
         }
 
-        void ProcessDown(int id, Vector2 position)
+		internal void ProcessDown(int id, Vector2 position, DateTime time)
         {
             TouchElement element = new TouchElement()
             {
@@ -287,6 +289,7 @@ namespace Sitana.Framework.Input.TouchPad
             _gesture.Position = position;
             _gesture.TouchId = id;
             _gesture.Offset = Vector2.Zero;
+			_gesture.Time = time;
 
             OnGesture();
 
@@ -300,7 +303,7 @@ namespace Sitana.Framework.Input.TouchPad
             }
         }
 
-        void ProcessMove(int id, Vector2 position, float time)
+		internal void ProcessMove(int id, Vector2 position, DateTime time)
         {
             TouchElement element = _elements[id];
             Vector2 move = position - element.Position;
@@ -313,6 +316,7 @@ namespace Sitana.Framework.Input.TouchPad
             _gesture.TouchId = id;
             _gesture.Offset = move;
             _gesture.PointerCapturedBy = element.LockedListener;
+			_gesture.Time = time;
 
             if (move != Vector2.Zero)
             {
@@ -330,7 +334,13 @@ namespace Sitana.Framework.Input.TouchPad
             _elements.Add(id, element);
         }
 
-        void ProcessUp(int id, Vector2 position, float time)
+		internal void ProcessUp(int id, DateTime time)
+		{
+			Vector2 upPosition = _elements[id].Position;
+			ProcessUp (id, upPosition, time);
+		}
+
+		internal void ProcessUp(int id, Vector2 position, DateTime time)
         {
             TouchElement element = _elements[id];
             Vector2 move = position - element.Position;
@@ -346,6 +356,7 @@ namespace Sitana.Framework.Input.TouchPad
             _gesture.PointerCapturedBy = element.LockedListener;
             _gesture.TouchId = id;
             _gesture.Offset = move;
+			_gesture.Time = time;
 
             OnGesture();
 
