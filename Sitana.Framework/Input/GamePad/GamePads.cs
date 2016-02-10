@@ -6,25 +6,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using XnaGamePad = Microsoft.Xna.Framework.Input.GamePad;
+
 namespace Sitana.Framework.Input.GamePad
 {
     public class GamePads: Singleton<GamePads>
     {
-#if WINDOWS_PHONE_APP
-        GamePad[] _gamePads = new GamePad[1];
-#else
-        GamePad[] _gamePads = new GamePad[4];
-#endif
+		GamePad[] _gamePads;
 
         public GamePads()
         {
-            _gamePads[0] = new GamePad(PlayerIndex.One);
-
-#if !WINDOWS_PHONE_APP
-            _gamePads[1] = new GamePad(PlayerIndex.Two);
-            _gamePads[2] = new GamePad(PlayerIndex.Three);
-            _gamePads[3] = new GamePad(PlayerIndex.Four);
+#if ANDROID
+			_gamePads = new GamePad[XnaGamePad.MaximumGamePadCount];
+#elif WINDOWS_PHONE
+			_gamePads = new GamePad[1];
+#else
+			_gamePads = new GamePad[4];
 #endif
+
+			for (int idx = 0; idx < _gamePads.Length; ++idx)
+			{
+				_gamePads[idx] = new GamePad((PlayerIndex)idx);
+			}
         }
 
         public GamePad this[int index]

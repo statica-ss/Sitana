@@ -80,6 +80,12 @@ namespace Sitana.Framework.Ui.Views
 
         bool _next = false;
 
+        public void RemoveAndInsertAt(UiView view, int index)
+        {
+            _children.Remove(view);
+            _children.Insert(index, view);
+        }
+
         public override void Remove(UiView view)
         {
             base.Remove(view);

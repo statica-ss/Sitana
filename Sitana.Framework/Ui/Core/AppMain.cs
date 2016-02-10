@@ -178,6 +178,11 @@ namespace Sitana.Framework.Ui.Core
 
         protected override void Draw(GameTime gameTime)
         {
+			if(!IsActive)
+			{
+				return;
+			}
+			
             if(MainView!=null)
             {
                 MainView.ResetViewDisplayed();
@@ -230,6 +235,11 @@ namespace Sitana.Framework.Ui.Core
 
 		protected override void Update(GameTime gameTime)
         {
+			if(!IsActive)
+			{
+				return;
+			}
+
             bool shouldRedraw = _redrawInNextFrame;
             _redrawInNextFrame = false;
 

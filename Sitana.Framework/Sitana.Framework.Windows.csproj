@@ -17,7 +17,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;RESOURCE_MANAGER_AVALIABLE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;RESOURCE_MANAGER_AVALIABLE;WINDOWS</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -27,7 +27,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\_Bin\Windows\</OutputPath>
-    <DefineConstants>TRACE;RESOURCE_MANAGER_AVALIABLE</DefineConstants>
+    <DefineConstants>TRACE;RESOURCE_MANAGER_AVALIABLE;WINDOWS</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
