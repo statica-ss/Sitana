@@ -69,10 +69,34 @@ namespace Sitana.Framework.Cs
             {
                 lock(this)
                 {
+                    if (value == null || _stringBuilder.Length == value.Length)
+                    {
+                        if(value == null && _stringBuilder.Length == 0)
+                        {
+                            return;
+                        }
+
+                        bool isEqual = true;
+
+                        for (int idx = 0; idx < _stringBuilder.Length; ++idx )
+                        {
+                            if(_stringBuilder[idx] != value[idx])
+                            {
+                                isEqual = false;
+                                break;
+                            }
+                        }
+
+                        if (isEqual)
+                        {
+                            return;
+                        }
+                    }
+                    
                     _stringBuilder.Clear();
                     _stringBuilder.Append(value);
 
-                    if(ValueChanged != null)
+                    if (ValueChanged != null)
                     {
                         ValueChanged();
                     }
@@ -183,13 +207,15 @@ namespace Sitana.Framework.Cs
 
         public void Clear()
         {
+            bool changed = false;
             // lock(this) - see explanation above.
             lock (this)
             {
+                changed = _stringBuilder.Length != 0;
                 _stringBuilder.Clear();
             }
 
-            if (ValueChanged != null)
+            if (changed && ValueChanged != null)
             {
                 ValueChanged();
             }

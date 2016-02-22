@@ -8,12 +8,12 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Sitana.Framework</RootNamespace>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
+    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <AssemblyName>Sitana.Framework</AssemblyName>
-    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -192,7 +192,6 @@
     <Compile Include="Ui\Views\Controls\UiVerticalGradient.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs" />
     <Compile Include="Ui\Core\AppMain.Mobile.cs" />
-    <Compile Include="Ui\Core\AppMain_ImmersiveFullscreen.cs" />
     <Compile Include="Ui\Views\Controls\UiText.cs" />
     <Compile Include="Ui\RichText\Entity.cs" />
     <Compile Include="Ui\RichText\EntityType.cs" />
@@ -256,6 +255,7 @@
     <Compile Include="Misc\RemoteImageCache.cs" />
     <Compile Include="Diagnostics\ServiceMode.cs" />
     <Compile Include="Input\TouchPad\TouchPad_AndroidGestureView.cs" />
+    <Compile Include="Ui\Definitions\IMixable.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ContentManagement\" />

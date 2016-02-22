@@ -43,7 +43,7 @@ namespace Sitana.Framework.Ui.Views
             file["ReleaseSound"] = parser.ParseResource<SoundEffect>("ReleaseSound");
             file["ActionSound"] = parser.ParseResource<SoundEffect>("ActionSound");
 
-            file["GestureMargin"] = parser.ParseLength("GestureMargin");
+            file["GestureMargin"] = parser.ParseMargin("GestureMargin");
 
             file["Mode"] = parser.ParseEnum<UiButtonMode>("Mode");
 
@@ -70,7 +70,7 @@ namespace Sitana.Framework.Ui.Views
 
         SharedValue<bool> _enabledFlag;
         bool _enabledFlagInvert = false;
-        Length _gestureMargin;
+        Margin _gestureMargin;
 
         public bool Enabled
         {
@@ -204,10 +204,15 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
-			int tolerance = _gestureMargin.Compute();
+            int tolerance = Math.Max(_gestureMargin.Left, Math.Max(_gestureMargin.Right, Math.Max(_gestureMargin.Top, _gestureMargin.Bottom)));
 
             Rectangle bounds = ScreenBounds;
-			bounds.Inflate(tolerance, tolerance);
+
+            bounds.X -= _gestureMargin.Left;
+            bounds.Width += _gestureMargin.Width;
+
+            bounds.Y -= _gestureMargin.Top;
+            bounds.Height += _gestureMargin.Height;
 
             switch(gesture.GestureType)
             {
@@ -392,7 +397,7 @@ namespace Sitana.Framework.Ui.Views
                 Icon = new SharedValue<Texture2D>();
             }
 
-            _gestureMargin = DefinitionResolver.Get<Length>(Controller, Binding, file["GestureMargin"], Length.Zero);
+            _gestureMargin = DefinitionResolver.Get<Margin>(Controller, Binding, file["GestureMargin"], Margin.None);
 
             _text = DefinitionResolver.GetSharedString(Controller, Binding, file["Text"]);
 

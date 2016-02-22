@@ -8,10 +8,11 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Ui.Core;
+using Sitana.Framework.Ui.Definitions;
 
 namespace Sitana.Framework.Ui
 {
-    public struct Margin
+    public struct Margin: IMixable
     {
         public static readonly Margin None = new Margin(null);
 
@@ -20,10 +21,37 @@ namespace Sitana.Framework.Ui
         public int Left { get { return Get(_left).GetValueOrDefault(); } }
         public int Right { get { return Get(_right).GetValueOrDefault(); } }
 
-        public int? _top;
-        public int? _bottom;
-        public int? _left;
-        public int? _right;
+        public double? _top;
+        public double? _bottom;
+        public double? _left;
+        public double? _right;
+
+        bool IMixable.IsMixMeaningful 
+        { 
+            get
+            {
+                return !(_top.HasValue && _bottom.HasValue && _left.HasValue && _right.HasValue);
+            }
+        }
+
+        IMixable IMixable.Mix(IMixable lessImportant)
+        {
+            if( !(lessImportant is Margin))
+            {
+                throw new Exception("Cannot mix different types.");
+            }
+
+            Margin margin = new Margin();
+
+            Margin lessImportantMargin = (Margin)lessImportant;
+
+            margin._top = _top ?? lessImportantMargin._top;
+            margin._bottom = _bottom ?? lessImportantMargin._bottom;
+            margin._left = _left ?? lessImportantMargin._left;
+            margin._right = _right ?? lessImportantMargin._right;
+
+            return margin;
+        }
 
         public int Width
         {
@@ -41,9 +69,9 @@ namespace Sitana.Framework.Ui
             }
         }
 
-        public Margin(int? all) : this(all, all, all, all) { }
+        public Margin(double? all) : this(all, all, all, all) { }
 
-        public Margin(int? left, int? top, int? right, int? bottom)
+        public Margin(double? left, double? top, double? right, double? bottom)
         {
             _top = top;
             _bottom = bottom;
@@ -61,7 +89,7 @@ namespace Sitana.Framework.Ui
             return rect;
         }
 
-        int? Get(int? value)
+        int? Get(double? value)
         {
             if (value.HasValue)
             {

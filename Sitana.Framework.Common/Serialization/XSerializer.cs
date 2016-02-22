@@ -82,14 +82,22 @@ namespace Sitana.Framework.Serialization
             }
         }
 
-        public List<T> DeserializeList<T>(string name, T defaultValue = default(T))
+        public List<T> DeserializeList<T>(string name, T defaultValue = default(T), List<T> list = null)
         {
-            List<T> list = new List<T>();
+            if (list != null)
+            {
+                list.Clear();
+            }
 
             var node = _file.Nodes.Find(n => n.Tag == name);
 
             if(node != null)
             {
+                if(list == null)
+                {
+                    list = new List<T>();
+                }
+
                 foreach(var cn in node.Nodes)
                 {
                     T val = (T)Deserialize(cn, defaultValue, typeof(T));
@@ -135,6 +143,33 @@ namespace Sitana.Framework.Serialization
                 }
 
                 SerializeProperties(node, name, obj);
+                SerializeFields(node, name, obj);
+            }
+        }
+
+        void SerializeFields(XNode root, string name, object obj)
+        {
+            XNode node = null;
+
+            Type type = obj.GetType();
+
+            foreach(var info in type.GetFields())
+            {
+                Attribute attr = info.GetCustomAttribute(typeof(XSerializableAttribute));
+
+                if(attr != null)
+                {
+                    if(node == null)
+                    {
+                        node = new XNode(root, "Fields");
+                        root.Nodes.Add(node);
+                    }
+
+                    string id = info.Name;
+                    object value = info.GetValue(obj);
+
+                    Serialize(node, id, value);
+                }
             }
         }
 
@@ -144,13 +179,13 @@ namespace Sitana.Framework.Serialization
 
             Type type = obj.GetType();
 
-            foreach(var info in type.GetProperties())
+            foreach (var info in type.GetProperties())
             {
                 Attribute attr = info.GetCustomAttribute(typeof(XSerializableAttribute));
 
-                if(attr != null)
+                if (attr != null)
                 {
-                    if(node == null)
+                    if (node == null)
                     {
                         node = new XNode(root, "Properties");
                         root.Nodes.Add(node);
@@ -194,6 +229,23 @@ namespace Sitana.Framework.Serialization
             }
         }
 
+        void DeserializeFields(object obj, XNode root)
+        {
+            XNode node = root.Nodes.Find(n => n.Tag == "Fields");
+            Type type = obj.GetType();
+
+            if (node != null)
+            {
+                foreach (var child in node.Nodes)
+                {
+                    FieldInfo info = type.GetField(child.Tag);
+                    object value = Deserialize(child, null, info.FieldType);
+
+                    info.SetValue(obj, value);
+                }
+            }
+        }
+
         public T Deserialize<T>(string name, T defaultValue = default(T))
         {
             var node = _file.Nodes.Find(n => n.Tag == name);
@@ -228,6 +280,7 @@ namespace Sitana.Framework.Serialization
                 object obj = Activator.CreateInstance(type);
 
                 DeserializeProperties(obj, node);
+                DeserializeFields(obj, node);
 
                 if(obj is IXSerializable)
                 {

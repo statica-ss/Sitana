@@ -19,15 +19,29 @@ namespace Sitana.Framework.Ui.Views
 
             file["Value"] = parser.ParseInt("Value");
             file["SelectedValue"] = parser.ParseInt("SelectedValue");
+
+            file["SubValue"] = parser.ParseInt("SubValue");
+            file["SelectedSubValue"] = parser.ParseInt("SelectedSubValue");
         }
 
         public SharedValue<int> SelectedValue { get; private set; }
         public int Value { get; private set; }
 
+        public SharedValue<int> SelectedSubValue { get; private set; }
+        public int? SubValue { get; private set; }
+
         public override ButtonState ButtonState
         {
             get
             {
+                if (SubValue.HasValue)
+                {
+                    if(SubValue.Value != SelectedSubValue.Value)
+                    {
+                        return base.ButtonState;
+                    }
+                }
+
                 return base.ButtonState | (SelectedValue.Value == Value ? ButtonState.Checked : ButtonState.None);
             }
         }
@@ -44,12 +58,24 @@ namespace Sitana.Framework.Ui.Views
             SelectedValue = DefinitionResolver.GetShared<int>(Controller, Binding, file["SelectedValue"], -1);
             Value = DefinitionResolver.Get<int>(Controller, Binding, file["Value"], 0);
 
+            if(file["SubValue"] != null)
+            {
+                SubValue = DefinitionResolver.Get<int>(Controller, Binding, file["SubValue"], 0);
+                SelectedSubValue = DefinitionResolver.GetShared<int>(Controller, Binding, file["SelectedSubValue"], -1);
+            }
+
             return true;
         }
 
         protected override void DoAction()
         {
             SelectedValue.Value = Value;
+
+            if(SubValue.HasValue && SelectedSubValue != null)
+            {
+                SelectedSubValue.Value = SubValue.Value;
+            }
+
             CallDelegate("Click");
 
             if (_actionSound != null)

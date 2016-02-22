@@ -132,9 +132,8 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 	                {
 	                    file = new DefinitionFile(type, node.Owner.Name);
 	                    method.Invoke(null, new object[] { node, file });
+                        file["Style"] = node.Attribute("Style");
 	                }
-
-	                file["Style"] = node.Attribute("Style");
 	            }
 
 	            return file;

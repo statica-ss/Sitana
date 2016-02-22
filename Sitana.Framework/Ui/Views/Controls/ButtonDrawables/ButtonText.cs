@@ -30,6 +30,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             file["Text"] = parser.ParseString("Text");
             file["TextRotation"] = parser.ParseEnum<TextRotation>("TextRotation");
             file["PathEllipsis"] = parser.ParseBoolean("PathEllipsis");
+            file["Line"] = parser.ParseInt("Line");
         }
 
         protected UiFont _font;
@@ -38,6 +39,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         protected int _lineHeight;
         protected TextRotation _textRotation;
         protected bool _pathEllipsis;
+        protected int _line;
 
         protected StringBuilder _stringBuilder = null;
 
@@ -61,7 +63,9 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             _pathEllipsis = DefinitionResolver.Get<bool>(controller, binding, file["PathEllipsis"], false);
 
-            if(_pathEllipsis)
+            _line = DefinitionResolver.Get<int>(controller, binding, file["Line"], -1);
+
+            if(_pathEllipsis || _line >=0)
             {
                 _stringBuilder = new StringBuilder();
             }
@@ -113,6 +117,44 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
                     }
 
                     cut+=2;
+                }
+
+                drawBatch.DrawText(font, _stringBuilder, target, _textAlign, color, _font.Spacing, (float)_lineHeight / 100.0f, scale, _textRotation);
+            }
+            else if(_line >=0)
+            {
+                _stringBuilder.Clear();
+
+                lock(str)
+                {
+                    StringBuilder textStringBuilder = str.StringBuilder;
+
+                    int line = 0;
+
+                    for(int idx = 0; idx < textStringBuilder.Length; ++idx)
+                    {
+                        char character = textStringBuilder[idx];
+
+                        if(character == '\n')
+                        {
+                            line++;
+
+                            if(line > _line)
+                            {
+                                break;
+                            }
+                        }
+
+                        if(character == '\r')
+                        {
+                            continue;
+                        }
+
+                        if (line == _line)
+                        {
+                            _stringBuilder.Append(textStringBuilder[idx]);
+                        }
+                    }
                 }
 
                 drawBatch.DrawText(font, _stringBuilder, target, _textAlign, color, _font.Spacing, (float)_lineHeight / 100.0f, scale, _textRotation);

@@ -209,7 +209,7 @@ namespace Sitana.Framework.Ui.Views
                     return new Vector2(image.Width, image.Height) * Scale;
                 }
             }
-            return Vector2.One;
+            return Vector2.Zero;
         }
 
         protected override void Update(float time)

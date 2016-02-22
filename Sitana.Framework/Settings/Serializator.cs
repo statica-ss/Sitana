@@ -3,6 +3,8 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using Sitana.Framework.IO;
+using Sitana.Framework.Serialization;
+using Sitana.Framework.Xml;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -30,9 +32,6 @@ namespace Sitana.Framework.Settings
         /// <param name="obj">Object to serialize.</param>
         public static void Serialize(string subDirectory, string fileName, Object obj)
         {
-            // Write to the Isolated Storage
-            var xmlWriterSettings = new XmlWriterSettings { Indent = true };
-
             // Open isolated storage.
             using (var storageManager = new IsolatedStorageManager())
             {
@@ -41,15 +40,18 @@ namespace Sitana.Framework.Settings
                 // Open file from storage.
                 using (Stream stream = storageManager.OpenFile(fileName, FileMode.Create))
                 {
-                    // Create serializer for type.
-                    var serializer = new XmlSerializer(obj.GetType());
+                    XFile file = XFile.Create(fileName);
 
-                    // Create XmlWriter.
-                    using (var xmlWriter = XmlWriter.Create(stream, xmlWriterSettings))
-                    {
-                        // Serialize object.
-                        serializer.Serialize(xmlWriter, obj);
-                    }
+                    XNode fileNode = file;
+
+                    var node = new XNode(file, "Serializator");
+                    ((XNode)file).Nodes.Add(node);
+
+                    // Create serializer for type.
+                    var serializer = new XSerializer(node);
+                    serializer.Serialize("Data", obj);
+
+                    file.WriteBinary(stream);
                 }
             }
         }
@@ -67,8 +69,6 @@ namespace Sitana.Framework.Settings
         /// <returns></returns>
         public static T Deserialize<T>(string subDirectory, string fileName)
         {
-            T obj = default(T);
-
             try
             {
                 // Open isolated storage.
@@ -81,11 +81,11 @@ namespace Sitana.Framework.Settings
                         // Open file from storage.
                         using(var stream = storageManager.OpenFile(fileName, FileMode.Open))
                         {
-                            // Create serializer for type.
-                            var serializer = new XmlSerializer(typeof(T));
+                            XFile file = XFile.LoadBinary(stream, fileName);
 
-                            // Deserialize object.
-                            obj = (T)serializer.Deserialize(stream);
+                            var serializer = new XSerializer(file);
+
+                            return serializer.Deserialize<T>("Data");
                         }
                     }
                 }
@@ -95,7 +95,7 @@ namespace Sitana.Framework.Settings
                 Debug.WriteLine(ex.ToString());
             }
 
-            return obj;
+            return default(T);
         }
 
         public static bool FileExist(string path)
@@ -124,47 +124,6 @@ namespace Sitana.Framework.Settings
             }
 
             return fileName;
-        }
-
-        public static object Deserialize(string subDirectory, string fileName, Type[] possibleTypes)
-        {
-            try
-            {
-                if(possibleTypes != null && possibleTypes.Length > 0)
-                {
-                    using(var storageManager = new IsolatedStorageManager())
-                    {
-                        fileName = Prepare(storageManager, subDirectory, fileName);
-
-                        if (storageManager.FileExists(fileName))
-                        {
-                            using (var stream = storageManager.OpenFile(fileName, FileMode.Open))
-                            {                                
-                                using(var reader = XmlReader.Create(stream))
-                                {
-                                    foreach(var extraType in possibleTypes)
-                                    {
-                                        var extraTypeSerializer = new XmlSerializer(extraType);
-
-                                        if(extraTypeSerializer.CanDeserialize(reader))
-                                        {
-                                            stream.Position = 0;
-
-                                            return extraTypeSerializer.Deserialize(stream);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch(Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-            }
-
-            return null;
         }
     }
 }

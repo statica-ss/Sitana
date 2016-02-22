@@ -297,6 +297,20 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                     return new SharedValue<T>(
                         ContentLoader.Current.Load<T>(definition as string));
                 }
+                else if (definition is MethodName || definition is FieldName || definition is GlobalVariable)
+                {
+                    object value = GetValueFromMethodOrField(controller, binding, definition);
+
+                    if (value is string)
+                    {
+                        return new SharedValue<T>(ContentLoader.Current.Load<T>(value as string));
+                    }
+
+                    if (value == null)
+                    {
+                        return new SharedValue<T>(defaultValue);
+                    }
+                }
             }
 
             if (definition is MethodName || definition is FieldName || definition is GlobalVariable)
@@ -334,6 +348,21 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 if (definition is string)
                 {
                     return ContentLoader.Current.Load<T>(definition as string);
+                }
+                else
+                {
+                    object value = GetValueFromMethodOrField(controller, binding, definition);
+
+                    if(value is string)
+                    {
+                        return ContentLoader.Current.Load<T>(value as string);
+                    }
+                    else if(value is T)
+                    {
+                        return (T)value;
+                    }
+
+                    return default(T);
                 }
             }
 

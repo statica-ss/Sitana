@@ -118,8 +118,6 @@ namespace Sitana.Framework.Ui.Views
 
         List<RichViewLine> _lines = new List<RichViewLine>();
 
-        List<RichViewLine> _originalRichViewLines = new List<RichViewLine>();
-
         Length _indentSize;
         Length _paragraphSpacing;
         Length _horizontalRulerHeight;
@@ -137,7 +135,6 @@ namespace Sitana.Framework.Ui.Views
         int _height = 0;
 
         ILinkResolver _linkResolver;
-        Dictionary<string, string> _resolvedLinks = new Dictionary<string, string>();
 
         public string Text
         {

@@ -63,7 +63,7 @@ namespace Sitana.Framework.Serialization
                 case "bool":
                     return bool.Parse(node.Attribute("value"));
 
-                case "dateTime":
+                case "DateTime":
                     return DateTime.Parse(node.Attribute("value"), CultureInfo.InvariantCulture);
             }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Sitana.Framework.Ui.Core;
+using Sitana.Framework.Ui.Definitions;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
 {
@@ -31,11 +32,22 @@ namespace Sitana.Framework.Ui.DefinitionFiles
         {
             get
             {
+                IMixable mixable = null;
+
                 if (_current.HasKey(id))
                 {
                     object value = _current[id];
 
-                    if (value != null)
+                    if(value is IMixable)
+                    {
+                        mixable = value as IMixable;
+
+                         if(!mixable.IsMixMeaningful)
+                         {
+                             return mixable;
+                         }
+                    }
+                    else if (value != null)
                     {
                         return value;
                     }
@@ -49,7 +61,23 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                         {
                             object value = _style[idx][id];
 
-                            if (value != null)
+                            if (value is IMixable)
+                            {
+                                if (mixable == null)
+                                {
+                                    mixable = value as IMixable;
+                                }
+                                else
+                                {
+                                    mixable = mixable.Mix(value as IMixable);
+                                }
+
+                                if(!mixable.IsMixMeaningful)
+                                {
+                                    return mixable;
+                                }
+                            }
+                            else if (value != null)
                             {
                                 return value;
                             }
@@ -57,7 +85,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                     }
                 }
 
-                return null;
+                return mixable;
             }
         }
     }

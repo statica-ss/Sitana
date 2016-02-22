@@ -279,6 +279,9 @@
     <Compile Include="Platform\UiYoutubeViewController.cs" />
     <Compile Include="Input\TouchPad\TouchPad_iOSGestureRecognizer.cs" />
     <Compile Include="Ui\Core\AppMain.iOS.cs" />
+    <Compile Include="Ui\Definitions\IMixable.cs">
+      <Link>Ui\DefinitionFiles\IMixable.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

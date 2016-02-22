@@ -453,7 +453,7 @@ namespace Sitana.Framework.Ui.Views
             _next = false;
 
             _current = _children[index];
-            _selectedIndex = index;
+            _selectedIndex = index; 
 
             if (_sharedSelectedIndex != null)
             {

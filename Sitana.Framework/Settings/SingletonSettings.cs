@@ -12,7 +12,7 @@ namespace Sitana.Framework.Settings
     /// Serialization automated singleton base, which serializes all fields of derrived type to isolated storage. 
     /// </summary>
     /// <typeparam name="T">Type to be serialized, it must be the type you derrive from this class.</typeparam>
-    public abstract class SingletonSettings<T>
+    public abstract class SingletonSettings<T> where T: class, new()
     {
         // Defines if type has been loaded or created.
         [System.Xml.Serialization.XmlIgnoreAttribute]
@@ -48,7 +48,7 @@ namespace Sitana.Framework.Settings
                         // If not deserialized create instance of type and set it wasn't loaded.
                         if (_instance == null)
                         {
-                            _instance = (T)Activator.CreateInstance(typeof(T));
+                            _instance = new T();
 
                             (_instance as SingletonSettings<T>).Loaded = false;
                         }
@@ -58,9 +58,9 @@ namespace Sitana.Framework.Settings
                             (_instance as SingletonSettings<T>).Loaded = true;
                         }
 
-                        (_instance as SingletonSettings<T>).Init();
-
                         _allowCreation = false;
+
+                        (_instance as SingletonSettings<T>).Init();
                     }
 
                     // return singleton instance.
@@ -90,8 +90,6 @@ namespace Sitana.Framework.Settings
         {
             try
             {
-                _allowCreation = true;
-
                 // Create path.
                 var path = Serializator.PathFromType(typeof(T));
 

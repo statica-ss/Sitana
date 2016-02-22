@@ -326,22 +326,42 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
             if ( elements.Length == 1 )
             {
-                int value;
-                if ( int.TryParse(elements[0], out value))
+                double value;
+                if (double.TryParse(elements[0], NumberStyles.Number, CultureInfo.InvariantCulture, out value))
                 {
                     return new Margin(value);
                 }
             }
             else if ( elements.Length == 4 )
             {
-                int left, top, right, bottom;
-                if ( int.TryParse(elements[0], out left) &&
-                     int.TryParse(elements[1], out top) &&
-                     int.TryParse(elements[2], out right) &&
-                     int.TryParse(elements[3], out bottom))
+                double? left = null;
+                double? top = null;
+                double? bottom = null;
+                double? right = null;
+                    
+                double doubleValue;
+
+                if (double.TryParse(elements[0], NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue))
                 {
-                    return new Margin(left, top, right, bottom);
+                    left = doubleValue;
                 }
+
+                if (double.TryParse(elements[1], NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue))
+                {
+                    top = doubleValue;
+                }
+
+                if (double.TryParse(elements[2], NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue))
+                {
+                    right = doubleValue;
+                }
+
+                if (double.TryParse(elements[3], NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue))
+                {
+                    bottom = doubleValue;
+                }
+
+                return new Margin(left, top, right, bottom);
             }
 
             Exception ex = Error(id, "Margin format is 'left,top,right,bottom' or 'all'.");
