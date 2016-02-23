@@ -547,6 +547,8 @@ namespace Sitana.Framework.Ui.Views
             UiView view;
             if(_bindingToElement.TryGetValue(item, out view))
             {
+                RecalculatePositionsAndScroll();
+
                 if(_vertical)
                 {
                     if (view.Bounds.Top < 0)

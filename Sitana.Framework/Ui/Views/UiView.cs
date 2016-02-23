@@ -245,7 +245,7 @@ namespace Sitana.Framework.Ui.Views
         {
             get
             {
-                return new Point(_minWidth.Compute(), _minHeight.Compute());
+                return new Point(_minWidth.Compute(Parent != null ? Parent.Bounds.Width : 0), _minHeight.Compute(Parent != null ? Parent.Bounds.Height : 0));
             }
         }
 

@@ -25,6 +25,7 @@ using Foundation;
 using Sitana.Framework.Ui.Core;
 using Sitana.Framework;
 using Sitana.Framework.Input;
+using CoreGraphics;
 
 namespace Sitana.Framework.Input
 {
@@ -77,6 +78,35 @@ namespace Sitana.Framework.Input
             UIViewController viewController = AppMain.Current.Services.GetService(typeof(UIViewController)) as UIViewController;
             viewController.View.AddSubview(_textField);
             viewController.View.AddSubview(_textView);
+
+			NSNotificationCenter.DefaultCenter.AddObserver(new NSString("UIKeyboardDidShowNotification"), 
+				(not) => 
+				{
+					NSDictionary info  = not.UserInfo;
+					NSValue keyboardFrameBegin = (NSValue)not.UserInfo.ValueForKey(UIKeyboard.FrameEndUserInfoKey);
+					CGRect keyboardSize = keyboardFrameBegin.CGRectValue;
+
+					var keyboardFrame = viewController.View.ConvertRectToView(keyboardSize, null);
+
+					nfloat offset = keyboardFrame.Top - _textField.Frame.Bottom - 4;
+
+					if(offset<0)
+					{
+						CGRect frame = viewController.View.Frame;
+						frame.Y = offset;
+
+						viewController.View.Frame = frame;
+					}
+					//_textField.Frame
+				});
+
+			NSNotificationCenter.DefaultCenter.AddObserver(new NSString("UIKeyboardDidHideNotification"), 
+				(not) => 
+				{
+					var frame = viewController.View.Frame;
+					frame.Y = 0;
+					viewController.View.Frame = frame;
+				});
         }
 
 		public NativeInput(Rectangle position, TextInputType keyboardContext, string text, int textSize, Align align, ITextEdit controller)
@@ -176,7 +206,6 @@ namespace Sitana.Framework.Input
                 SetText(text);
                 _textField.EditingChanged += HandleEditingChanged;
                 _textField.EditingDidEnd += HandleEditingDidEnd;
-
 
                 _textField.ShouldReturn = delegate
                 {

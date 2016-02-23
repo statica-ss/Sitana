@@ -452,6 +452,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return new Length(true);
             }
 
+            if (name.ToLowerInvariant() == "auto@")
+            {
+                return new Length(true, true);
+            }
+
             name = name.Replace(" ", "");
 
             string[] vals = name.SplitAndKeep('-', '+');

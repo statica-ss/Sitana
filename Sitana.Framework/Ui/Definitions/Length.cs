@@ -64,6 +64,15 @@ namespace Sitana.Framework.Ui
             _restPart = 0;
         }
 
+        public Length(bool auto, bool stretch)
+        {
+            _auto = auto;
+            _length = 0;
+            _percent = 1;
+            _pixels = 0;
+            _restPart = 0;
+        }
+
         public Length(double length = 0, double percent = 0, int pixels = 0, int rest = 0)
         {
             _auto = false;

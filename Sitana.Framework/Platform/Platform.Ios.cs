@@ -206,31 +206,32 @@ namespace Sitana.Framework
 
 		public static int KeyboardHeight(bool landscape)
 		{
-			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad)
-			{
-				if (landscape)
-				{
-					return (int)(391 * (float)UIScreen.MainScreen.Scale);
-				}
-				else
-				{
-					return (int)(303 * (float)UIScreen.MainScreen.Scale);
-				}
-			}
-
-			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone)
-			{
-				if (landscape)
-				{
-					return (int)(162 * (float)UIScreen.MainScreen.Scale);
-				} 
-				else
-				{
-					return (int)(216 * (float)UIScreen.MainScreen.Scale);
-				}
-			}
-
 			return 0;
+//			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad)
+//			{
+//				if (landscape)
+//				{
+//					return (int)(391 * (float)UIScreen.MainScreen.Scale);
+//				}
+//				else
+//				{
+//					return (int)(303 * (float)UIScreen.MainScreen.Scale);
+//				}
+//			}
+//
+//			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone)
+//			{
+//				if (landscape)
+//				{
+//					return (int)(162 * (float)UIScreen.MainScreen.Scale);
+//				} 
+//				else
+//				{
+//					return (int)(216 * (float)UIScreen.MainScreen.Scale);
+//				}
+//			}
+//
+//			return 0;
 		}
 
 		public static void PlayVideo(string path, bool local)

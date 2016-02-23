@@ -268,28 +268,30 @@ namespace Sitana.Framework.Ui.Views
 
             size += _padding.Compute();
 
+            var sizeIfStretch = new Point(PositionParameters.Width.Compute(width-PositionParameters.Margin.Width), PositionParameters.Height.Compute(height-PositionParameters.Margin.Height));
+
             if (_vertical)
             {
                 if (PositionParameters.Height.IsAuto)
                 {
-                    value.Y = size;
+                    value.Y = Math.Max(size, sizeIfStretch.Y);
                 }
 
                 if(PositionParameters.Width.IsAuto)
                 {
-                    value.X = sizeAlt;
+                    value.X = Math.Max(sizeAlt, sizeIfStretch.X);
                 }
             }
             else
             {
-                if (PositionParameters.Width.IsAuto)
-                {
-                    value.X = size;
-                }
-
                 if (PositionParameters.Height.IsAuto)
                 {
-                    value.Y = sizeAlt;
+                    value.Y = Math.Max(sizeAlt, sizeIfStretch.Y);
+                }
+
+                if (PositionParameters.Width.IsAuto)
+                {
+                    value.X = Math.Max(size, sizeIfStretch.X);
                 }
             }
 
