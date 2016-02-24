@@ -140,6 +140,13 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        protected override void OnRemoved()
+        {
+            base.OnRemoved();
+
+            _image.ValueChanged -= _image_ValueChanged;
+        }
+
         protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
             if (!base.Init(controller, binding, definition))
@@ -155,6 +162,10 @@ namespace Sitana.Framework.Ui.Views
             _rotationSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["RotationSpeed"], 0);
             _scaleByUnit = DefinitionResolver.Get<bool>(Controller, Binding, file["ScaleByUnit"], true);
             _scale = (float)DefinitionResolver.Get<double>(Controller, Binding, file["Scale"], 1);
+
+
+            _image.ValueChanged += _image_ValueChanged;
+            
 
 			switch(DefinitionResolver.Get<ResampleFilter>(Controller, Binding, file["ResampleFilter"], ResampleFilter.Default))
 			{
@@ -173,6 +184,11 @@ namespace Sitana.Framework.Ui.Views
 			}
 
             return true;
+        }
+
+        void _image_ValueChanged(Texture2D newValue)
+        {
+            Parent.RecalcLayout();
         }
 
         public override Point ComputeSize(int width, int height)
