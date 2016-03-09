@@ -83,6 +83,22 @@ namespace Sitana.Framework.Input.TouchPad
             _listeners.Remove(listener);
         }
 
+        internal void AppDeactivated()
+        {
+            UiTask.BeginInvoke(() =>
+                {
+                    foreach(var element in _elements)
+                    {
+                        _gesture.TouchId = element.Key;
+                        _gesture.ResetState();
+
+                        OnGesture();
+                    }
+
+                    _elements.Clear();
+                });
+        }
+
         public void LockListener(int pointerId, object listener)
         {
             UiTask.BeginInvoke( ()=>

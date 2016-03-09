@@ -31,6 +31,14 @@ namespace Sitana.Framework.Ui
             }
         }
 
+        public bool HasPercent
+        {
+            get
+            {
+                return _percent != 0;
+            }
+        }
+
         public bool IsRest
         {
             get

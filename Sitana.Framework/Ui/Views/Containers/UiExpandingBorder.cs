@@ -76,12 +76,17 @@ namespace Sitana.Framework.Ui.Views
 
         void _expanded_ValueChanged(bool newValue)
         {
-            UiTask.BeginInvoke(() => ForceUpdate());
+            UiTask.BeginInvoke(() =>
+            {
+                ForceUpdate();
+                SetForceRecalcFlag();
+                Parent.RecalcLayout();
+            });
 
             if (newValue)
             {
                 CallDelegate("ExpandStarted");
-            }            
+            }
         }
 
         protected override void Update(float time)
@@ -120,6 +125,7 @@ namespace Sitana.Framework.Ui.Views
             if(update)
             {
                 ForceUpdate();
+                SetForceRecalcFlag();
                 Parent.RecalcLayout();
             }
         }

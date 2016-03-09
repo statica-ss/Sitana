@@ -48,6 +48,7 @@ namespace Sitana.Framework.Ui.Views
         float _scale = 1;
 
 		SamplerState _samplerState = null;
+        bool _shouldRecalc = false;
 
         float Scale
         {
@@ -188,7 +189,11 @@ namespace Sitana.Framework.Ui.Views
 
         void _image_ValueChanged(Texture2D newValue)
         {
-            Parent.RecalcLayout();
+            UiTask.BeginInvoke(() =>
+                {
+                    SetForceRecalcFlag();
+                    Parent.RecalcLayout();
+                });
         }
 
         public override Point ComputeSize(int width, int height)

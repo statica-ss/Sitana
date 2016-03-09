@@ -91,6 +91,10 @@ namespace Sitana.Framework.Diagnostics
 
             private void AddTime(float time)
             {
+                if (float.IsNaN(_value))
+                {
+                    _value = 0;
+                }
                 _value += time;
             }
 

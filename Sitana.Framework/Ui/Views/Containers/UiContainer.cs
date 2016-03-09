@@ -11,6 +11,7 @@ using Sitana.Framework.Ui.Controllers;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Input.TouchPad;
 using System.Collections.ObjectModel;
+using Sitana.Framework.Diagnostics;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -52,6 +53,8 @@ namespace Sitana.Framework.Ui.Views
         bool _autoCreateChildren = true;
 
         List<DefinitionFile> _childrenDefinition = null;
+
+		Point _lastSize = Point.Zero;
 
         public bool ClipChildren
         {
@@ -158,11 +161,21 @@ namespace Sitana.Framework.Ui.Views
 
         public virtual void RecalcLayout()
         {
-            for (int idx = 0; idx < _children.Count; ++idx)
-            {
-                var child = _children[idx];
-                child.Bounds = CalculateChildBounds(child);
-            }
+			bool widthChanged = _lastSize.X != Bounds.Width;
+			bool heightChanged = _lastSize.Y != Bounds.Height;
+
+			_lastSize = Bounds.Size;
+
+			for (int idx = 0; idx < _children.Count; ++idx) 
+			{
+				var child = _children[idx];
+
+				if (child.ShouldRecalc(widthChanged, heightChanged))
+				{
+					child.Bounds = CalculateChildBounds(child);
+				}
+			}
+
 
             if(_shouldRecalcLayout)
             {

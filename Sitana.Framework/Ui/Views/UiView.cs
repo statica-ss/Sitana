@@ -53,6 +53,8 @@ namespace Sitana.Framework.Ui.Views
             file["Visible"] = parser.ParseBoolean("Visible");
             file["Hidden"] = parser.ParseBoolean("Hidden");
 
+			file["RecalcAlways"] = parser.ParseBoolean("RecalcAlways");
+
             file["BackgroundColor"] = parser.ParseColor("BackgroundColor");
 
             file["Opacity"] = parser.ParseDouble("Opacity");
@@ -215,6 +217,7 @@ namespace Sitana.Framework.Ui.Views
         }
 
         public string Id { get; set; }
+		public bool RecalcAlways {get; private set;}
 
         public virtual Rectangle Bounds
         {
@@ -311,6 +314,8 @@ namespace Sitana.Framework.Ui.Views
 
 		public bool IsSizeStable { get; protected set; }
 
+        bool _shouldRecalc = false;
+
 		[Flags]
 		protected enum SizeChangeDimension
 		{
@@ -329,6 +334,62 @@ namespace Sitana.Framework.Ui.Views
                 return _isViewDisplayed;
             }
         }
+
+        public void SetForceRecalcFlag()
+        {
+            _shouldRecalc = true;
+        }
+
+        protected void RemoveForceRecalcFlag()
+        {
+            _shouldRecalc = false;
+        }
+
+		public virtual bool ShouldRecalc(bool widthChanged, bool heightChanged)
+		{
+            if (RecalcAlways)
+            {
+                return true;
+            }
+
+            if (_shouldRecalc)
+            {
+                return true;
+            }
+
+            if (DisplayVisibility == 0)
+            {
+                return false;
+            }
+
+			if(widthChanged)
+			{
+				if (PositionParameters.HorizontalAlignment != HorizontalAlignment.Left)
+				{
+					return true;
+				}
+
+				if (PositionParameters.X.IsRest || PositionParameters.Y.HasPercent)
+				{
+					return true;
+				}
+			}
+
+			if(heightChanged)
+			{
+				if (PositionParameters.VerticalAlignment != VerticalAlignment.Top)
+				{
+					return true;
+				}
+
+				if (PositionParameters.Y.IsRest || PositionParameters.Y.HasPercent)
+				{
+					return true;
+				}
+			}
+
+			return !_wasViewDisplayed;
+		}
 
         public void InvalidateScreenBounds()
         {
@@ -506,6 +567,11 @@ namespace Sitana.Framework.Ui.Views
                 return;
             }
 
+            if (parameters.Opacity * Opacity.Value == 0)
+            {
+                return;
+            }
+
             TransitionEffect transitionEffect = null;
             TransitionEffect transitionEffectShowHide = null;
 
@@ -574,6 +640,9 @@ namespace Sitana.Framework.Ui.Views
             if (_isViewDisplayed != _wasViewDisplayed)
             {
                 _wasViewDisplayed = _isViewDisplayed;
+
+                OnViewDisplayChanged(_isViewDisplayed);
+
                 if (ViewDisplayChanged != null)
                 {
                     ViewDisplayChanged(_isViewDisplayed);
@@ -581,11 +650,35 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        protected virtual void OnViewDisplayChanged(bool isDisplayed)
+        {
+            
+        }
+
+        bool IsShown
+        {
+            get
+            {
+                if (DisplayVisibility == 0)
+                {
+                    return false;
+                }
+
+                if (Parent != null)
+                {
+                    return Parent.IsShown;
+                }
+
+                return true;
+            }
+        }
+
         public void ViewUpdate(float time)
         {
             _forceUpdate = false;
+            _shouldRecalc = false;
 
-            if ( _updateController && _controller != null)
+            if (_updateController && _controller != null)
             {
                 _controller.UpdateInternal(time);
             }
@@ -607,73 +700,76 @@ namespace Sitana.Framework.Ui.Views
                 DisplayVisibility = Math.Max(DisplayVisibility, opacity);
             }
 
-            if(DisplayVisibility != oldDisplayVisibility)
+            if (DisplayVisibility != oldDisplayVisibility)
             {
                 ForceUpdate();
             }
-
-            if (visible != DisplayVisibility > 0)
+                
+            if (!visible && IsShown && Parent != null)
             {
-                if ( Parent != null )
-                {
-                    Parent.RecalcLayout();
-                }
+                SetForceRecalcFlag();
+                Parent.RecalcLayout(this);
             }
 
-			bool sizeStable = true;
-
-            if ( _lastSize != Bounds)
+            if (IsShown)
             {
-                if (_lastSize.Height != Bounds.Height || _lastSize.Width != Bounds.Width)
+                bool sizeStable = true;
+
+                if (_lastSize != Bounds)
                 {
-                    CallDelegate("ViewResized", new InvokeParam("bounds", Bounds), new InvokeParam("size", new Point(Bounds.Width, Bounds.Height)),
-                        new InvokeParam("width", Bounds.Width), new InvokeParam("height", Bounds.Height));
-
-                    OnSizeChanged();
-
-                    if(ViewSizeChanged != null)
+                    if (_lastSize.Height != Bounds.Height || _lastSize.Width != Bounds.Width)
                     {
-                        ViewSizeChanged(Bounds);
+                        CallDelegate("ViewResized", new InvokeParam("bounds", Bounds), new InvokeParam("size", new Point(Bounds.Width, Bounds.Height)),
+                            new InvokeParam("width", Bounds.Width), new InvokeParam("height", Bounds.Height));
+
+                        OnSizeChanged();
+
+                        if (ViewSizeChanged != null)
+                        {
+                            ViewSizeChanged(Bounds);
+                        }
+
+                        if (_lastSize.Height != Bounds.Height && !_sizeCanChange.HasFlag(SizeChangeDimension.Height))
+                        {
+                            sizeStable = false;
+                        }
+
+                        if (_lastSize.Width != Bounds.Width && !_sizeCanChange.HasFlag(SizeChangeDimension.Width))
+                        {
+                            sizeStable = false;
+                        }
                     }
 
-					if (_lastSize.Height != Bounds.Height && !_sizeCanChange.HasFlag(SizeChangeDimension.Height))
-					{
-						sizeStable = false;
-					}
-
-					if (_lastSize.Width != Bounds.Width && !_sizeCanChange.HasFlag(SizeChangeDimension.Width))
-					{
-						sizeStable = false;
-					}
+                    _lastSize = Bounds;
+                    AppMain.Redraw(this);
                 }
 
-                _lastSize = Bounds;
-                AppMain.Redraw(this);
+                _sizeCanChange = SizeChangeDimension.None;
+                IsSizeStable = sizeStable;
+
+
+                Update(time);
+
+
+                while (!IsSizeStable)
+                {
+                    IsSizeStable = true;
+                    Update(0);
+
+                    if (_lastSize.Width != Bounds.Width || _lastSize.Height != Bounds.Height)
+                    {
+                        OnSizeChanged();
+
+                        if (ViewSizeChanged != null)
+                        {
+                            ViewSizeChanged(Bounds);
+                        }
+
+                        IsSizeStable = false;
+                        _lastSize = Bounds;
+                    }
+                }
             }
-
-			_sizeCanChange = SizeChangeDimension.None;
-			IsSizeStable = sizeStable;
-
-            Update(time);
-
-			while (!IsSizeStable)
-			{
-				IsSizeStable = true;
-				Update(0);
-
-				if (_lastSize.Width != Bounds.Width || _lastSize.Height != Bounds.Height)
-				{
-					OnSizeChanged();
-
-					if(ViewSizeChanged != null)
-					{
-						ViewSizeChanged(Bounds);
-					}
-
-					IsSizeStable = false;
-					_lastSize = Bounds;
-				}
-			}
         }
 
         internal void ViewActivated()
@@ -862,6 +958,8 @@ namespace Sitana.Framework.Ui.Views
             RegisterDelegate("ViewDeactivated", file["ViewDeactivated"]);
             RegisterDelegate("ViewResized", file["ViewResized"]);
 
+
+			RecalcAlways = DefinitionResolver.Get<bool>(Controller, Binding, file["RecalcAlways"], false);
             _minWidth = DefinitionResolver.Get<Length>(Controller, Binding, file["MinWidth"], Length.Zero);
             _minHeight = DefinitionResolver.Get<Length>(Controller, Binding, file["MinHeight"], Length.Zero);
 
@@ -947,6 +1045,7 @@ namespace Sitana.Framework.Ui.Views
 
                     if (Parent != null)
                     {
+                        SetForceRecalcFlag();
                         Parent.RecalcLayout();
                     }
                 }
@@ -959,6 +1058,7 @@ namespace Sitana.Framework.Ui.Views
 
                     if (Parent != null)
                     {
+                        SetForceRecalcFlag();
                         Parent.RecalcLayout();
                     }
                 }
@@ -1109,7 +1209,8 @@ namespace Sitana.Framework.Ui.Views
 
         public virtual void Move(Point offset)
         {
-            Bounds = new Rectangle(Bounds.X + offset.X, Bounds.Y + offset.Y, Bounds.Width, Bounds.Height);
+            _bounds = new Rectangle(Bounds.X + offset.X, Bounds.Y + offset.Y, Bounds.Width, Bounds.Height);
+            InvalidateScreenBounds();
         }
 
         void ModalTouchDown(int id, Vector2 position)

@@ -214,6 +214,7 @@ namespace Sitana.Framework.Ui.Views
         {
             if (_notifyParentOnResize && Parent != null)
             {
+                SetForceRecalcFlag();
                 Parent.RecalcLayout();
             }
         }

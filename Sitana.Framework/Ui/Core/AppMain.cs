@@ -111,6 +111,11 @@ namespace Sitana.Framework.Ui.Core
         }
         #endif
 
+        int _viewUpdateCounter = 0;
+        int _viewDrawCounter = 0;
+
+        int _fullUpdateCounter = 0;
+
         protected void Init()
         {
             if (Current != null)
@@ -135,6 +140,14 @@ namespace Sitana.Framework.Ui.Core
             TotalGameTime = 0;
 
             PlatformInit();
+
+            _fullUpdateCounter = PerformanceProfiler.Instance.AddCounter(10);
+            _viewUpdateCounter = PerformanceProfiler.Instance.AddCounter(10);
+            _viewDrawCounter = PerformanceProfiler.Instance.AddCounter(10);
+
+            PerformanceProfiler.Instance.EnableCounter(_fullUpdateCounter, true);
+            PerformanceProfiler.Instance.EnableCounter(_viewUpdateCounter, true);
+            PerformanceProfiler.Instance.EnableCounter(_viewDrawCounter, true);
         }
 
         protected override void Dispose(bool disposing)
@@ -182,25 +195,43 @@ namespace Sitana.Framework.Ui.Core
 			{
 				return;
 			}
-			
-            if(MainView!=null)
+
+            if (disableUpdate > 0)
             {
-                MainView.ResetViewDisplayed();
+                PerformanceProfiler.Instance.BeginCounter(_viewDrawCounter);
+                if (MainView != null)
+                {
+                    MainView.ResetViewDisplayed();
+                }
+
+                Viewport viewport = GraphicsDevice.Viewport;
+
+                Draw((float)gameTime.ElapsedGameTime.TotalSeconds);
+                GraphicsDevice.Viewport = viewport;
+
+                if (MainView != null)
+                {
+                    MainView.ProcessAfterDraw();
+                }
+                PerformanceProfiler.Instance.EndCounter(_viewDrawCounter);
+
+                if (_drawBatch != null && TouchTestEnable)
+                {
+                    DrawTouchTest();
+                }
+            }
+            else
+            {
+                GraphicsDevice.Clear(Color.Black);
             }
 
-            Viewport viewport = GraphicsDevice.Viewport;
-            Draw((float)gameTime.ElapsedGameTime.TotalSeconds);
-            GraphicsDevice.Viewport = viewport;
-
-            if (MainView != null)
+            if (_drawBatch != null)
             {
-                MainView.ProcessAfterDraw();
+                PerformanceProfiler.Instance.Draw(_drawBatch);
+                _drawBatch.Flush();
             }
 
-            if (_drawBatch != null && TouchTestEnable)
-            {
-                DrawTouchTest();
-            }
+
         }
 
         public bool Draw(float ellapsedTime)
@@ -224,17 +255,19 @@ namespace Sitana.Framework.Ui.Core
             MainView.ViewDraw(ref drawParameters);
             _drawBatch.Flush();
 
-            PerformanceProfiler.Instance.Draw(_drawBatch);
-            _drawBatch.Flush();
-
             return true;
         }
 
 		double updatesCount = 0;
 		double secTime = 0;
 
+        double disableUpdate = 10;
+
 		protected override void Update(GameTime gameTime)
         {
+            PerformanceProfiler.Instance.Update(gameTime.ElapsedGameTime);
+            PerformanceProfiler.Instance.BeginCounter(_fullUpdateCounter);
+
 			if(!IsActive)
 			{
 				return;
@@ -257,29 +290,28 @@ namespace Sitana.Framework.Ui.Core
 
             float time = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            PerformanceProfiler.Instance.Update(gameTime.ElapsedGameTime);
-
             TotalGameTime = gameTime.TotalGameTime.TotalSeconds;
 
             //Accelerators.Instance.Process(_currentFocus == null);
-
-            UiTask.Process();
-            DelayedActionInvoker.Instance.Update(time);
-
-            var newSize = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-
-            if (_lastSize != newSize)
+            if (disableUpdate > 0)
             {
-                if (MainView != null)
-                {
-                    OnSize(newSize.X, newSize.Y);
-                    _top = MainView.Bounds.Top;
-                }
+                UiTask.Process();
 
-                _lastSize = newSize;
-                _shouldRedraw = true;
-				Redraw(true);
-				RedrawNextFrame();
+                var newSize = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+
+                if (_lastSize != newSize)
+                {
+                    if (MainView != null)
+                    {
+                        OnSize(newSize.X, newSize.Y);
+                        _top = MainView.Bounds.Top;
+                    }
+
+                    _lastSize = newSize;
+                    _shouldRedraw = true;
+                    Redraw(true);
+                    RedrawNextFrame();
+                }
             }
 
             if (_currentVerticalOffset != _desiredVerticalOffset)
@@ -307,13 +339,18 @@ namespace Sitana.Framework.Ui.Core
                 MainView.OffsetBoundsVertical = (int)_currentVerticalOffset + _top;
             }
 
-            TouchPad.Instance.Update(time, IsActive);
-            GamePads.Instance.Update();
+            if (disableUpdate > 0)
+            {
+                TouchPad.Instance.Update(time, IsActive); 
+                GamePads.Instance.Update();
+            }
 
 			bool shouldUpdate = shouldRedraw;
 			_cumulativeFrameTime += time;
 
-            if (shouldUpdate)
+            //disableUpdate -= gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (shouldUpdate && disableUpdate >0)
             {
 				for(int idx = 0; idx < _updatables.Count; ++idx)
 				{
@@ -322,7 +359,9 @@ namespace Sitana.Framework.Ui.Core
 
 				if (MainView != null)
 				{
+                    PerformanceProfiler.Instance.BeginCounter(_viewUpdateCounter);
 					MainView.ViewUpdate(_cumulativeFrameTime);
+                    PerformanceProfiler.Instance.EndCounter(_viewUpdateCounter);
 				}
                 _cumulativeFrameTime = 0;
 				updatesCount++;
@@ -347,6 +386,8 @@ namespace Sitana.Framework.Ui.Core
                 Thread.Sleep(10);
 #endif
             }
+
+            PerformanceProfiler.Instance.EndCounter(_fullUpdateCounter);
         }
 
         public void ReloadView(string path)
@@ -411,6 +452,8 @@ namespace Sitana.Framework.Ui.Core
                 MainView.ViewActivated();
             }
 
+            TouchPad.Instance.AppDeactivated();
+
             if (AppActivated != null)
             {
                 AppActivated();
@@ -423,6 +466,8 @@ namespace Sitana.Framework.Ui.Core
             {
                 MainView.ViewDeactivated();
             }
+
+            TouchPad.Instance.AppDeactivated();
 
             if (AppDeactivated != null)
             {

@@ -118,7 +118,7 @@ namespace Sitana.Framework.Ui.Views
         {
             _text = value;
 
-            int width = _lineWidth.Compute( PositionParameters.Width.IsAuto && Parent != null ? Parent.Bounds.Width : Bounds.Width);
+            int width = _lineWidth.Compute(PositionParameters.Width.IsAuto && Parent != null ? Parent.Bounds.Width : Bounds.Width);
 
             if (width < 2)
             {
@@ -508,13 +508,15 @@ namespace Sitana.Framework.Ui.Views
             if (_fontFace == null)
             {
                 SetText(_text);
+                SetForceRecalcFlag();
                 Parent.RecalculateAll();
             }
 
-            if (_lastSize.X != Bounds.Width || _lastSize.Y != Bounds.Height)
+            if (_lastSize.X != Bounds.Width)
             {
                 if (IsSizeStable)
                 {
+                    SetForceRecalcFlag();
                     _lastSize.X = Bounds.Width;
                     _lastSize.Y = Bounds.Height;
                     SetText(_text);

@@ -124,6 +124,14 @@ namespace Sitana.Framework.Ui.Views
             return bounds;
         }
 
+        protected override void OnViewDisplayChanged(bool isDisplayed)
+        {
+            if (!isDisplayed)
+            {
+                _scroller.OnViewHidden();
+            }
+        }
+
         public override void RecalcLayout()
         {
             base.RecalcLayout();

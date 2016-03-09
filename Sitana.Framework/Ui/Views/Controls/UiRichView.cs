@@ -362,6 +362,7 @@ namespace Sitana.Framework.Ui.Views
                     _lastSize.X = Bounds.Width;
                     _lastSize.Y = Bounds.Height;
                     Process();
+                    SetForceRecalcFlag();
                     Parent.RecalculateAll();
                     _shouldUpdate = false;
                 }

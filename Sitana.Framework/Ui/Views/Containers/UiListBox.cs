@@ -8,6 +8,7 @@ using Sitana.Framework.Ui.Views.Parameters;
 using Sitana.Framework.Xml;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -22,6 +23,7 @@ namespace Sitana.Framework.Ui.Views
             file["Items"] = parser.ParseDelegate("Items");
             file["Mode"] = parser.ParseEnum<Mode>("Mode");
             file["Reverse"] = parser.ParseBoolean("Reverse");
+            file["MaxAddFirstTime"] = parser.ParseInt("MaxAddFirstTime");
             file["MaxAddOneTime"] = parser.ParseInt("MaxAddOneTime");
             file["ExceedRule"] = parser.ParseEnum<ScrollingService.ExceedRule>("ExceedRule");
 			file["WheelScrollSpeed"] = parser.ParseDouble("WheelScrollSpeed");
@@ -130,6 +132,7 @@ namespace Sitana.Framework.Ui.Views
 		float _wheelSpeed = 0;
 
         int _maxAddOneTime = 32;
+        int _maxAddFirstTime = 32;
         bool _clearChildren = false;
 
         object _lockedItem = null;
@@ -177,6 +180,14 @@ namespace Sitana.Framework.Ui.Views
             return view.Bounds;
         }
 
+        protected override void OnViewDisplayChanged(bool isDisplayed)
+        {
+            if (!isDisplayed)
+            {
+                _scroller.OnViewHidden();
+            }
+        }
+
         protected override bool Init(object controller, object binding, DefinitionFile definition)
         {
             if (!base.Init(controller, binding, definition))
@@ -204,6 +215,7 @@ namespace Sitana.Framework.Ui.Views
             _additionalTemplates = file["AdditionalTemplates"] as Dictionary<Type, DefinitionFile>;
 
             _maxAddOneTime = DefinitionResolver.Get<int>(Controller, Binding, file["MaxAddOneTime"], 32);
+            _maxAddFirstTime = DefinitionResolver.Get<int>(Controller, Binding, file["MaxAddFirstTime"], _maxAddOneTime);
 
             return true;
         }
@@ -212,12 +224,19 @@ namespace Sitana.Framework.Ui.Views
         {
             _newItems.Clear();
 
+
+
             lock (_items)
             {
                 int count = _items.Count;
+
+                Debug.WriteLine("Recalculate {0}", count);
+
                 int added = 0;
 
                 int numberOfElements = 0;
+
+                int maxAdd = count == 0 ? _maxAddFirstTime : _maxAddOneTime;
 
                 for (int idx = 0; idx < count; ++idx)
                 {
@@ -228,7 +247,7 @@ namespace Sitana.Framework.Ui.Views
 
                     if (view == null)
                     {
-                        if (added < _maxAddOneTime)
+                        if (added < maxAdd)
                         {
                             DefinitionFile template;
 
@@ -293,7 +312,9 @@ namespace Sitana.Framework.Ui.Views
             {
                 UiView view = _itemViews[idx];
 
-                Rectangle bounds = CalculateItemBounds(view);
+                bool shouldRecalc = view.ShouldRecalc(false, false);
+                Rectangle bounds = shouldRecalc ? CalculateItemBounds(view) : view.Bounds;
+
                 Point size = view.ComputeSize(Bounds.Width, Bounds.Height);
 
                 if (_vertical)
@@ -311,8 +332,16 @@ namespace Sitana.Framework.Ui.Views
                     position.X = bounds.Right + view.PositionParameters.Margin.Right;
                 }
 
-                view.Bounds = bounds;
-                view.ViewUpdate(0);
+                if (shouldRecalc)
+                {
+                    view.Bounds = bounds;
+                    view.ViewUpdate(0);
+                }
+                else
+                {
+                    Point offset = bounds.Location - view.Bounds.Location;
+                    view.Move(offset);
+                }
 
                 _maxScroll = new Point(_updateScrollPosition.X + position.X, _updateScrollPosition.Y + position.Y);
             }

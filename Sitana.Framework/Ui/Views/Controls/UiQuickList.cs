@@ -162,6 +162,14 @@ namespace Sitana.Framework.Ui.Views
             _scrollingService.Remove();
         }
 
+        protected override void OnViewDisplayChanged(bool isDisplayed)
+        {
+            if (!isDisplayed)
+            {
+                _scroller.OnViewHidden();
+            }
+        }
+
         protected override void OnGesture(Gesture gesture)
         {
             _scroller.OnGesture(gesture);

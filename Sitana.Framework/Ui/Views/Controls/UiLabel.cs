@@ -60,6 +60,7 @@ namespace Sitana.Framework.Ui.Views
 
         protected UiFont _font;
 
+
         protected virtual UiFont Font
         {
             get
@@ -123,8 +124,6 @@ namespace Sitana.Framework.Ui.Views
 
         private Vector2 CalculateSizeInPixels()
         {
-            
-
             Vector2 size;
 
             UiFont font = Font;
@@ -234,7 +233,11 @@ namespace Sitana.Framework.Ui.Views
         {
             if(Parent!=null)
             {
-                Parent.RecalcLayout();
+                UiTask.BeginInvoke(() =>
+                    {
+                        SetForceRecalcFlag();
+                        Parent.RecalcLayout();
+                    });
             }
         }
     }

@@ -68,6 +68,12 @@ namespace Sitana.Framework.Ui.Views
 			}
         }
 
+        public void OnViewHidden()
+        {
+            _touchIdX = 0;
+            _touchIdY = 0;
+        }
+
         public void OnGesture(Gesture gesture)
         {
             switch(gesture.GestureType)
@@ -187,10 +193,7 @@ namespace Sitana.Framework.Ui.Views
                     {
 						double time = (gesture.Time - _lastMoveTime.Value).TotalSeconds;
 
-						if (time == 0) 
-						{
-							time = 0.01;
-						}
+                        time = Math.Max(time, 0.016f);
 
                         if (_touchIdX != 0 && _mode.HasFlag(Mode.HorizontalDrag))
                         {

@@ -158,12 +158,12 @@ namespace Sitana.Framework.Ui.Views
 
             if(_updateBounds)
             {
-                _updateBounds = false;
-
                 if (Parent != null)
                 {
+                    SetForceRecalcFlag();
                     Parent.RecalcLayout();
                 }
+                _updateBounds = false;
             }
         }
     }
