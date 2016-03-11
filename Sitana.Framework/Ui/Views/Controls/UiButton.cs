@@ -70,7 +70,7 @@ namespace Sitana.Framework.Ui.Views
 
         SharedValue<bool> _enabledFlag;
         bool _enabledFlagInvert = false;
-        Margin _gestureMargin;
+        protected Margin _gestureMargin;
 
         public bool Enabled
         {
