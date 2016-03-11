@@ -296,6 +296,7 @@ namespace Sitana.Framework.Ui.Core
             if (disableUpdate > 0)
             {
                 UiTask.Process();
+                DelayedActionInvoker.Instance.Update(time);
 
                 var newSize = new Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 

@@ -16,9 +16,9 @@ namespace Sitana.Framework.Input.GamePad
 
         public GamePads()
         {
-//#if ANDROID
-	//		_gamePads = new GamePad[XnaGamePad.MaximumGamePadCount];
-#if WINDOWS_PHONE
+#if ANDROID
+			_gamePads = new GamePad[XnaGamePad.MaximumGamePadCount];
+#elif WINDOWS_PHONE
 			_gamePads = new GamePad[1];
 #else
 			_gamePads = new GamePad[4];

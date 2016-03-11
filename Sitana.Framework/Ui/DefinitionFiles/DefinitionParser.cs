@@ -295,6 +295,13 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 return null;
             }
 
+            object method = ParseMethodOrField(name);
+
+            if (method != null)
+            {
+                return method;
+            }
+
             T value;
             if (Enum.TryParse<T>(name, true, out value))
             {

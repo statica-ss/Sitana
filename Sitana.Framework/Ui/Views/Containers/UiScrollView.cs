@@ -149,7 +149,10 @@ namespace Sitana.Framework.Ui.Views
 
             if (_scroller != null)
             {
-                _maxScroll = maxBounds;
+                if (_maxScroll != maxBounds)
+                {
+                    _maxScroll = maxBounds;
+                }
                 _updateScrollPosition = ScrollPosition;
             }
         }

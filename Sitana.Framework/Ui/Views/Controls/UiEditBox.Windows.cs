@@ -26,6 +26,8 @@ namespace Sitana.Framework.Ui.Views
 
         string ITextConsumer.OnTextChanged(string newText)
         {
+            ValidateText(ref newText);
+
             if (newText.Length > _maxLength)
             {
                 newText = Text.StringValue.Substring(0,_maxLength);

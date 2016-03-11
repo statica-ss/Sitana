@@ -137,7 +137,13 @@ namespace Sitana.Framework.Ui.Views
 
             if(recalcLayout)
             {
-                RecalculateAll();
+                //RecalculateAll();
+
+                if (Parent != null)
+                {
+                    SetForceRecalcFlag();
+                    Parent.RecalcLayout();
+                }
             }
         }
 

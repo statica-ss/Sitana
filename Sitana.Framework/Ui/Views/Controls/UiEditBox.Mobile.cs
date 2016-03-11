@@ -20,9 +20,9 @@ namespace Sitana.Framework.Ui.Views
     {
         public new static void Parse(XNode node, DefinitionFile file)
         {
-			UiEditBoxBase.Parse(node, file);
+            UiEditBoxBase.Parse(node, file);
 
-			var parser = new DefinitionParser(node);
+            var parser = new DefinitionParser(node);
 
             file["NativeInputMargin"] = parser.ParseMargin("NativeInputMargin");
 
@@ -32,233 +32,237 @@ namespace Sitana.Framework.Ui.Views
 
             file["NativeInputAlign"] = parser.ParseEnum<Align>("NativeInputAlign");
 
-			#if __IOS__
-				file["NativeInputFontSize"] = parser.ParseInt("iOS.NativeInputFontSize");
-			#elif __ANDROID__
+            #if __IOS__
+            file["NativeInputFontSize"] = parser.ParseInt("iOS.NativeInputFontSize");
+            #elif __ANDROID__
 				file["NativeInputFontSize"] = parser.ParseInt("Android.NativeInputFontSize");
             #elif WINDOWS_PHONE_APP
             file["NativeInputFontSize"] = parser.ParseInt("WindowsPhone.NativeInputFontSize");
-			#elif __WINRT__
+            #elif __WINRT__
 				file["NativeInputFontSize"] = parser.ParseInt("WindowsRT.NativeInputFontSize");
-			#endif
+            #endif
         }
 
-		void NativeInput.ITextEdit.LostFocus()
-		{
-			Focused = false;
+        void NativeInput.ITextEdit.LostFocus()
+        {
+            Focused = false;
 
-			if ( _lostFocusCancels )
-			{
-				if (!_applied)
-				{
-					Text.Format("{0}", _original);
-					OnCancel();
-				}
-			}
-			else
-			{
-				OnApply();
-			}
+            if (_lostFocusCancels)
+            {
+                if (!_applied)
+                {
+                    Text.Format("{0}", _original);
+                    OnCancel();
+                }
+            }
+            else
+            {
+                OnApply();
+            }
 
-			UiTask.BeginInvoke(() => CallDelegate("LostFocus"));
-		}
+            UiTask.BeginInvoke(() => CallDelegate("LostFocus"));
+        }
 
-		string NativeInput.ITextEdit.TextChanged(string text)
-		{
-			if (text.Length > _maxLength)
-			{
-				text = text.Substring(0, _maxLength);
-			}
+        string NativeInput.ITextEdit.TextChanged(string text)
+        {
+            if (text.Length > _maxLength)
+            {
+                text = text.Substring(0, _maxLength);
+            }
 
-			object ret = CallDelegate("TextChanged", new InvokeParam("text", text));
+            ValidateText(ref text);
 
-			if (ret != null && ret is string)
-			{
-				text = (string)ret;
-			}
+            object ret = CallDelegate("TextChanged", new InvokeParam("text", text));
 
-			Text.StringValue = text;
+            if (ret != null && ret is string)
+            {
+                text = (string)ret;
+            }
 
-			return text;
-		}
+            Text.StringValue = text;
 
-		void NativeInput.ITextEdit.Return()
-		{
-			UiTask.BeginInvoke(() =>
-			{
-				object ret = CallDelegate("Return");
+            return text;
+        }
 
-				if( !(ret is bool && (bool)ret))
-				{
-					OnApply();
-					Unfocus();
-				}
-			});
-		}
+        void NativeInput.ITextEdit.Return()
+        {
+            UiTask.BeginInvoke(() =>
+                {
+                    object ret = CallDelegate("Return");
 
-		bool NativeInput.ITextEdit.WaitsForReturn
-		{
-			get
-			{
-				return _inputType == TextInputType.MultilineText;
-			}
-		}
+                    if (!(ret is bool && (bool)ret))
+                    {
+                        OnApply();
+                        Unfocus();
+                    }
+                });
+        }
 
-		int NativeInput.ITextEdit.MaxLength 
-		{
-			get
-			{
-				return int.MaxValue;
-			}
-		}
+        bool NativeInput.ITextEdit.WaitsForReturn
+        {
+            get
+            {
+                return _inputType == TextInputType.MultilineText;
+            }
+        }
 
-		int NativeInput.ITextEdit.MaxLines
-		{
-			get
-			{
-				return _inputType == TextInputType.MultilineText ? int.MaxValue : 1;
-			}
-		}
+        int NativeInput.ITextEdit.MaxLength
+        {
+            get
+            {
+                return int.MaxValue;
+            }
+        }
 
-		Margin _nativeInputMargin;
-		NativeInput _nativeInput = null;
-		Align _nativeInputAlign;
+        int NativeInput.ITextEdit.MaxLines
+        {
+            get
+            {
+                return _inputType == TextInputType.MultilineText ? int.MaxValue : 1;
+            }
+        }
 
-		bool _applied = false;
+        Margin _nativeInputMargin;
+        NativeInput _nativeInput = null;
+        Align _nativeInputAlign;
 
-		private string _original = null;
-		private int _fontSize = 0;
+        bool _applied = false;
 
-		public override ButtonState ButtonState
-		{
-			get
-			{
-				return base.ButtonState | (Focused ? ButtonState.Checked : ButtonState.None);
-			}
-		}
+        private string _original = null;
+        private int _fontSize = 0;
 
-		protected override void OnAdded()
-		{
-			base.OnAdded();
+        public override ButtonState ButtonState
+        {
+            get
+            {
+                return base.ButtonState | (Focused ? ButtonState.Checked : ButtonState.None);
+            }
+        }
 
-			TouchPad.Instance.TouchDown += OnTouchDown;
-		}
+        protected override void OnAdded()
+        {
+            base.OnAdded();
 
-		protected override void OnRemoved()
-		{
-			base.OnRemoved();
+            TouchPad.Instance.TouchDown += OnTouchDown;
+        }
 
-			TouchPad.Instance.TouchDown -= OnTouchDown;
-		}
+        protected override void OnRemoved()
+        {
+            base.OnRemoved();
+
+            TouchPad.Instance.TouchDown -= OnTouchDown;
+        }
 
         public override void SetText(string text)
         {
             base.SetText(text);
-            if(Focused)
+            if (Focused)
             {
                 _nativeInput.SetText(text);
             }
         }
 
-		void OnTouchDown(int id, Vector2 pos)
-		{
-			if ( Focused && !IsPointInsideView(pos))
-			{
-				Unfocus();
-			}
-		}
+        void OnTouchDown(int id, Vector2 pos)
+        {
+            if (Focused && !IsPointInsideView(pos))
+            {
+                Unfocus();
+            }
+        }
 
-		protected override bool Init(object controller, object binding, Sitana.Framework.Ui.DefinitionFiles.DefinitionFile definition)
-		{
-			if (!base.Init(controller, binding, definition))
-			{
-				return false;
-			}
+        protected override bool Init(object controller, object binding, Sitana.Framework.Ui.DefinitionFiles.DefinitionFile definition)
+        {
+            if (!base.Init(controller, binding, definition))
+            {
+                return false;
+            }
 
-			DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiEditBox));
+            DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiEditBox));
 
-			_fontSize = DefinitionResolver.Get<int>(Controller, Binding, file["NativeInputFontSize"], 20);
-			_nativeInputMargin = DefinitionResolver.Get<Margin>(Controller, Binding, file["NativeInputMargin"], Margin.None);
-			_nativeInputAlign = DefinitionResolver.Get<Align>(Controller, Binding, file["NativeInputAlign"], Align.Left);
-			return true;
-		}
+            _fontSize = DefinitionResolver.Get<int>(Controller, Binding, file["NativeInputFontSize"], 20);
+            _nativeInputMargin = DefinitionResolver.Get<Margin>(Controller, Binding, file["NativeInputMargin"], Margin.None);
+            _nativeInputAlign = DefinitionResolver.Get<Align>(Controller, Binding, file["NativeInputAlign"], Align.Left);
+            return true;
+        }
 
-		private void CreateInput()
-		{
-			if (_nativeInput != null)
-			{
-				_nativeInput.Unfocus();
-			}
+        private void CreateInput()
+        {
+            if (_nativeInput != null)
+            {
+                _nativeInput.Unfocus();
+            }
 
-			Focused = true;
-			_original = Text.StringValue;
+            Focused = true;
+            _original = Text.StringValue;
 
-			Rectangle rect = ScreenBounds;
-			rect.Y -= AppMain.Current.MainView.OffsetBoundsVertical;
+            Rectangle rect = ScreenBounds;
+            rect.Y -= AppMain.Current.MainView.OffsetBoundsVertical;
 
-			rect = _nativeInputMargin.ComputeRect(rect);
+            rect = _nativeInputMargin.ComputeRect(rect);
 
-			_nativeInput = new NativeInput(rect, _inputType, _original, _fontSize, _nativeInputAlign, this);
+            _nativeInput = new NativeInput(rect, _inputType, _original, _fontSize, _nativeInputAlign, this);
 
-			AppMain.Redraw(true);
-		}
+            AppMain.Redraw(true);
+        }
 
-		public override void Focus()
-		{
-			if (!Focused)
-			{
-				_applied = false;
-				CreateInput();
-			}
-		}
+        public override void Focus()
+        {
+            if (!Focused)
+            {
+                _applied = false;
+                CreateInput();
+            }
+        }
 
-		protected override void DoAction()
-		{
-			Focus();
-		}
+        protected override void DoAction()
+        {
+            Focus();
+        }
 
-		public override void Unfocus()
-		{
-			if (_nativeInput != null)
-			{
-				_nativeInput.Unfocus();
+        public override void Unfocus()
+        {
+            if (_nativeInput != null)
+            {
+                _nativeInput.Unfocus();
                 _nativeInput = null;
-			}
+            }
 
-			Focused = false;
-		}
+            Focused = false;
+        }
 
 
-		void OnCancel()
-		{
-			if ( !_applied)
-			{
-				_applied = true;
+        void OnCancel()
+        {
+            if (!_applied)
+            {
+                _applied = true;
 
-				CallDelegate("TextCancel");
-			}
-		}
+                CallDelegate("TextCancel");
+            }
+        }
 
-		void OnApply()
-		{
-			if ( !_applied)
-			{
-				_applied = true;
+        void OnApply()
+        {
+            if (!_applied)
+            {
+                _applied = true;
 
-				string text = Text.StringValue;
+                string text = Text.StringValue;
 
-				object ret = CallDelegate("TextApply", new InvokeParam("text", text));
+                object ret = CallDelegate("TextApply", new InvokeParam("text", text));
 
-				if (ret is string)
-				{
-					string newText = ret as string;
+                if (ret is string)
+                {
+                    string newText = ret as string;
 
-					if (text != newText)
-					{
-						Text.StringValue = newText;
-					}
-				}
-			}
-		}
+                    if (text != newText)
+                    {
+                        Text.StringValue = newText;
+                    }
+                }
+            }
+        }
+
+        
     }
 }

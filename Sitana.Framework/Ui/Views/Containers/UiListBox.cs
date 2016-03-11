@@ -224,13 +224,9 @@ namespace Sitana.Framework.Ui.Views
         {
             _newItems.Clear();
 
-
-
             lock (_items)
             {
                 int count = _items.Count;
-
-                Debug.WriteLine("Recalculate {0}", count);
 
                 int added = 0;
 

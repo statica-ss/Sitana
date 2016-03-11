@@ -147,6 +147,7 @@ namespace Sitana.Framework.Ui.Views
 
             OnChildrenModified();
             RecalcLayout();
+
         }
 
         protected override void OnAdded()

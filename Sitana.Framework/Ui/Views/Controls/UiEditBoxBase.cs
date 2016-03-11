@@ -224,6 +224,39 @@ namespace Sitana.Framework.Ui.Views
                 UiTask.BeginInvoke(() => DoActionWhenUnfocused(action));
             }
         }
+
+        protected void ValidateText(ref string text)
+        {
+            if (_inputType == TextInputType.Digits)
+            {
+                for (int idx = 0; idx < text.Length;)
+                {
+                    if (!Char.IsDigit(text[idx]))
+                    {
+                        text = text.Replace(text[idx].ToString(), "");
+                    }
+                    else
+                    {
+                        idx++;
+                    }
+                }
+            }
+
+            if (_inputType == TextInputType.Numeric)
+            {
+                for (int idx = 0; idx < text.Length;)
+                {
+                    if (!Char.IsDigit(text[idx]) && text[idx] != '.' && text[idx] != ',')
+                    {
+                        text = text.Replace(text[idx].ToString(), "");
+                    }
+                    else
+                    {
+                        idx++;
+                    }
+                }
+            }
+        }
     }
 }
 
