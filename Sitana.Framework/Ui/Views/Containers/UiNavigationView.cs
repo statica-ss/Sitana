@@ -197,10 +197,7 @@ namespace Sitana.Framework.Ui.Views
                     page.ShowSpeed = lastVisibleChild != null ? lastVisibleChild.HideSpeed : float.MaxValue;
                 }
 
-                if (OnPageAdded != null)
-                {
-                    OnPageAdded(page);
-                }
+                OnPageAdded?.Invoke(page);
 
                 _skipUpdate = true;
             }

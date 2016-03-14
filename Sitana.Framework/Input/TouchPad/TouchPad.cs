@@ -313,10 +313,7 @@ namespace Sitana.Framework.Input.TouchPad
 
             _elements.Add(id, element);
 
-            if ( TouchDown != null )
-            {
-                TouchDown(id, position);
-            }
+            TouchDown?.Invoke(id, position);
         }
 
 		internal void ProcessMove(int id, Vector2 position, DateTime time)
@@ -411,10 +408,7 @@ namespace Sitana.Framework.Input.TouchPad
                         _gesture.GestureType = GestureType.Tap;
                         OnGesture();
 
-                        if(Tap!=null)
-                        {
-                            Tap(_gesture.TouchId, _gesture.Position);
-                        }
+                        Tap?.Invoke(_gesture.TouchId, _gesture.Position);
 
                         if ( !_gesture.Handled )
                         {

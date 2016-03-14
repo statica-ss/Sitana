@@ -121,10 +121,7 @@ namespace Sitana.Framework.Ui.Core
                         Accelerators.Instance.Process(c);
                     }
 
-                    if( OnCharacter != null)
-                    {
-                        OnCharacter(c);
-                    }
+                    OnCharacter?.Invoke(c);
                 };
 
             _keyboardHandler.OnKeyDown += (k) =>
@@ -138,10 +135,7 @@ namespace Sitana.Framework.Ui.Core
                         Accelerators.Instance.Process(k);
                     }
 
-                    if (OnKeyDown != null) 
-                    {
-                        OnKeyDown(k);
-                    }
+                    OnKeyDown?.Invoke(k);
                 };
 
             _keyboardHandler.OnKeyUp += (k) =>

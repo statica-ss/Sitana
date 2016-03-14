@@ -32,12 +32,9 @@ namespace Microsoft.Xna.Framework.Input
                     {
                         long tick = DateTime.Now.Ticks;
 
-                        if (OnKeyDown != null)
-                        {
-                            Keys key = GetKey(m.wparam);
-                            Console.WriteLine(key.ToString());
-                            OnKeyDown(key);
-                        }
+                        Keys key = GetKey(m.wparam);
+                        OnKeyDown?.Invoke(key);
+                        
 
 #if WINDOWS_XNA
                         if (form.CanFocus)
@@ -53,14 +50,8 @@ namespace Microsoft.Xna.Framework.Input
                     {
                         long tick = DateTime.Now.Ticks;
 
-                        if(OnKeyUp != null)
-                        {
-                            Keys key = GetKey(m.wparam);
-                            if(OnKeyUp != null)
-                            {
-                                OnKeyUp(key);
-                            }
-                        }
+                        Keys key = GetKey(m.wparam);
+                        OnKeyUp?.Invoke(key);
                     }
                     break;
 
@@ -75,11 +66,7 @@ namespace Microsoft.Xna.Framework.Input
                             && c != '\b')//backspace
                             break;
 
-                        if (OnCharacter != null)
-                        {
-                            OnCharacter(c);
-                        }
-                       
+                        OnCharacter?.Invoke(c);
                     }
                     break;
 

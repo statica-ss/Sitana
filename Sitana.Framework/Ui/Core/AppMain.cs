@@ -405,10 +405,9 @@ namespace Sitana.Framework.Ui.Core
             MainView.RegisterView();
             MainView.ViewAdded();
 
-            if (ViewLoaded != null)
-            {
-                ViewLoaded(this);
-            }
+            
+            ViewLoaded?.Invoke(this);
+            
 
             MainView.Bounds = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         }
@@ -423,10 +422,7 @@ namespace Sitana.Framework.Ui.Core
 
             _drawBatch = new AdvancedDrawBatch(GraphicsDevice);
 
-            if (ContentLoading != null)
-            {
-                ContentLoading(this);
-            }
+            ContentLoading?.Invoke(this);
 
             IDefinitionClass obj = _mainView.CreateInstance(null, null);
 
@@ -437,10 +433,7 @@ namespace Sitana.Framework.Ui.Core
             MainView.RegisterView();
             MainView.ViewAdded();
 
-            if ( ViewLoaded != null )
-            {
-                ViewLoaded(this);
-            }
+            ViewLoaded?.Invoke(this);
 
             MainView.Bounds = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         }
@@ -455,10 +448,7 @@ namespace Sitana.Framework.Ui.Core
 
             TouchPad.Instance.AppDeactivated();
 
-            if (AppActivated != null)
-            {
-                AppActivated();
-            }
+            AppActivated?.Invoke();
         }
 
         protected override void OnDeactivated(object sender, EventArgs args)
@@ -470,10 +460,7 @@ namespace Sitana.Framework.Ui.Core
 
             TouchPad.Instance.AppDeactivated();
 
-            if (AppDeactivated != null)
-            {
-                AppDeactivated();
-            }
+            AppDeactivated?.Invoke();
         }
 
         public void LoadView(string path)
@@ -548,10 +535,7 @@ namespace Sitana.Framework.Ui.Core
 
         protected void CallResized(int width, int height)
         {
-            if (Resized != null)
-            {
-                Resized(width, height);
-            }
+            Resized?.Invoke(width, height);
         }
 
         public void CloseApp()

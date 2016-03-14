@@ -643,10 +643,7 @@ namespace Sitana.Framework.Ui.Views
 
                 OnViewDisplayChanged(_isViewDisplayed);
 
-                if (ViewDisplayChanged != null)
-                {
-                    ViewDisplayChanged(_isViewDisplayed);
-                }
+                ViewDisplayChanged?.Invoke(_isViewDisplayed);
             }
         }
 
@@ -724,10 +721,7 @@ namespace Sitana.Framework.Ui.Views
 
                         OnSizeChanged();
 
-                        if (ViewSizeChanged != null)
-                        {
-                            ViewSizeChanged(Bounds);
-                        }
+                        ViewSizeChanged?.Invoke(Bounds);
 
                         if (_lastSize.Height != Bounds.Height && !_sizeCanChange.HasFlag(SizeChangeDimension.Height))
                         {
@@ -760,10 +754,7 @@ namespace Sitana.Framework.Ui.Views
                     {
                         OnSizeChanged();
 
-                        if (ViewSizeChanged != null)
-                        {
-                            ViewSizeChanged(Bounds);
-                        }
+                        ViewSizeChanged?.Invoke(Bounds);
 
                         IsSizeStable = false;
                         _lastSize = Bounds;
