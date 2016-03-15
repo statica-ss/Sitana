@@ -160,7 +160,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public virtual void RecalcLayout()
+        public override void RecalcLayout()
         {
 			bool widthChanged = _lastSize.X != Bounds.Width;
 			bool heightChanged = _lastSize.Y != Bounds.Height;

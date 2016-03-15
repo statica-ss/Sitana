@@ -314,7 +314,7 @@ namespace Sitana.Framework.Ui.Views
 
 		public bool IsSizeStable { get; protected set; }
 
-        bool _shouldRecalc = false;
+        int _shouldRecalculateFrames = 0;
 
 		[Flags]
 		protected enum SizeChangeDimension
@@ -337,12 +337,12 @@ namespace Sitana.Framework.Ui.Views
 
         public void SetForceRecalcFlag()
         {
-            _shouldRecalc = true;
+            _shouldRecalculateFrames = 2;
         }
 
         protected void RemoveForceRecalcFlag()
         {
-            _shouldRecalc = false;
+            _shouldRecalculateFrames = 0;
         }
 
 		public virtual bool ShouldRecalc(bool widthChanged, bool heightChanged)
@@ -352,7 +352,7 @@ namespace Sitana.Framework.Ui.Views
                 return true;
             }
 
-            if (_shouldRecalc)
+            if (_shouldRecalculateFrames > 0)
             {
                 return true;
             }
@@ -476,6 +476,8 @@ namespace Sitana.Framework.Ui.Views
 
         private ColorWrapper _backgroundColor = new ColorWrapper(Color.Transparent);
         private InvokeParameters _invokeParameters = new InvokeParameters();
+
+
 
         internal int OffsetBoundsVertical
         {
@@ -673,7 +675,11 @@ namespace Sitana.Framework.Ui.Views
         public void ViewUpdate(float time)
         {
             _forceUpdate = false;
-            _shouldRecalc = false;
+
+            if (_shouldRecalculateFrames > 0)
+            {
+                _shouldRecalculateFrames--;
+            }
 
             if (_updateController && _controller != null)
             {
@@ -705,6 +711,7 @@ namespace Sitana.Framework.Ui.Views
             if (!visible && IsShown && Parent != null)
             {
                 SetForceRecalcFlag();
+                RecalcLayout();
                 Parent.RecalcLayout(this);
             }
 
@@ -758,6 +765,10 @@ namespace Sitana.Framework.Ui.Views
 
                         IsSizeStable = false;
                         _lastSize = Bounds;
+                    }
+                    else
+                    {
+                        SetForceRecalcFlag();
                     }
                 }
             }
@@ -866,6 +877,11 @@ namespace Sitana.Framework.Ui.Views
 
         protected virtual void OnRemoved()
         {
+        }
+
+        public virtual void RecalcLayout()
+        {
+
         }
 
         public UiController Controller
@@ -1037,6 +1053,7 @@ namespace Sitana.Framework.Ui.Views
                     if (Parent != null)
                     {
                         SetForceRecalcFlag();
+                        RecalcLayout();
                         Parent.RecalcLayout();
                     }
                 }
@@ -1050,6 +1067,7 @@ namespace Sitana.Framework.Ui.Views
                     if (Parent != null)
                     {
                         SetForceRecalcFlag();
+                        RecalcLayout();
                         Parent.RecalcLayout();
                     }
                 }

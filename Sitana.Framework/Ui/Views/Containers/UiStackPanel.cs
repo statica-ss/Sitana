@@ -206,6 +206,10 @@ namespace Sitana.Framework.Ui.Views
             if (update)
             {
                 ForceUpdate();
+
+                SetForceRecalcFlag();
+
+                RecalcLayout();
                 Parent.RecalcLayout();
             }
         }
@@ -233,7 +237,6 @@ namespace Sitana.Framework.Ui.Views
                 }
 
                 OnChildrenModified();
-
                 ShouldRecalcLayout();
             }
         }

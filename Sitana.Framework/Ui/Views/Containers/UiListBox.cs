@@ -2,6 +2,7 @@
 using Sitana.Framework.Diagnostics;
 using Sitana.Framework.Input.TouchPad;
 using Sitana.Framework.Ui.Binding;
+using Sitana.Framework.Ui.Core;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Ui.Interfaces;
 using Sitana.Framework.Ui.Views.Parameters;
@@ -311,7 +312,7 @@ namespace Sitana.Framework.Ui.Views
                 bool shouldRecalc = view.ShouldRecalc(false, false);
                 Rectangle bounds = shouldRecalc ? CalculateItemBounds(view) : view.Bounds;
 
-                Point size = view.ComputeSize(Bounds.Width, Bounds.Height);
+                Point size = bounds.Size;
 
                 if (_vertical)
                 {
@@ -415,10 +416,12 @@ namespace Sitana.Framework.Ui.Views
                         var child = _children[idx];
                         child.Move(diff);
                     }
+
+                    AppMain.Redraw(this);
                 }
             }
 
-            while(_lockedItem != null)
+            while (_lockedItem != null)
             {
                 if(_lockedTimer > 0 )
                 {
@@ -501,7 +504,6 @@ namespace Sitana.Framework.Ui.Views
         public override void RecalcLayout()
         {
             base.RecalcLayout();
-
             _recalculatePositionsAndScroll = true;
         }
 
