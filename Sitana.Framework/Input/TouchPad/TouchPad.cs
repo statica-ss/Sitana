@@ -156,6 +156,7 @@ namespace Sitana.Framework.Input.TouchPad
                 if ( id != MouseId && !touch.FindById(id, out tl) )
                 {
 					ProcessUp(id, _elements[id].Position, DateTime.Now);
+                    CancelTouch(id);
                 }
                 else
                 {
@@ -164,7 +165,16 @@ namespace Sitana.Framework.Input.TouchPad
             }
         }
 
-		void AnalyzeTouchPoint(ref TouchLocation touch, float time)
+        void CancelTouch(int id)
+        {
+            _gesture.GestureType = GestureType.CapturedByOther;
+            _gesture.TouchId = id;
+            _gesture.ResetState();
+
+            OnGesture();
+        }
+
+        void AnalyzeTouchPoint(ref TouchLocation touch, float time)
         {
             TouchElement element;
 

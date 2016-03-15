@@ -316,16 +316,16 @@ namespace Sitana.Framework.Graphics
 
         public Glyph Find(char character)
         {
+            if (character == 0xa0)
+            {
+                character = ' ';
+            }
+
             int index = (int)character - 32;
 
             if (index < 96 && index >=0)
             {
                 return _glyphsIndexed[index];
-            }
-
-            if (character == 0xa0)
-            {
-                character = ' ';
             }
 
             Glyph glyph;

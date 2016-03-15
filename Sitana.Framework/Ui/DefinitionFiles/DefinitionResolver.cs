@@ -120,7 +120,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
                     if (parameters.Length == methodParams.Length)
                     {
-                        return info.Invoke(context, parameters);
+                        return info.Invoke(context, parameters); 
                     }
                 }
             }
