@@ -150,6 +150,16 @@ namespace Sitana.Framework.Ui.Views
             Text.StringValue = text;
         }
 
+        protected override void OnViewDisplayChanged(bool isDisplayed)
+        {
+            base.OnViewDisplayChanged(isDisplayed);
+
+            if(!isDisplayed && _isFocused)
+            {
+                Unfocus();
+            }
+        }
+
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
         {
             float opacity = parameters.Opacity;
@@ -183,7 +193,7 @@ namespace Sitana.Framework.Ui.Views
 
             if (hint)
             {
-                drawInfo.ButtonState |= ButtonDrawables.ButtonState.Special;
+                drawInfo.ButtonState |= ButtonState.Special;
             }
 
             drawInfo.Target = ScreenBounds;
