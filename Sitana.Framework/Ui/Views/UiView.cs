@@ -77,6 +77,9 @@ namespace Sitana.Framework.Ui.Views
 
             file["Tag"] = parser.ParseString("Tag");
 
+            file["InitialDestroy"] = parser.ParseBoolean("InitialDestroy");
+            file["ShouldCreate"] = parser.ParseBoolean("ShouldCreate");
+
             PositionParameters.Parse(node, file);
 
             foreach (var cn in node.Nodes)
@@ -935,6 +938,14 @@ namespace Sitana.Framework.Ui.Views
                 {
                     Binding = bind;
                 }
+            }
+
+            bool shouldCreate = DefinitionResolver.Get(Controller, Binding, file["ShouldCreate"], true);
+            shouldCreate = !DefinitionResolver.Get(Controller, Binding, file["InitialDestroy"], !shouldCreate);
+
+            if(!shouldCreate)
+            {
+                return false;
             }
 
             Id = DefinitionResolver.GetString(Controller, Binding, file["Id"]);

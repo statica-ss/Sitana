@@ -153,6 +153,11 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        public override void RecalcLayout(UiView view)
+        {
+            RecalcLayout();
+        }
+
         protected override void Update(float time)
         {
             if (_recalculateAllParent)
@@ -208,8 +213,6 @@ namespace Sitana.Framework.Ui.Views
                 ForceUpdate();
 
                 SetForceRecalcFlag();
-
-                RecalcLayout();
                 Parent.RecalcLayout();
             }
         }

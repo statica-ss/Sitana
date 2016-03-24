@@ -80,7 +80,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 						}
 
 						throw new Exception(String.Format("Value is not an array: {0}[{1}]", name, indices.ToString()));
-					} 
+					}
 					else
 					{
 						return value;

@@ -57,7 +57,7 @@ namespace Sitana.Framework.Graphics
 
         public UiFont(string font, int size, int spacing): this(font, size)
         {
-            _spacing = (float)spacing / 1000.0f;
+            _spacing = spacing / 1000.0f;
         }
 
         public UiFont(string font, int size, int spacing, int lineHeight): this(font, size, spacing)

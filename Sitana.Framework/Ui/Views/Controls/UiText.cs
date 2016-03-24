@@ -268,7 +268,7 @@ namespace Sitana.Framework.Ui.Views
 
                     if (size.X < maxWidth)
                     {
-                        float addSpacing = (float)(maxWidth - size.X) / (float)(line.Length - 1);
+                        float addSpacing = (maxWidth - size.X) / (line.Length - 1);
                         addSpacing /= height;
 
                         lineSpacing += addSpacing;

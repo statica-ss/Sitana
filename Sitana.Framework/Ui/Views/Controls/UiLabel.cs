@@ -156,7 +156,7 @@ namespace Sitana.Framework.Ui.Views
             if(size.X > maxWidth)
             {
                 _rescale = (float)maxWidth / size.X;
-                size = size * _rescale;
+                size = size * _rescale; 
             }
 
             return size;
