@@ -120,7 +120,14 @@ namespace Sitana.Framework.Diagnostics
                     lock (_serviceModeLock)
                     {
                         _cache.AppendFormat("{1:0000}-{2:00}-{3:00} {4:00}:{5:00}:{6:00} [{0}] ", _groups[group], now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
-                        _cache.AppendFormat(format, args);
+                        if(args != null)
+                        {
+                            _cache.AppendFormat(format, args);
+                        }
+                        else
+                        {
+                            _cache.AppendLine(format);
+                        }
                         _cache.Append('\n');
                         _flush = true;
                     }
