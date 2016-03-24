@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -33,60 +34,60 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 controller = controller.Parent;
             }
 
-			int[] indices = null;
+            int[] indices = null;
 
-			if (field.Parameters != null)
-			{
-				indices = new int[field.Parameters.Length];
+            if (field.Parameters != null)
+            {
+                indices = new int[field.Parameters.Length];
 
-				for (int idx = 0; idx < indices.Length; ++idx)
-				{
-					indices[idx] = (int)ObtainParameter(invokeParameters, field.Parameters[idx]);
-				}
-			}
+                for (int idx = 0; idx < indices.Length; ++idx)
+                {
+                    indices[idx] = (int)ObtainParameter(invokeParameters, field.Parameters[idx]);
+                }
+            }
 
             PropertyInfo info = context.GetType().GetProperty(name);
 
-			if (info != null)
-			{
-				object value = info.GetValue(context, null);
+            if (info != null)
+            {
+                object value = info.GetValue(context, null);
 
-				if (indices != null)
-				{
-					if (value is Array)
-					{
-						return (value as Array).GetValue(indices);
-					}
+                if (indices != null)
+                {
+                    if (value is Array)
+                    {
+                        return (value as Array).GetValue(indices);
+                    }
 
-					throw new Exception(String.Format("Value is not an array: {0}[{1}]", name, indices.ToString()));
-				} else
-				{
-					return value;
-				}
-			}
-			else
-			{
+                    throw new Exception(String.Format("Value is not an array: {0}[{1}]", name, indices.ToString()));
+                } else
+                {
+                    return value;
+                }
+            }
+            else
+            {
                 FieldInfo finfo = context.GetType().GetField(name);
 
-				if (finfo != null)
-				{
-					object value = finfo.GetValue(context);
+                if (finfo != null)
+                {
+                    object value = finfo.GetValue(context);
 
-					if (indices != null)
-					{
-						if (value is Array)
-						{
-							return (value as Array).GetValue(indices);
-						}
+                    if (indices != null)
+                    {
+                        if (value is Array)
+                        {
+                            return (value as Array).GetValue(indices);
+                        }
 
-						throw new Exception(String.Format("Value is not an array: {0}[{1}]", name, indices.ToString()));
-					}
-					else
-					{
-						return value;
-					}
-				}
-			}
+                        throw new Exception(String.Format("Value is not an array: {0}[{1}]", name, indices.ToString()));
+                    } 
+                    else
+                    {
+                        return value;
+                    }
+                }
+            }
 
             throw new Exception(String.Format("Cannot find field: {0}{1}", field.Name, indices != null ? '['+indices.ToString()+']' : ""));
         }
@@ -120,7 +121,21 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
                     if (parameters.Length == methodParams.Length)
                     {
-                        return info.Invoke(context, parameters); 
+                        try
+                        {
+                            return info.Invoke(context, parameters);
+                        }
+                        catch(TargetInvocationException exc)
+                        {
+                            if(exc.InnerException != null)
+                            {
+                                Debug.WriteLine(exc.InnerException.ToString(), "AppError");
+                                throw exc.InnerException;
+                            }
+
+                            Debug.WriteLine(exc.ToString(), "AppError");
+                            throw exc;
+                        }
                     }
                 }
             }
