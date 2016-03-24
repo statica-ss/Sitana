@@ -64,7 +64,7 @@ namespace Sitana.Framework.Ui.Core
             {
                 if (value == 0)
                 {
-					_redrawPeriod = 0;
+                    _redrawPeriod = 0;
                 }
                 else
                 {
@@ -191,10 +191,10 @@ namespace Sitana.Framework.Ui.Core
 
         protected override void Draw(GameTime gameTime)
         {
-			if(!IsActive)
-			{
-				return;
-			}
+            if(!IsActive)
+            {
+                return;
+            }
 
             if (disableUpdate > 0)
             {
@@ -258,20 +258,20 @@ namespace Sitana.Framework.Ui.Core
             return true;
         }
 
-		double updatesCount = 0;
-		double secTime = 0;
+        double updatesCount = 0;
+        double secTime = 0;
 
         double disableUpdate = 10;
 
-		protected override void Update(GameTime gameTime)
+        protected override void Update(GameTime gameTime)
         {
             PerformanceProfiler.Instance.Update(gameTime.ElapsedGameTime);
             PerformanceProfiler.Instance.BeginCounter(_fullUpdateCounter);
 
-			if(!IsActive)
-			{
-				return;
-			}
+            if(!IsActive)
+            {
+                return;
+            }
 
             bool shouldRedraw = _redrawInNextFrame;
             _redrawInNextFrame = false;
@@ -346,38 +346,38 @@ namespace Sitana.Framework.Ui.Core
                 GamePads.Instance.Update();
             }
 
-			bool shouldUpdate = shouldRedraw;
-			_cumulativeFrameTime += time;
+            bool shouldUpdate = shouldRedraw;
+            _cumulativeFrameTime += time;
 
             //disableUpdate -= gameTime.ElapsedGameTime.TotalSeconds;
 
             if (shouldUpdate && disableUpdate >0)
             {
-				for(int idx = 0; idx < _updatables.Count; ++idx)
-				{
-					_updatables[idx].Update(time);
-				}
+                for(int idx = 0; idx < _updatables.Count; ++idx)
+                {
+                    _updatables[idx].Update(time);
+                }
 
-				if (MainView != null)
-				{
+                if (MainView != null)
+                {
                     PerformanceProfiler.Instance.BeginCounter(_viewUpdateCounter);
-					MainView.ViewUpdate(_cumulativeFrameTime);
+                    MainView.ViewUpdate(_cumulativeFrameTime);
                     PerformanceProfiler.Instance.EndCounter(_viewUpdateCounter);
-				}
+                }
                 _cumulativeFrameTime = 0;
-				updatesCount++;
+                updatesCount++;
             }
 
-			secTime += gameTime.ElapsedGameTime.TotalSeconds;
+            secTime += gameTime.ElapsedGameTime.TotalSeconds;
 
-			if (secTime >= 1)
-			{
-				Console.WriteLine("Updates per sec: {0:0.00}", updatesCount / secTime);
-				updatesCount -= updatesCount / secTime;
-				secTime = 0;
-			}
+            if (secTime >= 1)
+            {
+                Console.WriteLine("Updates per sec: {0:0.00}", updatesCount / secTime);
+                updatesCount -= updatesCount / secTime;
+                secTime = 0;
+            }
 
-			_redrawInNextFrame |= _shouldRedraw;
+            _redrawInNextFrame |= _shouldRedraw;
             shouldRedraw |= _shouldRedraw;
 
             if (!shouldRedraw)
@@ -574,18 +574,18 @@ namespace Sitana.Framework.Ui.Core
             MainView.ViewGesture(gesture);
         }
 
-		public static void Redraw(UiView caller)
+        public static void Redraw(UiView caller)
         {
-			if(caller != null && caller.IsViewDisplayed)
-			{
-            	Current._shouldRedraw = true;
-			}
+            if(caller != null && caller.IsViewDisplayed)
+            {
+                Current._shouldRedraw = true;
+            }
         }
 
-		public static void Redraw(bool test)
-		{
-			Current._shouldRedraw = true;
-		}
+        public static void Redraw(bool test)
+        {
+            Current._shouldRedraw = true;
+        }
 
         public static void RedrawNextFrame()
         {
