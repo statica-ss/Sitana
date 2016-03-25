@@ -129,8 +129,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                         {
                             if(exc.InnerException != null)
                             {
-                                Debug.WriteLine(exc.InnerException.ToString(), "AppError");
-                                throw exc.InnerException;
+                                throw new Exception(PrepareExceptionMessage(exc.InnerException), exc);
                             }
 
                             Debug.WriteLine(exc.ToString(), "AppError");
@@ -141,6 +140,36 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             }
 
             throw new Exception(String.Format("Cannot find method: {0}({1})", name, parameters.ToString()));
+        }
+
+        static string PrepareExceptionMessage(Exception innerException)
+        {
+            var message = string.Empty;
+
+            try
+            {
+                string      source = string.Empty;
+                MethodBase  site   = innerException.TargetSite;
+
+                if(site != null)
+                {
+                    source = $"Class: {site.DeclaringType.FullName}, Member: {site.Name}";
+                }
+                else
+                {
+                    source = innerException.Source;
+                }
+
+                message = $"Exception message: {innerException.Message},\nSource: {source},\nCall stack: {innerException.StackTrace}\n";
+
+                Debug.WriteLine(message, "AppError");
+            }
+            catch (Exception exc)
+            {
+                Debug.WriteLine(exc.ToString(), "AppError");
+            }
+
+            return message;
         }
 
         public static T InvokeMethod<T>(UiController controller, object binding, object definition, InvokeParameters invokeParameters)
