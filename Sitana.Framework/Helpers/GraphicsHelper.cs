@@ -111,5 +111,10 @@ namespace Sitana.Framework
         {
             return IntersectRectangle(ref r1, ref r2);
         }
+
+        public static Vector2 ToPixelPerfect(this Point point)
+        {
+            return new Vector2( point.X, point.Y );
+        }
     }
 }

@@ -30,14 +30,32 @@ namespace Sitana.Framework.Graphics
             PushVertex(new Vector2(rectangle.Right, rectangle.Bottom), color);
         }
 
+        public void DrawRectangleBorder(Rectangle rectangle, Color color)
+        {
+            Texture = null;
+            PrimitiveType = PrimitiveType.LineList;
+
+            PushVertex(new Vector2(rectangle.Left, rectangle.Top), color);
+            PushVertex(new Vector2(rectangle.Right, rectangle.Top), color);
+
+            PushVertex(new Vector2(rectangle.Left, rectangle.Top + 1), color);
+            PushVertex(new Vector2(rectangle.Left, rectangle.Bottom), color);
+
+            PushVertex(new Vector2(rectangle.Right, rectangle.Top), color);
+            PushVertex(new Vector2(rectangle.Right, rectangle.Bottom + 1), color);
+
+            PushVertex(new Vector2(rectangle.Left, rectangle.Bottom), color);
+            PushVertex(new Vector2(rectangle.Right, rectangle.Bottom), color);
+        }
+
         public void DrawLine(Point p1, Point p2, Color color)
         {
             Texture = null;
 
             PrimitiveType = PrimitiveType.LineList;
 
-            PushVertex(p1.ToVector2(), color);
-            PushVertex(p2.ToVector2(), color);
+            PushVertex(p1.ToPixelPerfect(), color);
+            PushVertex(p2.ToPixelPerfect(), color);
         }
 
         public void DrawPolyline(Point[] points, Color color)
@@ -48,14 +66,13 @@ namespace Sitana.Framework.Graphics
 
             foreach (var p in points)
             {
-                PushVertex(p.ToVector2(), color);
+                PushVertex(p.ToPixelPerfect(), color);
             }
         }
 
         public void DrawPolyline(Color color, params Point[] points)
         {
             Texture = null;
-
             DrawPolyline(points, color);
         }
 

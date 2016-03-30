@@ -365,7 +365,13 @@ namespace Sitana.Framework.Input.TouchPad
 
 		internal void ProcessUp(int id, Vector2 position, DateTime time)
         {
-            TouchElement element = _elements[id];
+            TouchElement element;
+
+            if(!_elements.TryGetValue(id, out element))
+            {
+                return;
+            }
+
             Vector2 move = position - element.Position;
 
             element.Position = position;
