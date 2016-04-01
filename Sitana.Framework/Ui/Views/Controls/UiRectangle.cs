@@ -43,8 +43,8 @@ namespace Sitana.Framework.Ui.Views
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiRectangle));
 
             _image = DefinitionResolver.Get<NinePatchImage>(Controller, Binding, file["Image"], null);
-            _scaleByUnit = DefinitionResolver.Get<bool>(Controller, Binding, file["ScaleByUnit"], false);
-            _scale = (float)DefinitionResolver.Get<double>(Controller, Binding, file["Scale"], 1);
+            _scaleByUnit = DefinitionResolver.Get(Controller, Binding, file["ScaleByUnit"], false);
+            _scale = (float)DefinitionResolver.Get(Controller, Binding, file["Scale"], 1.0);
             _color = DefinitionResolver.GetColorWrapper(Controller, Binding, file["Color"]);
 
             return true;
@@ -65,7 +65,12 @@ namespace Sitana.Framework.Ui.Views
             
             if (color.A > 0)
             {
-                parameters.DrawBatch.DrawNinePatchRect(_image, ScreenBounds, color * opacity, scale * _scale);
+                Rectangle bounds = ScreenBounds;
+
+                bounds.Height = Math.Max(Bounds.Height, 1);
+                bounds.Width = Math.Max(Bounds.Width, 1);
+
+                parameters.DrawBatch.DrawNinePatchRect(_image, bounds, color * opacity, scale * _scale);
             }
         }
     }

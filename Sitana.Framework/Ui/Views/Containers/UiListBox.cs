@@ -444,6 +444,12 @@ namespace Sitana.Framework.Ui.Views
                             Show(_lockedItem);
                             Recalculate();
                         }
+
+                        if(child.Bounds.Bottom > Bounds.Height && child.Bounds.Y > 0)
+                        {
+                            Show(_lockedItem);
+                            Recalculate();
+                        }
                     }
                     else
                     {

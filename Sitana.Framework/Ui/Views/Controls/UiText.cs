@@ -15,7 +15,7 @@ namespace Sitana.Framework.Ui.Views
 {
     public class UiText: UiView
     {
-        struct TextAndSpacing
+        protected struct TextAndSpacing
         {
             public TextAndSpacing(string text, float spacing, int indent)
             {
@@ -53,7 +53,7 @@ namespace Sitana.Framework.Ui.Views
 
         public ColorWrapper TextColor { get; private set; }
 
-        List<TextAndSpacing> _lines = new List<TextAndSpacing>();
+        protected List<TextAndSpacing> _lines = new List<TextAndSpacing>();
 
         public string FontName
         {
@@ -114,7 +114,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        void SetText(string value)
+        protected virtual void SetText(string value)
         {
             _text = value;
 
@@ -316,12 +316,12 @@ namespace Sitana.Framework.Ui.Views
                         line = line.Substring(newLine.Length);
                         idx = 0;
 
-                        if (newLine.Length > 0 && Char.IsWhiteSpace(newLine[0]) && newLine[0] != 0xa0)
+                        if (newLine.Length > 0 && char.IsWhiteSpace(newLine[0]) && newLine[0] != 0xa0)
                         {
                             newLine.Remove(0, 1);
                         }
 
-                        while (newLine.Length > 0 && Char.IsWhiteSpace(newLine[newLine.Length - 1]))
+                        while (newLine.Length > 0 && char.IsWhiteSpace(newLine[newLine.Length - 1]))
                         {
                             newLine.Remove(newLine.Length-1, 1);
                         }
@@ -335,14 +335,14 @@ namespace Sitana.Framework.Ui.Views
                 newLine.Append(character);
             }
 
-            while (newLine.Length > 0 && Char.IsWhiteSpace(newLine[newLine.Length - 1]))
+            while (newLine.Length > 0 && char.IsWhiteSpace(newLine[newLine.Length - 1]))
             {
                 newLine.Remove(newLine.Length - 1, 1);
             }
 
             if (newLine.Length > 0)
             {
-                if (Char.IsWhiteSpace(newLine[0]) && newLine[0] != 0xa0)
+                if (char.IsWhiteSpace(newLine[0]) && newLine[0] != 0xa0)
                 {
                     newLine.Remove(0, 1);
                 }
@@ -473,13 +473,13 @@ namespace Sitana.Framework.Ui.Views
 
             int fullHeight = height * _lines.Count;
 
-            switch (TextAlign & Framework.TextAlign.Vert)
+            switch (TextAlign & TextAlign.Vert)
             {
-                case Framework.TextAlign.Middle:
+                case TextAlign.Middle:
                     target.Y = target.Center.Y - fullHeight / 2;
-                    break; 
+                    break;
 
-                case Framework.TextAlign.Bottom: 
+                case TextAlign.Bottom:
                     target.Y = target.Bottom - fullHeight;
                     break;
             }
