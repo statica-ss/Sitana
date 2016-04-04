@@ -19,6 +19,14 @@ namespace Sitana.Framework.Ui.Core
         public static double GameUnit = 1;
         public static double PixelsPerMm = 1;
 
+        public static double PhisicalScale
+        {
+            get
+            {
+                return PixelsPerMm * 0.35277777777777777777777777777778;
+            }
+        }
+
         public static ScalingMode FontScaling = ScalingMode.None;
     }
 }

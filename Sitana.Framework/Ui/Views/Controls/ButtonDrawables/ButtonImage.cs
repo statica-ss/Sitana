@@ -21,13 +21,13 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             var parser = new DefinitionParser(node);
 
             file["Image"] = parser.ParseResource<Texture2D>("Image");
-            file["Scale"] = parser.ParseDouble("Scale");
+            file["Scale"] = parser.ParseScale("Scale");
             file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
             file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
         }
 
         protected Texture2D _image = null;
-        protected float _scale = 1;
+        protected Scale _scale;
 
         protected HorizontalContentAlignment _horizontalAlignment;
         protected VerticalContentAlignment _verticalAlignment;
@@ -39,7 +39,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(Image));
 
             _image = DefinitionResolver.Get<Texture2D>(controller, binding, file["Image"], null);
-            _scale = (float)DefinitionResolver.Get<double>(controller, binding, file["Scale"], 1);
+            _scale = DefinitionResolver.Get(controller, binding, file["Scale"], Scale.One);
             _horizontalAlignment = DefinitionResolver.Get<HorizontalContentAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Center);
             _verticalAlignment = DefinitionResolver.Get<VerticalContentAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalContentAlignment.Center);
         }
@@ -54,11 +54,11 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             if (image != null)
             {
-                float scale = (float)UiUnit.Unit * _scale;
+                float scale = _scale.Value(true);
 
                 if (scale == 0)
                 {
-                    scale = Math.Min((float)info.Target.Width / (float)image.Width, (float)info.Target.Height / (float)image.Height);
+                    scale = Math.Min(info.Target.Width / (float)image.Width, info.Target.Height / (float)image.Height);
                     scale = Math.Min(1, scale);
                 }
 

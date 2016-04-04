@@ -24,7 +24,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
             file["HorizontalContentAlignment"] = parser.ParseEnum<HorizontalContentAlignment>("HorizontalContentAlignment");
             file["VerticalContentAlignment"] = parser.ParseEnum<VerticalContentAlignment>("VerticalContentAlignment");
-            file["Scale"] = parser.ParseDouble("Scale");
+            file["Scale"] = parser.ParseScale("Scale");
             file["Stretch"] = parser.ParseEnum<Stretch>("Stretch");
         }
 
@@ -32,7 +32,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
         protected int _fontSize;
         protected HorizontalContentAlignment _horzAlign;
         protected VerticalContentAlignment _vertAlign;
-        protected float _scale;
+        protected Scale _scale;
         protected Stretch _stretch;
 
         protected override void Init(UiController controller, object binding, DefinitionFile definition)
@@ -44,7 +44,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
             _horzAlign = DefinitionResolver.Get<HorizontalContentAlignment>(controller, binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Center);
             _vertAlign = DefinitionResolver.Get<VerticalContentAlignment>(controller, binding, file["VerticalContentAlignment"], VerticalContentAlignment.Center);
             _stretch = DefinitionResolver.Get<Stretch>(controller, binding, file["Stretch"], Stretch.None);
-            _scale = (float)DefinitionResolver.Get<double>(controller, binding, file["Scale"], 1);
+            _scale = DefinitionResolver.Get(controller, binding, file["Scale"], Scale.One);
         }
 
         public override void Draw(AdvancedDrawBatch drawBatch, DrawButtonInfo info)
@@ -56,7 +56,7 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
                 return;
             }
 
-            float scale = (float)UiUnit.Unit * _scale;
+            float scale = _scale.Value(true);
 
             float scaleX = scale;
             float scaleY = scale;

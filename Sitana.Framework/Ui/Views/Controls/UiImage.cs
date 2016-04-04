@@ -25,7 +25,7 @@ namespace Sitana.Framework.Ui.Views
             file["Color"] = parser.ParseColor("Color");
             file["RotationSpeed"] = parser.ParseDouble("RotationSpeed");
             file["ScaleByUnit"] = parser.ParseBoolean("ScaleByUnit");
-            file["Scale"] = parser.ParseDouble("Scale");
+            file["Scale"] = parser.ParseScale("Scale");
 
 			file["ResampleFilter"] = parser.ParseEnum<ResampleFilter>("ResampleFilter");
         }
@@ -45,16 +45,16 @@ namespace Sitana.Framework.Ui.Views
         float _rotationSpeed = 0;
         float _rotation = 0;
         bool _scaleByUnit = false;
-        float _scale = 1;
+
+        Scale _scale;
 
 		SamplerState _samplerState = null;
-        bool _shouldRecalc = false;
 
-        float Scale
+        float ImageScale
         {
             get
             {
-                return _scale * (_scaleByUnit ? (float)UiUnit.Unit : 1);
+                return _scale.Value(_scaleByUnit);
             }
         }
 
@@ -72,7 +72,7 @@ namespace Sitana.Framework.Ui.Views
             Rectangle target = ScreenBounds;
             Rectangle source = Rectangle.Empty;
 
-            float scale = Scale;
+            float scale = ImageScale;
 
             lock (_image)
             {
@@ -88,18 +88,18 @@ namespace Sitana.Framework.Ui.Views
                     switch (_stretch)
                     {
                         case Stretch.Uniform:
-                            scaleX = scaleY = Math.Min((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height) * _scale;
+                            scaleX = scaleY = Math.Min(target.Width / (double)image.Width, target.Height / (double)image.Height) * _scale.Value(false);
                             scale = (float)scaleX;
                             break;
 
                         case Stretch.UniformToFill:
-                            scaleX = scaleY = Math.Max((double)target.Width / (double)image.Width, (double)target.Height / (double)image.Height) * _scale;
+                            scaleX = scaleY = Math.Max(target.Width / (double)image.Width, target.Height / (double)image.Height) * _scale.Value(false);
                             scale = (float)scaleX;
                             break;
 
                         case Stretch.Fill:
-                            scaleX = Scale * (double)target.Width / (double)image.Width;
-                            scaleY = Scale * (double)target.Height / (double)image.Height;
+                            scaleX = ImageScale * target.Width / (double)image.Width;
+                            scaleY = ImageScale * target.Height / (double)image.Height;
                             scale = (float)Math.Min(scaleX, scaleY);
                             break;
                     }
@@ -162,11 +162,9 @@ namespace Sitana.Framework.Ui.Views
             _color = DefinitionResolver.GetColorWrapper(Controller, Binding, file["Color"]) ?? new ColorWrapper();
             _rotationSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["RotationSpeed"], 0);
             _scaleByUnit = DefinitionResolver.Get<bool>(Controller, Binding, file["ScaleByUnit"], true);
-            _scale = (float)DefinitionResolver.Get<double>(Controller, Binding, file["Scale"], 1);
-
+            _scale = DefinitionResolver.Get(Controller, Binding, file["Scale"], Scale.One);
 
             _image.ValueChanged += _image_ValueChanged;
-            
 
 			switch(DefinitionResolver.Get<ResampleFilter>(Controller, Binding, file["ResampleFilter"], ResampleFilter.Default))
 			{
@@ -227,7 +225,7 @@ namespace Sitana.Framework.Ui.Views
                 if (_image.Value != null)
                 {
                     Texture2D image = _image.Value;
-                    return new Vector2(image.Width, image.Height) * Scale;
+                    return new Vector2(image.Width, image.Height) * ImageScale;
                 }
             }
             return Vector2.Zero;

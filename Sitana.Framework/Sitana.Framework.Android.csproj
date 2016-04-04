@@ -256,6 +256,7 @@
     <Compile Include="Diagnostics\ServiceMode.cs" />
     <Compile Include="Input\TouchPad\TouchPad_AndroidGestureView.cs" />
     <Compile Include="Ui\Definitions\IMixable.cs" />
+    <Compile Include="Ui\Definitions\Scale.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ContentManagement\" />

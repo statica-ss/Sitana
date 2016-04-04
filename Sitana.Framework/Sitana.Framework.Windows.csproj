@@ -102,6 +102,7 @@
     <Compile Include="Ui\Core\GlobalVariables.cs" />
     <Compile Include="Ui\DefinitionFiles\Commands\RegisterStyles.cs" />
     <Compile Include="Ui\Definitions\IMixable.cs" />
+    <Compile Include="Ui\Definitions\Scale.cs" />
     <Compile Include="Ui\Definitions\VerticalContentAlignment.cs" />
     <Compile Include="Ui\Definitions\HorizontalContentAlignment.cs" />
     <Compile Include="Ui\Definitions\HorizontalAlignment.cs" />

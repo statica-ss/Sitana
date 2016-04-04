@@ -282,6 +282,7 @@
     <Compile Include="Ui\Definitions\IMixable.cs">
       <Link>Ui\DefinitionFiles\IMixable.cs</Link>
     </Compile>
+    <Compile Include="Ui\Definitions\Scale.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -438,6 +438,43 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return ParseLength(id, true);
         }
 
+        public object ParseScale(string id)
+        {
+            string name = Value(id);
+            object method = ParseMethodOrField(name);
+
+            if (method != null)
+            {
+                return method;
+            }
+
+            if (name.IsNullOrEmpty())
+            {
+                return null;
+            }
+
+            string[] vals = name.SplitAndKeep('-', '+');
+
+            double scale = 0;
+            double phisicalScale = 0;
+
+            foreach (var val in vals)
+            {
+                if (val.EndsWith("ps"))
+                {
+                    string newVal = val.TrimEnd('p','s');
+
+                    phisicalScale += double.Parse(newVal, CultureInfo.InvariantCulture);
+                }
+                else if (!val.IsNullOrWhiteSpace())
+                {
+                    scale += double.Parse(val, CultureInfo.InvariantCulture);
+                }
+            }
+
+            return new Scale(scale, phisicalScale);
+        }
+
         bool ParseLengthInternal(string value, out Length outputLength)
         {
             value = value.Replace(" ", "");
