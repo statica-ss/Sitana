@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Sitana.Framework.Diagnostics;
 using Sitana.Framework.Input.TouchPad;
 using UIKit;
+using System;
 
 namespace Sitana.Framework.Ui.Core
 {
@@ -14,6 +15,8 @@ namespace Sitana.Framework.Ui.Core
         {
 			var view = Services.GetService<UIViewController>().View;
 			view.Window.AddGestureRecognizer(new TouchPad_iOSGestureRecognizer(view));
+
+            UiUnit.PixelsPerMm = UIScreen.MainScreen.Scale * 160.0 / 25.4;
         }
         
         protected virtual void OnSize(int width, int height)

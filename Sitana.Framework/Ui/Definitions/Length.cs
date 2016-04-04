@@ -20,6 +20,7 @@ namespace Sitana.Framework.Ui
         double _percent;
         int    _pixels;
         int    _restPart;
+        double    _mm;
 
         bool _auto;
 
@@ -70,6 +71,7 @@ namespace Sitana.Framework.Ui
             _percent = 0;
             _pixels = 0;
             _restPart = 0;
+            _mm = 0;
         }
 
         public Length(bool auto, bool stretch)
@@ -79,25 +81,27 @@ namespace Sitana.Framework.Ui
             _percent = 1;
             _pixels = 0;
             _restPart = 0;
+            _mm = 0;
         }
 
-        public Length(double length = 0, double percent = 0, int pixels = 0, int rest = 0)
+        public Length(double length = 0, double percent = 0, int pixels = 0, int rest = 0, double mm = 0)
         {
             _auto = false;
             _length = length;
             _percent = percent;
             _pixels = pixels;
             _restPart = rest;
+            _mm = mm;
         }
 
         public int Compute(int size = 0)
         {
-            return (int)Math.Ceiling(_percent * size + UiUnit.Unit * _length) + _pixels;
+            return (int)Math.Ceiling(_percent * size + UiUnit.Unit * _length + UiUnit.PixelsPerMm * _mm)  + _pixels;
         }
 
         public double ComputeDouble()
         {
-            return UiUnit.Unit * _length + _pixels;
+            return UiUnit.Unit * _length + _pixels + UiUnit.PixelsPerMm * _mm;
         }
     }
 }

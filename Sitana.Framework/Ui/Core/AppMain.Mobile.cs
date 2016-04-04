@@ -8,11 +8,6 @@ namespace Sitana.Framework.Ui.Core
 {
     public partial class AppMain
     {
-        void PlatformInit()
-        {
-			
-        }
-        
         protected virtual void OnSize(int width, int height)
         {
             var rect = new Rectangle(0, 0, width, height);

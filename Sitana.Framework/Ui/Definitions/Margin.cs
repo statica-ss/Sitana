@@ -21,12 +21,12 @@ namespace Sitana.Framework.Ui
         public int Left { get { return Get(_left).GetValueOrDefault(); } }
         public int Right { get { return Get(_right).GetValueOrDefault(); } }
 
-        public double? _top;
-        public double? _bottom;
-        public double? _left;
-        public double? _right;
+        public Length? _top;
+        public Length? _bottom;
+        public Length? _left;
+        public Length? _right;
 
-        bool IMixable.IsMixMeaningful 
+        bool IMixable.IsMixMeaningful
         { 
             get
             {
@@ -69,9 +69,17 @@ namespace Sitana.Framework.Ui
             }
         }
 
-        public Margin(double? all) : this(all, all, all, all) { }
+        public Margin(Length? all) : this(all, all, all, all) { }
 
         public Margin(double? left, double? top, double? right, double? bottom)
+        {
+            _top = top.HasValue ? new Length(top.Value) : (Length?)null;
+            _bottom = bottom.HasValue ? new Length(bottom.Value) : (Length?)null;
+            _left = left.HasValue ? new Length(left.Value) : (Length?)null;
+            _right = right.HasValue ? new Length(right.Value) : (Length?)null;
+        }
+
+        public Margin(Length? left, Length? top, Length? right, Length? bottom)
         {
             _top = top;
             _bottom = bottom;
@@ -89,11 +97,11 @@ namespace Sitana.Framework.Ui
             return rect;
         }
 
-        int? Get(double? value)
+        int? Get(Length? value)
         {
             if (value.HasValue)
             {
-                return (int)(UiUnit.Unit*value.Value);
+                return value.Value.Compute();
             }
 
             return null;

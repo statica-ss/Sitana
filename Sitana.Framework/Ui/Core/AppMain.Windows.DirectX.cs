@@ -73,7 +73,7 @@ namespace Sitana.Framework.Ui.Core
 
         void UpdateSize()
         {
-            Form form = (Form)Form.FromHandle(Window.Handle);
+            Form form = (Form)Control.FromHandle(Window.Handle);
 
             int width = form.ClientRectangle.Width;
             int height = form.ClientRectangle.Height;
@@ -86,7 +86,14 @@ namespace Sitana.Framework.Ui.Core
 
         void PlatformInit()
         {
-            Form form = (Form)Form.FromHandle(Window.Handle);
+            Form form = (Form)Control.FromHandle(Window.Handle);
+
+            using (var graphics = form.CreateGraphics())
+            {
+                float dpi = Math.Max(graphics.DpiX, graphics.DpiY);
+                double mmToPixel = dpi / 25.4;
+                UiUnit.PixelsPerMm = mmToPixel;
+            }
 
             form.BackColor = System.Drawing.Color.Black;
 

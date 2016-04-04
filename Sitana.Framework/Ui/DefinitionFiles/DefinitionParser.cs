@@ -333,39 +333,39 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
             if ( elements.Length == 1 )
             {
-                double value;
-                if (double.TryParse(elements[0], NumberStyles.Number, CultureInfo.InvariantCulture, out value))
+                Length value;
+                if (ParseLengthInternal(elements[0], out value))
                 {
                     return new Margin(value);
                 }
             }
             else if ( elements.Length == 4 )
             {
-                double? left = null;
-                double? top = null;
-                double? bottom = null;
-                double? right = null;
+                Length? left = null;
+                Length? top = null;
+                Length? bottom = null;
+                Length? right = null;
                     
-                double doubleValue;
+                Length lengthValue;
 
-                if (double.TryParse(elements[0], NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue))
+                if (ParseLengthInternal(elements[0], out lengthValue))
                 {
-                    left = doubleValue;
+                    left = lengthValue;
                 }
 
-                if (double.TryParse(elements[1], NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue))
+                if (ParseLengthInternal(elements[1], out lengthValue))
                 {
-                    top = doubleValue;
+                    top = lengthValue;
                 }
 
-                if (double.TryParse(elements[2], NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue))
+                if (ParseLengthInternal(elements[2], out lengthValue))
                 {
-                    right = doubleValue;
+                    right = lengthValue;
                 }
 
-                if (double.TryParse(elements[3], NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue))
+                if (ParseLengthInternal(elements[3], out lengthValue))
                 {
-                    bottom = doubleValue;
+                    bottom = lengthValue;
                 }
 
                 return new Margin(left, top, right, bottom);
@@ -438,6 +438,47 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             return ParseLength(id, true);
         }
 
+        bool ParseLengthInternal(string value, out Length outputLength)
+        {
+            value = value.Replace(" ", "");
+
+            string[] vals = value.SplitAndKeep('-', '+');
+
+            double length = 0;
+            double mm = 0;
+            int pixels = 0;
+
+            foreach (var val in vals)
+            {
+                if (val.EndsWith("px"))
+                {
+                    string newVal = val.TrimEnd('p', 'x');
+                    pixels += int.Parse(newVal);
+                }
+                if (val.EndsWith("mm"))
+                {
+                    string newVal = val.TrimEnd('m');
+                    mm += double.Parse(newVal, CultureInfo.InvariantCulture);
+                }
+                else if (!val.IsNullOrWhiteSpace())
+                {
+                    double doubleValue;
+                    if (double.TryParse(val, NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue))
+                    {
+                        length += doubleValue;
+                    }
+                    else
+                    {
+                        outputLength = Length.Zero;
+                        return false;
+                    }
+                }
+            }
+
+            outputLength = new Length(length, pixels: pixels, mm: mm);
+            return true;
+        }
+
         // TODO: Special values error while allowSpecialValues is set to false.
         public object ParseLength(string id, bool allowSpecialValues)
         {
@@ -471,6 +512,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             double length = 0;
             double percent = 0;
             int pixels = 0;
+            double mm = 0;
             int rest = 0;
 
             foreach (var val in vals)
@@ -515,6 +557,12 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
                     pixels += int.Parse(newVal);
                 }
+                else if (val.EndsWith("mm"))
+                {
+                    string newVal = val.TrimEnd('m');
+
+                    mm += double.Parse(newVal, CultureInfo.InvariantCulture);
+                }
                 else if(!val.IsNullOrWhiteSpace())
                 {
                     length += double.Parse(val, CultureInfo.InvariantCulture);
@@ -527,7 +575,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 throw new Exception("Cannot mix rest with other Length units.");
             }
 
-            return new Length(length, percent, pixels, rest);
+            return new Length(length, percent, pixels, rest, mm);
         }
     }
 }

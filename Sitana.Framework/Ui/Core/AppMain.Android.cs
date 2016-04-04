@@ -9,6 +9,7 @@ using System;
 using Android.Widget;
 using Sitana.Framework.Misc;
 using Sitana.Framework.Input.TouchPad;
+using Android.Util;
 
 
 namespace Sitana.Framework.Ui.Core
@@ -29,6 +30,12 @@ namespace Sitana.Framework.Ui.Core
 		protected AppMain(bool dummy)
 		{
 		}
+
+        void PlatformInit()
+        {
+            float px = TypedValue.ApplyDimension(ComplexUnitType.Mm, 1, Activity.Resources.DisplayMetrics);
+            UiUnit.PixelsPerMm = px;
+        }
 
 		protected void AddView()
 		{

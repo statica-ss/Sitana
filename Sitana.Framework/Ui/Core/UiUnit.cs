@@ -17,6 +17,8 @@ namespace Sitana.Framework.Ui.Core
         public static double Unit = 1;
         public static double FontUnit = 1;
         public static double GameUnit = 1;
+        public static double PixelsPerMm = 1;
+
         public static ScalingMode FontScaling = ScalingMode.None;
     }
 }
