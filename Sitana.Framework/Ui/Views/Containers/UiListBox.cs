@@ -575,28 +575,33 @@ namespace Sitana.Framework.Ui.Views
             return childRect;
         }
 
-        public void Show(object item)
+        public void Show(object item, int margin = 0)
         {
             UiView view;
             if(_bindingToElement.TryGetValue(item, out view))
             {
                 if(_vertical)
                 {
-                    if (view.Bounds.Top < 0)
+                    Rectangle bounds = view.Bounds;
+
+                    bounds.Y -= margin;
+                    bounds.Height += margin * 2;
+
+                    if (bounds.Top < 0)
                     {
-                        _scrollingService.ScrollPositionY += view.Bounds.Top;
+                        _scrollingService.ScrollPositionY += bounds.Top;
                         ShouldRecalcLayout();
                     }
-                    else if(view.Bounds.Bottom > Bounds.Height)
+                    else if(bounds.Bottom > Bounds.Height)
                     {
-                        if(view.Bounds.Height > Bounds.Height)
+                        if(bounds.Height > Bounds.Height)
                         {
-                            _scrollingService.ScrollPositionY += view.Bounds.Top;
+                            _scrollingService.ScrollPositionY += bounds.Top;
                             ShouldRecalcLayout();
                         }
                         else
                         {
-                            _scrollingService.ScrollPositionY += view.Bounds.Bottom - Bounds.Height;
+                            _scrollingService.ScrollPositionY += bounds.Bottom - Bounds.Height;
                             ShouldRecalcLayout();
                         }
                     }
@@ -605,21 +610,26 @@ namespace Sitana.Framework.Ui.Views
                 }
                 else
                 {
-                    if (view.Bounds.Left < 0)
+                    Rectangle bounds = view.Bounds;
+
+                    bounds.X -= margin;
+                    bounds.Width += margin * 2;
+
+                    if (bounds.Left < 0)
                     {
-                        _scrollingService.ScrollPositionX += view.Bounds.Left;
+                        _scrollingService.ScrollPositionX += bounds.Left;
                         ShouldRecalcLayout();
                     }
-                    else if (view.Bounds.Right > Bounds.Width)
+                    else if (bounds.Right > Bounds.Width)
                     {
-                        if(view.Bounds.Width > Bounds.Width)
+                        if(bounds.Width > Bounds.Width)
                         {
-                            _scrollingService.ScrollPositionX += view.Bounds.Left;
+                            _scrollingService.ScrollPositionX += bounds.Left;
                             ShouldRecalcLayout();
                         }
                         else
                         {
-                            _scrollingService.ScrollPositionX += view.Bounds.Right - Bounds.Width;
+                            _scrollingService.ScrollPositionX += bounds.Right - Bounds.Width;
                             ShouldRecalcLayout();
                         }
                     }

@@ -88,16 +88,15 @@ namespace Sitana.Framework.Input
 
 					var keyboardFrame = viewController.View.ConvertRectToView(keyboardSize, null);
 
-					nfloat offset = keyboardFrame.Top - _textField.Frame.Bottom - 4;
+                    nfloat offset = keyboardFrame.Top - _textField.Frame.Bottom - _textField.Frame.Height / 2;
 
-					if(offset<0)
+					if(offset < 0)
 					{
 						CGRect frame = viewController.View.Frame;
 						frame.Y = offset;
 
 						viewController.View.Frame = frame;
 					}
-					//_textField.Frame
 				});
 
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString("UIKeyboardDidHideNotification"), 
@@ -341,6 +340,9 @@ namespace Sitana.Framework.Input
 
             CurrentFocus = null;
 			DelayedActionInvoker.Instance.AddAction(0.2f, (v)=>AppMain.Current.ReleaseFocus(this));
+
+            AppMain.Redraw(true);
+            AppMain.RedrawNextFrame();
         }
     }
 }

@@ -139,7 +139,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 }
             }
 
-            throw new Exception(String.Format("Cannot find method: {0}({1})", name, parameters.ToString()));
+            throw new Exception(string.Format("Cannot find method: {0}({1})", name, parameters.ToString()));
         }
 
         static string PrepareExceptionMessage(Exception innerException)
@@ -149,9 +149,12 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             try
             {
                 string      source = string.Empty;
-                MethodBase  site   = innerException.TargetSite;
+                MethodBase  site = null;
 
-                if(site != null)
+#if !WINDOWS_PHONE_APP
+                site = innerException.TargetSite;
+#endif
+                if (site != null)
                 {
                     source = $"Class: {site.DeclaringType.FullName}, Member: {site.Name}";
                 }

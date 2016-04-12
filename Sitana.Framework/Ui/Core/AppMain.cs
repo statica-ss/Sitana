@@ -383,9 +383,6 @@ namespace Sitana.Framework.Ui.Core
             if (!shouldRedraw)
             {
                 SuppressDraw();
-#if !WINDOWS_PHONE_APP
-                Thread.Sleep(10);
-#endif
             }
 
             PerformanceProfiler.Instance.EndCounter(_fullUpdateCounter);

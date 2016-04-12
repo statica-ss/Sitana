@@ -44,7 +44,7 @@ namespace Sitana.Framework.Input
 
         public void OnCharacter(char character)
         {
-            if ( character == '\b')
+          if ( character == '\b')
             {
                 if (_text.Length > 0)
                 {
@@ -95,7 +95,7 @@ namespace Sitana.Framework.Input
                 return char.IsDigit(ch);
 
             case TextInputType.Numeric:
-                return char.IsDigit(ch) || ch == '.' || ch == ',' || ch=='-';
+                return char.IsDigit(ch) || ch == '.' || ch == ',' || ch=='-' || ch=='+';
 
             case TextInputType.Uppercase:
                 ch = char.ToUpperInvariant(ch);

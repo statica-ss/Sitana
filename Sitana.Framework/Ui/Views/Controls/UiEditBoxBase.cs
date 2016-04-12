@@ -1,12 +1,10 @@
 ﻿using System;
 using Sitana.Framework.Input;
 using Sitana.Framework.Ui.Views.ButtonDrawables;
-using Sitana.Framework.Ui.Core;
-using Sitana.Framework.Input.TouchPad;
-using Microsoft.Xna.Framework;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Cs;
+using System.Collections.Generic;
 
 namespace Sitana.Framework.Ui.Views
 {
@@ -32,6 +30,7 @@ namespace Sitana.Framework.Ui.Views
             file["MaxLength"] = parser.ParseInt("MaxLength");
 
 			file["IsFocused"] = parser.ParseBoolean("IsFocused");
+            file["Filter"] = parser.ParseString("Filter");
         }
 
 		public static UiEditBoxBase CurrentlyFocused { get; private set; }
@@ -66,6 +65,8 @@ namespace Sitana.Framework.Ui.Views
 
         public SharedString Hint { get; private set; }
 
+        List<char> _filter = null;
+
         protected SharedString _password;
         protected TextInputType _inputType;
         protected int _maxLength = int.MaxValue;
@@ -81,11 +82,18 @@ namespace Sitana.Framework.Ui.Views
 
             Hint = DefinitionResolver.GetSharedString(Controller, Binding, file["Hint"]) ?? new SharedString();
 
-            _maxLength = DefinitionResolver.Get<int>(Controller, Binding, file["MaxLength"], int.MaxValue);
-            _inputType = DefinitionResolver.Get<TextInputType>(Controller, Binding, file["InputType"], TextInputType.NormalText);
-            _lostFocusCancels = DefinitionResolver.Get<bool>(Controller, Binding, file["CancelOnLostFocus"], false);
-			_focusedShared = DefinitionResolver.GetShared<bool>(Controller, Binding, file["IsFocused"], false);
+            _maxLength = DefinitionResolver.Get(Controller, Binding, file["MaxLength"], int.MaxValue);
+            _inputType = DefinitionResolver.Get(Controller, Binding, file["InputType"], TextInputType.NormalText);
+            _lostFocusCancels = DefinitionResolver.Get(Controller, Binding, file["CancelOnLostFocus"], false);
+			_focusedShared = DefinitionResolver.GetShared(Controller, Binding, file["IsFocused"], false);
 			_focusedShared.Value = false;
+
+            string filter = DefinitionResolver.GetString(Controller, Binding, file["Filter"]);
+
+            if(!filter.IsNullOrEmpty())
+            {
+                _filter = new List<char>(filter.ToCharArray());
+            }
 
 			_focusedShared.ValueChanged += (bool focused) => 
 			{
@@ -237,11 +245,26 @@ namespace Sitana.Framework.Ui.Views
 
         protected void ValidateText(ref string text)
         {
+           if(_filter != null)
+            {
+                for (int idx = 0; idx < text.Length;)
+                {
+                    if (!_filter.Contains(text[idx]))
+                    {
+                        text = text.Replace(text[idx].ToString(), "");
+                    }
+                    else
+                    {
+                        idx++;
+                    }
+                }
+            }
+
             if (_inputType == TextInputType.Digits)
             {
                 for (int idx = 0; idx < text.Length;)
                 {
-                    if (!Char.IsDigit(text[idx]))
+                    if (!char.IsDigit(text[idx]))
                     {
                         text = text.Replace(text[idx].ToString(), "");
                     }
@@ -256,7 +279,7 @@ namespace Sitana.Framework.Ui.Views
             {
                 for (int idx = 0; idx < text.Length;)
                 {
-                    if (!Char.IsDigit(text[idx]) && text[idx] != '.' && text[idx] != ',')
+                    if (!char.IsDigit(text[idx]) && text[idx] != '.' && text[idx] != ',' && text[idx] != '-' && text[idx] != '+')
                     {
                         text = text.Replace(text[idx].ToString(), "");
                     }

@@ -41,7 +41,7 @@ namespace Sitana.Framework
 		{
 			get
 			{
-				return Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+                return AppMain.Activity.GetType().Assembly;
 			}
 		}
 

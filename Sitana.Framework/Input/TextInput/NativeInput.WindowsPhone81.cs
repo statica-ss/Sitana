@@ -56,8 +56,6 @@ namespace Sitana.Framework.Input
         static InputScopeName _inputScopeUpper = new InputScopeName() { NameValue = InputScopeNameValue.Default };
         static InputScopeName _inputScopeEmail = new InputScopeName() { NameValue = InputScopeNameValue.EmailSmtpAddress };
 
-        static double _oneLineTextBoxHeight = 0;
-
         public bool Visible
         {
             get
