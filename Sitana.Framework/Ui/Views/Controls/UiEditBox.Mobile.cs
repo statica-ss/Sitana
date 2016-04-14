@@ -196,7 +196,7 @@ namespace Sitana.Framework.Ui.Views
             _original = Text.StringValue;
 
             Rectangle rect = ScreenBounds;
-            rect.Y -= AppMain.Current.MainView.OffsetBoundsVertical;
+            //rect.Y -= AppMain.Current.MainView.OffsetBoundsVertical;
 
             rect = _nativeInputMargin.ComputeRect(rect);
 

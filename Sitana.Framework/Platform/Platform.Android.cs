@@ -1,8 +1,4 @@
-﻿// SITANA - Copyright (C) The Sitana Team
-// This file is subject to the terms and conditions defined in
-// file 'LICENSE.txt', which is part of this source code package.
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO.IsolatedStorage;
@@ -260,7 +256,7 @@ namespace Sitana.Framework
 			if (disable)
 			{
 				AppMain.Activity.Window.AddFlags(Android.Views.WindowManagerFlags.KeepScreenOn);
-			} 
+			}
 			else
 			{
 				AppMain.Activity.Window.ClearFlags(Android.Views.WindowManagerFlags.KeepScreenOn);
@@ -272,7 +268,7 @@ namespace Sitana.Framework
             return 0;
         }
 
-		public static void DoRestart(Context context) 
+		public static void DoRestart(Context context)
 		{
 			try 
 			{

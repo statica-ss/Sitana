@@ -48,7 +48,7 @@ namespace Sitana.Framework.Input
         bool _internalTextChange = false;
         ITextEdit _controller;
 
-		static NativeInput CurrentFocus = null;
+        public static NativeInput CurrentFocus {get; private set;}
 
         static RelativeLayout.LayoutParams _layoutParams;
 
@@ -213,6 +213,17 @@ namespace Sitana.Framework.Input
             }
 
             return false;
+        }
+
+        public void UpdateLayout()
+        {
+            if (_textField != null && _textField.Visibility == ViewStates.Visible)
+            {
+                _textField.RequestLayout();
+
+                AppMain.Redraw(true);
+                AppMain.RedrawNextFrame();
+            }
         }
 
 		void UnfocusByBack()
