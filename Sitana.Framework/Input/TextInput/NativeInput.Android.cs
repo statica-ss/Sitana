@@ -1,22 +1,4 @@
-﻿// /// This file is a part of the EBATIANOS.ESSENTIALS class library.
-// /// (c)2013-2014 EBATIANO'S a.k.a. Sebastian Sejud. All rights reserved.
-// ///
-// /// THIS SOURCE FILE IS THE PROPERTY OF EBATIANO'S A.K.A. SEBASTIAN SEJUD 
-// /// AND IS NOT TO BE RE-DISTRIBUTED BY ANY MEANS WHATSOEVER WITHOUT 
-// /// THE EXPRESSED WRITTEN CONSENT OF EBATIANO'S A.K.A. SEBASTIAN SEJUD.
-// ///
-// /// THIS SOURCE CODE CAN ONLY BE USED UNDER THE TERMS AND CONDITIONS OUTLINED
-// /// IN THE EBATIANOS.ESSENTIALS LICENSE AGREEMENT. 
-// /// EBATIANO'S A.K.A. SEBASTIAN SEJUD GRANTS TO YOU (ONE SOFTWARE DEVELOPER) 
-// /// THE LIMITED RIGHT TO USE THIS SOFTWARE ON A SINGLE COMPUTER.
-// ///
-// /// CONTACT INFORMATION:
-// /// contact@ebatianos.com
-// /// www.ebatianos.com/essentials-library
-// /// 
-// ///---------------------------------------------------------------------------
-//
-using System;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Android.Widget;
 using Android.Views.InputMethods;
@@ -30,10 +12,11 @@ using Android.Text;
 using Sitana.Framework.Ui.Core;
 using Sitana.Framework.Input.Interfaces;
 using Sitana.Framework.Misc;
+using Sitana.Framework.Ui.Interfaces;
 
 namespace Sitana.Framework.Input
 {
-	public partial class NativeInput
+	public partial class NativeInput: IUpdatable
     {
 		class BackableSkipper: IBackable
 		{
@@ -52,6 +35,10 @@ namespace Sitana.Framework.Input
 
         static RelativeLayout.LayoutParams _layoutParams;
 
+        int[] _location = new int[2];
+
+        Point _lastLocationOnScreen = Point.Zero;
+
         public bool Visible
         {
             get
@@ -66,17 +53,10 @@ namespace Sitana.Framework.Input
             _layoutParams.SetMargins(0,0, 0, 0);
 
 			_textField = CreateEdit(_layoutParams);
-
-            var drawable = new ShapeDrawable(new RectShape());
-            drawable.Paint.StrokeWidth = 0;
-            drawable.Paint.SetStyle(Android.Graphics.Paint.Style.Fill);
-            drawable.Paint.Color = new Android.Graphics.Color(255, 255, 255);
-
-            _textField.SetBackgroundDrawable(drawable);
 			_textField.SetTextColor(Android.Graphics.Color.Black);
 
             _textField.SetIncludeFontPadding(false);
-            _textField.Visibility = Android.Views.ViewStates.Invisible;
+            _textField.Visibility = ViewStates.Invisible;
 
 			_textField.SetHighlightColor(new Android.Graphics.Color(128, 128, 128));
 			_textField.SetHintTextColor(new Android.Graphics.Color(128, 128, 128));
@@ -166,7 +146,7 @@ namespace Sitana.Framework.Input
                 _textField.SetSingleLine(false);
 
 				_textField.ImeOptions = ImeAction.ImeNull | (ImeAction)ImeFlags.NoExtractUi;
-            } 
+            }
             else
             {
                 _textField.SetMaxLines(1);
@@ -181,7 +161,10 @@ namespace Sitana.Framework.Input
 				_textField.ImeOptions |= (ImeAction)InputTypes.TextFlagNoSuggestions;
 			}
 
-			_textField.SetAllCaps( (textInputType&TextInputType.TypeFilter) == TextInputType.Uppercase );
+            if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.JellyBean) 
+            {
+                _textField.SetAllCaps( (textInputType&TextInputType.TypeFilter) == TextInputType.Uppercase );
+            }
 
 			_textField.TransformationMethod = textInputType == TextInputType.Password ? new PasswordTransformationMethod(): null;
 
@@ -202,6 +185,7 @@ namespace Sitana.Framework.Input
 			_textField.RequestFocusFromTouch();
 
 			ShowKeyboard(_textField);
+            AppMain.Current.RegisterUpdatable(this);
         }
 
         bool HandleEditorAction(Android.Views.InputMethods.ImeAction actionCode)
@@ -266,6 +250,8 @@ namespace Sitana.Framework.Input
 
         public void Unfocus()
         {
+            AppMain.Current.UnregisterUpdatable(this);
+            
             _textField.Visibility = Android.Views.ViewStates.Invisible;
 
             _textField.TextChanged -= HandleEditingChanged;
@@ -294,8 +280,20 @@ namespace Sitana.Framework.Input
 		void ShowKeyboard(View view)
 		{
 			InputMethodManager imm = (InputMethodManager)AppMain.Activity.GetSystemService(Context.InputMethodService);
-			imm.ShowSoftInput(view, ShowFlags.Forced);
+            imm.ShowSoftInput(view, ShowFlags.Forced);
 		}
+
+        void IUpdatable.Update(float time)
+        {
+            AppMain.Current.RootView.GetLocationOnScreen(_location);
+
+            if (_lastLocationOnScreen.X != _location[0] || _lastLocationOnScreen.Y != _location[1])
+            {
+                UpdateLayout();
+                _lastLocationOnScreen.X = _location[0];
+                _lastLocationOnScreen.Y = _location[1];
+            }
+        }
 
 		InputTypes TypeFromContext(TextInputType context)
         {

@@ -5,12 +5,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Sitana.Framework.Content;
 using Sitana.Framework.Cs;
-using Sitana.Framework;
 
 namespace Sitana.Framework.Graphics
 {

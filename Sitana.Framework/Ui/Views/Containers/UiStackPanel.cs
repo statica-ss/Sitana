@@ -672,20 +672,20 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiStackPanel));
 
-            StackMode = DefinitionResolver.Get<Mode>(Controller, Binding, file["Mode"], Mode.Vertical);
-            _spacing = DefinitionResolver.Get<Length>(Controller, Binding, file["Spacing"], Length.Zero);
-            _padding = DefinitionResolver.Get<Length>(Controller, Binding, file["Padding"], Length.Zero);
-            _notifyParentOnResize = DefinitionResolver.Get<bool>(Controller, Binding, file["NotifyParentOnResize"], true);
+            StackMode = DefinitionResolver.Get(Controller, Binding, file["Mode"], Mode.Vertical);
+            _spacing = DefinitionResolver.Get(Controller, Binding, file["Spacing"], Length.Zero);
+            _padding = DefinitionResolver.Get(Controller, Binding, file["Padding"], Length.Zero);
+            _notifyParentOnResize = DefinitionResolver.Get(Controller, Binding, file["NotifyParentOnResize"], true);
 
-            _wrap = DefinitionResolver.Get<bool>(Controller, Binding, file["Wrap"], false);
+            _wrap = DefinitionResolver.Get(Controller, Binding, file["Wrap"], false);
 
-            _horizontalContentAlignment = DefinitionResolver.Get<HorizontalContentAlignment>(Controller, Binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Left);
-            _verticalContentAlignment = DefinitionResolver.Get<VerticalContentAlignment>(Controller, Binding, file["VerticalContentAlignment"], VerticalContentAlignment.Top);
+            _horizontalContentAlignment = DefinitionResolver.Get(Controller, Binding, file["HorizontalContentAlignment"], HorizontalContentAlignment.Left);
+            _verticalContentAlignment = DefinitionResolver.Get(Controller, Binding, file["VerticalContentAlignment"], VerticalContentAlignment.Top);
 
-            _expanded = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Expanded"], true);
+            _expanded = DefinitionResolver.GetShared(Controller, Binding, file["Expanded"], true);
 
-            _expandSpeed = DefinitionResolver.Get<int>(Controller, Binding, file["ExpandTime"], 0);
-            _collapseSpeed = DefinitionResolver.Get<int>(Controller, Binding, file["CollapseTime"], (int)_expandSpeed);
+            _expandSpeed = DefinitionResolver.Get(Controller, Binding, file["ExpandTime"], 0);
+            _collapseSpeed = DefinitionResolver.Get(Controller, Binding, file["CollapseTime"], (int)_expandSpeed);
 
             _expandedValue = _expanded.Value ? 1 : 0;
 

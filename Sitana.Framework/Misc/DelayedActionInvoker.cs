@@ -66,7 +66,7 @@ namespace Sitana.Framework
 				{
 					var func = action.Action;
 
-#if !WINDOWS_PHONE_APP
+#if !WINDOWS_PHONE_APP && !WINDOWS_UWP
 					throw new Exception(string.Format("DelayedActionInvoker invoke exception at {0}.{1}", func.Target.GetType().FullName, func.Method.Name), ex);
 #else
                     throw ex;

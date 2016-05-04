@@ -1055,40 +1055,42 @@ namespace Sitana.Framework.Ui.Views
 
         void _visiblityFlag_ValueChanged(bool newValue)
         {
-            UiTask.BeginInvoke(() =>
-           {
-               if (newValue)
-               {
-                   if (_showSpeed == float.MaxValue)
-                   {
-                       DisplayVisibility = 1;
+            if (newValue)
+            {
+                if (_showSpeed == float.MaxValue)
+                {
+                    DisplayVisibility = 1;
 
-                       if (Parent != null)
-                       {
-                           SetForceRecalcFlag();
-                           RecalcLayout();
-                           Parent.RecalcLayout();
-                       }
-                   }
-               }
-               else
-               {
-                   if (_hideSpeed == float.MaxValue)
-                   {
-                       DisplayVisibility = 0;
+                    if (Parent != null)
+                    {
+                        UiTask.BeginInvoke(() =>
+                        {
+                            SetForceRecalcFlag();
+                            RecalcLayout();
+                            Parent.RecalcLayout();
+                        });
+                    }
+                }
+            }
+            else
+            {
+                if (_hideSpeed == float.MaxValue)
+                {
+                    DisplayVisibility = 0;
 
-                       if (Parent != null)
-                       {
-                           SetForceRecalcFlag();
-                           RecalcLayout();
-                           Parent.RecalcLayout();
-                       }
-                   }
-               }
+                    if (Parent != null)
+                    {
+                        UiTask.BeginInvoke(() =>
+                        {
+                            SetForceRecalcFlag();
+                            RecalcLayout();
+                            Parent.RecalcLayout();
+                        });
+                    }
+                }
+            }
 
-               ForceUpdate();
-
-           });
+            ForceUpdate();           
         }
 
         void CreatePositionParameters(UiController controller, object binding, DefinitionFile file)

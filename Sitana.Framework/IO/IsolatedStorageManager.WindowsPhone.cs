@@ -67,12 +67,12 @@ namespace Sitana.Framework.IO
 
             if (dir.IsNullOrWhiteSpace())
             {
-                files = Task.Run<IReadOnlyList<StorageFile>>(async () => await _storage.GetFilesAsync(CommonFileQuery.DefaultQuery)).Result;
+                files = Task.Run(async () => await _storage.GetFilesAsync(CommonFileQuery.DefaultQuery)).Result;
             }
             else
             {
-                var folder = Task.Run<StorageFolder>(async () => await _storage.GetFolderAsync(dir)).Result;
-                files = Task.Run<IReadOnlyList<StorageFile>>(async () => await folder.GetFilesAsync()).Result;
+                var folder = Task.Run(async () => await _storage.GetFolderAsync(dir)).Result;
+                files = Task.Run(async () => await folder.GetFilesAsync()).Result;
             }
 
 			List<string> filePaths = new List<string>();
@@ -113,18 +113,18 @@ namespace Sitana.Framework.IO
             }).Wait();
         }
 
-        public override Stream OpenFile(string name, FileMode mode)
+        public override Stream OpenFile(string name, OpenFileMode mode)
         {
             switch (mode)
             {
-                case FileMode.Create:
-                    return Task.Run<Stream>(() => _storage.OpenStreamForWriteAsync(name, CreationCollisionOption.ReplaceExisting).Result).Result;
+                case OpenFileMode.Create:
+                    return Task.Run(() => _storage.OpenStreamForWriteAsync(name, CreationCollisionOption.ReplaceExisting).Result).Result;
 
-                case FileMode.Open:
-                    return Task.Run<Stream>(() => _storage.OpenStreamForReadAsync(name)).Result;
+                case OpenFileMode.Open:
+                    return Task.Run(() => _storage.OpenStreamForReadAsync(name)).Result;
 
-                case FileMode.Append:
-                    return Task.Run<Stream>(() => _storage.OpenStreamForWriteAsync(name, CreationCollisionOption.OpenIfExists)).Result;
+                case OpenFileMode.Append:
+                    return Task.Run(() => _storage.OpenStreamForWriteAsync(name, CreationCollisionOption.OpenIfExists)).Result;
             }
             
 

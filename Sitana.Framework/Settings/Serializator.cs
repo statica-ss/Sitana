@@ -38,7 +38,7 @@ namespace Sitana.Framework.Settings
                 fileName = Prepare(storageManager, subDirectory, fileName);
 
                 // Open file from storage.
-                using (Stream stream = storageManager.OpenFile(fileName, FileMode.Create))
+                using (Stream stream = storageManager.OpenFile(fileName, IO.OpenFileMode.Create))
                 {
                     XFile file = XFile.Create(fileName);
 
@@ -79,7 +79,7 @@ namespace Sitana.Framework.Settings
                     if (storageManager.FileExists(fileName))
                     {
                         // Open file from storage.
-                        using(var stream = storageManager.OpenFile(fileName, FileMode.Open))
+                        using(var stream = storageManager.OpenFile(fileName, IO.OpenFileMode.Open))
                         {
                             XFile file = XFile.LoadBinary(stream, fileName);
 

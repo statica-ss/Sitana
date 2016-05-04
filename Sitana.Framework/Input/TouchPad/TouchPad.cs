@@ -321,6 +321,7 @@ namespace Sitana.Framework.Input.TouchPad
 
             element.LockedListener = _gesture.PointerCapturedBy;
 
+            _elements.Remove(id);
             _elements.Add(id, element);
 
             TouchDown?.Invoke(id, position);
@@ -328,7 +329,13 @@ namespace Sitana.Framework.Input.TouchPad
 
 		internal void ProcessMove(int id, Vector2 position, DateTime time)
         {
-            TouchElement element = _elements[id];
+            TouchElement element;
+
+            if (!_elements.TryGetValue(id, out element))
+            {
+                return;
+            }
+
             Vector2 move = position - element.Position;
 
             element.Position = position;
@@ -359,8 +366,16 @@ namespace Sitana.Framework.Input.TouchPad
 
 		internal void ProcessUp(int id, DateTime time)
 		{
-			Vector2 upPosition = _elements[id].Position;
-			ProcessUp (id, upPosition, time);
+            TouchElement element;
+
+            Vector2 upPosition = Vector2.Zero;
+
+            if (_elements.TryGetValue(id, out element))
+            {
+                upPosition = element.Position;
+            }
+
+            ProcessUp(id, upPosition, time);
 		}
 
 		internal void ProcessUp(int id, Vector2 position, DateTime time)

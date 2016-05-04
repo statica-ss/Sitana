@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -47,9 +47,6 @@
       <HintPath>..\ThirdParty\Dependences\GooglePlayServices\GooglePlayServicesLib.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Services" />
-    <Reference Include="Sitana.Framework.Common">
-      <HintPath>..\_Bin\Sitana.Framework.Common.dll</HintPath>
-    </Reference>
     <Reference Include="System.IO.Compression" />
     <Reference Include="CommonMark">
       <HintPath>..\ThirdParty\Dependences\CommonMark.dll</HintPath>
@@ -260,27 +257,15 @@
     <Compile Include="Platform\AppsMainActivity.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ContentManagement\" />
-    <Folder Include="Definitions\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Input\" />
-    <Folder Include="Media\" />
-    <Folder Include="Misc\" />
     <Folder Include="ScreenManagement\" />
-    <Folder Include="Settings\" />
     <Folder Include="System\" />
-    <Folder Include="Graphics\" />
-    <Folder Include="Graphics\3D\" />
-    <Folder Include="Input\GamePad\" />
-    <Folder Include="Ui\RichText\" />
     <Folder Include="Text\" />
-    <Folder Include="Ui\Views\Controls\RichView\" />
-    <Folder Include="Ui\Views\Controls\BackgroundDrawables\" />
-    <Folder Include="Ui\Views\Controls\ScrollingSelector\" />
-    <Folder Include="Diagnostics\CrashReporter\" />
-    <Folder Include="Xml\" />
-    <Folder Include="IO\" />
-    <Folder Include="Input\Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sitana.Framework.Common\Sitana.Framework.Common.csproj">
+      <Project>{95ef38c7-c12e-4134-b896-59fc80d24524}</Project>
+      <Name>Sitana.Framework.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

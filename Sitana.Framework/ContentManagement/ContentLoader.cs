@@ -133,7 +133,6 @@ namespace Sitana.Framework.Content
         private static void RegisterTypes()
         {
             NinePatchImage.Register();
-            ModelXLoader.Register();
             XFileEx.Register();
             DefinitionFile.Register();
             FontLoader.Register();
@@ -348,7 +347,7 @@ namespace Sitana.Framework.Content
             }
             catch (Exception)
             {
-#if !WINDOWS_PHONE_APP
+#if !WINDOWS_PHONE_APP && !WINDOWS_UWP
                 try
                 {
                     return new FileStream(Path.Combine(_contentManager.RootDirectory, name), FileMode.Open);

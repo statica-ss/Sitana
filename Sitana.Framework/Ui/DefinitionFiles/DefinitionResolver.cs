@@ -60,7 +60,8 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                     }
 
                     throw new Exception(String.Format("Value is not an array: {0}[{1}]", name, indices.ToString()));
-                } else
+                } 
+                else
                 {
                     return value;
                 }
@@ -127,13 +128,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                         }
                         catch(TargetInvocationException exc)
                         {
-                            if(exc.InnerException != null)
-                            {
-                                throw new Exception(PrepareExceptionMessage(exc.InnerException), exc);
-                            }
-
-                            Debug.WriteLine(exc.ToString(), "AppError");
-                            throw exc;
+                            throw PrepareException(exc);
                         }
                     }
                 }
@@ -142,37 +137,16 @@ namespace Sitana.Framework.Ui.DefinitionFiles
             throw new Exception(string.Format("Cannot find method: {0}({1})", name, parameters.ToString()));
         }
 
-        static string PrepareExceptionMessage(Exception innerException)
+        public static Exception PrepareException(TargetInvocationException targetInvocationException)
         {
-            var message = string.Empty;
+            Exception innerException = targetInvocationException.InnerException ?? targetInvocationException;
 
-            try
+            while (innerException is TargetInvocationException && innerException.InnerException != null)
             {
-                string      source = string.Empty;
-                MethodBase  site = null;
-
-#if !WINDOWS_PHONE_APP
-                site = innerException.TargetSite;
-#endif
-                if (site != null)
-                {
-                    source = $"Class: {site.DeclaringType.FullName}, Member: {site.Name}";
-                }
-                else
-                {
-                    source = innerException.Source;
-                }
-
-                message = $"Exception message: {innerException.Message},\nSource: {source},\nCall stack: {innerException.StackTrace}\n";
-
-                Debug.WriteLine(message, "AppError");
-            }
-            catch (Exception exc)
-            {
-                Debug.WriteLine(exc.ToString(), "AppError");
+                innerException = innerException.InnerException;
             }
 
-            return message;
+            return innerException;
         }
 
         public static T InvokeMethod<T>(UiController controller, object binding, object definition, InvokeParameters invokeParameters)

@@ -4,9 +4,7 @@ using Sitana.Framework.Ui.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Sitana.Framework.Diagnostics
 {
@@ -140,7 +138,7 @@ namespace Sitana.Framework.Diagnostics
             using (var storageManager = new IsolatedStorageManager())
             {
                 string text;
-                using (var stream = storageManager.OpenFile("ServiceMode.log", FileMode.Open))
+                using (var stream = storageManager.OpenFile("ServiceMode.log", IO.OpenFileMode.Open))
                 {
                     var reader = new StreamReader(stream);
                     text = reader.ReadToEnd();   
@@ -169,7 +167,7 @@ namespace Sitana.Framework.Diagnostics
 
                 using(var storageManager = new IsolatedStorageManager())
                 {
-                    using(var stream = storageManager.OpenFile("ServiceMode.log", FileMode.Append))
+                    using(var stream = storageManager.OpenFile("ServiceMode.log", IO.OpenFileMode.Append))
                     {
                         var writer = new StreamWriter(stream);
                         writer.AutoFlush = true;

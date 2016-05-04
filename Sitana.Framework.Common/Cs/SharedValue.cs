@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Sitana.Framework.Cs
 {
-    public class SharedValue<T>
+    public class SharedValue<T> 
     {
         public delegate void ValueChangedDelegate(T newValue);
 

@@ -82,6 +82,7 @@
     <Compile Include="ContentManagement\ResourcesContentManager.cs" />
     <Compile Include="ContentManagement\ZipContentManager.cs" />
     <Compile Include="ContentManagement\ZipFile.cs" />
+    <Compile Include="IO\FileMode.cs" />
     <Compile Include="Diagnostics\CrashReporter\CrashReporter.cs" />
     <Compile Include="Diagnostics\CrashReporter\ExceptionData.cs" />
     <Compile Include="Diagnostics\CrashReporter\ICrashService.cs" />

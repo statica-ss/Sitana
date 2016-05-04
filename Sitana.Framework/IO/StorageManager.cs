@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sitana.Framework.IO
 {
@@ -36,7 +32,7 @@ namespace Sitana.Framework.IO
         {
         }
 
-        public virtual Stream OpenFile(string name, FileMode mode)
+        public virtual Stream OpenFile(string name, OpenFileMode mode)
         {
             return null;
         }

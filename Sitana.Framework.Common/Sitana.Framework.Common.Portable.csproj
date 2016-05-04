@@ -92,7 +92,6 @@
     <Compile Include="Helpers\CollectionsExtensions.cs" />
     <Compile Include="Helpers\CommonExtensions.cs" />
     <Compile Include="Helpers\Compression.cs" />
-    <Compile Include="Helpers\ReflectionExtensions.cs" />
     <Compile Include="Misc\SHA.cs" />
     <Compile Include="Misc\StringsManager.cs" />
     <Compile Include="Misc\UuidGenerator.cs" />

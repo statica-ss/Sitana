@@ -8,8 +8,8 @@ namespace Sitana.Framework.Input
 
         void OnLostFocus();
 
-        int SelectionStart { set;}
-        int SelectionEnd { set;}
+        int SelectionStart { set; }
+        int SelectionEnd { set; }
 
         void Cancel();
         void Apply();

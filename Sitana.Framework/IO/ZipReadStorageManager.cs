@@ -65,9 +65,9 @@ namespace Sitana.Framework.IO
             throw new NotImplementedException();
         }
 
-        public override Stream OpenFile(string name, FileMode mode)
+        public override Stream OpenFile(string name, OpenFileMode mode)
         {
-            if(mode != FileMode.Open)
+            if(mode != OpenFileMode.Open)
             {
                 throw new NotImplementedException();
             }

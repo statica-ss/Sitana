@@ -78,7 +78,7 @@ namespace Sitana.Framework.Ui.Core
         double _redrawPeriod = 0;
         double _timeTillRedraw = 0;
 
-        bool _shouldRedraw = false;
+        volatile bool _shouldRedraw = false;
         bool _redrawInNextFrame = false;
 
         public GraphicsDeviceManager Graphics

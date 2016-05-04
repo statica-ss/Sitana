@@ -115,7 +115,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
 				if(type == null)
 				{
-					ConsoleEx.WriteLine(ConsoleEx.Error, "Unknown type: {0}", node.Tag);
+                    throw new Exception($"Unknown type: {node.Tag}");
 				}
 
 	            MethodInfo method = type.GetTypeInfo().GetDeclaredMethod("Parse");
@@ -138,9 +138,13 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
 	            return file;
 			}
+            catch(TargetInvocationException exc)
+            {
+                throw DefinitionResolver.PrepareException(exc);
+            }
 			catch(Exception ex)
 			{
-				ConsoleEx.WriteLine(ConsoleEx.Error, "[Sitana] {0}.", ex.ToString());
+				ConsoleEx.WriteLine(ConsoleEx.Error, $"{ex}.");
 				throw ex;
 			}
         }
