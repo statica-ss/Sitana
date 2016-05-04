@@ -1,0 +1,695 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4FD370AB-7EB2-4BFD-9C34-B05D80A6F97E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sitana.Framework</RootNamespace>
+    <AssemblyName>Sitana.Framework</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\ContentManagement\ContentLoader.cs">
+      <Link>ContentManagement\ContentLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ContentManagement\LoadResourceInfo.cs">
+      <Link>ContentManagement\LoadResourceInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ContentManagement\ResourcesContentManager.cs">
+      <Link>ContentManagement\ResourcesContentManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ContentManagement\TitleContainerEx.cs">
+      <Link>ContentManagement\TitleContainerEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ContentManagement\ZipContentManager.cs">
+      <Link>ContentManagement\ZipContentManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ContentManagement\ZipFile.cs">
+      <Link>ContentManagement\ZipFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Definitions\Align.cs">
+      <Link>Definitions\Align.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Definitions\Orientation.cs">
+      <Link>Definitions\Orientation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Definitions\OrientationChangedEventArgs.cs">
+      <Link>Definitions\OrientationChangedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Definitions\TextAlign.cs">
+      <Link>Definitions\TextAlign.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Diagnostics\PerformanceProfiler.cs">
+      <Link>Diagnostics\PerformanceProfiler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Diagnostics\ServiceMode.cs">
+      <Link>Diagnostics\ServiceMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Diagnostics\SevenSegmentDisplay.cs">
+      <Link>Diagnostics\SevenSegmentDisplay.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\AdvancedDrawBatch.cs">
+      <Link>Graphics\AdvancedDrawBatch.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\AdvancedDrawBatch.DrawMethods.cs">
+      <Link>Graphics\AdvancedDrawBatch.DrawMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\AdvancedDrawBatch.Helpers.cs">
+      <Link>Graphics\AdvancedDrawBatch.Helpers.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\Fonts\BitmapFont.cs">
+      <Link>Graphics\Fonts\BitmapFont.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\Fonts\Font.cs">
+      <Link>Graphics\Fonts\Font.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\Fonts\FontFace.cs">
+      <Link>Graphics\Fonts\FontFace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\Fonts\FontLoader.cs">
+      <Link>Graphics\Fonts\FontLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\Fonts\FontManager.cs">
+      <Link>Graphics\Fonts\FontManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\Fonts\Glyph.cs">
+      <Link>Graphics\Fonts\Glyph.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\Fonts\StringProvider.cs">
+      <Link>Graphics\Fonts\StringProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\Fonts\TextRotation.cs">
+      <Link>Graphics\Fonts\TextRotation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\Fonts\UiFont.cs">
+      <Link>Graphics\Fonts\UiFont.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\Fonts\UniversalFont.cs">
+      <Link>Graphics\Fonts\UniversalFont.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\Images\LoadTexture2DFromPng.cs">
+      <Link>Graphics\Images\LoadTexture2DFromPng.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\Images\NinePatchImage.cs">
+      <Link>Graphics\Images\NinePatchImage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\PrimitiveBatch.cs">
+      <Link>Graphics\PrimitiveBatch.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\RenderTargetEx.cs">
+      <Link>Graphics\RenderTargetEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Graphics\Textures\PartialTexture2D.cs">
+      <Link>Graphics\Textures\PartialTexture2D.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Helpers\ColorParser.cs">
+      <Link>Helpers\ColorParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Helpers\Extensions.cs">
+      <Link>Helpers\Extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Helpers\GraphicsHelper.cs">
+      <Link>Helpers\GraphicsHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Helpers\MediaHelper.cs">
+      <Link>Helpers\MediaHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Helpers\StringParser.cs">
+      <Link>Helpers\StringParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\HtmlRenderer\HtmlRenderer.cs">
+      <Link>HtmlRenderer\HtmlRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\Accelerators\Accelerators.cs">
+      <Link>Input\Accelerators\Accelerators.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\Accelerators\KeyModifiers.cs">
+      <Link>Input\Accelerators\KeyModifiers.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\ExtendedKeyboardManager.cs">
+      <Link>Input\ExtendedKeyboardManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\GamePad\GamePad.cs">
+      <Link>Input\GamePad\GamePad.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\GamePad\GamePadButtonState.cs">
+      <Link>Input\GamePad\GamePadButtonState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\GamePad\GamePads.cs">
+      <Link>Input\GamePad\GamePads.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\Interfaces\IBackable.cs">
+      <Link>Input\Interfaces\IBackable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\Interfaces\IMenuButtonListener.cs">
+      <Link>Input\Interfaces\IMenuButtonListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\TextInput\EditTextEx.cs">
+      <Link>Input\TextInput\EditTextEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\TextInput\IFocusable.cs">
+      <Link>Input\TextInput\IFocusable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\TextInput\ITextConsumer.cs">
+      <Link>Input\TextInput\ITextConsumer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\TextInput\NativeInput.cs">
+      <Link>Input\TextInput\NativeInput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\TextInput\NativeInput.WindowsUniversal.cs">
+      <Link>Input\TextInput\NativeInput.WindowsUniversal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\TextInput\TextInputType.cs">
+      <Link>Input\TextInput\TextInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\TouchPad\Gesture.cs">
+      <Link>Input\TouchPad\Gesture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\TouchPad\GestureType.cs">
+      <Link>Input\TouchPad\GestureType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\TouchPad\IGestureListener.cs">
+      <Link>Input\TouchPad\IGestureListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\TouchPad\TouchElement.cs">
+      <Link>Input\TouchPad\TouchElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Input\TouchPad\TouchPad.cs">
+      <Link>Input\TouchPad\TouchPad.cs</Link>
+    </Compile>
+    <Compile Include="..\..\IO\FileMode.cs">
+      <Link>IO\FileMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\IO\IsolatedStorageManager.WindowsPhone.cs">
+      <Link>IO\IsolatedStorageManager.WindowsPhone.cs</Link>
+    </Compile>
+    <Compile Include="..\..\IO\StorageManager.cs">
+      <Link>IO\StorageManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\IO\ZipReadStorageManager.cs">
+      <Link>IO\ZipReadStorageManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\IO\ZipWriteStorageManager.cs">
+      <Link>IO\ZipWriteStorageManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Media\MusicController.Common.cs">
+      <Link>Media\MusicController.Common.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Media\MusicController.cs">
+      <Link>Media\MusicController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Media\SoundEffectBuffer.cs">
+      <Link>Media\SoundEffectBuffer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Misc\AppRater.cs">
+      <Link>Misc\AppRater.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Misc\ColorsManager.cs">
+      <Link>Misc\ColorsManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Misc\ColorWrapper.cs">
+      <Link>Misc\ColorWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Misc\Console.cs">
+      <Link>Misc\Console.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Misc\ConsoleEx.cs">
+      <Link>Misc\ConsoleEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Misc\DelayedActionInvoker.cs">
+      <Link>Misc\DelayedActionInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Misc\RemoteConsoleClient.WindowsPhone.cs">
+      <Link>Misc\RemoteConsoleClient.WindowsPhone.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Misc\RemoteImageCache.cs">
+      <Link>Misc\RemoteImageCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Misc\UiTask.cs">
+      <Link>Misc\UiTask.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Platform\Platform.WindowsUniversal.cs">
+      <Link>Platform\Platform.WindowsUniversal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Settings\Serializator.cs">
+      <Link>Settings\Serializator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Settings\SingletonSettings.cs">
+      <Link>Settings\SingletonSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Binding\IItemsConsumer.cs">
+      <Link>Ui\Binding\IItemsConsumer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Binding\IItemsProvider.cs">
+      <Link>Ui\Binding\IItemsProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Binding\ItemsList.cs">
+      <Link>Ui\Binding\ItemsList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Controllers\UiController.cs">
+      <Link>Ui\Controllers\UiController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Controllers\UiNavigationController.cs">
+      <Link>Ui\Controllers\UiNavigationController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Core\AppMain.cs">
+      <Link>Ui\Core\AppMain.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Core\AppMain.WindowsUniversal.cs">
+      <Link>Ui\Core\AppMain.WindowsUniversal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Core\GlobalVariables.cs">
+      <Link>Ui\Core\GlobalVariables.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Core\StylesContainer.cs">
+      <Link>Ui\Core\StylesContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Core\StylesManager.cs">
+      <Link>Ui\Core\StylesManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Core\UiUnit.cs">
+      <Link>Ui\Core\UiUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\DefinitionFiles\Commands\IncludeView.cs">
+      <Link>Ui\DefinitionFiles\Commands\IncludeView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\DefinitionFiles\Commands\RegisterStyles.cs">
+      <Link>Ui\DefinitionFiles\Commands\RegisterStyles.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\DefinitionFiles\DateTimeContext.cs">
+      <Link>Ui\DefinitionFiles\DateTimeContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\DefinitionFiles\DefinitionFile.cs">
+      <Link>Ui\DefinitionFiles\DefinitionFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\DefinitionFiles\DefinitionFileWithStyle.cs">
+      <Link>Ui\DefinitionFiles\DefinitionFileWithStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\DefinitionFiles\DefinitionParser.cs">
+      <Link>Ui\DefinitionFiles\DefinitionParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\DefinitionFiles\DefinitionResolver.cs">
+      <Link>Ui\DefinitionFiles\DefinitionResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\DefinitionFiles\IDefinitionClass.cs">
+      <Link>Ui\DefinitionFiles\IDefinitionClass.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\DefinitionFiles\ReflectionTypes.cs">
+      <Link>Ui\DefinitionFiles\ReflectionTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Definitions\HorizontalAlignment.cs">
+      <Link>Ui\Definitions\HorizontalAlignment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Definitions\HorizontalContentAlignment.cs">
+      <Link>Ui\Definitions\HorizontalContentAlignment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Definitions\IMixable.cs">
+      <Link>Ui\Definitions\IMixable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Definitions\Length.cs">
+      <Link>Ui\Definitions\Length.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Definitions\Margin.cs">
+      <Link>Ui\Definitions\Margin.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Definitions\Scale.cs">
+      <Link>Ui\Definitions\Scale.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Definitions\Stretch.cs">
+      <Link>Ui\Definitions\Stretch.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Definitions\UiHelper.cs">
+      <Link>Ui\Definitions\UiHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Definitions\VerticalAlignment.cs">
+      <Link>Ui\Definitions\VerticalAlignment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Definitions\VerticalContentAlignment.cs">
+      <Link>Ui\Definitions\VerticalContentAlignment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Interfaces\IIndexedElement.cs">
+      <Link>Ui\Interfaces\IIndexedElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Interfaces\IScrolledElement.cs">
+      <Link>Ui\Interfaces\IScrolledElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Interfaces\IUpdatable.cs">
+      <Link>Ui\Interfaces\IUpdatable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\RichText\Entity.cs">
+      <Link>Ui\RichText\Entity.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\RichText\EntityType.cs">
+      <Link>Ui\RichText\EntityType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\RichText\FontEnums.cs">
+      <Link>Ui\RichText\FontEnums.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\RichText\FontInfo.cs">
+      <Link>Ui\RichText\FontInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\RichText\IRichProcessor.cs">
+      <Link>Ui\RichText\IRichProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\RichText\Line.cs">
+      <Link>Ui\RichText\Line.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\RichText\MarkdownProcessor.cs">
+      <Link>Ui\RichText\MarkdownProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\RichText\TagProperties.cs">
+      <Link>Ui\RichText\TagProperties.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\TransitionEffects\Group.cs">
+      <Link>Ui\TransitionEffects\Group.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\TransitionEffects\None.cs">
+      <Link>Ui\TransitionEffects\None.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\TransitionEffects\Rotate.cs">
+      <Link>Ui\TransitionEffects\Rotate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\TransitionEffects\Scale.cs">
+      <Link>Ui\TransitionEffects\Scale.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\TransitionEffects\Swype.cs">
+      <Link>Ui\TransitionEffects\Swype.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\TransitionEffects\TransitionEffect.cs">
+      <Link>Ui\TransitionEffects\TransitionEffect.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\TransitionEffects\Vanish.cs">
+      <Link>Ui\TransitionEffects\Vanish.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Containers\UiBorder.cs">
+      <Link>Ui\Views\Containers\UiBorder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Containers\UiContainer.cs">
+      <Link>Ui\Views\Containers\UiContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Containers\UiContentSlider.cs">
+      <Link>Ui\Views\Containers\UiContentSlider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Containers\UiExpandingBorder.cs">
+      <Link>Ui\Views\Containers\UiExpandingBorder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Containers\UiItemsStack.cs">
+      <Link>Ui\Views\Containers\UiItemsStack.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Containers\UiListBox.cs">
+      <Link>Ui\Views\Containers\UiListBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Containers\UiModalLayout.cs">
+      <Link>Ui\Views\Containers\UiModalLayout.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Containers\UiNavigationView.cs">
+      <Link>Ui\Views\Containers\UiNavigationView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Containers\UiPage.cs">
+      <Link>Ui\Views\Containers\UiPage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Containers\UiScrollView.cs">
+      <Link>Ui\Views\Containers\UiScrollView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Containers\UiSplitterView.cs">
+      <Link>Ui\Views\Containers\UiSplitterView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Containers\UiStackPanel.cs">
+      <Link>Ui\Views\Containers\UiStackPanel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\BackgroundDrawables\DrawableGroup.cs">
+      <Link>Ui\Views\Controls\BackgroundDrawables\DrawableGroup.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\BackgroundDrawables\NinePatchBackground.cs">
+      <Link>Ui\Views\Controls\BackgroundDrawables\NinePatchBackground.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs">
+      <Link>Ui\Views\Controls\ButtonDrawables\ButtonDrawable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs">
+      <Link>Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\ButtonDrawables\ButtonImage.cs">
+      <Link>Ui\Views\Controls\ButtonDrawables\ButtonImage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\ButtonDrawables\ButtonNinePatchBackground.cs">
+      <Link>Ui\Views\Controls\ButtonDrawables\ButtonNinePatchBackground.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\ButtonDrawables\ButtonSolidBackground.cs">
+      <Link>Ui\Views\Controls\ButtonDrawables\ButtonSolidBackground.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\ButtonDrawables\ButtonState.cs">
+      <Link>Ui\Views\Controls\ButtonDrawables\ButtonState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\ButtonDrawables\ButtonText.cs">
+      <Link>Ui\Views\Controls\ButtonDrawables\ButtonText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\ButtonDrawables\ButtonTransformGroup.cs">
+      <Link>Ui\Views\Controls\ButtonDrawables\ButtonTransformGroup.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\ButtonDrawables\DrawButtonInfo.cs">
+      <Link>Ui\Views\Controls\ButtonDrawables\DrawButtonInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\ButtonDrawables\EditText.cs">
+      <Link>Ui\Views\Controls\ButtonDrawables\EditText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\QuickData\QuickColumnDefinition.cs">
+      <Link>Ui\Views\Controls\QuickData\QuickColumnDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\QuickData\QuickDataRow.cs">
+      <Link>Ui\Views\Controls\QuickData\QuickDataRow.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\QuickData\QuickSeparator.cs">
+      <Link>Ui\Views\Controls\QuickData\QuickSeparator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\QuickData\QuickSeparatorLine.cs">
+      <Link>Ui\Views\Controls\QuickData\QuickSeparatorLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\RichView\RichViewEntity.cs">
+      <Link>Ui\Views\Controls\RichView\RichViewEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\RichView\RichViewLine.cs">
+      <Link>Ui\Views\Controls\RichView\RichViewLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\ScrollingSelector\ISelectorContext.cs">
+      <Link>Ui\Views\Controls\ScrollingSelector\ISelectorContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\StateDrawable.cs">
+      <Link>Ui\Views\Controls\StateDrawable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiButton.cs">
+      <Link>Ui\Views\Controls\UiButton.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiCheckBox.cs">
+      <Link>Ui\Views\Controls\UiCheckBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiColoredLabel.cs">
+      <Link>Ui\Views\Controls\UiColoredLabel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiEditBox.Mobile.cs">
+      <Link>Ui\Views\Controls\UiEditBox.Mobile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiEditBoxBase.cs">
+      <Link>Ui\Views\Controls\UiEditBoxBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiHorizontalGradient.cs">
+      <Link>Ui\Views\Controls\UiHorizontalGradient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiImage.cs">
+      <Link>Ui\Views\Controls\UiImage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiIndexSelector.cs">
+      <Link>Ui\Views\Controls\UiIndexSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiLabel.cs">
+      <Link>Ui\Views\Controls\UiLabel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiQuickList.cs">
+      <Link>Ui\Views\Controls\UiQuickList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiRadioButton.cs">
+      <Link>Ui\Views\Controls\UiRadioButton.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiRectangle.cs">
+      <Link>Ui\Views\Controls\UiRectangle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiRichView.cs">
+      <Link>Ui\Views\Controls\UiRichView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiScrollBar.cs">
+      <Link>Ui\Views\Controls\UiScrollBar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiScrollingSelector.cs">
+      <Link>Ui\Views\Controls\UiScrollingSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiSeparatorLine.cs">
+      <Link>Ui\Views\Controls\UiSeparatorLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiSlider.cs">
+      <Link>Ui\Views\Controls\UiSlider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiText.cs">
+      <Link>Ui\Views\Controls\UiText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiVerticalGradient.cs">
+      <Link>Ui\Views\Controls\UiVerticalGradient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Enums\TransitionMode.cs">
+      <Link>Ui\Views\Enums\TransitionMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Enums\UiButtonMode.cs">
+      <Link>Ui\Views\Enums\UiButtonMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\IBackgroundDrawable.cs">
+      <Link>Ui\Views\IBackgroundDrawable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Parameters\PositionParameters.cs">
+      <Link>Ui\Views\Parameters\PositionParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Parameters\UiViewDrawParameters.cs">
+      <Link>Ui\Views\Parameters\UiViewDrawParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Scroller.cs">
+      <Link>Ui\Views\Scroller.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\ScrollingService.cs">
+      <Link>Ui\Views\ScrollingService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\UiView.cs">
+      <Link>Ui\Views\UiView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Xml\XFileEx.cs">
+      <Link>Xml\XFileEx.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Sitana.Framework.WindowsUniversal.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Sitana.Framework.Common\Sitana.Framework.Common.Portable.csproj">
+      <Project>{9bd11040-37df-4f7d-a71e-7a4ac35cfe76}</Project>
+      <Name>Sitana.Framework.Common.Portable</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Graphics\Forms\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="CommonMark">
+      <HintPath>..\..\..\ThirdParty\Dependences\CommonMark.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\..\..\ThirdParty\Dependences\MonoGame\WindowsUniversal\MonoGame.Framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

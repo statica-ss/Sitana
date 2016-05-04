@@ -51,9 +51,22 @@ namespace Sitana.Framework.IO
             _storage.DeleteDirectory(name);
         }
 
-        public override Stream OpenFile(string name, FileMode mode)
+        public override Stream OpenFile(string name, OpenFileMode mode)
         {
-            Stream result = _storage.OpenFile(name, mode);
+            FileMode fileMode = FileMode.Open;
+
+            switch(mode)
+            {
+                case OpenFileMode.Create:
+                    fileMode = FileMode.Create;
+                    break;
+
+                case OpenFileMode.Append:
+                    fileMode = FileMode.Append;
+                    break;
+            }
+
+            Stream result = _storage.OpenFile(name, fileMode);
             return result;
         }
 

@@ -57,19 +57,11 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Zlib.Portable, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ThirdParty\Dependences\Zlib.Portable.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ResourcesContentManager.cs" />
     <Compile Include="ContentManagement\ZipContentManager.cs" />
     <Compile Include="ContentManagement\ZipFile.cs" />
-    <Compile Include="Diagnostics\CrashReporter\CrashReporter.cs" />
-    <Compile Include="Diagnostics\CrashReporter\ExceptionData.cs" />
-    <Compile Include="Diagnostics\CrashReporter\ICrashService.cs" />
-    <Compile Include="Diagnostics\CrashReporter\MintCrashService.cs" />
     <Compile Include="Diagnostics\PerformanceProfiler.cs" />
     <Compile Include="Diagnostics\ServiceMode.cs" />
     <Compile Include="Diagnostics\SevenSegmentDisplay.cs" />
@@ -89,6 +81,7 @@
     <Compile Include="Input\TextInput\ITextConsumer.cs" />
     <Compile Include="Input\TextInput\TextInput.Dektop.cs" />
     <Compile Include="Input\TouchPad\IGestureListener.cs" />
+    <Compile Include="IO\FileMode.cs" />
     <Compile Include="IO\IsolatedStorageManager.cs" />
     <Compile Include="IO\StorageManager.cs" />
     <Compile Include="IO\ZipReadStorageManager.cs" />
