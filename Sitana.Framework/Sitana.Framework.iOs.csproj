@@ -65,7 +65,6 @@
     <Folder Include="Platform\" />
     <Folder Include="Ui\" />
     <Folder Include="Xml\" />
-    <Folder Include="Graphics\Sprites\" />
     <Folder Include="Graphics\Fonts\" />
     <Folder Include="Graphics\Images\" />
     <Folder Include="Ui\Definitions\" />
@@ -76,7 +75,6 @@
     <Folder Include="Ui\Views\Controls\RichView\" />
     <Folder Include="Ui\Views\Controls\BackgroundDrawables\" />
     <Folder Include="Ui\Views\Controls\ScrollingSelector\" />
-    <Folder Include="Diagnostics\CrashReporter\" />
     <Folder Include="IO\" />
     <Folder Include="Input\Interfaces\" />
     <Folder Include="Ui\Views\Controls\QuickData\" />
@@ -136,25 +134,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContentManagement\ContentLoader.cs" />
     <Compile Include="ContentManagement\LoadResourceInfo.cs" />
-    <Compile Include="Graphics\3D\ModelX\ModelXLoader.cs" />
-    <Compile Include="Graphics\Sprites\Sprite.cs" />
     <Compile Include="Definitions\Align.cs" />
     <Compile Include="Definitions\Orientation.cs" />
     <Compile Include="Definitions\OrientationChangedEventArgs.cs" />
     <Compile Include="Graphics\Images\NinePatchImage.cs" />
-    <Compile Include="Graphics\3D\BasicShaderEffect.cs" />
-    <Compile Include="Graphics\3D\IShaderEffect.cs" />
-    <Compile Include="Graphics\3D\ModelX\Exporters\EmxExporter.cs" />
-    <Compile Include="Graphics\3D\ModelX\Exporters\IExporter.cs" />
-    <Compile Include="Graphics\3D\ModelX\Importers\EmxImporter.cs" />
-    <Compile Include="Graphics\3D\ModelX\Importers\IImporter.cs" />
-    <Compile Include="Graphics\3D\ModelX\Importers\ObjImporter.cs" />
-    <Compile Include="Graphics\3D\ModelX\Importers\PlyImporter.cs" />
-    <Compile Include="Graphics\3D\ModelX\Material.cs" />
-    <Compile Include="Graphics\3D\ModelX\MaterialTextures.cs" />
-    <Compile Include="Graphics\3D\ModelX\ModelSubset.cs" />
-    <Compile Include="Graphics\3D\ModelX\ModelX.cs" />
-    <Compile Include="Graphics\3D\ModelX\ModelXRenderer.cs" />
     <Compile Include="Graphics\PrimitiveBatch.cs" />
     <Compile Include="Graphics\RenderTargetEx.cs" />
     <Compile Include="Helpers\Extensions.cs" />
@@ -212,8 +195,6 @@
     <Compile Include="Ui\Views\Enums\TransitionMode.cs" />
     <Compile Include="Ui\Views\Controls\UiVerticalGradient.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonIcon.cs" />
-    <Compile Include="Graphics\Sprites\SpriteInstance.cs" />
-    <Compile Include="Graphics\Sprites\SpriteSequence.cs" />
     <Compile Include="Ui\Views\Containers\UiModalLayout.cs" />
     <Compile Include="Ui\Views\Controls\UiScrollBar.cs" />
     <Compile Include="Ui\Views\Controls\UiSlider.cs" />
@@ -228,7 +209,6 @@
     <Compile Include="Ui\Views\Controls\RichView\RichViewEntity.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewLine.cs" />
     <Compile Include="Ui\Views\Controls\UiRichView.cs" />
-    <Compile Include="Ui\Views\Controls\UiSpritePresenter.cs" />
     <Compile Include="Ui\Views\Controls\UiText.cs" />
     <Compile Include="Ui\TransitionEffects\None.cs" />
     <Compile Include="Media\SoundEffectBuffer.cs" />
@@ -255,10 +235,6 @@
     <Compile Include="Graphics\Fonts\StringProvider.cs" />
     <Compile Include="Graphics\Fonts\TextRotation.cs" />
     <Compile Include="Ui\Views\Controls\UiSeparatorLine.cs" />
-    <Compile Include="Diagnostics\CrashReporter\CrashReporter.cs" />
-    <Compile Include="Diagnostics\CrashReporter\ExceptionData.cs" />
-    <Compile Include="Diagnostics\CrashReporter\ICrashService.cs" />
-    <Compile Include="Diagnostics\CrashReporter\MintCrashService.cs" />
     <Compile Include="Xml\XFileEx.cs" />
     <Compile Include="IO\IsolatedStorageManager.cs" />
     <Compile Include="IO\StorageManager.cs" />
@@ -283,6 +259,7 @@
       <Link>Ui\DefinitionFiles\IMixable.cs</Link>
     </Compile>
     <Compile Include="Ui\Definitions\Scale.cs" />
+    <Compile Include="IO\FileMode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

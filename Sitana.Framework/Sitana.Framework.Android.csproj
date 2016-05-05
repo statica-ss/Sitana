@@ -43,13 +43,13 @@
     <Reference Include="MonoGame.Framework">
       <HintPath>..\ThirdParty\Dependences\MonoGame\android\MonoGame.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="GooglePlayServicesLib">
-      <HintPath>..\ThirdParty\Dependences\GooglePlayServices\GooglePlayServicesLib.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Services" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="CommonMark">
       <HintPath>..\ThirdParty\Dependences\CommonMark.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitana.Framework.Common">
+      <HintPath>..\_Bin\Sitana.Framework.Common.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -230,10 +230,6 @@
     <Compile Include="Graphics\Fonts\StringProvider.cs" />
     <Compile Include="Graphics\Fonts\TextRotation.cs" />
     <Compile Include="Ui\Views\Controls\UiSeparatorLine.cs" />
-    <Compile Include="Diagnostics\CrashReporter\CrashReporter.cs" />
-    <Compile Include="Diagnostics\CrashReporter\ExceptionData.cs" />
-    <Compile Include="Diagnostics\CrashReporter\ICrashService.cs" />
-    <Compile Include="Diagnostics\CrashReporter\MintCrashService.cs" />
     <Compile Include="Xml\XFileEx.cs" />
     <Compile Include="IO\IsolatedStorageManager.cs" />
     <Compile Include="IO\StorageManager.cs" />
@@ -255,17 +251,12 @@
     <Compile Include="Ui\Definitions\IMixable.cs" />
     <Compile Include="Ui\Definitions\Scale.cs" />
     <Compile Include="Platform\AppsMainActivity.cs" />
+    <Compile Include="IO\FileMode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ScreenManagement\" />
     <Folder Include="System\" />
     <Folder Include="Text\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Sitana.Framework.Common\Sitana.Framework.Common.csproj">
-      <Project>{95ef38c7-c12e-4134-b896-59fc80d24524}</Project>
-      <Name>Sitana.Framework.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

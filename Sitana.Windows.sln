@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEditor.Windows", "Tools
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Framework.Windows", "Sitana.Framework\Sitana.Framework.Windows.csproj", "{F527C2FC-292B-4AB0-AAE7-AFF2B5CCE086}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Framework.Games.Windows", "Sitana.Framework.Games\Sitana.Framework.Games.Windows.csproj", "{F1A1485C-B07A-4EA5-B34C-D2405B9A5FDD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitana.Extensions.WinForms.Windows", "Sitana.Extensions\WinForms\Sitana.Extensions.WinForms.Windows.csproj", "{9B07D18F-279C-4D57-A26C-3D59CAD795FA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp.Windows", "Samples\SampleApp\SampleApp.Windows.csproj", "{E30FD01E-63D0-4FE8-99B4-A7DA47636C64}"
