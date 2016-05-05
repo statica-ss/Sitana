@@ -350,6 +350,9 @@
     <Compile Include="..\..\Ui\Core\AppMain.cs">
       <Link>Ui\Core\AppMain.cs</Link>
     </Compile>
+    <Compile Include="..\..\Ui\Core\AppMain.Mobile.cs">
+      <Link>Ui\Core\AppMain.Mobile.cs</Link>
+    </Compile>
     <Compile Include="..\..\Ui\Core\AppMain.WindowsUniversal.cs">
       <Link>Ui\Core\AppMain.WindowsUniversal.cs</Link>
     </Compile>
@@ -657,7 +660,7 @@
       <Link>Xml\XFileEx.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Ui\Core\AppMain.Mobile.cs" />
+    <Compile Include="Ui\Core\DefinedSymbols.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Sitana.Framework.WindowsUniversal.rd.xml" />

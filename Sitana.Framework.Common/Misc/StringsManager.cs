@@ -39,7 +39,7 @@ namespace Sitana.Framework
             _dictionary.Clear();
         }
 
-        public Boolean Append(Stream stream)
+        public bool Append(Stream stream)
         {
             try
             {
@@ -47,10 +47,10 @@ namespace Sitana.Framework
                 StreamReader streamReader = new StreamReader(stream, Encoding.UTF8);
 
                 // Read whole file as text.
-                String text = streamReader.ReadToEnd();
+                string text = streamReader.ReadToEnd();
 
                 // Split into lines.
-                String[] lines = text.Split("\n".ToCharArray());
+                string[] lines = text.Split("\n".ToCharArray());
 
                 // Iterate through lines.
                 foreach (var line in lines)
@@ -61,10 +61,10 @@ namespace Sitana.Framework
                     }
 
                     // Split texts in line.
-                    String[] texts = line.Split("^ \t\r".ToCharArray());
+                    string[] texts = line.Split("^ \t\r".ToCharArray());
 
-                    String key = null;  // Key string.
-                    String value = null;  // Localized string.
+                    string key = null;  // Key string.
+                    string value = null;  // Localized string.
 
                     // Iterate thru all phrases and assign first the key and then value.
                     foreach (var phrase in texts)
@@ -94,7 +94,7 @@ namespace Sitana.Framework
                     }
                 }
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return false;
             }

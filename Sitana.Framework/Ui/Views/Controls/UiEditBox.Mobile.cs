@@ -26,21 +26,8 @@ namespace Sitana.Framework.Ui.Views
 
             file["NativeInputMargin"] = parser.ParseMargin("NativeInputMargin");
 
-//#if WINDOWS_PHONE_APP
-//            file["NativeInputMargin"] = parser.ParseMargin("WindowsPhone.NativeInputMargin");
-//#endif
-
             file["NativeInputAlign"] = parser.ParseEnum<Align>("NativeInputAlign");
-
-            #if __IOS__
-            file["NativeInputFontSize"] = parser.ParseInt("iOS.NativeInputFontSize");
-            #elif __ANDROID__
-				file["NativeInputFontSize"] = parser.ParseInt("Android.NativeInputFontSize");
-            #elif WINDOWS_PHONE_APP
-            file["NativeInputFontSize"] = parser.ParseInt("WindowsPhone.NativeInputFontSize");
-            #elif __WINRT__
-				file["NativeInputFontSize"] = parser.ParseInt("WindowsRT.NativeInputFontSize");
-            #endif
+            file["NativeInputFontSize"] = parser.ParseInt("NativeInputFontSize");
         }
 
         void NativeInput.ITextEdit.LostFocus()

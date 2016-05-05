@@ -59,7 +59,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                         return (value as Array).GetValue(indices);
                     }
 
-                    throw new Exception(String.Format("Value is not an array: {0}[{1}]", name, indices.ToString()));
+                    throw new Exception(string.Format("Value is not an array: {0}[{1}]", name, indices.ToString()));
                 } 
                 else
                 {
@@ -81,7 +81,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                             return (value as Array).GetValue(indices);
                         }
 
-                        throw new Exception(String.Format("Value is not an array: {0}[{1}]", name, indices.ToString()));
+                        throw new Exception(string.Format("Value is not an array: {0}[{1}]", name, indices.ToString()));
                     } 
                     else
                     {
@@ -90,7 +90,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                 }
             }
 
-            throw new Exception(String.Format("Cannot find field: {0}{1}", field.Name, indices != null ? '['+indices.ToString()+']' : ""));
+            throw new Exception(string.Format("Cannot find field: {0}{1}", field.Name, indices != null ? '['+indices.ToString()+']' : ""));
         }
 
         public static object InvokeMethod(UiController controller, object binding, object definition, InvokeParameters invokeParameters)

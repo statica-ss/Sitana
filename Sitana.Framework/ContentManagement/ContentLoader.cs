@@ -294,9 +294,9 @@ namespace Sitana.Framework.Content
         /// <typeparam name="T">Tyoe of content object</typeparam>
         /// <param name="name">Name of resource</param>
         /// <returns>Loaded content object</returns>
-        internal T LoadNative<T>(String name)
+        internal T LoadNative<T>(string name)
         {
-            String searchName = ContentName<T>(name);
+            string searchName = ContentName<T>(name);
 
             lock (_lockObj)
             {

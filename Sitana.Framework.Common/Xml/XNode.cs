@@ -273,7 +273,7 @@ namespace Sitana.Framework.Xml
         {
             get
             {
-                return String.Format("{0}({1})", Owner.Name, LineNumber);
+                return string.Format("{0}({1})", Owner.Name, LineNumber);
             }
         }
 

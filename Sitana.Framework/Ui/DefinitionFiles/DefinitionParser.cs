@@ -7,12 +7,9 @@ using System.Globalization;
 using Microsoft.Xna.Framework;
 using Sitana.Framework.Content;
 using Sitana.Framework.Diagnostics;
-using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
 using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework.Helpers;
-using System.Reflection;
-using System.Collections.Generic;
 using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
@@ -30,7 +27,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
         Exception Error(string id, string format, params object[] args)
         {
-            string message = _node.NodeError(String.Format("{1}: {0}", String.Format(format, args), id));
+            string message = _node.NodeError(string.Format("{1}: {0}", String.Format(format, args), id));
 
             if ( EnableCheckMode )
             {
@@ -51,7 +48,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
                 if(_node.HasAttribute(name))
                 {
-                    _node.Attribute(name);
+                    return _node.Attribute(name);
                 }
             }
 

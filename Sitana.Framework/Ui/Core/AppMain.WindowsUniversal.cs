@@ -11,6 +11,9 @@ namespace Sitana.Framework.Ui.Core
     {
 		void PlatformInit()
         {
+            DefinedSymbols.Define("uwp");
+            DefinedSymbols.Define("win");
+
             double dpi = Math.Max(DisplayInformation.GetForCurrentView().RawDpiX, DisplayInformation.GetForCurrentView().RawDpiY);
 
             double px = dpi / 25.4;
