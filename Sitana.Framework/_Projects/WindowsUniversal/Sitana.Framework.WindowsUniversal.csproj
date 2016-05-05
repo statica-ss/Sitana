@@ -242,9 +242,6 @@
     <Compile Include="..\..\Input\Interfaces\IMenuButtonListener.cs">
       <Link>Input\Interfaces\IMenuButtonListener.cs</Link>
     </Compile>
-    <Compile Include="..\..\Input\TextInput\EditTextEx.cs">
-      <Link>Input\TextInput\EditTextEx.cs</Link>
-    </Compile>
     <Compile Include="..\..\Input\TextInput\IFocusable.cs">
       <Link>Input\TextInput\IFocusable.cs</Link>
     </Compile>
@@ -660,6 +657,7 @@
       <Link>Xml\XFileEx.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ui\Core\AppMain.Mobile.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Sitana.Framework.WindowsUniversal.rd.xml" />
