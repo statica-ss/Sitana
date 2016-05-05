@@ -261,7 +261,7 @@ namespace Sitana.Framework.Xml
             string value = null;
             _attributes.TryGetValue(name, out value);
 
-            return value ?? String.Empty;
+            return value ?? string.Empty;
         }
 
         public bool HasAttribute(string name)

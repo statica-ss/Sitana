@@ -86,6 +86,9 @@ namespace Sitana.Framework.Ui.Core
 
         void PlatformInit()
         {
+            DefinedSymbols.Define("winDx");
+            DefinedSymbols.Define("win");
+
             Form form = (Form)Control.FromHandle(Window.Handle);
 
             using (var graphics = form.CreateGraphics())
