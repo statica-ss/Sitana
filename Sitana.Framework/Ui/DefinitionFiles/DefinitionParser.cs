@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework.Helpers;
 using System.Reflection;
 using System.Collections.Generic;
+using Sitana.Framework.Ui.Core;
 
 namespace Sitana.Framework.Ui.DefinitionFiles
 {
@@ -44,7 +45,17 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
         public string Value(string attribute)
         {
-            return _node.Attribute(attribute);   
+            foreach(var symbol in DefinedSymbols.SymbolsInternal)
+            {
+                string name = $"{symbol}.{attribute}";
+
+                if(_node.HasAttribute(name))
+                {
+                    _node.Attribute(name);
+                }
+            }
+
+            return _node.Attribute(attribute);
         }
 
         public string ValueOrNull(string attribute)
