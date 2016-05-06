@@ -68,3 +68,5 @@ MetroDemo/publish/*
 _Bin
 *.userprefs
 ThirdParty/*
+
+project.lock.json
