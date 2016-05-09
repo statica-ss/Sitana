@@ -12,13 +12,13 @@ namespace Sitana.Framework
 {
     public class StringsManager
     {
-        public Dictionary<String, String> _dictionary = new Dictionary<String, String>();
+        public Dictionary<string, string> _dictionary = new Dictionary<string, string>();
 
-        public String this[String id]
+        public string this[string id]
         {
             get
             {
-                String text;
+                string text;
 
                 if (!id.StartsWith(":"))
                 {
@@ -39,7 +39,7 @@ namespace Sitana.Framework
             _dictionary.Clear();
         }
 
-        public bool Append(Stream stream)
+        public bool Append(Stream stream, char separator)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace Sitana.Framework
                     }
 
                     // Split texts in line.
-                    string[] texts = line.Split("^ \t\r".ToCharArray());
+                    string[] texts = line.Split(separator);
 
                     string key = null;  // Key string.
                     string value = null;  // Localized string.
@@ -73,7 +73,7 @@ namespace Sitana.Framework
                         {
                             if (key == null)
                             {
-                                key = phrase;
+                                key = phrase.Trim();
                             }
                             else
                             {

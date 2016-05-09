@@ -183,6 +183,11 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 
             name = Value(name);
 
+            if(name.StartsWith(":"))
+            {
+                name = AppDictionary.Instance[name];
+            }
+
             object method = ParseMethodOrField(name);
 
             if (method != null)

@@ -153,7 +153,7 @@ namespace Sitana.Framework.Serialization
 
             Type type = obj.GetType();
 
-            foreach(var info in type.GetTypeInfo().GetRuntimeFields())
+            foreach(var info in type.GetRuntimeFields())
             {
                 Attribute attr = info.GetCustomAttribute(typeof(XSerializableAttribute));
 
@@ -179,7 +179,7 @@ namespace Sitana.Framework.Serialization
 
             Type type = obj.GetType();
 
-            foreach (var info in type.GetTypeInfo().GetRuntimeProperties())
+            foreach (var info in type.GetRuntimeProperties())
             {
                 Attribute attr = info.GetCustomAttribute(typeof(XSerializableAttribute));
 
@@ -221,7 +221,7 @@ namespace Sitana.Framework.Serialization
             {
                 foreach(var child in node.Nodes)
                 {
-                    PropertyInfo info = type.GetTypeInfo().GetRuntimeProperty(child.Tag);
+                    PropertyInfo info = type.GetRuntimeProperty(child.Tag);
 
                     if(info != null)
                     {
@@ -241,7 +241,7 @@ namespace Sitana.Framework.Serialization
             {
                 foreach (var child in node.Nodes)
                 {
-                    FieldInfo info = type.GetTypeInfo().GetRuntimeField(child.Tag);
+                    FieldInfo info = type.GetRuntimeField(child.Tag);
 
                     if (info != null)
                     {

@@ -91,6 +91,7 @@
     <Compile Include="Ui\Binding\IItemsConsumer.cs" />
     <Compile Include="Ui\Binding\IItemsProvider.cs" />
     <Compile Include="Ui\Binding\ItemsList.cs" />
+    <Compile Include="Ui\Core\AppDictionary.cs" />
     <Compile Include="Ui\Core\AppMain.Windows.DirectX.cs" />
     <Compile Include="Ui\Core\DefinedSymbols.cs" />
     <Compile Include="Ui\Core\GlobalVariables.cs" />

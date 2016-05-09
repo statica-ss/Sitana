@@ -120,7 +120,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                     throw new Exception($"Unknown type: {node.Tag}");
 				}
 
-	            MethodInfo method = type.GetTypeInfo().GetRuntimeMethod("Parse", _parseArguments);
+	            MethodInfo method = type.GetRuntimeMethod("Parse", _parseArguments);
 
 	            DefinitionFile file = null;
 
@@ -154,7 +154,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
         public static DefinitionFile CreateFile(Type type, XNode attributesNode)
         {
             DefinitionFile file = null;
-            MethodInfo method = type.GetTypeInfo().GetRuntimeMethod("Parse", _parseArguments);
+            MethodInfo method = type.GetRuntimeMethod("Parse", _parseArguments);
 
             if (method != null)
             {
