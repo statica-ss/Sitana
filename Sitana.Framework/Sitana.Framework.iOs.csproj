@@ -42,9 +42,6 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="System.IO.Compression" />
-    <Reference Include="Sitana.Framework.Common">
-      <HintPath>..\_Bin\Sitana.Framework.Common.dll</HintPath>
-    </Reference>
     <Reference Include="CommonMark">
       <HintPath>..\ThirdParty\Dependences\CommonMark.dll</HintPath>
     </Reference>
@@ -264,4 +261,10 @@
     <Compile Include="Ui\Core\AppDictionary.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Sitana.Framework.Common\Sitana.Framework.Common.Portable.csproj">
+      <Project>{9BD11040-37DF-4F7D-A71E-7A4AC35CFE76}</Project>
+      <Name>Sitana.Framework.Common.Portable</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

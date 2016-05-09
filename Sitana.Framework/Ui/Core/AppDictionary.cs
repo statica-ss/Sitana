@@ -34,6 +34,7 @@ namespace Sitana.Framework.Ui.Core
 
         public void Load(char separator, params string[] paths)
         {
+            Clear();
             foreach (var path in paths)
             {
                 try
