@@ -153,7 +153,7 @@ namespace Sitana.Framework.Serialization
 
             Type type = obj.GetType();
 
-            foreach(var info in type.GetRuntimeFields())
+            foreach(var info in type.GetTypeInfo().GetRuntimeFields())
             {
                 Attribute attr = info.GetCustomAttribute(typeof(XSerializableAttribute));
 
@@ -179,7 +179,7 @@ namespace Sitana.Framework.Serialization
 
             Type type = obj.GetType();
 
-            foreach (var info in type.GetTypeInfo().DeclaredProperties)
+            foreach (var info in type.GetTypeInfo().GetRuntimeProperties())
             {
                 Attribute attr = info.GetCustomAttribute(typeof(XSerializableAttribute));
 
@@ -221,10 +221,13 @@ namespace Sitana.Framework.Serialization
             {
                 foreach(var child in node.Nodes)
                 {
-                    PropertyInfo info = type.GetTypeInfo().GetDeclaredProperty(child.Tag);
-                    object value = Deserialize(child, null, info.PropertyType);
+                    PropertyInfo info = type.GetTypeInfo().GetRuntimeProperty(child.Tag);
 
-                    info.SetValue(obj, value);
+                    if(info != null)
+                    {
+                        object value = Deserialize(child, null, info.PropertyType);
+                        info.SetValue(obj, value);
+                    }
                 }
             }
         }
@@ -238,10 +241,13 @@ namespace Sitana.Framework.Serialization
             {
                 foreach (var child in node.Nodes)
                 {
-                    FieldInfo info = type.GetTypeInfo().GetDeclaredField(child.Tag);
-                    object value = Deserialize(child, null, info.FieldType);
+                    FieldInfo info = type.GetTypeInfo().GetRuntimeField(child.Tag);
 
-                    info.SetValue(obj, value);
+                    if (info != null)
+                    {
+                        object value = Deserialize(child, null, info.FieldType);
+                        info.SetValue(obj, value);
+                    }
                 }
             }
         }

@@ -1,8 +1,4 @@
-﻿// SITANA - Copyright (C) The Sitana Team.
-// This file is subject to the terms and conditions defined in
-// file 'LICENSE.txt', which is part of this source code package.
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Diagnostics;
 using Sitana.Framework.Input.TouchPad;
@@ -17,13 +13,6 @@ using System.Reflection;
 
 namespace Sitana.Framework.Ui.Views
 {
-    /// <summary>
-    /// Parameters:
-    /// Id
-    /// Visible
-    /// MinSize
-    /// Opacity
-    /// </summary>
     public abstract class UiView : IDefinitionClass
     {
         public static void Parse(XNode node, DefinitionFile file)

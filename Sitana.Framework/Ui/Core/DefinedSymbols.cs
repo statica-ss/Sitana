@@ -10,7 +10,7 @@ namespace Sitana.Framework.Ui.Core
     public static class DefinedSymbols
     {
         public static ReadOnlyCollection<string> Symbols { get; private set; }
-        internal static string[] SymbolsInternal { get; private set; }
+        internal static string[] SymbolsInternal { get; private set; } = new string[0];
 
         public static bool HasSymbol(string symbol)
         {

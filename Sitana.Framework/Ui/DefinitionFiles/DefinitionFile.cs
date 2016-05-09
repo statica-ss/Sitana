@@ -10,6 +10,8 @@ namespace Sitana.Framework.Ui.DefinitionFiles
 {
     public class DefinitionFile : ContentLoader.AdditionalType
     {
+        static readonly Type[] _parseArguments = new Type[] { typeof(XNode), typeof(DefinitionFile) };
+
         public readonly Type Class;
         public readonly string Anchor;
 
@@ -118,7 +120,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
                     throw new Exception($"Unknown type: {node.Tag}");
 				}
 
-	            MethodInfo method = type.GetTypeInfo().GetDeclaredMethod("Parse");
+	            MethodInfo method = type.GetTypeInfo().GetRuntimeMethod("Parse", _parseArguments);
 
 	            DefinitionFile file = null;
 
@@ -152,7 +154,7 @@ namespace Sitana.Framework.Ui.DefinitionFiles
         public static DefinitionFile CreateFile(Type type, XNode attributesNode)
         {
             DefinitionFile file = null;
-            MethodInfo method = type.GetTypeInfo().GetDeclaredMethod("Parse");
+            MethodInfo method = type.GetTypeInfo().GetRuntimeMethod("Parse", _parseArguments);
 
             if (method != null)
             {
