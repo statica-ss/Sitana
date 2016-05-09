@@ -260,6 +260,8 @@
     </Compile>
     <Compile Include="Ui\Definitions\Scale.cs" />
     <Compile Include="IO\FileMode.cs" />
+    <Compile Include="Ui\Core\DefinedSymbols.cs" />
+    <Compile Include="Ui\Core\AppDictionary.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

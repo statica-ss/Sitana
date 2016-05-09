@@ -252,6 +252,8 @@
     <Compile Include="Ui\Definitions\Scale.cs" />
     <Compile Include="Platform\AppsMainActivity.cs" />
     <Compile Include="IO\FileMode.cs" />
+    <Compile Include="Ui\Core\DefinedSymbols.cs" />
+    <Compile Include="Ui\Core\AppDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ScreenManagement\" />

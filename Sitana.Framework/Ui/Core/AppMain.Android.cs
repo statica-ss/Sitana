@@ -33,6 +33,8 @@ namespace Sitana.Framework.Ui.Core
 
         void PlatformInit()
         {
+            DefinedSymbols.Define("android");
+
             float px = TypedValue.ApplyDimension(ComplexUnitType.Mm, 1, Activity.Resources.DisplayMetrics);
             UiUnit.PixelsPerMm = px;
         }
