@@ -67,7 +67,7 @@ namespace Sitana.Framework.Input
             _textBox.VerticalAlignment = VerticalAlignment.Top;
             _textBox.VerticalContentAlignment = VerticalAlignment.Center;
             _textBox.Margin = new Thickness(0);
-            _textBox.Padding = new Thickness(0);
+            _textBox.Padding = new Thickness(0,4,0,0);
             _textBox.BorderThickness = new Thickness(0);
             _textBox.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
 
@@ -76,7 +76,7 @@ namespace Sitana.Framework.Input
             _passwordBox.HorizontalAlignment = HorizontalAlignment.Left;
             _passwordBox.VerticalAlignment = VerticalAlignment.Top;
             _passwordBox.VerticalContentAlignment = VerticalAlignment.Center;
-            _passwordBox.Margin = new Thickness(0);
+            _passwordBox.Margin = new Thickness(0,4,0,0);
             _passwordBox.Padding = new Thickness(0);
 
             _passwordBox.BorderThickness = new Thickness(0);
@@ -98,6 +98,8 @@ namespace Sitana.Framework.Input
             var info = DisplayInformation.GetForCurrentView();
             double scale = info.RawPixelsPerViewPixel;
 
+            double fontSize = textSize;
+
             if (keyboardContext == TextInputType.Password)
             {
                 _usePasswordBox = true;
@@ -110,7 +112,9 @@ namespace Sitana.Framework.Input
                 _passwordBox.Width = (position.Width-4) / scale;
                 _passwordBox.Height = _passwordBox.MinHeight;
                 Canvas.SetTop(_passwordBox, (position.Center.Y / scale - _passwordBox.Height / 2));
-                
+
+                _passwordBox.FontSize = fontSize;
+
                 _passwordBox.Visibility = Visibility.Visible;
                 _passwordBox.Focus(FocusState.Pointer);
 
@@ -166,6 +170,7 @@ namespace Sitana.Framework.Input
                     _textBox.VerticalContentAlignment = VerticalAlignment.Center;
                     _textBox.AcceptsReturn = false;
                     _textBox.TextWrapping = TextWrapping.NoWrap;
+                    
                     _multiline = false;
 
                     _textBox.Height = _textBox.MinHeight;
@@ -176,6 +181,7 @@ namespace Sitana.Framework.Input
 
                 CoreDispatcher dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
 
+                _textBox.FontSize = fontSize;
                 _textBox.Visibility = Visibility.Visible;
                 _textBox.Focus(FocusState.Pointer);
             }
