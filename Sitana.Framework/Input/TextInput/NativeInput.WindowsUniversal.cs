@@ -68,7 +68,8 @@ namespace Sitana.Framework.Input
             _textBox.VerticalContentAlignment = VerticalAlignment.Center;
             _textBox.Margin = new Thickness(0);
             _textBox.Padding = new Thickness(0);
-
+            _textBox.BorderThickness = new Thickness(0);
+            _textBox.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
 
             _passwordBox.Background = new SolidColorBrush(Windows.UI.Colors.White);
             _passwordBox.Visibility = Visibility.Collapsed;
@@ -77,6 +78,9 @@ namespace Sitana.Framework.Input
             _passwordBox.VerticalContentAlignment = VerticalAlignment.Center;
             _passwordBox.Margin = new Thickness(0);
             _passwordBox.Padding = new Thickness(0);
+
+            _passwordBox.BorderThickness = new Thickness(0);
+            _passwordBox.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
         }
 
 		public NativeInput(Rectangle position, TextInputType keyboardContext, string text, int textSize, Align align, ITextEdit controller)
@@ -109,6 +113,8 @@ namespace Sitana.Framework.Input
                 
                 _passwordBox.Visibility = Visibility.Visible;
                 _passwordBox.Focus(FocusState.Pointer);
+
+                SetText(text);
             }
             else
             {
@@ -164,7 +170,6 @@ namespace Sitana.Framework.Input
 
                     _textBox.Height = _textBox.MinHeight;
                     Canvas.SetTop(_textBox, (position.Center.Y / scale - _textBox.Height / 2));
-                    
                 }
 
                 SetText(text);
@@ -184,6 +189,7 @@ namespace Sitana.Framework.Input
             if (_usePasswordBox)
             {
                 _passwordBox.Password = text;
+                _passwordBox.SelectAll();
             }
             else
             {   
