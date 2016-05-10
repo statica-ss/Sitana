@@ -48,9 +48,6 @@
     <Reference Include="CommonMark">
       <HintPath>..\ThirdParty\Dependences\CommonMark.dll</HintPath>
     </Reference>
-    <Reference Include="Sitana.Framework.Common">
-      <HintPath>..\_Bin\Sitana.Framework.Common.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
@@ -270,4 +267,10 @@
     </MonoDevelop>
   </ProjectExtensions>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Sitana.Framework.Common\Sitana.Framework.Common.Portable.csproj">
+      <Project>{9BD11040-37DF-4F7D-A71E-7A4AC35CFE76}</Project>
+      <Name>Sitana.Framework.Common.Portable</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
