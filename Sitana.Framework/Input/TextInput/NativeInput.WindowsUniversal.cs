@@ -38,6 +38,8 @@ namespace Sitana.Framework.Input
         static InputScopeName _inputScopeUpper = new InputScopeName() { NameValue = InputScopeNameValue.Default };
         static InputScopeName _inputScopeEmail = new InputScopeName() { NameValue = InputScopeNameValue.EmailSmtpAddress };
 
+        TextInputType _inputType;
+
         public bool Visible
         {
             get
@@ -89,6 +91,8 @@ namespace Sitana.Framework.Input
             {
                 CurrentFocus.Unfocus();
             }
+
+            _inputType = keyboardContext;
 
             _controller = controller;
             CurrentFocus = this;
@@ -169,7 +173,7 @@ namespace Sitana.Framework.Input
                 {
                     _textBox.VerticalContentAlignment = VerticalAlignment.Center;
                     _textBox.AcceptsReturn = false;
-                    _textBox.TextWrapping = TextWrapping.NoWrap;
+                    _textBox.TextWrapping = keyboardContext.HasFlag(TextInputType.Wrap) ? TextWrapping.Wrap : TextWrapping.NoWrap;
                     
                     _multiline = false;
 
@@ -236,7 +240,7 @@ namespace Sitana.Framework.Input
 
         InputScopeName NameFromContext(TextInputType context)
         {
-            switch (context)
+            switch (context & TextInputType.TypeFilter)
             {
                 case TextInputType.FirstLetterUppercase:
                     return _inputScopeName;
@@ -275,7 +279,13 @@ namespace Sitana.Framework.Input
                 _textBox.Select(selStart, selLength);
             }
 
-            string text = _controller.TextChanged(newText);
+            string text = newText;
+            if(_inputType.HasFlag(TextInputType.Digits))
+            {
+                text = text.Replace(",", "").Replace(".", "");
+            }
+
+            text = _controller.TextChanged(text);
 
             if (text != newText)
             {

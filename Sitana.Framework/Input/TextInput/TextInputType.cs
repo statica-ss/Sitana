@@ -22,6 +22,8 @@ namespace Sitana.Framework.Input
 		TypeFilter = 1023,
 
 		NoSuggestions = 1024,
+        Wrap = 2048,
+
 		Password = NoSuggestions | PasswordClass
     }
 }
