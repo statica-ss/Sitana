@@ -61,6 +61,13 @@ namespace Sitana.Framework.Input
 			_textField.SetHighlightColor(new Android.Graphics.Color(128, 128, 128));
 			_textField.SetHintTextColor(new Android.Graphics.Color(128, 128, 128));
 
+			var drawable = new ShapeDrawable(new RectShape());
+            drawable.Paint.StrokeWidth = 0;
+            drawable.Paint.SetStyle(Android.Graphics.Paint.Style.Fill);
+            drawable.Paint.Color = new Android.Graphics.Color(255, 255, 255);
+
+            _textField.SetBackgroundDrawable(drawable);
+			
 			_textField.OnBackPressed += UnfocusByBack;
         }
 
