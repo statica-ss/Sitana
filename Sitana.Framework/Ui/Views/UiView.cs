@@ -921,7 +921,7 @@ namespace Sitana.Framework.Ui.Views
 
             if (bindParameter != null)
             {
-                Object bind = DefinitionResolver.GetValueFromMethodOrField(Controller, binding, bindParameter);
+                object bind = DefinitionResolver.GetValueFromMethodOrField(Controller, binding, bindParameter);
 
                 if (bind != null)
                 {
