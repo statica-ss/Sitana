@@ -55,6 +55,28 @@ namespace Sitana.Framework.Ui.Binding
             }
         }
 
+        public IEnumerable<T> SetItems(IEnumerable<T> enumerable)
+        {
+            lock (this)
+            {
+                _elements.Clear();
+                foreach (var item in enumerable)
+                {
+                    _elements.Add(item);
+                }
+            }
+
+            lock (_consumersLock)
+            {
+                for (int idx = 0; idx < _consumers.Count; ++idx)
+                {
+                    _consumers[idx].Recalculate();
+                }
+            }
+
+            return enumerable;
+        }
+
         public void Insert(int index, T element)
         {
             lock (this)
