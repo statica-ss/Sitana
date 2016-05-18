@@ -32,7 +32,7 @@ namespace Sitana.Framework.Ui.Core
             }
         }
 
-        public void Load(char separator, params string[] paths)
+        public void Load(string separators, params string[] paths)
         {
             Clear();
             foreach (var path in paths)
@@ -41,7 +41,7 @@ namespace Sitana.Framework.Ui.Core
                 {
                     using (Stream stream = ContentLoader.Current.Open(path))
                     {
-                        Append(stream, separator);
+                        Append(stream, separators);
                     }
                 }
                 catch { }

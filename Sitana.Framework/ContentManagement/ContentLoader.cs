@@ -116,8 +116,6 @@ namespace Sitana.Framework.Content
             RegisterTypes();
         }
 
-
-
         public static void Init(IServiceProvider serviceProvider, string zipPath, string password)
         {
             ZipFile zipFile = new ZipFile(zipPath);

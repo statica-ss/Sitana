@@ -39,7 +39,7 @@ namespace Sitana.Framework
             _dictionary.Clear();
         }
 
-        public bool Append(Stream stream, char separator)
+        public bool Append(Stream stream, string separators)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace Sitana.Framework
                     }
 
                     // Split texts in line.
-                    string[] texts = line.Split(separator);
+                    string[] texts = line.Split(separators.ToCharArray());
 
                     string key = null;  // Key string.
                     string value = null;  // Localized string.
