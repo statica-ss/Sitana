@@ -50,7 +50,7 @@ namespace Sitana.Framework
                 string text = streamReader.ReadToEnd();
 
                 // Split into lines.
-                string[] lines = text.Split("\n".ToCharArray());
+                string[] lines = text.Split('\n','\r');
 
                 // Iterate through lines.
                 foreach (var line in lines)
