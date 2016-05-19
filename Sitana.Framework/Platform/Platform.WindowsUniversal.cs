@@ -12,6 +12,7 @@ using Windows.Security.Cryptography.Core;
 using Windows.Security.ExchangeActiveSyncProvisioning;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.System.Display;
 using Windows.System.Profile;
 using Windows.UI.Xaml;
 
@@ -19,6 +20,9 @@ namespace Sitana.Framework
 {
     public static class Platform
     {
+        static DisplayRequest _displayRequest = null;
+        static bool _disableLockScreen = false;
+
         [Obsolete("GetUserStoreForApplication is deprecated, please use IsolatedStorageManager instead.", true)]
         public static StorageFolder GetUserStoreForApplication()
         {
@@ -106,6 +110,38 @@ namespace Sitana.Framework
 
         public static void DisableLock(bool disable)
         {
+            _disableLockScreen = disable;
+
+            if (_disableLockScreen)
+            {
+                if (_displayRequest == null)
+                {
+                    _displayRequest = new DisplayRequest();
+                    _displayRequest.RequestActive();
+                }
+            }
+            else
+            {
+                if (_displayRequest != null)
+                {
+                    _displayRequest.RequestRelease();
+                    _displayRequest = null;
+                }
+            }
+        }
+
+        internal static void AppActivated()
+        {
+            DisableLock(_disableLockScreen);
+        }
+
+        internal static void AppDeactivated()
+        {
+            if (_displayRequest != null)
+            {
+                _displayRequest.RequestRelease();
+                _displayRequest = null;
+            }
         }
 
         public static void DownloadAndOpenFile(string url)

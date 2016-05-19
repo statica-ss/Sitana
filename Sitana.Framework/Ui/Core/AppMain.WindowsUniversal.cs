@@ -23,6 +23,9 @@ namespace Sitana.Framework.Ui.Core
 
             double px = dpi / 25.4;
             UiUnit.PixelsPerMm = px;
+
+            AppDeactivated += Platform.AppDeactivated;
+            AppActivated += Platform.AppActivated;
         }
     }
 }
