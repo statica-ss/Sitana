@@ -75,7 +75,7 @@ namespace Sitana.Framework.Ui.Views
             var drawInfo = new DrawButtonInfo();
 
             drawInfo.Opacity = opacity;
-            drawInfo.EllapsedTime = parameters.EllapsedTime;
+            drawInfo.EllapsedTime = 0;
 
             for (int idx = 0; idx < count; ++idx)
             {

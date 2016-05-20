@@ -82,7 +82,8 @@ namespace Sitana.Framework
                                     value += " ";
                                 }
 
-                                value += phrase.Replace('|', '\n');
+
+                                value += phrase.Replace("\\|","\0").Replace('|', '\n').Replace("\0","|");
                             }
                         }
                     }

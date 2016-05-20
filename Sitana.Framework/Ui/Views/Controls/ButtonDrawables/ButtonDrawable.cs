@@ -98,23 +98,30 @@ namespace Sitana.Framework.Ui.Views.ButtonDrawables
 
         private void ComputeState(ref float current, float desired, float time)
         {
-            float oldValue = current;
-
-            if (float.IsNaN(current))
+            if (_dontForceRedraw)
             {
                 current = desired;
             }
-            else if ( current != desired)
+            else
             {
-                float sign = Math.Sign(desired - current);
-                current += time * sign * _changeSpeed;
+                float oldValue = current;
 
-                current = Math.Max(0, Math.Min(1, current));
-            }
+                if (float.IsNaN(current))
+                {
+                    current = desired;
+                }
+                else if (current != desired)
+                {
+                    float sign = Math.Sign(desired - current);
+                    current += time * sign * _changeSpeed;
 
-            if (oldValue != current && !_dontForceRedraw)
-            {
-                AppMain.RedrawNextFrame();
+                    current = Math.Max(0, Math.Min(1, current));
+                }
+
+                if (oldValue != current)
+                {
+                    AppMain.RedrawNextFrame();
+                }
             }
         }
 

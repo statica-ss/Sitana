@@ -122,7 +122,7 @@ namespace Sitana.Framework.Ui.Views
             return size;
         }
 
-        private Vector2 CalculateSizeInPixels()
+        protected Vector2 CalculateSizeInPixels()
         {
             Vector2 size;
 
