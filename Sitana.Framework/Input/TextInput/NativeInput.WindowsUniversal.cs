@@ -63,7 +63,7 @@ namespace Sitana.Framework.Input
             canvas.HorizontalAlignment = HorizontalAlignment.Stretch;
             canvas.VerticalAlignment = VerticalAlignment.Stretch;
 
-            _textBox.Background = new SolidColorBrush(Windows.UI.Colors.White);
+            _textBox.Background = new SolidColorBrush(Windows.UI.Colors.Transparent);
             _textBox.Visibility = Visibility.Collapsed;
             _textBox.HorizontalAlignment = HorizontalAlignment.Left;
             _textBox.VerticalAlignment = VerticalAlignment.Top;
@@ -73,7 +73,7 @@ namespace Sitana.Framework.Input
             _textBox.BorderThickness = new Thickness(0);
             _textBox.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
 
-            _passwordBox.Background = new SolidColorBrush(Windows.UI.Colors.White);
+            _passwordBox.Background = new SolidColorBrush(Windows.UI.Colors.Transparent);
             _passwordBox.Visibility = Visibility.Collapsed;
             _passwordBox.HorizontalAlignment = HorizontalAlignment.Left;
             _passwordBox.VerticalAlignment = VerticalAlignment.Top;
@@ -120,7 +120,7 @@ namespace Sitana.Framework.Input
                 _passwordBox.FontSize = fontSize;
 
                 _passwordBox.Visibility = Visibility.Visible;
-                _passwordBox.Focus(FocusState.Pointer);
+                _passwordBox.Focus(FocusState.Programmatic);
 
                 SetText(text);
             }
@@ -187,7 +187,7 @@ namespace Sitana.Framework.Input
 
                 _textBox.FontSize = fontSize;
                 _textBox.Visibility = Visibility.Visible;
-                _textBox.Focus(FocusState.Pointer);
+                _textBox.Focus(FocusState.Programmatic);
             }
         }
 
@@ -228,6 +228,7 @@ namespace Sitana.Framework.Input
         {
             Unfocus();
             _controller.LostFocus();
+            
         }
 
         void HandleKeyUp(object sender, KeyRoutedEventArgs e)
@@ -312,6 +313,9 @@ namespace Sitana.Framework.Input
 
                 CurrentFocus = null;
             }
+
+            AppMain.Redraw(true);
+            AppMain.RedrawNextFrame();
         }
     }
 }
