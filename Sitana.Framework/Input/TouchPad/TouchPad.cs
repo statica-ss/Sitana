@@ -43,6 +43,7 @@ namespace Sitana.Framework.Input.TouchPad
         public GestureType RightClickGesture = GestureType.Hold;
 
         public event OnTouchDelegate TouchDown;
+        public event OnTouchDelegate TouchUp;
         public event OnTouchDelegate Tap;
 
 		private int _scrollWheelValue = 0;
@@ -459,6 +460,8 @@ namespace Sitana.Framework.Input.TouchPad
                     }
                 }
             }
+
+            TouchUp?.Invoke(id, position);
         }
 
         void AnalyzeMoveGestures(int id, ref TouchElement element, ref Vector2 move)

@@ -373,12 +373,28 @@ namespace Sitana.Framework.Ui.Views
                 CallDelegate(pushed ? "Push" : "Release");
 
                 OnPushedChanged();
+
+                if(pushed)
+                {
+                    TouchPad.Instance.TouchUp += OnTouchUp;
+                }
             }
 
             if (!pushed)
             {
 				_holdTime = null;
             }
+        }
+
+        private void OnTouchUp(int id, Vector2 position)
+        {
+            if (IsPushed && _touchId == id)
+            {
+                SetPushed(false, false);
+                _touchId = 0;
+            }
+
+            TouchPad.Instance.TouchUp -= OnTouchUp;
         }
 
         protected override bool Init(object controller, object binding, DefinitionFile definition)
