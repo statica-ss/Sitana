@@ -59,9 +59,9 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiModalLayout));
 
-            _touchOutsideToHide = DefinitionResolver.Get<bool>(Controller, Binding, file["TouchOutsideToHide"], false);
+            _touchOutsideToHide = DefinitionResolver.Get(Controller, Binding, file["TouchOutsideToHide"], false);
 
-            _visiblityFlag = DefinitionResolver.GetShared<bool>(Controller, binding, file["Visible"], false);
+            _visiblityFlag = DefinitionResolver.GetShared(Controller, binding, file["Visible"], false);
 
             RegisterDelegate("ClickOutside", file["ClickOutside"]);
 
@@ -71,6 +71,14 @@ namespace Sitana.Framework.Ui.Views
             }
 
             return true;
+        }
+
+        protected override void OnViewDisplayChanged(bool isDisplayed)
+        {
+            if(isDisplayed)
+            {
+                TouchPad.Instance.CancelTouch();
+            }
         }
 
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)

@@ -229,7 +229,7 @@ namespace Sitana.Framework.Ui.Views
 
         public delegate void ViewSizeChangedDelegate(Rectangle bounds);
 
-        protected SharedValue<bool> _visiblityFlag { private get; set;}
+        protected SharedValue<bool> _visiblityFlag { get; set;}
 
         public GestureType EnabledGestures = GestureType.None;
 

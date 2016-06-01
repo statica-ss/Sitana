@@ -175,6 +175,16 @@ namespace Sitana.Framework.Input.TouchPad
             OnGesture();
         }
 
+        public void CancelTouch()
+        {
+            foreach(var element in _elements)
+            {
+                CancelTouch(element.Key);
+            }
+
+            _elements.Clear();
+        }
+
         void AnalyzeTouchPoint(ref TouchLocation touch, float time)
         {
             TouchElement element;
