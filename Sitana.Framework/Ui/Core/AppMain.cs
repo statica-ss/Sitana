@@ -372,7 +372,7 @@ namespace Sitana.Framework.Ui.Core
 
             if (secTime >= 1)
             {
-                Console.WriteLine("Updates per sec: {0:0.00}", updatesCount / secTime);
+                //Console.WriteLine("Updates per sec: {0:0.00}", updatesCount / secTime);
                 updatesCount -= updatesCount / secTime;
                 secTime = 0;
             }
