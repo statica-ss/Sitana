@@ -77,7 +77,7 @@ namespace Sitana.Framework.Ui.Views
         {
             if(isDisplayed)
             {
-                //UiTask.BeginInvoke(() => TouchPad.Instance.CancelTouch());
+                TouchPad.Instance.CancelTouch();
             }
         }
 
