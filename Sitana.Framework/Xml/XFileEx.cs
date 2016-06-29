@@ -17,7 +17,7 @@ namespace Sitana.Framework.Xml
         /// <param name="name">name of resource</param>
         /// <param name="contentLoader">content loader to load additional resources and files</param>
         /// <returns></returns>
-        public static Object Load(string name)
+        public static object Load(string name)
         {
             return FromPath(name);
         }
@@ -28,15 +28,21 @@ namespace Sitana.Framework.Xml
 
             try
             {
+                MemoryStream memoryStream = new MemoryStream(16000);
+
                 // Open font definition file and load info.
                 using (Stream stream = ContentLoader.Current.Open(name))
                 {
-                    return XFile.Create(stream, name);
+                    stream.CopyTo(memoryStream);
                 }
+
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                return XFile.Create(memoryStream, name);
             }
             catch (Exception ex)
             {
-                throw new Exception(String.Format("{0}: error: The XML file has invalid elements.", name), ex);
+                throw new Exception(string.Format("{0}: error: The XML file has invalid elements.", name), ex);
             }
         }
     }

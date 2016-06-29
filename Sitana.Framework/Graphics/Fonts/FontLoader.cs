@@ -18,7 +18,7 @@ namespace Sitana.Framework.Graphics
             RegisterType(typeof(Font), Load, true);
         }
 
-        public static Object Load(String name)
+        public static object Load(string name)
         {
             Font font = new Font();
 

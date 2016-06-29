@@ -18,33 +18,41 @@ namespace Sitana.Framework.Graphics
 
         public Texture2D FontSheet { get; internal set; }
 
-        private Dictionary<char, Glyph> _glyphs = new Dictionary<char, Glyph>();
-        private Glyph[] _glyphsIndexed = new Glyph[96];
+        Dictionary<char, Glyph> _glyphs = new Dictionary<char, Glyph>();
+        readonly Glyph [] _glyphsIndexed = new Glyph[96];
 
-        private Color[] _colors = new Color[1];
+        Color [] _colors = new Color [1];
 
         public static void LoadFontsPack(string path)
         {
             Texture2D texture = ContentLoader.Current.Load<Texture2D>(path);
 
-            using (Stream stream = ContentLoader.Current.Open(path + ".pft"))
+            Stream memoryStream;
+
+            using (var stream = ContentLoader.Current.Open (path + ".pft")) 
             {
-                using (BinaryReader reader = new BinaryReader(stream))
+                memoryStream = new MemoryStream(64000);
+                stream.CopyTo(memoryStream);
+            }
+
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+
+            using (BinaryReader reader = new BinaryReader(memoryStream))
+            {
+                int count = reader.ReadInt32();
+
+                while (count > 0)
                 {
-                    int count = reader.ReadInt32();
+                    count--;
 
-                    while (count > 0)
-                    {
-                        count--;
+                    string name = reader.ReadString();
 
-                        string name = reader.ReadString();
+                    Font font = new Font();
+                    font.Load(reader);
 
-                        Font font = new Font();
-                        font.Load(reader);
-
-                        font.FontSheet = texture;
-                        ContentLoader.Current.AddContent(name, typeof(Font), font);
-                    }
+                    font.FontSheet = texture;
+                    ContentLoader.Current.AddContent(name, typeof(Font), font);
                 }
             }
         }

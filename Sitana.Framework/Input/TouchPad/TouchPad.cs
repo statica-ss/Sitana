@@ -5,9 +5,6 @@ using Microsoft.Xna.Framework.Input.Touch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Sitana.Framework.Ui.Core;
-using Sitana.Framework.Ui.Views;
 
 namespace Sitana.Framework.Input.TouchPad
 {

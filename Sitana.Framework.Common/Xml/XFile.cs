@@ -7,7 +7,7 @@ namespace Sitana.Framework.Xml
 {
     public class XFile
     {
-        private XNode _node;
+        XNode _node;
 
         public readonly string Name;
 
@@ -16,7 +16,7 @@ namespace Sitana.Framework.Xml
         /// </summary>
         /// <param name="path">Path of font file.</param>
         /// <param name="contentLoader">Content loader used to load assets.</param>
-        private XFile(string name)
+        XFile(string name)
         {
             Name = name;
         }
