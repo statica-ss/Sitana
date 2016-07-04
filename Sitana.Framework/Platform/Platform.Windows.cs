@@ -74,11 +74,11 @@ namespace Sitana.Framework
 
         public static string CurrentVersion
         {
-            get
-            {
-                Version version = Assembly.GetEntryAssembly().GetName().Version;
-                return version.ToString();
-            }
+            get; set;
+            //{
+            //    //Version version = Assembly.GetEntryAssembly().GetName().Version;
+            //    //return version.ToString();
+            //}
         }
 
         public static string OsVersion
