@@ -24,7 +24,7 @@ namespace Sitana.Framework.IO
 
         public override bool FileExists(string path)
         {
-            return Task.Run<bool>(async () =>
+            return Task.Run(async () =>
                 {
                     try
                     {
@@ -42,7 +42,7 @@ namespace Sitana.Framework.IO
 
         public override bool DirectoryExists(string path)
         {
-            return Task.Run<bool>(async () =>
+            return Task.Run(async () =>
             {
                 try
                 {
