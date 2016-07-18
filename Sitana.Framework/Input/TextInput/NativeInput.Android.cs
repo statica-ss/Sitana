@@ -304,16 +304,16 @@ namespace Sitana.Framework.Input
 
 		InputTypes TypeFromContext(TextInputType context)
         {
-			InputTypes value = Android.Text.InputTypes.TextFlagNoSuggestions |  Android.Text.InputTypes.ClassText;
+			InputTypes value = InputTypes.TextFlagNoSuggestions |  InputTypes.ClassText;
 
 			switch (context & TextInputType.TypeFilter)
             {
 			case TextInputType.Email:
-				value = InputTypes.TextVariationEmailAddress | Android.Text.InputTypes.ClassText;
+				value = InputTypes.TextVariationEmailAddress | InputTypes.ClassText;
 				break;
 
 			case TextInputType.FirstLetterUppercase:
-				value = InputTypes.TextFlagCapWords | Android.Text.InputTypes.ClassText;
+				value = InputTypes.TextFlagCapWords | InputTypes.ClassText;
 				break;
 
 			case TextInputType.Digits:

@@ -41,6 +41,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ThirdParty\Dependences\CommonMark.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlRenderer, Version=1.5.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\HtmlTest\packages\HtmlRenderer.Core.1.5.0.6\lib\net45\HtmlRenderer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MonoGame.Framework, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ThirdParty\Dependences\MonoGame\Windows\MonoGame.Framework.dll</HintPath>
@@ -74,7 +78,6 @@
     <Compile Include="Graphics\Images\LoadTexture2DFromPng.cs" />
     <Compile Include="Graphics\Textures\PartialTexture2D.cs" />
     <Compile Include="Helpers\ColorParser.cs" />
-    <Compile Include="HtmlRenderer\HtmlRenderer.cs" />
     <Compile Include="Input\ExtendedKeyboardManager.cs" />
     <Compile Include="Input\GamePad\GamePad.cs" />
     <Compile Include="Input\TextInput\IFocusable.cs" />
@@ -152,6 +155,15 @@
     <Compile Include="Ui\Views\Controls\ButtonDrawables\ButtonTransformGroup.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\DrawButtonInfo.cs" />
     <Compile Include="Ui\Views\Controls\ButtonDrawables\EditText.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewAdapter.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewBrush.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewControl.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewConverters.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewFont.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewFontFamily.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewGraphics.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewImage.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewPen.cs" />
     <Compile Include="Ui\Views\Controls\QuickData\QuickSeparator.cs" />
     <Compile Include="Ui\Views\Controls\QuickData\QuickSeparatorLine.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewEntity.cs" />
@@ -161,6 +173,7 @@
     <Compile Include="Ui\Views\Controls\UiColoredLabel.cs" />
     <Compile Include="Ui\Views\Controls\UiEditBoxBase.cs" />
     <Compile Include="Ui\Views\Controls\UiHorizontalGradient.cs" />
+    <Compile Include="Ui\Views\Controls\UiHtmlView.cs" />
     <Compile Include="Ui\Views\Controls\UiImage.cs" />
     <Compile Include="Ui\Views\Controls\UiIndexSelector.cs" />
     <Compile Include="Ui\Views\Controls\UiEditBox.Windows.cs" />
@@ -270,6 +283,9 @@
       <Project>{95ef38c7-c12e-4134-b896-59fc80d24524}</Project>
       <Name>Sitana.Framework.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

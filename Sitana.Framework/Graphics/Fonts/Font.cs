@@ -188,7 +188,7 @@ namespace Sitana.Framework.Graphics
 
             Vector2 size = Vector2.Zero;
 
-            spacing = (float)Height * spacing;
+            spacing = Height * spacing;
 
             for (int idx = 0; idx < count; ++idx)
             {

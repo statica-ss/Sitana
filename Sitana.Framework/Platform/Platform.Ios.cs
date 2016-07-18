@@ -21,6 +21,8 @@ using AVFoundation;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Ui.Interfaces;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using Sitana.Framework.Input.TouchPad;
 
 namespace Sitana.Framework
 {
@@ -53,6 +55,8 @@ namespace Sitana.Framework
 		private static string _appId;
 
 		public static UIApplication UIApplication { get; private set; }
+
+        internal static TouchPad_iOSGestureRecognizer GestureRecognizer { get; set;}
 
 		public static void Init(UIApplication app, string appId)
 		{
@@ -267,17 +271,20 @@ namespace Sitana.Framework
 
 		public static void PlayYoutubeVideo(string movieId)
 		{
-			try
-			{
-				UIViewController ytController = new UiYoutubeViewController(movieId);
+            try
+            {
+            	var ytController = new UiYoutubeViewController(movieId);
 
-				UIViewController controller = AppMain.Current.Services.GetService(typeof(UIViewController)) as UIViewController;
-				controller.PresentModalViewController(ytController, true);
-			}
-			catch(Exception ex)
-			{
-				Debug.WriteLine(ex);
-			}
+            	UIViewController controller = AppMain.Current.Services.GetService(typeof(UIViewController)) as UIViewController;
+                controller.PresentViewController(ytController, true, null);
+            }
+            catch(Exception ex)
+            {
+            	Debug.WriteLine(ex);
+            }
+
+            //var url = $"https://www.youtube.com/embed/{movieId}?autoplay=1";
+            //OpenWebsite(url);
 		}
     }
 }

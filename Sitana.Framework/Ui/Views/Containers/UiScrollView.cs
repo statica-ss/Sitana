@@ -132,10 +132,20 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        public override void RecalcLayout(UiView view)
+        {
+            base.RecalcLayout(view);
+            CalculateMaxBoundsAndScroll();
+        }
+
         public override void RecalcLayout()
         {
             base.RecalcLayout();
+            CalculateMaxBoundsAndScroll();
+        }
 
+        void CalculateMaxBoundsAndScroll()
+        {
             Point maxBounds = Point.Zero;
 
             Point offset = _scroller != null ? ScrollPosition : Point.Zero;

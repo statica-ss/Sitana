@@ -48,6 +48,9 @@
     <Reference Include="Zlib.Portable">
       <HintPath>..\ThirdParty\Dependences\Zlib.Portable.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\ThirdParty\Dependences\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ContentGenerators\" />
@@ -75,6 +78,7 @@
     <Folder Include="IO\" />
     <Folder Include="Input\Interfaces\" />
     <Folder Include="Ui\Views\Controls\QuickData\" />
+    <Folder Include="Assets\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
@@ -259,6 +263,7 @@
     <Compile Include="IO\FileMode.cs" />
     <Compile Include="Ui\Core\DefinedSymbols.cs" />
     <Compile Include="Ui\Core\AppDictionary.cs" />
+    <Compile Include="Platform\YouTubePlayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -266,5 +271,8 @@
       <Project>{9BD11040-37DF-4F7D-A71E-7A4AC35CFE76}</Project>
       <Name>Sitana.Framework.Common.Portable</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Assets\YTPlayerView-iframe-player.html" />
   </ItemGroup>
 </Project>

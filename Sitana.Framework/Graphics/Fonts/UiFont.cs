@@ -2,9 +2,6 @@
 using Sitana.Framework.Content;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Ui.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Sitana.Framework.Graphics
@@ -12,7 +9,7 @@ namespace Sitana.Framework.Graphics
     public class UiFont
     {
         private readonly FontFace _fontFace;
-        private readonly int _fontSize;
+        private readonly double _fontSize;
 
         private UniversalFont _universalFont;
         private float _scale;
@@ -55,17 +52,17 @@ namespace Sitana.Framework.Graphics
             }
         }
 
-        public UiFont(string font, int size, int spacing): this(font, size)
+        public UiFont(string font, double size, int spacing): this(font, size)
         {
             _spacing = spacing / 1000.0f;
         }
 
-        public UiFont(string font, int size, int spacing, int lineHeight): this(font, size, spacing)
+        public UiFont(string font, double size, int spacing, int lineHeight): this(font, size, spacing)
         {
             _lineHeight = lineHeight / 100.0f;
         }
 
-        public UiFont(string font, int size)
+        public UiFont(string font, double size)
         {
             _fontFace = FontManager.Instance.FindFont(font);
             _fontSize = size;
@@ -93,7 +90,11 @@ namespace Sitana.Framework.Graphics
         {
             if (UiUnit.FontUnit != _lastUnit)
             {
-                _universalFont = _fontFace.Find(_fontSize, out _scale);
+                int intSize = (int)_fontSize;
+                double mul = _fontSize / intSize;
+
+                _universalFont = _fontFace.Find(intSize, out _scale);
+                _scale *= (float)mul;
                 _lastUnit = UiUnit.FontUnit;
             }
         }

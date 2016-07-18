@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using Sitana.Framework.Cs;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Sitana.Framework
 {
     public static class UiTask
     {
-		static Queue<EmptyArgsVoidDelegate> _tasks = new Queue<EmptyArgsVoidDelegate>();
+        struct TaskOnUi
+        {
+            public EmptyArgsVoidDelegate function;
+            public AutoResetEvent doneEvent;
+        }
+
+		static Queue<TaskOnUi> _tasks = new Queue<TaskOnUi>();
 
 		static object _lock = new object();
 
@@ -14,19 +22,46 @@ namespace Sitana.Framework
         {
 			lock (_lock)
 			{
-				_tasks.Enqueue(lambda);
+				_tasks.Enqueue(new TaskOnUi()
+                {
+                    function = lambda,
+                    doneEvent = null
+                });
 			}
+        }
+
+        public static async Task DoOnUiThread(EmptyArgsVoidDelegate lambda)
+        {
+            AutoResetEvent doneEvent = new AutoResetEvent(false);
+
+            lock (_lock)
+            {
+                _tasks.Enqueue(new TaskOnUi()
+                {
+                    function = lambda,
+                    doneEvent = doneEvent
+                });
+            }
+
+            await Task.Run(() =>
+               {
+                   doneEvent.WaitOne();
+               });
         }
 
         internal static void Process()
         {
 			EmptyArgsVoidDelegate func = null;
+            AutoResetEvent doneEvent = null;
 
-			lock (_lock)
+            lock (_lock)
 			{
 				if (_tasks.Count > 0)
 				{
-					func = _tasks.Dequeue();
+                    TaskOnUi taskOnUi = _tasks.Dequeue();
+
+                    func = taskOnUi.function;
+                    doneEvent = taskOnUi.doneEvent;
 				}
 			}
 
@@ -45,18 +80,35 @@ namespace Sitana.Framework
                     throw ex;
 #endif
 				}
+                finally
+                {
+                    if (doneEvent != null)
+                    {
+                        doneEvent.Set();
+                    }
+                }
 #else
                 func.Invoke();
+
+                if (doneEvent != null)
+                {
+                    doneEvent.Set();
+                }
 #endif
 
-				func = null;
+
+
+                    func = null;
 
 				lock (_lock)
 				{
 					if (_tasks.Count > 0)
 					{
-						func = _tasks.Dequeue();
-					}
+                        TaskOnUi taskOnUi = _tasks.Dequeue();
+
+                        func = taskOnUi.function;
+                        doneEvent = taskOnUi.doneEvent;
+                    }
 				}
             }
         }
