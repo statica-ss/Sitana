@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework;
 using Sitana.Framework.Graphics;
+using Sitana.Framework.Ui.Core;
 using System;
 using TheArtOfDev.HtmlRenderer.Adapters;
 using TheArtOfDev.HtmlRenderer.Adapters.Entities;
@@ -56,7 +57,7 @@ namespace Sitana.Framework.Ui.Views.HtmlRendererImpl
 
         public override void DrawLine(RPen pen, double x1, double y1, double x2, double y2)
         {
-            _drawBatch.DrawTextureLine(new Point((int)x1, (int)y1) + _topLeft, new Point((int)x2, (int)y2) + _topLeft, (pen as HtmlViewPen).Color, (float)pen.Width);
+            _drawBatch.DrawTextureLine(new Point((int)x1, (int)y1) + _topLeft, new Point((int)x2, (int)y2) + _topLeft, (pen as HtmlViewPen).Color, (float)(pen.Width * UiUnit.Unit));
         }
 
         public override void DrawPath(RBrush brush, RGraphicsPath path)

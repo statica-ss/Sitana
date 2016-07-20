@@ -215,9 +215,6 @@
     <Compile Include="..\..\Helpers\StringParser.cs">
       <Link>Helpers\StringParser.cs</Link>
     </Compile>
-    <Compile Include="..\..\HtmlRenderer\HtmlRenderer.cs">
-      <Link>HtmlRenderer\HtmlRenderer.cs</Link>
-    </Compile>
     <Compile Include="..\..\Input\Accelerators\Accelerators.cs">
       <Link>Input\Accelerators\Accelerators.cs</Link>
     </Compile>
@@ -557,6 +554,36 @@
     <Compile Include="..\..\Ui\Views\Controls\ButtonDrawables\EditText.cs">
       <Link>Ui\Views\Controls\ButtonDrawables\EditText.cs</Link>
     </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\HtmlRendererImpl\HtmlViewAdapter.cs">
+      <Link>Ui\Views\Controls\HtmlRendererImpl\HtmlViewAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\HtmlRendererImpl\HtmlViewBrush.cs">
+      <Link>Ui\Views\Controls\HtmlRendererImpl\HtmlViewBrush.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\HtmlRendererImpl\HtmlViewControl.cs">
+      <Link>Ui\Views\Controls\HtmlRendererImpl\HtmlViewControl.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\HtmlRendererImpl\HtmlViewConverters.cs">
+      <Link>Ui\Views\Controls\HtmlRendererImpl\HtmlViewConverters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\HtmlRendererImpl\HtmlViewFont.cs">
+      <Link>Ui\Views\Controls\HtmlRendererImpl\HtmlViewFont.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\HtmlRendererImpl\HtmlViewFontFamily.cs">
+      <Link>Ui\Views\Controls\HtmlRendererImpl\HtmlViewFontFamily.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\HtmlRendererImpl\HtmlViewGraphics.cs">
+      <Link>Ui\Views\Controls\HtmlRendererImpl\HtmlViewGraphics.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\HtmlRendererImpl\HtmlViewImage.cs">
+      <Link>Ui\Views\Controls\HtmlRendererImpl\HtmlViewImage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\HtmlRendererImpl\HtmlViewPen.cs">
+      <Link>Ui\Views\Controls\HtmlRendererImpl\HtmlViewPen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\HtmlRendererImpl\LoadCssDataFromCss.cs">
+      <Link>Ui\Views\Controls\HtmlRendererImpl\LoadCssDataFromCss.cs</Link>
+    </Compile>
     <Compile Include="..\..\Ui\Views\Controls\QuickData\QuickColumnDefinition.cs">
       <Link>Ui\Views\Controls\QuickData\QuickColumnDefinition.cs</Link>
     </Compile>
@@ -598,6 +625,9 @@
     </Compile>
     <Compile Include="..\..\Ui\Views\Controls\UiHorizontalGradient.cs">
       <Link>Ui\Views\Controls\UiHorizontalGradient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Ui\Views\Controls\UiHtmlView.cs">
+      <Link>Ui\Views\Controls\UiHtmlView.cs</Link>
     </Compile>
     <Compile Include="..\..\Ui\Views\Controls\UiImage.cs">
       <Link>Ui\Views\Controls\UiImage.cs</Link>
@@ -682,6 +712,9 @@
   <ItemGroup>
     <Reference Include="CommonMark">
       <HintPath>..\..\..\ThirdParty\Dependences\CommonMark.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlRenderer">
+      <HintPath>..\..\..\ThirdParty\Dependences\HtmlRenderer.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\..\..\ThirdParty\Dependences\MonoGame\WindowsUniversal\MonoGame.Framework.dll</HintPath>

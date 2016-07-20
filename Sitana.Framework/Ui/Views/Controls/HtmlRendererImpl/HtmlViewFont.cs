@@ -89,7 +89,7 @@ namespace Sitana.Framework.Ui.Views.HtmlRendererImpl
 
         public override double GetWhitespaceWidth(RGraphics graphics)
         {
-            return _font.MeasureString("W W").X - _font.MeasureString("WW").X;
+            return _font.MeasureString(" ").X;
         }
     }
 }

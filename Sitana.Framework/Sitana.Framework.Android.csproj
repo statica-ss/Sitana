@@ -48,6 +48,9 @@
     <Reference Include="CommonMark">
       <HintPath>..\ThirdParty\Dependences\CommonMark.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlRenderer">
+      <HintPath>..\ThirdParty\Dependences\HtmlRenderer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManagement\ZipContentManager.cs" />
@@ -251,6 +254,17 @@
     <Compile Include="IO\FileMode.cs" />
     <Compile Include="Ui\Core\DefinedSymbols.cs" />
     <Compile Include="Ui\Core\AppDictionary.cs" />
+    <Compile Include="Ui\Views\Controls\UiHtmlView.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewAdapter.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewBrush.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewControl.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewConverters.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewFont.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewFontFamily.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewGraphics.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewImage.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewPen.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\LoadCssDataFromCss.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ScreenManagement\" />

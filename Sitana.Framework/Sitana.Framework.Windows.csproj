@@ -42,8 +42,8 @@
       <HintPath>..\ThirdParty\Dependences\CommonMark.dll</HintPath>
     </Reference>
     <Reference Include="HtmlRenderer, Version=1.5.0.6, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\HtmlTest\packages\HtmlRenderer.Core.1.5.0.6\lib\net45\HtmlRenderer.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdParty\Dependences\HtmlRenderer.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -164,6 +164,7 @@
     <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewGraphics.cs" />
     <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewImage.cs" />
     <Compile Include="Ui\Views\Controls\HtmlRendererImpl\HtmlViewPen.cs" />
+    <Compile Include="Ui\Views\Controls\HtmlRendererImpl\LoadCssDataFromCss.cs" />
     <Compile Include="Ui\Views\Controls\QuickData\QuickSeparator.cs" />
     <Compile Include="Ui\Views\Controls\QuickData\QuickSeparatorLine.cs" />
     <Compile Include="Ui\Views\Controls\RichView\RichViewEntity.cs" />
@@ -283,9 +284,6 @@
       <Project>{95ef38c7-c12e-4134-b896-59fc80d24524}</Project>
       <Name>Sitana.Framework.Common</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

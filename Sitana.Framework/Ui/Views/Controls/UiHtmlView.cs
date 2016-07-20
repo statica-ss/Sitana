@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Sitana.Framework.Content;
 using Sitana.Framework.Cs;
 using Sitana.Framework.Input.TouchPad;
 using Sitana.Framework.Ui.Core;
@@ -24,6 +25,8 @@ namespace Sitana.Framework.Ui.Views
             var parser = new DefinitionParser(node);
             file["Content"] = parser.ParseString("Content");
             file["CssStyles"] = parser.ParseString("CssStyles");
+
+            file["CssPath"] = parser.ParseString("CssPath");
 
             file["LinkClick"] = parser.ParseDelegate("LinkClick");
 
@@ -53,7 +56,7 @@ namespace Sitana.Framework.Ui.Views
         ColorWrapper _clickedColor;
         string _clickedHref;
 
-        int _documentHeight = 10;
+        string _html;
 
         protected Margin _gestureMargin;
 
@@ -68,9 +71,17 @@ namespace Sitana.Framework.Ui.Views
 
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiHtmlView));
 
-            string styles = DefinitionResolver.GetString(Controller, Binding, file["CssStyles"]);
+            string styles = DefinitionResolver.GetString(Controller, Binding, file["CssStyles"]) ?? "";
+            string cssPath = DefinitionResolver.GetString(Controller, Binding, file["CssPath"]);
 
-            _cssData = CssData.Parse(HtmlViewAdapter.Instance, styles, true);
+            if (cssPath != null)
+            {
+                _cssData = ContentLoader.Current.Load<CssData>(cssPath);
+            }
+            else
+            {
+                _cssData = CssData.Parse(HtmlViewAdapter.Instance, styles, true);
+            }
 
             _content = DefinitionResolver.GetSharedString(Controller, Binding, file["Content"]);
 
@@ -87,7 +98,9 @@ namespace Sitana.Framework.Ui.Views
             _container.AvoidAsyncImagesLoading = false;
             _container.AvoidImagesLateLoading = false;
 
-            _container.SetHtml(_content.StringValue, _cssData);
+            _html = _content.StringValue;
+
+            _container.SetHtml(_html, _cssData);
 
             _container.Refresh += (o, e) =>
             {
@@ -100,6 +113,7 @@ namespace Sitana.Framework.Ui.Views
             RegisterDelegate("LoadImage", file["LoadImage"]);
 
             _container.IsSelectionEnabled = _enabledSelection.Value;
+            
 
             _enabledSelection.ValueChanged += (value)=>
             {
@@ -125,7 +139,10 @@ namespace Sitana.Framework.Ui.Views
 
         private void _content_ValueChanged()
         {
-            _container.SetHtml(_content.StringValue, _cssData);
+            _html = _content.StringValue;
+            _container.SetHtml(_html, _cssData);
+
+            Recalculate();
         }
 
         protected override void OnRemoved()
@@ -139,14 +156,23 @@ namespace Sitana.Framework.Ui.Views
 
         void Recalculate()
         {
-            
-            _container.MaxSize = new RSize(Bounds.Width, double.MaxValue);
-            var maxSize = HtmlRendererUtils.MeasureHtmlByRestrictions(_graphics, _container, new RSize(10, 10), new RSize(Bounds.Width, double.MaxValue));
-            _container.MaxSize = maxSize;
+            int actualWidth = int.MaxValue;
+            int maxWidth = Bounds.Width;
 
-            _documentHeight = (int)(maxSize.Height+1);
+            if(Bounds.Width != _lastSize.X)
+            {
+                _container.SetHtml(_html, _cssData);
+            }
 
-            if (maxSize.Height != Bounds.Height)
+            while (actualWidth > Bounds.Width)
+            {
+                var maxSize = HtmlRendererUtils.Layout(_graphics, _container, new RSize(maxWidth, 0), new RSize(10, 10), new RSize(maxWidth, double.MaxValue), false, true);
+                actualWidth = (int)_container.ActualSize.Width;
+
+                maxWidth -= 20;
+            }
+
+            if ((int)_container.ActualSize.Height != Bounds.Height)
             {
                 Parent.RecalcLayout(this);
             }
@@ -157,7 +183,9 @@ namespace Sitana.Framework.Ui.Views
         public override Point ComputeSize(int width, int height)
         {
             Point size = base.ComputeSize(width, height);
-            size.Y = _documentHeight;
+
+            size.Y = (int)_container.ActualSize.Height;
+
             return size;
         }
 
@@ -172,6 +200,8 @@ namespace Sitana.Framework.Ui.Views
             if(_lastSize != Bounds.Size)
             {
                 Recalculate();
+                AppMain.Redraw(this);
+                return;
             }
 
             base.Draw(ref parameters);
@@ -180,7 +210,6 @@ namespace Sitana.Framework.Ui.Views
 
             _graphics.AddActiveArea(_clickedArea, _clickedColor.Value);
             
-
             _container.PerformPaint(_graphics);
 
         }

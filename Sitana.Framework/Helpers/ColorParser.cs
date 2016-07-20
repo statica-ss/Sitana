@@ -74,7 +74,7 @@ namespace Sitana.Framework.Helpers
 
                 float opacity = alpha / 255.0f;
 
-                if (_colors.TryGetValue(elements[0].Trim(), out parsedColor))
+                if (_colors.TryGetValue(elements[0].Trim().ToLowerInvariant(), out parsedColor))
                 {
                     return premultiply ? (parsedColor * opacity) : new Color(parsedColor, opacity);
                 }
