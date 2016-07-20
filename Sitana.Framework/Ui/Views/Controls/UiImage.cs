@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Ui.DefinitionFiles;
@@ -158,7 +155,7 @@ namespace Sitana.Framework.Ui.Views
             DefinitionFileWithStyle file = new DefinitionFileWithStyle(definition, typeof(UiImage));
 
             _image = DefinitionResolver.GetShared<Texture2D>(Controller, Binding, file["Image"], null);
-            _stretch = DefinitionResolver.Get<Stretch>(Controller, Binding, file["Stretch"], Stretch.Uniform);
+            _stretch = DefinitionResolver.Get(Controller, Binding, file["Stretch"], Stretch.Uniform);
             _color = DefinitionResolver.GetColorWrapper(Controller, Binding, file["Color"]) ?? new ColorWrapper();
             _rotationSpeed = (float)DefinitionResolver.Get<double>(Controller, Binding, file["RotationSpeed"], 0);
             _scaleByUnit = DefinitionResolver.Get<bool>(Controller, Binding, file["ScaleByUnit"], true);

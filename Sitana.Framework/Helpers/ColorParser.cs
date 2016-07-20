@@ -20,7 +20,7 @@ namespace Sitana.Framework.Helpers
             {
                 if (prop.PropertyType == typeof(Color))
                 {
-                    string name = prop.Name;
+                    string name = prop.Name.ToLowerInvariant();
 
                     try
                     {
@@ -34,7 +34,7 @@ namespace Sitana.Framework.Helpers
             }
         }
 
-        public static Color? Parse(string name)
+        public static Color? Parse(string name, bool premultiply = true)
         {
             int r, g, b, a;
 
@@ -55,7 +55,7 @@ namespace Sitana.Framework.Helpers
                             a = 255;
                         }
 
-                        return Color.FromNonPremultiplied(r, g, b, a);
+                        return premultiply ? Color.FromNonPremultiplied(r, g, b, a) : new Color(r, g, b, a);
                     }
                 }
             }
@@ -72,17 +72,18 @@ namespace Sitana.Framework.Helpers
                     throw new Exception("Invalid format. Named color format is: Name*Alpha");
                 }
 
-                float opacity = (float)alpha / 255.0f;
+                float opacity = alpha / 255.0f;
 
-                if (_colors.TryGetValue(elements[0].Trim(), out parsedColor))
+                if (_colors.TryGetValue(elements[0].Trim().ToLowerInvariant(), out parsedColor))
                 {
-                    return parsedColor * opacity;
+                    return premultiply ? (parsedColor * opacity) : new Color(parsedColor, opacity);
                 }
             }
 
-            if (_colors.TryGetValue(name, out parsedColor))
+            if (_colors.TryGetValue(name.ToLowerInvariant(), out parsedColor))
             {
-                return parsedColor;
+                return premultiply ? parsedColor :
+                    new Color(parsedColor * (255.0f / parsedColor.A), parsedColor.A / 255.0f);
             }
 
             string[] vals = name.Replace(" ", "").Split(',');
@@ -99,7 +100,7 @@ namespace Sitana.Framework.Helpers
             {
                 if (int.TryParse(vals[0], out r) && int.TryParse(vals[1], out g) && int.TryParse(vals[2], out b) && int.TryParse(vals[3], out a))
                 {
-                    return Color.FromNonPremultiplied(r, g, b, a);
+                    return premultiply ? Color.FromNonPremultiplied(r, g, b, a) : new Color(r, g, b, a);
                 }
             }
 

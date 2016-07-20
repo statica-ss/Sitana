@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO.IsolatedStorage;
 using Microsoft.Xna.Framework;
 using System.Reflection;
@@ -9,14 +7,9 @@ using Sitana.Framework.Ui.Core;
 using Android.Content;
 using Android.App;
 using Android.Content.PM;
-using Java.Lang.Reflect;
-using Android.OS;
-using Android.Telephony;
 using Java.Util;
 using Android.Net.Wifi;
 using System.Globalization;
-using Android.Widget;
-using Java.IO;
 using System.Net;
 using System.IO;
 
@@ -24,11 +17,11 @@ namespace Sitana.Framework
 {
     public static class Platform
     {
-		static bool _fileDownloading = false;
+		static bool _fileDownloading;
 
-        public static String AppId { private get; set; }
+        public static string AppId { private get; set; }
 
-        public static Boolean CloseApp()
+        public static bool CloseApp ()
         {
 			return true;
         }
@@ -37,7 +30,7 @@ namespace Sitana.Framework
 		{
 			get
 			{
-                return AppMain.Activity.GetType().Assembly;
+                return Game.Activity.GetType().Assembly;
 			}
 		}
 
@@ -55,12 +48,12 @@ namespace Sitana.Framework
 			}
 		}
 
-        public static void OpenWebsite(String url)
+        public static void OpenWebsite(string url)
         {
             try 
             {
-                Intent intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse(url));
-                AppMain.Activity.StartActivity(intent);   
+                var intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse(url));
+                Game.Activity.StartActivity(intent);   
             } 
             catch (Exception ex) 
             {
@@ -75,7 +68,7 @@ namespace Sitana.Framework
 
         public static void OpenRatingPage()
         {
-            Context context = AppMain.Activity;
+            Context context = Game.Activity;
             Android.Net.Uri uri = Android.Net.Uri.Parse("market://details?id=" + context.PackageName);
 
             Intent goToMarket = new Intent(Intent.ActionView, uri);
@@ -388,13 +381,13 @@ namespace Sitana.Framework
 					viewDoc.SetDataAndType(Android.Net.Uri.FromFile(file), contentType);
 					viewDoc.SetFlags(ActivityFlags.NewTask);
 
-					PackageManager pm = AppMain.Activity.PackageManager;
+					PackageManager pm = Game.Activity.PackageManager;
 
 					IList<ResolveInfo> apps = pm.QueryIntentActivities(viewDoc, PackageInfoFlags.MatchDefaultOnly);
 
 					if (apps.Count > 0)
 					{
-						AppMain.Activity.StartActivity(viewDoc);
+                        Game.Activity.StartActivity(viewDoc);
 					}
 				}
 				catch(Exception ex)
@@ -413,16 +406,16 @@ namespace Sitana.Framework
             try
             {
                 var uri = Android.Net.Uri.Parse("vnd.youtube:" + movieId);
-                Intent intent = new Intent(Intent.ActionView, uri);
+                var intent = new Intent(Intent.ActionView, uri);
 
-                intent.PutExtra("force_fullscreen", true); 
+                intent.PutExtra("force_fullscreen", true);
                 intent.PutExtra("finish_on_ended", true);
-                AppMain.Activity.StartActivity(intent);
+                Game.Activity.StartActivity(intent);
             }
             catch(ActivityNotFoundException) 
             {
                 var url = "https://www.youtube.com/watch?" + "v=" + movieId;
-                OpenWebsite (url);
+                OpenWebsite(url);
             }
         }
     }

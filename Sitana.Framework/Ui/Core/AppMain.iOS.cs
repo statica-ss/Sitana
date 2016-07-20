@@ -15,8 +15,14 @@ namespace Sitana.Framework.Ui.Core
         {
             DefinedSymbols.Define("ios");
 
+
+
 			var view = Services.GetService<UIViewController>().View;
-			view.Window.AddGestureRecognizer(new TouchPad_iOSGestureRecognizer(view));
+
+            var recognizer = new TouchPad_iOSGestureRecognizer(view);
+			view.Window.AddGestureRecognizer(recognizer);
+
+            Platform.GestureRecognizer = recognizer;
 
             UiUnit.PixelsPerMm = UIScreen.MainScreen.Scale * 160.0 / 25.4;
         }

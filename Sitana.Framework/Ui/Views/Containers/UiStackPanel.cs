@@ -192,6 +192,7 @@ namespace Sitana.Framework.Ui.Views
 
                 update = true;
 				_sizeCanChange = SizeChangeDimension.Both;
+                RecalcLayout();
 
             }
             else if (_expandedValue > desiredValue)

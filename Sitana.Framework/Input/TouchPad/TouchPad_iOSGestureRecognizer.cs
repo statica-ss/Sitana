@@ -17,6 +17,9 @@ namespace Sitana.Framework.Input.TouchPad
 		int _nextTouchId = 2;
 
 		UIView _view;
+
+        internal bool Disabled = false;
+
 		public TouchPad_iOSGestureRecognizer(UIView view)
 		{
 			_view = view;
@@ -24,10 +27,15 @@ namespace Sitana.Framework.Input.TouchPad
 
 		public override void TouchesBegan(NSSet touches, UIEvent evt)
 		{
-			OnTouch (touches, (position, id, handle) => 
-				{
-					UiTask.BeginInvoke( ()=> TouchPad.Instance.ProcessDown(id, position, DateTime.Now));
-				});
+            if (Disabled) 
+            {
+                return;
+            }
+
+            OnTouch (touches, (position, id, handle) => {
+                UiTask.BeginInvoke (() => TouchPad.Instance.ProcessDown (id, position, DateTime.Now));
+            });
+
 		}
 
 		public override void TouchesCancelled(NSSet touches, UIEvent evt)
@@ -49,6 +57,11 @@ namespace Sitana.Framework.Input.TouchPad
 
 		public override void TouchesMoved(NSSet touches, UIEvent evt)
 		{
+            if (Disabled) 
+            {
+                return;
+            }
+
 			OnTouch(touches, (position, id, handle) => 
 				{
 					UiTask.BeginInvoke( ()=> TouchPad.Instance.ProcessMove(id, position, DateTime.Now));
@@ -58,6 +71,8 @@ namespace Sitana.Framework.Input.TouchPad
 
 		void OnTouch(NSSet touches, OnTouchDelegate onTouch)
 		{
+            
+
 			foreach (var touch in touches) 
 			{
 				var uitouch = (touch as UITouch);

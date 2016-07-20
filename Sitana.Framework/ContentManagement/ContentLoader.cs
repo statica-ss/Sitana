@@ -18,6 +18,7 @@ using Sitana.Framework.Ui.DefinitionFiles;
 using Sitana.Framework.Xml;
 using Sitana.Framework.Graphics;
 using System.Reflection;
+using Sitana.Framework.Ui.Views.Controls.HtmlRendererImpl;
 
 #if SHARP_ZIP_LIB
 using ICSharpCode.SharpZipLib.Zip;
@@ -134,6 +135,7 @@ namespace Sitana.Framework.Content
             XFileEx.Register();
             DefinitionFile.Register();
             FontLoader.Register();
+            LoadCssDataFromCss.Register();
 
             Current.TextureRescaleFactor = 0;
         }
