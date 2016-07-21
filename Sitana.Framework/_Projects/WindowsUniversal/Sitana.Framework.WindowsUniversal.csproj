@@ -713,7 +713,8 @@
     <Reference Include="CommonMark">
       <HintPath>..\..\..\ThirdParty\Dependences\CommonMark.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlRenderer.Portable">
+    <Reference Include="HtmlRenderer.Portable, Version=1.5.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\ThirdParty\Dependences\HtmlRenderer.Portable.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
