@@ -51,8 +51,8 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\ThirdParty\Dependences\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlRenderer">
-      <HintPath>..\ThirdParty\Dependences\HtmlRenderer.dll</HintPath>
+    <Reference Include="HtmlRenderer.Portable">
+      <HintPath>..\ThirdParty\Dependences\HtmlRenderer.Portable.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

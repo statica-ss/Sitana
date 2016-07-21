@@ -157,7 +157,7 @@ namespace Sitana.Framework.Ui.Views
         void Recalculate()
         {
             int actualWidth = int.MaxValue;
-            int maxWidth = Bounds.Width;
+            double maxWidth = Bounds.Width;
 
             if(Bounds.Width != _lastSize.X)
             {
@@ -169,7 +169,7 @@ namespace Sitana.Framework.Ui.Views
                 var maxSize = HtmlRendererUtils.Layout(_graphics, _container, new RSize(maxWidth, 0), new RSize(10, 10), new RSize(maxWidth, double.MaxValue), false, true);
                 actualWidth = (int)_container.ActualSize.Width;
 
-                maxWidth -= 20;
+                maxWidth -= 10 * UiUnit.PixelsPerMm;
             }
 
             if ((int)_container.ActualSize.Height != Bounds.Height)
