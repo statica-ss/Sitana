@@ -713,8 +713,8 @@
     <Reference Include="CommonMark">
       <HintPath>..\..\..\ThirdParty\Dependences\CommonMark.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlRenderer">
-      <HintPath>..\..\..\ThirdParty\Dependences\HtmlRenderer.dll</HintPath>
+    <Reference Include="HtmlRenderer.Portable">
+      <HintPath>..\..\..\ThirdParty\Dependences\HtmlRenderer.Portable.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\..\..\ThirdParty\Dependences\MonoGame\WindowsUniversal\MonoGame.Framework.dll</HintPath>
