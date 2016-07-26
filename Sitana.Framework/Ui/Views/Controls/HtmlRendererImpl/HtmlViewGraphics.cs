@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Sitana.Framework;
 using Sitana.Framework.Graphics;
 using Sitana.Framework.Ui.Core;
 using System;
@@ -14,6 +13,9 @@ namespace Sitana.Framework.Ui.Views.HtmlRendererImpl
         AdvancedDrawBatch _drawBatch;
 
         Point _topLeft;
+        Point _areaSize;
+        Rectangle _area;
+
         Rectangle _clickedArea = Rectangle.Empty;
         Color _clickedColor = Color.White;
 
@@ -23,9 +25,11 @@ namespace Sitana.Framework.Ui.Views.HtmlRendererImpl
             _topLeft = Point.Zero;
         }
 
-        public void Prepare(Point topLeft)
+        public void Prepare(Rectangle area)
         {
-            _topLeft = topLeft;
+            _topLeft = area.Location;
+            _area = area;
+            _areaSize = area.Size;
         }
 
         public void AddActiveArea(Rectangle area, Color color)
@@ -44,7 +48,11 @@ namespace Sitana.Framework.Ui.Views.HtmlRendererImpl
             Rectangle destRectXna = destRect.ToXnaRectangle();
 
             destRectXna.Offset(_topLeft);
-            _drawBatch.DrawImage((image as HtmlViewImage).Texture, destRectXna, new Rectangle(0, 0, (int)image.Width, (int)image.Height), Color.White);
+
+            if (_area.Intersects(destRectXna))
+            {
+                _drawBatch.DrawImage((image as HtmlViewImage).Texture, destRectXna, new Rectangle(0, 0, (int)image.Width, (int)image.Height), Color.White);
+            }
         }
 
         public override void DrawImage(RImage image, RRect destRect, RRect srcRect)
@@ -52,7 +60,11 @@ namespace Sitana.Framework.Ui.Views.HtmlRendererImpl
             Rectangle destRectXna = destRect.ToXnaRectangle();
 
             destRectXna.Offset(_topLeft);
-            _drawBatch.DrawImage((image as HtmlViewImage).Texture, destRectXna, srcRect.ToXnaRectangle(), Color.White);
+
+            if (_area.Intersects(destRectXna))
+            {
+                _drawBatch.DrawImage((image as HtmlViewImage).Texture, destRectXna, srcRect.ToXnaRectangle(), Color.White);
+            }
         }
 
         public override void DrawLine(RPen pen, double x1, double y1, double x2, double y2)
@@ -77,18 +89,50 @@ namespace Sitana.Framework.Ui.Views.HtmlRendererImpl
 
         public override void DrawRectangle(RBrush brush, double x, double y, double width, double height)
         {
-            _drawBatch.DrawRectangle(new Rectangle((int)x + _topLeft.X, (int)y + _topLeft.Y, (int)width, (int)height), (brush as HtmlViewBrush).Color);
+            Rectangle destRectXna = new Rectangle((int)x + _topLeft.X, (int)y + _topLeft.Y, (int)width, (int)height);
+            if (_area.Intersects(destRectXna))
+            {
+                _drawBatch.DrawRectangle(destRectXna, (brush as HtmlViewBrush).Color);
+            }
         }
 
         public override void DrawRectangle(RPen pen, double x, double y, double width, double height)
         {
-            _drawBatch.DrawRectangleBorder(new Rectangle((int)x + _topLeft.X, (int)y + _topLeft.Y, (int)width, (int)height), (pen as HtmlViewPen).Color);
+            Rectangle destRectXna = new Rectangle((int)x + _topLeft.X, (int)y + _topLeft.Y, (int)width, (int)height);
+            if (_area.Intersects(destRectXna))
+            {
+                _drawBatch.DrawRectangleBorder(destRectXna, (pen as HtmlViewPen).Color);
+            }
         }
 
         public override void DrawString(string str, RFont font, RColor color, RPoint point, RSize size, bool rtl)
         {
+            const int epsilon = 10;
+
             Point xnaPoint = new Point((int)point.X, (int)point.Y);
             Color xnaColor = color.ToXnaColor();
+
+            Point destPoint = xnaPoint + _topLeft;
+
+            if(_area.Right < destPoint.X - epsilon)
+            {
+                return;
+            }
+
+            if (_area.Bottom < destPoint.Y - epsilon)
+            {
+                return;
+            }
+
+            if (_area.X > destPoint.X + size.Width + epsilon)
+            {
+                return;
+            }
+
+            if (_area.Y > destPoint.Y + size.Height + epsilon)
+            {
+                return;
+            }
 
             if (!_clickedArea.IsEmpty)
             {

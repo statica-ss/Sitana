@@ -83,7 +83,7 @@ namespace Sitana.Framework.Ui.Views.HtmlRendererImpl
         {
             get
             {
-                return _font.LineHeight * 1.1;
+                return _font.Font.BaseLine * 1.2 * _font.Scale;
             }
         }
 

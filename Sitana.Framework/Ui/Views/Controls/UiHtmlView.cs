@@ -23,6 +23,7 @@ namespace Sitana.Framework.Ui.Views
             UiView.Parse(node, file);
 
             var parser = new DefinitionParser(node);
+
             file["Content"] = parser.ParseString("Content");
             file["CssStyles"] = parser.ParseString("CssStyles");
 
@@ -206,7 +207,7 @@ namespace Sitana.Framework.Ui.Views
 
             base.Draw(ref parameters);
 
-            _graphics.Prepare(ScreenBounds.Location);
+            _graphics.Prepare(ScreenBounds);
 
             _graphics.AddActiveArea(_clickedArea, _clickedColor.Value);
             
