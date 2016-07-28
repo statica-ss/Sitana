@@ -186,7 +186,7 @@ namespace Sitana.Framework.Input
 
             _textField.RequestLayout();
 
-            _textField.Visibility = Android.Views.ViewStates.Visible;
+            _textField.Visibility = ViewStates.Visible;
 			_textField.SetCursorVisible(true);
             _textField.RequestFocus();
 			_textField.RequestFocusFromTouch();
@@ -259,7 +259,7 @@ namespace Sitana.Framework.Input
         {
             AppMain.Current.UnregisterUpdatable(this);
             
-            _textField.Visibility = Android.Views.ViewStates.Invisible;
+            _textField.Visibility = ViewStates.Invisible;
 
             _textField.TextChanged -= HandleEditingChanged;
             _textField.FocusChange -= HandleFocusChange;
@@ -308,37 +308,37 @@ namespace Sitana.Framework.Input
 
 			switch (context & TextInputType.TypeFilter)
             {
-			case TextInputType.Email:
-				value = InputTypes.TextVariationEmailAddress | InputTypes.ClassText;
-				break;
+			    case TextInputType.Email:
+				    value = InputTypes.TextVariationEmailAddress | InputTypes.ClassText;
+				    break;
 
-			case TextInputType.FirstLetterUppercase:
-				value = InputTypes.TextFlagCapWords | InputTypes.ClassText;
-				break;
+			    case TextInputType.FirstLetterUppercase:
+				    value = InputTypes.TextFlagCapWords | InputTypes.ClassText;
+				    break;
 
-			case TextInputType.Digits:
-				value = InputTypes.ClassNumber | InputTypes.NumberFlagSigned;
-				break;
+                case TextInputType.Digits:
+                    value = InputTypes.ClassPhone | InputTypes.NumberFlagSigned;
+				    break;
 
-			case TextInputType.Numeric:
-				value = InputTypes.NumberFlagDecimal | InputTypes.ClassNumber;
-				break;
+			    case TextInputType.Numeric:
+                    value = InputTypes.NumberFlagDecimal | InputTypes.ClassPhone | InputTypes.NumberFlagSigned;
+				    break;
 
-			case TextInputType.NormalText:
-				value = InputTypes.TextVariationNormal | Android.Text.InputTypes.ClassText;
-				break;
+			    case TextInputType.NormalText:
+				    value = InputTypes.TextVariationNormal | InputTypes.ClassText;
+				    break;
 
-			case TextInputType.Uppercase:
-				value = InputTypes.TextFlagCapCharacters | InputTypes.ClassText;
-				break;
+			    case TextInputType.Uppercase:
+				    value = InputTypes.TextFlagCapCharacters | InputTypes.ClassText;
+				    break;
 
-			case TextInputType.PasswordClass:
-				value = InputTypes.TextVariationPassword | Android.Text.InputTypes.ClassText;
-				break;
+			    case TextInputType.PasswordClass:
+				    value = InputTypes.TextVariationPassword | InputTypes.ClassText;
+				    break;
 
-			case TextInputType.MultilineText:
-				value = InputTypes.TextFlagMultiLine | Android.Text.InputTypes.TextFlagImeMultiLine;
-				break;
+			    case TextInputType.MultilineText:
+				    value = InputTypes.TextFlagMultiLine | InputTypes.TextFlagImeMultiLine;
+				    break;
             }
 
 			if (context.HasFlag(TextInputType.NoSuggestions))

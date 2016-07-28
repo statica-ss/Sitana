@@ -1186,6 +1186,15 @@ namespace Sitana.Framework.Ui.Views
             return size;
         }
 
+        bool ShouldProcessGesture(Gesture gesture)
+        {
+            GestureType type = gesture.GestureType;
+
+            return (_isViewDisplayed || type == GestureType.Up || type == GestureType.HoldCancel || type == GestureType.CapturedByOther) &&
+                (gesture.PointerCapturedBy == null || gesture.PointerCapturedBy == this) &&
+                ((gesture.GestureType & EnabledGestures) != GestureType.None);
+        }
+
         internal virtual void ViewGesture(Gesture gesture)
         {
             if (gesture.GestureType == GestureType.CapturedByOther)
@@ -1197,23 +1206,25 @@ namespace Sitana.Framework.Ui.Views
             }
             else
             {
-                if (_isViewDisplayed)
+                if (ShouldProcessGesture(gesture))
                 {
-                    if (gesture.PointerCapturedBy == null || gesture.PointerCapturedBy == this)
-                    {
-                        if ((gesture.GestureType & EnabledGestures) != GestureType.None)
-                        {
-                            GestureType originalType = gesture.GestureType;
-                            gesture.GestureType = gesture.GestureType & EnabledGestures;
-                            OnGesture(gesture);
-                            gesture.GestureType = originalType;
-                        }
-                    }
+                    
+                    GestureType originalType = gesture.GestureType;
+                    gesture.GestureType = gesture.GestureType & EnabledGestures;
+                    OnGesture(gesture);
+                    gesture.GestureType = originalType;
                 }
 
                 if (_modal && Visible)
                 {
-                    gesture.Skip();
+                    if (gesture.GestureType == GestureType.Up)
+                    {
+                        gesture.GestureType = GestureType.CapturedByOther;
+                    }
+                    else
+                    {
+                        gesture.Skip();
+                    }
                 }
             }
         }

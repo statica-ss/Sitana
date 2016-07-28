@@ -125,7 +125,7 @@ namespace Sitana.Framework.Ui.Views
             return true;
         }
 
-        private void _container_ImageLoad(object sender, HtmlImageLoadEventArgs e)
+        void _container_ImageLoad(object sender, HtmlImageLoadEventArgs e)
         {
             if (HasDelegate("LoadImage"))
             {
@@ -138,7 +138,7 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        private void _content_ValueChanged()
+        void _content_ValueChanged()
         {
             _html = _content.StringValue;
             _container.SetHtml(_html, _cssData);
@@ -165,12 +165,14 @@ namespace Sitana.Framework.Ui.Views
                 _container.SetHtml(_html, _cssData);
             }
 
-            while (actualWidth > Bounds.Width)
+            int tries = 10;
+            while (actualWidth > Bounds.Width && tries > 0)
             {
                 var maxSize = HtmlRendererUtils.Layout(_graphics, _container, new RSize(maxWidth, 0), new RSize(10, 10), new RSize(maxWidth, double.MaxValue), false, true);
                 actualWidth = (int)_container.ActualSize.Width;
 
                 maxWidth -= 10 * UiUnit.PixelsPerMm;
+                tries--;
             }
 
             if ((int)_container.ActualSize.Height != Bounds.Height)

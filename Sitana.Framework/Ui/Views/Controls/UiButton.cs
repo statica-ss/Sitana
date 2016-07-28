@@ -82,11 +82,6 @@ namespace Sitana.Framework.Ui.Views
             set
             {
                 _enabledFlag.Value = _enabledFlagInvert ? !value : value;
-
-                if(!Enabled)
-                {
-                    SetPushed(false, false);
-                }
             }
         }
 
@@ -140,10 +135,6 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
-        public UiButton()
-        {
-        }
-
         protected override void OnAdded()
         {
             SetPushed(false, false);
@@ -161,7 +152,6 @@ namespace Sitana.Framework.Ui.Views
                 if ((DateTime.Now - _holdTime.Value).TotalMilliseconds >= TouchPad.Instance.HoldTimeInMs)
                 {
                     CallDelegate("Hold");
-                    _touchId = 0;
                     _holdTime = null;
                     SetPushed(false, false);
                 }
@@ -170,7 +160,6 @@ namespace Sitana.Framework.Ui.Views
             if(IsPushed && !Enabled)
             {
                 SetPushed(false, false);
-                _touchId = 0;
                 _waitForAction = 0;
             }
 
@@ -197,6 +186,22 @@ namespace Sitana.Framework.Ui.Views
             }
         }
 
+        protected override void OnViewDisplayChanged(bool isDisplayed)
+        {
+            base.OnViewDisplayChanged(isDisplayed);
+
+            if (!isDisplayed)
+            {
+                SetPushed(false, false);
+            }
+        }
+
+        protected override void OnRemoved()
+        {
+            base.OnRemoved();
+            _enabledFlag.ValueChanged -= OnEnabledChanged;
+        }
+
         protected override void OnGesture(Gesture gesture)
         {
             if (!Enabled)
@@ -220,7 +225,6 @@ namespace Sitana.Framework.Ui.Views
 
                     if (_touchId == gesture.TouchId)
                     {
-                        _touchId = 0;
                         SetPushed(false, true);
                     }
                     break;
@@ -311,7 +315,6 @@ namespace Sitana.Framework.Ui.Views
                             if( (gesture.Origin - gesture.Position).Length() >= TouchPad.Instance.MinDragSize )
                             {
                                 _holdTime = null;
-                                _touchId = 0;
                                 SetPushed(false, false);
                                 break;
                             }
@@ -342,7 +345,6 @@ namespace Sitana.Framework.Ui.Views
                             DoAction();
                         }
 
-                        _touchId = 0;
                         SetPushed(false, false);
                     }
                     break;
@@ -378,6 +380,7 @@ namespace Sitana.Framework.Ui.Views
             if (!pushed)
             {
 				_holdTime = null;
+                _touchId = 0;
             }
         }
 
@@ -421,20 +424,22 @@ namespace Sitana.Framework.Ui.Views
 
             if (file["Disabled"] != null && file["Enabled"] == null)
             {
-                _enabledFlag = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Disabled"], false);
+                _enabledFlag = DefinitionResolver.GetShared(Controller, Binding, file["Disabled"], false);
                 _enabledFlagInvert = true;
             }
             else
             {
-                _enabledFlag = DefinitionResolver.GetShared<bool>(Controller, Binding, file["Enabled"], true);
+                _enabledFlag = DefinitionResolver.GetShared(Controller, Binding, file["Enabled"], true);
                 _enabledFlagInvert = false;
             }
+
+            _enabledFlag.ValueChanged += OnEnabledChanged;
 
             if ( drawableFiles != null )
             {
                 foreach (var def in drawableFiles)
                 {
-                    ButtonDrawable drawable = def.CreateInstance(Controller, Binding) as ButtonDrawable;
+                    var drawable = def.CreateInstance(Controller, Binding) as ButtonDrawable;
 
                     if (drawable != null)
                     {
@@ -455,11 +460,19 @@ namespace Sitana.Framework.Ui.Views
             return true;
         }
 
+        void OnEnabledChanged(bool value)
+        {
+            if (!value)
+            {
+                SetPushed(false, false);
+            }
+        }
+
         protected override void Draw(ref Parameters.UiViewDrawParameters parameters)
         {
             float opacity = parameters.Opacity;
 
-            if (opacity == 0)
+            if (Math.Abs(opacity) < float.Epsilon)
             {
                 return;
             }

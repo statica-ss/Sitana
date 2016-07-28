@@ -418,6 +418,11 @@ namespace Sitana.Framework.Ui.Views
             _shouldRecalcLayout = true;
         }
 
+        bool ShouldProcessGesture(GestureType type)
+        {
+            return _isViewDisplayed || type == GestureType.Up || type == GestureType.CapturedByOther;
+        }
+
         internal override void ViewGesture(Gesture gesture)
         {
             if (ProcessGestureBeforeChildren)
@@ -425,7 +430,7 @@ namespace Sitana.Framework.Ui.Views
                 base.ViewGesture(gesture);
             }
 
-            if ((_isViewDisplayed && !gesture.Handled && !gesture.SkipRest) || gesture.GestureType == GestureType.CapturedByOther)
+            if ((ShouldProcessGesture(gesture.GestureType) && !gesture.Handled && !gesture.SkipRest) || gesture.GestureType == GestureType.CapturedByOther)
             {
                 for (int idx = _children.Count - 1; idx >= 0; --idx)
                 {
