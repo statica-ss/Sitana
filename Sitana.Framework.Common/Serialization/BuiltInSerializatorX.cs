@@ -73,8 +73,9 @@ namespace Sitana.Framework.Serialization
         public static bool DeserializeEnum(XNode node, Type enumType, out object value)
         {
             string type = node.Attribute("type");
+            value = null;
 
-            if(type == "enum")
+            if (type == "enum")
             {
                 try
                 {
@@ -82,10 +83,11 @@ namespace Sitana.Framework.Serialization
                     return true;
                 }
                 catch
-                {}
+                {
+                }
+                
+                return false;
             }
-
-            value = null;
 
             return false;
         }
@@ -95,7 +97,7 @@ namespace Sitana.Framework.Serialization
             if(value is Enum)
             {
                 node.AddAttribute("type", "enum");
-                node.AddAttribute("value", Enum.GetName(value.GetType(), value));
+                node.AddAttribute("value", value.ToString());
             }
             else if (value is string)
             {
