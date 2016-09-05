@@ -339,8 +339,8 @@ namespace Sitana.Framework.Ui.Views
 
             var file = new DefinitionFileWithStyle(definition, typeof(UiContainer));
 
-            _autoCreateChildren = DefinitionResolver.Get<bool>(Controller, Binding, file["AutoCreateChildren"], true);
-            _clipChildren = DefinitionResolver.Get<bool>(Controller, Binding, file["ClipChildren"], false);
+            _autoCreateChildren = DefinitionResolver.Get(Controller, Binding, file["AutoCreateChildren"], true);
+            _clipChildren = DefinitionResolver.Get(Controller, Binding, file["ClipChildren"], false);
             return true;
         }
 

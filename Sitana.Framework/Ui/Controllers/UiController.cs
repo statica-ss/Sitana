@@ -1,10 +1,5 @@
-﻿using Sitana.Framework.Cs;
-using Sitana.Framework.Ui.Views;
-using System;
+﻿using Sitana.Framework.Ui.Views;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Diagnostics;
 
 namespace Sitana.Framework.Ui.Controllers
